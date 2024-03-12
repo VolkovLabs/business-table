@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+  "dependencies": {
+    "grafanaDependency": ">=9.0.0",
+    "plugins": []
+  },
+  "id": "volkovlabs-table-panel",
+  "info": {
+    "author": {
+      "name": "Volkov Labs",
+      "url": "https://volkovlabs.io"
+    },
+    "description": "Template to create a new Grafana panel plugin",
+    "keywords": ["template"],
+    "links": [
+      {
+        "name": "Documentation",
+        "url": "https://volkovlabs.io/plugins/templates"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com/volkovlabs/volkovlabs-abc-panel"
+      }
+    ],
+    "logos": {
+      "large": "img/logo.svg",
+      "small": "img/logo.svg"
+    },
+    "screenshots": [
+      {
+        "name": "Panel",
+        "path": "img/dashboard.png"
+      }
+    ],
+    "updated": "%TODAY%",
+    "version": "%VERSION%"
+  },
+  "name": "Table",
+  "type": "panel"
+}
