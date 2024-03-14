@@ -23,8 +23,8 @@ describe('TablePanel', () => {
   /**
    * Get Tested Component
    */
-  const getComponent = ({ options = { name: 'data' }, ...restProps }: Partial<Props>) => {
-    return <TablePanel data={data} options={options} {...(restProps as any)} />;
+  const getComponent = (props: Partial<Props>) => {
+    return <TablePanel data={data} options={{}} {...(props as any)} />;
   };
 
   it('Should find component', async () => {
