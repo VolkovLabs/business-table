@@ -39,6 +39,10 @@
         "y": 0
       },
       "id": 6,
+      "options": {
+        "columnMode": "auto",
+        "columns": []
+      },
       "targets": [
         {
           "datasource": {
@@ -188,6 +192,56 @@
       ],
       "title": "Grafana Table",
       "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 8,
+      "options": {
+        "columnMode": "auto",
+        "columns": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "number",
+                "values": []
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": []
+              }
+            ],
+            "meta": {
+              "custom": {
+                "customCode": "const array = Array.from({ length: 5000 }, (_, i) => i + 1)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: array.map((row) => field.name === 'id' ? row : `Device ${row}`)\n  }))\n}\n\nreturn Promise.resolve(result);",
+                "valuesEditor": "custom"
+              }
+            }
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "50k rows",
+      "type": "volkovlabs-table-panel"
     }
   ],
   "refresh": "",
