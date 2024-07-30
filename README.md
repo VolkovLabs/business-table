@@ -1,74 +1,50 @@
-# Template to create a new Grafana panel plugin
+# Business Table panel for Grafana
 
-![Dashboard](https://github.com/VolkovLabs/volkovlabs-abc-panel/raw/main/src/img/dashboard.png)
+![Table](https://github.com/VolkovLabs/volkovlabs-table-panel/raw/main/src/img/dashboard.png)
 
-![Grafana 10](https://img.shields.io/badge/Grafana-10.1-orange)
-![CI](https://github.com/volkovlabs/volkovlabs-abc-panel/workflows/CI/badge.svg)
-![E2E](https://github.com/volkovlabs/volkovlabs-abc-panel/workflows/E2E/badge.svg)
-[![codecov](https://codecov.io/gh/VolkovLabs/volkovlabs-abc-panel/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/volkovlabs-abc-panel)
-[![CodeQL](https://github.com/VolkovLabs/volkovlabs-abc-panel/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/volkovlabs-abc-panel/actions/workflows/codeql-analysis.yml)
+![Grafana](https://img.shields.io/badge/Grafana-11.1-orange)
+![CI](https://github.com/volkovlabs/volkovlabs-table-panel/workflows/CI/badge.svg)
+![E2E](https://github.com/volkovlabs/volkovlabs-table-panel/workflows/E2E/badge.svg)
+[![codecov](https://codecov.io/gh/VolkovLabs/volkovlabs-table-panel/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/volkovlabs-table-panel)
+[![CodeQL](https://github.com/VolkovLabs/volkovlabs-table-panel/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/volkovlabs-table-panel/actions/workflows/codeql-analysis.yml)
 
 ## Introduction
 
-The Abc panel is a template we created to streamline our development process and gladly share it with the Grafana community.
-
-To make the creation process efficient, starting with a well-constructed template is always easier.
-
-Generate a template with [https://github.com/VolkovLabs/volkovlabs-abc-panel/generate](https://github.com/VolkovLabs/volkovlabs-abc-panel/generate).
+Business Table panel is a Grafana plugin that allows to summarize large amounts of data from various data sources.
 
 ## Requirements
 
-- Version 3.X requires Grafana 9 or Grafana 10.
-- Version 2.X requires Grafana 8.5 or Grafana 9.
-- Version 1.X requires Grafana 8.
+- Business Table Panel 1.X requires **Grafana 10** or **Grafana 11**.
 
-## Getting Started
+You can install the Business Table Panel plugin from the [Grafana Plugins catalog](https://grafana.com/grafana/plugins/volkovlabs-table-panel/) or use the Grafana command line tool.
 
-1. Install packages
+For the latter, please use the following command:
 
 ```bash
-npm install
-```
-
-2. Build the plugin
-
-```bash
-npm run build
-```
-
-3. Sign the plugins if required
-
-```bash
-export GRAFANA_ACCESS_POLICY_TOKEN=token==
-npm run sign
-```
-
-4. Start the Docker container
-
-```bash
-npm run start
+grafana-cli plugins install volkovlabs-table-panel
 ```
 
 ## Highlights
 
-- Use `docker-compose` to start the development environment with provisioned data source and dashboard.
-- Provides unit and E2E test configuration.
-- Based on the latest version of Grafana and Grafana Tools.
-- Includes GitHub Actions for CI, E2E and Release.
-- Includes Static Data Source to emulate any data.
+- Summarizes large amounts of data.
 
-## Tutorial
+## Business Suite for Grafana
 
-Follow along and have your first-panel plugin built and provisioned. We created this three-part series as an easy-to-follow tutorial.
+The Business Suite is a collection of open source plugins created and actively maintained by Volkov Labs.
 
-[![Build a panel plugin, part 1 | Grafana Crash Course for Developers](https://raw.githubusercontent.com/volkovlabs/volkovlabs-abc-panel/main/img/part1.png)](https://youtu.be/KnaPBKoXuEw)
+The collection aims to solve the most frequent business tasks by providing an intuitive interface with detailed written documentation, examples, and video tutorials.
 
+[![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)](https://volkovlabs.io/plugins/)
 
-## Support
+## Feedback
 
+We're looking forward to hearing from you. You can use different ways to get in touch with us.
+
+- Ask a question, request a new feature, or report an issue at [GitHub issues](https://github.com/volkovlabs/volkovlabs-table-panel/issues).
 - Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and leave your comments.
-- Premium support for the development plugins is available via [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
+- Sponsor our open-source plugins for Grafana at [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
+- Support our project by starring the repository.
 
 ## License
 
-Apache License Version 2.0, see [LICENSE](https://github.com/volkovlabs/volkovlabs-abc-panel/blob/main/LICENSE).
+Apache License Version 2.0, see [LICENSE](https://github.com/volkovlabs/volkovlabs-table-panel/blob/main/LICENSE).
