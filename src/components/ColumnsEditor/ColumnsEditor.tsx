@@ -41,7 +41,7 @@ export const ColumnsEditor: React.FC<Props> = ({ onChange, value, context: { dat
   return (
     <div>
       {value.map((item) => (
-        <Collapse key={item.id} title={item.id} isOpen={true}>
+        <Collapse key={item.id} title={item.label} isOpen={true}>
           <ColumnEditor value={item} onChange={onChangeItem} data={data} />
         </Collapse>
       ))}

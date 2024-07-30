@@ -9,20 +9,41 @@ export const getStyles = (theme: GrafanaTheme2) => {
 
   return {
     root: css`
-      width: 100%;
+      overflow: auto;
+      position: relative;
+    `,
+    table: css`
+      display: grid;
     `,
     header: css`
       border-bottom: 1px solid ${borderColor};
+      position: sticky;
+      z-index: 100;
+      top: 0;
+      background-color: ${theme.colors.background.primary};
+    `,
+    headerRow: css`
+      display: flex;
+      width: 100%;
     `,
     headerCell: css`
+      display: flex;
       padding: ${theme.spacing(0.5, 1)};
     `,
+    body: css`
+      display: grid;
+      position: relative; //needed for absolute positioning of rows
+    `,
     row: css`
+      display: flex;
+      position: absolute;
+      width: 100%;
       &:not(:last-child) {
         border-bottom: 1px solid ${borderColor};
       }
     `,
     cell: css`
+      display: flex;
       padding: ${theme.spacing(0.5, 1)};
       &:not(:last-child) {
         border-right: 1px solid ${borderColor};

@@ -80,6 +80,16 @@
                   15,
                   20
                 ]
+              },
+              {
+                "config": {},
+                "name": "json",
+                "type": "string",
+                "values": [
+                  "{ \"name\": \"Device1\" }",
+                  "{ \"name\": \"Device2\" }",
+                  "{ \"name\": \"Device3\" }"
+                ]
               }
             ],
             "meta": {},
@@ -89,6 +99,21 @@
         }
       ],
       "title": "Table",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "id": "",
+              "name": "Name",
+              "value": "Value"
+            }
+          }
+        }
+      ],
       "type": "volkovlabs-table-panel"
     },
     {
@@ -121,8 +146,7 @@
                 "value": 80
               }
             ]
-          },
-          "unitScale": true
+          }
         },
         "overrides": []
       },
@@ -145,7 +169,7 @@
         },
         "showHeader": true
       },
-      "pluginVersion": "10.3.1",
+      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
@@ -182,6 +206,16 @@
                   10,
                   20,
                   30
+                ]
+              },
+              {
+                "config": {},
+                "name": "json",
+                "type": "string",
+                "values": [
+                  "{ \"name\": \"Device1\" }",
+                  "{ \"name\": \"Device2\" }",
+                  "{ \"name\": \"Device3\" }"
                 ]
               }
             ],

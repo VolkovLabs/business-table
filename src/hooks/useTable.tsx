@@ -1,6 +1,7 @@
 import { Field, PanelData } from '@grafana/data';
+import { FormattedValueDisplay } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { ColumnMode, FieldSource, PanelOptions } from '../types';
 import { getFieldBySource, getSourceKey } from '../utils';
@@ -99,6 +100,7 @@ export const useTable = ({ data, options }: { data: PanelData; options: PanelOpt
         columns.push({
           id: field.name,
           accessorKey: field.name,
+          header: field.state?.displayName || field.name,
         });
       }
 
@@ -109,11 +111,29 @@ export const useTable = ({ data, options }: { data: PanelData; options: PanelOpt
      * Configured Columns
      */
     return options.columns.map((column, index): ColumnDef<unknown> => {
+      const field = column.field ? getFieldBySource(data.series, column.field) : null;
       const key = column.field ? getSourceKey(column.field) : index.toString();
-      return {
+
+      const baseColumn = {
         id: key,
         accessorKey: key,
         header: column.label,
+      };
+
+      if (!field) {
+        return baseColumn;
+      }
+
+      return {
+        ...baseColumn,
+        cell: ({ renderValue }) => {
+          if (field.display) {
+            const value = field.display(renderValue());
+
+            return <FormattedValueDisplay value={value} />;
+          }
+          return renderValue;
+        },
       };
     });
   }, [data.series, options.columnMode, options.columns]);

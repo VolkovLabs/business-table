@@ -5,8 +5,9 @@ import { css } from '@emotion/css';
  */
 export const getStyles = () => {
   return {
-    wrapper: css`
+    root: css`
       position: relative;
+      overflow: auto;
     `,
   };
 };
