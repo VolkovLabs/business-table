@@ -2,7 +2,6 @@ version: '3.4'
 
 services:
   grafana:
-    container_name: grafana-table-panel
     image: ghcr.io/volkovlabs/app:latest
     ports:
       - 3000:3000/tcp
@@ -13,3 +12,32 @@ services:
     volumes:
       - ./dist:/var/lib/grafana/plugins/volkovlabs-table-panel
       - ./provisioning:/etc/grafana/provisioning
+    profiles:
+      - dev
+
+  grafana-main:
+    image: grafana/grafana:main
+    ports:
+      - 3000:3000/tcp
+    environment:
+      - GF_DEFAULT_APP_MODE=development
+      - GF_USERS_DEFAULT_THEME=light
+      - GF_INSTALL_PLUGINS=marcusolsson-static-datasource
+    volumes:
+      - ./dist:/var/lib/grafana/plugins/volkovlabs-table-panel
+      - ./provisioning:/etc/grafana/provisioning
+    profiles:
+      - main
+
+  test:
+    build:
+      context: .
+      dockerfile: test/Dockerfile
+    environment:
+      - GRAFANA_URL=http://127.0.0.1:3000
+    volumes:
+      - ./test:/app/test
+      - ./playwright-report:/app/playwright-report
+    network_mode: host
+    profiles:
+      - e2e
