@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
   "dependencies": {
-    "grafanaDependency": ">=9.0.0",
+    "grafanaDependency": ">=10.0.0",
     "plugins": []
   },
   "id": "volkovlabs-table-panel",
@@ -10,16 +10,16 @@
       "name": "Volkov Labs",
       "url": "https://volkovlabs.io"
     },
-    "description": "Template to create a new Grafana panel plugin",
+    "description": "Summarize large amounts of data",
     "keywords": ["template"],
     "links": [
       {
         "name": "Documentation",
-        "url": "https://volkovlabs.io/plugins/templates"
+        "url": "https://volkovlabs.io/plugins/volkovlabs-table-panel"
       },
       {
         "name": "GitHub",
-        "url": "https://github.com/volkovlabs/volkovlabs-abc-panel"
+        "url": "https://github.com/volkovlabs/volkovlabs-table-panel"
       }
     ],
     "logos": {
@@ -35,6 +35,6 @@
     "updated": "%TODAY%",
     "version": "%VERSION%"
   },
-  "name": "Table",
+  "name": "Business Table",
   "type": "panel"
 }
