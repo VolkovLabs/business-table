@@ -1,9 +1,9 @@
 import { Field, FieldConfig } from '@grafana/data';
-import { FormattedValueDisplay } from '@grafana/ui';
 import { CellContext } from '@tanstack/react-table';
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import { CellType, FieldSettings } from '../../types';
+import { DefaultCellRenderer } from './DefaultCellRenderer';
 
 /**
  * Properties
@@ -30,27 +30,16 @@ export const CellRenderer: React.FC<Props> = ({ field, renderValue }) => {
   const fieldConfig: FieldConfig<FieldSettings> = field.config;
   const cellOptions = fieldConfig.custom?.cellOptions;
 
-  const rawValue = renderValue() as string | number;
-  let formattedValue: string | number | ReactElement = rawValue;
-  let color = 'inherit';
+  const rawValue = renderValue() as number | string;
+  const cellType = cellOptions?.type || CellType.AUTO;
 
-  if (field.display) {
-    const displayValue = field.display(rawValue);
-
-    if (displayValue.color) {
-      color = displayValue.color;
+  switch (cellType) {
+    case CellType.AUTO:
+    case CellType.COLORED_TEXT: {
+      return <DefaultCellRenderer value={rawValue} field={field} />;
     }
-
-    formattedValue = <FormattedValueDisplay value={displayValue} />;
+    default: {
+      return <DefaultCellRenderer value={rawValue} field={field} />;
+    }
   }
-
-  return (
-    <span
-      style={{
-        color: cellOptions?.type === CellType.COLORED_TEXT ? color : 'inherit',
-      }}
-    >
-      {formattedValue}
-    </span>
-  );
 };
