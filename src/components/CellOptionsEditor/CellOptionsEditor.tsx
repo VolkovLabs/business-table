@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
-import { Field, Select } from '@grafana/ui';
 import { StandardEditorProps } from '@grafana/data';
+import { Field, Select } from '@grafana/ui';
+import React, { useCallback } from 'react';
 
 import { CellOptions, CellType } from '../../types';
 
