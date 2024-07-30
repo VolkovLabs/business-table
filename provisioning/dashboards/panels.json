@@ -32,23 +32,87 @@
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
       "gridPos": {
-        "h": 14,
-        "w": 10,
+        "h": 13,
+        "w": 12,
         "x": 0,
         "y": 0
       },
       "id": 6,
+      "options": {
+        "columnMode": "auto",
+        "columns": []
+      },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
                 "config": {},
-                "name": "data",
+                "name": "id",
+                "type": "number",
+                "values": [
+                  1,
+                  2,
+                  3
+                ]
+              },
+              {
+                "config": {},
+                "name": "name",
                 "type": "string",
                 "values": [
-                  "Hello World!"
+                  "Device 1",
+                  "Device 2",
+                  "Device 3"
+                ]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [
+                  10,
+                  15,
+                  20
+                ]
+              },
+              {
+                "config": {},
+                "name": "json",
+                "type": "string",
+                "values": [
+                  "{ \"name\": \"Device1\" }",
+                  "{ \"name\": \"Device2\" }",
+                  "{ \"name\": \"Device3\" }"
                 ]
               }
             ],
@@ -58,7 +122,207 @@
           "refId": "A"
         }
       ],
-      "title": "Test",
+      "title": "Table",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "id": "",
+              "name": "Name",
+              "value": "Value"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 7,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.1.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "number",
+                "values": [
+                  1,
+                  2,
+                  3
+                ]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": [
+                  "Device 1",
+                  "Device 2",
+                  "Device 3"
+                ]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [
+                  10,
+                  20,
+                  30
+                ]
+              },
+              {
+                "config": {},
+                "name": "json",
+                "type": "string",
+                "values": [
+                  "{ \"name\": \"Device1\" }",
+                  "{ \"name\": \"Device2\" }",
+                  "{ \"name\": \"Device3\" }"
+                ]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Grafana Table",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 8,
+      "options": {
+        "columnMode": "auto",
+        "columns": []
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "number",
+                "values": []
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": []
+              }
+            ],
+            "meta": {
+              "custom": {
+                "customCode": "const array = Array.from({ length: 50000 }, (_, i) => i + 1)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: array.map((row) => field.name === 'id' ? row : `Device ${row}`)\n  }))\n}\n\nreturn Promise.resolve(result);",
+                "valuesEditor": "custom"
+              }
+            }
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "50k rows",
       "type": "volkovlabs-table-panel"
     }
   ],
