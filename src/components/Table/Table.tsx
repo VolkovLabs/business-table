@@ -62,7 +62,7 @@ export const Table = <TData,>({ data, columns, height }: Props<TData>) => {
   const rowVirtualizer = useVirtualizer({
     getScrollElement: () => rootRef.current,
     count: rows.length,
-    estimateSize: useCallback(() => 38, []),
+    estimateSize: useCallback(() => 36, []),
     measureElement: useCallback((el: HTMLElement | HTMLTableRowElement) => el.offsetHeight, []),
     overscan: 10,
   });

@@ -6,7 +6,7 @@ import { ColumnMode, PanelOptions } from './types';
 /**
  * Panel Plugin
  */
-export const plugin = new PanelPlugin<PanelOptions>(TablePanel).setPanelOptions((builder) => {
+export const plugin = new PanelPlugin<PanelOptions>(TablePanel).useFieldConfig({}).setPanelOptions((builder) => {
   builder
     .addRadio({
       path: 'columnMode',
