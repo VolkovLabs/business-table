@@ -1,15 +1,13 @@
-import { Field, PanelData } from '@grafana/data';
+import { PanelData } from '@grafana/data';
 import { ColumnDef } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
 import { CellRenderer } from '../components';
-import { ColumnMode, FieldSource, PanelOptions } from '../types';
-import { getFieldBySource, getSourceKey } from '../utils';
 
 /**
  * Use Table
  */
-export const useTable = ({ data, options }: { data: PanelData; options: PanelOptions }) => {
+export const useTable = ({ data }: { data: PanelData }) => {
   /**
    * Table Data
    */
@@ -23,62 +21,22 @@ export const useTable = ({ data, options }: { data: PanelData; options: PanelOpt
       return [];
     }
 
-    /**
-     * Auto columns
-     */
-    if (options.columnMode === ColumnMode.AUTO) {
-      const rows = [];
+    const rows = [];
 
-      for (let rowIndex = 0; rowIndex < frame.length; rowIndex += 1) {
-        const row = frame.fields.reduce(
-          (acc, field) => ({
-            ...acc,
-            [field.name]: field.values[rowIndex],
-          }),
-          {}
-        );
+    for (let rowIndex = 0; rowIndex < frame.length; rowIndex += 1) {
+      const row = frame.fields.reduce(
+        (acc, field) => ({
+          ...acc,
+          [field.name]: field.values[rowIndex],
+        }),
+        {}
+      );
 
-        rows.push(row);
-      }
-
-      return rows;
+      rows.push(row);
     }
 
-    /**
-     * Configured Columns
-     */
-
-    /**
-     * Fields
-     */
-    const fieldsForTable = options.columns
-      .map(({ field }) => {
-        if (!field) {
-          return;
-        }
-
-        return { field: getFieldBySource(data.series, field), source: field };
-      })
-      .filter((item): item is { field: Field; source: FieldSource } => !!item && !!item.field);
-
-    const rows: Array<Record<string, unknown>> = [];
-
-    fieldsForTable.forEach(({ field, source }) => {
-      const key = getSourceKey(source);
-
-      field.values.forEach((value, rowIndex) => {
-        if (!rows[rowIndex]) {
-          rows.push({
-            [key]: value,
-          });
-        }
-
-        rows[rowIndex][key] = value;
-      });
-    });
-
     return rows;
-  }, [data.series, options.columnMode, options.columns]);
+  }, [data.series]);
 
   /**
    * Columns
@@ -90,47 +48,19 @@ export const useTable = ({ data, options }: { data: PanelData; options: PanelOpt
       return [];
     }
 
-    /**
-     * Auto Columns
-     */
-    if (options.columnMode === ColumnMode.AUTO) {
-      const columns: Array<ColumnDef<unknown>> = [];
+    const columns: Array<ColumnDef<unknown>> = [];
 
-      for (const field of frame.fields) {
-        columns.push({
-          id: field.name,
-          accessorKey: field.name,
-          header: field.config?.displayName || field.name,
-          cell: (props) => <CellRenderer {...props} field={field} />,
-        });
-      }
-
-      return columns;
+    for (const field of frame.fields) {
+      columns.push({
+        id: field.name,
+        accessorKey: field.name,
+        header: field.config?.displayName || field.name,
+        cell: (props) => <CellRenderer {...props} field={field} />,
+      });
     }
 
-    /**
-     * Configured Columns
-     */
-    return options.columns.map((column, index): ColumnDef<unknown> => {
-      const field = column.field ? getFieldBySource(data.series, column.field) : null;
-      const key = column.field ? getSourceKey(column.field) : index.toString();
-
-      const baseColumn = {
-        id: key,
-        accessorKey: key,
-        header: column.label,
-      };
-
-      if (!field) {
-        return baseColumn;
-      }
-
-      return {
-        ...baseColumn,
-        cell: (props) => <CellRenderer {...props} field={field} />,
-      };
-    });
-  }, [data.series, options.columnMode, options.columns]);
+    return columns;
+  }, [data.series]);
 
   return useMemo(
     () => ({
