@@ -100,7 +100,7 @@ export const useTable = ({ data, options }: { data: PanelData; options: PanelOpt
         columns.push({
           id: field.name,
           accessorKey: field.name,
-          header: field.state?.displayName || field.name,
+          header: field.config?.displayName || field.name,
           cell: (props) => <CellRenderer {...props} field={field} />,
         });
       }
