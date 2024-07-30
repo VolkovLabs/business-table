@@ -17,7 +17,7 @@ interface Props extends PanelProps<PanelOptions> {}
 /**
  * Panel
  */
-export const TablePanel: React.FC<Props> = ({ data, width, height, options }) => {
+export const TablePanel: React.FC<Props> = ({ data, width, height }) => {
   /**
    * Styles
    */
@@ -26,7 +26,7 @@ export const TablePanel: React.FC<Props> = ({ data, width, height, options }) =>
   /**
    * Table
    */
-  const { tableData, columns } = useTable({ data, options });
+  const { tableData, columns } = useTable({ data });
 
   /**
    * Return
