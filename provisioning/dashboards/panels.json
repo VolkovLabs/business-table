@@ -32,6 +32,30 @@
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -232,6 +256,30 @@
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
       "gridPos": {
         "h": 8,
         "w": 24,
@@ -266,7 +314,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const array = Array.from({ length: 5000 }, (_, i) => i + 1)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: array.map((row) => field.name === 'id' ? row : `Device ${row}`)\n  }))\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const array = Array.from({ length: 50000 }, (_, i) => i + 1)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: array.map((row) => field.name === 'id' ? row : `Device ${row}`)\n  }))\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
