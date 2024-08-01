@@ -7,6 +7,22 @@ export enum CellType {
 }
 
 /**
+ * Cell Aggregation
+ */
+export enum CellAggregation {
+  NONE = 'none',
+  SUM = 'sum',
+  MIN = 'min',
+  MAX = 'max',
+  EXTENT = 'extent',
+  MEAN = 'mean',
+  MEDIAN = 'median',
+  UNIQUE = 'unique',
+  UNIQUE_COUNT = 'uniqueCount',
+  COUNT = 'count',
+}
+
+/**
  * Cell Options
  */
 export interface CellOptions {
@@ -71,6 +87,20 @@ export interface ColumnConfig {
    * @type {CellType}
    */
   type: CellType;
+
+  /**
+   * Group
+   *
+   * @type {boolean}
+   */
+  group: boolean;
+
+  /**
+   * Aggregation
+   *
+   * @type {CellAggregation}
+   */
+  aggregation: CellAggregation;
 }
 
 /**

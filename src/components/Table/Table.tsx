@@ -1,7 +1,16 @@
-import { useStyles2 } from '@grafana/ui';
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useStyles2, IconButton } from '@grafana/ui';
+import { cx } from '@emotion/css';
+import {
+  ColumnDef,
+  ExpandedState,
+  flexRender,
+  getCoreRowModel,
+  getExpandedRowModel,
+  getGroupedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import React, { RefObject, useCallback } from 'react';
+import React, { RefObject, useCallback, useMemo, useState } from 'react';
 
 import { getStyles } from './Table.styles';
 
@@ -59,12 +68,33 @@ export const Table = <TData,>({
   const styles = useStyles2(getStyles);
 
   /**
+   * Grouping
+   */
+  const grouping = useMemo(() => {
+    return columns.filter((column) => column.enableGrouping).map((columnWithGrouping) => columnWithGrouping.id || '');
+  }, [columns]);
+
+  /**
+   * Expanded
+   */
+  const [expanded, setExpanded] = useState<ExpandedState>({});
+
+  /**
    * React Table
    */
   const table = useReactTable({
+    state: {
+      grouping,
+      expanded,
+    },
     data,
     getCoreRowModel: getCoreRowModel(),
+    getGroupedRowModel: getGroupedRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+    onExpandedChange: setExpanded,
     columns,
+    enableExpanding: true,
+    enableGrouping: true,
     debugTable: true,
   });
 
@@ -131,12 +161,29 @@ export const Table = <TData,>({
               {row.getVisibleCells().map((cell) => (
                 <td
                   key={cell.id}
-                  className={styles.cell}
+                  className={cx(styles.cell, {
+                    [styles.cellExpandable]: row.getCanExpand(),
+                  })}
                   style={{
                     width: cell.column.getSize(),
                   }}
+                  onClick={row.getToggleExpandedHandler()}
                 >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  {cell.getIsGrouped() && (
+                    <IconButton
+                      name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
+                      aria-label=""
+                      className={styles.expandButton}
+                    />
+                  )}
+                  {cell.getIsPlaceholder()
+                    ? null
+                    : cell.getIsAggregated()
+                      ? flexRender(
+                          cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell,
+                          cell.getContext()
+                        )
+                      : flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
             </tr>

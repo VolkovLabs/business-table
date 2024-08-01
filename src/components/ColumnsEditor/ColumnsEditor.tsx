@@ -142,6 +142,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           },
           label: '',
           type: CellType.AUTO,
+          group: false,
         },
       ]);
       setNewItem(null);
@@ -170,7 +171,10 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                           <>
                             {item.field.name && (
                               <div className={styles.titleWrapper}>
-                                <div className={cx(styles.title)}>{item.field.name}</div>
+                                <div className={cx(styles.title)}>
+                                  {item.field.name}
+                                  {item.group && ' [group]'}
+                                </div>
                               </div>
                             )}
                           </>

@@ -34,11 +34,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "cellOptions": {
-              "type": "auto"
-            }
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -65,7 +60,50 @@
       "id": 6,
       "options": {
         "columnMode": "auto",
-        "columns": []
+        "columns": [],
+        "groups": [
+          {
+            "items": [
+              {
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "field": {
+                  "name": "json",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              }
+            ],
+            "name": "Main"
+          }
+        ]
       },
       "targets": [
         {
@@ -258,11 +296,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "cellOptions": {
-              "type": "auto"
-            }
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -289,7 +322,32 @@
       "id": 8,
       "options": {
         "columnMode": "auto",
-        "columns": []
+        "columns": [],
+        "groups": [
+          {
+            "items": [
+              {
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              }
+            ],
+            "name": "Main"
+          }
+        ]
       },
       "targets": [
         {

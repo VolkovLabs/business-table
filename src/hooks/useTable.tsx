@@ -3,7 +3,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
 import { CellRenderer } from '../components';
-import { ColumnConfig } from '../types';
+import { CellAggregation, ColumnConfig } from '../types';
 import { filterFieldBySource, getFrameBySource } from '../utils';
 
 /**
@@ -14,7 +14,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
    * Columns Data
    */
   const columnsData = useMemo((): { frame: DataFrame | null; items: Array<{ config: ColumnConfig; field: Field }> } => {
-    if (!columnsConfig?.[0].field) {
+    if (!columnsConfig?.[0]?.field) {
       return {
         frame: null,
         items: [],
@@ -92,6 +92,8 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         accessorKey: column.field.name,
         header: column.config.label || column.field.config?.displayName || column.field.name,
         cell: (props) => <CellRenderer {...props} config={column.config} field={column.field} />,
+        enableGrouping: column.config.group,
+        aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
       });
     }
 

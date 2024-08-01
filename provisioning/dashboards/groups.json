@@ -63,6 +63,7 @@
                   "name": "country",
                   "source": "A"
                 },
+                "group": true,
                 "type": "auto"
               },
               {
@@ -70,10 +71,12 @@
                   "name": "city",
                   "source": "A"
                 },
+                "group": true,
                 "label": "City",
                 "type": "auto"
               },
               {
+                "aggregation": "count",
                 "field": {
                   "name": "device",
                   "source": "A"
@@ -81,6 +84,7 @@
                 "type": "auto"
               },
               {
+                "aggregation": "sum",
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -172,17 +176,17 @@
               {
                 "config": {},
                 "name": "value",
-                "type": "string",
+                "type": "number",
                 "values": [
-                  "10",
-                  "15",
-                  "15",
-                  "13",
-                  "13",
-                  "17",
-                  "17",
-                  "13",
-                  "13"
+                  10,
+                  15,
+                  15,
+                  13,
+                  13,
+                  17,
+                  17,
+                  13,
+                  13
                 ]
               }
             ],
@@ -221,6 +225,6 @@
   "timezone": "browser",
   "title": "Groups",
   "uid": "bdthrnadm0tmoc",
-  "version": 8,
+  "version": 11,
   "weekStart": ""
 }
