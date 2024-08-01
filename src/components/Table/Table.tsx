@@ -95,7 +95,6 @@ export const Table = <TData,>({
     columns,
     enableExpanding: true,
     enableGrouping: true,
-    debugTable: true,
   });
 
   /**

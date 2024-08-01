@@ -14,25 +14,10 @@ import { GroupsEditor } from './GroupsEditor';
 type Props = React.ComponentProps<typeof GroupsEditor>;
 
 /**
- * Mock @grafana/ui
- */
-jest.mock('@grafana/ui', () => ({
-  ...jest.requireActual('@grafana/ui'),
-  Collapse: jest.fn(({ children, isOpen, label, onToggle }) => {
-    return (
-      <>
-        <div onClick={onToggle}>{label}</div>
-        {isOpen ? children : null}
-      </>
-    );
-  }),
-}));
-
-/**
  * Mock LevelsEditor
  */
 jest.mock('../ColumnsEditor', () => ({
-  LevelsEditor: jest.fn(() => <div data-testid={TEST_IDS.levelsEditor.root} />),
+  ColumnsEditor: jest.fn(() => <div data-testid={TEST_IDS.columnsEditor.root} />),
 }));
 
 /**
@@ -102,7 +87,7 @@ describe('GroupsEditor', () => {
   /**
    * Levels Selectors
    */
-  const getLevelsSelectors = getJestSelectors(TEST_IDS.levelsEditor);
+  const getLevelsSelectors = getJestSelectors(TEST_IDS.columnsEditor);
   const levelsSelectors = getLevelsSelectors(screen);
 
   it('Should render groups', () => {
@@ -677,7 +662,7 @@ describe('GroupsEditor', () => {
     const onChange = jest.fn();
 
     jest.mocked(ColumnsEditor).mockImplementation(({ name, onChange }) => (
-      <div data-testid={TEST_IDS.levelsEditor.root}>
+      <div data-testid={TEST_IDS.columnsEditor.root}>
         <button
           data-testid={InTestIds.buttonLevelsUpdate}
           onClick={() =>

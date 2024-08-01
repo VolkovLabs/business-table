@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
+import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '../../constants';
@@ -14,6 +15,12 @@ type Props = React.ComponentProps<typeof TablePanel>;
  */
 describe('TablePanel', () => {
   /**
+   * Selectors
+   */
+  const getSelectors = getJestSelectors(TEST_IDS.panel);
+  const selectors = getSelectors(screen);
+
+  /**
    * Panel Data
    */
   const data = {
@@ -28,7 +35,7 @@ describe('TablePanel', () => {
   };
 
   it('Should find component', async () => {
-    render(getComponent({}));
-    expect(screen.getByTestId(TEST_IDS.panel.root)).toBeInTheDocument();
+    await act(async () => render(getComponent({})));
+    expect(selectors.root()).toBeInTheDocument();
   });
 });

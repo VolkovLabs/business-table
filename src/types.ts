@@ -35,18 +35,6 @@ export interface CellOptions {
 }
 
 /**
- * Field Settings
- */
-export interface FieldSettings {
-  /**
-   * Cell Options
-   *
-   * @type {CellOptions}
-   */
-  cellOptions: CellOptions;
-}
-
-/**
  * Field Source
  */
 export interface FieldSource {

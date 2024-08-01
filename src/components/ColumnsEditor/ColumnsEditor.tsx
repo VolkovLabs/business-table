@@ -6,7 +6,7 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '../../constants';
-import { CellType, ColumnConfig, FieldSource, Group } from '../../types';
+import { CellAggregation, CellType, ColumnConfig, FieldSource, Group } from '../../types';
 import { reorder } from '../../utils';
 import { ColumnEditor } from '../ColumnEditor';
 import { getStyles } from './ColumnsEditor.styles';
@@ -143,6 +143,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           label: '',
           type: CellType.AUTO,
           group: false,
+          aggregation: CellAggregation.NONE,
         },
       ]);
       setNewItem(null);
@@ -150,7 +151,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
   }, [items, newItem, onChangeItems]);
 
   return (
-    <div data-testid={TEST_IDS.levelsEditor.root}>
+    <div data-testid={TEST_IDS.columnsEditor.root}>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={name}>
           {(provided) => (
@@ -163,7 +164,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                       {...provided.draggableProps}
                       style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                       className={styles.item}
-                      data-testid={TEST_IDS.levelsEditor.item(item.field.name)}
+                      data-testid={TEST_IDS.columnsEditor.item(item.field.name)}
                     >
                       <Collapse
                         fill="solid"
@@ -187,7 +188,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                                 onChangeItems(items.filter((column) => column.field.name !== item.field.name))
                               }
                               aria-label="Remove"
-                              data-testid={TEST_IDS.levelsEditor.buttonRemove}
+                              data-testid={TEST_IDS.columnsEditor.buttonRemove}
                             />
                             <div className={styles.dragHandle} {...provided.dragHandleProps}>
                               <Icon
@@ -227,12 +228,12 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
         </Droppable>
       </DragDropContext>
 
-      <InlineFieldRow data-testid={TEST_IDS.levelsEditor.newItem}>
+      <InlineFieldRow data-testid={TEST_IDS.columnsEditor.newItem}>
         <InlineField label="New Column" grow={true}>
           <Select
             options={availableFieldOptions}
             value={newItem?.value || null}
-            aria-label={TEST_IDS.levelsEditor.newItemName}
+            data-testid={TEST_IDS.columnsEditor.newItemName}
             onChange={(event) => {
               setNewItem({
                 value: event.value,
@@ -247,7 +248,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           title="Add Column"
           disabled={!newItem}
           onClick={onAddNewItem}
-          data-testid={TEST_IDS.levelsEditor.buttonAddNew}
+          data-testid={TEST_IDS.columnsEditor.buttonAddNew}
         >
           Add
         </Button>

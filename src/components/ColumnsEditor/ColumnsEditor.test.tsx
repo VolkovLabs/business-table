@@ -1,42 +1,13 @@
 import { toDataFrame } from '@grafana/data';
 import { Select } from '@grafana/ui';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
+import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import React from 'react';
 
 import { TEST_IDS } from '../../constants';
+import { CellAggregation, CellType, ColumnConfig } from '../../types';
 import { ColumnsEditor } from './ColumnsEditor';
-
-/**
- * Mock @grafana/ui
- */
-jest.mock('@grafana/ui', () => ({
-  ...jest.requireActual('@grafana/ui'),
-  /**
-   * Mock Select component
-   */
-  Select: jest.fn().mockImplementation(({ options, onChange, value, ...restProps }) => (
-    <select
-      onChange={(event: any) => {
-        if (onChange) {
-          onChange(options.find((option: any) => option.value === event.target.value));
-        }
-      }}
-      /**
-       * Fix jest warnings because null value.
-       * For Select component in @grafana/ui should be used null to reset value.
-       */
-      value={value === null ? '' : value}
-      {...restProps}
-    >
-      {options.map(({ label, value }: any) => (
-        <option key={value} value={value}>
-          {label}
-        </option>
-      ))}
-    </select>
-  )),
-}));
 
 /**
  * Mock react-beautiful-dnd
@@ -60,13 +31,37 @@ jest.mock('@hello-pangea/dnd', () => ({
  */
 type Props = React.ComponentProps<typeof ColumnsEditor>;
 
-describe('LevelsEditor', () => {
+describe('ColumnsEditor', () => {
+  /**
+   * Selectors
+   */
+  const getSelectors = getJestSelectors(TEST_IDS.columnsEditor);
+  const selectors = getSelectors(screen);
+
   /**
    * Get Tested Component
    * @param props
    */
   const getComponent = (props: Partial<Props>) => <ColumnsEditor name="Default" {...(props as any)} />;
 
+  /**
+   * Create Item
+   */
+  const createItem = (item: Partial<ColumnConfig>): ColumnConfig => ({
+    field: {
+      name: 'field',
+      source: 'A',
+    },
+    label: '',
+    type: CellType.AUTO,
+    group: false,
+    aggregation: CellAggregation.NONE,
+    ...item,
+  });
+
+  /**
+   * Data Frame A
+   */
   const dataFrameA = toDataFrame({
     fields: [
       {
@@ -79,6 +74,9 @@ describe('LevelsEditor', () => {
     refId: 'A',
   });
 
+  /**
+   * Data Frame B
+   */
   const dataFrameB = toDataFrame({
     fields: [
       {
@@ -95,25 +93,23 @@ describe('LevelsEditor', () => {
     jest.mocked(Select).mockClear();
   });
 
-  it('Should render levels', () => {
+  it('Should render items', () => {
     render(
       getComponent({
         data: [dataFrameA],
         items: [
-          {
-            name: 'field1',
-            source: 'A',
-          },
-          {
-            name: 'field2',
-            source: 'A',
-          },
+          createItem({
+            field: { name: 'field1', source: 'A' },
+          }),
+          createItem({
+            field: { name: 'field2', source: 'A' },
+          }),
         ],
       })
     );
 
-    expect(screen.getByTestId(TEST_IDS.levelsEditor.item('field1'))).toBeInTheDocument();
-    expect(screen.getByTestId(TEST_IDS.levelsEditor.item('field2'))).toBeInTheDocument();
+    expect(selectors.item(false, 'field1')).toBeInTheDocument();
+    expect(selectors.item(false, 'field2')).toBeInTheDocument();
   });
 
   it('Should allow select any fields', () => {
@@ -212,10 +208,9 @@ describe('LevelsEditor', () => {
       getComponent({
         data: [dataFrameA, dataFrameB],
         items: [
-          {
-            name: 'field1',
-            source: 'A',
-          },
+          createItem({
+            field: { name: 'field1', source: 'A' },
+          }),
         ],
       })
     );
@@ -249,10 +244,9 @@ describe('LevelsEditor', () => {
           },
         ],
         items: [
-          {
-            name: 'field1',
-            source: 0,
-          },
+          createItem({
+            field: { name: 'field1', source: 0 },
+          }),
         ],
       })
     );
@@ -272,7 +266,7 @@ describe('LevelsEditor', () => {
     );
   });
 
-  it('Should add new level', async () => {
+  it('Should add new item', async () => {
     const onChange = jest.fn();
 
     render(
@@ -280,34 +274,31 @@ describe('LevelsEditor', () => {
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
         items: [
-          {
-            name: 'field1',
-            source: 'A',
-          },
+          createItem({
+            field: { name: 'field1', source: 'A' },
+          }),
         ],
         onChange,
       })
     );
 
-    await act(() =>
-      fireEvent.change(screen.getByLabelText(TEST_IDS.levelsEditor.newItemName), { target: { value: 'field2' } })
-    );
+    await act(() => fireEvent.change(selectors.newItemName(), { target: { value: 'field2' } }));
 
-    expect(screen.getByTestId(TEST_IDS.levelsEditor.buttonAddNew)).toBeInTheDocument();
-    expect(screen.getByTestId(TEST_IDS.levelsEditor.buttonAddNew)).not.toBeDisabled();
+    expect(selectors.buttonAddNew()).toBeInTheDocument();
+    expect(selectors.buttonAddNew()).not.toBeDisabled();
 
-    await act(() => fireEvent.click(screen.getByTestId(TEST_IDS.levelsEditor.buttonAddNew)));
+    await act(() => fireEvent.click(selectors.buttonAddNew()));
 
     expect(onChange).toHaveBeenCalledWith({
       name: 'Group 1',
       items: [
-        { name: 'field1', source: 'A' },
-        { name: 'field2', source: 'A' },
+        createItem({ field: { name: 'field1', source: 'A' } }),
+        createItem({ field: { name: 'field2', source: 'A' } }),
       ],
     });
   });
 
-  it('Should remove level', async () => {
+  it('Should remove item', async () => {
     const onChange = jest.fn();
 
     render(
@@ -315,20 +306,18 @@ describe('LevelsEditor', () => {
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
         items: [
-          {
-            name: 'field2',
-            source: 'A',
-          },
-          {
-            name: 'field1',
-            source: 'A',
-          },
+          createItem({
+            field: { name: 'field2', source: 'A' },
+          }),
+          createItem({
+            field: { name: 'field1', source: 'A' },
+          }),
         ],
         onChange,
       })
     );
 
-    const field2 = screen.getByTestId(TEST_IDS.levelsEditor.item('field2'));
+    const field2 = selectors.item(false, 'field2');
 
     /**
      * Check field presence
@@ -338,9 +327,12 @@ describe('LevelsEditor', () => {
     /**
      * Remove
      */
-    await act(() => fireEvent.click(within(field2).getByTestId(TEST_IDS.levelsEditor.buttonRemove)));
+    await act(() => fireEvent.click(getSelectors(within(field2)).buttonRemove()));
 
-    expect(onChange).toHaveBeenCalledWith({ name: 'Group 1', items: [{ name: 'field1', source: 'A' }] });
+    expect(onChange).toHaveBeenCalledWith({
+      name: 'Group 1',
+      items: [createItem({ field: { name: 'field1', source: 'A' } })],
+    });
   });
 
   it('Should render without errors if dataFrame was removed', () => {
@@ -349,15 +341,14 @@ describe('LevelsEditor', () => {
         data: [dataFrameB],
         name: 'Group 1',
         items: [
-          {
-            name: 'field1',
-            source: 'A',
-          },
+          createItem({
+            field: { name: 'field1', source: 'A' },
+          }),
         ],
       })
     );
 
-    expect(screen.getByTestId(TEST_IDS.levelsEditor.root)).toBeInTheDocument();
+    expect(selectors.root()).toBeInTheDocument();
   });
 
   it('Should reorder items', async () => {
@@ -373,14 +364,12 @@ describe('LevelsEditor', () => {
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
         items: [
-          {
-            name: 'field2',
-            source: 'A',
-          },
-          {
-            name: 'field1',
-            source: 'A',
-          },
+          createItem({
+            field: { name: 'field2', source: 'A' },
+          }),
+          createItem({
+            field: { name: 'field1', source: 'A' },
+          }),
         ],
         onChange,
       })
@@ -389,7 +378,7 @@ describe('LevelsEditor', () => {
     /**
      * Simulate drop field 1 to index 0
      */
-    await act(() =>
+    act(() =>
       onDragEndHandler({
         destination: {
           index: 0,
@@ -403,14 +392,8 @@ describe('LevelsEditor', () => {
     expect(onChange).toHaveBeenCalledWith({
       name: 'Group 1',
       items: [
-        {
-          name: 'field1',
-          source: 'A',
-        },
-        {
-          name: 'field2',
-          source: 'A',
-        },
+        createItem({ field: { name: 'field1', source: 'A' } }),
+        createItem({ field: { name: 'field2', source: 'A' } }),
       ],
     });
   });
@@ -428,14 +411,12 @@ describe('LevelsEditor', () => {
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
         items: [
-          {
-            name: 'field2',
-            source: 'A',
-          },
-          {
-            name: 'field1',
-            source: 'A',
-          },
+          createItem({
+            field: { name: 'field2', source: 'A' },
+          }),
+          createItem({
+            field: { name: 'field1', source: 'A' },
+          }),
         ],
         onChange,
       })
@@ -444,7 +425,7 @@ describe('LevelsEditor', () => {
     /**
      * Simulate drop field 1 to outside the list
      */
-    await act(() =>
+    act(() =>
       onDragEndHandler({
         destination: null,
         source: {

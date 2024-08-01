@@ -17,12 +17,12 @@ export const TEST_IDS = {
     newItem: 'data-testid fields-editor new-level',
     newItemName: 'data-testid fields-editor new-item-name',
   },
-  levelsEditor: {
-    buttonAddNew: 'data-testid levels-editor button-add-new',
-    buttonRemove: 'data-testid levels-editor button-remove',
-    item: (name: string) => `data-testid levels-editor item-${name}`,
-    newItem: 'data-testid levels-editor new-item',
-    newItemName: 'data-testidd levels-editor new-item-name',
-    root: 'data-testid levels-editor',
+  columnsEditor: {
+    buttonAddNew: 'data-testid columns-editor button-add-new',
+    buttonRemove: 'data-testid columns-editor button-remove',
+    item: (name: string) => `data-testid columns-editor item-${name}`,
+    newItem: 'data-testid columns-editor new-item',
+    newItemName: 'data-testid columns-editor new-item-name',
+    root: 'data-testid columns-editor',
   },
 };
