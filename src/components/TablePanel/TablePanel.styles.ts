@@ -8,6 +8,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
   return {
     root: css`
       position: relative;
+    `,
+    content: css`
       overflow: auto;
     `,
     header: css`
@@ -15,6 +17,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
       top: 0;
       background-color: ${theme.colors.background.primary};
       z-index: 120;
+      min-width: 100%;
+      left: 0;
     `,
     toolbar: css`
       div > div {

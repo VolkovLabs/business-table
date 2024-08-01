@@ -30,11 +30,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {
-            "cellOptions": {
-              "type": "auto"
-            }
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -54,7 +49,7 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 13,
+        "w": 15,
         "x": 0,
         "y": 0
       },
@@ -134,6 +129,10 @@
                   "USA",
                   "USA",
                   "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
                   "Japan",
                   "Japan"
                 ]
@@ -145,7 +144,11 @@
                 "values": [
                   "New York",
                   "New York",
+                  "New York",
                   "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
                   "Tokyo",
                   "Tokyo"
                 ]
@@ -157,8 +160,12 @@
                 "values": [
                   "device 1",
                   "device 2",
+                  "device 2",
+                  "device 3",
                   "device 3",
                   "device 4",
+                  "device 4",
+                  "device 5",
                   "device 5"
                 ]
               },
@@ -169,8 +176,12 @@
                 "values": [
                   "10",
                   "15",
+                  "15",
+                  "13",
                   "13",
                   "17",
+                  "17",
+                  "13",
                   "13"
                 ]
               }
@@ -210,6 +221,6 @@
   "timezone": "browser",
   "title": "Groups",
   "uid": "bdthrnadm0tmoc",
-  "version": 6,
+  "version": 8,
   "weekStart": ""
 }

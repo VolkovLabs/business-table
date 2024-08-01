@@ -1,7 +1,7 @@
 import { useStyles2 } from '@grafana/ui';
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import React, { useCallback, useRef } from 'react';
+import React, { RefObject, useCallback } from 'react';
 
 import { getStyles } from './Table.styles';
 
@@ -20,26 +20,43 @@ interface Props<TData> {
   columns: Array<ColumnDef<TData>>;
 
   /**
-   * Height
+   * Table Ref
+   */
+  tableRef?: RefObject<HTMLTableElement>;
+
+  /**
+   * Table Header Ref
+   */
+  tableHeaderRef: RefObject<HTMLTableSectionElement>;
+
+  /**
+   * Top Offset
    *
    * @type {number}
    */
-  height: number;
+  topOffset?: number;
+
+  /**
+   * Scrollable Container Ref
+   */
+  scrollableContainerRef: RefObject<HTMLDivElement>;
 }
 
 /**
  * Table
  */
-export const Table = <TData,>({ data, columns, height }: Props<TData>) => {
+export const Table = <TData,>({
+  data,
+  columns,
+  scrollableContainerRef,
+  tableHeaderRef,
+  tableRef,
+  topOffset,
+}: Props<TData>) => {
   /**
    * Styles
    */
   const styles = useStyles2(getStyles);
-
-  /**
-   * Ref
-   */
-  const rootRef = useRef<HTMLDivElement>(null);
 
   /**
    * React Table
@@ -61,7 +78,7 @@ export const Table = <TData,>({ data, columns, height }: Props<TData>) => {
    * Options description - https://tanstack.com/virtual/v3/docs/api/virtualizer
    */
   const rowVirtualizer = useVirtualizer({
-    getScrollElement: () => rootRef.current,
+    getScrollElement: useCallback(() => scrollableContainerRef.current, [scrollableContainerRef]),
     count: rows.length,
     estimateSize: useCallback(() => 36, []),
     measureElement: useCallback((el: HTMLElement | HTMLTableRowElement) => el.offsetHeight, []),
@@ -74,60 +91,58 @@ export const Table = <TData,>({ data, columns, height }: Props<TData>) => {
   const virtualRows = rowVirtualizer.getVirtualItems();
 
   return (
-    <div ref={rootRef} className={styles.root} style={{ height }}>
-      <table className={styles.table}>
-        <thead className={styles.header}>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className={styles.headerRow}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className={styles.headerCell}
-                  style={{
-                    width: header.getSize(),
-                  }}
-                >
-                  {flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody
-          style={{
-            height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
-          }}
-          className={styles.body}
-        >
-          {virtualRows.map((virtualRow) => {
-            const row = rows[virtualRow.index];
-
-            return (
-              <tr
-                data-index={virtualRow.index}
-                key={row.id}
-                className={styles.row}
-                ref={rowVirtualizer.measureElement}
+    <table className={styles.table} ref={tableRef}>
+      <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <tr key={headerGroup.id} className={styles.headerRow}>
+            {headerGroup.headers.map((header) => (
+              <th
+                key={header.id}
+                className={styles.headerCell}
                 style={{
-                  transform: `translateY(${virtualRow.start}px)`,
+                  width: header.getSize(),
                 }}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={styles.cell}
-                    style={{
-                      width: cell.column.getSize(),
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+                {flexRender(header.column.columnDef.header, header.getContext())}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody
+        style={{
+          height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
+        }}
+        className={styles.body}
+      >
+        {virtualRows.map((virtualRow) => {
+          const row = rows[virtualRow.index];
+
+          return (
+            <tr
+              data-index={virtualRow.index}
+              key={row.id}
+              className={styles.row}
+              ref={rowVirtualizer.measureElement}
+              style={{
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  key={cell.id}
+                  className={styles.cell}
+                  style={{
+                    width: cell.column.getSize(),
+                  }}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
   );
 };
