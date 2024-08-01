@@ -1,8 +1,8 @@
 import { DataFrame } from '@grafana/data';
-import { InlineField, Input, Select, InlineSwitch } from '@grafana/ui';
+import { InlineField, InlineSwitch,Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
-import { CellType, ColumnConfig, CellAggregation } from '../../types';
+import { CellAggregation,CellType, ColumnConfig } from '../../types';
 import { getFieldBySource } from '../../utils';
 
 /**

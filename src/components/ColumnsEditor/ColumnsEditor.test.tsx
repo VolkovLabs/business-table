@@ -1,8 +1,8 @@
 import { toDataFrame } from '@grafana/data';
 import { Select } from '@grafana/ui';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
-import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
+import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '../../constants';

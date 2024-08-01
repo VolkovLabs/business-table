@@ -776,7 +776,7 @@ describe('GroupsEditor', () => {
     /**
      * Simulate drop field 1 to index 0
      */
-    await act(() =>
+    act(() =>
       onDragEndHandler({
         destination: {
           index: 0,
@@ -842,7 +842,7 @@ describe('GroupsEditor', () => {
     /**
      * Simulate drop field 1 to outside the list
      */
-    await act(() =>
+    act(() =>
       onDragEndHandler({
         destination: null,
         source: {

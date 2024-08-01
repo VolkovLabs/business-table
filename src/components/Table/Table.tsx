@@ -1,5 +1,5 @@
-import { useStyles2, IconButton } from '@grafana/ui';
 import { cx } from '@emotion/css';
+import { IconButton,useStyles2 } from '@grafana/ui';
 import {
   ColumnDef,
   ExpandedState,
