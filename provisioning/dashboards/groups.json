@@ -1,0 +1,209 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "cellOptions": {
+              "type": "auto"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "groups": [
+          {
+            "items": [
+              {
+                "field": {
+                  "name": "country",
+                  "source": "A"
+                }
+              },
+              {
+                "field": {
+                  "name": "city",
+                  "source": "A"
+                },
+                "label": "City"
+              },
+              {
+                "field": {
+                  "name": "device",
+                  "source": "A"
+                }
+              },
+              {
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                }
+              }
+            ],
+            "name": "Country"
+          },
+          {
+            "items": [
+              {
+                "field": {
+                  "name": "device",
+                  "source": "A"
+                },
+                "label": ""
+              },
+              {
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "label": ""
+              }
+            ],
+            "name": "Value"
+          }
+        ]
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "country",
+                "type": "string",
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan"
+                ]
+              },
+              {
+                "config": {},
+                "name": "city",
+                "type": "string",
+                "values": [
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo"
+                ]
+              },
+              {
+                "config": {},
+                "name": "device",
+                "type": "string",
+                "values": [
+                  "device 1",
+                  "device 2",
+                  "device 3",
+                  "device 4",
+                  "device 5"
+                ]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "string",
+                "values": [
+                  "10",
+                  "15",
+                  "13",
+                  "17",
+                  "13"
+                ]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Groups",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "country": "Country"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Groups",
+  "uid": "bdthrnadm0tmoc",
+  "version": 5,
+  "weekStart": ""
+}

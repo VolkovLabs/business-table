@@ -2,7 +2,7 @@ import { Field, FieldConfig } from '@grafana/data';
 import { CellContext } from '@tanstack/react-table';
 import React from 'react';
 
-import { CellType, FieldSettings } from '../../types';
+import { CellType, ColumnConfig, FieldSettings } from '../../types';
 import { DefaultCellRenderer } from './DefaultCellRenderer';
 
 /**
@@ -15,6 +15,13 @@ interface Props extends CellContext<unknown, unknown> {
    * @type {Field}
    */
   field: Field;
+
+  /**
+   * Config
+   *
+   * @type {ColumnConfig}
+   */
+  config: ColumnConfig;
 }
 
 /**

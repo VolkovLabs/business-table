@@ -1,6 +1,6 @@
 import { identityOverrideProcessor, PanelPlugin } from '@grafana/data';
 
-import { CellOptionsEditor, TablePanel } from './components';
+import { CellOptionsEditor, GroupsEditor, TablePanel } from './components';
 import { CellType, PanelOptions } from './types';
 
 /**
@@ -25,5 +25,12 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
     },
   })
   .setPanelOptions((builder) => {
+    builder.addCustomEditor({
+      id: 'groups',
+      path: 'groups',
+      name: 'Tree View based on data source query',
+      editor: GroupsEditor,
+    });
+
     return builder;
   });

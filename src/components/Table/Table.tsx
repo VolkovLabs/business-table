@@ -48,6 +48,7 @@ export const Table = <TData,>({ data, columns, height }: Props<TData>) => {
     data,
     getCoreRowModel: getCoreRowModel(),
     columns,
+    debugTable: true,
   });
 
   /**

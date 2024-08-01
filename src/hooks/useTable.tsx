@@ -1,33 +1,69 @@
-import { PanelData } from '@grafana/data';
+import { DataFrame, Field, PanelData } from '@grafana/data';
 import { ColumnDef } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
 import { CellRenderer } from '../components';
+import { ColumnConfig } from '../types';
+import { filterFieldBySource, getFrameBySource } from '../utils';
 
 /**
  * Use Table
  */
-export const useTable = ({ data }: { data: PanelData }) => {
+export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; columns?: ColumnConfig[] }) => {
   /**
-   * Table Data
+   * Columns Data
    */
-  const tableData = useMemo(() => {
-    const frame = data.series[0];
+  const columnsData = useMemo((): { frame: DataFrame | null; items: Array<{ config: ColumnConfig; field: Field }> } => {
+    if (!columnsConfig?.[0].field) {
+      return {
+        frame: null,
+        items: [],
+      };
+    }
+
+    const frame = getFrameBySource(data.series, columnsConfig?.[0].field);
 
     /**
      * No Frame
      */
     if (!frame) {
+      return {
+        frame: null,
+        items: [],
+      };
+    }
+
+    const items = columnsConfig
+      .map((config) => ({
+        config,
+        field: frame.fields.find((field) => filterFieldBySource(frame, field, config.field)),
+      }))
+      .filter((item) => !!item.field) as Array<{ config: ColumnConfig; field: Field }>;
+
+    return {
+      frame,
+      items,
+    };
+  }, [columnsConfig, data.series]);
+
+  /**
+   * Table Data
+   */
+  const tableData = useMemo(() => {
+    /**
+     * No frame
+     */
+    if (!columnsData.frame) {
       return [];
     }
 
     const rows = [];
 
-    for (let rowIndex = 0; rowIndex < frame.length; rowIndex += 1) {
-      const row = frame.fields.reduce(
-        (acc, field) => ({
+    for (let rowIndex = 0; rowIndex < columnsData.frame.length; rowIndex += 1) {
+      const row = columnsData.items.reduce(
+        (acc, item) => ({
           ...acc,
-          [field.name]: field.values[rowIndex],
+          [item.field.name]: item.field.values[rowIndex],
         }),
         {}
       );
@@ -36,13 +72,13 @@ export const useTable = ({ data }: { data: PanelData }) => {
     }
 
     return rows;
-  }, [data.series]);
+  }, [columnsData]);
 
   /**
    * Columns
    */
   const columns = useMemo(() => {
-    const frame = data.series[0];
+    const frame = columnsData.frame;
 
     if (!frame) {
       return [];
@@ -50,17 +86,17 @@ export const useTable = ({ data }: { data: PanelData }) => {
 
     const columns: Array<ColumnDef<unknown>> = [];
 
-    for (const field of frame.fields) {
+    for (const column of columnsData.items) {
       columns.push({
-        id: field.name,
-        accessorKey: field.name,
-        header: field.config?.displayName || field.name,
-        cell: (props) => <CellRenderer {...props} field={field} />,
+        id: column.field.name,
+        accessorKey: column.field.name,
+        header: column.config.label || column.field.config?.displayName || column.field.name,
+        cell: (props) => <CellRenderer {...props} config={column.config} field={column.field} />,
       });
     }
 
     return columns;
-  }, [data.series]);
+  }, [columnsData.frame, columnsData.items]);
 
   return useMemo(
     () => ({
