@@ -21,7 +21,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
         flex-direction: column;
         max-width: 100%;
       }
-      padding: ${theme.spacing(0.5)} 0 ${theme.spacing(0.5)} ${theme.spacing(1)};
+      padding: 0;
       border-bottom: 1px solid ${theme.colors.border.weak};
     `,
     toolbarButton: css`

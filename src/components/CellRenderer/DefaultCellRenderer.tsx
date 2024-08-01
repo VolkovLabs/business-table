@@ -1,8 +1,8 @@
-import { Field, FieldConfig } from '@grafana/data';
+import { Field } from '@grafana/data';
 import { FormattedValueDisplay } from '@grafana/ui';
 import React, { ReactElement } from 'react';
 
-import { CellType, FieldSettings } from '../../types';
+import { CellType, ColumnConfig } from '../../types';
 
 /**
  * Properties
@@ -21,6 +21,13 @@ interface Props {
    * @type {Field}
    */
   field: Field;
+
+  /**
+   * Config
+   *
+   * @type {ColumnConfig}
+   */
+  config: ColumnConfig;
 }
 
 /**
@@ -29,13 +36,7 @@ interface Props {
  * @param renderValue
  * @constructor
  */
-export const DefaultCellRenderer: React.FC<Props> = ({ field, value }) => {
-  /**
-   * Field Config
-   */
-  const fieldConfig: FieldConfig<FieldSettings> = field.config;
-  const cellOptions = fieldConfig.custom?.cellOptions;
-
+export const DefaultCellRenderer: React.FC<Props> = ({ field, value, config }) => {
   let formattedValue: typeof value | ReactElement = value;
   let color = 'inherit';
 
@@ -55,7 +56,7 @@ export const DefaultCellRenderer: React.FC<Props> = ({ field, value }) => {
   return (
     <span
       style={{
-        color: cellOptions?.type === CellType.COLORED_TEXT ? color : 'inherit',
+        color: config.type === CellType.COLORED_TEXT ? color : 'inherit',
       }}
     >
       {formattedValue}

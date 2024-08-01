@@ -67,26 +67,30 @@
                 "field": {
                   "name": "country",
                   "source": "A"
-                }
+                },
+                "type": "auto"
               },
               {
                 "field": {
                   "name": "city",
                   "source": "A"
                 },
-                "label": "City"
+                "label": "City",
+                "type": "auto"
               },
               {
                 "field": {
                   "name": "device",
                   "source": "A"
-                }
+                },
+                "type": "auto"
               },
               {
                 "field": {
                   "name": "value",
                   "source": "A"
-                }
+                },
+                "type": "auto"
               }
             ],
             "name": "Country"
@@ -98,14 +102,16 @@
                   "name": "device",
                   "source": "A"
                 },
-                "label": ""
+                "label": "",
+                "type": "auto"
               },
               {
                 "field": {
                   "name": "value",
                   "source": "A"
                 },
-                "label": ""
+                "label": "",
+                "type": "auto"
               }
             ],
             "name": "Value"
@@ -204,6 +210,6 @@
   "timezone": "browser",
   "title": "Groups",
   "uid": "bdthrnadm0tmoc",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }

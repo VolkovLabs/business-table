@@ -1,8 +1,8 @@
 import { DataFrame } from '@grafana/data';
-import { InlineField, Input } from '@grafana/ui';
+import { InlineField, Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
-import { ColumnConfig } from '../../types';
+import { CellType, ColumnConfig } from '../../types';
 import { getFieldBySource } from '../../utils';
 
 /**
@@ -30,9 +30,26 @@ interface Props {
 }
 
 /**
+ * Cell Type Options
+ */
+const cellTypeOptions = [
+  {
+    value: CellType.AUTO,
+    label: 'Auto',
+  },
+  {
+    value: CellType.COLORED_TEXT,
+    label: 'Colored text',
+  },
+];
+
+/**
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
+  /**
+   * Current field
+   */
   const field = useMemo(() => {
     return getFieldBySource(data, value.field);
   }, [data, value.field]);
@@ -41,6 +58,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
     <>
       <InlineField label="Label" grow={true}>
         <Input
+          value={value.label}
           placeholder={field?.config.displayName ?? field?.name}
           onChange={(event) =>
             onChange({
@@ -48,6 +66,18 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
               label: event.currentTarget.value,
             })
           }
+        />
+      </InlineField>
+      <InlineField label="Type" grow={true}>
+        <Select
+          options={cellTypeOptions}
+          value={value.type}
+          onChange={(event) => {
+            onChange({
+              ...value,
+              type: event.value ?? value.type,
+            });
+          }}
         />
       </InlineField>
     </>

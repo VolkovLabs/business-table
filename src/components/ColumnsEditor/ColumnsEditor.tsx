@@ -6,7 +6,7 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '../../constants';
-import { ColumnConfig, FieldSource, Group } from '../../types';
+import { CellType, ColumnConfig, FieldSource, Group } from '../../types';
 import { reorder } from '../../utils';
 import { ColumnEditor } from '../ColumnEditor';
 import { getStyles } from './ColumnsEditor.styles';
@@ -141,6 +141,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
             source: newItem.source,
           },
           label: '',
+          type: CellType.AUTO,
         },
       ]);
       setNewItem(null);
@@ -159,7 +160,6 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      {...provided.dragHandleProps}
                       style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                       className={styles.item}
                       data-testid={TEST_IDS.levelsEditor.item(item.field.name)}
@@ -240,7 +240,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
         </InlineField>
         <Button
           icon="plus"
-          title="Add Level"
+          title="Add Column"
           disabled={!newItem}
           onClick={onAddNewItem}
           data-testid={TEST_IDS.levelsEditor.buttonAddNew}

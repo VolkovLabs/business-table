@@ -64,6 +64,13 @@ export interface ColumnConfig {
    * @type {string}
    */
   label: string;
+
+  /**
+   * Type
+   *
+   * @type {CellType}
+   */
+  type: CellType;
 }
 
 /**

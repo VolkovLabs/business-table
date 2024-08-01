@@ -1,8 +1,8 @@
-import { Field, FieldConfig } from '@grafana/data';
+import { Field } from '@grafana/data';
 import { CellContext } from '@tanstack/react-table';
 import React from 'react';
 
-import { CellType, ColumnConfig, FieldSettings } from '../../types';
+import { CellType, ColumnConfig } from '../../types';
 import { DefaultCellRenderer } from './DefaultCellRenderer';
 
 /**
@@ -26,27 +26,21 @@ interface Props extends CellContext<unknown, unknown> {
 
 /**
  * Cell Renderer
+ * @param config
  * @param field
  * @param renderValue
- * @constructor
  */
-export const CellRenderer: React.FC<Props> = ({ field, renderValue }) => {
-  /**
-   * Field Config
-   */
-  const fieldConfig: FieldConfig<FieldSettings> = field.config;
-  const cellOptions = fieldConfig.custom?.cellOptions;
-
+export const CellRenderer: React.FC<Props> = ({ field, renderValue, config }) => {
   const rawValue = renderValue() as number | string;
-  const cellType = cellOptions?.type || CellType.AUTO;
+  const cellType = config.type || CellType.AUTO;
 
   switch (cellType) {
     case CellType.AUTO:
     case CellType.COLORED_TEXT: {
-      return <DefaultCellRenderer value={rawValue} field={field} />;
+      return <DefaultCellRenderer value={rawValue} field={field} config={config} />;
     }
     default: {
-      return <DefaultCellRenderer value={rawValue} field={field} />;
+      return <DefaultCellRenderer value={rawValue} field={field} config={config} />;
     }
   }
 };
