@@ -11,8 +11,8 @@ import {
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { RefObject, useCallback, useMemo, useState } from 'react';
-import { TEST_IDS } from '../../constants';
 
+import { TEST_IDS } from '../../constants';
 import { getStyles } from './Table.styles';
 
 /**

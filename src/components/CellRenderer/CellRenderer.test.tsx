@@ -1,10 +1,10 @@
-import React from 'react';
 import { render } from '@testing-library/react';
+import React from 'react';
 
-import { CellRenderer } from './CellRenderer';
-import { DefaultCellRenderer } from './DefaultCellRenderer';
 import { CellType } from '../../types';
 import { createColumnConfig } from '../../utils';
+import { CellRenderer } from './CellRenderer';
+import { DefaultCellRenderer } from './DefaultCellRenderer';
 
 type Props = React.ComponentProps<typeof CellRenderer>;
 

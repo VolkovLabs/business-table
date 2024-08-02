@@ -2,6 +2,7 @@ import { toDataFrame } from '@grafana/data';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
+
 import { TEST_IDS } from '../../constants';
 import { CellAggregation, CellType } from '../../types';
 import { createColumnConfig } from '../../utils';

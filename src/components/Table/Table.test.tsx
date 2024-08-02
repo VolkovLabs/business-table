@@ -1,8 +1,9 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
+import React, { useRef } from 'react';
+
 import { TEST_IDS } from '../../constants';
 import { Table } from './Table';
-import React, { useRef } from 'react';
 
 type Props = React.ComponentProps<typeof Table>;
 
@@ -34,7 +35,7 @@ describe('Table', () => {
     return <Wrapper columns={[]} data={[]} {...(props as any)} />;
   };
 
-  const getDOMRect = (width: number, height: number) => ({
+  const getDomRect = (width: number, height: number) => ({
     width,
     height,
     top: 0,
@@ -43,7 +44,6 @@ describe('Table', () => {
     right: 0,
     x: 0,
     y: 0,
-    toJSON: () => {},
   });
 
   /**
@@ -51,7 +51,7 @@ describe('Table', () => {
    */
   beforeEach(() => {
     Element.prototype.getBoundingClientRect = jest.fn(function () {
-      return getDOMRect(500, 500);
+      return getDomRect(500, 500) as any;
     });
   });
 

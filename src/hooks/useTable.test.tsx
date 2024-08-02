@@ -1,5 +1,6 @@
 import { toDataFrame } from '@grafana/data';
 import { renderHook } from '@testing-library/react';
+
 import { CellAggregation } from '../types';
 import { createColumnConfig } from '../utils';
 import { useTable } from './useTable';
@@ -191,6 +192,6 @@ describe('useTable', () => {
     /**
      * Check if none aggregation returns nothing
      */
-    expect((result.current.columns[1].aggregationFn as Function)()).toBeNull();
+    expect((result.current.columns[1].aggregationFn as () => null)()).toBeNull();
   });
 });

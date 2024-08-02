@@ -2,10 +2,10 @@ import { createTheme, ThresholdsMode } from '@grafana/data';
 import { render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
+
 import { TEST_IDS } from '../../constants';
 import { CellType } from '../../types';
-import { createField, createColumnConfig } from '../../utils';
-
+import { createColumnConfig,createField } from '../../utils';
 import { DefaultCellRenderer } from './DefaultCellRenderer';
 
 type Props = React.ComponentProps<typeof DefaultCellRenderer>;

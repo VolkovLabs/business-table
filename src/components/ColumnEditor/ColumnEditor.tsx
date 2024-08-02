@@ -1,8 +1,8 @@
 import { DataFrame } from '@grafana/data';
 import { InlineField, InlineSwitch, Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
-import { TEST_IDS } from '../../constants';
 
+import { TEST_IDS } from '../../constants';
 import { CellAggregation, CellType, ColumnConfig } from '../../types';
 import { getFieldBySource } from '../../utils';
 
