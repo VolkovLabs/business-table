@@ -15,7 +15,7 @@
     "tslib": "^2.6.3",
     "uuid": "^10.0.0"
   },
-  "description": "Business Table Panel for Grafana",
+  "description": "Summarize large amounts of data",
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@grafana/eslint-config": "^7.0.0",
@@ -58,7 +58,7 @@
     "node": ">=20"
   },
   "license": "Apache-2.0",
-  "name": "volkovlabs-table-panel",
+  "name": "business-table",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",

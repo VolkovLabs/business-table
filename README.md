@@ -1,12 +1,12 @@
-# Business Table panel for Grafana
+# Business Table for Grafana
 
-![Table](https://github.com/VolkovLabs/volkovlabs-table-panel/raw/main/src/img/dashboard.png)
+![Table](https://github.com/VolkovLabs/business-table/raw/main/src/img/dashboard.png)
 
 ![Grafana](https://img.shields.io/badge/Grafana-11.1-orange)
-![CI](https://github.com/volkovlabs/volkovlabs-table-panel/workflows/CI/badge.svg)
-![E2E](https://github.com/volkovlabs/volkovlabs-table-panel/workflows/E2E/badge.svg)
-[![codecov](https://codecov.io/gh/VolkovLabs/volkovlabs-table-panel/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/volkovlabs-table-panel)
-[![CodeQL](https://github.com/VolkovLabs/volkovlabs-table-panel/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/volkovlabs-table-panel/actions/workflows/codeql-analysis.yml)
+![CI](https://github.com/volkovlabs/business-table/workflows/CI/badge.svg)
+![E2E](https://github.com/volkovlabs/business-table/workflows/E2E/badge.svg)
+[![codecov](https://codecov.io/gh/VolkovLabs/business-table/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/business-table)
+[![CodeQL](https://github.com/VolkovLabs/business-table/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/business-table/actions/workflows/codeql-analysis.yml)
 
 ## Introduction
 
@@ -14,9 +14,9 @@ Business Table panel is a Grafana plugin that allows to summarize large amounts 
 
 ## Requirements
 
-- Business Table Panel 1.X requires **Grafana 10** or **Grafana 11**.
+- Business Table panel 1.X requires **Grafana 10** or **Grafana 11**.
 
-You can install the Business Table Panel plugin from the [Grafana Plugins catalog](https://grafana.com/grafana/plugins/volkovlabs-table-panel/) or use the Grafana command line tool.
+You can install the Business Table panel plugin from the [Grafana Plugins catalog](https://grafana.com/grafana/plugins/volkovlabs-table-panel/) or use the Grafana command line tool.
 
 For the latter, please use the following command:
 
@@ -26,7 +26,9 @@ grafana-cli plugins install volkovlabs-table-panel
 
 ## Highlights
 
-- Summarizes large amounts of data.
+- Tree View with expandable and collapsible elements.
+- Supporting tabs for multiple data frame views.
+- Summarizing a large amount of data.
 
 ## Business Suite for Grafana
 
@@ -40,11 +42,11 @@ The collection aims to solve the most frequent business tasks by providing an in
 
 We're looking forward to hearing from you. You can use different ways to get in touch with us.
 
-- Ask a question, request a new feature, or report an issue at [GitHub issues](https://github.com/volkovlabs/volkovlabs-table-panel/issues).
+- Ask a question, request a new feature, or report an issue at [GitHub issues](https://github.com/volkovlabs/business-table/issues).
 - Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and leave your comments.
 - Sponsor our open-source plugins for Grafana at [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
 - Support our project by starring the repository.
 
 ## License
 
-Apache License Version 2.0, see [LICENSE](https://github.com/volkovlabs/volkovlabs-table-panel/blob/main/LICENSE).
+Apache License Version 2.0, see [LICENSE](https://github.com/volkovlabs/business-table/blob/main/LICENSE).
