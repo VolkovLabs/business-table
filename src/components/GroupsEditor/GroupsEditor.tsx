@@ -192,7 +192,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                       onCancelEdit();
                                     }
                                   }}
-                                  data-testid={TEST_IDS.groupsEditor.fieldName}
+                                  {...TEST_IDS.groupsEditor.fieldName.apply()}
                                 />
                               </InlineField>
                               <Button
@@ -202,7 +202,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                 icon="times"
                                 size="sm"
                                 onClick={onCancelEdit}
-                                data-testid={TEST_IDS.groupsEditor.buttonCancelRename}
+                                {...TEST_IDS.groupsEditor.buttonCancelRename.apply()}
                               />
                               <Button
                                 variant="secondary"
@@ -215,14 +215,14 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                 tooltip={
                                   isUpdatedNameValid ? '' : 'Name is empty or group with the same name already exists.'
                                 }
-                                data-testid={TEST_IDS.groupsEditor.buttonSaveRename}
+                                {...TEST_IDS.groupsEditor.buttonSaveRename.apply()}
                               />
                             </div>
                           ) : (
                             <div className={cx(styles.groupHeader, styles.groupHeaderText)}>{name}</div>
                           )
                         }
-                        headerTestId={TEST_IDS.groupsEditor.item(name)}
+                        headerTestId={TEST_IDS.groupsEditor.item.selector(name)}
                         actions={
                           <>
                             {editItem !== name && (
@@ -239,7 +239,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                   setEditName(name);
                                   setEditItem(name);
                                 }}
-                                data-testid={TEST_IDS.groupsEditor.buttonStartRename}
+                                {...TEST_IDS.groupsEditor.buttonStartRename.apply()}
                               />
                             )}
                             <Button
@@ -254,7 +254,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                  */
                                 onChangeItems(items.filter((item) => item.name !== name));
                               }}
-                              data-testid={TEST_IDS.groupsEditor.buttonRemove}
+                              {...TEST_IDS.groupsEditor.buttonRemove.apply()}
                             />
                             <div className={styles.dragHandle} {...provided.dragHandleProps}>
                               <Icon name="draggabledots" className={styles.dragIcon} />
@@ -276,7 +276,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
         </Droppable>
       </DragDropContext>
 
-      <InlineFieldRow className={styles.newGroup} data-testid={TEST_IDS.groupsEditor.newItem}>
+      <InlineFieldRow className={styles.newGroup} {...TEST_IDS.groupsEditor.newItem.apply()}>
         <InlineField
           label="New Group"
           grow={true}
@@ -287,7 +287,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
             placeholder="Unique name"
             value={newGroup}
             onChange={(event) => setNewGroup(event.currentTarget.value.trim())}
-            data-testid={TEST_IDS.groupsEditor.newItemName}
+            {...TEST_IDS.groupsEditor.newItemName.apply()}
           />
         </InlineField>
         <Button
@@ -295,7 +295,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
           title="Add Group"
           disabled={!newGroup || isNameExistsError}
           onClick={onAddNewGroup}
-          data-testid={TEST_IDS.groupsEditor.buttonAddNew}
+          {...TEST_IDS.groupsEditor.buttonAddNew.apply()}
         >
           Add
         </Button>

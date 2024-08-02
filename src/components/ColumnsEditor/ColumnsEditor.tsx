@@ -151,7 +151,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
   }, [items, newItem, onChangeItems]);
 
   return (
-    <div data-testid={TEST_IDS.columnsEditor.root}>
+    <div {...TEST_IDS.columnsEditor.root.apply()}>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={name}>
           {(provided) => (
@@ -164,9 +164,10 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                       {...provided.draggableProps}
                       style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                       className={styles.item}
-                      data-testid={TEST_IDS.columnsEditor.item(item.field.name)}
                     >
                       <Collapse
+                        headerTestId={TEST_IDS.columnsEditor.itemHeader.selector(item.field.name)}
+                        contentTestId={TEST_IDS.columnsEditor.itemContent.selector(item.field.name)}
                         fill="solid"
                         title={
                           <>
@@ -188,7 +189,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                                 onChangeItems(items.filter((column) => column.field.name !== item.field.name))
                               }
                               aria-label="Remove"
-                              data-testid={TEST_IDS.columnsEditor.buttonRemove}
+                              {...TEST_IDS.columnsEditor.buttonRemove.apply()}
                             />
                             <div className={styles.dragHandle} {...provided.dragHandleProps}>
                               <Icon
@@ -228,12 +229,12 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
         </Droppable>
       </DragDropContext>
 
-      <InlineFieldRow data-testid={TEST_IDS.columnsEditor.newItem}>
+      <InlineFieldRow {...TEST_IDS.columnsEditor.newItem.apply()}>
         <InlineField label="New Column" grow={true}>
           <Select
             options={availableFieldOptions}
             value={newItem?.value || null}
-            data-testid={TEST_IDS.columnsEditor.newItemName}
+            {...TEST_IDS.columnsEditor.newItemName.apply()}
             onChange={(event) => {
               setNewItem({
                 value: event.value,
@@ -248,7 +249,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           title="Add Column"
           disabled={!newItem}
           onClick={onAddNewItem}
-          data-testid={TEST_IDS.columnsEditor.buttonAddNew}
+          {...TEST_IDS.columnsEditor.buttonAddNew.apply()}
         >
           Add
         </Button>

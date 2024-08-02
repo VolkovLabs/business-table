@@ -92,7 +92,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options }
    */
   return (
     <div
-      data-testid={TEST_IDS.panel.root}
+      {...TEST_IDS.panel.root.apply()}
       className={styles.root}
       style={{
         width,
@@ -121,6 +121,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options }
                   style={{
                     maxWidth: index === 0 ? width - 60 : undefined,
                   }}
+                  {...TEST_IDS.panel.tab.apply(group.name)}
                 >
                   {group.name}
                 </ToolbarButton>

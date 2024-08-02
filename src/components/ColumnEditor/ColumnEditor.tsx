@@ -1,8 +1,9 @@
 import { DataFrame } from '@grafana/data';
-import { InlineField, InlineSwitch,Input, Select } from '@grafana/ui';
+import { InlineField, InlineSwitch, Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
+import { TEST_IDS } from '../../constants';
 
-import { CellAggregation,CellType, ColumnConfig } from '../../types';
+import { CellAggregation, CellType, ColumnConfig } from '../../types';
 import { getFieldBySource } from '../../utils';
 
 /**
@@ -112,6 +113,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
               label: event.currentTarget.value,
             })
           }
+          {...TEST_IDS.columnEditor.fieldLabel.apply()}
         />
       </InlineField>
       <InlineField label="Type" grow={true}>
@@ -121,9 +123,10 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
           onChange={(event) => {
             onChange({
               ...value,
-              type: event.value ?? value.type,
+              type: event.value!,
             });
           }}
+          {...TEST_IDS.columnEditor.fieldType.apply()}
         />
       </InlineField>
       <InlineField label="Group" grow={true}>
@@ -135,6 +138,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
               group: event.currentTarget.checked,
             })
           }
+          {...TEST_IDS.columnEditor.fieldGroup.apply()}
         />
       </InlineField>
       {!value.group && (
@@ -145,9 +149,10 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
             onChange={(event) => {
               onChange({
                 ...value,
-                aggregation: event.value ?? value.aggregation,
+                aggregation: event.value!,
               });
             }}
+            {...TEST_IDS.columnEditor.fieldAggregation.apply()}
           />
         </InlineField>
       )}

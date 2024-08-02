@@ -2,6 +2,7 @@ import { Field } from '@grafana/data';
 import { FormattedValueDisplay } from '@grafana/ui';
 import React, { ReactElement } from 'react';
 
+import { TEST_IDS } from '../../constants';
 import { CellType, ColumnConfig } from '../../types';
 
 /**
@@ -55,6 +56,7 @@ export const DefaultCellRenderer: React.FC<Props> = ({ field, value, config }) =
 
   return (
     <span
+      {...TEST_IDS.defaultCellRenderer.root.apply()}
       style={{
         color: config.type === CellType.COLORED_TEXT ? color : 'inherit',
       }}

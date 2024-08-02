@@ -16,25 +16,10 @@ type Props = React.ComponentProps<typeof GroupsEditor>;
 /**
  * Mock LevelsEditor
  */
-jest.mock('../ColumnsEditor', () => ({
-  ColumnsEditor: jest.fn(() => <div data-testid={TEST_IDS.columnsEditor.root} />),
-}));
+const ColumnsEditorMock = () => <div {...TEST_IDS.columnsEditor.root.apply()} />;
 
-/**
- * Mock react-beautiful-dnd
- */
-jest.mock('@hello-pangea/dnd', () => ({
-  ...jest.requireActual('@hello-pangea/dnd'),
-  DragDropContext: jest.fn(({ children }) => children),
-  Droppable: jest.fn(({ children }) => children({})),
-  Draggable: jest.fn(({ children }) =>
-    children(
-      {
-        draggableProps: {},
-      },
-      {}
-    )
-  ),
+jest.mock('../ColumnsEditor', () => ({
+  ColumnsEditor: jest.fn(() => ColumnsEditorMock()),
 }));
 
 /**
@@ -89,6 +74,10 @@ describe('GroupsEditor', () => {
    */
   const getLevelsSelectors = getJestSelectors(TEST_IDS.columnsEditor);
   const levelsSelectors = getLevelsSelectors(screen);
+
+  beforeEach(() => {
+    jest.mocked(ColumnsEditor).mockImplementation(ColumnsEditorMock);
+  });
 
   it('Should render groups', () => {
     render(

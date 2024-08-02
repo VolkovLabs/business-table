@@ -19,16 +19,13 @@ export const reorder = <T>(list: T[], startIndex: number, endIndex: number) => {
 
 /**
  * Filter field by source
+ * Frame should be already filtered
  * @param frame
  * @param field
  * @param fieldSource
  */
 export const filterFieldBySource = (frame: DataFrame, field: Field, fieldSource: FieldSource): boolean => {
-  if (fieldSource.source && typeof fieldSource.source === 'string') {
-    return fieldSource.source === frame.refId && field.name === fieldSource.name;
-  }
-
-  return false;
+  return field.name === fieldSource.name;
 };
 
 /**

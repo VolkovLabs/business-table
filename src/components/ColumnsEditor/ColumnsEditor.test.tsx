@@ -2,62 +2,51 @@ import { toDataFrame } from '@grafana/data';
 import { Select } from '@grafana/ui';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
-import { getJestSelectors } from '@volkovlabs/jest-selectors';
+import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '../../constants';
-import { CellAggregation, CellType, ColumnConfig } from '../../types';
+import { createColumnConfig } from '../../utils';
+import { ColumnEditor } from '../ColumnEditor';
 import { ColumnsEditor } from './ColumnsEditor';
-
-/**
- * Mock react-beautiful-dnd
- */
-jest.mock('@hello-pangea/dnd', () => ({
-  ...jest.requireActual('@hello-pangea/dnd'),
-  DragDropContext: jest.fn(({ children }) => children),
-  Droppable: jest.fn(({ children }) => children({})),
-  Draggable: jest.fn(({ children }) =>
-    children(
-      {
-        draggableProps: {},
-      },
-      {}
-    )
-  ),
-}));
 
 /**
  * Props
  */
 type Props = React.ComponentProps<typeof ColumnsEditor>;
 
+const InTestIds = {
+  columnEditor: createSelector('data-testid column-editor'),
+};
+
+/**
+ * Mock Column Editor
+ */
+const ColumnEditorMock = ({ value, onChange }: any) => (
+  <input
+    {...InTestIds.columnEditor.apply()}
+    onChange={() => {
+      onChange(value);
+    }}
+  />
+);
+
+jest.mock('../ColumnEditor', () => ({
+  ColumnEditor: jest.fn(),
+}));
+
 describe('ColumnsEditor', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(TEST_IDS.columnsEditor);
+  const getSelectors = getJestSelectors({ ...TEST_IDS.columnsEditor, ...InTestIds });
   const selectors = getSelectors(screen);
 
   /**
    * Get Tested Component
    * @param props
    */
-  const getComponent = (props: Partial<Props>) => <ColumnsEditor name="Default" {...(props as any)} />;
-
-  /**
-   * Create Item
-   */
-  const createItem = (item: Partial<ColumnConfig>): ColumnConfig => ({
-    field: {
-      name: 'field',
-      source: 'A',
-    },
-    label: '',
-    type: CellType.AUTO,
-    group: false,
-    aggregation: CellAggregation.NONE,
-    ...item,
-  });
+  const getComponent = (props: Partial<Props>) => <ColumnsEditor name="Default" data={[]} {...(props as any)} />;
 
   /**
    * Data Frame A
@@ -91,6 +80,7 @@ describe('ColumnsEditor', () => {
 
   beforeEach(() => {
     jest.mocked(Select).mockClear();
+    jest.mocked(ColumnEditor).mockImplementation(ColumnEditorMock);
   });
 
   it('Should render items', () => {
@@ -98,18 +88,18 @@ describe('ColumnsEditor', () => {
       getComponent({
         data: [dataFrameA],
         items: [
-          createItem({
+          createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
-          createItem({
+          createColumnConfig({
             field: { name: 'field2', source: 'A' },
           }),
         ],
       })
     );
 
-    expect(selectors.item(false, 'field1')).toBeInTheDocument();
-    expect(selectors.item(false, 'field2')).toBeInTheDocument();
+    expect(selectors.itemHeader(false, 'field1')).toBeInTheDocument();
+    expect(selectors.itemHeader(false, 'field2')).toBeInTheDocument();
   });
 
   it('Should allow select any fields', () => {
@@ -208,7 +198,7 @@ describe('ColumnsEditor', () => {
       getComponent({
         data: [dataFrameA, dataFrameB],
         items: [
-          createItem({
+          createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
         ],
@@ -244,7 +234,7 @@ describe('ColumnsEditor', () => {
           },
         ],
         items: [
-          createItem({
+          createColumnConfig({
             field: { name: 'field1', source: 0 },
           }),
         ],
@@ -274,8 +264,9 @@ describe('ColumnsEditor', () => {
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
         items: [
-          createItem({
+          createColumnConfig({
             field: { name: 'field1', source: 'A' },
+            group: true,
           }),
         ],
         onChange,
@@ -292,8 +283,8 @@ describe('ColumnsEditor', () => {
     expect(onChange).toHaveBeenCalledWith({
       name: 'Group 1',
       items: [
-        createItem({ field: { name: 'field1', source: 'A' } }),
-        createItem({ field: { name: 'field2', source: 'A' } }),
+        createColumnConfig({ field: { name: 'field1', source: 'A' }, group: true }),
+        createColumnConfig({ field: { name: 'field2', source: 'A' } }),
       ],
     });
   });
@@ -306,10 +297,10 @@ describe('ColumnsEditor', () => {
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
         items: [
-          createItem({
+          createColumnConfig({
             field: { name: 'field2', source: 'A' },
           }),
-          createItem({
+          createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
         ],
@@ -317,7 +308,7 @@ describe('ColumnsEditor', () => {
       })
     );
 
-    const field2 = selectors.item(false, 'field2');
+    const field2 = selectors.itemHeader(false, 'field2');
 
     /**
      * Check field presence
@@ -331,7 +322,7 @@ describe('ColumnsEditor', () => {
 
     expect(onChange).toHaveBeenCalledWith({
       name: 'Group 1',
-      items: [createItem({ field: { name: 'field1', source: 'A' } })],
+      items: [createColumnConfig({ field: { name: 'field1', source: 'A' } })],
     });
   });
 
@@ -341,7 +332,7 @@ describe('ColumnsEditor', () => {
         data: [dataFrameB],
         name: 'Group 1',
         items: [
-          createItem({
+          createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
         ],
@@ -364,10 +355,10 @@ describe('ColumnsEditor', () => {
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
         items: [
-          createItem({
+          createColumnConfig({
             field: { name: 'field2', source: 'A' },
           }),
-          createItem({
+          createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
         ],
@@ -392,8 +383,8 @@ describe('ColumnsEditor', () => {
     expect(onChange).toHaveBeenCalledWith({
       name: 'Group 1',
       items: [
-        createItem({ field: { name: 'field1', source: 'A' } }),
-        createItem({ field: { name: 'field2', source: 'A' } }),
+        createColumnConfig({ field: { name: 'field1', source: 'A' } }),
+        createColumnConfig({ field: { name: 'field2', source: 'A' } }),
       ],
     });
   });
@@ -411,10 +402,10 @@ describe('ColumnsEditor', () => {
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
         items: [
-          createItem({
+          createColumnConfig({
             field: { name: 'field2', source: 'A' },
           }),
-          createItem({
+          createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
         ],
@@ -435,5 +426,57 @@ describe('ColumnsEditor', () => {
     );
 
     expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('Should expand item content', () => {
+    render(
+      getComponent({
+        items: [createColumnConfig({ field: { name: 'field1', source: 'a' } })],
+      })
+    );
+
+    expect(selectors.itemHeader(false, 'field1')).toBeInTheDocument();
+    expect(selectors.itemContent(true, 'field1')).not.toBeInTheDocument();
+
+    /**
+     * Expand
+     */
+    fireEvent.click(selectors.itemHeader(false, 'field1'));
+
+    expect(selectors.itemContent(false, 'field1')).toBeInTheDocument();
+  });
+
+  it('Should allow to change item', () => {
+    const onChange = jest.fn();
+
+    render(
+      getComponent({
+        items: [
+          createColumnConfig({ field: { name: 'field1', source: 'a' } }),
+          createColumnConfig({ field: { name: 'field2', source: 'a' } }),
+        ],
+        onChange,
+      })
+    );
+
+    /**
+     * Expand
+     */
+    fireEvent.click(selectors.itemHeader(false, 'field1'));
+
+    expect(selectors.columnEditor()).toBeInTheDocument();
+
+    /**
+     * Simulate change
+     */
+    fireEvent.change(selectors.columnEditor(), { target: { value: 'abc' } });
+
+    expect(onChange).toHaveBeenCalledWith({
+      name: 'Default',
+      items: [
+        createColumnConfig({ field: { name: 'field1', source: 'a' } }),
+        createColumnConfig({ field: { name: 'field2', source: 'a' } }),
+      ],
+    });
   });
 });

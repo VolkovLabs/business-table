@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { IconButton,useStyles2 } from '@grafana/ui';
+import { IconButton, useStyles2 } from '@grafana/ui';
 import {
   ColumnDef,
   ExpandedState,
@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { RefObject, useCallback, useMemo, useState } from 'react';
+import { TEST_IDS } from '../../constants';
 
 import { getStyles } from './Table.styles';
 
@@ -120,7 +121,7 @@ export const Table = <TData,>({
   const virtualRows = rowVirtualizer.getVirtualItems();
 
   return (
-    <table className={styles.table} ref={tableRef}>
+    <table className={styles.table} ref={tableRef} {...TEST_IDS.table.root.apply()}>
       <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id} className={styles.headerRow}>
@@ -131,6 +132,7 @@ export const Table = <TData,>({
                 style={{
                   width: header.getSize(),
                 }}
+                {...TEST_IDS.table.headerCell.apply(header.id)}
               >
                 {flexRender(header.column.columnDef.header, header.getContext())}
               </th>
@@ -167,11 +169,12 @@ export const Table = <TData,>({
                     width: cell.column.getSize(),
                   }}
                   onClick={row.getToggleExpandedHandler()}
+                  {...TEST_IDS.table.bodyCell.apply(cell.id)}
                 >
                   {cell.getIsGrouped() && (
                     <IconButton
                       name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
-                      aria-label=""
+                      aria-label={TEST_IDS.table.buttonExpandCell.selector(cell.id)}
                       className={styles.expandButton}
                     />
                   )}
