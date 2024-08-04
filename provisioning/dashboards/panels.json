@@ -34,11 +34,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "cellOptions": {
-              "type": "auto"
-            }
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -58,14 +53,57 @@
       },
       "gridPos": {
         "h": 13,
-        "w": 12,
+        "w": 11,
         "x": 0,
         "y": 0
       },
       "id": 6,
       "options": {
         "columnMode": "auto",
-        "columns": []
+        "columns": [],
+        "groups": [
+          {
+            "items": [
+              {
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "field": {
+                  "name": "json",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              }
+            ],
+            "name": "Main"
+          }
+        ]
       },
       "targets": [
         {
@@ -79,41 +117,25 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3
-                ]
+                "values": [1, 2, 3]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": [
-                  "Device 1",
-                  "Device 2",
-                  "Device 3"
-                ]
+                "values": ["Device 1", "Device 2", "Device 3"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  20
-                ]
+                "values": [10, 15, 20]
               },
               {
                 "config": {},
                 "name": "json",
                 "type": "string",
-                "values": [
-                  "{ \"name\": \"Device1\" }",
-                  "{ \"name\": \"Device2\" }",
-                  "{ \"name\": \"Device3\" }"
-                ]
+                "values": ["{ \"name\": \"Device1\" }", "{ \"name\": \"Device2\" }", "{ \"name\": \"Device3\" }"]
               }
             ],
             "meta": {},
@@ -150,13 +172,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {
-            "align": "auto",
-            "cellOptions": {
-              "type": "auto"
-            },
-            "inspect": false
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -176,24 +191,76 @@
       },
       "gridPos": {
         "h": 13,
-        "w": 12,
-        "x": 12,
+        "w": 13,
+        "x": 11,
         "y": 0
       },
-      "id": 7,
+      "id": 10,
       "options": {
-        "cellHeight": "sm",
-        "footer": {
-          "countRows": false,
-          "fields": "",
-          "reducer": [
-            "sum"
-          ],
-          "show": false
-        },
-        "showHeader": true
+        "groups": [
+          {
+            "items": [
+              {
+                "field": {
+                  "name": "country",
+                  "source": "A"
+                },
+                "group": true,
+                "type": "auto"
+              },
+              {
+                "field": {
+                  "name": "city",
+                  "source": "A"
+                },
+                "group": true,
+                "label": "City",
+                "type": "auto"
+              },
+              {
+                "aggregation": "count",
+                "field": {
+                  "name": "device",
+                  "source": "A"
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "sum",
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "type": "auto"
+              }
+            ],
+            "name": "Country"
+          },
+          {
+            "items": [
+              {
+                "field": {
+                  "name": "device",
+                  "source": "A"
+                },
+                "group": true,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "aggregation": "max",
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "label": "",
+                "type": "auto"
+              }
+            ],
+            "name": "Value"
+          }
+        ]
       },
-      "pluginVersion": "11.1.0",
       "targets": [
         {
           "datasource": {
@@ -204,43 +271,37 @@
             "fields": [
               {
                 "config": {},
-                "name": "id",
-                "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3
-                ]
+                "name": "country",
+                "type": "string",
+                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
               },
               {
                 "config": {},
-                "name": "name",
+                "name": "city",
+                "type": "string",
+                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+              },
+              {
+                "config": {},
+                "name": "device",
                 "type": "string",
                 "values": [
-                  "Device 1",
-                  "Device 2",
-                  "Device 3"
+                  "device 1",
+                  "device 2",
+                  "device 2",
+                  "device 3",
+                  "device 3",
+                  "device 4",
+                  "device 4",
+                  "device 5",
+                  "device 5"
                 ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  20,
-                  30
-                ]
-              },
-              {
-                "config": {},
-                "name": "json",
-                "type": "string",
-                "values": [
-                  "{ \"name\": \"Device1\" }",
-                  "{ \"name\": \"Device2\" }",
-                  "{ \"name\": \"Device3\" }"
-                ]
+                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
               }
             ],
             "meta": {}
@@ -248,8 +309,21 @@
           "refId": "A"
         }
       ],
-      "title": "Grafana Table",
-      "type": "table"
+      "title": "Groups",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "country": "Country"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
     },
     {
       "datasource": {
@@ -258,11 +332,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "custom": {
-            "cellOptions": {
-              "type": "auto"
-            }
-          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -289,7 +358,34 @@
       "id": 8,
       "options": {
         "columnMode": "auto",
-        "columns": []
+        "columns": [],
+        "groups": [
+          {
+            "items": [
+              {
+                "aggregation": "none",
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "group": true,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "aggregation": "count",
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              }
+            ],
+            "name": "123"
+          }
+        ]
       },
       "targets": [
         {
@@ -314,7 +410,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const array = Array.from({ length: 50000 }, (_, i) => i + 1)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: array.map((row) => field.name === 'id' ? row : `Device ${row}`)\n  }))\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const array = Array.from({ length: 50000 }, (_, i) => i + 1)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: array.map((row) => field.name === 'id' ? row : `Device ${Math.floor(Math.random() * 10)}`)\n  }))\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -323,6 +419,19 @@
         }
       ],
       "title": "50k rows",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "name"
+              }
+            ]
+          }
+        }
+      ],
       "type": "volkovlabs-table-panel"
     }
   ],
@@ -340,6 +449,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
 }

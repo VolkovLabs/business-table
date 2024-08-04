@@ -31,6 +31,10 @@ export const getStyles = (theme: GrafanaTheme2) => {
       height: ${theme.spacing(3.5)};
       align-items: center;
       padding: ${theme.spacing(0.75)};
+
+      &:not(:last-child) {
+        border-right: 1px solid ${borderColor};
+      }
     `,
     body: css`
       display: grid;
@@ -54,6 +58,13 @@ export const getStyles = (theme: GrafanaTheme2) => {
       &:not(:last-child) {
         border-right: 1px solid ${borderColor};
       }
+    `,
+    cellExpandable: css`
+      cursor: pointer;
+      border-right: none !important;
+    `,
+    expandButton: css`
+      margin-right: ${theme.spacing(1)};
     `,
   };
 };

@@ -1,8 +1,18 @@
-import { useStyles2 } from '@grafana/ui';
-import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { cx } from '@emotion/css';
+import { IconButton, useStyles2 } from '@grafana/ui';
+import {
+  ColumnDef,
+  ExpandedState,
+  flexRender,
+  getCoreRowModel,
+  getExpandedRowModel,
+  getGroupedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import React, { useCallback, useRef } from 'react';
+import React, { RefObject, useCallback, useMemo, useState } from 'react';
 
+import { TEST_IDS } from '../../constants';
 import { getStyles } from './Table.styles';
 
 /**
@@ -20,34 +30,72 @@ interface Props<TData> {
   columns: Array<ColumnDef<TData>>;
 
   /**
-   * Height
+   * Table Ref
+   */
+  tableRef?: RefObject<HTMLTableElement>;
+
+  /**
+   * Table Header Ref
+   */
+  tableHeaderRef: RefObject<HTMLTableSectionElement>;
+
+  /**
+   * Top Offset
    *
    * @type {number}
    */
-  height: number;
+  topOffset?: number;
+
+  /**
+   * Scrollable Container Ref
+   */
+  scrollableContainerRef: RefObject<HTMLDivElement>;
 }
 
 /**
  * Table
  */
-export const Table = <TData,>({ data, columns, height }: Props<TData>) => {
+export const Table = <TData,>({
+  data,
+  columns,
+  scrollableContainerRef,
+  tableHeaderRef,
+  tableRef,
+  topOffset,
+}: Props<TData>) => {
   /**
    * Styles
    */
   const styles = useStyles2(getStyles);
 
   /**
-   * Ref
+   * Grouping
    */
-  const rootRef = useRef<HTMLDivElement>(null);
+  const grouping = useMemo(() => {
+    return columns.filter((column) => column.enableGrouping).map((columnWithGrouping) => columnWithGrouping.id || '');
+  }, [columns]);
+
+  /**
+   * Expanded
+   */
+  const [expanded, setExpanded] = useState<ExpandedState>({});
 
   /**
    * React Table
    */
   const table = useReactTable({
+    state: {
+      grouping,
+      expanded,
+    },
     data,
     getCoreRowModel: getCoreRowModel(),
+    getGroupedRowModel: getGroupedRowModel(),
+    getExpandedRowModel: getExpandedRowModel(),
+    onExpandedChange: setExpanded,
     columns,
+    enableExpanding: true,
+    enableGrouping: true,
   });
 
   /**
@@ -60,7 +108,7 @@ export const Table = <TData,>({ data, columns, height }: Props<TData>) => {
    * Options description - https://tanstack.com/virtual/v3/docs/api/virtualizer
    */
   const rowVirtualizer = useVirtualizer({
-    getScrollElement: () => rootRef.current,
+    getScrollElement: useCallback(() => scrollableContainerRef.current, [scrollableContainerRef]),
     count: rows.length,
     estimateSize: useCallback(() => 36, []),
     measureElement: useCallback((el: HTMLElement | HTMLTableRowElement) => el.offsetHeight, []),
@@ -73,60 +121,77 @@ export const Table = <TData,>({ data, columns, height }: Props<TData>) => {
   const virtualRows = rowVirtualizer.getVirtualItems();
 
   return (
-    <div ref={rootRef} className={styles.root} style={{ height }}>
-      <table className={styles.table}>
-        <thead className={styles.header}>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className={styles.headerRow}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className={styles.headerCell}
+    <table className={styles.table} ref={tableRef} {...TEST_IDS.table.root.apply()}>
+      <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
+        {table.getHeaderGroups().map((headerGroup) => (
+          <tr key={headerGroup.id} className={styles.headerRow}>
+            {headerGroup.headers.map((header) => (
+              <th
+                key={header.id}
+                className={styles.headerCell}
+                style={{
+                  width: header.getSize(),
+                }}
+                {...TEST_IDS.table.headerCell.apply(header.id)}
+              >
+                {flexRender(header.column.columnDef.header, header.getContext())}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody
+        style={{
+          height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
+        }}
+        className={styles.body}
+      >
+        {virtualRows.map((virtualRow) => {
+          const row = rows[virtualRow.index];
+
+          return (
+            <tr
+              data-index={virtualRow.index}
+              key={row.id}
+              className={styles.row}
+              ref={rowVirtualizer.measureElement}
+              style={{
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  key={cell.id}
+                  className={cx(styles.cell, {
+                    [styles.cellExpandable]: row.getCanExpand(),
+                  })}
                   style={{
-                    width: header.getSize(),
+                    width: cell.column.getSize(),
                   }}
+                  onClick={row.getToggleExpandedHandler()}
+                  {...TEST_IDS.table.bodyCell.apply(cell.id)}
                 >
-                  {flexRender(header.column.columnDef.header, header.getContext())}
-                </th>
+                  {cell.getIsGrouped() && (
+                    <IconButton
+                      name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
+                      aria-label={TEST_IDS.table.buttonExpandCell.selector(cell.id)}
+                      className={styles.expandButton}
+                    />
+                  )}
+                  {cell.getIsPlaceholder()
+                    ? null
+                    : cell.getIsAggregated()
+                      ? flexRender(
+                          cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell,
+                          cell.getContext()
+                        )
+                      : flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
               ))}
             </tr>
-          ))}
-        </thead>
-        <tbody
-          style={{
-            height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
-          }}
-          className={styles.body}
-        >
-          {virtualRows.map((virtualRow) => {
-            const row = rows[virtualRow.index];
-
-            return (
-              <tr
-                data-index={virtualRow.index}
-                key={row.id}
-                className={styles.row}
-                ref={rowVirtualizer.measureElement}
-                style={{
-                  transform: `translateY(${virtualRow.start}px)`,
-                }}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={styles.cell}
-                    style={{
-                      width: cell.column.getSize(),
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+          );
+        })}
+      </tbody>
+    </table>
   );
 };
