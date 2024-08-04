@@ -243,10 +243,12 @@
                   "name": "device",
                   "source": "A"
                 },
+                "group": true,
                 "label": "",
                 "type": "auto"
               },
               {
+                "aggregation": "max",
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -432,6 +434,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
