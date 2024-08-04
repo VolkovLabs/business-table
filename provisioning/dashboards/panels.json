@@ -363,6 +363,17 @@
           {
             "items": [
               {
+                "aggregation": "none",
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "group": true,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "aggregation": "count",
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -370,18 +381,9 @@
                 "group": false,
                 "label": "",
                 "type": "auto"
-              },
-              {
-                "field": {
-                  "name": "name",
-                  "source": "A"
-                },
-                "group": false,
-                "label": "",
-                "type": "auto"
               }
             ],
-            "name": "Main"
+            "name": "123"
           }
         ]
       },
@@ -408,7 +410,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const array = Array.from({ length: 50000 }, (_, i) => i + 1)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: array.map((row) => field.name === 'id' ? row : `Device ${row}`)\n  }))\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const array = Array.from({ length: 50000 }, (_, i) => i + 1)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: array.map((row) => field.name === 'id' ? row : `Device ${Math.floor(Math.random() * 10)}`)\n  }))\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -417,6 +419,19 @@
         }
       ],
       "title": "50k rows",
+      "transformations": [
+        {
+          "id": "sortBy",
+          "options": {
+            "fields": {},
+            "sort": [
+              {
+                "field": "name"
+              }
+            ]
+          }
+        }
+      ],
       "type": "volkovlabs-table-panel"
     }
   ],
@@ -434,6 +449,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
