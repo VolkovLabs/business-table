@@ -49,16 +49,12 @@ const cellTypeOptions = [
  */
 const aggregationOptions = [
   {
-    value: CellAggregation.NONE,
-    label: 'None',
+    value: CellAggregation.COUNT,
+    label: 'Count',
   },
   {
-    value: CellAggregation.SUM,
-    label: 'Sum',
-  },
-  {
-    value: CellAggregation.MIN,
-    label: 'Min',
+    value: CellAggregation.EXTENT,
+    label: 'Extent',
   },
   {
     value: CellAggregation.MAX,
@@ -69,12 +65,20 @@ const aggregationOptions = [
     label: 'Mean',
   },
   {
-    value: CellAggregation.EXTENT,
-    label: 'Extent',
-  },
-  {
     value: CellAggregation.MEDIAN,
     label: 'Median',
+  },
+  {
+    value: CellAggregation.MIN,
+    label: 'Min',
+  },
+  {
+    value: CellAggregation.NONE,
+    label: 'None',
+  },
+  {
+    value: CellAggregation.SUM,
+    label: 'Sum',
   },
   {
     value: CellAggregation.UNIQUE,
@@ -83,10 +87,6 @@ const aggregationOptions = [
   {
     value: CellAggregation.UNIQUE_COUNT,
     label: 'Unique Count',
-  },
-  {
-    value: CellAggregation.COUNT,
-    label: 'Count',
   },
 ];
 

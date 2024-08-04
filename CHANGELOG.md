@@ -6,3 +6,4 @@
 
 - Initial release based on Grafana 11.1.0
 - Added basic columns editor (#1)
+- Added groups and tabs (#17)
