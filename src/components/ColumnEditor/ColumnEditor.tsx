@@ -3,7 +3,7 @@ import { InlineField, InlineSwitch, Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '../../constants';
-import { CellAggregation, CellType, ColumnConfig } from '../../types';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '../../types';
 import { getFieldBySource } from '../../utils';
 
 /**
@@ -91,6 +91,21 @@ const aggregationOptions = [
 ];
 
 /**
+ * Filter Mode Options
+ */
+const filterModeOptions = [
+  {
+    value: ColumnFilterMode.CLIENT,
+    label: 'Client',
+  },
+  {
+    isDisabled: true,
+    value: ColumnFilterMode.QUERY,
+    label: 'Query',
+  },
+];
+
+/**
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
@@ -155,6 +170,40 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
             {...TEST_IDS.columnEditor.fieldAggregation.apply()}
           />
         </InlineField>
+      )}
+      <InlineField label="Allow Filtering" grow={true}>
+        <InlineSwitch
+          value={value.filter.enabled}
+          onChange={(event) =>
+            onChange({
+              ...value,
+              filter: {
+                ...value.filter,
+                enabled: event.currentTarget.checked,
+              },
+            })
+          }
+          {...TEST_IDS.columnEditor.fieldFilterEnabled.apply()}
+        />
+      </InlineField>
+      {value.filter.enabled && (
+        <>
+          <InlineField label="Mode">
+            <Select
+              value={value.filter.mode}
+              onChange={(event) => {
+                onChange({
+                  ...value,
+                  filter: {
+                    ...value.filter,
+                    mode: event.value!,
+                  },
+                });
+              }}
+              options={filterModeOptions}
+            />
+          </InlineField>
+        </>
       )}
     </>
   );

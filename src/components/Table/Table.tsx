@@ -2,10 +2,14 @@ import { cx } from '@emotion/css';
 import { IconButton, useStyles2 } from '@grafana/ui';
 import {
   ColumnDef,
+  ColumnFiltersState,
   ExpandedState,
   flexRender,
   getCoreRowModel,
   getExpandedRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
   getGroupedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
@@ -14,6 +18,7 @@ import React, { RefObject, useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '../../constants';
 import { getStyles } from './Table.styles';
+import { TableHeaderCell } from './TableHeaderCell';
 
 /**
  * Properties
@@ -81,21 +86,49 @@ export const Table = <TData,>({
   const [expanded, setExpanded] = useState<ExpandedState>({});
 
   /**
+   * Filtering
+   */
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  /**
    * React Table
    */
   const table = useReactTable({
     state: {
       grouping,
       expanded,
+      columnFilters,
     },
+
+    /**
+     * Basic
+     */
     data,
+    columns,
     getCoreRowModel: getCoreRowModel(),
+
+    /**
+     * Grouping
+     */
     getGroupedRowModel: getGroupedRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
-    onExpandedChange: setExpanded,
-    columns,
     enableExpanding: true,
     enableGrouping: true,
+    onExpandedChange: setExpanded,
+
+    /**
+     * Filtering
+     */
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+
+    /**
+     * Debug
+     */
+    debugTable: true,
+    debugColumns: true,
   });
 
   /**
@@ -134,7 +167,7 @@ export const Table = <TData,>({
                 }}
                 {...TEST_IDS.table.headerCell.apply(header.id)}
               >
-                {flexRender(header.column.columnDef.header, header.getContext())}
+                <TableHeaderCell header={header} />
               </th>
             ))}
           </tr>

@@ -1,6 +1,6 @@
 import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame } from '@grafana/data';
 
-import { CellAggregation, CellType, ColumnConfig } from '../types';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '../types';
 
 /**
  * Create Column Config
@@ -14,6 +14,11 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   type: CellType.AUTO,
   group: false,
   aggregation: CellAggregation.NONE,
+  filter: {
+    enabled: true,
+    mode: ColumnFilterMode.CLIENT,
+    variable: '',
+  },
   ...item,
 });
 

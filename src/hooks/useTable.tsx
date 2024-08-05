@@ -1,10 +1,10 @@
-import { DataFrame, Field, PanelData } from '@grafana/data';
+import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
 import { ColumnDef } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
 import { CellRenderer } from '../components';
-import { CellAggregation, ColumnConfig } from '../types';
-import { filterFieldBySource, getFrameBySource } from '../utils';
+import { CellAggregation, ColumnConfig, ColumnFilterType } from '../types';
+import { columnFilter, filterFieldBySource, getFrameBySource } from '../utils';
 
 /**
  * Use Table
@@ -87,6 +87,19 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
     const columns: Array<ColumnDef<unknown>> = [];
 
     for (const column of columnsData.items) {
+      const availableFilterTypes: ColumnFilterType[] = [];
+
+      switch (column.field.type) {
+        case FieldType.string: {
+          availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
+          break;
+        }
+        case FieldType.number: {
+          availableFilterTypes.push(...[ColumnFilterType.NUMBER]);
+          break;
+        }
+      }
+
       columns.push({
         id: column.field.name,
         accessorKey: column.field.name,
@@ -94,6 +107,11 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         cell: (props) => <CellRenderer {...props} config={column.config} field={column.field} />,
         enableGrouping: column.config.group,
         aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
+        enableColumnFilter: column.config.filter.enabled,
+        filterFn: columnFilter,
+        meta: {
+          availableFilterTypes,
+        },
       });
     }
 
