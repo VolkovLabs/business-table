@@ -1,12 +1,12 @@
 import {
   Button,
+  ButtonSelect,
   ClickOutsideWrapper,
   InlineField,
   InlineFieldRow,
   Input,
   RadioButtonGroup,
   useStyles2,
-  ButtonSelect,
 } from '@grafana/ui';
 import { Header } from '@tanstack/react-table';
 import { NumberInput } from '@volkovlabs/components';
@@ -77,7 +77,7 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
 
     header.column.setFilterValue(filterValueToSave);
     onClose();
-  }, [header, onClose, setFilter, filter]);
+  }, [header, onClose, filter]);
 
   /**
    * Clear
@@ -122,7 +122,7 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
       });
     }
     return [];
-  }, []);
+  }, [header]);
 
   /**
    * Preselect first type
@@ -131,7 +131,7 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
     if (filter.type === 'none' && availableTypeOptions.length > 0) {
       setFilter(getFilterWithNewType(availableTypeOptions[0].value));
     }
-  }, []);
+  }, [filter.type, availableTypeOptions]);
 
   return (
     <ClickOutsideWrapper onClick={onClose} useCapture={true}>
@@ -200,7 +200,6 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
                 value: operator,
               }))}
               onChange={(item) => {
-                console.log(item);
                 setFilter({
                   ...filter,
                   operator: item.value!,

@@ -1,2 +1,2 @@
-export * from './table';
 export * from './panel';
+export * from './table';

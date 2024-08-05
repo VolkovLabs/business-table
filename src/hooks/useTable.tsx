@@ -98,6 +98,9 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
           availableFilterTypes.push(...[ColumnFilterType.NUMBER]);
           break;
         }
+        default: {
+          availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
+        }
       }
 
       columns.push({
