@@ -45,7 +45,20 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "created"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsLocal"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 9,
@@ -238,9 +251,18 @@
         "type": "constant"
       },
       {
-        "current": {},
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "marcusolsson-static-datasource",
+          "uid": "P1D2C73DC01F2359B"
+        },
         "definition": "",
-        "hide": 0,
+        "hide": 2,
         "includeAll": false,
         "multi": false,
         "name": "notSupported",
@@ -262,6 +284,6 @@
   "timezone": "browser",
   "title": "Query-based",
   "uid": "edu2vo7b8jwn4b",
-  "version": 15,
+  "version": 17,
   "weekStart": ""
 }

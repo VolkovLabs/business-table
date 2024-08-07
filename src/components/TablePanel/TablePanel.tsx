@@ -16,7 +16,7 @@ interface Props extends PanelProps<PanelOptions> {}
 /**
  * Panel
  */
-export const TablePanel: React.FC<Props> = ({ id, data, width, height, options }) => {
+export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, eventBus }) => {
   /**
    * Styles
    */
@@ -136,6 +136,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options }
           tableHeaderRef={tableHeaderRef}
           topOffset={tableTopOffset}
           scrollableContainerRef={scrollableContainerRef}
+          eventBus={eventBus}
         />
       </div>
     </div>

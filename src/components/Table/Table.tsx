@@ -1,8 +1,8 @@
 import { cx } from '@emotion/css';
+import { EventBus } from '@grafana/data';
 import { IconButton, useStyles2 } from '@grafana/ui';
 import {
   ColumnDef,
-  ColumnFiltersState,
   ExpandedState,
   flexRender,
   getCoreRowModel,
@@ -17,6 +17,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { RefObject, useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '../../constants';
+import { useSyncedColumnFilters } from '../../hooks';
 import { getStyles } from './Table.styles';
 import { TableHeaderCell } from './TableHeaderCell';
 
@@ -55,6 +56,13 @@ interface Props<TData> {
    * Scrollable Container Ref
    */
   scrollableContainerRef: RefObject<HTMLDivElement>;
+
+  /**
+   * Event Bus
+   *
+   * @type {EventBus}
+   */
+  eventBus: EventBus;
 }
 
 /**
@@ -67,6 +75,7 @@ export const Table = <TData,>({
   tableHeaderRef,
   tableRef,
   topOffset,
+  eventBus,
 }: Props<TData>) => {
   /**
    * Styles
@@ -88,7 +97,7 @@ export const Table = <TData,>({
   /**
    * Filtering
    */
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnFilters, setColumnFilters] = useSyncedColumnFilters({ columns, eventBus });
 
   /**
    * React Table
