@@ -1,0 +1,253 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 15,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "groups": [
+          {
+            "items": [
+              {
+                "aggregation": "none",
+                "field": {
+                  "name": "created",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": true,
+                  "mode": "query",
+                  "variable": "device"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "field": {
+                  "name": "status",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": true,
+                  "mode": "query",
+                  "variable": "status"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": true,
+                  "mode": "query",
+                  "variable": "value"
+                },
+                "group": false,
+                "label": "",
+                "type": "auto"
+              }
+            ],
+            "name": "Table"
+          }
+        ]
+      },
+      "pluginVersion": "1.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "created",
+                "type": "time",
+                "values": []
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": []
+              },
+              {
+                "config": {},
+                "name": "status",
+                "type": "string",
+                "values": []
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": []
+              }
+            ],
+            "meta": {
+              "custom": {
+                "customCode": "const deviceVar = '$device';\nlet statusVar = [];\nconst valueVar = '$value';\n\ntry {\n  statusVar = JSON.parse('${status:json}')\n} catch { }\n\nconst items = [\n  {\n    created: new Date().toISOString(),\n    name: 'a',\n    status: 'active',\n    value: 10,\n  },\n  {\n    created: new Date().toISOString(),\n    name: 'b',\n    status: 'pending',\n    value: 12,\n  },\n  {\n    created: new Date().toISOString(),\n    name: 'c',\n    status: 'inactive',\n    value: 30,\n  },\n  {\n    created: new Date().toISOString(),\n    name: 'aa',\n    status: 'active',\n    value: 10,\n  },\n  {\n    created: new Date().toISOString(),\n    name: 'bb',\n    status: 'pending',\n    value: 13,\n  },\n  {\n    created: new Date().toISOString(),\n    name: 'cc',\n    status: 'inactive',\n    value: 32,\n  },\n];\n\nconst filteredItems = items.filter((item) => {\n  if (deviceVar && !item.name.includes(deviceVar)) {\n    return false;\n  }\n\n  if (statusVar.length && !statusVar.includes(item.status)) {\n    return false;\n  }\n\n  if (valueVar && Number(valueVar) !== item.value) {\n    return false;\n  }\n\n  return true;\n});\n\nconst fieldValues = {\n  created: [],\n  name: [],\n  status: [],\n  value: [],\n};\n\nfor (const item of filteredItems) {\n  fieldValues.created.push(item.created);\n  fieldValues.name.push(item.name);\n  fieldValues.status.push(item.status);\n  fieldValues.value.push(item.value);\n}\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => ({\n    ...field,\n    values: fieldValues[field.name],\n  }))\n}\n\nreturn Promise.resolve(result);",
+                "valuesEditor": "custom"
+              }
+            }
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Query Filtering",
+      "type": "volkovlabs-table-panel"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "",
+          "value": ""
+        },
+        "hide": 0,
+        "label": "Device",
+        "name": "device",
+        "options": [],
+        "query": "",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "status",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "active",
+            "value": "active"
+          },
+          {
+            "selected": false,
+            "text": "pending",
+            "value": "pending"
+          },
+          {
+            "selected": false,
+            "text": "inactive",
+            "value": "inactive"
+          }
+        ],
+        "query": "active, pending, inactive ",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "hide": 2,
+        "name": "value",
+        "query": "",
+        "skipUrlSync": false,
+        "type": "constant"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Query-based",
+  "uid": "edu2vo7b8jwn4b",
+  "version": 14,
+  "weekStart": ""
+}

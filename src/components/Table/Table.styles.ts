@@ -52,9 +52,9 @@ export const getStyles = (theme: GrafanaTheme2) => {
     `,
     cell: css`
       display: flex;
-      height: ${theme.spacing(4.5)};
+      min-height: ${theme.spacing(4.5)};
       align-items: center;
-      white-space: nowrap;
+      white-space: wrap;
       padding: ${theme.spacing(0.75)};
 
       &:not(:last-child) {

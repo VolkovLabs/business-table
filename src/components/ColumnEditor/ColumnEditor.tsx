@@ -1,4 +1,5 @@
 import { DataFrame } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineSwitch, Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
@@ -99,7 +100,6 @@ const filterModeOptions = [
     label: 'Client',
   },
   {
-    isDisabled: true,
     value: ColumnFilterMode.QUERY,
     label: 'Query',
   },
@@ -115,6 +115,22 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
   const field = useMemo(() => {
     return getFieldBySource(data, value.field);
   }, [data, value.field]);
+
+  /**
+   * Variable Options
+   */
+  const variableOptions = useMemo(() => {
+    if (!value.filter.enabled || value.filter.mode !== ColumnFilterMode.QUERY) {
+      return [];
+    }
+
+    const variables = getTemplateSrv().getVariables();
+
+    return variables.map((variable) => ({
+      label: variable.label || variable.name,
+      value: variable.name,
+    }));
+  }, [value.filter.enabled, value.filter.mode]);
 
   return (
     <>
@@ -203,6 +219,24 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
               options={filterModeOptions}
             />
           </InlineField>
+          {value.filter.mode === ColumnFilterMode.QUERY && (
+            <InlineField label="Variable" grow={true}>
+              <Select
+                value={value.filter.variable}
+                options={variableOptions}
+                onChange={(event) => {
+                  onChange({
+                    ...value,
+                    filter: {
+                      ...value.filter,
+                      variable: event.value!,
+                    },
+                  });
+                }}
+                isClearable={true}
+              />
+            </InlineField>
+          )}
         </>
       )}
     </>

@@ -46,3 +46,8 @@ export const TEST_IDS = {
     buttonExpandCell: createSelector((name: unknown) => `table button-expand-cell-${name}`),
   },
 };
+
+/**
+ * All Value Parameter
+ */
+export const ALL_VALUE_PARAMETER = '$__all';

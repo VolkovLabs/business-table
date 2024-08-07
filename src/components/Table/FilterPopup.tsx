@@ -1,3 +1,4 @@
+import { locationService } from '@grafana/runtime';
 import {
   Button,
   ButtonSelect,
@@ -12,7 +13,7 @@ import { Header } from '@tanstack/react-table';
 import { NumberInput } from '@volkovlabs/components';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '../../types';
+import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '../../types';
 import { getFilterWithNewType } from '../../utils';
 import { FilterFacetedList } from './FilterFacetedList';
 import { getStyles } from './Table.styles';
@@ -51,6 +52,39 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
   );
 
   /**
+   * Filter Mode
+   */
+  const filterMode = header.column.columnDef.meta?.filterMode || ColumnFilterMode.CLIENT;
+
+  /**
+   * Set value
+   */
+  const onSetValue = useCallback(
+    (filterValue?: ColumnFilterValue) => {
+      header.column.setFilterValue(filterValue);
+
+      /**
+       * Update variable if query mode
+       */
+      if (filterMode === ColumnFilterMode.QUERY) {
+        let varValue = null;
+
+        if (filterValue && 'value' in filterValue) {
+          varValue = filterValue.value;
+        }
+
+        locationService.partial(
+          {
+            [`var-${header.column.columnDef.meta?.filterVariableName}`]: varValue,
+          },
+          true
+        );
+      }
+    },
+    [filterMode, header.column]
+  );
+
+  /**
    * Save
    */
   const onSave = useCallback(() => {
@@ -75,24 +109,24 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
       }
     }
 
-    header.column.setFilterValue(filterValueToSave);
+    onSetValue(filterValueToSave);
     onClose();
-  }, [header, onClose, filter]);
+  }, [filter, onSetValue, onClose]);
 
   /**
    * Clear
    */
   const onClear = useCallback(() => {
-    header.column.setFilterValue(undefined);
+    onSetValue(undefined);
     onClose();
-  }, [onClose, header]);
+  }, [onSetValue, onClose]);
 
   /**
    * Available Type Options
    */
   const availableTypeOptions = useMemo(() => {
-    if (header.column.columnDef.meta && 'availableFilterTypes' in header.column.columnDef.meta) {
-      const types = header.column.columnDef.meta.availableFilterTypes as ColumnFilterType[];
+    if (header.column.columnDef.meta?.availableFilterTypes) {
+      const types = header.column.columnDef.meta.availableFilterTypes;
 
       return types.map((type) => {
         let label = '';
@@ -163,18 +197,20 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
                   });
                 }}
                 addonAfter={
-                  <Button
-                    variant={filter.caseSensitive ? 'primary' : 'secondary'}
-                    fill="outline"
-                    icon="text-fields"
-                    onClick={() => {
-                      setFilter({
-                        ...filter,
-                        caseSensitive: !filter.caseSensitive,
-                      });
-                    }}
-                    tooltip="Match Case"
-                  />
+                  filterMode === ColumnFilterMode.CLIENT && (
+                    <Button
+                      variant={filter.caseSensitive ? 'primary' : 'secondary'}
+                      fill="outline"
+                      icon="text-fields"
+                      onClick={() => {
+                        setFilter({
+                          ...filter,
+                          caseSensitive: !filter.caseSensitive,
+                        });
+                      }}
+                      tooltip="Match Case"
+                    />
+                  )
                 }
               />
             </InlineField>

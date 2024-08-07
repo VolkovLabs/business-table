@@ -1,4 +1,4 @@
-import { CellAggregation, CellType } from './table';
+import { CellAggregation, CellType, ColumnFilterMode } from './table';
 
 /**
  * Field Source
@@ -15,14 +15,6 @@ export interface FieldSource {
    * Data Frame ID or Frame Index if no specified
    */
   source: string | number;
-}
-
-/**
- * Column Filter Mode
- */
-export enum ColumnFilterMode {
-  CLIENT = 'client',
-  QUERY = 'query',
 }
 
 /**

@@ -1,15 +1,21 @@
 import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
 import { ColumnDef } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
 import { CellRenderer } from '../components';
-import { CellAggregation, ColumnConfig, ColumnFilterType } from '../types';
+import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType } from '../types';
 import { columnFilter, filterFieldBySource, getFrameBySource } from '../utils';
 
 /**
  * Use Table
  */
 export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; columns?: ColumnConfig[] }) => {
+  /**
+   * Template Service
+   */
+  const templateService = getTemplateSrv();
+
   /**
    * Columns Data
    */
@@ -89,17 +95,44 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
     for (const column of columnsData.items) {
       const availableFilterTypes: ColumnFilterType[] = [];
 
-      switch (column.field.type) {
-        case FieldType.string: {
-          availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
-          break;
+      /**
+       * Calc available filter types for client side filtering
+       */
+      if (column.config.filter.mode === ColumnFilterMode.CLIENT) {
+        switch (column.field.type) {
+          case FieldType.string: {
+            availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
+            break;
+          }
+          case FieldType.number: {
+            availableFilterTypes.push(...[ColumnFilterType.NUMBER]);
+            break;
+          }
+          default: {
+            availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
+          }
         }
-        case FieldType.number: {
-          availableFilterTypes.push(...[ColumnFilterType.NUMBER]);
-          break;
-        }
-        default: {
-          availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
+      } else if (column.config.filter.mode === ColumnFilterMode.QUERY) {
+        /**
+         * Calc available filter types for query side filter
+         */
+        const variable = templateService.getVariables().find((item) => item.name === column.config.filter.variable);
+
+        if (variable) {
+          switch (variable.type) {
+            case 'query':
+            case 'custom': {
+              if (variable.multi) {
+                availableFilterTypes.push(...[ColumnFilterType.FACETED]);
+              }
+              break;
+            }
+            case 'textbox':
+            case 'constant': {
+              availableFilterTypes.push(...[ColumnFilterType.SEARCH]);
+              break;
+            }
+          }
         }
       }
 
@@ -111,15 +144,17 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         enableGrouping: column.config.group,
         aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
         enableColumnFilter: column.config.filter.enabled,
-        filterFn: columnFilter,
+        filterFn: column.config.filter.mode === ColumnFilterMode.CLIENT ? columnFilter : () => true,
         meta: {
           availableFilterTypes,
+          filterMode: column.config.filter.mode,
+          filterVariableName: column.config.filter.variable,
         },
       });
     }
 
     return columns;
-  }, [columnsData.frame, columnsData.items]);
+  }, [columnsData.frame, columnsData.items, templateService]);
 
   return useMemo(
     () => ({
