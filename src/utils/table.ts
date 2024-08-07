@@ -1,3 +1,4 @@
+import { TypedVariableModel } from '@grafana/data';
 import { filterFns, FilterMeta, Row } from '@tanstack/react-table';
 
 import { ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '../types';
@@ -127,4 +128,28 @@ export const getFilterWithNewType = (type: ColumnFilterType | 'none'): ColumnFil
       };
     }
   }
+};
+
+/**
+ * Get Supported Filter Types For Variable
+ * @param variable
+ */
+export const getSupportedFilterTypesForVariable = (variable: TypedVariableModel): ColumnFilterType[] => {
+  if (variable) {
+    switch (variable.type) {
+      case 'query':
+      case 'custom': {
+        if (variable.multi) {
+          return [ColumnFilterType.FACETED];
+        }
+        break;
+      }
+      case 'textbox':
+      case 'constant': {
+        return [ColumnFilterType.SEARCH];
+      }
+    }
+  }
+
+  return [];
 };

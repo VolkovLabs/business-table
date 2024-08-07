@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '../../constants';
 import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '../../types';
-import { getFieldBySource } from '../../utils';
+import { getFieldBySource, getSupportedFilterTypesForVariable } from '../../utils';
 
 /**
  * Properties
@@ -126,10 +126,16 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
 
     const variables = getTemplateSrv().getVariables();
 
-    return variables.map((variable) => ({
-      label: variable.label || variable.name,
-      value: variable.name,
-    }));
+    return variables.map((variable) => {
+      const supportedFilterTypes = getSupportedFilterTypesForVariable(variable);
+
+      return {
+        label: variable.label || variable.name,
+        value: variable.name,
+        description: supportedFilterTypes.length === 0 ? 'Not supported variable type' : '',
+        isDisabled: supportedFilterTypes.length === 0,
+      };
+    });
   }, [value.filter.enabled, value.filter.mode]);
 
   return (

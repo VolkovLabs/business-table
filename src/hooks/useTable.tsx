@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 
 import { CellRenderer } from '../components';
 import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType } from '../types';
-import { columnFilter, filterFieldBySource, getFrameBySource } from '../utils';
+import { columnFilter, filterFieldBySource, getFrameBySource, getSupportedFilterTypesForVariable } from '../utils';
 
 /**
  * Use Table
@@ -119,20 +119,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         const variable = templateService.getVariables().find((item) => item.name === column.config.filter.variable);
 
         if (variable) {
-          switch (variable.type) {
-            case 'query':
-            case 'custom': {
-              if (variable.multi) {
-                availableFilterTypes.push(...[ColumnFilterType.FACETED]);
-              }
-              break;
-            }
-            case 'textbox':
-            case 'constant': {
-              availableFilterTypes.push(...[ColumnFilterType.SEARCH]);
-              break;
-            }
-          }
+          availableFilterTypes.push(...getSupportedFilterTypesForVariable(variable));
         }
       }
 
@@ -143,7 +130,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         cell: (props) => <CellRenderer {...props} config={column.config} field={column.field} />,
         enableGrouping: column.config.group,
         aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
-        enableColumnFilter: column.config.filter.enabled,
+        enableColumnFilter: column.config.filter.enabled && availableFilterTypes.length > 0,
         filterFn: column.config.filter.mode === ColumnFilterMode.CLIENT ? columnFilter : () => true,
         meta: {
           availableFilterTypes,
