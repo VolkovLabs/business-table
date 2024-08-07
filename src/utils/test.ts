@@ -1,4 +1,4 @@
-import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame } from '@grafana/data';
+import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame, TypedVariableModel } from '@grafana/data';
 
 import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '../types';
 
@@ -40,3 +40,21 @@ export const createField = (field: Partial<Field>): Field => {
 
   return frame.fields[0];
 };
+
+/**
+ * Create variable
+ */
+export const createVariable = (
+  item: Partial<Omit<TypedVariableModel, 'current'>> & { current?: { value: string | string[] } }
+): TypedVariableModel & { type: (typeof item)['type'] } =>
+  ({
+    name: 'test',
+    type: 'query',
+    datasource: null,
+    definition: '',
+    sort: '' as never,
+    current: {
+      value: '',
+    } as never,
+    ...item,
+  }) as never;

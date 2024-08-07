@@ -1,7 +1,8 @@
 import { TypedVariableModel } from '@grafana/data';
-import { filterFns, FilterMeta, Row } from '@tanstack/react-table';
+import { getTemplateSrv } from '@grafana/runtime';
+import { ColumnDef, ColumnFilter, ColumnFiltersState, filterFns, FilterMeta, Row } from '@tanstack/react-table';
 
-import { ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '../types';
+import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '../types';
 
 /**
  * Identify Filter
@@ -152,4 +153,96 @@ export const getSupportedFilterTypesForVariable = (variable: TypedVariableModel)
   }
 
   return [];
+};
+
+/**
+ * Get Column Filters based on variables
+ * @param columns
+ */
+export const getVariableColumnFilters = <TData>(
+  columns: Array<ColumnDef<TData>>
+): Array<{ id: string; value: ColumnFilterValue | undefined }> => {
+  const columnsToSync = columns.filter(
+    (column) => column.enableColumnFilter && column.meta?.filterMode === ColumnFilterMode.QUERY
+  );
+
+  if (columnsToSync.length) {
+    const variables = getTemplateSrv().getVariables();
+    const columnFilters: Array<{ id: string; value: ColumnFilterValue | undefined }> = [];
+
+    columnsToSync.forEach((column) => {
+      const variable = variables.find((variable) => variable.name === column.meta?.filterVariableName);
+
+      if (variable) {
+        const currentValue = 'current' in variable ? variable.current.value : '';
+        const supportedFilterTypes = getSupportedFilterTypesForVariable(variable);
+        const filterType = supportedFilterTypes[0];
+
+        if (filterType && currentValue) {
+          switch (filterType) {
+            case ColumnFilterType.SEARCH: {
+              columnFilters.push({
+                id: column.id!,
+                value: {
+                  type: ColumnFilterType.SEARCH,
+                  value: currentValue as string,
+                  caseSensitive: false,
+                },
+              });
+              break;
+            }
+            case ColumnFilterType.FACETED: {
+              columnFilters.push({
+                id: column.id!,
+                value: {
+                  type: ColumnFilterType.FACETED,
+                  value: currentValue as string[],
+                },
+              });
+              break;
+            }
+          }
+        } else {
+          columnFilters.push({
+            id: column.id!,
+            value: undefined,
+          });
+        }
+      }
+    });
+
+    return columnFilters;
+  }
+
+  return [];
+};
+
+/**
+ * Merge column filters
+ */
+export const mergeColumnFilters = (
+  currentItems: ColumnFiltersState,
+  itemsToOverride: ColumnFiltersState
+): ColumnFiltersState => {
+  const filtersMap = new Map<string, ColumnFilter>();
+
+  currentItems.forEach((item) => {
+    filtersMap.set(item.id, item);
+  });
+
+  itemsToOverride.forEach((item) => {
+    if (item.value) {
+      /**
+       * Override filter with new value
+       */
+      filtersMap.set(item.id, item);
+    } else {
+      /**
+       * Remove filter
+       */
+      filtersMap.delete(item.id);
+    }
+  });
+
+  return [...filtersMap.values()];
 };
