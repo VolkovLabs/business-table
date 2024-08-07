@@ -1,8 +1,8 @@
 import { EventBus } from '@grafana/data';
 import { getTemplateSrv, RefreshEvent } from '@grafana/runtime';
-import { ColumnDef, ColumnFiltersState, ColumnFilter } from '@tanstack/react-table';
-
+import { ColumnDef, ColumnFilter, ColumnFiltersState } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
+
 import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue } from '../types';
 import { getSupportedFilterTypesForVariable } from '../utils';
 
