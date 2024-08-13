@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.1.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Signed as Community plugin
+
 ## 1.0.0 (2024-08-04)
 
 ### Features / Enhancements
