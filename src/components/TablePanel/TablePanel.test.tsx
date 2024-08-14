@@ -1,3 +1,4 @@
+import { EventBusSrv } from '@grafana/data';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
@@ -58,7 +59,16 @@ describe('TablePanel', () => {
    * Get Tested Component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <TablePanel width={400} height={400} data={data} options={createOptions()} {...(props as any)} />;
+    return (
+      <TablePanel
+        width={400}
+        height={400}
+        data={data}
+        options={createOptions()}
+        eventBus={new EventBusSrv()}
+        {...(props as any)}
+      />
+    );
   };
 
   beforeEach(() => {

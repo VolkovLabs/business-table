@@ -1,8 +1,8 @@
 import { toDataFrame } from '@grafana/data';
 import { renderHook } from '@testing-library/react';
 
-import { CellAggregation } from '../types';
-import { createColumnConfig } from '../utils';
+import { CellAggregation, ColumnFilterMode, ColumnFilterType } from '../types';
+import { columnFilter, createColumnConfig } from '../utils';
 import { useTable } from './useTable';
 
 describe('useTable', () => {
@@ -142,7 +142,7 @@ describe('useTable', () => {
     expect(result.current.tableData).toEqual([]);
   });
 
-  it('Should returns columns from config', () => {
+  it('Should return columns from config', () => {
     const deviceColumn = createColumnConfig({
       label: 'Device',
       field: {
@@ -171,22 +171,85 @@ describe('useTable', () => {
     );
 
     expect(result.current.columns).toEqual([
-      {
+      expect.objectContaining({
         id: deviceColumn.field.name,
         accessorKey: deviceColumn.field.name,
         header: deviceColumn.label,
         cell: expect.any(Function),
         enableGrouping: deviceColumn.group,
         aggregationFn: deviceColumn.aggregation,
-      },
-      {
+      }),
+      expect.objectContaining({
         id: valueColumn.field.name,
         accessorKey: valueColumn.field.name,
         header: frame.fields[1].name,
         cell: expect.any(Function),
         enableGrouping: valueColumn.group,
         aggregationFn: expect.any(Function),
+      }),
+    ]);
+
+    /**
+     * Check if none aggregation returns nothing
+     */
+    expect((result.current.columns[1].aggregationFn as () => null)()).toBeNull();
+  });
+
+  it('Should build client column filters', () => {
+    const deviceColumn = createColumnConfig({
+      label: 'Device',
+      field: {
+        source: refId,
+        name: 'device',
       },
+      filter: {
+        enabled: true,
+        mode: ColumnFilterMode.CLIENT,
+        variable: '',
+      },
+    });
+    const valueColumn = createColumnConfig({
+      field: {
+        source: refId,
+        name: 'value',
+      },
+      filter: {
+        enabled: true,
+        mode: ColumnFilterMode.CLIENT,
+        variable: '',
+      },
+    });
+
+    const { result } = renderHook(() =>
+      useTable({
+        data: {
+          series: [frame],
+        } as any,
+        columns: [deviceColumn, valueColumn],
+      })
+    );
+
+    expect(result.current.columns).toEqual([
+      expect.objectContaining({
+        id: deviceColumn.field.name,
+        enableColumnFilter: true,
+        filterFn: columnFilter,
+        meta: {
+          availableFilterTypes: [ColumnFilterType.SEARCH, ColumnFilterType.FACETED],
+          filterMode: deviceColumn.filter.mode,
+          filterVariableName: deviceColumn.filter.variable,
+        },
+      }),
+      expect.objectContaining({
+        id: valueColumn.field.name,
+        enableColumnFilter: true,
+        filterFn: expect.any(Function),
+        meta: {
+          availableFilterTypes: [ColumnFilterType.NUMBER],
+          filterMode: valueColumn.filter.mode,
+          filterVariableName: valueColumn.filter.variable,
+        },
+      }),
     ]);
 
     /**

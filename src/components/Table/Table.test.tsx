@@ -1,3 +1,4 @@
+import { EventBusSrv } from '@grafana/data';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
@@ -32,7 +33,7 @@ describe('Table', () => {
    * Get component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <Wrapper columns={[]} data={[]} {...(props as any)} />;
+    return <Wrapper columns={[]} data={[]} eventBus={new EventBusSrv()} {...(props as any)} />;
   };
 
   const getDomRect = (width: number, height: number) => ({

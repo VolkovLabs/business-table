@@ -15,7 +15,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   group: false,
   aggregation: CellAggregation.NONE,
   filter: {
-    enabled: true,
+    enabled: false,
     mode: ColumnFilterMode.CLIENT,
     variable: '',
   },

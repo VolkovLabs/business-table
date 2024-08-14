@@ -136,8 +136,8 @@ export const Table = <TData,>({
     /**
      * Debug
      */
-    debugTable: true,
-    debugColumns: true,
+    debugTable: false,
+    debugColumns: false,
   });
 
   /**
