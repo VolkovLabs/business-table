@@ -196,6 +196,18 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
                     value: event.currentTarget.value,
                   });
                 }}
+                autoFocus={true}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    onSave();
+                    return;
+                  }
+
+                  if (event.key === 'Escape') {
+                    onClose();
+                    return;
+                  }
+                }}
                 addonAfter={
                   filterMode === ColumnFilterMode.CLIENT && (
                     <Button
