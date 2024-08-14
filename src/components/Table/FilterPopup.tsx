@@ -7,6 +7,7 @@ import {
   InlineFieldRow,
   Input,
   RadioButtonGroup,
+  TimeRangeInput,
   useStyles2,
 } from '@grafana/ui';
 import { Header } from '@tanstack/react-table';
@@ -107,6 +108,12 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
         filterValueToSave = filter;
         break;
       }
+      case ColumnFilterType.TIMESTAMP: {
+        if (filter.value.from.isValid() && filter.value.to.isValid()) {
+          filterValueToSave = filter;
+        }
+        break;
+      }
     }
 
     onSetValue(filterValueToSave);
@@ -142,6 +149,10 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
           }
           case ColumnFilterType.SEARCH: {
             label = 'Search';
+            break;
+          }
+          case ColumnFilterType.TIMESTAMP: {
+            label = 'Time';
             break;
           }
           default: {
@@ -281,6 +292,22 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
                 />
               </InlineField>
             )}
+          </InlineFieldRow>
+        )}
+        {filter.type === ColumnFilterType.TIMESTAMP && (
+          <InlineFieldRow>
+            <InlineField label="Time">
+              <TimeRangeInput
+                value={filter.value}
+                onChange={(value) => {
+                  setFilter({
+                    ...filter,
+                    value,
+                  });
+                }}
+                clearable={true}
+              />
+            </InlineField>
           </InlineFieldRow>
         )}
         <div className={styles.filterPopupLine} />

@@ -1,4 +1,4 @@
-import { TypedVariableModel } from '@grafana/data';
+import { dateTime, TypedVariableModel } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { ColumnDef, ColumnFilter, ColumnFiltersState, filterFns, FilterMeta, Row } from '@tanstack/react-table';
 
@@ -67,6 +67,52 @@ const numberFilter = <TData>(
 };
 
 /**
+ * Apply Timestamp Filter
+ * @param row
+ * @param columnId
+ * @param filterValue
+ */
+const timestampFilter = <TData>(
+  row: Row<TData>,
+  columnId: string,
+  filterValue: { from: number; to: number }
+): boolean => {
+  const value = row.getValue(columnId);
+
+  /**
+   * Invalid value so not to filter
+   */
+  if (typeof value !== 'number' && typeof value !== 'string') {
+    return true;
+  }
+
+  /**
+   * Value is a timestamp
+   */
+  if (typeof value === 'number') {
+    return value >= filterValue.from && value <= filterValue.to;
+  }
+
+  /**
+   * Normalize if valid string date
+   */
+  const date = dateTime(value);
+
+  /**
+   * Valid date string
+   */
+  if (date.isValid()) {
+    const numberValue = date.valueOf();
+    return numberValue >= filterValue.from && numberValue <= filterValue.to;
+  }
+
+  /**
+   * Invalid date string so not to filter
+   */
+  return true;
+};
+
+/**
  * Column Filter
  */
 export const columnFilter = <TData>(
@@ -91,10 +137,34 @@ export const columnFilter = <TData>(
     case ColumnFilterType.FACETED: {
       return filterFns.arrIncludesSome(row, columnId, filter.value, addMeta);
     }
+    case ColumnFilterType.TIMESTAMP: {
+      /**
+       * Filter value should be resolved by resolveFilterValue
+       */
+      return timestampFilter(row, columnId, filter.valueToFilter!);
+    }
     default: {
       return true;
     }
   }
+};
+
+/**
+ * Normalize Filter Value once before start filtering
+ * @param filter
+ */
+columnFilter.resolveFilterValue = (filter: ColumnFilterValue) => {
+  if (filter.type === ColumnFilterType.TIMESTAMP) {
+    return {
+      ...filter,
+      valueToFilter: {
+        from: filter.value.from.valueOf(),
+        to: filter.value.to.valueOf(),
+      },
+    };
+  }
+
+  return filter;
 };
 
 /**
@@ -120,6 +190,22 @@ export const getFilterWithNewType = (type: ColumnFilterType | 'none'): ColumnFil
       return {
         type,
         value: [],
+      };
+    }
+    case ColumnFilterType.TIMESTAMP: {
+      const from = dateTime(null);
+      const to = dateTime(null);
+
+      return {
+        type,
+        value: {
+          from,
+          to,
+          raw: {
+            from,
+            to,
+          },
+        },
       };
     }
 

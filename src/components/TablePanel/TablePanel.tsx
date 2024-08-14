@@ -3,7 +3,7 @@ import { ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import React, { useEffect, useMemo } from 'react';
 
 import { TEST_IDS } from '../../constants';
-import { useContentSizes, useSavedState, useTable } from '../../hooks';
+import { PanelPropsContextProvider, useContentSizes, useSavedState, useTable } from '../../hooks';
 import { PanelOptions } from '../../types';
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
@@ -14,9 +14,9 @@ import { getStyles } from './TablePanel.styles';
 interface Props extends PanelProps<PanelOptions> {}
 
 /**
- * Panel
+ * Table Panel without context
  */
-export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, eventBus }) => {
+const TablePanelWithoutContext: React.FC<Props> = ({ id, data, width, height, options, eventBus }) => {
   /**
    * Styles
    */
@@ -142,3 +142,14 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
     </div>
   );
 };
+
+/**
+ * Table Panel
+ * @param props
+ * @constructor
+ */
+export const TablePanel: React.FC<Props> = (props) => (
+  <PanelPropsContextProvider value={props}>
+    <TablePanelWithoutContext {...props} />
+  </PanelPropsContextProvider>
+);

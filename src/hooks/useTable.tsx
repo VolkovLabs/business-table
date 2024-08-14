@@ -108,6 +108,10 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
             availableFilterTypes.push(...[ColumnFilterType.NUMBER]);
             break;
           }
+          case FieldType.time: {
+            availableFilterTypes.push(...[ColumnFilterType.TIMESTAMP]);
+            break;
+          }
           default: {
             availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
           }

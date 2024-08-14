@@ -1,3 +1,5 @@
+import { TimeRange } from '@grafana/data';
+
 /**
  * Cell Type
  */
@@ -29,6 +31,7 @@ export enum ColumnFilterType {
   SEARCH = 'search',
   NUMBER = 'number',
   FACETED = 'faceted',
+  TIMESTAMP = 'timestamp',
 }
 
 /**
@@ -61,6 +64,17 @@ export type ColumnFilterValue =
       type: ColumnFilterType.SEARCH;
       value: string;
       caseSensitive: boolean;
+    }
+  | {
+      type: ColumnFilterType.TIMESTAMP;
+      value: TimeRange;
+      /**
+       * Resolved filter value
+       */
+      valueToFilter?: {
+        from: number;
+        to: number;
+      };
     }
   | {
       type: 'none';
