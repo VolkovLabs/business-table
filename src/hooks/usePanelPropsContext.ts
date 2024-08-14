@@ -1,5 +1,6 @@
 import { PanelProps } from '@grafana/data';
 import { createContext, useContext } from 'react';
+
 import { PanelOptions } from '../types';
 
 /**
