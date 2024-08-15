@@ -47,6 +47,30 @@ export const TEST_IDS = {
     bodyCell: createSelector((name: unknown) => `data-testid table body-cell-${name}`),
     buttonExpandCell: createSelector((name: unknown) => `table button-expand-cell-${name}`),
   },
+  filterFacetedList: {
+    root: createSelector('data-testid filter-faceted-list'),
+    allOption: createSelector('data-testid filter-faceted-list all-option'),
+    option: createSelector((name: unknown) => `data-testid filter-faceted-list option-${name}`),
+  },
+  filterSearch: {
+    root: createSelector('data-testid filter-search'),
+    buttonMatchCase: createSelector('data-testid filter-search button-match-case'),
+  },
+  filterNumber: {
+    fieldValue: createSelector('data-testid filter-number field-value'),
+    fieldOperator: createSelector('data-testid filter-number field-operator'),
+    fieldAdditionalValue: createSelector('data-testid filter-number field-additional-value'),
+  },
+  filterTime: {
+    root: createSelector('data-testid filter-time'),
+  },
+  filterPopup: {
+    root: createSelector('data-testid filter-popup'),
+    typeOption: createSelector((name: unknown) => `filter-popup type-option-${name}`),
+    buttonClear: createSelector('data-testid filter-popup button-clear'),
+    buttonCancel: createSelector('data-testid filter-popup button-cancel'),
+    buttonSave: createSelector('data-testid filter-popup button-sae'),
+  },
 };
 
 /**

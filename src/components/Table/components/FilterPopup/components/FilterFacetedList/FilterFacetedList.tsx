@@ -3,14 +3,16 @@ import { Checkbox, useStyles2 } from '@grafana/ui';
 import { Header } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
-import { ALL_VALUE_PARAMETER } from '@/constants';
-import { ColumnFilterMode } from '@/types';
+import { ALL_VALUE_PARAMETER, TEST_IDS } from '@/constants';
+import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue } from '@/types';
 
 import { getStyles } from './FilterFacetedList.styles';
 
 /**
  * Properties
  */
+type Value = ColumnFilterValue & { type: ColumnFilterType.FACETED };
+
 interface Props<TData> {
   /**
    * Header
@@ -20,20 +22,20 @@ interface Props<TData> {
   /**
    * Change
    */
-  onChange: (value: string[]) => void;
+  onChange: (value: Value) => void;
 
   /**
    * Value
    *
-   * @type {string[]}
+   * @type {Value}
    */
-  value: string[];
+  value: Value;
 }
 
 /**
  * Filter Faceted List
  */
-export const FilterFacetedList = <TData,>({ header: { column }, value, onChange }: Props<TData>) => {
+export const FilterFacetedList = <TData,>({ header: { column }, value: filterValue, onChange }: Props<TData>) => {
   /**
    * Styles
    */
@@ -43,11 +45,11 @@ export const FilterFacetedList = <TData,>({ header: { column }, value, onChange 
    * Selected values as map to check selection state
    */
   const valueMap = useMemo(() => {
-    return value.reduce((acc, item) => {
+    return filterValue.value.reduce((acc, item) => {
       acc.set(item, true);
       return acc;
     }, new Map<string, boolean>());
-  }, [value]);
+  }, [filterValue.value]);
 
   /**
    * Sorted Unique Options
@@ -86,19 +88,26 @@ export const FilterFacetedList = <TData,>({ header: { column }, value, onChange 
   }, [column]);
 
   return (
-    <ul className={styles.filterFacetedList}>
+    <ul className={styles.filterFacetedList} {...TEST_IDS.filterFacetedList.root.apply()}>
       <li>
         <Checkbox
-          checked={value.length === sortedUniqueOptions.length}
-          indeterminate={value.length > 0 && sortedUniqueOptions.length > value.length}
+          checked={filterValue.value.length === sortedUniqueOptions.length}
+          indeterminate={filterValue.value.length > 0 && sortedUniqueOptions.length > filterValue.value.length}
           label="All"
           onChange={() => {
-            if (value.length === sortedUniqueOptions.length) {
-              onChange([]);
+            if (filterValue.value.length === sortedUniqueOptions.length) {
+              onChange({
+                ...filterValue,
+                value: [],
+              });
             } else {
-              onChange(sortedUniqueOptions.map(({ value }) => value));
+              onChange({
+                ...filterValue,
+                value: sortedUniqueOptions.map(({ value }) => value),
+              });
             }
           }}
+          {...TEST_IDS.filterFacetedList.allOption.apply()}
         />
       </li>
       {sortedUniqueOptions.map((item) => (
@@ -108,11 +117,18 @@ export const FilterFacetedList = <TData,>({ header: { column }, value, onChange 
             label={item.label}
             onChange={(event) => {
               if (event.currentTarget.checked) {
-                onChange(value.concat(item.value));
+                onChange({
+                  ...filterValue,
+                  value: filterValue.value.concat(item.value),
+                });
               } else {
-                onChange(value.filter((alreadySelectedValue) => alreadySelectedValue !== item.value));
+                onChange({
+                  ...filterValue,
+                  value: filterValue.value.filter((alreadySelectedValue) => alreadySelectedValue !== item.value),
+                });
               }
             }}
+            {...TEST_IDS.filterFacetedList.option.apply(item.value)}
           />
         </li>
       ))}

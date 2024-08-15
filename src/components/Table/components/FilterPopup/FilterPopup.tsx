@@ -1,23 +1,13 @@
 import { locationService } from '@grafana/runtime';
-import {
-  Button,
-  ButtonSelect,
-  ClickOutsideWrapper,
-  InlineField,
-  InlineFieldRow,
-  Input,
-  RadioButtonGroup,
-  TimeRangeInput,
-  useStyles2,
-} from '@grafana/ui';
+import { Button, ClickOutsideWrapper, InlineField, RadioButtonGroup, useStyles2 } from '@grafana/ui';
 import { Header } from '@tanstack/react-table';
-import { NumberInput } from '@volkovlabs/components';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
+import { TEST_IDS } from '@/constants';
+import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue } from '@/types';
 import { getFilterWithNewType } from '@/utils';
 
-import { FilterFacetedList } from './FilterFacetedList';
+import { FilterFacetedList, FilterNumber, FilterSearch, FilterTime } from './components';
 import { getStyles } from './FilterPopup.styles';
 
 /**
@@ -137,7 +127,7 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
       const types = header.column.columnDef.meta.availableFilterTypes;
 
       return types.map((type) => {
-        let label = '';
+        let label = 'Unknown';
 
         switch (type) {
           case ColumnFilterType.FACETED: {
@@ -156,14 +146,12 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
             label = 'Time';
             break;
           }
-          default: {
-            label = 'Unknown';
-          }
         }
 
         return {
           label,
           value: type,
+          ariaLabel: TEST_IDS.filterPopup.typeOption.selector(type),
         };
       });
     }
@@ -181,7 +169,11 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
 
   return (
     <ClickOutsideWrapper onClick={onClose} useCapture={true}>
-      <div className={styles.filterPopup} onClick={(event) => event.stopPropagation()}>
+      <div
+        className={styles.filterPopup}
+        onClick={(event) => event.stopPropagation()}
+        {...TEST_IDS.filterPopup.root.apply()}
+      >
         {availableTypeOptions.length > 1 && (
           <>
             <InlineField label="Type">
@@ -197,129 +189,28 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
           </>
         )}
         {filter.type === ColumnFilterType.SEARCH && (
-          <>
-            <InlineField label="Search">
-              <Input
-                placeholder="Search term"
-                value={filter.value}
-                onChange={(event) => {
-                  setFilter({
-                    ...filter,
-                    value: event.currentTarget.value,
-                  });
-                }}
-                autoFocus={true}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    onSave();
-                    return;
-                  }
-
-                  if (event.key === 'Escape') {
-                    onClose();
-                    return;
-                  }
-                }}
-                addonAfter={
-                  filterMode === ColumnFilterMode.CLIENT && (
-                    <Button
-                      variant={filter.caseSensitive ? 'primary' : 'secondary'}
-                      fill="outline"
-                      icon="text-fields"
-                      onClick={() => {
-                        setFilter({
-                          ...filter,
-                          caseSensitive: !filter.caseSensitive,
-                        });
-                      }}
-                      tooltip="Match Case"
-                    />
-                  )
-                }
-              />
-            </InlineField>
-          </>
+          <FilterSearch value={filter} onChange={setFilter} onSave={onSave} onCancel={onClose} mode={filterMode} />
         )}
         {filter.type === ColumnFilterType.FACETED && (
-          <FilterFacetedList
-            value={filter.value}
-            onChange={(value) => {
-              setFilter({
-                ...filter,
-                value,
-              });
-            }}
-            header={header}
-          />
+          <FilterFacetedList value={filter} onChange={setFilter} header={header} />
         )}
-        {filter.type === ColumnFilterType.NUMBER && (
-          <InlineFieldRow>
-            <ButtonSelect
-              options={Object.values(NumberFilterOperator).map((operator) => ({
-                label: operator,
-                value: operator,
-              }))}
-              onChange={(item) => {
-                setFilter({
-                  ...filter,
-                  operator: item.value!,
-                });
-              }}
-              value={{ value: filter.operator }}
-            />
-            <InlineField>
-              <NumberInput
-                value={filter.value[0]}
-                onChange={(value) => {
-                  setFilter({
-                    ...filter,
-                    value: [value, filter.value[1]],
-                  });
-                }}
-                width={8}
-              />
-            </InlineField>
-            {filter.operator === NumberFilterOperator.BETWEEN && (
-              <InlineField label="and" transparent={true}>
-                <NumberInput
-                  value={filter.value[1]}
-                  onChange={(value) => {
-                    setFilter({
-                      ...filter,
-                      value: [filter.value[0], value],
-                    });
-                  }}
-                  width={8}
-                />
-              </InlineField>
-            )}
-          </InlineFieldRow>
-        )}
-        {filter.type === ColumnFilterType.TIMESTAMP && (
-          <InlineFieldRow>
-            <InlineField label="Time">
-              <TimeRangeInput
-                value={filter.value}
-                onChange={(value) => {
-                  setFilter({
-                    ...filter,
-                    value,
-                  });
-                }}
-                clearable={true}
-              />
-            </InlineField>
-          </InlineFieldRow>
-        )}
+        {filter.type === ColumnFilterType.NUMBER && <FilterNumber value={filter} onChange={setFilter} />}
+        {filter.type === ColumnFilterType.TIMESTAMP && <FilterTime value={filter} onChange={setFilter} />}
         <div className={styles.filterPopupLine} />
         <div className={styles.filterPopupFooter}>
-          <Button variant="primary" size="sm" fill="text" onClick={onClear}>
+          <Button
+            variant="primary"
+            size="sm"
+            fill="text"
+            onClick={onClear}
+            {...TEST_IDS.filterPopup.buttonClear.apply()}
+          >
             Clear
           </Button>
-          <Button variant="secondary" size="sm" onClick={onClose}>
+          <Button variant="secondary" size="sm" onClick={onClose} {...TEST_IDS.filterPopup.buttonCancel.apply()}>
             Cancel
           </Button>
-          <Button variant="primary" size="sm" onClick={onSave}>
+          <Button variant="primary" size="sm" onClick={onSave} {...TEST_IDS.filterPopup.buttonSave.apply()}>
             Save
           </Button>
         </div>

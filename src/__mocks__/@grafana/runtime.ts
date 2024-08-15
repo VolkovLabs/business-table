@@ -15,4 +15,7 @@ beforeEach(() => {
 module.exports = {
   ...actual,
   getTemplateSrv,
+  locationService: {
+    partial: jest.fn(),
+  },
 };

@@ -1,6 +1,6 @@
 import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame, TypedVariableModel } from '@grafana/data';
 
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '../types';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '@/types';
 
 /**
  * Create Column Config
