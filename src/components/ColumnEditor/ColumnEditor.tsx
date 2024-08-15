@@ -223,6 +223,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
                 });
               }}
               options={filterModeOptions}
+              {...TEST_IDS.columnEditor.fieldFilterMode.apply()}
             />
           </InlineField>
           {value.filter.mode === ColumnFilterMode.QUERY && (
@@ -240,6 +241,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
                   });
                 }}
                 isClearable={true}
+                {...TEST_IDS.columnEditor.fieldFilterVariable.apply()}
               />
             </InlineField>
           )}

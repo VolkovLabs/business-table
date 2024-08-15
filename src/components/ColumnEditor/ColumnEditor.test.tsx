@@ -1,11 +1,12 @@
 import { toDataFrame } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '../../constants';
-import { CellAggregation, CellType } from '../../types';
-import { createColumnConfig } from '../../utils';
+import { CellAggregation, CellType, ColumnFilterMode } from '../../types';
+import { createColumnConfig, createVariable } from '../../utils';
 import { ColumnEditor } from './ColumnEditor';
 
 type Props = React.ComponentProps<typeof ColumnEditor>;
@@ -104,5 +105,111 @@ describe('ColumnEditor', () => {
         aggregation: CellAggregation.MAX,
       })
     );
+  });
+
+  describe('filter', () => {
+    it('Should allow to enable filtering', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({ filter: { enabled: false, mode: ColumnFilterMode.CLIENT, variable: '' } }),
+        })
+      );
+
+      expect(selectors.fieldFilterEnabled()).toBeInTheDocument();
+      expect(selectors.fieldFilterEnabled()).not.toBeChecked();
+
+      fireEvent.click(selectors.fieldFilterEnabled());
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.objectContaining({
+            enabled: true,
+          }),
+        })
+      );
+    });
+
+    it('Should hide filter fields if disabled', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({ filter: { enabled: false, mode: ColumnFilterMode.CLIENT, variable: '' } }),
+        })
+      );
+
+      expect(selectors.fieldFilterEnabled()).toBeInTheDocument();
+      expect(selectors.fieldFilterMode(true)).not.toBeInTheDocument();
+      expect(selectors.fieldFilterVariable(true)).not.toBeInTheDocument();
+    });
+
+    it('Should allow to change filter mode', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({ filter: { enabled: true, mode: ColumnFilterMode.CLIENT, variable: '' } }),
+        })
+      );
+
+      expect(selectors.fieldFilterMode()).toBeInTheDocument();
+      expect(selectors.fieldFilterMode()).toHaveValue(ColumnFilterMode.CLIENT);
+
+      fireEvent.change(selectors.fieldFilterMode(), { target: { value: ColumnFilterMode.QUERY } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.objectContaining({
+            mode: ColumnFilterMode.QUERY,
+          }),
+        })
+      );
+    });
+
+    it('Should allow to select supported variable for query filter', () => {
+      jest.mocked(getTemplateSrv().getVariables).mockReturnValue([
+        createVariable({
+          name: 'var1',
+          type: 'textbox',
+        }),
+      ]);
+
+      render(
+        getComponent({
+          value: createColumnConfig({ filter: { enabled: true, mode: ColumnFilterMode.QUERY, variable: '' } }),
+        })
+      );
+
+      expect(selectors.fieldFilterVariable()).toBeInTheDocument();
+      expect(selectors.fieldFilterVariable()).toHaveValue('');
+
+      fireEvent.change(selectors.fieldFilterVariable(), { target: { value: 'var1' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          filter: expect.objectContaining({
+            variable: 'var1',
+          }),
+        })
+      );
+    });
+
+    it('Should disallow to select unsupported variable for query filter', () => {
+      jest.mocked(getTemplateSrv().getVariables).mockReturnValue([
+        createVariable({
+          name: 'var1',
+          type: 'datasource',
+        }),
+      ]);
+
+      render(
+        getComponent({
+          value: createColumnConfig({ filter: { enabled: true, mode: ColumnFilterMode.QUERY, variable: '' } }),
+        })
+      );
+
+      expect(selectors.fieldFilterVariable()).toBeInTheDocument();
+      expect(selectors.fieldFilterVariable()).toHaveValue('');
+
+      fireEvent.change(selectors.fieldFilterVariable(), { target: { value: 'var1' } });
+
+      expect(onChange).not.toHaveBeenCalled();
+    });
   });
 });

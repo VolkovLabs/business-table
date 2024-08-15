@@ -35,6 +35,8 @@ export const TEST_IDS = {
     fieldGroup: createSelector('data-testid column-editor field-group'),
     fieldAggregation: createSelector('data-testid column-editor field-aggregation'),
     fieldFilterEnabled: createSelector('data-testid column-editor field-filter-enabled'),
+    fieldFilterMode: createSelector('data-testid column-editor field-filter-mode'),
+    fieldFilterVariable: createSelector('data-testid column-editor field-filter-variable'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),

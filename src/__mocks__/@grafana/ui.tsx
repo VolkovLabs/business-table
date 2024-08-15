@@ -43,7 +43,11 @@ const SelectMock = ({
             []
           );
           // eslint-disable-next-line eqeqeq
-          onChange(plainOptions.find((option: any) => option.value == event.target.value));
+          const option = plainOptions.find((option: any) => option.value == event.target.value);
+
+          if (!option.isDisabled) {
+            onChange(option);
+          }
         }
       }
     }}
