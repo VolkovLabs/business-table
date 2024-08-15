@@ -3,9 +3,9 @@ import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineSwitch, Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '../../types';
-import { getFieldBySource, getSupportedFilterTypesForVariable } from '../../utils';
+import { TEST_IDS } from '@/constants';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '@/types';
+import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
  * Properties

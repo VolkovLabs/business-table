@@ -3,9 +3,10 @@ import { Checkbox, useStyles2 } from '@grafana/ui';
 import { Header } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
-import { ALL_VALUE_PARAMETER } from '../../constants';
-import { ColumnFilterMode } from '../../types';
-import { getStyles } from './Table.styles';
+import { ALL_VALUE_PARAMETER } from '@/constants';
+import { ColumnFilterMode } from '@/types';
+
+import { getStyles } from './FilterFacetedList.styles';
 
 /**
  * Properties

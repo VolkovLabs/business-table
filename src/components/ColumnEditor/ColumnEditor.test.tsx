@@ -4,9 +4,10 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { CellAggregation, CellType, ColumnFilterMode } from '../../types';
-import { createColumnConfig, createVariable } from '../../utils';
+import { TEST_IDS } from '@/constants';
+import { CellAggregation, CellType, ColumnFilterMode } from '@/types';
+import { createColumnConfig, createVariable } from '@/utils';
+
 import { ColumnEditor } from './ColumnEditor';
 
 type Props = React.ComponentProps<typeof ColumnEditor>;

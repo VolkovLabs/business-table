@@ -16,10 +16,11 @@ import {
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { RefObject, useCallback, useMemo, useState } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { useSyncedColumnFilters } from '../../hooks';
+import { TEST_IDS } from '@/constants';
+import { useSyncedColumnFilters } from '@/hooks';
+
+import { TableHeaderCell } from './components';
 import { getStyles } from './Table.styles';
-import { TableHeaderCell } from './TableHeaderCell';
 
 /**
  * Properties

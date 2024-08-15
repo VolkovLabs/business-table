@@ -2,8 +2,8 @@ import { Icon, Popover, useStyles2, useTheme2 } from '@grafana/ui';
 import { Header } from '@tanstack/react-table';
 import React, { useCallback, useRef, useState } from 'react';
 
-import { FilterPopup } from './FilterPopup';
-import { getStyles } from './Table.styles';
+import { FilterPopup } from '../FilterPopup';
+import { getStyles } from './TableHeaderCellFilter.styles';
 
 /**
  * Properties

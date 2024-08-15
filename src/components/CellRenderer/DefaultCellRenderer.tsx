@@ -2,8 +2,8 @@ import { Field } from '@grafana/data';
 import { FormattedValueDisplay } from '@grafana/ui';
 import React, { ReactElement } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { CellType, ColumnConfig } from '../../types';
+import { TEST_IDS } from '@/constants';
+import { CellType, ColumnConfig } from '@/types';
 
 /**
  * Properties

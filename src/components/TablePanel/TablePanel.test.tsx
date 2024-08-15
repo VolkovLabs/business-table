@@ -3,9 +3,10 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { useSavedState, useTable } from '../../hooks';
-import { PanelOptions } from '../../types';
+import { TEST_IDS } from '@/constants';
+import { useSavedState, useTable } from '@/hooks';
+import { PanelOptions } from '@/types';
+
 import { TablePanel } from './TablePanel';
 
 /**

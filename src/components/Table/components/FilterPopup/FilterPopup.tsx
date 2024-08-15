@@ -14,10 +14,11 @@ import { Header } from '@tanstack/react-table';
 import { NumberInput } from '@volkovlabs/components';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
-import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '../../types';
-import { getFilterWithNewType } from '../../utils';
+import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
+import { getFilterWithNewType } from '@/utils';
+
 import { FilterFacetedList } from './FilterFacetedList';
-import { getStyles } from './Table.styles';
+import { getStyles } from './FilterPopup.styles';
 
 /**
  * Properties

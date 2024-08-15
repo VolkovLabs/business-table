@@ -3,7 +3,8 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
 
-import { TEST_IDS } from '../../constants';
+import { TEST_IDS } from '@/constants';
+
 import { Table } from './Table';
 
 type Props = React.ComponentProps<typeof Table>;

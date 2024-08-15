@@ -2,7 +2,8 @@ import { Field } from '@grafana/data';
 import { CellContext } from '@tanstack/react-table';
 import React from 'react';
 
-import { CellType, ColumnConfig } from '../../types';
+import { CellType, ColumnConfig } from '@/types';
+
 import { DefaultCellRenderer } from './DefaultCellRenderer';
 
 /**

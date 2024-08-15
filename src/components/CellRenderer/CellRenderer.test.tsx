@@ -1,8 +1,9 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 
-import { CellType } from '../../types';
-import { createColumnConfig } from '../../utils';
+import { CellType } from '@/types';
+import { createColumnConfig } from '@/utils';
+
 import { CellRenderer } from './CellRenderer';
 import { DefaultCellRenderer } from './DefaultCellRenderer';
 

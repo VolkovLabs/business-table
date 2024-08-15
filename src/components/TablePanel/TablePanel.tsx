@@ -2,9 +2,10 @@ import { PanelProps } from '@grafana/data';
 import { ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import React, { useEffect, useMemo } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { PanelPropsContextProvider, useContentSizes, useSavedState, useTable } from '../../hooks';
-import { PanelOptions } from '../../types';
+import { TEST_IDS } from '@/constants';
+import { PanelPropsContextProvider, useContentSizes, useSavedState, useTable } from '@/hooks';
+import { PanelOptions } from '@/types';
+
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
 
