@@ -1,8 +1,10 @@
-import { ColumnFilterType } from '@/types';
-import { getVariableColumnFilters, mergeColumnFilters } from '@/utils';
 import { EventBusSrv } from '@grafana/data';
 import { RefreshEvent } from '@grafana/runtime';
 import { act, renderHook } from '@testing-library/react';
+
+import { ColumnFilterType } from '@/types';
+import { getVariableColumnFilters, mergeColumnFilters } from '@/utils';
+
 import { useSyncedColumnFilters } from './useSyncedColumnFilters';
 
 /**
