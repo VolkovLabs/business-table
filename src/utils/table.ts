@@ -2,7 +2,7 @@ import { dateTime, TypedVariableModel } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { ColumnDef, ColumnFilter, ColumnFiltersState, filterFns, FilterMeta, Row } from '@tanstack/react-table';
 
-import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '../types';
+import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
 
 /**
  * Identify Filter

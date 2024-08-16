@@ -71,6 +71,9 @@ export const TEST_IDS = {
     buttonCancel: createSelector('data-testid filter-popup button-cancel'),
     buttonSave: createSelector('data-testid filter-popup button-sae'),
   },
+  tableHeaderCellFilter: {
+    root: createSelector('data-testid table-header-cell-filter'),
+  },
 };
 
 /**

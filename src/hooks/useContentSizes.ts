@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { PanelOptions } from '../types';
+import { PanelOptions } from '@/types';
 
 /**
  * Content Sizes

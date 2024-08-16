@@ -1,6 +1,6 @@
 import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame, TypedVariableModel } from '@grafana/data';
 
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '@/types';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, PanelOptions } from '@/types';
 
 /**
  * Create Column Config
@@ -58,3 +58,11 @@ export const createVariable = (
     } as never,
     ...item,
   }) as never;
+
+/**
+ * Create Panel Options
+ */
+export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOptions => ({
+  groups: [],
+  ...options,
+});

@@ -5,7 +5,7 @@ import React from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useSavedState, useTable } from '@/hooks';
-import { PanelOptions } from '@/types';
+import { createPanelOptions } from '@/utils';
 
 import { TablePanel } from './TablePanel';
 
@@ -49,14 +49,6 @@ describe('TablePanel', () => {
   };
 
   /**
-   * Create Options
-   */
-  const createOptions = (options: Partial<PanelOptions> = {}): PanelOptions => ({
-    groups: [],
-    ...options,
-  });
-
-  /**
    * Get Tested Component
    */
   const getComponent = (props: Partial<Props>) => {
@@ -65,7 +57,7 @@ describe('TablePanel', () => {
         width={400}
         height={400}
         data={data}
-        options={createOptions()}
+        options={createPanelOptions()}
         eventBus={new EventBusSrv()}
         {...(props as any)}
       />

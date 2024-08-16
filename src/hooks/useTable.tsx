@@ -3,9 +3,9 @@ import { getTemplateSrv } from '@grafana/runtime';
 import { ColumnDef } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
-import { CellRenderer } from '../components';
-import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType } from '../types';
-import { columnFilter, filterFieldBySource, getFrameBySource, getSupportedFilterTypesForVariable } from '../utils';
+import { CellRenderer } from '@/components';
+import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType } from '@/types';
+import { columnFilter, filterFieldBySource, getFrameBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
  * Use Table

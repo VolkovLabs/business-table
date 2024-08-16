@@ -3,7 +3,7 @@ import { RefreshEvent } from '@grafana/runtime';
 import { ColumnDef, ColumnFiltersState } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 
-import { getVariableColumnFilters, mergeColumnFilters } from '../utils';
+import { getVariableColumnFilters, mergeColumnFilters } from '@/utils';
 
 /**
  * Use synced column filters with variables

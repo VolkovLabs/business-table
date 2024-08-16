@@ -123,12 +123,20 @@ const TimeRangeInputMock = ({ onChange, ...restProps }: any) => {
 
 const TimeRangeInput = jest.fn(TimeRangeInputMock);
 
+/**
+ * Mock Popover
+ */
+const PopoverMock = ({ content, show }: any) => (show ? content : null);
+
+const Popover = jest.fn(PopoverMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
   ButtonSelect.mockImplementation(SelectMock);
   ToolbarButtonRow.mockImplementation(ToolbarButtonRowMock);
   TimeRangeInput.mockImplementation(TimeRangeInputMock);
+  Popover.mockImplementation(PopoverMock);
 });
 
 module.exports = {
@@ -138,4 +146,5 @@ module.exports = {
   ToolbarButtonRow,
   ButtonSelect,
   TimeRangeInput,
+  Popover,
 };
