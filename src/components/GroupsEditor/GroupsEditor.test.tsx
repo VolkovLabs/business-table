@@ -4,7 +4,8 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '../../constants';
+import { TEST_IDS } from '@/constants';
+
 import { ColumnsEditor } from '../ColumnsEditor';
 import { GroupsEditor } from './GroupsEditor';
 

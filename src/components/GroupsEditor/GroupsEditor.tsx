@@ -5,9 +5,10 @@ import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDr
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { Group, PanelOptions } from '../../types';
-import { reorder } from '../../utils';
+import { TEST_IDS } from '@/constants';
+import { Group, PanelOptions } from '@/types';
+import { reorder } from '@/utils';
+
 import { ColumnsEditor } from '../ColumnsEditor';
 import { getStyles } from './GroupsEditor.styles';
 

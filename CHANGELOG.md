@@ -4,7 +4,8 @@
 
 ### Features / Enhancements
 
-- Signed as Community plugin
+- Signed as Community plugin (#23)
+- Added Column Filtering (#21)
 
 ## 1.0.0 (2024-08-04)
 

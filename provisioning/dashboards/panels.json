@@ -69,6 +69,11 @@
                   "name": "id",
                   "source": "A"
                 },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
                 "group": false,
                 "label": "",
                 "type": "auto"
@@ -77,6 +82,11 @@
                 "field": {
                   "name": "name",
                   "source": "A"
+                },
+                "filter": {
+                  "enabled": true,
+                  "mode": "client",
+                  "variable": ""
                 },
                 "group": false,
                 "label": "",
@@ -87,6 +97,11 @@
                   "name": "value",
                   "source": "A"
                 },
+                "filter": {
+                  "enabled": true,
+                  "mode": "client",
+                  "variable": ""
+                },
                 "group": false,
                 "label": "",
                 "type": "auto"
@@ -95,6 +110,11 @@
                 "field": {
                   "name": "json",
                   "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
                 },
                 "group": false,
                 "label": "",
@@ -105,6 +125,7 @@
           }
         ]
       },
+      "pluginVersion": "1.0.0",
       "targets": [
         {
           "datasource": {
@@ -117,25 +138,41 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3]
+                "values": [
+                  1,
+                  2,
+                  3
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["Device 1", "Device 2", "Device 3"]
+                "values": [
+                  "Device 1",
+                  "Device 2",
+                  "Device 3"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20]
+                "values": [
+                  10,
+                  15,
+                  20
+                ]
               },
               {
                 "config": {},
                 "name": "json",
                 "type": "string",
-                "values": ["{ \"name\": \"Device1\" }", "{ \"name\": \"Device2\" }", "{ \"name\": \"Device3\" }"]
+                "values": [
+                  "{ \"name\": \"Device1\" }",
+                  "{ \"name\": \"Device2\" }",
+                  "{ \"name\": \"Device3\" }"
+                ]
               }
             ],
             "meta": {},
@@ -205,6 +242,11 @@
                   "name": "country",
                   "source": "A"
                 },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
                 "group": true,
                 "type": "auto"
               },
@@ -212,6 +254,11 @@
                 "field": {
                   "name": "city",
                   "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
                 },
                 "group": true,
                 "label": "City",
@@ -223,6 +270,11 @@
                   "name": "device",
                   "source": "A"
                 },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
                 "type": "auto"
               },
               {
@@ -230,6 +282,11 @@
                 "field": {
                   "name": "value",
                   "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
                 },
                 "type": "auto"
               }
@@ -243,6 +300,11 @@
                   "name": "device",
                   "source": "A"
                 },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
                 "group": true,
                 "label": "",
                 "type": "auto"
@@ -253,6 +315,11 @@
                   "name": "value",
                   "source": "A"
                 },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
                 "label": "",
                 "type": "auto"
               }
@@ -261,6 +328,7 @@
           }
         ]
       },
+      "pluginVersion": "1.0.0",
       "targets": [
         {
           "datasource": {
@@ -273,13 +341,33 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -301,7 +389,17 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
               }
             ],
             "meta": {}
@@ -368,6 +466,11 @@
                   "name": "name",
                   "source": "A"
                 },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
                 "group": true,
                 "label": "",
                 "type": "auto"
@@ -378,6 +481,11 @@
                   "name": "id",
                   "source": "A"
                 },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
                 "group": false,
                 "label": "",
                 "type": "auto"
@@ -387,6 +495,7 @@
           }
         ]
       },
+      "pluginVersion": "1.0.0",
       "targets": [
         {
           "datasource": {
@@ -449,6 +558,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 3,
+  "version": 1,
   "weekStart": ""
 }

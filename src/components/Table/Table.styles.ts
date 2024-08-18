@@ -28,9 +28,11 @@ export const getStyles = (theme: GrafanaTheme2) => {
     `,
     headerCell: css`
       display: flex;
-      height: ${theme.spacing(3.5)};
+      min-height: ${theme.spacing(3.5)};
       align-items: center;
       padding: ${theme.spacing(0.75)};
+      gap: ${theme.spacing(0.5)};
+      flex-wrap: wrap;
 
       &:not(:last-child) {
         border-right: 1px solid ${borderColor};
@@ -50,9 +52,9 @@ export const getStyles = (theme: GrafanaTheme2) => {
     `,
     cell: css`
       display: flex;
-      height: ${theme.spacing(4.5)};
+      min-height: ${theme.spacing(4.5)};
       align-items: center;
-      white-space: nowrap;
+      white-space: wrap;
       padding: ${theme.spacing(0.75)};
 
       &:not(:last-child) {

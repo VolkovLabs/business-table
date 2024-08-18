@@ -1,5 +1,3 @@
-const actual = jest.requireActual('@grafana/ui');
-
 /**
  * Mock DragDropContext
  */
@@ -37,7 +35,6 @@ beforeEach(() => {
 });
 
 module.exports = {
-  ...actual,
   DragDropContext,
   Droppable,
   Draggable,

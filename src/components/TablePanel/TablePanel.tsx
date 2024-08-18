@@ -2,9 +2,10 @@ import { PanelProps } from '@grafana/data';
 import { ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import React, { useEffect, useMemo } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { useContentSizes, useSavedState, useTable } from '../../hooks';
-import { PanelOptions } from '../../types';
+import { TEST_IDS } from '@/constants';
+import { useContentSizes, useSavedState, useTable } from '@/hooks';
+import { PanelOptions } from '@/types';
+
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
 
@@ -14,9 +15,9 @@ import { getStyles } from './TablePanel.styles';
 interface Props extends PanelProps<PanelOptions> {}
 
 /**
- * Panel
+ * Table Panel
  */
-export const TablePanel: React.FC<Props> = ({ id, data, width, height, options }) => {
+export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, eventBus }) => {
   /**
    * Styles
    */
@@ -136,6 +137,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options }
           tableHeaderRef={tableHeaderRef}
           topOffset={tableTopOffset}
           scrollableContainerRef={scrollableContainerRef}
+          eventBus={eventBus}
         />
       </div>
     </div>

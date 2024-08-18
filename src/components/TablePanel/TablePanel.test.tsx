@@ -1,10 +1,12 @@
+import { EventBusSrv } from '@grafana/data';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { useSavedState, useTable } from '../../hooks';
-import { PanelOptions } from '../../types';
+import { TEST_IDS } from '@/constants';
+import { useSavedState, useTable } from '@/hooks';
+import { createPanelOptions } from '@/utils';
+
 import { TablePanel } from './TablePanel';
 
 /**
@@ -47,18 +49,19 @@ describe('TablePanel', () => {
   };
 
   /**
-   * Create Options
-   */
-  const createOptions = (options: Partial<PanelOptions> = {}): PanelOptions => ({
-    groups: [],
-    ...options,
-  });
-
-  /**
    * Get Tested Component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <TablePanel width={400} height={400} data={data} options={createOptions()} {...(props as any)} />;
+    return (
+      <TablePanel
+        width={400}
+        height={400}
+        data={data}
+        options={createPanelOptions()}
+        eventBus={new EventBusSrv()}
+        {...(props as any)}
+      />
+    );
   };
 
   beforeEach(() => {

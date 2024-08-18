@@ -1,15 +1,21 @@
-import { DataFrame, Field, PanelData } from '@grafana/data';
+import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
 import { ColumnDef } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
-import { CellRenderer } from '../components';
-import { CellAggregation, ColumnConfig } from '../types';
-import { filterFieldBySource, getFrameBySource } from '../utils';
+import { CellRenderer } from '@/components';
+import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType } from '@/types';
+import { columnFilter, filterFieldBySource, getFrameBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
  * Use Table
  */
 export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; columns?: ColumnConfig[] }) => {
+  /**
+   * Template Service
+   */
+  const templateService = getTemplateSrv();
+
   /**
    * Columns Data
    */
@@ -87,6 +93,40 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
     const columns: Array<ColumnDef<unknown>> = [];
 
     for (const column of columnsData.items) {
+      const availableFilterTypes: ColumnFilterType[] = [];
+
+      /**
+       * Calc available filter types for client side filtering
+       */
+      if (column.config.filter.mode === ColumnFilterMode.CLIENT) {
+        switch (column.field.type) {
+          case FieldType.string: {
+            availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
+            break;
+          }
+          case FieldType.number: {
+            availableFilterTypes.push(...[ColumnFilterType.NUMBER]);
+            break;
+          }
+          case FieldType.time: {
+            availableFilterTypes.push(...[ColumnFilterType.TIMESTAMP]);
+            break;
+          }
+          default: {
+            availableFilterTypes.push(...[ColumnFilterType.SEARCH, ColumnFilterType.FACETED]);
+          }
+        }
+      } else if (column.config.filter.mode === ColumnFilterMode.QUERY) {
+        /**
+         * Calc available filter types for query side filter
+         */
+        const variable = templateService.getVariables().find((item) => item.name === column.config.filter.variable);
+
+        if (variable) {
+          availableFilterTypes.push(...getSupportedFilterTypesForVariable(variable));
+        }
+      }
+
       columns.push({
         id: column.field.name,
         accessorKey: column.field.name,
@@ -94,11 +134,18 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         cell: (props) => <CellRenderer {...props} config={column.config} field={column.field} />,
         enableGrouping: column.config.group,
         aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
+        enableColumnFilter: column.config.filter.enabled && availableFilterTypes.length > 0,
+        filterFn: column.config.filter.mode === ColumnFilterMode.CLIENT ? columnFilter : () => true,
+        meta: {
+          availableFilterTypes,
+          filterMode: column.config.filter.mode,
+          filterVariableName: column.config.filter.variable,
+        },
       });
     }
 
     return columns;
-  }, [columnsData.frame, columnsData.items]);
+  }, [columnsData.frame, columnsData.items, templateService]);
 
   return useMemo(
     () => ({

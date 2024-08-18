@@ -1,10 +1,11 @@
 import { DataFrame } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineSwitch, Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { CellAggregation, CellType, ColumnConfig } from '../../types';
-import { getFieldBySource } from '../../utils';
+import { TEST_IDS } from '@/constants';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '@/types';
+import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
  * Properties
@@ -91,6 +92,20 @@ const aggregationOptions = [
 ];
 
 /**
+ * Filter Mode Options
+ */
+const filterModeOptions = [
+  {
+    value: ColumnFilterMode.CLIENT,
+    label: 'Client',
+  },
+  {
+    value: ColumnFilterMode.QUERY,
+    label: 'Query',
+  },
+];
+
+/**
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
@@ -100,6 +115,28 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
   const field = useMemo(() => {
     return getFieldBySource(data, value.field);
   }, [data, value.field]);
+
+  /**
+   * Variable Options
+   */
+  const variableOptions = useMemo(() => {
+    if (!value.filter.enabled || value.filter.mode !== ColumnFilterMode.QUERY) {
+      return [];
+    }
+
+    const variables = getTemplateSrv().getVariables();
+
+    return variables.map((variable) => {
+      const supportedFilterTypes = getSupportedFilterTypesForVariable(variable);
+
+      return {
+        label: variable.label || variable.name,
+        value: variable.name,
+        description: supportedFilterTypes.length === 0 ? 'Not supported variable type' : '',
+        isDisabled: supportedFilterTypes.length === 0,
+      };
+    });
+  }, [value.filter.enabled, value.filter.mode]);
 
   return (
     <>
@@ -155,6 +192,60 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
             {...TEST_IDS.columnEditor.fieldAggregation.apply()}
           />
         </InlineField>
+      )}
+      <InlineField label="Allow Filtering" grow={true}>
+        <InlineSwitch
+          value={value.filter.enabled}
+          onChange={(event) =>
+            onChange({
+              ...value,
+              filter: {
+                ...value.filter,
+                enabled: event.currentTarget.checked,
+              },
+            })
+          }
+          {...TEST_IDS.columnEditor.fieldFilterEnabled.apply()}
+        />
+      </InlineField>
+      {value.filter.enabled && (
+        <>
+          <InlineField label="Mode">
+            <Select
+              value={value.filter.mode}
+              onChange={(event) => {
+                onChange({
+                  ...value,
+                  filter: {
+                    ...value.filter,
+                    mode: event.value!,
+                  },
+                });
+              }}
+              options={filterModeOptions}
+              {...TEST_IDS.columnEditor.fieldFilterMode.apply()}
+            />
+          </InlineField>
+          {value.filter.mode === ColumnFilterMode.QUERY && (
+            <InlineField label="Variable" grow={true}>
+              <Select
+                value={value.filter.variable}
+                options={variableOptions}
+                onChange={(event) => {
+                  onChange({
+                    ...value,
+                    filter: {
+                      ...value.filter,
+                      variable: event.value!,
+                    },
+                  });
+                }}
+                isClearable={true}
+                {...TEST_IDS.columnEditor.fieldFilterVariable.apply()}
+              />
+            </InlineField>
+          )}
+        </>
       )}
     </>
   );

@@ -1,38 +1,4 @@
-/**
- * Cell Type
- */
-export enum CellType {
-  AUTO = 'auto',
-  COLORED_TEXT = 'coloredText',
-}
-
-/**
- * Cell Aggregation
- */
-export enum CellAggregation {
-  NONE = 'none',
-  SUM = 'sum',
-  MIN = 'min',
-  MAX = 'max',
-  EXTENT = 'extent',
-  MEAN = 'mean',
-  MEDIAN = 'median',
-  UNIQUE = 'unique',
-  UNIQUE_COUNT = 'uniqueCount',
-  COUNT = 'count',
-}
-
-/**
- * Cell Options
- */
-export interface CellOptions {
-  /**
-   * Cell Type
-   *
-   * @type {CellType}
-   */
-  type: CellType;
-}
+import { CellAggregation, CellType, ColumnFilterMode } from './table';
 
 /**
  * Field Source
@@ -49,6 +15,32 @@ export interface FieldSource {
    * Data Frame ID or Frame Index if no specified
    */
   source: string | number;
+}
+
+/**
+ * Column Filter Config
+ */
+export interface ColumnFilterConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
+   * Mode
+   *
+   * @type {ColumnFilterMode}
+   */
+  mode: ColumnFilterMode;
+
+  /**
+   * Variable
+   *
+   * @type {string}
+   */
+  variable: string;
 }
 
 /**
@@ -89,6 +81,13 @@ export interface ColumnConfig {
    * @type {CellAggregation}
    */
   aggregation: CellAggregation;
+
+  /**
+   * Filter
+   *
+   * @type {ColumnFilterConfig}
+   */
+  filter: ColumnFilterConfig;
 }
 
 /**

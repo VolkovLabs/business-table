@@ -1,4 +1,5 @@
 import { cx } from '@emotion/css';
+import { EventBus } from '@grafana/data';
 import { IconButton, useStyles2 } from '@grafana/ui';
 import {
   ColumnDef,
@@ -6,13 +7,19 @@ import {
   flexRender,
   getCoreRowModel,
   getExpandedRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
   getGroupedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { RefObject, useCallback, useMemo, useState } from 'react';
 
-import { TEST_IDS } from '../../constants';
+import { TEST_IDS } from '@/constants';
+import { useSyncedColumnFilters } from '@/hooks';
+
+import { TableHeaderCell } from './components';
 import { getStyles } from './Table.styles';
 
 /**
@@ -50,6 +57,13 @@ interface Props<TData> {
    * Scrollable Container Ref
    */
   scrollableContainerRef: RefObject<HTMLDivElement>;
+
+  /**
+   * Event Bus
+   *
+   * @type {EventBus}
+   */
+  eventBus: EventBus;
 }
 
 /**
@@ -62,6 +76,7 @@ export const Table = <TData,>({
   tableHeaderRef,
   tableRef,
   topOffset,
+  eventBus,
 }: Props<TData>) => {
   /**
    * Styles
@@ -81,21 +96,49 @@ export const Table = <TData,>({
   const [expanded, setExpanded] = useState<ExpandedState>({});
 
   /**
+   * Filtering
+   */
+  const [columnFilters, setColumnFilters] = useSyncedColumnFilters({ columns, eventBus });
+
+  /**
    * React Table
    */
   const table = useReactTable({
     state: {
       grouping,
       expanded,
+      columnFilters,
     },
+
+    /**
+     * Basic
+     */
     data,
+    columns,
     getCoreRowModel: getCoreRowModel(),
+
+    /**
+     * Grouping
+     */
     getGroupedRowModel: getGroupedRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
-    onExpandedChange: setExpanded,
-    columns,
     enableExpanding: true,
     enableGrouping: true,
+    onExpandedChange: setExpanded,
+
+    /**
+     * Filtering
+     */
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+
+    /**
+     * Debug
+     */
+    debugTable: false,
+    debugColumns: false,
   });
 
   /**
@@ -134,7 +177,7 @@ export const Table = <TData,>({
                 }}
                 {...TEST_IDS.table.headerCell.apply(header.id)}
               >
-                {flexRender(header.column.columnDef.header, header.getContext())}
+                <TableHeaderCell header={header} />
               </th>
             ))}
           </tr>

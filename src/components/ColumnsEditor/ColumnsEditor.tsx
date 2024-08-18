@@ -5,9 +5,10 @@ import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDr
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { TEST_IDS } from '../../constants';
-import { CellAggregation, CellType, ColumnConfig, FieldSource, Group } from '../../types';
-import { reorder } from '../../utils';
+import { TEST_IDS } from '@/constants';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource, Group } from '@/types';
+import { reorder } from '@/utils';
+
 import { ColumnEditor } from '../ColumnEditor';
 import { getStyles } from './ColumnsEditor.styles';
 
@@ -144,6 +145,11 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           type: CellType.AUTO,
           group: false,
           aggregation: CellAggregation.NONE,
+          filter: {
+            enabled: false,
+            mode: ColumnFilterMode.CLIENT,
+            variable: '',
+          },
         },
       ]);
       setNewItem(null);

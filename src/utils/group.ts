@@ -1,7 +1,7 @@
 import { DataFrame, Field } from '@grafana/data';
 import { findField } from '@volkovlabs/grafana-utils';
 
-import { FieldSource } from '../types';
+import { FieldSource } from '@/types';
 
 /**
  * Reorder

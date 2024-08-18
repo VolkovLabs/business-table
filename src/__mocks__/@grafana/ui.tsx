@@ -43,7 +43,11 @@ const SelectMock = ({
             []
           );
           // eslint-disable-next-line eqeqeq
-          onChange(plainOptions.find((option: any) => option.value == event.target.value));
+          const option = plainOptions.find((option: any) => option.value == event.target.value);
+
+          if (!option.isDisabled) {
+            onChange(option);
+          }
         }
       }
     }}
@@ -82,6 +86,11 @@ const SelectMock = ({
 const Select = jest.fn(SelectMock);
 
 /**
+ * Mock Button Select
+ */
+const ButtonSelect = jest.fn(SelectMock);
+
+/**
  * Mock Button Row Toolbar
  */
 const ToolbarButtonRowMock = ({ leftItems, children }: any) => {
@@ -95,10 +104,39 @@ const ToolbarButtonRowMock = ({ leftItems, children }: any) => {
 
 const ToolbarButtonRow = jest.fn(ToolbarButtonRowMock);
 
+/**
+ * Mock TimeRangeInput component
+ */
+const TimeRangeInputMock = ({ onChange, ...restProps }: any) => {
+  return (
+    <input
+      data-testid={restProps['data-testid']}
+      value={restProps.value}
+      onChange={(event) => {
+        if (onChange) {
+          onChange(event.target.value);
+        }
+      }}
+    />
+  );
+};
+
+const TimeRangeInput = jest.fn(TimeRangeInputMock);
+
+/**
+ * Mock Popover
+ */
+const PopoverMock = ({ content, show }: any) => (show ? content : null);
+
+const Popover = jest.fn(PopoverMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
+  ButtonSelect.mockImplementation(SelectMock);
   ToolbarButtonRow.mockImplementation(ToolbarButtonRowMock);
+  TimeRangeInput.mockImplementation(TimeRangeInputMock);
+  Popover.mockImplementation(PopoverMock);
 });
 
 module.exports = {
@@ -106,4 +144,7 @@ module.exports = {
   Select,
   Button,
   ToolbarButtonRow,
+  ButtonSelect,
+  TimeRangeInput,
+  Popover,
 };
