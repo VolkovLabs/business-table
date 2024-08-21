@@ -1,6 +1,6 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, InlineSwitch, Input, Select } from '@grafana/ui';
+import { InlineField, InlineFieldRow, InlineSwitch, Input, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -166,18 +166,51 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
           {...TEST_IDS.columnEditor.fieldType.apply()}
         />
       </InlineField>
-      <InlineField label="Group" grow={true}>
-        <InlineSwitch
-          value={value.group}
-          onChange={(event) =>
-            onChange({
-              ...value,
-              group: event.currentTarget.checked,
-            })
-          }
-          {...TEST_IDS.columnEditor.fieldGroup.apply()}
-        />
-      </InlineField>
+      <InlineFieldRow>
+        <InlineField label="Group" grow={true}>
+          <InlineSwitch
+            value={value.group}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                group: event.currentTarget.checked,
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldGroup.apply()}
+          />
+        </InlineField>
+        <InlineField label="Filter" grow={true}>
+          <InlineSwitch
+            value={value.filter.enabled}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                filter: {
+                  ...value.filter,
+                  enabled: event.currentTarget.checked,
+                },
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldFilterEnabled.apply()}
+          />
+        </InlineField>
+        <InlineField label="Sort" grow={true}>
+          <InlineSwitch
+            value={value.sort.enabled}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                sort: {
+                  ...value.sort,
+                  enabled: event.currentTarget.checked,
+                },
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldSortEnabled.apply()}
+          />
+        </InlineField>
+      </InlineFieldRow>
+
       {!value.group && (
         <InlineField label="Aggregation" grow={true}>
           <Select
@@ -193,24 +226,10 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
           />
         </InlineField>
       )}
-      <InlineField label="Allow Filtering" grow={true}>
-        <InlineSwitch
-          value={value.filter.enabled}
-          onChange={(event) =>
-            onChange({
-              ...value,
-              filter: {
-                ...value.filter,
-                enabled: event.currentTarget.checked,
-              },
-            })
-          }
-          {...TEST_IDS.columnEditor.fieldFilterEnabled.apply()}
-        />
-      </InlineField>
+
       {value.filter.enabled && (
-        <>
-          <InlineField label="Mode">
+        <InlineFieldRow>
+          <InlineField label="Filter Mode">
             <Select
               value={value.filter.mode}
               onChange={(event) => {
@@ -245,23 +264,8 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
               />
             </InlineField>
           )}
-        </>
+        </InlineFieldRow>
       )}
-      <InlineField label="Allow Sorting" grow={true}>
-        <InlineSwitch
-          value={value.sort.enabled}
-          onChange={(event) =>
-            onChange({
-              ...value,
-              sort: {
-                ...value.sort,
-                enabled: event.currentTarget.checked,
-              },
-            })
-          }
-          {...TEST_IDS.columnEditor.fieldSortEnabled.apply()}
-        />
-      </InlineField>
     </>
   );
 };
