@@ -1,7 +1,7 @@
-import { flexRender, Header } from '@tanstack/react-table';
-import React from 'react';
 import { cx } from '@emotion/css';
 import { Icon, useStyles2 } from '@grafana/ui';
+import { flexRender, Header } from '@tanstack/react-table';
+import React from 'react';
 
 import { getStyles } from './TableHeaderCell.styles';
 import { TableHeaderCellFilter } from './TableHeaderCellFilter';
