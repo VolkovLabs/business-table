@@ -247,6 +247,21 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
           )}
         </>
       )}
+      <InlineField label="Allow Sorting" grow={true}>
+        <InlineSwitch
+          value={value.sort.enabled}
+          onChange={(event) =>
+            onChange({
+              ...value,
+              sort: {
+                ...value.sort,
+                enabled: event.currentTarget.checked,
+              },
+            })
+          }
+          {...TEST_IDS.columnEditor.fieldSortEnabled.apply()}
+        />
+      </InlineField>
     </>
   );
 };

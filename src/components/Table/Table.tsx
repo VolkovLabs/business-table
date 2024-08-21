@@ -11,6 +11,8 @@ import {
   getFacetedUniqueValues,
   getFilteredRowModel,
   getGroupedRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
@@ -101,6 +103,11 @@ export const Table = <TData,>({
   const [columnFilters, setColumnFilters] = useSyncedColumnFilters({ columns, eventBus });
 
   /**
+   * Sorting
+   */
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+
+  /**
    * React Table
    */
   const table = useReactTable({
@@ -108,6 +115,7 @@ export const Table = <TData,>({
       grouping,
       expanded,
       columnFilters,
+      sorting,
     },
 
     /**
@@ -133,6 +141,13 @@ export const Table = <TData,>({
     onColumnFiltersChange: setColumnFilters,
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
+
+    /**
+     * Sorting
+     */
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    enableSorting: true,
 
     /**
      * Debug

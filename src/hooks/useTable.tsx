@@ -136,6 +136,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
         enableColumnFilter: column.config.filter.enabled && availableFilterTypes.length > 0,
         filterFn: column.config.filter.mode === ColumnFilterMode.CLIENT ? columnFilter : () => true,
+        enableSorting: column.config.sort.enabled,
         meta: {
           availableFilterTypes,
           filterMode: column.config.filter.mode,
