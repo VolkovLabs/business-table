@@ -1,17 +1,24 @@
 import { PanelModel } from '@grafana/data';
 
-import { ColumnConfig, ColumnFilterConfig, ColumnFilterMode, Group, PanelOptions } from './types';
+import { ColumnConfig, ColumnFilterConfig, ColumnFilterMode, ColumnSortConfig, Group, PanelOptions } from './types';
 
 /**
  * Outdated Column Config
  */
-interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter'> {
+interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort'> {
   /**
    * Filter
    *
    * Introduced in 1.1.0
    */
   filter?: ColumnFilterConfig;
+
+  /**
+   * Filter
+   *
+   * Introduced in 1.1.0
+   */
+  sort?: ColumnSortConfig;
 }
 
 /**
@@ -53,6 +60,15 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
               enabled: false,
               mode: ColumnFilterMode.CLIENT,
               variable: '',
+            };
+          }
+
+          /**
+           * Add sort options
+           */
+          if (!normalized.sort) {
+            normalized.sort = {
+              enabled: false,
             };
           }
 

@@ -213,4 +213,27 @@ describe('ColumnEditor', () => {
       expect(onChange).not.toHaveBeenCalled();
     });
   });
+
+  describe('sort', () => {
+    it('Should allow to enable sorting', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({ sort: { enabled: false } }),
+        })
+      );
+
+      expect(selectors.fieldSortEnabled()).toBeInTheDocument();
+      expect(selectors.fieldSortEnabled()).not.toBeChecked();
+
+      fireEvent.click(selectors.fieldSortEnabled());
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          sort: expect.objectContaining({
+            enabled: true,
+          }),
+        })
+      );
+    });
+  });
 });

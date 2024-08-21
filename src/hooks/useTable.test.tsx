@@ -364,4 +364,46 @@ describe('useTable', () => {
      */
     expect((result.current.columns[0].filterFn as any)()).toBeTruthy();
   });
+
+  it('Should build column sort', () => {
+    const deviceColumn = createColumnConfig({
+      label: 'Device',
+      field: {
+        source: refId,
+        name: 'device',
+      },
+      sort: {
+        enabled: true,
+      },
+    });
+    const valueColumn = createColumnConfig({
+      field: {
+        source: refId,
+        name: 'value',
+      },
+      sort: {
+        enabled: false,
+      },
+    });
+
+    const { result } = renderHook(() =>
+      useTable({
+        data: {
+          series: [frame],
+        } as any,
+        columns: [deviceColumn, valueColumn],
+      })
+    );
+
+    expect(result.current.columns).toEqual([
+      expect.objectContaining({
+        id: deviceColumn.field.name,
+        enableSorting: true,
+      }),
+      expect.objectContaining({
+        id: valueColumn.field.name,
+        enableSorting: false,
+      }),
+    ]);
+  });
 });

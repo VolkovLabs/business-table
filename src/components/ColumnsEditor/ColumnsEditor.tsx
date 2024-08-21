@@ -150,6 +150,9 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
             mode: ColumnFilterMode.CLIENT,
             variable: '',
           },
+          sort: {
+            enabled: false,
+          },
         },
       ]);
       setNewItem(null);

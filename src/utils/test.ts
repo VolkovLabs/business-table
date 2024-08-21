@@ -19,6 +19,9 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
     mode: ColumnFilterMode.CLIENT,
     variable: '',
   },
+  sort: {
+    enabled: false,
+  },
   ...item,
 });
 

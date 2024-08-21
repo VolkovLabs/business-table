@@ -44,6 +44,18 @@ export interface ColumnFilterConfig {
 }
 
 /**
+ * Column Sort Config
+ */
+export interface ColumnSortConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+}
+
+/**
  * Column Config
  */
 export interface ColumnConfig {
@@ -88,6 +100,13 @@ export interface ColumnConfig {
    * @type {ColumnFilterConfig}
    */
   filter: ColumnFilterConfig;
+
+  /**
+   * Sort
+   *
+   * @type {ColumnSortConfig}
+   */
+  sort: ColumnSortConfig;
 }
 
 /**
