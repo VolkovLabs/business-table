@@ -39,7 +39,15 @@ describe('ColumnEditor', () => {
    * Get component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <ColumnEditor value={createColumnConfig()} onChange={onChange} data={[frame]} {...(props as any)} />;
+    return (
+      <ColumnEditor
+        value={createColumnConfig()}
+        onChange={onChange}
+        data={[frame]}
+        isAggregationAvailable={false}
+        {...(props as any)}
+      />
+    );
   };
 
   it('Should allow to change label', () => {
@@ -93,8 +101,19 @@ describe('ColumnEditor', () => {
     expect(selectors.fieldAggregation(true)).not.toBeInTheDocument();
   });
 
+  it('Should hide aggregation if not available', () => {
+    render(getComponent({ value: createColumnConfig({ group: false }), isAggregationAvailable: false }));
+
+    expect(selectors.fieldAggregation(true)).not.toBeInTheDocument();
+  });
+
   it('Should allow to change aggregation', () => {
-    render(getComponent({ value: createColumnConfig({ group: false, aggregation: CellAggregation.UNIQUE_COUNT }) }));
+    render(
+      getComponent({
+        value: createColumnConfig({ group: false, aggregation: CellAggregation.UNIQUE_COUNT }),
+        isAggregationAvailable: true,
+      })
+    );
 
     expect(selectors.fieldAggregation()).toBeInTheDocument();
     expect(selectors.fieldAggregation()).toHaveValue(CellAggregation.UNIQUE_COUNT);

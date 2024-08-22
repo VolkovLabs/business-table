@@ -29,6 +29,13 @@ interface Props {
    * @type {DataFrame[]}
    */
   data: DataFrame[];
+
+  /**
+   * Is Aggregation Available
+   *
+   * @type {boolean}
+   */
+  isAggregationAvailable: boolean;
 }
 
 /**
@@ -108,7 +115,7 @@ const filterModeOptions = [
 /**
  * Column Editor
  */
-export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
+export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable }) => {
   /**
    * Current field
    */
@@ -211,7 +218,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
         </InlineField>
       </InlineFieldRow>
 
-      {!value.group && (
+      {!value.group && isAggregationAvailable && (
         <InlineField label="Aggregation" grow={true}>
           <Select
             value={value.aggregation}
