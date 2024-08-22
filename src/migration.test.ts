@@ -44,7 +44,7 @@ describe('migration', () => {
               ],
             },
           ],
-        }),
+        } as any),
       } as any);
 
       /**
