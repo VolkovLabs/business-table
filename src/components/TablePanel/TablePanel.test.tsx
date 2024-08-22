@@ -80,7 +80,7 @@ describe('TablePanel', () => {
       render(
         getComponent({
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [
@@ -110,12 +110,12 @@ describe('TablePanel', () => {
     );
   });
 
-  it('Should switch groups and scroll to selected', async () => {
+  it('Should switch tables and scroll to selected', async () => {
     await act(async () =>
       render(
         getComponent({
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [
@@ -157,12 +157,12 @@ describe('TablePanel', () => {
     );
   });
 
-  it('Should work if no groups', async () => {
+  it('Should work if no tables', async () => {
     await act(async () =>
       render(
         getComponent({
           options: {
-            groups: null,
+            tables: null,
           } as any,
         })
       )

@@ -44,13 +44,13 @@ describe('migration', () => {
               ],
             },
           ],
-        }),
+        } as any),
       } as any);
 
       /**
        * Should add filter
        */
-      expect(normalizedOptions.groups[0].items[0].filter).toEqual({
+      expect(normalizedOptions.tables[0].items[0].filter).toEqual({
         enabled: false,
         mode: ColumnFilterMode.CLIENT,
         variable: '',
@@ -59,7 +59,7 @@ describe('migration', () => {
       /**
        * Should keep current filter
        */
-      expect(normalizedOptions.groups[0].items[1].filter).toEqual({
+      expect(normalizedOptions.tables[0].items[1].filter).toEqual({
         enabled: true,
         mode: ColumnFilterMode.QUERY,
         variable: 'abc',

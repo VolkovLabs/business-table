@@ -6,16 +6,16 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { Group, PanelOptions } from '@/types';
+import { PanelOptions, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
 import { ColumnsEditor } from '../ColumnsEditor';
-import { getStyles } from './GroupsEditor.styles';
+import { getStyles } from './TablesEditor.styles';
 
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<Group[], null, PanelOptions> {}
+interface Props extends StandardEditorProps<TableConfig[], null, PanelOptions> {}
 
 /**
  * Get Item Style
@@ -28,10 +28,9 @@ const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDr
 });
 
 /**
- * Groups Editor
- * @constructor
+ * Tables Editor
  */
-export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onChange }) => {
+export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onChange }) => {
   /**
    * Styles and Theme
    */
@@ -41,18 +40,18 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
   /**
    * States
    */
-  const [items, setItems] = useState<Group[]>(options?.groups || []);
-  const [newGroup, setNewGroup] = useState('');
+  const [items, setItems] = useState<TableConfig[]>(options?.tables || []);
+  const [newItemName, setNewItemName] = useState('');
   const [collapseState, setCollapseState] = useState<Record<string, boolean>>({});
   const [editItem, setEditItem] = useState('');
   const [editName, setEditName] = useState('');
 
   /**
   /**
-   * Change groups
+   * Change Items
    */
   const onChangeItems = useCallback(
-    (items: Group[]) => {
+    (items: TableConfig[]) => {
       setItems(items);
       onChange(items);
     },
@@ -77,9 +76,9 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
   );
 
   /**
-   * Toggle collapse state for group
+   * Toggle Item Expanded State
    */
-  const onToggleGroup = useCallback((name: string) => {
+  const onToggleItemExpandedState = useCallback((name: string) => {
     setCollapseState((prev) => ({
       ...prev,
       [name]: !prev[name],
@@ -87,19 +86,19 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
   }, []);
 
   /**
-   * Add new group
+   * Add New Item
    */
-  const onAddNewGroup = useCallback(() => {
-    setNewGroup('');
-    onChangeItems(items.concat([{ name: newGroup, items: [] }]));
-    onToggleGroup(newGroup);
-  }, [items, newGroup, onChangeItems, onToggleGroup]);
+  const onAddNewItem = useCallback(() => {
+    setNewItemName('');
+    onChangeItems(items.concat([{ name: newItemName, items: [] }]));
+    onToggleItemExpandedState(newItemName);
+  }, [items, newItemName, onChangeItems, onToggleItemExpandedState]);
 
   /**
-   * Change Group
+   * Change Item
    */
   const onChangeItem = useCallback(
-    (updatedItem: Group) => {
+    (updatedItem: TableConfig) => {
       onChangeItems(items.map((item) => (item.name === updatedItem.name ? updatedItem : item)));
     },
     [items, onChangeItems]
@@ -109,8 +108,8 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
    * Is Name Exists error
    */
   const isNameExistsError = useMemo(() => {
-    return items.some((item) => item.name === newGroup);
-  }, [items, newGroup]);
+    return items.some((item) => item.name === newItemName);
+  }, [items, newItemName]);
 
   /**
    * On Cancel Edit
@@ -159,7 +158,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
   return (
     <>
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="groups-editor">
+        <Droppable droppableId="tables-editor">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {items.map(({ name, items: levels }, index) => (
@@ -169,14 +168,14 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
-                      className={styles.group}
+                      className={styles.item}
                     >
                       <Collapse
                         key={name}
                         title={
                           editItem === name ? (
                             <div
-                              className={cx(styles.groupHeader, styles.groupHeaderForm)}
+                              className={cx(styles.itemHeader, styles.itemHeaderForm)}
                               onClick={(event) => event.stopPropagation()}
                             >
                               <InlineField className={styles.fieldName} invalid={!isUpdatedNameValid}>
@@ -193,7 +192,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                       onCancelEdit();
                                     }
                                   }}
-                                  {...TEST_IDS.groupsEditor.fieldName.apply()}
+                                  {...TEST_IDS.tablesEditor.fieldName.apply()}
                                 />
                               </InlineField>
                               <Button
@@ -203,7 +202,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                 icon="times"
                                 size="sm"
                                 onClick={onCancelEdit}
-                                {...TEST_IDS.groupsEditor.buttonCancelRename.apply()}
+                                {...TEST_IDS.tablesEditor.buttonCancelRename.apply()}
                               />
                               <Button
                                 variant="secondary"
@@ -214,16 +213,16 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                 onClick={onSaveName}
                                 disabled={!isUpdatedNameValid}
                                 tooltip={
-                                  isUpdatedNameValid ? '' : 'Name is empty or group with the same name already exists.'
+                                  isUpdatedNameValid ? '' : 'Name is empty or table with the same name already exists.'
                                 }
-                                {...TEST_IDS.groupsEditor.buttonSaveRename.apply()}
+                                {...TEST_IDS.tablesEditor.buttonSaveRename.apply()}
                               />
                             </div>
                           ) : (
-                            <div className={cx(styles.groupHeader, styles.groupHeaderText)}>{name}</div>
+                            <div className={cx(styles.itemHeader, styles.itemHeaderText)}>{name}</div>
                           )
                         }
-                        headerTestId={TEST_IDS.groupsEditor.item.selector(name)}
+                        headerTestId={TEST_IDS.tablesEditor.item.selector(name)}
                         actions={
                           <>
                             {editItem !== name && (
@@ -240,7 +239,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                   setEditName(name);
                                   setEditItem(name);
                                 }}
-                                {...TEST_IDS.groupsEditor.buttonStartRename.apply()}
+                                {...TEST_IDS.tablesEditor.buttonStartRename.apply()}
                               />
                             )}
                             <Button
@@ -251,11 +250,11 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                               className={styles.actionButton}
                               onClick={() => {
                                 /**
-                                 * Remove group
+                                 * Remove Item
                                  */
                                 onChangeItems(items.filter((item) => item.name !== name));
                               }}
-                              {...TEST_IDS.groupsEditor.buttonRemove.apply()}
+                              {...TEST_IDS.tablesEditor.buttonRemove.apply()}
                             />
                             <div className={styles.dragHandle} {...provided.dragHandleProps}>
                               <Icon name="draggabledots" className={styles.dragIcon} />
@@ -263,7 +262,7 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
                           </>
                         }
                         isOpen={collapseState[name]}
-                        onToggle={() => onToggleGroup(name)}
+                        onToggle={() => onToggleItemExpandedState(name)}
                       >
                         <ColumnsEditor name={name} items={levels} data={data} onChange={onChangeItem} />
                       </Collapse>
@@ -277,26 +276,26 @@ export const GroupsEditor: React.FC<Props> = ({ context: { options, data }, onCh
         </Droppable>
       </DragDropContext>
 
-      <InlineFieldRow className={styles.newGroup} {...TEST_IDS.groupsEditor.newItem.apply()}>
+      <InlineFieldRow className={styles.newItem} {...TEST_IDS.tablesEditor.newItem.apply()}>
         <InlineField
-          label="New Group"
+          label="New Table"
           grow={true}
           invalid={isNameExistsError}
-          error="Group with the same name already exists."
+          error="Table with the same name already exists."
         >
           <Input
             placeholder="Unique name"
-            value={newGroup}
-            onChange={(event) => setNewGroup(event.currentTarget.value.trim())}
-            {...TEST_IDS.groupsEditor.newItemName.apply()}
+            value={newItemName}
+            onChange={(event) => setNewItemName(event.currentTarget.value.trim())}
+            {...TEST_IDS.tablesEditor.newItemName.apply()}
           />
         </InlineField>
         <Button
           icon="plus"
-          title="Add Group"
-          disabled={!newGroup || isNameExistsError}
-          onClick={onAddNewGroup}
-          {...TEST_IDS.groupsEditor.buttonAddNew.apply()}
+          title="Add Table"
+          disabled={!newItemName || isNameExistsError}
+          onClick={onAddNewItem}
+          {...TEST_IDS.tablesEditor.buttonAddNew.apply()}
         >
           Add
         </Button>

@@ -6,7 +6,7 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource, Group } from '@/types';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
 import { ColumnEditor } from '../ColumnEditor';
@@ -26,12 +26,12 @@ const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDr
 /**
  * Properties
  */
-interface Props extends Group {
+interface Props extends TableConfig {
   /**
    * On Change
    * @param item
    */
-  onChange: (item: Group) => void;
+  onChange: (item: TableConfig) => void;
 
   /**
    * Data

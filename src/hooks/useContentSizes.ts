@@ -39,7 +39,7 @@ export const useContentSizes = ({
 
       setTableTopOffset(topOffset);
     }
-  }, [tableData, height, options.groups]);
+  }, [tableData, height, options.tables]);
 
   return {
     containerRef,
