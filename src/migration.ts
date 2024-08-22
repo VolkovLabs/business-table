@@ -38,13 +38,20 @@ interface OutdatedGroup extends Omit<TableConfig, 'items'> {
 /**
  * Outdated Panel Options
  */
-interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups'> {
+interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups' | 'tabsSorting'> {
   /**
    * Groups
    *
    * Renamed in v1.1.0
    */
   groups?: OutdatedGroup[];
+
+  /**
+   * Tabs Sorting
+   *
+   * Introduced in v1.1.0
+   */
+  tabsSorting?: boolean;
 }
 
 /**
@@ -90,6 +97,13 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
     });
 
     delete options.groups;
+  }
+
+  /**
+   * Normalize tabs sorting
+   */
+  if (options.tabsSorting === undefined) {
+    options.tabsSorting = false;
   }
 
   return options as PanelOptions;

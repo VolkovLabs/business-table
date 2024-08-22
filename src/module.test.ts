@@ -17,6 +17,7 @@ describe('plugin', () => {
     addSliderInput: jest.fn(),
     addTextInput: jest.fn(),
     addMultiSelect: jest.fn(),
+    addBooleanSwitch: jest.fn(),
   };
 
   const addFieldMock = () => builder;

@@ -12,7 +12,7 @@ describe('migration', () => {
       getMigratedOptions({
         options: options as any,
       } as any)
-    ).toEqual(options);
+    ).toEqual(expect.objectContaining(options));
   });
 
   describe('1.1.0', () => {
@@ -63,6 +63,18 @@ describe('migration', () => {
         enabled: true,
         mode: ColumnFilterMode.QUERY,
         variable: 'abc',
+      });
+    });
+
+    it('Should normalize tabsSorting', () => {
+      expect(getMigratedOptions({ options: {} } as any)).toEqual({
+        tabsSorting: false,
+      });
+      expect(getMigratedOptions({ options: { tabsSorting: false } } as any)).toEqual({
+        tabsSorting: false,
+      });
+      expect(getMigratedOptions({ options: { tabsSorting: true } } as any)).toEqual({
+        tabsSorting: true,
       });
     });
   });
