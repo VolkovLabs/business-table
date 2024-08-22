@@ -67,5 +67,6 @@ export const createVariable = (
  */
 export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOptions => ({
   tables: [],
+  tabsSorting: false,
   ...options,
 });

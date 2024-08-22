@@ -139,6 +139,13 @@ export interface PanelOptions {
    * @type {TableConfig[]}
    */
   tables: TableConfig[];
+
+  /**
+   * Tabs Sorting
+   *
+   * @type {boolean}
+   */
+  tabsSorting: boolean;
 }
 
 /**
