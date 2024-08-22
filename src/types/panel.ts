@@ -110,9 +110,9 @@ export interface ColumnConfig {
 }
 
 /**
- * Group
+ * Table Config
  */
-export interface Group {
+export interface TableConfig {
   /**
    * Name
    *
@@ -134,11 +134,11 @@ export interface Group {
  */
 export interface PanelOptions {
   /**
-   * Groups
+   * Tables
    *
-   * @type {Group[]}
+   * @type {TableConfig[]}
    */
-  groups: Group[];
+  tables: TableConfig[];
 }
 
 /**

@@ -1,6 +1,6 @@
 import { PanelPlugin } from '@grafana/data';
 
-import { GroupsEditor, TablePanel } from './components';
+import { TablePanel, TablesEditor } from './components';
 import { getMigratedOptions } from './migration';
 import { PanelOptions } from './types';
 
@@ -12,10 +12,10 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
   .setMigrationHandler(getMigratedOptions)
   .setPanelOptions((builder) => {
     builder.addCustomEditor({
-      id: 'groups',
-      path: 'groups',
-      name: 'Column Groups',
-      editor: GroupsEditor,
+      id: 'tables',
+      path: 'tables',
+      name: 'Tables',
+      editor: TablesEditor,
     });
 
     return builder;

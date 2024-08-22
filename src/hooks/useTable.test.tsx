@@ -161,7 +161,7 @@ describe('useTable', () => {
         source: refId,
         name: 'device',
       },
-      group: true,
+      item: true,
       aggregation: CellAggregation.UNIQUE_COUNT,
     });
     const valueColumn = createColumnConfig({
@@ -169,7 +169,7 @@ describe('useTable', () => {
         source: refId,
         name: 'value',
       },
-      group: false,
+      item: false,
       aggregation: CellAggregation.NONE,
     });
 

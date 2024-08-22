@@ -28,18 +28,18 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
    */
   const [currentGroup, setCurrentGroup] = useSavedState<string>({
     key: `volkovlabs.table.panel.${id}`,
-    initialValue: options.groups?.[0]?.name || '',
+    initialValue: options.tables?.[0]?.name || '',
   });
 
   /**
    * Current Columns
    */
   const currentColumns = useMemo(() => {
-    if (options.groups?.length && currentGroup) {
-      return options.groups.find((group) => group.name === currentGroup)?.items;
+    if (options.tables?.length && currentGroup) {
+      return options.tables.find((group) => group.name === currentGroup)?.items;
     }
     return;
-  }, [options.groups, currentGroup]);
+  }, [options.tables, currentGroup]);
 
   /**
    * Table
@@ -50,32 +50,32 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
    * Change current group if was removed
    */
   useEffect(() => {
-    if (!options.groups?.some((group) => group.name === currentGroup)) {
-      setCurrentGroup(options.groups?.[0]?.name || '');
+    if (!options.tables?.some((group) => group.name === currentGroup)) {
+      setCurrentGroup(options.tables?.[0]?.name || '');
     }
-  }, [currentGroup, id, options.groups, setCurrentGroup]);
+  }, [currentGroup, id, options.tables, setCurrentGroup]);
 
   /**
    * Show selected group first
    */
   const sortedGroups = useMemo(() => {
-    if (!options.groups) {
+    if (!options.tables) {
       return [];
     }
 
-    const activeGroup = options.groups.find((group) => group.name === currentGroup);
+    const activeGroup = options.tables.find((group) => group.name === currentGroup);
 
     /**
      * Selected group is not found
      */
     if (!activeGroup) {
-      return options.groups;
+      return options.tables;
     }
 
-    const withoutActive = options.groups.filter((group) => group.name !== currentGroup);
+    const withoutActive = options.tables.filter((group) => group.name !== currentGroup);
 
     return [activeGroup, ...withoutActive];
-  }, [currentGroup, options.groups]);
+  }, [currentGroup, options.tables]);
 
   /**
    * Content Sizes

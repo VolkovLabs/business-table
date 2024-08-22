@@ -1,6 +1,13 @@
 import { PanelModel } from '@grafana/data';
 
-import { ColumnConfig, ColumnFilterConfig, ColumnFilterMode, ColumnSortConfig, Group, PanelOptions } from './types';
+import {
+  ColumnConfig,
+  ColumnFilterConfig,
+  ColumnFilterMode,
+  ColumnSortConfig,
+  PanelOptions,
+  TableConfig,
+} from './types';
 
 /**
  * Outdated Column Config
@@ -24,7 +31,7 @@ interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort'> {
 /**
  * Outdated Group
  */
-interface OutdatedGroup extends Omit<Group, 'items'> {
+interface OutdatedGroup extends Omit<TableConfig, 'items'> {
   items: OutdatedColumnConfig[];
 }
 
@@ -32,7 +39,12 @@ interface OutdatedGroup extends Omit<Group, 'items'> {
  * Outdated Panel Options
  */
 interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups'> {
-  groups: OutdatedGroup[];
+  /**
+   * Groups
+   *
+   * Renamed in v1.1.0
+   */
+  groups?: OutdatedGroup[];
 }
 
 /**
@@ -46,7 +58,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
    * Normalize groups
    */
   if (options.groups) {
-    options.groups = options.groups.map((group) => {
+    options.tables = options.groups.map((group) => {
       return {
         ...group,
         items: group.items.map((columnConfig) => {
@@ -76,6 +88,8 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
         }),
       };
     });
+
+    delete options.groups;
   }
 
   return options as PanelOptions;

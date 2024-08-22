@@ -7,15 +7,15 @@ import React from 'react';
 import { TEST_IDS } from '@/constants';
 
 import { ColumnsEditor } from '../ColumnsEditor';
-import { GroupsEditor } from './GroupsEditor';
+import { TablesEditor } from './TablesEditor';
 
 /**
  * Props
  */
-type Props = React.ComponentProps<typeof GroupsEditor>;
+type Props = React.ComponentProps<typeof TablesEditor>;
 
 /**
- * Mock LevelsEditor
+ * Mock Columns Editor
  */
 const ColumnsEditorMock = () => <div {...TEST_IDS.columnsEditor.root.apply()} />;
 
@@ -30,12 +30,12 @@ const InTestIds = {
   buttonLevelsUpdate: 'data-testid button-levels-update',
 };
 
-describe('GroupsEditor', () => {
+describe('TablesEditor', () => {
   /**
    * Get Tested Component
    * @param props
    */
-  const getComponent = (props: Partial<Props>) => <GroupsEditor {...(props as any)} />;
+  const getComponent = (props: Partial<Props>) => <TablesEditor {...(props as any)} />;
 
   const dataFrameA = toDataFrame({
     fields: [
@@ -65,7 +65,7 @@ describe('GroupsEditor', () => {
    * Selectors
    */
   const getSelectors = getJestSelectors({
-    ...TEST_IDS.groupsEditor,
+    ...TEST_IDS.tablesEditor,
     ...InTestIds,
   });
   const selectors = getSelectors(screen);
@@ -80,13 +80,13 @@ describe('GroupsEditor', () => {
     jest.mocked(ColumnsEditor).mockImplementation(ColumnsEditorMock);
   });
 
-  it('Should render groups', () => {
+  it('Should render tables', () => {
     render(
       getComponent({
         context: {
           data: [dataFrameA],
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [],
@@ -105,7 +105,7 @@ describe('GroupsEditor', () => {
     expect(selectors.item(false, 'group2')).toBeInTheDocument();
   });
 
-  it('Should render if groups unspecified', () => {
+  it('Should render if tables unspecified', () => {
     render(
       getComponent({
         context: {
@@ -126,7 +126,7 @@ describe('GroupsEditor', () => {
         context: {
           data: [dataFrameA, dataFrameB],
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [],
@@ -159,7 +159,7 @@ describe('GroupsEditor', () => {
         context: {
           data: [dataFrameA, dataFrameB],
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [],
@@ -200,7 +200,7 @@ describe('GroupsEditor', () => {
           context: {
             data: [dataFrameA, dataFrameB],
             options: {
-              groups: [
+              tables: [
                 {
                   name: 'group1',
                   items: [],
@@ -271,7 +271,7 @@ describe('GroupsEditor', () => {
           context: {
             data: [dataFrameA, dataFrameB],
             options: {
-              groups: [
+              tables: [
                 {
                   name: 'group1',
                   items: [],
@@ -335,7 +335,7 @@ describe('GroupsEditor', () => {
           context: {
             data: [dataFrameA, dataFrameB],
             options: {
-              groups: [
+              tables: [
                 {
                   name: 'group1',
                   items: [],
@@ -398,7 +398,7 @@ describe('GroupsEditor', () => {
           context: {
             data: [dataFrameA, dataFrameB],
             options: {
-              groups: [
+              tables: [
                 {
                   name: 'group1',
                   items: [],
@@ -459,7 +459,7 @@ describe('GroupsEditor', () => {
           context: {
             data: [dataFrameA, dataFrameB],
             options: {
-              groups: [
+              tables: [
                 {
                   name: 'group1',
                   items: [],
@@ -516,7 +516,7 @@ describe('GroupsEditor', () => {
 
     it('Should keep toggled state after save', async () => {
       let options = {
-        groups: [
+        tables: [
           {
             name: 'group1',
             items: [],
@@ -617,7 +617,7 @@ describe('GroupsEditor', () => {
         context: {
           data: [dataFrameA, dataFrameB],
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [],
@@ -670,7 +670,7 @@ describe('GroupsEditor', () => {
         context: {
           data: [dataFrameA, dataFrameB],
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [
@@ -736,7 +736,7 @@ describe('GroupsEditor', () => {
         context: {
           data: [dataFrameA, dataFrameB],
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [
@@ -802,7 +802,7 @@ describe('GroupsEditor', () => {
         context: {
           data: [dataFrameA, dataFrameB],
           options: {
-            groups: [
+            tables: [
               {
                 name: 'group1',
                 items: [

@@ -6,22 +6,22 @@ import { GrafanaTheme2 } from '@grafana/data';
  */
 export const getStyles = (theme: GrafanaTheme2) => {
   return {
-    newGroup: css`
+    newItem: css`
       margin: ${theme.spacing(2)} 0;
     `,
-    group: css`
+    item: css`
       margin-bottom: ${theme.spacing(1)};
     `,
-    groupHeader: css`
+    itemHeader: css`
       min-height: ${theme.spacing(4)};
       padding: ${theme.spacing(0.5)};
     `,
-    groupHeaderForm: css`
+    itemHeaderForm: css`
       display: flex;
       align-items: center;
       gap: ${theme.spacing(0.5)};
     `,
-    groupHeaderText: css`
+    itemHeaderText: css`
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: ${theme.spacing(4)};
