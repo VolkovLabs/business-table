@@ -159,6 +159,13 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
     }
   }, [items, newItem, onChangeItems]);
 
+  /**
+   * Is Aggregation Available
+   */
+  const isAggregationAvailable = useMemo(() => {
+    return items.some((item) => item.group);
+  }, [items]);
+
   return (
     <div {...TEST_IDS.columnsEditor.root.apply()}>
       <DragDropContext onDragEnd={onDragEnd}>
@@ -226,6 +233,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                             );
                           }}
                           data={data}
+                          isAggregationAvailable={isAggregationAvailable}
                         />
                       </Collapse>
                     </div>
