@@ -75,7 +75,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
     const withoutActive = options.tables.filter((group) => group.name !== currentGroup);
 
     return [activeGroup, ...withoutActive];
-  }, [currentGroup, options.tables]);
+  }, [currentGroup, options.tables, options.tabsSorting]);
 
   /**
    * Content Sizes
