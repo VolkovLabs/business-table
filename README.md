@@ -28,7 +28,6 @@ grafana-cli plugins install volkovlabs-table-panel
 
 - Tree View with expandable and collapsible elements.
 - Supporting tabs for multiple data frame views.
-- Summarizing a large amount of data.
 
 ## Business Suite for Grafana
 
