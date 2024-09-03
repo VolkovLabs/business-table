@@ -295,7 +295,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
             {...TEST_IDS.columnEditor.fieldAppearanceWrap.apply()}
           />
         </InlineField>
-        <InlineField label="Alignment">
+        <InlineField label="Alignment" {...TEST_IDS.columnEditor.fieldAppearanceAlignment.apply()}>
           <RadioButtonGroup
             value={value.appearance.alignment}
             onChange={(event) =>
@@ -312,19 +312,21 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 value: ColumnAlignment.START,
                 icon: 'align-left',
                 description: 'Start',
+                ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.START),
               },
               {
                 value: ColumnAlignment.CENTER,
                 icon: 'bars',
                 description: 'Center',
+                ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.CENTER),
               },
               {
                 value: ColumnAlignment.END,
                 icon: 'align-right',
                 description: 'End',
+                ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.END),
               },
             ]}
-            {...TEST_IDS.columnEditor.fieldAppearanceAlignment.apply()}
           />
         </InlineField>
       </InlineFieldRow>

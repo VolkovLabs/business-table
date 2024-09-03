@@ -64,6 +64,9 @@ export const TEST_IDS = {
     fieldAppearanceWidthValue: createSelector('data-testid column-editor field-appearance-width-value'),
     fieldAppearanceWrap: createSelector('data-testid column-editor field-appearance-wrap'),
     fieldAppearanceAlignment: createSelector('data-testid column-editor field-appearance-alignment'),
+    fieldAppearanceAlignmentOption: createSelector(
+      (name: unknown) => `wcolumn-editor field-appearance-alignment-option-${name}`
+    ),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),

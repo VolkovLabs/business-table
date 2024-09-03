@@ -5,7 +5,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnFilterMode } from '@/types';
+import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode } from '@/types';
 import { createColumnAppearanceConfig, createColumnConfig, createVariable } from '@/utils';
 
 import { ColumnEditor } from './ColumnEditor';
@@ -431,6 +431,58 @@ describe('ColumnEditor', () => {
               width: expect.objectContaining({
                 value: 150,
               }),
+            }),
+          })
+        );
+      });
+    });
+
+    describe('wrap', () => {
+      it('Should allow to change value', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                wrap: false,
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceWrap()).toBeInTheDocument();
+
+        fireEvent.click(selectors.fieldAppearanceWrap());
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              wrap: true,
+            }),
+          })
+        );
+      });
+    });
+
+    describe('alignment', () => {
+      it('Should allow to change value', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                alignment: ColumnAlignment.START,
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceAlignment()).toBeInTheDocument();
+
+        fireEvent.click(selectors.fieldAppearanceAlignmentOption(false, ColumnAlignment.CENTER));
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              alignment: ColumnAlignment.CENTER,
             }),
           })
         );
