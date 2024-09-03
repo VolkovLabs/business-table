@@ -104,6 +104,7 @@ export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TDat
         transform: `translateY(${virtualRow.start}px)`,
         backgroundColor: rowAppearance.background,
       }}
+      {...TEST_IDS.table.bodyRow.apply(row.id)}
     >
       {visibleCells.map((cell, index) => {
         const bgColor = rowAppearance.cells[index]?.background;

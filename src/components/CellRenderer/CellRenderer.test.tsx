@@ -39,6 +39,18 @@ describe('CellRenderer', () => {
     jest.mocked(DefaultCellRenderer).mockClear();
   });
 
+  it('Should work if no meta', () => {
+    render(
+      getComponent({
+        column: { columnDef: { meta: null } } as any,
+      })
+    );
+
+    /**
+     * Just to check if no errors so there is no assertion
+     */
+  });
+
   it('Should render default cell renderer if auto type', () => {
     render(
       getComponent({
