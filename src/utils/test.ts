@@ -22,6 +22,11 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   sort: {
     enabled: false,
   },
+  appearance: {
+    background: {
+      applyToRow: false,
+    },
+  },
   ...item,
 });
 
