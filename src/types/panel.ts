@@ -1,4 +1,6 @@
-import { CellAggregation, CellType, ColumnFilterMode } from './table';
+import { Field } from '@grafana/data';
+
+import { CellAggregation, CellType, ColumnFilterMode, ColumnFilterType } from './table';
 
 /**
  * Field Source
@@ -56,6 +58,23 @@ export interface ColumnSortConfig {
 }
 
 /**
+ * Column Appearance Config
+ */
+export interface ColumnAppearanceConfig {
+  /**
+   * Background
+   */
+  background: {
+    /**
+     * Apply To Row
+     *
+     * @type {boolean}
+     */
+    applyToRow: boolean;
+  };
+}
+
+/**
  * Column Config
  */
 export interface ColumnConfig {
@@ -107,6 +126,13 @@ export interface ColumnConfig {
    * @type {ColumnSortConfig}
    */
   sort: ColumnSortConfig;
+
+  /**
+   * Appearance
+   *
+   * @type {ColumnAppearanceConfig}
+   */
+  appearance: ColumnAppearanceConfig;
 }
 
 /**
@@ -158,3 +184,43 @@ export type RecursivePartial<T> = {
       ? RecursivePartial<T[P]>
       : T[P];
 };
+
+/**
+ * Column Meta
+ */
+export interface ColumnMeta {
+  /**
+   * Filter Mode
+   *
+   * @type {ColumnFilterMode}
+   */
+  filterMode: ColumnFilterMode;
+
+  /**
+   * Available Filter Types
+   *
+   * @type {ColumnFilterType[]}
+   */
+  availableFilterTypes: ColumnFilterType[];
+
+  /**
+   * Filter Variable Name
+   *
+   * @type {string}
+   */
+  filterVariableName: string;
+
+  /**
+   * Config
+   *
+   * @type {ColumnConfig}
+   */
+  config: ColumnConfig;
+
+  /**
+   * Field
+   *
+   * @type {Field}
+   */
+  field: Field;
+}

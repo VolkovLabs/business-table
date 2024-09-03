@@ -1,6 +1,7 @@
 import { PanelModel } from '@grafana/data';
 
 import {
+  ColumnAppearanceConfig,
   ColumnConfig,
   ColumnFilterConfig,
   ColumnFilterMode,
@@ -12,7 +13,7 @@ import {
 /**
  * Outdated Column Config
  */
-interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort'> {
+interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance'> {
   /**
    * Filter
    *
@@ -26,6 +27,13 @@ interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort'> {
    * Introduced in 1.1.0
    */
   sort?: ColumnSortConfig;
+
+  /**
+   * Appearance
+   *
+   * Introduced in 1.2.0
+   */
+  appearance?: ColumnAppearanceConfig;
 }
 
 /**
@@ -64,8 +72,9 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
   /**
    * Normalize groups
    */
-  if (options.groups) {
-    options.tables = options.groups.map((group) => {
+  if (options.groups || options.tables) {
+    const items = options.groups || options.tables;
+    options.tables = items.map((group) => {
       return {
         ...group,
         items: group.items.map((columnConfig) => {
@@ -88,6 +97,17 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
           if (!normalized.sort) {
             normalized.sort = {
               enabled: false,
+            };
+          }
+
+          /**
+           * Add appearance options
+           */
+          if (!normalized.appearance) {
+            normalized.appearance = {
+              background: {
+                applyToRow: false,
+              },
             };
           }
 

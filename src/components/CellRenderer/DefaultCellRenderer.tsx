@@ -1,5 +1,5 @@
 import { Field } from '@grafana/data';
-import { FormattedValueDisplay } from '@grafana/ui';
+import { FormattedValueDisplay, useTheme2 } from '@grafana/ui';
 import React, { ReactElement } from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -29,6 +29,13 @@ interface Props {
    * @type {ColumnConfig}
    */
   config: ColumnConfig;
+
+  /**
+   * Bg Color
+   *
+   * @type {string}
+   */
+  bgColor?: string;
 }
 
 /**
@@ -37,7 +44,12 @@ interface Props {
  * @param renderValue
  * @constructor
  */
-export const DefaultCellRenderer: React.FC<Props> = ({ field, value, config }) => {
+export const DefaultCellRenderer: React.FC<Props> = ({ field, value, config, bgColor }) => {
+  /**
+   * Theme
+   */
+  const theme = useTheme2();
+
   let formattedValue: typeof value | ReactElement = value;
   let color = 'inherit';
 
@@ -58,7 +70,8 @@ export const DefaultCellRenderer: React.FC<Props> = ({ field, value, config }) =
     <span
       {...TEST_IDS.defaultCellRenderer.root.apply()}
       style={{
-        color: config.type === CellType.COLORED_TEXT ? color : 'inherit',
+        color:
+          config.type === CellType.COLORED_TEXT ? color : bgColor ? theme.colors.getContrastText(bgColor) : 'inherit',
       }}
     >
       {formattedValue}

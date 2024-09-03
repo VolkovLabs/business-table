@@ -38,6 +38,9 @@ export const TEST_IDS = {
     fieldFilterMode: createSelector('data-testid column-editor field-filter-mode'),
     fieldFilterVariable: createSelector('data-testid column-editor field-filter-variable'),
     fieldSortEnabled: createSelector('data-testid column-editor field-sort-enabled'),
+    fieldAppearanceBackgroundApplyToRow: createSelector(
+      'data-testid column-editor field-appearance-background-apply-to-row'
+    ),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),

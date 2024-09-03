@@ -50,6 +50,10 @@ const cellTypeOptions = [
     value: CellType.COLORED_TEXT,
     label: 'Colored text',
   },
+  {
+    value: CellType.COLORED_BACKGROUND,
+    label: 'Colored background',
+  },
 ];
 
 /**
@@ -173,6 +177,26 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           {...TEST_IDS.columnEditor.fieldType.apply()}
         />
       </InlineField>
+      {value.type === CellType.COLORED_BACKGROUND && (
+        <InlineField label="Apply to Row" grow={true}>
+          <InlineSwitch
+            value={value.appearance.background.applyToRow}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                appearance: {
+                  ...value.appearance,
+                  background: {
+                    ...value.appearance.background,
+                    applyToRow: event.currentTarget.checked,
+                  },
+                },
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldAppearanceBackgroundApplyToRow.apply()}
+          />
+        </InlineField>
+      )}
       <InlineFieldRow>
         <InlineField label="Group" grow={true}>
           <InlineSwitch

@@ -153,6 +153,11 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           sort: {
             enabled: false,
           },
+          appearance: {
+            background: {
+              applyToRow: false,
+            },
+          },
         },
       ]);
       setNewItem(null);

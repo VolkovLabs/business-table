@@ -6,6 +6,7 @@ import { TimeRange } from '@grafana/data';
 export enum CellType {
   AUTO = 'auto',
   COLORED_TEXT = 'coloredText',
+  COLORED_BACKGROUND = 'coloredBackground',
 }
 
 /**
@@ -86,30 +87,4 @@ export type ColumnFilterValue =
 export enum ColumnFilterMode {
   CLIENT = 'client',
   QUERY = 'query',
-}
-
-/**
- * Column Meta
- */
-export interface ColumnMeta {
-  /**
-   * Filter Mode
-   *
-   * @type {ColumnFilterMode}
-   */
-  filterMode: ColumnFilterMode;
-
-  /**
-   * Available Filter Types
-   *
-   * @type {ColumnFilterType[]}
-   */
-  availableFilterTypes: ColumnFilterType[];
-
-  /**
-   * Filter Variable Name
-   *
-   * @type {string}
-   */
-  filterVariableName: string;
 }
