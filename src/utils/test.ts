@@ -3,6 +3,7 @@ import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame, TypedV
 import {
   CellAggregation,
   CellType,
+  ColumnAlignment,
   ColumnAppearanceConfig,
   ColumnConfig,
   ColumnFilterMode,
@@ -18,6 +19,8 @@ export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanc
     auto: false,
     value: 100,
   },
+  wrap: false,
+  alignment: ColumnAlignment.START,
   background: {
     applyToRow: false,
   },

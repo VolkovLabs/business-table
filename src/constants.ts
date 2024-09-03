@@ -1,9 +1,26 @@
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-/**
- * All Constants here
- */
+import { ColumnAlignment } from '@/types';
 
+/**
+ * Default Column Appearance
+ */
+export const DEFAULT_COLUMN_APPEARANCE = {
+  wrap: true,
+  alignment: ColumnAlignment.START,
+  width: {
+    auto: true,
+    min: 20,
+    value: 100,
+  },
+  background: {
+    applyToRow: false,
+  },
+};
+
+/**
+ * Test Identifiers
+ */
 export const TEST_IDS = {
   panel: {
     root: createSelector('data-testid panel'),
@@ -45,6 +62,8 @@ export const TEST_IDS = {
     fieldAppearanceWidthMin: createSelector('data-testid column-editor field-appearance-width-min'),
     fieldAppearanceWidthMax: createSelector('data-testid column-editor field-appearance-width-max'),
     fieldAppearanceWidthValue: createSelector('data-testid column-editor field-appearance-width-value'),
+    fieldAppearanceWrap: createSelector('data-testid column-editor field-appearance-wrap'),
+    fieldAppearanceAlignment: createSelector('data-testid column-editor field-appearance-alignment'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),

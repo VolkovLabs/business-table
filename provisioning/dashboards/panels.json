@@ -29,6 +29,7 @@
   "panels": [
     {
       "datasource": {
+        "default": true,
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
@@ -73,7 +74,8 @@
                     "auto": true,
                     "max": 50,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "id",
@@ -99,7 +101,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "name",
@@ -125,7 +128,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "value",
@@ -151,7 +155,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "json",
@@ -198,7 +203,7 @@
                 "name": "name",
                 "type": "string",
                 "values": [
-                  "Device 1",
+                  "DeviceWithVeryLongTitle",
                   "Device 2",
                   "Device 3"
                 ]
@@ -298,7 +303,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "country",
@@ -323,7 +329,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "city",
@@ -350,7 +357,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "device",
@@ -375,7 +383,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "value",
@@ -404,7 +413,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "device",
@@ -431,7 +441,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "value",
@@ -594,7 +605,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "name",
@@ -621,7 +633,8 @@
                   "width": {
                     "auto": true,
                     "value": 100
-                  }
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "id",
@@ -707,6 +720,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 3,
+  "version": 5,
   "weekStart": ""
 }

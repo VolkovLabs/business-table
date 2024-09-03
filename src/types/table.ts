@@ -49,6 +49,15 @@ export enum NumberFilterOperator {
 }
 
 /**
+ * Column Alignment
+ */
+export enum ColumnAlignment {
+  START = 'start',
+  CENTER = 'center',
+  END = 'end',
+}
+
+/**
  * Column Filter Value
  */
 export type ColumnFilterValue =

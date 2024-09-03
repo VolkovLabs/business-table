@@ -12,6 +12,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       display: flex;
       position: absolute;
       width: 100%;
+      justify-content: space-between;
       &:not(:last-child) {
         border-bottom: 1px solid ${borderColor};
       }
@@ -22,6 +23,9 @@ export const getStyles = (theme: GrafanaTheme2) => {
       align-items: center;
       white-space: wrap;
       padding: ${theme.spacing(0.75)};
+      flex: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       &:not(:last-child) {
         border-right: 1px solid ${borderColor};

@@ -1,11 +1,11 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, InlineFieldRow, InlineSwitch, Input, Select } from '@grafana/ui';
+import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '@/types';
+import { CellAggregation, CellType, ColumnAlignment, ColumnConfig, ColumnFilterMode } from '@/types';
 import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
@@ -278,6 +278,55 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
             />
           </InlineField>
         )}
+      </InlineFieldRow>
+      <InlineFieldRow>
+        <InlineField label="Wrap Text">
+          <InlineSwitch
+            value={value.appearance.wrap}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                appearance: {
+                  ...value.appearance,
+                  wrap: event.currentTarget.checked,
+                },
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldAppearanceWrap.apply()}
+          />
+        </InlineField>
+        <InlineField label="Alignment">
+          <RadioButtonGroup
+            value={value.appearance.alignment}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                appearance: {
+                  ...value.appearance,
+                  alignment: event,
+                },
+              })
+            }
+            options={[
+              {
+                value: ColumnAlignment.START,
+                icon: 'align-left',
+                description: 'Start',
+              },
+              {
+                value: ColumnAlignment.CENTER,
+                icon: 'bars',
+                description: 'Center',
+              },
+              {
+                value: ColumnAlignment.END,
+                icon: 'align-right',
+                description: 'End',
+              },
+            ]}
+            {...TEST_IDS.columnEditor.fieldAppearanceAlignment.apply()}
+          />
+        </InlineField>
       </InlineFieldRow>
       <InlineFieldRow>
         <InlineField label="Group" grow={true}>

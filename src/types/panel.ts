@@ -1,6 +1,6 @@
 import { Field } from '@grafana/data';
 
-import { CellAggregation, CellType, ColumnFilterMode, ColumnFilterType } from './table';
+import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnFilterType } from './table';
 
 /**
  * Field Source
@@ -93,6 +93,18 @@ export interface ColumnAppearanceConfig {
      */
     value: number;
   };
+
+  /**
+   * Wrap
+   */
+  wrap: boolean;
+
+  /**
+   * Alignment
+   *
+   * @type {ColumnAlignment}
+   */
+  alignment: ColumnAlignment;
 
   /**
    * Background

@@ -5,7 +5,7 @@ import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDr
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { TEST_IDS } from '@/constants';
+import { DEFAULT_COLUMN_APPEARANCE, TEST_IDS } from '@/constants';
 import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
@@ -153,16 +153,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           sort: {
             enabled: false,
           },
-          appearance: {
-            width: {
-              auto: true,
-              min: 0,
-              value: 100,
-            },
-            background: {
-              applyToRow: false,
-            },
-          },
+          appearance: DEFAULT_COLUMN_APPEARANCE,
         },
       ]);
       setNewItem(null);

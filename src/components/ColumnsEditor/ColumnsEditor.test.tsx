@@ -5,7 +5,7 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '@/constants';
+import { DEFAULT_COLUMN_APPEARANCE, TEST_IDS } from '@/constants';
 import { createColumnAppearanceConfig, createColumnConfig } from '@/utils';
 
 import { ColumnEditor } from '../ColumnEditor';
@@ -290,7 +290,7 @@ describe('ColumnsEditor', () => {
         }),
         createColumnConfig({
           field: { name: 'field2', source: 'A' },
-          appearance: createColumnAppearanceConfig({ width: { auto: true, min: 0, value: 100 } }),
+          appearance: createColumnAppearanceConfig(DEFAULT_COLUMN_APPEARANCE),
         }),
       ],
     });
