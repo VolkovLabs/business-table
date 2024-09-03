@@ -154,6 +154,11 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
             enabled: false,
           },
           appearance: {
+            width: {
+              auto: true,
+              min: 0,
+              value: 100,
+            },
             background: {
               applyToRow: false,
             },

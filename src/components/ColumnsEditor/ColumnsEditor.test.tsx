@@ -6,7 +6,7 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { createColumnConfig } from '@/utils';
+import { createColumnAppearanceConfig, createColumnConfig } from '@/utils';
 
 import { ColumnEditor } from '../ColumnEditor';
 import { ColumnsEditor } from './ColumnsEditor';
@@ -284,8 +284,14 @@ describe('ColumnsEditor', () => {
     expect(onChange).toHaveBeenCalledWith({
       name: 'Group 1',
       items: [
-        createColumnConfig({ field: { name: 'field1', source: 'A' }, group: true }),
-        createColumnConfig({ field: { name: 'field2', source: 'A' } }),
+        createColumnConfig({
+          field: { name: 'field1', source: 'A' },
+          group: true,
+        }),
+        createColumnConfig({
+          field: { name: 'field2', source: 'A' },
+          appearance: createColumnAppearanceConfig({ width: { auto: true, min: 0, value: 100 } }),
+        }),
       ],
     });
   });

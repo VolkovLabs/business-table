@@ -68,6 +68,11 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 50,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -90,6 +95,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -112,6 +121,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -134,6 +147,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -277,6 +294,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -298,6 +319,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -321,6 +346,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -342,6 +371,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": true
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -367,6 +400,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -390,6 +427,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -549,6 +590,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -572,6 +617,10 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
                   }
                 },
                 "field": {
@@ -658,6 +707,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
 }

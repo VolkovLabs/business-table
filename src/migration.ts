@@ -103,13 +103,16 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
           /**
            * Add appearance options
            */
-          if (!normalized.appearance) {
-            normalized.appearance = {
-              background: {
-                applyToRow: false,
-              },
-            };
-          }
+          normalized.appearance = {
+            width: {
+              auto: true,
+              value: 100,
+            },
+            background: {
+              applyToRow: false,
+            },
+            ...(normalized.appearance as Partial<ColumnAppearanceConfig>),
+          };
 
           return normalized;
         }),

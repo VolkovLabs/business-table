@@ -14,6 +14,10 @@ import {
  * Create Column Appearance Config
  */
 export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanceConfig>): ColumnAppearanceConfig => ({
+  width: {
+    auto: false,
+    value: 100,
+  },
   background: {
     applyToRow: false,
   },

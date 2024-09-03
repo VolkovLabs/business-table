@@ -3,7 +3,7 @@ import { getTemplateSrv } from '@grafana/runtime';
 import { renderHook } from '@testing-library/react';
 
 import { CellAggregation, ColumnFilterMode, ColumnFilterType } from '@/types';
-import { columnFilter, createColumnConfig, createVariable } from '@/utils';
+import { columnFilter, createColumnAppearanceConfig, createColumnConfig, createVariable } from '@/utils';
 
 import { useTable } from './useTable';
 
@@ -403,6 +403,56 @@ describe('useTable', () => {
       expect.objectContaining({
         id: valueColumn.field.name,
         enableSorting: false,
+      }),
+    ]);
+  });
+
+  it('Should apply column width value', () => {
+    const deviceColumn = createColumnConfig({
+      field: {
+        source: refId,
+        name: 'device',
+      },
+      appearance: createColumnAppearanceConfig({
+        width: {
+          auto: true,
+          min: 0,
+          max: 150,
+          value: 0,
+        },
+      }),
+    });
+    const valueColumn = createColumnConfig({
+      field: {
+        source: refId,
+        name: 'value',
+      },
+      appearance: createColumnAppearanceConfig({
+        width: {
+          auto: false,
+          value: 999,
+        },
+      }),
+    });
+
+    const { result } = renderHook(() =>
+      useTable({
+        data: {
+          series: [frame],
+        } as any,
+        columns: [deviceColumn, valueColumn],
+      })
+    );
+
+    expect(result.current.columns).toEqual([
+      expect.objectContaining({
+        id: deviceColumn.field.name,
+        minSize: deviceColumn.appearance.width.min,
+        maxSize: deviceColumn.appearance.width.max,
+      }),
+      expect.objectContaining({
+        id: valueColumn.field.name,
+        size: valueColumn.appearance.width.value,
       }),
     ]);
   });

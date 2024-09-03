@@ -62,6 +62,39 @@ export interface ColumnSortConfig {
  */
 export interface ColumnAppearanceConfig {
   /**
+   * Width
+   */
+  width: {
+    /**
+     * Auto
+     *
+     * @type {boolean}
+     */
+    auto: boolean;
+
+    /**
+     * Min
+     *
+     * @type {number}
+     */
+    min?: number;
+
+    /**
+     * Max
+     *
+     * @type {number}
+     */
+    max?: number;
+
+    /**
+     * Value
+     *
+     * @type {number}
+     */
+    value: number;
+  };
+
+  /**
    * Background
    */
   background: {
