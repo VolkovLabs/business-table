@@ -1,7 +1,7 @@
 import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { ColumnDef } from '@tanstack/react-table';
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 import { CellRenderer } from '@/components';
 import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType } from '@/types';
@@ -131,7 +131,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         id: column.field.name,
         accessorKey: column.field.name,
         header: column.config.label || column.field.config?.displayName || column.field.name,
-        cell: (props) => <CellRenderer {...props} config={column.config} field={column.field} />,
+        cell: CellRenderer,
         enableGrouping: column.config.group,
         aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
         enableColumnFilter: column.config.filter.enabled && availableFilterTypes.length > 0,
@@ -141,6 +141,8 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
           availableFilterTypes,
           filterMode: column.config.filter.mode,
           filterVariableName: column.config.filter.variable,
+          config: column.config,
+          field: column.field,
         },
       });
     }

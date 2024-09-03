@@ -255,4 +255,32 @@ describe('ColumnEditor', () => {
       );
     });
   });
+
+  describe('appearance', () => {
+    describe('colored background', () => {
+      it('Should allow to change apply to row', () => {
+        render(getComponent({ value: createColumnConfig({ type: CellType.COLORED_BACKGROUND }) }));
+
+        expect(selectors.fieldAppearanceBackgroundApplyToRow()).toBeInTheDocument();
+
+        fireEvent.click(selectors.fieldAppearanceBackgroundApplyToRow());
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              background: expect.objectContaining({
+                applyToRow: true,
+              }),
+            }),
+          })
+        );
+      });
+
+      it('Should not allow to change apply to row if different type', () => {
+        render(getComponent({ value: createColumnConfig({ type: CellType.COLORED_TEXT }) }));
+
+        expect(selectors.fieldAppearanceBackgroundApplyToRow(true)).not.toBeInTheDocument();
+      });
+    });
+  });
 });

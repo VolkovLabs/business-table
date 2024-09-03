@@ -268,41 +268,41 @@ describe('useTable', () => {
         id: deviceColumn.field.name,
         enableColumnFilter: true,
         filterFn: columnFilter,
-        meta: {
+        meta: expect.objectContaining({
           availableFilterTypes: [ColumnFilterType.SEARCH, ColumnFilterType.FACETED],
           filterMode: deviceColumn.filter.mode,
           filterVariableName: deviceColumn.filter.variable,
-        },
+        }),
       }),
       expect.objectContaining({
         id: valueColumn.field.name,
         enableColumnFilter: true,
         filterFn: expect.any(Function),
-        meta: {
+        meta: expect.objectContaining({
           availableFilterTypes: [ColumnFilterType.NUMBER],
           filterMode: valueColumn.filter.mode,
           filterVariableName: valueColumn.filter.variable,
-        },
+        }),
       }),
       expect.objectContaining({
         id: createdColumn.field.name,
         enableColumnFilter: true,
         filterFn: expect.any(Function),
-        meta: {
+        meta: expect.objectContaining({
           availableFilterTypes: [ColumnFilterType.TIMESTAMP],
           filterMode: createdColumn.filter.mode,
           filterVariableName: createdColumn.filter.variable,
-        },
+        }),
       }),
       expect.objectContaining({
         id: otherColumn.field.name,
         enableColumnFilter: true,
         filterFn: expect.any(Function),
-        meta: {
+        meta: expect.objectContaining({
           availableFilterTypes: [ColumnFilterType.SEARCH, ColumnFilterType.FACETED],
           filterMode: createdColumn.filter.mode,
           filterVariableName: createdColumn.filter.variable,
-        },
+        }),
       }),
     ]);
 
@@ -351,11 +351,11 @@ describe('useTable', () => {
         id: deviceColumn.field.name,
         enableColumnFilter: true,
         filterFn: expect.any(Function),
-        meta: {
+        meta: expect.objectContaining({
           availableFilterTypes: [ColumnFilterType.FACETED],
           filterMode: deviceColumn.filter.mode,
           filterVariableName: deviceColumn.filter.variable,
-        },
+        }),
       }),
     ]);
 

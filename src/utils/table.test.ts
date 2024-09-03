@@ -10,7 +10,7 @@ import {
   getVariableColumnFilters,
   mergeColumnFilters,
 } from './table';
-import { createVariable } from './test';
+import { createColumnMeta, createVariable } from './test';
 
 /**
  * Mock @grafana/runtime
@@ -60,20 +60,20 @@ describe('Table utils', () => {
         {
           id: 'search',
           enableColumnFilter: true,
-          meta: {
+          meta: createColumnMeta({
             availableFilterTypes: [ColumnFilterType.SEARCH],
             filterVariableName: variable.name,
             filterMode: ColumnFilterMode.QUERY,
-          },
+          }),
         },
         {
           id: 'faceted',
           enableColumnFilter: true,
-          meta: {
+          meta: createColumnMeta({
             availableFilterTypes: [ColumnFilterType.FACETED],
             filterVariableName: variable2.name,
             filterMode: ColumnFilterMode.QUERY,
-          },
+          }),
         },
       ]);
 
@@ -114,20 +114,20 @@ describe('Table utils', () => {
         {
           id: 'queryName',
           enableColumnFilter: true,
-          meta: {
+          meta: createColumnMeta({
             availableFilterTypes: [ColumnFilterType.SEARCH],
             filterVariableName: variable.name,
             filterMode: ColumnFilterMode.QUERY,
-          },
+          }),
         },
         {
           id: 'clientName',
           enableColumnFilter: true,
-          meta: {
+          meta: createColumnMeta({
             availableFilterTypes: [ColumnFilterType.SEARCH],
             filterVariableName: variable.name,
             filterMode: ColumnFilterMode.CLIENT,
-          },
+          }),
         },
       ]);
 

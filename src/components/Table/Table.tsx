@@ -1,10 +1,8 @@
-import { cx } from '@emotion/css';
 import { EventBus } from '@grafana/data';
-import { IconButton, useStyles2 } from '@grafana/ui';
+import { useStyles2 } from '@grafana/ui';
 import {
   ColumnDef,
   ExpandedState,
-  flexRender,
   getCoreRowModel,
   getExpandedRowModel,
   getFacetedRowModel,
@@ -21,7 +19,7 @@ import React, { RefObject, useCallback, useMemo, useState } from 'react';
 import { TEST_IDS } from '@/constants';
 import { useSyncedColumnFilters } from '@/hooks';
 
-import { TableHeaderCell } from './components';
+import { TableHeaderCell, TableRow } from './components';
 import { getStyles } from './Table.styles';
 
 /**
@@ -207,47 +205,7 @@ export const Table = <TData,>({
         {virtualRows.map((virtualRow) => {
           const row = rows[virtualRow.index];
 
-          return (
-            <tr
-              data-index={virtualRow.index}
-              key={row.id}
-              className={styles.row}
-              ref={rowVirtualizer.measureElement}
-              style={{
-                transform: `translateY(${virtualRow.start}px)`,
-              }}
-            >
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  key={cell.id}
-                  className={cx(styles.cell, {
-                    [styles.cellExpandable]: row.getCanExpand(),
-                  })}
-                  style={{
-                    width: cell.column.getSize(),
-                  }}
-                  onClick={row.getToggleExpandedHandler()}
-                  {...TEST_IDS.table.bodyCell.apply(cell.id)}
-                >
-                  {cell.getIsGrouped() && (
-                    <IconButton
-                      name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
-                      aria-label={TEST_IDS.table.buttonExpandCell.selector(cell.id)}
-                      className={styles.expandButton}
-                    />
-                  )}
-                  {cell.getIsPlaceholder()
-                    ? null
-                    : cell.getIsAggregated()
-                      ? flexRender(
-                          cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell,
-                          cell.getContext()
-                        )
-                      : flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          );
+          return <TableRow key={row.id} row={row} virtualRow={virtualRow} rowVirtualizer={rowVirtualizer} />;
         })}
       </tbody>
     </table>

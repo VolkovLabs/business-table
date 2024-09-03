@@ -61,10 +61,15 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "groups": [
+        "tables": [
           {
             "items": [
               {
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -76,9 +81,17 @@
                 },
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -90,9 +103,17 @@
                 },
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -104,9 +125,17 @@
                 },
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "json",
                   "source": "A"
@@ -118,14 +147,17 @@
                 },
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               }
             ],
             "name": "Main"
           }
-        ]
+        ],
+        "tabsSorting": false
       },
-      "pluginVersion": "1.0.0",
       "targets": [
         {
           "datasource": {
@@ -218,8 +250,12 @@
                 "value": null
               },
               {
+                "color": "yellow",
+                "value": 10
+              },
+              {
                 "color": "red",
-                "value": 80
+                "value": 15
               }
             ]
           }
@@ -234,10 +270,15 @@
       },
       "id": 10,
       "options": {
-        "groups": [
+        "tables": [
           {
             "items": [
               {
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "country",
                   "source": "A"
@@ -248,9 +289,17 @@
                   "variable": ""
                 },
                 "group": true,
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "city",
                   "source": "A"
@@ -262,10 +311,18 @@
                 },
                 "group": true,
                 "label": "City",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
                 "aggregation": "count",
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "device",
                   "source": "A"
@@ -275,10 +332,18 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
                 "aggregation": "sum",
+                "appearance": {
+                  "background": {
+                    "applyToRow": true
+                  }
+                },
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -288,7 +353,10 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "type": "auto"
+                "sort": {
+                  "enabled": false
+                },
+                "type": "coloredBackground"
               }
             ],
             "name": "Country"
@@ -296,6 +364,11 @@
           {
             "items": [
               {
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "device",
                   "source": "A"
@@ -307,10 +380,18 @@
                 },
                 "group": true,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
                 "aggregation": "max",
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -321,14 +402,17 @@
                   "variable": ""
                 },
                 "label": "",
-                "type": "auto"
+                "sort": {
+                  "enabled": false
+                },
+                "type": "coloredBackground"
               }
             ],
             "name": "Value"
           }
-        ]
+        ],
+        "tabsSorting": false
       },
-      "pluginVersion": "1.0.0",
       "targets": [
         {
           "datasource": {
@@ -457,11 +541,16 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "groups": [
+        "tables": [
           {
             "items": [
               {
                 "aggregation": "none",
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -473,10 +562,18 @@
                 },
                 "group": true,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
                 "aggregation": "count",
+                "appearance": {
+                  "background": {
+                    "applyToRow": false
+                  }
+                },
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -488,14 +585,17 @@
                 },
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               }
             ],
             "name": "123"
           }
-        ]
+        ],
+        "tabsSorting": false
       },
-      "pluginVersion": "1.0.0",
       "targets": [
         {
           "datasource": {

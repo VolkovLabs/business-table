@@ -1,6 +1,24 @@
 import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame, TypedVariableModel } from '@grafana/data';
 
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, PanelOptions } from '@/types';
+import {
+  CellAggregation,
+  CellType,
+  ColumnAppearanceConfig,
+  ColumnConfig,
+  ColumnFilterMode,
+  ColumnMeta,
+  PanelOptions,
+} from '@/types';
+
+/**
+ * Create Column Appearance Config
+ */
+export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanceConfig>): ColumnAppearanceConfig => ({
+  background: {
+    applyToRow: false,
+  },
+  ...appearance,
+});
 
 /**
  * Create Column Config
@@ -22,6 +40,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   sort: {
     enabled: false,
   },
+  appearance: createColumnAppearanceConfig({}),
   ...item,
 });
 
@@ -69,4 +88,16 @@ export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOp
   tables: [],
   tabsSorting: false,
   ...options,
+});
+
+/**
+ * Create Column Meta
+ */
+export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
+  availableFilterTypes: [],
+  filterVariableName: '',
+  filterMode: ColumnFilterMode.CLIENT,
+  config: createColumnConfig(),
+  field: {} as never,
+  ...meta,
 });
