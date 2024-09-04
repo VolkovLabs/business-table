@@ -127,6 +127,18 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         }
       }
 
+      const sizeParams: Partial<Pick<ColumnDef<unknown>, 'size' | 'minSize' | 'maxSize'>> = {};
+
+      /**
+       * Set column size
+       */
+      if (column.config.appearance.width.auto) {
+        sizeParams.minSize = column.config.appearance.width.min;
+        sizeParams.maxSize = column.config.appearance.width.max;
+      } else {
+        sizeParams.size = column.config.appearance.width.value;
+      }
+
       columns.push({
         id: column.field.name,
         accessorKey: column.field.name,
@@ -144,6 +156,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
           config: column.config,
           field: column.field,
         },
+        ...sizeParams,
       });
     }
 

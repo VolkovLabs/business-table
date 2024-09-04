@@ -14,6 +14,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
     `,
     table: css`
       display: grid;
+      min-width: 100%;
     `,
     header: css`
       border-bottom: 1px solid ${borderColor};
@@ -25,6 +26,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
     headerRow: css`
       display: flex;
       width: 100%;
+      justify-content: space-between;
     `,
     headerCell: css`
       display: flex;
@@ -33,6 +35,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       padding: ${theme.spacing(0.75)};
       gap: ${theme.spacing(0.5)};
       flex-wrap: wrap;
+      flex: auto;
 
       &:not(:last-child) {
         border-right: 1px solid ${borderColor};
@@ -41,32 +44,6 @@ export const getStyles = (theme: GrafanaTheme2) => {
     body: css`
       display: grid;
       position: relative; //needed for absolute positioning of rows
-    `,
-    row: css`
-      display: flex;
-      position: absolute;
-      width: 100%;
-      &:not(:last-child) {
-        border-bottom: 1px solid ${borderColor};
-      }
-    `,
-    cell: css`
-      display: flex;
-      min-height: ${theme.spacing(4.5)};
-      align-items: center;
-      white-space: wrap;
-      padding: ${theme.spacing(0.75)};
-
-      &:not(:last-child) {
-        border-right: 1px solid ${borderColor};
-      }
-    `,
-    cellExpandable: css`
-      cursor: pointer;
-      border-right: none !important;
-    `,
-    expandButton: css`
-      margin-right: ${theme.spacing(1)};
     `,
   };
 };

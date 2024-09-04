@@ -5,7 +5,7 @@ import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellType } from '@/types';
+import { CellType, ColumnAlignment } from '@/types';
 
 import { getStyles } from './TableRow.styles';
 
@@ -57,10 +57,13 @@ export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TDat
         return acc;
       }
 
-      const cellAppearance: { background?: string } = {};
+      const cellAppearance: { background?: string; wrap?: boolean; align?: ColumnAlignment } = {};
 
       const { field, config } = cell.column.columnDef.meta;
       const value = cell.getValue();
+
+      cellAppearance.wrap = config.appearance.wrap;
+      cellAppearance.align = config.appearance.alignment;
 
       /**
        * Set background color
@@ -90,7 +93,7 @@ export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TDat
       cells: [],
     } as {
       background?: string;
-      cells: Array<{ background?: string }>;
+      cells: Array<{ background?: string; wrap?: boolean; align?: ColumnAlignment }>;
     }
   );
 
@@ -107,7 +110,8 @@ export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TDat
       {...TEST_IDS.table.bodyRow.apply(row.id)}
     >
       {visibleCells.map((cell, index) => {
-        const bgColor = rowAppearance.cells[index]?.background;
+        const cellAppearance = rowAppearance.cells[index];
+        const bgColor = cellAppearance?.background;
 
         const rendererProps = {
           ...cell.getContext(),
@@ -121,8 +125,13 @@ export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TDat
               [styles.cellExpandable]: row.getCanExpand(),
             })}
             style={{
+              maxWidth: cell.column.columnDef.maxSize,
+              minWidth: cell.column.columnDef.minSize,
               width: cell.column.getSize(),
               backgroundColor: bgColor,
+              wordBreak: cellAppearance?.wrap ? 'break-all' : 'normal',
+              justifyContent: cellAppearance?.align,
+              textAlign: cellAppearance?.align,
             }}
             onClick={row.getToggleExpandedHandler()}
             {...TEST_IDS.table.bodyCell.apply(cell.id)}

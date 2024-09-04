@@ -5,8 +5,8 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnFilterMode } from '@/types';
-import { createColumnConfig, createVariable } from '@/utils';
+import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode } from '@/types';
+import { createColumnAppearanceConfig, createColumnConfig, createVariable } from '@/utils';
 
 import { ColumnEditor } from './ColumnEditor';
 
@@ -280,6 +280,212 @@ describe('ColumnEditor', () => {
         render(getComponent({ value: createColumnConfig({ type: CellType.COLORED_TEXT }) }));
 
         expect(selectors.fieldAppearanceBackgroundApplyToRow(true)).not.toBeInTheDocument();
+      });
+    });
+
+    describe('width', () => {
+      it('Should allow to change width auto', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                width: {
+                  auto: false,
+                  value: 100,
+                },
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceWidthAuto()).toBeInTheDocument();
+
+        fireEvent.click(selectors.fieldAppearanceWidthAuto());
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              width: expect.objectContaining({
+                auto: true,
+              }),
+            }),
+          })
+        );
+      });
+
+      it('Should allow to change min width if auto', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                width: {
+                  auto: true,
+                  min: 0,
+                  value: 100,
+                },
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceWidthMin()).toBeInTheDocument();
+
+        fireEvent.change(selectors.fieldAppearanceWidthMin(), { target: { value: '50' } });
+        fireEvent.blur(selectors.fieldAppearanceWidthMin(), { target: { value: '50' } });
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              width: expect.objectContaining({
+                min: 50,
+              }),
+            }),
+          })
+        );
+      });
+
+      it('Should allow to change max width if auto', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                width: {
+                  auto: true,
+                  max: 0,
+                  value: 100,
+                },
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceWidthMax()).toBeInTheDocument();
+
+        fireEvent.change(selectors.fieldAppearanceWidthMax(), { target: { value: '50' } });
+        fireEvent.blur(selectors.fieldAppearanceWidthMax(), { target: { value: '50' } });
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              width: expect.objectContaining({
+                max: 50,
+              }),
+            }),
+          })
+        );
+      });
+
+      it('Should allow to reset max width', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                width: {
+                  auto: true,
+                  max: 150,
+                  value: 100,
+                },
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceWidthMax()).toBeInTheDocument();
+
+        fireEvent.change(selectors.fieldAppearanceWidthMax(), { target: { value: '0' } });
+        fireEvent.blur(selectors.fieldAppearanceWidthMax(), { target: { value: '0' } });
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              width: expect.objectContaining({
+                max: undefined,
+              }),
+            }),
+          })
+        );
+      });
+
+      it('Should allow to change width value if not auto', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                width: {
+                  auto: false,
+                  value: 100,
+                },
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceWidthValue()).toBeInTheDocument();
+
+        fireEvent.change(selectors.fieldAppearanceWidthValue(), { target: { value: '150' } });
+        fireEvent.blur(selectors.fieldAppearanceWidthValue(), { target: { value: '150' } });
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              width: expect.objectContaining({
+                value: 150,
+              }),
+            }),
+          })
+        );
+      });
+    });
+
+    describe('wrap', () => {
+      it('Should allow to change value', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                wrap: false,
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceWrap()).toBeInTheDocument();
+
+        fireEvent.click(selectors.fieldAppearanceWrap());
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              wrap: true,
+            }),
+          })
+        );
+      });
+    });
+
+    describe('alignment', () => {
+      it('Should allow to change value', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                alignment: ColumnAlignment.START,
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceAlignment()).toBeInTheDocument();
+
+        fireEvent.click(selectors.fieldAppearanceAlignmentOption(false, ColumnAlignment.CENTER));
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              alignment: ColumnAlignment.CENTER,
+            }),
+          })
+        );
       });
     });
   });

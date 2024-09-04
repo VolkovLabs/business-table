@@ -29,6 +29,7 @@
   "panels": [
     {
       "datasource": {
+        "default": true,
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
@@ -68,7 +69,13 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 50,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "id",
@@ -90,7 +97,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "name",
@@ -112,7 +124,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "value",
@@ -134,7 +151,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "json",
@@ -170,41 +192,25 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3
-                ]
+                "values": [1, 2, 3]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": [
-                  "Device 1",
-                  "Device 2",
-                  "Device 3"
-                ]
+                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  20
-                ]
+                "values": [10, 15, 20]
               },
               {
                 "config": {},
                 "name": "json",
                 "type": "string",
-                "values": [
-                  "{ \"name\": \"Device1\" }",
-                  "{ \"name\": \"Device2\" }",
-                  "{ \"name\": \"Device3\" }"
-                ]
+                "values": ["{ \"name\": \"Device1\" }", "{ \"name\": \"Device2\" }", "{ \"name\": \"Device3\" }"]
               }
             ],
             "meta": {},
@@ -277,7 +283,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "country",
@@ -298,7 +309,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "city",
@@ -321,7 +337,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "device",
@@ -342,7 +363,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": true
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "value",
@@ -367,7 +393,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "device",
@@ -390,7 +421,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "value",
@@ -425,33 +461,13 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": [
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "Japan",
-                  "Japan",
-                  "Japan",
-                  "Japan"
-                ]
+                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": [
-                  "New York",
-                  "New York",
-                  "New York",
-                  "Tampa",
-                  "Tampa",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo"
-                ]
+                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
               },
               {
                 "config": {},
@@ -473,17 +489,7 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  2,
-                  13,
-                  8,
-                  17,
-                  4,
-                  13,
-                  8
-                ]
+                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
               }
             ],
             "meta": {}
@@ -549,7 +555,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "name",
@@ -572,7 +583,12 @@
                 "appearance": {
                   "background": {
                     "applyToRow": false
-                  }
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
                 },
                 "field": {
                   "name": "id",
@@ -658,6 +674,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 5,
   "weekStart": ""
 }

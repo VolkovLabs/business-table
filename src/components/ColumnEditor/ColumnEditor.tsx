@@ -1,10 +1,11 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, InlineFieldRow, InlineSwitch, Input, Select } from '@grafana/ui';
+import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select } from '@grafana/ui';
+import { NumberInput } from '@volkovlabs/components';
 import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode } from '@/types';
+import { CellAggregation, CellType, ColumnAlignment, ColumnConfig, ColumnFilterMode } from '@/types';
 import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
@@ -197,6 +198,138 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           />
         </InlineField>
       )}
+      <InlineFieldRow>
+        <InlineField label="Auto Width">
+          <InlineSwitch
+            value={value.appearance.width.auto}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                appearance: {
+                  ...value.appearance,
+                  width: {
+                    ...value.appearance.width,
+                    auto: event.currentTarget.checked,
+                  },
+                },
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldAppearanceWidthAuto.apply()}
+          />
+        </InlineField>
+        {value.appearance.width.auto ? (
+          <>
+            <InlineField label="Min">
+              <NumberInput
+                value={value.appearance.width.min ?? 0}
+                onChange={(min) => {
+                  onChange({
+                    ...value,
+                    appearance: {
+                      ...value.appearance,
+                      width: {
+                        ...value.appearance.width,
+                        min,
+                      },
+                    },
+                  });
+                }}
+                {...TEST_IDS.columnEditor.fieldAppearanceWidthMin.apply()}
+              />
+            </InlineField>
+            <InlineField label="Max">
+              <NumberInput
+                value={value.appearance.width.max ?? 0}
+                placeholder="Auto"
+                onChange={(max) => {
+                  onChange({
+                    ...value,
+                    appearance: {
+                      ...value.appearance,
+                      width: {
+                        ...value.appearance.width,
+                        max: max || undefined,
+                      },
+                    },
+                  });
+                }}
+                {...TEST_IDS.columnEditor.fieldAppearanceWidthMax.apply()}
+              />
+            </InlineField>
+          </>
+        ) : (
+          <InlineField label="Width">
+            <NumberInput
+              value={value.appearance.width.value}
+              placeholder="Auto"
+              onChange={(width) => {
+                onChange({
+                  ...value,
+                  appearance: {
+                    ...value.appearance,
+                    width: {
+                      ...value.appearance.width,
+                      value: width,
+                    },
+                  },
+                });
+              }}
+              {...TEST_IDS.columnEditor.fieldAppearanceWidthValue.apply()}
+            />
+          </InlineField>
+        )}
+      </InlineFieldRow>
+      <InlineFieldRow>
+        <InlineField label="Wrap Text">
+          <InlineSwitch
+            value={value.appearance.wrap}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                appearance: {
+                  ...value.appearance,
+                  wrap: event.currentTarget.checked,
+                },
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldAppearanceWrap.apply()}
+          />
+        </InlineField>
+        <InlineField label="Alignment" {...TEST_IDS.columnEditor.fieldAppearanceAlignment.apply()}>
+          <RadioButtonGroup
+            value={value.appearance.alignment}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                appearance: {
+                  ...value.appearance,
+                  alignment: event,
+                },
+              })
+            }
+            options={[
+              {
+                value: ColumnAlignment.START,
+                icon: 'align-left',
+                description: 'Start',
+                ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.START),
+              },
+              {
+                value: ColumnAlignment.CENTER,
+                icon: 'bars',
+                description: 'Center',
+                ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.CENTER),
+              },
+              {
+                value: ColumnAlignment.END,
+                icon: 'align-right',
+                description: 'End',
+                ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.END),
+              },
+            ]}
+          />
+        </InlineField>
+      </InlineFieldRow>
       <InlineFieldRow>
         <InlineField label="Group" grow={true}>
           <InlineSwitch

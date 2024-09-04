@@ -1,6 +1,7 @@
 import { PanelModel } from '@grafana/data';
 
 import {
+  ColumnAlignment,
   ColumnAppearanceConfig,
   ColumnConfig,
   ColumnFilterConfig,
@@ -103,13 +104,18 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
           /**
            * Add appearance options
            */
-          if (!normalized.appearance) {
-            normalized.appearance = {
-              background: {
-                applyToRow: false,
-              },
-            };
-          }
+          normalized.appearance = {
+            width: {
+              auto: true,
+              value: 100,
+            },
+            background: {
+              applyToRow: false,
+            },
+            wrap: true,
+            alignment: ColumnAlignment.START,
+            ...(normalized.appearance as Partial<ColumnAppearanceConfig>),
+          };
 
           return normalized;
         }),

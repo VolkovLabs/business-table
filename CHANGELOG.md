@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.1.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added Colored Background Column type (#33)
+- Added column width and wrap (#34)
+
 ## 1.1.0 (2024-08-22)
 
 ### Features / Enhancements

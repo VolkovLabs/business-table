@@ -23,6 +23,15 @@ import { TableHeaderCell, TableRow } from './components';
 import { getStyles } from './Table.styles';
 
 /**
+ * Default Column Sizing
+ */
+const defaultColumnSizing = {
+  size: 50,
+  minSize: 20,
+  maxSize: Number.MAX_SAFE_INTEGER,
+};
+
+/**
  * Properties
  */
 interface Props<TData> {
@@ -152,6 +161,11 @@ export const Table = <TData,>({
      */
     debugTable: false,
     debugColumns: false,
+
+    /**
+     * Defaults
+     */
+    defaultColumn: defaultColumnSizing,
   });
 
   /**
@@ -177,7 +191,14 @@ export const Table = <TData,>({
   const virtualRows = rowVirtualizer.getVirtualItems();
 
   return (
-    <table className={styles.table} ref={tableRef} {...TEST_IDS.table.root.apply()}>
+    <table
+      className={styles.table}
+      ref={tableRef}
+      style={{
+        width: table.getCenterTotalSize(),
+      }}
+      {...TEST_IDS.table.root.apply()}
+    >
       <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
         {table.getHeaderGroups().map((headerGroup) => (
           <tr key={headerGroup.id} className={styles.headerRow}>
@@ -186,7 +207,11 @@ export const Table = <TData,>({
                 key={header.id}
                 className={styles.headerCell}
                 style={{
+                  maxWidth: header.column.columnDef.maxSize,
+                  minWidth: header.column.columnDef.minSize,
                   width: header.getSize(),
+                  textAlign: header.column.columnDef.meta?.config.appearance.alignment,
+                  justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
                 }}
                 {...TEST_IDS.table.headerCell.apply(header.id)}
               >
