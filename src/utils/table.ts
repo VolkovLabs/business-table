@@ -394,13 +394,17 @@ export const getFooterCell = ({
   const format = field.display ?? getDisplayProcessor({ field: filteredField, theme });
   const fieldCalcValue = reduceField({ field: filteredField, reducers: config.footer })[calc];
 
-  // If the reducer preserves units then format the
-  // end value with the field display processor
+  /**
+   * If the reducer preserves units then format the
+   * end value with the field display processor
+   */
   const reducerInfo = fieldReducers.get(calc);
   if (reducerInfo.preservesUnits) {
     return formattedValueToString(format(fieldCalcValue));
   }
 
-  // Otherwise we simply return the formatted string
+  /**
+   * Otherwise we simply return the formatted string
+   */
   return formattedValueToString({ text: fieldCalcValue });
 };

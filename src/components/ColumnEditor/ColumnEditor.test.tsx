@@ -1,7 +1,8 @@
 import { toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
+import { Select } from '@grafana/ui';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { getJestSelectors } from '@volkovlabs/jest-selectors';
+import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -12,11 +13,38 @@ import { ColumnEditor } from './ColumnEditor';
 
 type Props = React.ComponentProps<typeof ColumnEditor>;
 
+/**
+ * In Test Ids
+ */
+const inTestIds = {
+  footerEditor: createSelector('data-testid footer-editor'),
+};
+
+/**
+ * Mock @grafana/data
+ */
+jest.mock('@grafana/data', () => ({
+  ...jest.requireActual('@grafana/data'),
+  standardEditorsRegistry: {
+    get: () => ({
+      editor: ({ value, onChange }: any) => (
+        <Select
+          value={value}
+          onChange={(event) => onChange(event.map(({ value }: never) => value))}
+          options={[{ value: 'min' }, { value: 'max' }]}
+          isMulti={true}
+          {...inTestIds.footerEditor.apply()}
+        />
+      ),
+    }),
+  },
+}));
+
 describe('ColumnEditor', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(TEST_IDS.columnEditor);
+  const getSelectors = getJestSelectors({ ...TEST_IDS.columnEditor, ...inTestIds });
   const selectors = getSelectors(screen);
 
   /**
@@ -488,5 +516,23 @@ describe('ColumnEditor', () => {
         );
       });
     });
+  });
+
+  it('Should allow to change footer', () => {
+    render(
+      getComponent({
+        value: createColumnConfig(),
+      })
+    );
+
+    expect(selectors.footerEditor()).toBeInTheDocument();
+
+    fireEvent.change(selectors.footerEditor(), { target: { values: ['max'] } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        footer: ['max'],
+      })
+    );
   });
 });

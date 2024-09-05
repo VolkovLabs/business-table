@@ -1,4 +1,4 @@
-import { dateTime, isDateTime } from '@grafana/data';
+import { createTheme, dateTime, isDateTime, ReducerID } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 
 import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
@@ -6,11 +6,12 @@ import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOper
 import {
   columnFilter,
   getFilterWithNewType,
+  getFooterCell,
   getSupportedFilterTypesForVariable,
   getVariableColumnFilters,
   mergeColumnFilters,
 } from './table';
-import { createColumnMeta, createVariable } from './test';
+import { createColumnConfig, createColumnMeta, createField, createVariable, FooterContext } from './test';
 
 /**
  * Mock @grafana/runtime
@@ -714,6 +715,142 @@ describe('Table utils', () => {
       ];
 
       it.each(tests)('$name', runColumnFilterTest);
+    });
+  });
+
+  describe('getFooterCell', () => {
+    /**
+     * Theme
+     */
+    const theme = createTheme();
+
+    /**
+     * Field
+     */
+    const field = createField({
+      name: 'value',
+      values: [10, 15, 20],
+      config: {
+        unit: 'cm',
+      },
+    });
+
+    it('Should work if no footer', () => {
+      const context = new FooterContext(field.name).setRows(
+        field.values.map((value) => ({
+          [field.name]: value,
+        }))
+      );
+
+      expect(
+        getFooterCell({
+          theme,
+          context: context as never,
+          config: createColumnConfig({
+            field: {
+              name: 'value',
+              source: 0,
+            },
+            footer: [],
+          }),
+          field,
+        })
+      ).toEqual('');
+    });
+
+    it('Should find min within filtered values', () => {
+      const context = new FooterContext(field.name).setRows(
+        field.values.slice(1).map((value) => ({
+          [field.name]: value,
+        }))
+      );
+
+      expect(
+        getFooterCell({
+          theme,
+          context: context as never,
+          config: createColumnConfig({
+            field: {
+              name: 'value',
+              source: 0,
+            },
+            footer: [ReducerID.min],
+          }),
+          field,
+        })
+      ).toEqual('15 cm');
+    });
+
+    it('Should return min value with units', () => {
+      const context = new FooterContext(field.name).setRows(
+        field.values.map((value) => ({
+          [field.name]: value,
+        }))
+      );
+
+      expect(
+        getFooterCell({
+          theme,
+          context: context as never,
+          config: createColumnConfig({
+            field: {
+              name: 'value',
+              source: 0,
+            },
+            footer: [ReducerID.min],
+          }),
+          field,
+        })
+      ).toEqual('10 cm');
+    });
+
+    it('Should not preserve units', () => {
+      const context = new FooterContext(field.name).setRows(
+        field.values.map((value) => ({
+          [field.name]: value,
+        }))
+      );
+
+      expect(
+        getFooterCell({
+          theme,
+          context: context as never,
+          config: createColumnConfig({
+            field: {
+              name: 'value',
+              source: 0,
+            },
+            footer: [ReducerID.changeCount],
+          }),
+          field,
+        })
+      ).toEqual('2');
+    });
+
+    it('Should work if no display processor', () => {
+      const context = new FooterContext(field.name).setRows(
+        field.values.map((value) => ({
+          [field.name]: value,
+        }))
+      );
+
+      expect(
+        getFooterCell({
+          theme,
+          context: context as never,
+          config: createColumnConfig({
+            field: {
+              name: 'value',
+              source: 0,
+            },
+            footer: [ReducerID.min],
+          }),
+          field: {
+            name: 'value',
+            values: [10, 15, 20],
+          } as never,
+        })
+      ).toEqual('10');
     });
   });
 });

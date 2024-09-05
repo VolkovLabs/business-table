@@ -258,7 +258,7 @@ export const Table = <TData,>({
                   }}
                   {...TEST_IDS.table.footerCell.apply(header.id)}
                 >
-                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.footer, header.getContext())}
+                  {flexRender(header.column.columnDef.footer, header.getContext())}
                 </th>
               ))}
             </tr>

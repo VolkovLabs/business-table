@@ -110,3 +110,36 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   footerEnabled: false,
   ...meta,
 });
+
+/**
+ * Footer Context
+ */
+export class FooterContext {
+  private rows: unknown[] = [];
+
+  table = {
+    getFilteredRowModel: () => {
+      return {
+        rows: this.rows,
+      };
+    },
+  };
+
+  column = {
+    id: '',
+  };
+
+  constructor(columnId: string) {
+    this.column.id = columnId;
+  }
+
+  setRows(rows: Array<Record<string, unknown>>) {
+    this.rows = rows.map((row) => {
+      return {
+        getValue: (columId: string) => row[columId],
+      };
+    });
+
+    return this;
+  }
+}
