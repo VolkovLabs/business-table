@@ -149,6 +149,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         sizeParams.maxSize = column.config.appearance.width.max;
       } else {
         sizeParams.size = column.config.appearance.width.value;
+        sizeParams.maxSize = column.config.appearance.width.value;
       }
 
       columns.push({
