@@ -366,6 +366,10 @@ export const getFooterCell = ({
   theme: GrafanaTheme2;
 }): unknown => {
   const calc = config.footer[0];
+
+  /**
+   * No footer
+   */
   if (calc === undefined) {
     return '';
   }

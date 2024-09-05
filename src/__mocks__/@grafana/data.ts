@@ -1,4 +1,4 @@
-const actual = jest.requireActual('@grafana/data');
+const actualData = jest.requireActual('@grafana/data');
 
 const standardEditorsRegistry = {
   get: () => ({
@@ -7,6 +7,6 @@ const standardEditorsRegistry = {
 };
 
 module.exports = {
-  ...actual,
+  ...actualData,
   standardEditorsRegistry,
 };
