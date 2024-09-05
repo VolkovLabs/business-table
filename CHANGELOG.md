@@ -1,12 +1,13 @@
 # Change Log
 
-## 1.1.0 (IN PROGRESS)
+## 1.2.0 (2023-09-05)
 
 ### Features / Enhancements
 
 - Added Colored Background Column type (#33)
 - Added column width and wrap (#34)
 - Added table Footer (#36)
+- Updated to Grafana 11.2.0 (#37)
 
 ## 1.1.0 (2024-08-22)
 

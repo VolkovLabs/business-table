@@ -1,6 +1,6 @@
 import { test, expect } from '@grafana/plugin-e2e';
 
-test.describe('Volkovlabs Table Panel', () => {
+test.describe('Business Table Panel', () => {
   test('Check grafana version', async ({ grafanaVersion }) => {
     console.log('Grafana version: ', grafanaVersion);
     expect(grafanaVersion).toEqual(grafanaVersion);
