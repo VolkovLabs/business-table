@@ -74,6 +74,7 @@ export const TEST_IDS = {
   table: {
     root: createSelector('data-testid table'),
     headerCell: createSelector((name: unknown) => `data-testid table header-cell-${name}`),
+    footerCell: createSelector((name: unknown) => `data-testid table footer-cell-${name}`),
     bodyRow: createSelector((name: unknown) => `data-testid table body-row-${name}`),
     bodyCell: createSelector((name: unknown) => `data-testid table body-cell-${name}`),
     buttonExpandCell: createSelector((name: unknown) => `table button-expand-cell-${name}`),

@@ -154,6 +154,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
             enabled: false,
           },
           appearance: DEFAULT_COLUMN_APPEARANCE,
+          footer: [],
         },
       ]);
       setNewItem(null);

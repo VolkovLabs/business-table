@@ -1,4 +1,4 @@
-const actual = jest.requireActual('@grafana/runtime');
+const actualRuntime = jest.requireActual('@grafana/runtime');
 
 /**
  * Template Srv
@@ -13,7 +13,7 @@ beforeEach(() => {
 });
 
 module.exports = {
-  ...actual,
+  ...actualRuntime,
   getTemplateSrv,
   locationService: {
     partial: jest.fn(),

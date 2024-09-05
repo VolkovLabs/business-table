@@ -67,6 +67,7 @@
             "items": [
               {
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -86,6 +87,7 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "group": false,
                 "label": "",
                 "sort": {
@@ -95,6 +97,7 @@
               },
               {
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -113,6 +116,7 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "group": false,
                 "label": "",
                 "sort": {
@@ -122,6 +126,7 @@
               },
               {
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -140,6 +145,9 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [
+                  "mean"
+                ],
                 "group": false,
                 "label": "",
                 "sort": {
@@ -149,6 +157,7 @@
               },
               {
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -167,6 +176,7 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "group": false,
                 "label": "",
                 "sort": {
@@ -192,25 +202,41 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3]
+                "values": [
+                  1,
+                  2,
+                  3
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20]
+                "values": [
+                  10,
+                  15,
+                  20
+                ]
               },
               {
                 "config": {},
                 "name": "json",
                 "type": "string",
-                "values": ["{ \"name\": \"Device1\" }", "{ \"name\": \"Device2\" }", "{ \"name\": \"Device3\" }"]
+                "values": [
+                  "{ \"name\": \"Device1\" }",
+                  "{ \"name\": \"Device2\" }",
+                  "{ \"name\": \"Device3\" }"
+                ]
               }
             ],
             "meta": {},
@@ -281,6 +307,7 @@
             "items": [
               {
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -299,6 +326,7 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "group": true,
                 "sort": {
                   "enabled": false
@@ -307,6 +335,7 @@
               },
               {
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -325,6 +354,7 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "group": true,
                 "label": "City",
                 "sort": {
@@ -335,6 +365,7 @@
               {
                 "aggregation": "count",
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -353,6 +384,9 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [
+                  "distinctCount"
+                ],
                 "sort": {
                   "enabled": false
                 },
@@ -361,6 +395,7 @@
               {
                 "aggregation": "sum",
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": true
                   },
@@ -379,6 +414,9 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [
+                  "sum"
+                ],
                 "sort": {
                   "enabled": false
                 },
@@ -391,6 +429,7 @@
             "items": [
               {
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -409,6 +448,7 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "group": true,
                 "label": "",
                 "sort": {
@@ -419,6 +459,7 @@
               {
                 "aggregation": "max",
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -437,6 +478,7 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "label": "",
                 "sort": {
                   "enabled": false
@@ -461,13 +503,33 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -489,7 +551,17 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
               }
             ],
             "meta": {}
@@ -553,6 +625,7 @@
               {
                 "aggregation": "none",
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -571,6 +644,7 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "group": true,
                 "label": "",
                 "sort": {
@@ -581,6 +655,7 @@
               {
                 "aggregation": "count",
                 "appearance": {
+                  "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
@@ -599,6 +674,9 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [
+                  "count"
+                ],
                 "group": false,
                 "label": "",
                 "sort": {

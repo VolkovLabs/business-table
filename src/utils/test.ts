@@ -48,6 +48,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
     enabled: false,
   },
   appearance: createColumnAppearanceConfig({}),
+  footer: [],
   ...item,
 });
 
@@ -106,5 +107,39 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   filterMode: ColumnFilterMode.CLIENT,
   config: createColumnConfig(),
   field: {} as never,
+  footerEnabled: false,
   ...meta,
 });
+
+/**
+ * Footer Context
+ */
+export class FooterContext {
+  private rows: unknown[] = [];
+
+  table = {
+    getFilteredRowModel: () => {
+      return {
+        rows: this.rows,
+      };
+    },
+  };
+
+  column = {
+    id: '',
+  };
+
+  constructor(columnId: string) {
+    this.column.id = columnId;
+  }
+
+  setRows(rows: Array<Record<string, unknown>>) {
+    this.rows = rows.map((row) => {
+      return {
+        getValue: (columId: string) => row[columId],
+      };
+    });
+
+    return this;
+  }
+}

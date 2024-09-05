@@ -4,6 +4,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
 
 import { TEST_IDS } from '@/constants';
+import { createColumnMeta } from '@/utils';
 
 import { Table } from './Table';
 
@@ -134,5 +135,42 @@ describe('Table', () => {
      * Check if nested columns expanded
      */
     expect(selectors.bodyCell(false, 'device:device1_value')).toBeInTheDocument();
+  });
+
+  it('Should show footer cell', async () => {
+    await act(async () =>
+      render(
+        getComponent({
+          columns: [
+            {
+              id: 'device',
+              accessorKey: 'device',
+            },
+            {
+              id: 'value',
+              accessorKey: 'value',
+              meta: createColumnMeta({
+                footerEnabled: true,
+              }),
+              footer: () => '123',
+            },
+          ],
+          data: [
+            {
+              device: 'device1',
+              value: 10,
+            },
+            {
+              device: 'device2',
+              value: 20,
+            },
+          ],
+        })
+      )
+    );
+
+    expect(selectors.footerCell(false, 'device')).toBeInTheDocument();
+    expect(selectors.footerCell(false, 'value')).toBeInTheDocument();
+    expect(selectors.footerCell(false, 'value')).toHaveTextContent('123');
   });
 });

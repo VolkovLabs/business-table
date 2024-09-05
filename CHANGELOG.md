@@ -6,6 +6,7 @@
 
 - Added Colored Background Column type (#33)
 - Added column width and wrap (#34)
+- Added table Footer (#36)
 
 ## 1.1.0 (2024-08-22)
 

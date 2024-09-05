@@ -1,9 +1,9 @@
-import { FieldType, toDataFrame } from '@grafana/data';
+import { FieldType, ReducerID, toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { renderHook } from '@testing-library/react';
 
 import { CellAggregation, ColumnFilterMode, ColumnFilterType } from '@/types';
-import { columnFilter, createColumnAppearanceConfig, createColumnConfig, createVariable } from '@/utils';
+import { columnFilter, createColumnAppearanceConfig, createColumnConfig, createVariable, FooterContext } from '@/utils';
 
 import { useTable } from './useTable';
 
@@ -455,5 +455,63 @@ describe('useTable', () => {
         size: valueColumn.appearance.width.value,
       }),
     ]);
+  });
+
+  it('Should apply column footer', () => {
+    const deviceColumn = createColumnConfig({
+      field: {
+        source: refId,
+        name: 'device',
+      },
+      footer: [],
+    });
+    const valueColumn = createColumnConfig({
+      field: {
+        source: refId,
+        name: 'value',
+      },
+      footer: [ReducerID.min],
+    });
+
+    const { result } = renderHook(() =>
+      useTable({
+        data: {
+          series: [frame],
+        } as any,
+        columns: [deviceColumn, valueColumn],
+      })
+    );
+
+    expect(result.current.columns).toEqual([
+      expect.objectContaining({
+        id: deviceColumn.field.name,
+        meta: expect.objectContaining({
+          footerEnabled: false,
+        }),
+      }),
+      expect.objectContaining({
+        id: valueColumn.field.name,
+        meta: expect.objectContaining({
+          footerEnabled: true,
+        }),
+      }),
+    ]);
+
+    const footer = result.current.columns[1].footer;
+
+    expect(footer).toBeInstanceOf(Function);
+
+    if (typeof footer === 'function') {
+      expect(
+        footer(
+          new FooterContext(valueColumn.field.name).setRows([
+            {
+              value: 10,
+            },
+            { value: 20 },
+          ]) as any
+        )
+      ).toEqual('10');
+    }
   });
 });
