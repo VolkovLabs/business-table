@@ -2,7 +2,7 @@
 
 ![Table](https://github.com/VolkovLabs/business-table/raw/main/src/img/dashboard.png)
 
-![Grafana](https://img.shields.io/badge/Grafana-11.1-orange)
+![Grafana](https://img.shields.io/badge/Grafana-11.2-orange)
 ![CI](https://github.com/volkovlabs/business-table/workflows/CI/badge.svg)
 ![E2E](https://github.com/volkovlabs/business-table/workflows/E2E/badge.svg)
 [![codecov](https://codecov.io/gh/VolkovLabs/business-table/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/business-table)
@@ -28,6 +28,7 @@ grafana-cli plugins install volkovlabs-table-panel
 
 - Tree View with expandable and collapsible elements.
 - Supporting tabs for multiple data frame views.
+- Sorting using dashboard variables.
 
 ## Business Suite for Grafana
 
