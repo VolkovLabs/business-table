@@ -48,6 +48,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
     enabled: false,
   },
   appearance: createColumnAppearanceConfig({}),
+  footer: [],
   ...item,
 });
 
@@ -106,5 +107,6 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   filterMode: ColumnFilterMode.CLIENT,
   config: createColumnConfig(),
   field: {} as never,
+  footerEnabled: false,
   ...meta,
 });

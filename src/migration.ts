@@ -117,6 +117,13 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
             ...(normalized.appearance as Partial<ColumnAppearanceConfig>),
           };
 
+          /**
+           * Normalize footer
+           */
+          if (!normalized.footer) {
+            normalized.footer = [];
+          }
+
           return normalized;
         }),
       };

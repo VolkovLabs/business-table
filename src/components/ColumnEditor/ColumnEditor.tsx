@@ -1,4 +1,4 @@
-import { DataFrame } from '@grafana/data';
+import { DataFrame, standardEditorsRegistry } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
@@ -116,6 +116,11 @@ const filterModeOptions = [
     label: 'Query',
   },
 ];
+
+/**
+ * Column Footer Editor
+ */
+const ColumnFooterEditor = standardEditorsRegistry.get('stats-picker').editor;
 
 /**
  * Column Editor
@@ -430,6 +435,19 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           )}
         </InlineFieldRow>
       )}
+      <InlineField label="Show in Footer" grow={true}>
+        <ColumnFooterEditor
+          value={value.footer}
+          onChange={(footer) => {
+            onChange({
+              ...value,
+              footer,
+            });
+          }}
+          context={{} as never}
+          item={{ id: 'columnFooterEditor', name: 'columnFooterEditor' }}
+        />
+      </InlineField>
     </>
   );
 };

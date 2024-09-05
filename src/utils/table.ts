@@ -1,8 +1,26 @@
-import { dateTime, TypedVariableModel } from '@grafana/data';
+import {
+  dateTime,
+  Field,
+  fieldReducers,
+  formattedValueToString,
+  getDisplayProcessor,
+  GrafanaTheme2,
+  reduceField,
+  toDataFrame,
+  TypedVariableModel,
+} from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { ColumnDef, ColumnFilter, ColumnFiltersState, filterFns, FilterMeta, Row } from '@tanstack/react-table';
+import {
+  ColumnDef,
+  ColumnFilter,
+  ColumnFiltersState,
+  filterFns,
+  FilterMeta,
+  HeaderContext,
+  Row,
+} from '@tanstack/react-table';
 
-import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
+import { ColumnConfig, ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
 
 /**
  * Identify Filter
@@ -331,4 +349,54 @@ export const mergeColumnFilters = (
   });
 
   return [...filtersMap.values()];
+};
+
+/**
+ * Get Footer Cell
+ */
+export const getFooterCell = ({
+  context,
+  config,
+  field,
+  theme,
+}: {
+  config: ColumnConfig;
+  field: Field;
+  context: HeaderContext<unknown, unknown>;
+  theme: GrafanaTheme2;
+}): unknown => {
+  const calc = config.footer[0];
+  if (calc === undefined) {
+    return '';
+  }
+
+  /**
+   * Get filtered values
+   */
+  const values = context.table.getFilteredRowModel().rows.map((row) => row.getValue(context.column.id));
+
+  /**
+   * Create field with filtered values
+   */
+  const [filteredField] = toDataFrame({
+    fields: [
+      {
+        ...field,
+        values,
+      },
+    ],
+  }).fields;
+
+  const format = field.display ?? getDisplayProcessor({ field: filteredField, theme });
+  const fieldCalcValue = reduceField({ field: filteredField, reducers: config.footer })[calc];
+
+  // If the reducer preserves units then format the
+  // end value with the field display processor
+  const reducerInfo = fieldReducers.get(calc);
+  if (reducerInfo.preservesUnits) {
+    return formattedValueToString(format(fieldCalcValue));
+  }
+
+  // Otherwise we simply return the formatted string
+  return formattedValueToString({ text: fieldCalcValue });
 };

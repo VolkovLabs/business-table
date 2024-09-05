@@ -3,6 +3,7 @@ import { useStyles2 } from '@grafana/ui';
 import {
   ColumnDef,
   ExpandedState,
+  flexRender,
   getCoreRowModel,
   getExpandedRowModel,
   getFacetedRowModel,
@@ -190,6 +191,13 @@ export const Table = <TData,>({
    */
   const virtualRows = rowVirtualizer.getVirtualItems();
 
+  /**
+   * Is Footer Visible
+   */
+  const isFooterVisible = useMemo(() => {
+    return columns.some((column) => !!column.meta?.footerEnabled);
+  }, [columns]);
+
   return (
     <table
       className={styles.table}
@@ -233,6 +241,30 @@ export const Table = <TData,>({
           return <TableRow key={row.id} row={row} virtualRow={virtualRow} rowVirtualizer={rowVirtualizer} />;
         })}
       </tbody>
+      {isFooterVisible && (
+        <tfoot className={styles.footer} style={{ maxHeight: rowVirtualizer.getTotalSize() }}>
+          {table.getFooterGroups().map((footerGroup) => (
+            <tr key={footerGroup.id} className={styles.footerRow}>
+              {footerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className={styles.footerCell}
+                  style={{
+                    maxWidth: header.column.columnDef.maxSize,
+                    minWidth: header.column.columnDef.minSize,
+                    width: header.getSize(),
+                    textAlign: header.column.columnDef.meta?.config.appearance.alignment,
+                    justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
+                  }}
+                  {...TEST_IDS.table.footerCell.apply(header.id)}
+                >
+                  {header.isPlaceholder ? null : flexRender(header.column.columnDef.footer, header.getContext())}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </tfoot>
+      )}
     </table>
   );
 };

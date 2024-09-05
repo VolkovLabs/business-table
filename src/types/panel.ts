@@ -178,6 +178,14 @@ export interface ColumnConfig {
    * @type {ColumnAppearanceConfig}
    */
   appearance: ColumnAppearanceConfig;
+
+  /**
+   * Footer
+   * Actually, 1 value or 0 if disabled
+   *
+   * @type {string[]}
+   */
+  footer: string[];
 }
 
 /**
@@ -268,4 +276,11 @@ export interface ColumnMeta {
    * @type {Field}
    */
   field: Field;
+
+  /**
+   * Footer Enabled
+   *
+   * @type {boolean}
+   */
+  footerEnabled: boolean;
 }

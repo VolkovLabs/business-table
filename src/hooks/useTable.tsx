@@ -1,16 +1,28 @@
 import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
+import { useTheme2 } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
 import { CellRenderer } from '@/components';
 import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType } from '@/types';
-import { columnFilter, filterFieldBySource, getFrameBySource, getSupportedFilterTypesForVariable } from '@/utils';
+import {
+  columnFilter,
+  filterFieldBySource,
+  getFooterCell,
+  getFrameBySource,
+  getSupportedFilterTypesForVariable,
+} from '@/utils';
 
 /**
  * Use Table
  */
 export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; columns?: ColumnConfig[] }) => {
+  /**
+   * Theme
+   */
+  const theme = useTheme2();
+
   /**
    * Template Service
    */
@@ -155,13 +167,15 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
           filterVariableName: column.config.filter.variable,
           config: column.config,
           field: column.field,
+          footerEnabled: column.config.footer.length > 0,
         },
+        footer: (context) => getFooterCell({ context, config: column.config, field: column.field, theme }),
         ...sizeParams,
       });
     }
 
     return columns;
-  }, [columnsData.frame, columnsData.items, templateService]);
+  }, [columnsData.frame, columnsData.items, templateService, theme]);
 
   return useMemo(
     () => ({
