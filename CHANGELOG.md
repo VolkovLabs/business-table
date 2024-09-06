@@ -9,6 +9,10 @@
 - Added table Footer (#36)
 - Updated to Grafana 11.2.0 (#37)
 
+### Bugfixes
+
+- Fixed adding new tables (#39)
+
 ## 1.1.0 (2024-08-22)
 
 ### Features / Enhancements
