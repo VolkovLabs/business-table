@@ -18,7 +18,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { RefObject, useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useSyncedColumnFilters } from '@/hooks';
+import { useEditableData, useSyncedColumnFilters } from '@/hooks';
 
 import { TableHeaderCell, TableRow } from './components';
 import { getStyles } from './Table.styles';
@@ -113,7 +113,7 @@ export const Table = <TData,>({
   /**
    * Sorting
    */
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   /**
    * React Table
@@ -198,6 +198,11 @@ export const Table = <TData,>({
     return columns.some((column) => !!column.meta?.footerEnabled);
   }, [columns]);
 
+  /**
+   * Editable Data
+   */
+  const editableData = useEditableData({ table });
+
   return (
     <table
       className={styles.table}
@@ -238,7 +243,19 @@ export const Table = <TData,>({
         {virtualRows.map((virtualRow) => {
           const row = rows[virtualRow.index];
 
-          return <TableRow key={row.id} row={row} virtualRow={virtualRow} rowVirtualizer={rowVirtualizer} />;
+          return (
+            <TableRow
+              key={row.id}
+              row={row}
+              virtualRow={virtualRow}
+              rowVirtualizer={rowVirtualizer}
+              editingRow={editableData.row?.id === row.id ? editableData.row : null}
+              onStartEdit={editableData.onStartEdit}
+              onCancelEdit={editableData.onCancelEdit}
+              onChange={editableData.onChange}
+              onSave={editableData.onSave}
+            />
+          );
         })}
       </tbody>
       {isFooterVisible && (

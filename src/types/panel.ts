@@ -120,6 +120,60 @@ export interface ColumnAppearanceConfig {
 }
 
 /**
+ * Edit Permission Mode
+ */
+export enum EditPermissionMode {
+  ALLOWED = '',
+  QUERY = 'query',
+  USER_ROLE = 'userRole',
+}
+
+/**
+ * Column Edit Permission Config
+ */
+export interface ColumnEditPermissionConfig {
+  /**
+   * Mode
+   *
+   * @type {EditPermissionMode}
+   */
+  mode: EditPermissionMode;
+
+  /**
+   * Field
+   *
+   * @type {FieldSource}
+   */
+  field: FieldSource;
+
+  /**
+   * User Role
+   *
+   * @type {string[]}
+   */
+  userRole: string[];
+}
+
+/**
+ * Column Edit Config
+ */
+export interface ColumnEditConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
+   * Permission
+   *
+   * @type {ColumnEditPermissionConfig}
+   */
+  permission: ColumnEditPermissionConfig;
+}
+
+/**
  * Column Config
  */
 export interface ColumnConfig {
@@ -186,6 +240,11 @@ export interface ColumnConfig {
    * @type {string[]}
    */
   footer: string[];
+
+  /**
+   * Edit
+   */
+  edit: ColumnEditConfig;
 }
 
 /**
@@ -283,4 +342,11 @@ export interface ColumnMeta {
    * @type {boolean}
    */
   footerEnabled: boolean;
+
+  /**
+   * Editable
+   *
+   * @type {boolean}
+   */
+  editable: boolean;
 }

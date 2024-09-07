@@ -1,6 +1,5 @@
+import { ColumnAlignment, ColumnEditConfig, EditPermissionMode } from '@/types';
 import { createSelector } from '@volkovlabs/jest-selectors';
-
-import { ColumnAlignment } from '@/types';
 
 /**
  * Default Column Appearance
@@ -17,6 +16,26 @@ export const DEFAULT_COLUMN_APPEARANCE = {
     applyToRow: false,
   },
 };
+
+/**
+ * Default Column Edit
+ */
+export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
+  enabled: false,
+  permission: {
+    mode: EditPermissionMode.ALLOWED,
+    field: {
+      source: '',
+      name: '',
+    },
+    userRole: [],
+  },
+};
+
+/**
+ * Actions Column ID
+ */
+export const ACTIONS_COLUMN_ID = '__actions';
 
 /**
  * Test Identifiers

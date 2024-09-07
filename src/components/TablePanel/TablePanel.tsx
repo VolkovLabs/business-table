@@ -110,7 +110,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
       >
         {sortedGroups.length > 1 && (
           <div ref={headerRef} className={styles.header}>
-            <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.toolbar}>
+            <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>
               {sortedGroups.map((group, index) => (
                 <ToolbarButton
                   key={group.name}
@@ -118,7 +118,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
                   onClick={() => {
                     setCurrentGroup(group.name);
                   }}
-                  className={styles.toolbarButton}
+                  className={styles.tabButton}
                   style={{
                     maxWidth: index === 0 ? width - 60 : undefined,
                   }}

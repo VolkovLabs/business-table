@@ -4,9 +4,11 @@ import {
   ColumnAlignment,
   ColumnAppearanceConfig,
   ColumnConfig,
+  ColumnEditConfig,
   ColumnFilterConfig,
   ColumnFilterMode,
   ColumnSortConfig,
+  EditPermissionMode,
   PanelOptions,
   TableConfig,
 } from './types';
@@ -14,7 +16,7 @@ import {
 /**
  * Outdated Column Config
  */
-interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance'> {
+interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance' | 'edit'> {
   /**
    * Filter
    *
@@ -35,6 +37,13 @@ interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'a
    * Introduced in 1.2.0
    */
   appearance?: ColumnAppearanceConfig;
+
+  /**
+   * Edit
+   *
+   * Introduced in 1.3.0
+   */
+  edit?: ColumnEditConfig;
 }
 
 /**
@@ -122,6 +131,23 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
            */
           if (!normalized.footer) {
             normalized.footer = [];
+          }
+
+          /**
+           * Normalize edit
+           */
+          if (!normalized.edit) {
+            normalized.edit = {
+              enabled: false,
+              permission: {
+                mode: EditPermissionMode.ALLOWED,
+                field: {
+                  source: '',
+                  name: '',
+                },
+                userRole: [],
+              },
+            };
           }
 
           return normalized;

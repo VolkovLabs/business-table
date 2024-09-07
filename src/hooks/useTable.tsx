@@ -1,12 +1,14 @@
 import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
-import { getTemplateSrv } from '@grafana/runtime';
+import { getTemplateSrv, config } from '@grafana/runtime';
 import { useTheme2 } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';
 
-import { CellRenderer } from '@/components';
-import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType } from '@/types';
+import { CellRenderer, TableActionsCell } from '@/components';
+import { ACTIONS_COLUMN_ID } from '@/constants';
+import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType, EditPermissionMode } from '@/types';
 import {
+  checkEditPermissionByOrgUserRole,
   columnFilter,
   filterFieldBySource,
   getFooterCell,
@@ -102,6 +104,11 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
       return [];
     }
 
+    /**
+     * Actions Enabled
+     */
+    let isActionsEnabled = false;
+
     const columns: Array<ColumnDef<unknown>> = [];
 
     for (const column of columnsData.items) {
@@ -152,6 +159,34 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         sizeParams.maxSize = column.config.appearance.width.value;
       }
 
+      let isEditAllowed = false;
+
+      /**
+       * Check if column can be edited
+       */
+      if (column.config.edit.enabled) {
+        /**
+         * Check Edit Permission
+         */
+        switch (column.config.edit.permission.mode) {
+          case EditPermissionMode.ALLOWED: {
+            isEditAllowed = true;
+            break;
+          }
+          case EditPermissionMode.USER_ROLE: {
+            isEditAllowed = checkEditPermissionByOrgUserRole(column.config.edit, config.bootData.user);
+            break;
+          }
+        }
+
+        /**
+         * Edit Allowed
+         */
+        if (isEditAllowed) {
+          isActionsEnabled = true;
+        }
+      }
+
       columns.push({
         id: column.field.name,
         accessorKey: column.field.name,
@@ -169,9 +204,22 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
           config: column.config,
           field: column.field,
           footerEnabled: column.config.footer.length > 0,
+          editable: isEditAllowed,
         },
         footer: (context) => getFooterCell({ context, config: column.config, field: column.field, theme }),
         ...sizeParams,
+      });
+    }
+
+    /**
+     * Add Actions Column If Enabled
+     */
+    if (isActionsEnabled) {
+      columns.push({
+        id: ACTIONS_COLUMN_ID,
+        cell: TableActionsCell,
+        size: 120,
+        maxSize: 120,
       });
     }
 

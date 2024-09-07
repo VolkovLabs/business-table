@@ -1,11 +1,11 @@
 import { cx } from '@emotion/css';
 import { DataFrame, SelectableValue } from '@grafana/data';
-import { Button, Icon, IconButton, InlineField, InlineFieldRow, Select, useTheme2 } from '@grafana/ui';
+import { Button, Icon, IconButton, InlineField, InlineFieldRow, Select, Tag, useTheme2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { DEFAULT_COLUMN_APPEARANCE, TEST_IDS } from '@/constants';
+import { DEFAULT_COLUMN_APPEARANCE, DEFAULT_COLUMN_EDIT, TEST_IDS } from '@/constants';
 import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
@@ -155,6 +155,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           },
           appearance: DEFAULT_COLUMN_APPEARANCE,
           footer: [],
+          edit: DEFAULT_COLUMN_EDIT,
         },
       ]);
       setNewItem(null);
@@ -193,7 +194,8 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                               <div className={styles.titleWrapper}>
                                 <div className={cx(styles.title)}>
                                   {item.field.name}
-                                  {item.group && ' [group]'}
+                                  {item.group && <Tag name="Group" />}
+                                  {item.edit.enabled && <Tag name="Editable" />}
                                 </div>
                               </div>
                             )}

@@ -264,7 +264,9 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                         isOpen={collapseState[name]}
                         onToggle={() => onToggleItemExpandedState(name)}
                       >
-                        <ColumnsEditor name={name} items={levels} data={data} onChange={onChangeItem} />
+                        <>
+                          <ColumnsEditor name={name} items={levels} data={data} onChange={onChangeItem} />
+                        </>
                       </Collapse>
                     </div>
                   )}

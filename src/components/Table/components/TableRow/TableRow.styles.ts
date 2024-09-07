@@ -31,6 +31,11 @@ export const getStyles = (theme: GrafanaTheme2) => {
         border-right: 1px solid ${borderColor};
       }
     `,
+    cellEditable: css`
+      &:hover {
+        box-shadow: ${theme.colors.primary.border} 0 0 2px;
+      }
+    `,
     cellExpandable: css`
       cursor: pointer;
       border-right: none !important;

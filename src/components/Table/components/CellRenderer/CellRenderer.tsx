@@ -31,6 +31,7 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor }) 
   const { config, field } = column.columnDef.meta;
 
   const rawValue = renderValue() as number | string;
+
   const cellType = config.type || CellType.AUTO;
 
   switch (cellType) {
