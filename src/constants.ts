@@ -139,3 +139,8 @@ export const TEST_IDS = {
  * All Value Parameter
  */
 export const ALL_VALUE_PARAMETER = '$__all';
+
+/**
+ * Auto Save timeout ms
+ */
+export const AUTO_SAVE_TIMEOUT = 1000;

@@ -70,6 +70,12 @@ describe('TableRow', () => {
             row={rows[rowIndex]}
             virtualRow={{ index: rowIndex, start: 0 } as any}
             rowVirtualizer={{ measureElement: jest.fn() } as any}
+            editingRow={null}
+            onStartEdit={jest.fn()}
+            onCancelEdit={jest.fn()}
+            onChange={jest.fn()}
+            onSave={jest.fn()}
+            isSaving={false}
           />
         </tbody>
       </table>
