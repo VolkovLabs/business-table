@@ -6,6 +6,7 @@ import {
   ColumnAlignment,
   ColumnAppearanceConfig,
   ColumnConfig,
+  ColumnEditorType,
   ColumnFilterMode,
   ColumnMeta,
   EditPermissionMode,
@@ -60,6 +61,9 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
         name: '',
       },
       userRole: [],
+    },
+    editor: {
+      type: ColumnEditorType.STRING,
     },
   },
   ...item,

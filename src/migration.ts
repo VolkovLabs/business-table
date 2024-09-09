@@ -1,10 +1,13 @@
 import { PanelModel } from '@grafana/data';
 
+import { getColumnEditorConfig } from '@/utils';
+
 import {
   ColumnAlignment,
   ColumnAppearanceConfig,
   ColumnConfig,
   ColumnEditConfig,
+  ColumnEditorType,
   ColumnFilterConfig,
   ColumnFilterMode,
   ColumnSortConfig,
@@ -153,6 +156,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
               },
               userRole: [],
             },
+            editor: getColumnEditorConfig(ColumnEditorType.STRING),
           };
         }
 

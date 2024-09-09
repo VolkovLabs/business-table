@@ -4,6 +4,7 @@ import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Sel
 import { Collapse, NumberInput } from '@volkovlabs/components';
 import React, { useMemo, useState } from 'react';
 
+import { EditableColumnEditor } from '@/components/ColumnEditor/components';
 import { TEST_IDS } from '@/constants';
 import {
   CellAggregation,
@@ -549,6 +550,19 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 />
               </InlineField>
             )}
+            <EditableColumnEditor
+              value={value.edit.editor}
+              onChange={(editor) => {
+                onChange({
+                  ...value,
+                  edit: {
+                    ...value.edit,
+                    editor,
+                  },
+                });
+              }}
+              data={data}
+            />
           </>
         </Collapse>
       )}

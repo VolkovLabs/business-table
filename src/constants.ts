@@ -1,6 +1,6 @@
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-import { ColumnAlignment, ColumnEditConfig, EditPermissionMode } from '@/types';
+import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, EditPermissionMode } from '@/types';
 
 /**
  * Default Column Appearance
@@ -30,6 +30,9 @@ export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
       name: '',
     },
     userRole: [],
+  },
+  editor: {
+    type: ColumnEditorType.STRING,
   },
 };
 
@@ -132,6 +135,19 @@ export const TEST_IDS = {
   },
   datasourceEditor: {
     fieldSelect: createSelector('data-testid datasource-editor field-select'),
+  },
+  editableColumnEditor: {
+    fieldDatetimeMin: createSelector('data-testid datasource-editor field-datetime-min'),
+    fieldDatetimeMax: createSelector('data-testid datasource-editor field-datetime-max'),
+  },
+  dateEditor: {
+    field: createSelector('data-testid date-editor field'),
+    buttonRemoveDate: createSelector('data-testid date-editor button-remove-date'),
+    buttonSetDate: createSelector('data-testid date-editor button-set-date'),
+  },
+  queryOptionsEditor: {
+    fieldValue: createSelector('data-testid query-options-editor field-value'),
+    fieldLabel: createSelector('data-testid query-options-editor field-label'),
   },
 };
 

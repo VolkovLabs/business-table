@@ -2,11 +2,20 @@ import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
 import { config, getTemplateSrv } from '@grafana/runtime';
 import { useTheme2 } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { CellRenderer, TableActionsCell } from '@/components';
 import { ACTIONS_COLUMN_ID } from '@/constants';
-import { CellAggregation, ColumnConfig, ColumnFilterMode, ColumnFilterType, EditPermissionMode } from '@/types';
+import {
+  CellAggregation,
+  ColumnConfig,
+  ColumnEditorConfig,
+  ColumnEditorControlOptions,
+  ColumnEditorType,
+  ColumnFilterMode,
+  ColumnFilterType,
+  EditPermissionMode,
+} from '@/types';
 import {
   checkEditPermissionByOrgUserRole,
   columnFilter,
@@ -93,6 +102,47 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
 
     return rows;
   }, [columnsData]);
+
+  /**
+   * Get Editor Control Options
+   */
+  const getEditorControlOptions = useCallback(
+    (editorConfig: ColumnEditorConfig): ColumnEditorControlOptions => {
+      if (editorConfig.type === ColumnEditorType.SELECT) {
+        const queryOptions = editorConfig.queryOptions;
+
+        const controlOptions = {
+          type: editorConfig.type,
+          options: [],
+        };
+
+        if (!queryOptions || !queryOptions.value) {
+          return controlOptions;
+        }
+
+        const frame = data.series.find((frame) => frame.refId === queryOptions.source);
+        const valueField = frame?.fields.find((field) => field.name === queryOptions.value);
+
+        if (!frame || !valueField) {
+          return controlOptions;
+        }
+
+        const labelValues =
+          frame?.fields.find((field) => field.name === queryOptions.label)?.values || valueField.values;
+
+        return {
+          ...controlOptions,
+          options: valueField.values.map((value, index) => ({
+            value,
+            label: labelValues[index] as string,
+          })),
+        };
+      }
+
+      return editorConfig;
+    },
+    [data]
+  );
 
   /**
    * Columns
@@ -205,6 +255,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
           field: column.field,
           footerEnabled: column.config.footer.length > 0,
           editable: isEditAllowed,
+          editor: isEditAllowed ? getEditorControlOptions(column.config.edit.editor) : undefined,
         },
         footer: (context) => getFooterCell({ context, config: column.config, field: column.field, theme }),
         ...sizeParams,
@@ -224,7 +275,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
     }
 
     return columns;
-  }, [columnsData.frame, columnsData.items, templateService, theme]);
+  }, [columnsData.frame, columnsData.items, getEditorControlOptions, templateService, theme]);
 
   return useMemo(
     () => ({

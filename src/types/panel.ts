@@ -1,5 +1,6 @@
 import { Field } from '@grafana/data';
 
+import { ColumnEditorConfig, ColumnEditorControlOptions } from './column-editor';
 import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnFilterType } from './table';
 
 /**
@@ -171,6 +172,13 @@ export interface ColumnEditConfig {
    * @type {ColumnEditPermissionConfig}
    */
   permission: ColumnEditPermissionConfig;
+
+  /**
+   * Editor
+   *
+   * @type {ColumnEditorConfig}
+   */
+  editor: ColumnEditorConfig;
 }
 
 /**
@@ -374,4 +382,11 @@ export interface ColumnMeta {
    * @type {boolean}
    */
   editable: boolean;
+
+  /**
+   * Editor
+   *
+   * @type {ColumnEditorControlOptions}
+   */
+  editor?: ColumnEditorControlOptions;
 }
