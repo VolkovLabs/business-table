@@ -1,5 +1,6 @@
-import { ColumnEditConfig } from '@/types';
 import { CurrentUserDTO } from '@grafana/data';
+
+import { ColumnEditConfig } from '@/types';
 
 /**
  * Check Org User Role
