@@ -11,6 +11,7 @@ import {
   EditPermissionMode,
   PanelOptions,
   TableConfig,
+  TableRequestConfig,
 } from './types';
 
 /**
@@ -49,8 +50,15 @@ interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'a
 /**
  * Outdated Group
  */
-interface OutdatedGroup extends Omit<TableConfig, 'items'> {
+interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update'> {
   items: OutdatedColumnConfig[];
+
+  /**
+   * Update
+   *
+   * Introduced in 1.3.0
+   */
+  update?: TableRequestConfig;
 }
 
 /**
@@ -85,74 +93,88 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
   if (options.groups || options.tables) {
     const items = options.groups || options.tables;
     options.tables = items.map((group) => {
-      return {
-        ...group,
-        items: group.items.map((columnConfig) => {
-          const normalized = columnConfig as ColumnConfig;
+      const columns = group.items.map((columnConfig) => {
+        const normalized = columnConfig as ColumnConfig;
 
-          /**
-           * Add filter options
-           */
-          if (!normalized.filter) {
-            normalized.filter = {
-              enabled: false,
-              mode: ColumnFilterMode.CLIENT,
-              variable: '',
-            };
-          }
-
-          /**
-           * Add sort options
-           */
-          if (!normalized.sort) {
-            normalized.sort = {
-              enabled: false,
-            };
-          }
-
-          /**
-           * Add appearance options
-           */
-          normalized.appearance = {
-            width: {
-              auto: true,
-              value: 100,
-            },
-            background: {
-              applyToRow: false,
-            },
-            wrap: true,
-            alignment: ColumnAlignment.START,
-            ...(normalized.appearance as Partial<ColumnAppearanceConfig>),
+        /**
+         * Add filter options
+         */
+        if (!normalized.filter) {
+          normalized.filter = {
+            enabled: false,
+            mode: ColumnFilterMode.CLIENT,
+            variable: '',
           };
+        }
 
-          /**
-           * Normalize footer
-           */
-          if (!normalized.footer) {
-            normalized.footer = [];
-          }
+        /**
+         * Add sort options
+         */
+        if (!normalized.sort) {
+          normalized.sort = {
+            enabled: false,
+          };
+        }
 
-          /**
-           * Normalize edit
-           */
-          if (!normalized.edit) {
-            normalized.edit = {
-              enabled: false,
-              permission: {
-                mode: EditPermissionMode.ALLOWED,
-                field: {
-                  source: '',
-                  name: '',
-                },
-                userRole: [],
+        /**
+         * Add appearance options
+         */
+        normalized.appearance = {
+          width: {
+            auto: true,
+            value: 100,
+          },
+          background: {
+            applyToRow: false,
+          },
+          wrap: true,
+          alignment: ColumnAlignment.START,
+          ...(normalized.appearance as Partial<ColumnAppearanceConfig>),
+        };
+
+        /**
+         * Normalize footer
+         */
+        if (!normalized.footer) {
+          normalized.footer = [];
+        }
+
+        /**
+         * Normalize edit
+         */
+        if (!normalized.edit) {
+          normalized.edit = {
+            enabled: false,
+            permission: {
+              mode: EditPermissionMode.ALLOWED,
+              field: {
+                source: '',
+                name: '',
               },
-            };
-          }
+              userRole: [],
+            },
+          };
+        }
 
-          return normalized;
-        }),
-      };
+        return normalized;
+      });
+
+      const normalizedGroup = {
+        ...group,
+        items: columns,
+      } as TableConfig;
+
+      /**
+       * Normalize update request
+       */
+      if (!normalizedGroup.update) {
+        normalizedGroup.update = {
+          datasource: '',
+          payload: {},
+        };
+      }
+
+      return normalizedGroup;
     });
 
     delete options.groups;

@@ -5,6 +5,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
+import { createColumnConfig, createTableConfig } from '@/utils';
 
 import { ColumnsEditor } from '../ColumnsEditor';
 import { TablesEditor } from './TablesEditor';
@@ -127,10 +128,10 @@ describe('TablesEditor', () => {
           data: [dataFrameA, dataFrameB],
           options: {
             tables: [
-              {
+              createTableConfig({
                 name: 'group1',
                 items: [],
-              },
+              }),
             ],
           } as any,
         } as any,
@@ -146,8 +147,8 @@ describe('TablesEditor', () => {
     await act(() => fireEvent.click(selectors.buttonAddNew()));
 
     expect(onChange).toHaveBeenCalledWith([
-      { name: 'group1', items: [] },
-      { name: 'group2', items: [] },
+      createTableConfig({ name: 'group1', items: [] }),
+      createTableConfig({ name: 'group2', items: [] }),
     ]);
   });
 
@@ -651,17 +652,9 @@ describe('TablesEditor', () => {
   it('Should update item', () => {
     const onChange = jest.fn();
 
-    jest.mocked(ColumnsEditor).mockImplementation(({ name, onChange }) => (
+    jest.mocked(ColumnsEditor).mockImplementation(({ onChange }) => (
       <div data-testid={TEST_IDS.columnsEditor.root}>
-        <button
-          data-testid={InTestIds.buttonLevelsUpdate}
-          onClick={() =>
-            onChange({
-              name,
-              items: [],
-            })
-          }
-        />
+        <button data-testid={InTestIds.buttonLevelsUpdate} onClick={() => onChange([])} />
       </div>
     ));
 
@@ -674,20 +667,29 @@ describe('TablesEditor', () => {
               {
                 name: 'group1',
                 items: [
-                  {
-                    name: 'field 2',
-                  },
-                  {
-                    name: 'field1',
-                  },
+                  createColumnConfig({
+                    field: {
+                      source: 0,
+                      name: 'field 2',
+                    },
+                  }),
+                  createColumnConfig({
+                    field: {
+                      source: 0,
+                      name: 'field1',
+                    },
+                  }),
                 ],
               },
               {
                 name: 'group2',
                 items: [
-                  {
-                    name: 'field1',
-                  },
+                  createColumnConfig({
+                    field: {
+                      source: 0,
+                      name: 'field1',
+                    },
+                  }),
                 ],
               },
             ],
@@ -715,9 +717,12 @@ describe('TablesEditor', () => {
       {
         name: 'group2',
         items: [
-          {
-            name: 'field1',
-          },
+          createColumnConfig({
+            field: {
+              source: 0,
+              name: 'field1',
+            },
+          }),
         ],
       },
     ]);

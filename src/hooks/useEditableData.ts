@@ -4,11 +4,22 @@ import { useCallback, useMemo, useState } from 'react';
 /**
  * Use Editable Data
  */
-export const useEditableData = <TData>({ table }: { table: Table<TData> }) => {
+export const useEditableData = <TData>({
+  table,
+  onUpdateRow,
+}: {
+  table: Table<TData>;
+  onUpdateRow: (row: TData) => Promise<void>;
+}) => {
   /**
    * Row
    */
   const [row, setRow] = useState<Row<TData> | null>(null);
+
+  /**
+   * Is Saving
+   */
+  const [isSaving, setIsSaving] = useState(false);
 
   /**
    * Start Edit
@@ -34,7 +45,6 @@ export const useEditableData = <TData>({ table }: { table: Table<TData> }) => {
         [event.columnId]: event.value,
       };
       setRow(createRow(table, row.id, original, row.index, row.depth));
-      console.log(event);
     },
     [table]
   );
@@ -42,9 +52,21 @@ export const useEditableData = <TData>({ table }: { table: Table<TData> }) => {
   /**
    * Save
    */
-  const onSave = useCallback((row: Row<TData>) => {
-    console.log('save', row.original);
-  }, []);
+  const onSave = useCallback(
+    async (row: Row<TData>) => {
+      setIsSaving(true);
+
+      try {
+        await onUpdateRow(row.original);
+
+        setIsSaving(false);
+        onCancelEdit();
+      } catch (e) {
+        setIsSaving(false);
+      }
+    },
+    [onCancelEdit, onUpdateRow]
+  );
 
   return useMemo(
     () => ({
@@ -53,7 +75,8 @@ export const useEditableData = <TData>({ table }: { table: Table<TData> }) => {
       onCancelEdit,
       onChange,
       onSave,
+      isSaving,
     }),
-    [onStartEdit, row, onCancelEdit, onChange, onSave]
+    [onStartEdit, row, onCancelEdit, onChange, onSave, isSaving]
   );
 };

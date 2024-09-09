@@ -27,23 +27,30 @@ interface Props extends CellContext<unknown, unknown> {
    * Save
    */
   onSave?: (row: Row<unknown>) => void;
+
+  /**
+   * Is Saving
+   *
+   * @type {boolean}
+   */
+  isSaving?: boolean;
 }
 
 /**
  * Table Actions Cell
  */
-export const TableActionsCell: React.FC<Props> = ({ row, isEditing, onStartEdit, onCancelEdit, onSave }) => {
+export const TableActionsCell: React.FC<Props> = ({ row, isEditing, onStartEdit, onCancelEdit, onSave, isSaving }) => {
   return !isEditing ? (
     <>
-      <IconButton name="pen" aria-label="Edit" onClick={() => onStartEdit?.(row)} />
+      <IconButton name="pen" aria-label="Edit" onClick={() => onStartEdit?.(row)} disabled={isSaving} />
     </>
   ) : (
     <Stack gap={0.5}>
-      <Button size="sm" variant="secondary" onClick={onCancelEdit}>
+      <Button size="sm" variant="secondary" onClick={onCancelEdit} disabled={isSaving}>
         Cancel
       </Button>
-      <Button size="sm" onClick={() => onSave?.(row)}>
-        Save
+      <Button size="sm" onClick={() => onSave?.(row)} disabled={isSaving} icon={isSaving ? 'spinner' : undefined}>
+        {!isSaving && 'Save'}
       </Button>
     </Stack>
   );

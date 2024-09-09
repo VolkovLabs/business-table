@@ -1,7 +1,7 @@
 import { DataFrame, OrgRole, standardEditorsRegistry } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select, useStyles2 } from '@grafana/ui';
-import { CollapsableSection, NumberInput } from '@volkovlabs/components';
+import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select } from '@grafana/ui';
+import { Collapse, NumberInput } from '@volkovlabs/components';
 import React, { useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -14,8 +14,6 @@ import {
   EditPermissionMode,
 } from '@/types';
 import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
-
-import { getStyles } from './ColumnEditor.styles';
 
 /**
  * Properties
@@ -163,11 +161,6 @@ const ColumnFooterEditor = standardEditorsRegistry.get('stats-picker').editor;
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable }) => {
-  /**
-   * Styles
-   */
-  const styles = useStyles2(getStyles);
-
   /**
    * Editable Section Expanded
    */
@@ -510,57 +503,54 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
         />
       </InlineField>
       {value.edit.enabled && (
-        <CollapsableSection
-          label="Editable Settings"
-          isOpen={isEditableSectionExpanded}
-          onToggle={setIsEditableSectionExpanded}
-          contentClassName={styles.editSettingsSectionContent}
-        >
-          <InlineField label="Permission Check" grow={true}>
-            <Select
-              value={value.edit.permission.mode}
-              onChange={(event) => {
-                onChange({
-                  ...value,
-                  edit: {
-                    ...value.edit,
-                    permission: {
-                      ...value.edit.permission,
-                      mode: event.value!,
-                    },
-                  },
-                });
-              }}
-              options={editPermissionModeOptions}
-            />
-          </InlineField>
-          {value.edit.permission.mode === EditPermissionMode.USER_ROLE && (
-            <InlineField label="User Role" grow={true}>
+        <Collapse title="Editable Settings" isOpen={isEditableSectionExpanded} onToggle={setIsEditableSectionExpanded}>
+          <>
+            <InlineField label="Permission Check" grow={true}>
               <Select
-                value={value.edit.permission.userRole}
+                value={value.edit.permission.mode}
                 onChange={(event) => {
-                  const values = Array.isArray(event) ? event : [event];
-
                   onChange({
                     ...value,
                     edit: {
                       ...value.edit,
                       permission: {
                         ...value.edit.permission,
-                        userRole: values.map((item) => item.value),
+                        mode: event.value!,
                       },
                     },
                   });
                 }}
-                options={userOrgRoleOptions}
-                isMulti={true}
-                isClearable={true}
-                allowCustomValue={true}
-                placeholder="Allowed Org User Role"
+                options={editPermissionModeOptions}
               />
             </InlineField>
-          )}
-        </CollapsableSection>
+            {value.edit.permission.mode === EditPermissionMode.USER_ROLE && (
+              <InlineField label="User Role" grow={true}>
+                <Select
+                  value={value.edit.permission.userRole}
+                  onChange={(event) => {
+                    const values = Array.isArray(event) ? event : [event];
+
+                    onChange({
+                      ...value,
+                      edit: {
+                        ...value.edit,
+                        permission: {
+                          ...value.edit.permission,
+                          userRole: values.map((item) => item.value),
+                        },
+                      },
+                    });
+                  }}
+                  options={userOrgRoleOptions}
+                  isMulti={true}
+                  isClearable={true}
+                  allowCustomValue={true}
+                  placeholder="Allowed Org User Role"
+                />
+              </InlineField>
+            )}
+          </>
+        </Collapse>
       )}
     </>
   );

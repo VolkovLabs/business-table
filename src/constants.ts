@@ -1,5 +1,6 @@
-import { ColumnAlignment, ColumnEditConfig, EditPermissionMode } from '@/types';
 import { createSelector } from '@volkovlabs/jest-selectors';
+
+import { ColumnAlignment, ColumnEditConfig, EditPermissionMode } from '@/types';
 
 /**
  * Default Column Appearance
@@ -124,6 +125,13 @@ export const TEST_IDS = {
   },
   tableHeaderCellFilter: {
     root: createSelector('data-testid table-header-cell-filter'),
+  },
+  payloadEditor: {
+    loadingMessage: createSelector('data-testid payload-editor loading-message'),
+    errorMessage: createSelector('data-testid payload-editor error-message'),
+  },
+  datasourceEditor: {
+    fieldSelect: createSelector('data-testid datasource-editor field-select'),
   },
 };
 

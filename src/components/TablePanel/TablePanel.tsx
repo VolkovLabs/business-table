@@ -1,9 +1,10 @@
-import { PanelProps } from '@grafana/data';
+import { AlertErrorPayload, AlertPayload, AppEvents, LoadingState, PanelProps } from '@grafana/data';
+import { getAppEvents } from '@grafana/runtime';
 import { ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useContentSizes, useSavedState, useTable } from '@/hooks';
+import { useContentSizes, useDatasourceRequest, useSavedState, useTable } from '@/hooks';
 import { PanelOptions } from '@/types';
 
 import { Table } from '../Table';
@@ -17,11 +18,24 @@ interface Props extends PanelProps<PanelOptions> {}
 /**
  * Table Panel
  */
-export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, eventBus }) => {
+export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, eventBus, replaceVariables }) => {
   /**
    * Styles
    */
   const styles = useStyles2(getStyles);
+
+  /**
+   * App Events
+   */
+  const appEvents = getAppEvents();
+  const notifySuccess = useCallback(
+    (payload: AlertPayload) => appEvents.publish({ type: AppEvents.alertSuccess.name, payload }),
+    [appEvents]
+  );
+  const notifyError = useCallback(
+    (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload }),
+    [appEvents]
+  );
 
   /**
    * Current group
@@ -32,11 +46,11 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
   });
 
   /**
-   * Current Columns
+   * Current Table
    */
-  const currentColumns = useMemo(() => {
+  const currentTable = useMemo(() => {
     if (options.tables?.length && currentGroup) {
-      return options.tables.find((group) => group.name === currentGroup)?.items;
+      return options.tables.find((group) => group.name === currentGroup);
     }
     return;
   }, [options.tables, currentGroup]);
@@ -44,7 +58,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
   /**
    * Table
    */
-  const { tableData, columns } = useTable({ data, columns: currentColumns });
+  const { tableData, columns } = useTable({ data, columns: currentTable?.items });
 
   /**
    * Change current group if was removed
@@ -87,6 +101,51 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
     tableTopOffset,
     tableHeaderRef,
   } = useContentSizes({ height, options, tableData });
+
+  /**
+   * Data Source Request
+   */
+  const datasourceRequest = useDatasourceRequest();
+
+  /**
+   * Update Row
+   */
+  const onUpdateRow = useCallback(
+    async (row: unknown) => {
+      const updateRequest = currentTable?.update;
+
+      /**
+       * No update request
+       */
+      if (!updateRequest) {
+        return;
+      }
+
+      try {
+        const response = await datasourceRequest({
+          query: updateRequest.payload,
+          datasource: updateRequest.datasource,
+          replaceVariables,
+          payload: row,
+        });
+
+        /**
+         * Query Error
+         */
+        if (response.state === LoadingState.Error) {
+          throw response.errors;
+        }
+
+        notifySuccess(['Success', 'Values updated successfully.']);
+        appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
+      } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
+        notifyError(['Error', errorMessage]);
+        throw e;
+      }
+    },
+    [appEvents, currentTable?.update, datasourceRequest, notifyError, notifySuccess, replaceVariables]
+  );
 
   /**
    * Return
@@ -138,6 +197,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
           topOffset={tableTopOffset}
           scrollableContainerRef={scrollableContainerRef}
           eventBus={eventBus}
+          onUpdateRow={onUpdateRow}
         />
       </div>
     </div>

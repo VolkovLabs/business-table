@@ -55,6 +55,13 @@ interface Props<TData> {
    * Save
    */
   onSave: (row: Row<TData>) => void;
+
+  /**
+   * Is Saving
+   *
+   * @type {boolean}
+   */
+  isSaving: boolean;
 }
 
 /**
@@ -69,6 +76,7 @@ export const TableRow = <TData,>({
   onCancelEdit,
   onChange,
   onSave,
+  isSaving,
 }: Props<TData>) => {
   /**
    * Styles
@@ -144,7 +152,7 @@ export const TableRow = <TData,>({
        * Editable Cell With Data
        */
       if (cell.column.id !== ACTIONS_COLUMN_ID && cell.column.columnDef.meta?.editable) {
-        return <TableEditableCell {...cell.getContext()} row={editingRow} onChange={onChange} />;
+        return <TableEditableCell {...cell.getContext()} row={editingRow} onChange={onChange} isSaving={isSaving} />;
       }
 
       return flexRender(cell.column.columnDef.cell, rendererProps);
@@ -191,6 +199,7 @@ export const TableRow = <TData,>({
           onStartEdit,
           onCancelEdit,
           onSave,
+          isSaving,
         };
 
         if (!!editingRow) {

@@ -74,6 +74,11 @@ interface Props<TData> {
    * @type {EventBus}
    */
   eventBus: EventBus;
+
+  /**
+   * Update Row
+   */
+  onUpdateRow: (row: TData) => Promise<void>;
 }
 
 /**
@@ -87,6 +92,7 @@ export const Table = <TData,>({
   tableRef,
   topOffset,
   eventBus,
+  onUpdateRow,
 }: Props<TData>) => {
   /**
    * Styles
@@ -201,7 +207,7 @@ export const Table = <TData,>({
   /**
    * Editable Data
    */
-  const editableData = useEditableData({ table });
+  const editableData = useEditableData({ table, onUpdateRow });
 
   return (
     <table
@@ -254,6 +260,7 @@ export const Table = <TData,>({
               onCancelEdit={editableData.onCancelEdit}
               onChange={editableData.onChange}
               onSave={editableData.onSave}
+              isSaving={editableData.isSaving}
             />
           );
         })}

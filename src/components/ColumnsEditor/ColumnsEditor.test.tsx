@@ -88,7 +88,7 @@ describe('ColumnsEditor', () => {
     render(
       getComponent({
         data: [dataFrameA],
-        items: [
+        value: [
           createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
@@ -107,7 +107,7 @@ describe('ColumnsEditor', () => {
     render(
       getComponent({
         data: [dataFrameA, dataFrameB],
-        items: [],
+        value: [],
       })
     );
 
@@ -157,7 +157,7 @@ describe('ColumnsEditor', () => {
             length: dataFrameB.length,
           },
         ],
-        items: [],
+        value: [],
       })
     );
 
@@ -198,7 +198,7 @@ describe('ColumnsEditor', () => {
     render(
       getComponent({
         data: [dataFrameA, dataFrameB],
-        items: [
+        value: [
           createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
@@ -234,7 +234,7 @@ describe('ColumnsEditor', () => {
             length: dataFrameB.length,
           },
         ],
-        items: [
+        value: [
           createColumnConfig({
             field: { name: 'field1', source: 0 },
           }),
@@ -264,7 +264,7 @@ describe('ColumnsEditor', () => {
       getComponent({
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
-        items: [
+        value: [
           createColumnConfig({
             field: { name: 'field1', source: 'A' },
             group: true,
@@ -281,19 +281,16 @@ describe('ColumnsEditor', () => {
 
     await act(() => fireEvent.click(selectors.buttonAddNew()));
 
-    expect(onChange).toHaveBeenCalledWith({
-      name: 'Group 1',
-      items: [
-        createColumnConfig({
-          field: { name: 'field1', source: 'A' },
-          group: true,
-        }),
-        createColumnConfig({
-          field: { name: 'field2', source: 'A' },
-          appearance: createColumnAppearanceConfig(DEFAULT_COLUMN_APPEARANCE),
-        }),
-      ],
-    });
+    expect(onChange).toHaveBeenCalledWith([
+      createColumnConfig({
+        field: { name: 'field1', source: 'A' },
+        group: true,
+      }),
+      createColumnConfig({
+        field: { name: 'field2', source: 'A' },
+        appearance: createColumnAppearanceConfig(DEFAULT_COLUMN_APPEARANCE),
+      }),
+    ]);
   });
 
   it('Should remove item', async () => {
@@ -303,7 +300,7 @@ describe('ColumnsEditor', () => {
       getComponent({
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
-        items: [
+        value: [
           createColumnConfig({
             field: { name: 'field2', source: 'A' },
           }),
@@ -327,10 +324,7 @@ describe('ColumnsEditor', () => {
      */
     await act(() => fireEvent.click(getSelectors(within(field2)).buttonRemove()));
 
-    expect(onChange).toHaveBeenCalledWith({
-      name: 'Group 1',
-      items: [createColumnConfig({ field: { name: 'field1', source: 'A' } })],
-    });
+    expect(onChange).toHaveBeenCalledWith([createColumnConfig({ field: { name: 'field1', source: 'A' } })]);
   });
 
   it('Should render without errors if dataFrame was removed', () => {
@@ -338,7 +332,7 @@ describe('ColumnsEditor', () => {
       getComponent({
         data: [dataFrameB],
         name: 'Group 1',
-        items: [
+        value: [
           createColumnConfig({
             field: { name: 'field1', source: 'A' },
           }),
@@ -361,7 +355,7 @@ describe('ColumnsEditor', () => {
       getComponent({
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
-        items: [
+        value: [
           createColumnConfig({
             field: { name: 'field2', source: 'A' },
           }),
@@ -387,13 +381,10 @@ describe('ColumnsEditor', () => {
       } as any)
     );
 
-    expect(onChange).toHaveBeenCalledWith({
-      name: 'Group 1',
-      items: [
-        createColumnConfig({ field: { name: 'field1', source: 'A' } }),
-        createColumnConfig({ field: { name: 'field2', source: 'A' } }),
-      ],
-    });
+    expect(onChange).toHaveBeenCalledWith([
+      createColumnConfig({ field: { name: 'field1', source: 'A' } }),
+      createColumnConfig({ field: { name: 'field2', source: 'A' } }),
+    ]);
   });
 
   it('Should not reorder items if drop outside the list', async () => {
@@ -408,7 +399,7 @@ describe('ColumnsEditor', () => {
       getComponent({
         data: [dataFrameA, dataFrameB],
         name: 'Group 1',
-        items: [
+        value: [
           createColumnConfig({
             field: { name: 'field2', source: 'A' },
           }),
@@ -438,7 +429,7 @@ describe('ColumnsEditor', () => {
   it('Should expand item content', () => {
     render(
       getComponent({
-        items: [createColumnConfig({ field: { name: 'field1', source: 'a' } })],
+        value: [createColumnConfig({ field: { name: 'field1', source: 'a' } })],
       })
     );
 
@@ -458,7 +449,7 @@ describe('ColumnsEditor', () => {
 
     render(
       getComponent({
-        items: [
+        value: [
           createColumnConfig({ field: { name: 'field1', source: 'a' } }),
           createColumnConfig({ field: { name: 'field2', source: 'a' } }),
         ],
@@ -478,12 +469,9 @@ describe('ColumnsEditor', () => {
      */
     fireEvent.change(selectors.columnEditor(), { target: { value: 'abc' } });
 
-    expect(onChange).toHaveBeenCalledWith({
-      name: 'Default',
-      items: [
-        createColumnConfig({ field: { name: 'field1', source: 'a' } }),
-        createColumnConfig({ field: { name: 'field2', source: 'a' } }),
-      ],
-    });
+    expect(onChange).toHaveBeenCalledWith([
+      createColumnConfig({ field: { name: 'field1', source: 'a' } }),
+      createColumnConfig({ field: { name: 'field2', source: 'a' } }),
+    ]);
   });
 });

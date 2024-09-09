@@ -248,6 +248,25 @@ export interface ColumnConfig {
 }
 
 /**
+ * Table Request Config
+ */
+export interface TableRequestConfig {
+  /**
+   * Data Source
+   *
+   * @type {string}
+   */
+  datasource: string;
+
+  /**
+   * Payload
+   *
+   * @type {Record<string, unknown>}
+   */
+  payload: Record<string, unknown>;
+}
+
+/**
  * Table Config
  */
 export interface TableConfig {
@@ -263,8 +282,14 @@ export interface TableConfig {
    *
    * @type {ColumnConfig[]}
    */
-
   items: ColumnConfig[];
+
+  /**
+   * Update Request
+   *
+   * @type {TableRequestConfig}
+   */
+  update: TableRequestConfig;
 }
 
 /**

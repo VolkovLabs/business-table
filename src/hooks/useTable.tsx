@@ -1,5 +1,5 @@
 import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
-import { getTemplateSrv, config } from '@grafana/runtime';
+import { config, getTemplateSrv } from '@grafana/runtime';
 import { useTheme2 } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { useMemo } from 'react';

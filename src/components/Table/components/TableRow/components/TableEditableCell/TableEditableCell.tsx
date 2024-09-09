@@ -9,12 +9,19 @@ interface Props<TData> extends CellContext<TData, unknown> {
    * Change
    */
   onChange: (row: Row<TData>, event: { columnId: string; value: unknown }) => void;
+
+  /**
+   * Is Saving
+   *
+   * @type {boolean}
+   */
+  isSaving: boolean;
 }
 
 /**
  * Table Editable Cell
  */
-export const TableEditableCell = <TData,>({ onChange, row, column }: Props<TData>) => {
+export const TableEditableCell = <TData,>({ onChange, row, column, isSaving }: Props<TData>) => {
   return (
     <input
       value={row.getValue(column.id) as string}
@@ -25,6 +32,7 @@ export const TableEditableCell = <TData,>({ onChange, row, column }: Props<TData
         });
       }}
       style={{ width: '100%' }}
+      disabled={isSaving}
     />
   );
 };
