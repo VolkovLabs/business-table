@@ -501,10 +501,17 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               },
             });
           }}
+          {...TEST_IDS.columnEditor.fieldEditEnabled.apply()}
         />
       </InlineField>
       {value.edit.enabled && (
-        <Collapse title="Editable Settings" isOpen={isEditableSectionExpanded} onToggle={setIsEditableSectionExpanded}>
+        <Collapse
+          title="Editable Settings"
+          isOpen={isEditableSectionExpanded}
+          onToggle={setIsEditableSectionExpanded}
+          headerTestId={TEST_IDS.columnEditor.editSettingsHeader.selector()}
+          contentTestId={TEST_IDS.columnEditor.editSettingsContent.selector()}
+        >
           <>
             <InlineField label="Permission Check" grow={true}>
               <Select
@@ -522,6 +529,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                   });
                 }}
                 options={editPermissionModeOptions}
+                {...TEST_IDS.columnEditor.fieldEditPermissionMode.apply()}
               />
             </InlineField>
             {value.edit.permission.mode === EditPermissionMode.USER_ROLE && (
@@ -545,8 +553,8 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                   options={userOrgRoleOptions}
                   isMulti={true}
                   isClearable={true}
-                  allowCustomValue={true}
                   placeholder="Allowed Org User Role"
+                  {...TEST_IDS.columnEditor.fieldEditPermissionOrgRole.apply()}
                 />
               </InlineField>
             )}

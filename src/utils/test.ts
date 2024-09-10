@@ -6,6 +6,7 @@ import {
   ColumnAlignment,
   ColumnAppearanceConfig,
   ColumnConfig,
+  ColumnEditConfig,
   ColumnEditorType,
   ColumnFilterMode,
   ColumnMeta,
@@ -31,6 +32,25 @@ export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanc
 });
 
 /**
+ * Create Column Edit Config
+ */
+export const createColumnEditConfig = (item: Partial<ColumnEditConfig>): ColumnEditConfig => ({
+  enabled: false,
+  permission: {
+    mode: EditPermissionMode.ALLOWED,
+    field: {
+      source: '',
+      name: '',
+    },
+    userRole: [],
+  },
+  editor: {
+    type: ColumnEditorType.STRING,
+  },
+  ...item,
+});
+
+/**
  * Create Column Config
  */
 export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConfig => ({
@@ -52,20 +72,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   },
   appearance: createColumnAppearanceConfig({}),
   footer: [],
-  edit: {
-    enabled: false,
-    permission: {
-      mode: EditPermissionMode.ALLOWED,
-      field: {
-        source: '',
-        name: '',
-      },
-      userRole: [],
-    },
-    editor: {
-      type: ColumnEditorType.STRING,
-    },
-  },
+  edit: createColumnEditConfig({}),
   ...item,
 });
 

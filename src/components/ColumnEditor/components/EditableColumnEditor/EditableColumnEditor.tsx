@@ -2,6 +2,7 @@ import { DataFrame } from '@grafana/data';
 import { InlineField, Select } from '@grafana/ui';
 import React from 'react';
 
+import { TEST_IDS } from '@/constants';
 import { ColumnEditorConfig, ColumnEditorType } from '@/types';
 import { getColumnEditorConfig } from '@/utils';
 
@@ -56,6 +57,7 @@ export const EditableColumnEditor: React.FC<Props> = ({ value, onChange, data })
             onChange(getColumnEditorConfig(event.value!));
           }}
           options={columnEditorOptions}
+          {...TEST_IDS.editableColumnEditor.fieldType.apply()}
         />
       </InlineField>
       {EditorConfig && <EditorConfig value={value as never} onChange={onChange} data={data} />}

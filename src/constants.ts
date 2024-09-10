@@ -90,6 +90,11 @@ export const TEST_IDS = {
     fieldAppearanceAlignmentOption: createSelector(
       (name: unknown) => `wcolumn-editor field-appearance-alignment-option-${name}`
     ),
+    fieldEditEnabled: createSelector('data-testid column-editor field-edit-enabled'),
+    editSettingsHeader: createSelector('data-testid column-editor edit-settings-header'),
+    editSettingsContent: createSelector('data-testid column-editor edit-settings-content'),
+    fieldEditPermissionMode: createSelector('data-testid column-editor field-edit-permission-mode'),
+    fieldEditPermissionOrgRole: createSelector('data-testid column-editor field-edit-permission-org-role'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -137,8 +142,11 @@ export const TEST_IDS = {
     fieldSelect: createSelector('data-testid datasource-editor field-select'),
   },
   editableColumnEditor: {
-    fieldDatetimeMin: createSelector('data-testid datasource-editor field-datetime-min'),
-    fieldDatetimeMax: createSelector('data-testid datasource-editor field-datetime-max'),
+    fieldType: createSelector('data-testid column-editor field-type'),
+    fieldNumberMin: createSelector('data-testid column-editor field-number-min'),
+    fieldNumberMax: createSelector('data-testid column-editor field-number-max'),
+    fieldDatetimeMin: createSelector('data-testid column-editor field-datetime-min'),
+    fieldDatetimeMax: createSelector('data-testid column-editor field-datetime-max'),
   },
   dateEditor: {
     field: createSelector('data-testid date-editor field'),
@@ -148,6 +156,12 @@ export const TEST_IDS = {
   queryOptionsEditor: {
     fieldValue: createSelector('data-testid query-options-editor field-value'),
     fieldLabel: createSelector('data-testid query-options-editor field-label'),
+  },
+  editableCell: {
+    fieldString: createSelector('data-testid editableCell field-string'),
+    fieldNumber: createSelector('data-testid editableCell field-number'),
+    fieldDatetime: createSelector('data-testid editableCell field-datetime'),
+    fieldSelect: createSelector('data-testid editableCell field-select'),
   },
 };
 

@@ -28,6 +28,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         }}
         style={{ width: '100%' }}
         disabled={isSaving}
+        {...TEST_IDS.editableCell.fieldString.apply()}
       />
     ),
     getControlOptions: (params) => params.config,
@@ -45,6 +46,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
                 cleanPayloadObject({ ...value, min: event.target.value ? Number(event.target.value) : undefined })
               );
             }}
+            {...TEST_IDS.editableColumnEditor.fieldNumberMin.apply()}
           />
         </InlineField>
         <InlineField label="Max">
@@ -56,12 +58,19 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
                 cleanPayloadObject({ ...value, max: event.target.value ? Number(event.target.value) : undefined })
               )
             }
+            {...TEST_IDS.editableColumnEditor.fieldNumberMax.apply()}
           />
         </InlineField>
       </InlineFieldRow>
     ),
     control: ({ value, onChange, config }) => (
-      <NumberInput value={value as number} onChange={(value) => onChange(value)} min={config.min} max={config.max} />
+      <NumberInput
+        value={value as number}
+        onChange={onChange}
+        min={config.min}
+        max={config.max}
+        {...TEST_IDS.editableCell.fieldNumber.apply()}
+      />
     ),
     getControlOptions: (params) => params.config,
   }),
@@ -103,6 +112,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         onChange={(date) => onChange(date?.toISOString())}
         minDate={config.min ? new Date(config.min) : undefined}
         maxDate={config.max ? new Date(config.max) : undefined}
+        {...TEST_IDS.editableCell.fieldDatetime.apply()}
       />
     ),
     getControlOptions: (params) => params.config,
@@ -124,7 +134,12 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
       />
     ),
     control: ({ value, onChange, config }) => (
-      <Select value={value} onChange={(event) => onChange(event.value)} options={config.options} />
+      <Select
+        value={value}
+        onChange={(event) => onChange(event.value)}
+        options={config.options}
+        {...TEST_IDS.editableCell.fieldSelect.apply()}
+      />
     ),
     getControlOptions: ({ config, data }) => {
       const queryOptions = config.queryOptions;
