@@ -106,7 +106,7 @@ export const QueryOptionsEditor: React.FC<Props> = ({ value, onChange, data }) =
               onChange={(option) =>
                 onChange({
                   ...value,
-                  label: option ? option.fieldName : '',
+                  label: option ? option.fieldName : null,
                 })
               }
               {...TEST_IDS.queryOptionsEditor.fieldLabel.apply()}

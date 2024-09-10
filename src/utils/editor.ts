@@ -1,5 +1,3 @@
-import { identity, pickBy } from 'lodash';
-
 import { ColumnEditorConfig, ColumnEditorType } from '@/types';
 
 /**
@@ -25,4 +23,13 @@ export const formatNumberValue = (value: unknown): string | number => {
  * Clean Payload Object to remove all undefined properties
  */
 export const cleanPayloadObject = <TPayload extends object>(payload: TPayload): TPayload =>
-  pickBy(payload, identity) as TPayload;
+  Object.entries(payload).reduce((acc, [key, value]) => {
+    if (value === undefined) {
+      return acc;
+    }
+
+    return {
+      ...acc,
+      [key]: value,
+    };
+  }, {} as TPayload);
