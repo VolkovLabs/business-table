@@ -1,12 +1,11 @@
 import { DataFrame } from '@grafana/data';
-import { InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
-import React, { ChangeEvent } from 'react';
+import { InlineField, Select } from '@grafana/ui';
+import React from 'react';
 
-import { TEST_IDS } from '@/constants';
 import { ColumnEditorConfig, ColumnEditorType } from '@/types';
-import { cleanPayloadObject, formatNumberValue, getColumnEditorConfig } from '@/utils';
+import { getColumnEditorConfig } from '@/utils';
 
-import { DateEditor, QueryOptionsEditor } from './components';
+import { editableColumnEditorsRegistry } from './EditableColumnEditorsRegistry';
 
 /**
  * Properties
@@ -46,6 +45,8 @@ const columnEditorOptions = [
  * Editable Column Editor
  */
 export const EditableColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
+  const EditorConfig = editableColumnEditorsRegistry.get(value.type)?.editor;
+
   return (
     <>
       <InlineField label="Editor Type" grow={true}>
@@ -57,76 +58,7 @@ export const EditableColumnEditor: React.FC<Props> = ({ value, onChange, data })
           options={columnEditorOptions}
         />
       </InlineField>
-      {value.type === ColumnEditorType.NUMBER && (
-        <InlineFieldRow>
-          <InlineField label="Min">
-            <Input
-              type="number"
-              value={formatNumberValue(value.min)}
-              onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                onChange(
-                  cleanPayloadObject({ ...value, min: event.target.value ? Number(event.target.value) : undefined })
-                );
-              }}
-            />
-          </InlineField>
-          <InlineField label="Max">
-            <Input
-              type="number"
-              value={formatNumberValue(value.max)}
-              onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                onChange(
-                  cleanPayloadObject({ ...value, max: event.target.value ? Number(event.target.value) : undefined })
-                )
-              }
-            />
-          </InlineField>
-        </InlineFieldRow>
-      )}
-      {value.type === ColumnEditorType.DATETIME && (
-        <>
-          <DateEditor
-            label="Min"
-            onChange={(min) =>
-              onChange(
-                cleanPayloadObject({
-                  ...value,
-                  min,
-                })
-              )
-            }
-            value={value.min}
-            data-testid={TEST_IDS.editableColumnEditor.fieldDatetimeMin.selector()}
-          />
-          <DateEditor
-            label="Max"
-            onChange={(max) =>
-              onChange(
-                cleanPayloadObject({
-                  ...value,
-                  max,
-                })
-              )
-            }
-            value={value.max}
-            data-testid={TEST_IDS.editableColumnEditor.fieldDatetimeMax.selector()}
-          />
-        </>
-      )}
-      {value.type === ColumnEditorType.SELECT && (
-        <QueryOptionsEditor
-          value={value.queryOptions}
-          onChange={(queryOptions) => {
-            onChange(
-              cleanPayloadObject({
-                ...value,
-                queryOptions,
-              })
-            );
-          }}
-          data={data}
-        />
-      )}
+      {EditorConfig && <EditorConfig value={value as never} onChange={onChange} data={data} />}
     </>
   );
 };

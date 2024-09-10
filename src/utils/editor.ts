@@ -1,4 +1,4 @@
-import { ColumnEditorConfig, ColumnEditorType } from '@/types';
+import { ColumnEditorConfig, ColumnEditorType, EditableColumnEditorRegistryItem } from '@/types';
 
 /**
  * Get Column Editor Config
@@ -33,3 +33,23 @@ export const cleanPayloadObject = <TPayload extends object>(payload: TPayload): 
       [key]: value,
     };
   }, {} as TPayload);
+
+/**
+ * Create Editable Column Registry Item
+ * @param item
+ */
+export const createEditableColumnEditorRegistryItem = <TType extends ColumnEditorType>(
+  item: EditableColumnEditorRegistryItem<TType>
+): EditableColumnEditorRegistryItem<typeof item.id> => item;
+
+/**
+ * Create Editable Column Editors Registry
+ * @param items
+ */
+export const createEditableColumnEditorsRegistry = <TRegistry extends { id: string }>(items: TRegistry[]) => {
+  const itemsMap = new Map<TRegistry['id'], TRegistry>();
+
+  items.forEach((item) => itemsMap.set(item.id, item));
+
+  return itemsMap;
+};

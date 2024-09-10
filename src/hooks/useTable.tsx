@@ -4,14 +4,13 @@ import { useTheme2 } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { useCallback, useMemo } from 'react';
 
-import { CellRenderer, TableActionsCell } from '@/components';
+import { CellRenderer, editableColumnEditorsRegistry, TableActionsCell } from '@/components';
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import {
   CellAggregation,
   ColumnConfig,
   ColumnEditorConfig,
   ColumnEditorControlOptions,
-  ColumnEditorType,
   ColumnFilterMode,
   ColumnFilterType,
   EditPermissionMode,
@@ -108,38 +107,13 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
    */
   const getEditorControlOptions = useCallback(
     (editorConfig: ColumnEditorConfig): ColumnEditorControlOptions => {
-      if (editorConfig.type === ColumnEditorType.SELECT) {
-        const queryOptions = editorConfig.queryOptions;
+      const item = editableColumnEditorsRegistry.get(editorConfig.type);
 
-        const controlOptions = {
-          type: editorConfig.type,
-          options: [],
-        };
-
-        if (!queryOptions || !queryOptions.value) {
-          return controlOptions;
-        }
-
-        const frame = data.series.find((frame) => frame.refId === queryOptions.source);
-        const valueField = frame?.fields.find((field) => field.name === queryOptions.value);
-
-        if (!frame || !valueField) {
-          return controlOptions;
-        }
-
-        const labelValues =
-          frame?.fields.find((field) => field.name === queryOptions.label)?.values || valueField.values;
-
-        return {
-          ...controlOptions,
-          options: valueField.values.map((value, index) => ({
-            value,
-            label: labelValues[index] as string,
-          })),
-        };
+      if (item) {
+        return item?.getControlOptions({ config: editorConfig as never, data });
       }
 
-      return editorConfig;
+      return editorConfig as ColumnEditorControlOptions;
     },
     [data]
   );

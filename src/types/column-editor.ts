@@ -1,4 +1,6 @@
-import { SelectableValue } from '@grafana/data';
+import { DataFrame, PanelData, SelectableValue } from '@grafana/data';
+// eslint-disable-next-line @typescript-eslint/naming-convention
+import React from 'react';
 
 /**
  * Column Editor Type
@@ -102,3 +104,25 @@ export type ColumnEditorControlOptions =
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
   | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[] });
+
+/**
+ * Editable Column Editor Registry Item
+ */
+export interface EditableColumnEditorRegistryItem<TType extends ColumnEditorType> {
+  id: TType;
+  editor: React.FC<{
+    value: ColumnEditorConfig & { type: TType };
+    onChange: (value: ColumnEditorConfig & { type: TType }) => void;
+    data: DataFrame[];
+  }>;
+  control: React.FC<{
+    value: unknown;
+    onChange: (value: unknown) => void;
+    config: ColumnEditorControlOptions & { type: TType };
+    isSaving: boolean;
+  }>;
+  getControlOptions: (params: {
+    config: ColumnEditorConfig & { type: TType };
+    data: PanelData;
+  }) => ColumnEditorControlOptions & { type: TType };
+}

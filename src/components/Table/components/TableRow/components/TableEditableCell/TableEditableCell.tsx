@@ -1,5 +1,5 @@
 import { dateTime } from '@grafana/data';
-import { DateTimePicker, Input,Select } from '@grafana/ui';
+import { DateTimePicker, Input, Select } from '@grafana/ui';
 import { CellContext, Row } from '@tanstack/react-table';
 import { NumberInput } from '@volkovlabs/components';
 import React, { useCallback } from 'react';
