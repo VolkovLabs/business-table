@@ -1,9 +1,17 @@
-import { FieldType, ReducerID, toDataFrame } from '@grafana/data';
+import { FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { renderHook } from '@testing-library/react';
 
-import { CellAggregation, ColumnFilterMode, ColumnFilterType } from '@/types';
-import { columnFilter, createColumnAppearanceConfig, createColumnConfig, createVariable, FooterContext } from '@/utils';
+import { ACTIONS_COLUMN_ID } from '@/constants';
+import { CellAggregation, ColumnEditorType, ColumnFilterMode, ColumnFilterType, EditPermissionMode } from '@/types';
+import {
+  columnFilter,
+  createColumnAppearanceConfig,
+  createColumnConfig,
+  createColumnEditConfig,
+  createVariable,
+  FooterContext,
+} from '@/utils';
 
 import { useTable } from './useTable';
 
@@ -513,5 +521,92 @@ describe('useTable', () => {
         )
       ).toEqual('10');
     }
+  });
+
+  describe('editable', () => {
+    it('Should enable editor', () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        edit: createColumnEditConfig({
+          enabled: true,
+          permission: {
+            mode: EditPermissionMode.ALLOWED,
+            userRole: [],
+            field: { source: '', name: '' },
+          },
+          editor: {
+            type: ColumnEditorType.STRING,
+          },
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn],
+        })
+      );
+
+      expect(result.current.columns[0].meta).toEqual(
+        expect.objectContaining({
+          editable: true,
+          editor: {
+            type: ColumnEditorType.STRING,
+          },
+        })
+      );
+
+      /**
+       * Check actions column presence
+       */
+      expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
+    });
+
+    it('Should check user role', () => {
+      const columnForAdminEdit = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        edit: createColumnEditConfig({
+          enabled: true,
+          permission: {
+            mode: EditPermissionMode.USER_ROLE,
+            userRole: [OrgRole.Admin],
+            field: { source: '', name: '' },
+          },
+          editor: {
+            type: ColumnEditorType.STRING,
+          },
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [columnForAdminEdit],
+        })
+      );
+
+      expect(result.current.columns[0].meta).toEqual(
+        expect.objectContaining({
+          editable: false,
+        })
+      );
+
+      /**
+       * Check actions column not added
+       */
+      expect(result.current.columns[1]).not.toBeDefined();
+    });
   });
 });

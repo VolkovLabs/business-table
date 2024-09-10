@@ -7,3 +7,4 @@ export * from './useLocalStorage';
 export * from './useSavedState';
 export * from './useSyncedColumnFilters';
 export * from './useTable';
+export * from './useUpdateRow';

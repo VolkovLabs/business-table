@@ -13,7 +13,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellType } from '@/types';
+import { CellType, ColumnEditorType } from '@/types';
 import { createColumnAppearanceConfig, createColumnConfig, createColumnMeta, createField } from '@/utils';
 
 import { TableRow } from './TableRow';
@@ -40,12 +40,14 @@ describe('TableRow', () => {
     rowIndex,
     grouping = defaultGrouping,
     expanded = defaultExpanded,
+    editingRowIndex,
   }: {
     data: unknown[];
     columns: Array<ColumnDef<any>>;
     rowIndex: number;
     grouping?: GroupingState;
     expanded?: ExpandedState;
+    editingRowIndex?: number;
   }) => {
     const table = useReactTable({
       data,
@@ -70,7 +72,7 @@ describe('TableRow', () => {
             row={rows[rowIndex]}
             virtualRow={{ index: rowIndex, start: 0 } as any}
             rowVirtualizer={{ measureElement: jest.fn() } as any}
-            editingRow={null}
+            editingRow={editingRowIndex !== undefined ? rows[editingRowIndex] : null}
             onStartEdit={jest.fn()}
             onCancelEdit={jest.fn()}
             onChange={jest.fn()}
@@ -91,6 +93,7 @@ describe('TableRow', () => {
     rowIndex: number;
     grouping?: GroupingState;
     expanded?: ExpandedState;
+    editingRowIndex?: number;
   }) => {
     return <Wrapper {...props} />;
   };
@@ -305,5 +308,38 @@ describe('TableRow', () => {
     expect(selectors.bodyRow(false, '0')).toHaveStyle({
       'background-color': theme.visualization.getColorByName('orange'),
     });
+  });
+
+  it('Should render editing row', async () => {
+    const data = [{ value: 'abc', name: 'device1' }];
+    const columns = [
+      {
+        id: 'name',
+        accessorKey: 'name',
+        meta: createColumnMeta({
+          editable: true,
+          editor: {
+            type: ColumnEditorType.STRING,
+          },
+        }),
+      },
+      {
+        id: 'value',
+        accessorKey: 'value',
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          editingRowIndex: 0,
+        })
+      )
+    );
+
+    expect(getJestSelectors(TEST_IDS.editableCell)(screen).fieldString()).toBeInTheDocument();
   });
 });

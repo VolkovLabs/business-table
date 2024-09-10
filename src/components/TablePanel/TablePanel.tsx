@@ -1,10 +1,9 @@
-import { AlertErrorPayload, AlertPayload, AppEvents, LoadingState, PanelProps } from '@grafana/data';
-import { getAppEvents } from '@grafana/runtime';
+import { PanelProps } from '@grafana/data';
 import { ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useContentSizes, useDatasourceRequest, useSavedState, useTable } from '@/hooks';
+import { useContentSizes, useSavedState, useTable, useUpdateRow } from '@/hooks';
 import { PanelOptions } from '@/types';
 
 import { Table } from '../Table';
@@ -23,19 +22,6 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
    * Styles
    */
   const styles = useStyles2(getStyles);
-
-  /**
-   * App Events
-   */
-  const appEvents = getAppEvents();
-  const notifySuccess = useCallback(
-    (payload: AlertPayload) => appEvents.publish({ type: AppEvents.alertSuccess.name, payload }),
-    [appEvents]
-  );
-  const notifyError = useCallback(
-    (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload }),
-    [appEvents]
-  );
 
   /**
    * Current group
@@ -103,49 +89,9 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
   } = useContentSizes({ height, options, tableData });
 
   /**
-   * Data Source Request
-   */
-  const datasourceRequest = useDatasourceRequest();
-
-  /**
    * Update Row
    */
-  const onUpdateRow = useCallback(
-    async (row: unknown) => {
-      const updateRequest = currentTable?.update;
-
-      /**
-       * No update request
-       */
-      if (!updateRequest) {
-        return;
-      }
-
-      try {
-        const response = await datasourceRequest({
-          query: updateRequest.payload,
-          datasource: updateRequest.datasource,
-          replaceVariables,
-          payload: row,
-        });
-
-        /**
-         * Query Error
-         */
-        if (response.state === LoadingState.Error) {
-          throw response.errors;
-        }
-
-        notifySuccess(['Success', 'Values updated successfully.']);
-        appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
-      } catch (e: unknown) {
-        const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
-        notifyError(['Error', errorMessage]);
-        throw e;
-      }
-    },
-    [appEvents, currentTable?.update, datasourceRequest, notifyError, notifySuccess, replaceVariables]
-  );
+  const onUpdateRow = useUpdateRow({ replaceVariables, currentTable });
 
   /**
    * Return

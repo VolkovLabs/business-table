@@ -163,6 +163,11 @@ export const TEST_IDS = {
     fieldDatetime: createSelector('data-testid editableCell field-datetime'),
     fieldSelect: createSelector('data-testid editableCell field-select'),
   },
+  tableActionsCell: {
+    buttonStartEdit: createSelector('data-testid table-actions-cell button-start-edit'),
+    buttonCancel: createSelector('data-testid table-actions-cell button-cancel'),
+    buttonSave: createSelector('data-testid table-actions-cell button-save'),
+  },
 };
 
 /**
