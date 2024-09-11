@@ -1,8 +1,9 @@
-import { TEST_IDS } from '@/constants';
-import { createColumnConfig, createColumnEditConfig, createTableConfig } from '@/utils';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
+
+import { TEST_IDS } from '@/constants';
+import { createColumnConfig, createColumnEditConfig, createTableConfig } from '@/utils';
 
 import { TableEditor } from './TableEditor';
 

@@ -1,9 +1,9 @@
-import { TEST_IDS } from '@/constants';
 import { DataFrame } from '@grafana/data';
 import { Field, useStyles2 } from '@grafana/ui';
 import { Collapse } from '@volkovlabs/components';
 import React, { useMemo } from 'react';
 
+import { TEST_IDS } from '@/constants';
 import { TableConfig } from '@/types';
 
 import { ColumnsEditor } from '../ColumnsEditor';
