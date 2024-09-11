@@ -168,6 +168,10 @@ export const TEST_IDS = {
     buttonCancel: createSelector('data-testid table-actions-cell button-cancel'),
     buttonSave: createSelector('data-testid table-actions-cell button-save'),
   },
+  tableEditor: {
+    updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
+    updateSectionContent: createSelector('data-testid table-editor update-section-content'),
+  },
 };
 
 /**

@@ -1,3 +1,4 @@
+import { TEST_IDS } from '@/constants';
 import { DataFrame } from '@grafana/data';
 import { Field, useStyles2 } from '@grafana/ui';
 import { Collapse } from '@volkovlabs/components';
@@ -78,6 +79,8 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
             });
           }}
           isInlineContent={true}
+          headerTestId={TEST_IDS.tableEditor.updateSectionHeader.selector()}
+          contentTestId={TEST_IDS.tableEditor.updateSectionContent.selector()}
         >
           <div className={styles.sectionContent}>
             <Field label="Data Source">
