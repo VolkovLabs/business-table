@@ -3,7 +3,6 @@ import { DateTimePicker, InlineField, InlineFieldRow, Input, Select } from '@gra
 import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
-import { DateEditor, QueryOptionsEditor } from '@/components/ColumnEditor/components/EditableColumnEditor/components';
 import { TEST_IDS } from '@/constants';
 import { ColumnEditorType } from '@/types';
 import {
@@ -12,6 +11,8 @@ import {
   createEditableColumnEditorsRegistry,
   formatNumberValue,
 } from '@/utils';
+
+import { DateEditor, QueryOptionsEditor } from './components';
 
 /**
  * Editable Column Editors Registry

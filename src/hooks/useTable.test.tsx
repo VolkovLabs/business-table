@@ -568,6 +568,45 @@ describe('useTable', () => {
       expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
     });
 
+    it('Should work if unknown editor', () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        edit: createColumnEditConfig({
+          enabled: true,
+          permission: {
+            mode: EditPermissionMode.ALLOWED,
+            userRole: [],
+            field: { source: '', name: '' },
+          },
+          editor: {
+            type: 'abc' as ColumnEditorType,
+          },
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn],
+        })
+      );
+
+      expect(result.current.columns[0].meta).toEqual(
+        expect.objectContaining({
+          editable: true,
+          editor: {
+            type: 'abc',
+          },
+        })
+      );
+    });
+
     it('Should check user role', () => {
       const columnForAdminEdit = createColumnConfig({
         label: 'Device',
