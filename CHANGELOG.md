@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Added edit data with based permission check (#40)
+- Added edit permission based on query (#47)
 
 ## 1.2.0 (2023-09-05)
 

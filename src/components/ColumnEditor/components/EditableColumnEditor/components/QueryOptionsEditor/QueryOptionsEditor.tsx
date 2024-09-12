@@ -1,9 +1,10 @@
-import { DataFrame, SelectableValue } from '@grafana/data';
-import { InlineField, InlineFieldRow, Select } from '@grafana/ui';
+import { DataFrame } from '@grafana/data';
+import { InlineField, InlineFieldRow } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
+import { FieldPicker } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { QueryOptionsMapper } from '@/types';
+import { FieldSource, QueryOptionsMapper } from '@/types';
 
 /**
  * Properties
@@ -32,85 +33,57 @@ interface Props {
  */
 export const QueryOptionsEditor: React.FC<Props> = ({ value, onChange, data }) => {
   /**
-   * Available Field Options
+   * Value Field Source
    */
-  const availableFieldOptions = useMemo(() => {
-    const source = value?.source;
-
-    const valueOptions = data.reduce((acc: SelectableValue[], dataFrame, index) => {
-      const source = dataFrame.refId || index;
-      return acc.concat(
-        dataFrame.fields.map((field) => ({
-          value: `${source}:${field.name}`,
-          fieldName: field.name,
-          label: `${source}:${field.name}`,
-          source,
-        }))
-      );
-    }, []);
-
-    if (source) {
-      const dataFrame = data.find((dataFrame, index) =>
-        typeof source === 'number' ? index === source : dataFrame.refId === source
-      );
-
-      const labelOptions = dataFrame?.fields.map(({ name }) => ({
-        label: `${source}:${name}`,
-        source,
-        value: name,
-        fieldName: name,
-      }));
-
+  const valueFieldSource = useMemo((): FieldSource | undefined => {
+    if (value) {
       return {
-        valueOptions,
-        labelOptions,
+        source: value.source,
+        name: value.value,
       };
     }
 
-    return {
-      valueOptions,
-      labelOptions: [],
-    };
-  }, [data, value?.source]);
+    return undefined;
+  }, [value]);
 
   return (
     <>
       <InlineFieldRow>
         <InlineField label="Value Field" grow={true}>
-          <Select
-            options={availableFieldOptions.valueOptions}
-            value={`${value?.source}:${value?.value}`}
-            onChange={(option) =>
+          <FieldPicker
+            value={valueFieldSource}
+            onChange={(valueField) => {
               onChange(
-                !option
-                  ? undefined
-                  : {
-                      ...value,
-                      source: option.source,
-                      value: option.fieldName,
-                      label: value?.source !== option.source ? null : value?.label || null,
+                valueField
+                  ? {
+                      source: valueField.source,
+                      value: valueField.name,
+                      label: value?.source !== valueField.source ? null : value?.label || null,
                     }
-              )
-            }
-            {...TEST_IDS.queryOptionsEditor.fieldValue.apply()}
+                  : undefined
+              );
+            }}
+            data={data}
             isClearable={true}
+            {...TEST_IDS.queryOptionsEditor.fieldValue.apply()}
           />
         </InlineField>
       </InlineFieldRow>
       {value?.value && (
         <InlineFieldRow>
           <InlineField label="Label Field" grow={true}>
-            <Select
-              options={availableFieldOptions.labelOptions}
-              value={value.label}
+            <FieldPicker
+              value={valueFieldSource ? { source: valueFieldSource.source, name: value.label || '' } : undefined}
               onChange={(option) =>
                 onChange({
                   ...value,
-                  label: option ? option.fieldName : null,
+                  label: option ? option.name : null,
                 })
               }
-              {...TEST_IDS.queryOptionsEditor.fieldLabel.apply()}
+              data={data}
+              alreadySelectedFields={valueFieldSource ? [valueFieldSource] : undefined}
               isClearable={true}
+              {...TEST_IDS.queryOptionsEditor.fieldLabel.apply()}
             />
           </InlineField>
         </InlineFieldRow>

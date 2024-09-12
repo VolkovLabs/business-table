@@ -88,7 +88,7 @@ describe('QueryOptionsEditor', () => {
 
       expect(selectors.fieldLabel()).toBeInTheDocument();
 
-      fireEvent.change(selectors.fieldLabel(), { target: { value: 'label' } });
+      fireEvent.change(selectors.fieldLabel(), { target: { value: 'A:label' } });
 
       expect(onChange).toHaveBeenCalledWith({
         label: frameA.fields[1].name,
@@ -126,7 +126,7 @@ describe('QueryOptionsEditor', () => {
 
       expect(selectors.fieldLabel()).toBeInTheDocument();
 
-      fireEvent.change(selectors.fieldLabel(), { target: { value: 'label1' } });
+      fireEvent.change(selectors.fieldLabel(), { target: { value: '1:label1' } });
 
       expect(onChange).toHaveBeenCalledWith({
         label: frameWithIndex.fields[1].name,

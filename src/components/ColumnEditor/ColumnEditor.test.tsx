@@ -640,6 +640,42 @@ describe('ColumnEditor', () => {
       );
     });
 
+    it('Should allow to set permission field', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            edit: createColumnEditConfig({
+              enabled: true,
+              permission: {
+                mode: EditPermissionMode.QUERY,
+                userRole: [],
+              },
+            }),
+          }),
+          data: [toDataFrame({ refId: 'A', fields: [{ name: 'edit', values: [true] }] })],
+        })
+      );
+
+      openSettings();
+
+      expect(selectors.fieldEditPermissionField()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldEditPermissionField(), { target: { value: 'A:edit' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          edit: expect.objectContaining({
+            permission: expect.objectContaining({
+              field: {
+                source: 'A',
+                name: 'edit',
+              },
+            }),
+          }),
+        })
+      );
+    });
+
     it('Should allow to set editor config', () => {
       render(
         getComponent({

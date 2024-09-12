@@ -32,6 +32,9 @@ const ColumnEditorMock = ({ value, onChange }: any) => (
   />
 );
 
+/**
+ * Mock Column Editor
+ */
 jest.mock('../ColumnEditor', () => ({
   ColumnEditor: jest.fn(),
 }));
@@ -114,30 +117,30 @@ describe('ColumnsEditor', () => {
     expect(Select).toHaveBeenCalledWith(
       expect.objectContaining({
         options: [
-          {
+          expect.objectContaining({
             value: 'A:field1',
             source: 'A',
             fieldName: 'field1',
             label: 'A:field1',
-          },
-          {
+          }),
+          expect.objectContaining({
             value: 'A:field2',
             source: 'A',
             fieldName: 'field2',
             label: 'A:field2',
-          },
-          {
+          }),
+          expect.objectContaining({
             value: 'B:fieldB1',
             source: 'B',
             fieldName: 'fieldB1',
             label: 'B:fieldB1',
-          },
-          {
+          }),
+          expect.objectContaining({
             value: 'B:fieldB2',
             source: 'B',
             fieldName: 'fieldB2',
             label: 'B:fieldB2',
-          },
+          }),
         ],
       }),
       expect.anything()
@@ -164,30 +167,30 @@ describe('ColumnsEditor', () => {
     expect(Select).toHaveBeenCalledWith(
       expect.objectContaining({
         options: [
-          {
+          expect.objectContaining({
             value: '0:field1',
             source: 0,
             fieldName: 'field1',
             label: '0:field1',
-          },
-          {
+          }),
+          expect.objectContaining({
             value: '0:field2',
             source: 0,
             fieldName: 'field2',
             label: '0:field2',
-          },
-          {
+          }),
+          expect.objectContaining({
             value: '1:fieldB1',
             source: 1,
             fieldName: 'fieldB1',
             label: '1:fieldB1',
-          },
-          {
+          }),
+          expect.objectContaining({
             value: '1:fieldB2',
             source: 1,
             fieldName: 'fieldB2',
             label: '1:fieldB2',
-          },
+          }),
         ],
       }),
       expect.anything()
@@ -208,14 +211,7 @@ describe('ColumnsEditor', () => {
 
     expect(Select).toHaveBeenCalledWith(
       expect.objectContaining({
-        options: [
-          {
-            value: 'field2',
-            source: 'A',
-            fieldName: 'field2',
-            label: 'field2',
-          },
-        ],
+        options: [expect.objectContaining({ fieldName: 'field2', label: 'A:field2', source: 'A', value: 'A:field2' })],
       }),
       expect.anything()
     );
@@ -244,14 +240,7 @@ describe('ColumnsEditor', () => {
 
     expect(Select).toHaveBeenCalledWith(
       expect.objectContaining({
-        options: [
-          {
-            value: 'field2',
-            source: 0,
-            fieldName: 'field2',
-            label: 'field2',
-          },
-        ],
+        options: [expect.objectContaining({ fieldName: 'field2', label: '0:field2', source: 0, value: '0:field2' })],
       }),
       expect.anything()
     );
@@ -274,7 +263,7 @@ describe('ColumnsEditor', () => {
       })
     );
 
-    await act(() => fireEvent.change(selectors.newItemName(), { target: { value: 'field2' } }));
+    await act(() => fireEvent.change(selectors.newItemName(), { target: { value: 'A:field2' } }));
 
     expect(selectors.buttonAddNew()).toBeInTheDocument();
     expect(selectors.buttonAddNew()).not.toBeDisabled();

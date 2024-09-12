@@ -38,10 +38,6 @@ export const createColumnEditConfig = (item: Partial<ColumnEditConfig>): ColumnE
   enabled: false,
   permission: {
     mode: EditPermissionMode.ALLOWED,
-    field: {
-      source: '',
-      name: '',
-    },
     userRole: [],
   },
   editor: {

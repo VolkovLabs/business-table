@@ -1,10 +1,9 @@
-import { DataFrame, OrgRole, standardEditorsRegistry } from '@grafana/data';
+import { DataFrame, FieldType, OrgRole, standardEditorsRegistry } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select } from '@grafana/ui';
 import { Collapse, NumberInput } from '@volkovlabs/components';
 import React, { useMemo, useState } from 'react';
 
-import { EditableColumnEditor } from '@/components/ColumnEditor/components';
 import { TEST_IDS } from '@/constants';
 import {
   CellAggregation,
@@ -14,7 +13,10 @@ import {
   ColumnFilterMode,
   EditPermissionMode,
 } from '@/types';
-import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
+import { cleanPayloadObject, getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
+
+import { FieldPicker } from '../FieldPicker';
+import { EditableColumnEditor } from './components';
 
 /**
  * Properties
@@ -140,8 +142,6 @@ const editPermissionModeOptions = [
   {
     value: EditPermissionMode.QUERY,
     label: 'By Backend',
-    isDisabled: true,
-    description: 'Not supported yet',
   },
 ];
 
@@ -555,6 +555,33 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                   isClearable={true}
                   placeholder="Allowed Org User Role"
                   {...TEST_IDS.columnEditor.fieldEditPermissionOrgRole.apply()}
+                />
+              </InlineField>
+            )}
+            {value.edit.permission.mode === EditPermissionMode.QUERY && (
+              <InlineField
+                label="Field"
+                tooltip="Field with boolean value to allow/disallow edit. Last value will be used if several values."
+                grow={true}
+              >
+                <FieldPicker
+                  value={value.edit.permission.field}
+                  onChange={(field) => {
+                    onChange({
+                      ...value,
+                      edit: {
+                        ...value.edit,
+                        permission: cleanPayloadObject({
+                          ...value.edit.permission,
+                          field,
+                        }),
+                      },
+                    });
+                  }}
+                  data={data}
+                  includeTypes={[FieldType.boolean]}
+                  isClearable={true}
+                  {...TEST_IDS.columnEditor.fieldEditPermissionField.apply()}
                 />
               </InlineField>
             )}

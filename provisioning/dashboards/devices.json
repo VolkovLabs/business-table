@@ -23,8 +23,8 @@
     {
       "datasource": {
         "default": false,
-        "type": "grafana-postgresql-datasource",
-        "uid": "timescale"
+        "type": "datasource",
+        "uid": "-- Mixed --"
       },
       "fieldConfig": {
         "defaults": {
@@ -284,10 +284,10 @@
                   "enabled": true,
                   "permission": {
                     "field": {
-                      "name": "",
-                      "source": ""
+                      "name": "edit",
+                      "source": "Permission"
                     },
-                    "mode": "userRole",
+                    "mode": "query",
                     "userRole": [
                       "Editor",
                       "Admin"
@@ -530,9 +530,10 @@
               "payload": {}
             }
           }
-        ]
+        ],
+        "tabsSorting": false
       },
-      "pluginVersion": "1.2.0",
+      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -648,6 +649,28 @@
             ],
             "limit": 50
           }
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "edit",
+                "type": "boolean",
+                "values": [
+                  "true"
+                ]
+              }
+            ],
+            "meta": {},
+            "name": ""
+          },
+          "hide": false,
+          "refId": "Permission"
         }
       ],
       "title": "Devices",
@@ -667,6 +690,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 10,
+  "version": 11,
   "weekStart": ""
 }

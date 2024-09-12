@@ -25,10 +25,6 @@ export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
   enabled: false,
   permission: {
     mode: EditPermissionMode.ALLOWED,
-    field: {
-      source: '',
-      name: '',
-    },
     userRole: [],
   },
   editor: {
@@ -95,6 +91,7 @@ export const TEST_IDS = {
     editSettingsContent: createSelector('data-testid column-editor edit-settings-content'),
     fieldEditPermissionMode: createSelector('data-testid column-editor field-edit-permission-mode'),
     fieldEditPermissionOrgRole: createSelector('data-testid column-editor field-edit-permission-org-role'),
+    fieldEditPermissionField: createSelector('data-testid column-editor field-edit-permission-field'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -171,6 +168,9 @@ export const TEST_IDS = {
   tableEditor: {
     updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-editor update-section-content'),
+  },
+  fieldPicker: {
+    root: createSelector('data-testid field-picker'),
   },
 };
 
