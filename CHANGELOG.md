@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.3.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added edit data with based permission check (#40)
+
 ## 1.2.0 (2023-09-05)
 
 ### Features / Enhancements

@@ -1,4 +1,4 @@
-import { SelectableValue } from '@grafana/data';
+import { dateTime, SelectableValue } from '@grafana/data';
 import React from 'react';
 
 const actual = jest.requireActual('@grafana/ui');
@@ -45,7 +45,7 @@ const SelectMock = ({
           // eslint-disable-next-line eqeqeq
           const option = plainOptions.find((option: any) => option.value == event.target.value);
 
-          if (!option.isDisabled) {
+          if (!option?.isDisabled) {
             onChange(option);
           }
         }
@@ -130,6 +130,25 @@ const PopoverMock = ({ content, show }: any) => (show ? content : null);
 
 const Popover = jest.fn(PopoverMock);
 
+/**
+ * Mock DatetimePicker component
+ */
+const DateTimePickerMock = ({ onChange, ...restProps }: any) => {
+  return (
+    <input
+      data-testid={restProps['data-testid']}
+      value={restProps.value}
+      onChange={(event) => {
+        if (onChange) {
+          onChange(dateTime(event.target.value));
+        }
+      }}
+    />
+  );
+};
+
+const DateTimePicker = jest.fn(DateTimePickerMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -137,6 +156,7 @@ beforeEach(() => {
   ToolbarButtonRow.mockImplementation(ToolbarButtonRowMock);
   TimeRangeInput.mockImplementation(TimeRangeInputMock);
   Popover.mockImplementation(PopoverMock);
+  DateTimePicker.mockImplementation(DateTimePickerMock);
 });
 
 module.exports = {
@@ -147,4 +167,5 @@ module.exports = {
   ButtonSelect,
   TimeRangeInput,
   Popover,
+  DateTimePicker,
 };

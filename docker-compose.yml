@@ -39,3 +39,16 @@ services:
     network_mode: host
     profiles:
       - e2e
+
+  timescale:
+    image: timescale/timescaledb:latest-pg12
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./timescale:/docker-entrypoint-initdb.d
+    profiles:
+      - dev
+      - main

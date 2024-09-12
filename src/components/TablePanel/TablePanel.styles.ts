@@ -12,6 +12,9 @@ export const getStyles = (theme: GrafanaTheme2) => {
     content: css`
       overflow: auto;
     `,
+    toolbar: css`
+      padding: ${theme.spacing(0.5)};
+    `,
     header: css`
       position: sticky;
       top: 0;
@@ -20,7 +23,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       min-width: 100%;
       left: 0;
     `,
-    toolbar: css`
+    tabs: css`
       div > div {
         flex-direction: column;
         max-width: 100%;
@@ -28,7 +31,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       padding: 0;
       border-bottom: 1px solid ${theme.colors.border.weak};
     `,
-    toolbarButton: css`
+    tabButton: css`
       overflow: hidden;
       max-width: 100%;
 

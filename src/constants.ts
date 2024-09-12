@@ -1,6 +1,6 @@
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-import { ColumnAlignment } from '@/types';
+import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, EditPermissionMode } from '@/types';
 
 /**
  * Default Column Appearance
@@ -17,6 +17,29 @@ export const DEFAULT_COLUMN_APPEARANCE = {
     applyToRow: false,
   },
 };
+
+/**
+ * Default Column Edit
+ */
+export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
+  enabled: false,
+  permission: {
+    mode: EditPermissionMode.ALLOWED,
+    field: {
+      source: '',
+      name: '',
+    },
+    userRole: [],
+  },
+  editor: {
+    type: ColumnEditorType.STRING,
+  },
+};
+
+/**
+ * Actions Column ID
+ */
+export const ACTIONS_COLUMN_ID = '__actions';
 
 /**
  * Test Identifiers
@@ -67,6 +90,11 @@ export const TEST_IDS = {
     fieldAppearanceAlignmentOption: createSelector(
       (name: unknown) => `wcolumn-editor field-appearance-alignment-option-${name}`
     ),
+    fieldEditEnabled: createSelector('data-testid column-editor field-edit-enabled'),
+    editSettingsHeader: createSelector('data-testid column-editor edit-settings-header'),
+    editSettingsContent: createSelector('data-testid column-editor edit-settings-content'),
+    fieldEditPermissionMode: createSelector('data-testid column-editor field-edit-permission-mode'),
+    fieldEditPermissionOrgRole: createSelector('data-testid column-editor field-edit-permission-org-role'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -106,9 +134,52 @@ export const TEST_IDS = {
   tableHeaderCellFilter: {
     root: createSelector('data-testid table-header-cell-filter'),
   },
+  payloadEditor: {
+    loadingMessage: createSelector('data-testid payload-editor loading-message'),
+    errorMessage: createSelector('data-testid payload-editor error-message'),
+  },
+  datasourceEditor: {
+    fieldSelect: createSelector('data-testid datasource-editor field-select'),
+  },
+  editableColumnEditor: {
+    fieldType: createSelector('data-testid column-editor field-type'),
+    fieldNumberMin: createSelector('data-testid column-editor field-number-min'),
+    fieldNumberMax: createSelector('data-testid column-editor field-number-max'),
+    fieldDatetimeMin: createSelector('data-testid column-editor field-datetime-min'),
+    fieldDatetimeMax: createSelector('data-testid column-editor field-datetime-max'),
+  },
+  dateEditor: {
+    field: createSelector('data-testid date-editor field'),
+    buttonRemoveDate: createSelector('data-testid date-editor button-remove-date'),
+    buttonSetDate: createSelector('data-testid date-editor button-set-date'),
+  },
+  queryOptionsEditor: {
+    fieldValue: createSelector('data-testid query-options-editor field-value'),
+    fieldLabel: createSelector('data-testid query-options-editor field-label'),
+  },
+  editableCell: {
+    fieldString: createSelector('data-testid editableCell field-string'),
+    fieldNumber: createSelector('data-testid editableCell field-number'),
+    fieldDatetime: createSelector('data-testid editableCell field-datetime'),
+    fieldSelect: createSelector('data-testid editableCell field-select'),
+  },
+  tableActionsCell: {
+    buttonStartEdit: createSelector('data-testid table-actions-cell button-start-edit'),
+    buttonCancel: createSelector('data-testid table-actions-cell button-cancel'),
+    buttonSave: createSelector('data-testid table-actions-cell button-save'),
+  },
+  tableEditor: {
+    updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
+    updateSectionContent: createSelector('data-testid table-editor update-section-content'),
+  },
 };
 
 /**
  * All Value Parameter
  */
 export const ALL_VALUE_PARAMETER = '$__all';
+
+/**
+ * Auto Save timeout ms
+ */
+export const AUTO_SAVE_TIMEOUT = 1000;

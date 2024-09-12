@@ -1,11 +1,19 @@
-import { DataFrame, standardEditorsRegistry } from '@grafana/data';
+import { DataFrame, OrgRole, standardEditorsRegistry } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select } from '@grafana/ui';
-import { NumberInput } from '@volkovlabs/components';
-import React, { useMemo } from 'react';
+import { Collapse, NumberInput } from '@volkovlabs/components';
+import React, { useMemo, useState } from 'react';
 
+import { EditableColumnEditor } from '@/components/ColumnEditor/components';
 import { TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnAlignment, ColumnConfig, ColumnFilterMode } from '@/types';
+import {
+  CellAggregation,
+  CellType,
+  ColumnAlignment,
+  ColumnConfig,
+  ColumnFilterMode,
+  EditPermissionMode,
+} from '@/types';
 import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
@@ -118,6 +126,34 @@ const filterModeOptions = [
 ];
 
 /**
+ * Edit Permission Mode Options
+ */
+const editPermissionModeOptions = [
+  {
+    value: EditPermissionMode.ALLOWED,
+    label: 'Always Allowed',
+  },
+  {
+    value: EditPermissionMode.USER_ROLE,
+    label: 'By Org User Role',
+  },
+  {
+    value: EditPermissionMode.QUERY,
+    label: 'By Backend',
+    isDisabled: true,
+    description: 'Not supported yet',
+  },
+];
+
+/**
+ * User Org Role Options
+ */
+const userOrgRoleOptions = Object.values(OrgRole).map((role) => ({
+  value: role,
+  label: role,
+}));
+
+/**
  * Column Footer Editor
  */
 const ColumnFooterEditor = standardEditorsRegistry.get('stats-picker').editor;
@@ -126,6 +162,11 @@ const ColumnFooterEditor = standardEditorsRegistry.get('stats-picker').editor;
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable }) => {
+  /**
+   * Editable Section Expanded
+   */
+  const [isEditableSectionExpanded, setIsEditableSectionExpanded] = useState(false);
+
   /**
    * Current field
    */
@@ -448,6 +489,91 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           item={{ id: 'columnFooterEditor', name: 'columnFooterEditor' }}
         />
       </InlineField>
+      <InlineField label="Editable">
+        <InlineSwitch
+          value={value.edit.enabled}
+          onChange={(event) => {
+            onChange({
+              ...value,
+              edit: {
+                ...value.edit,
+                enabled: event.currentTarget.checked,
+              },
+            });
+          }}
+          {...TEST_IDS.columnEditor.fieldEditEnabled.apply()}
+        />
+      </InlineField>
+      {value.edit.enabled && (
+        <Collapse
+          title="Editable Settings"
+          isOpen={isEditableSectionExpanded}
+          onToggle={setIsEditableSectionExpanded}
+          headerTestId={TEST_IDS.columnEditor.editSettingsHeader.selector()}
+          contentTestId={TEST_IDS.columnEditor.editSettingsContent.selector()}
+        >
+          <>
+            <InlineField label="Permission Check" grow={true}>
+              <Select
+                value={value.edit.permission.mode}
+                onChange={(event) => {
+                  onChange({
+                    ...value,
+                    edit: {
+                      ...value.edit,
+                      permission: {
+                        ...value.edit.permission,
+                        mode: event.value!,
+                      },
+                    },
+                  });
+                }}
+                options={editPermissionModeOptions}
+                {...TEST_IDS.columnEditor.fieldEditPermissionMode.apply()}
+              />
+            </InlineField>
+            {value.edit.permission.mode === EditPermissionMode.USER_ROLE && (
+              <InlineField label="User Role" grow={true}>
+                <Select
+                  value={value.edit.permission.userRole}
+                  onChange={(event) => {
+                    const values = Array.isArray(event) ? event : [event];
+
+                    onChange({
+                      ...value,
+                      edit: {
+                        ...value.edit,
+                        permission: {
+                          ...value.edit.permission,
+                          userRole: values.map((item) => item.value),
+                        },
+                      },
+                    });
+                  }}
+                  options={userOrgRoleOptions}
+                  isMulti={true}
+                  isClearable={true}
+                  placeholder="Allowed Org User Role"
+                  {...TEST_IDS.columnEditor.fieldEditPermissionOrgRole.apply()}
+                />
+              </InlineField>
+            )}
+            <EditableColumnEditor
+              value={value.edit.editor}
+              onChange={(editor) => {
+                onChange({
+                  ...value,
+                  edit: {
+                    ...value.edit,
+                    editor,
+                  },
+                });
+              }}
+              data={data}
+            />
+          </>
+        </Collapse>
+      )}
     </>
   );
 };

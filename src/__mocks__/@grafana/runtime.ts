@@ -8,8 +8,18 @@ const templateSrvMock = {
 };
 const getTemplateSrv = jest.fn();
 
+/**
+ * App Events
+ */
+const appEventsMock = {
+  publish: jest.fn(),
+};
+
+const getAppEvents = jest.fn(() => appEventsMock);
+
 beforeEach(() => {
   getTemplateSrv.mockImplementation(() => templateSrvMock);
+  getAppEvents.mockImplementation(() => appEventsMock);
 });
 
 module.exports = {
@@ -18,4 +28,5 @@ module.exports = {
   locationService: {
     partial: jest.fn(),
   },
+  getAppEvents,
 };

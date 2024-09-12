@@ -6,9 +6,13 @@ import {
   ColumnAlignment,
   ColumnAppearanceConfig,
   ColumnConfig,
+  ColumnEditConfig,
+  ColumnEditorType,
   ColumnFilterMode,
   ColumnMeta,
+  EditPermissionMode,
   PanelOptions,
+  TableConfig,
 } from '@/types';
 
 /**
@@ -25,6 +29,25 @@ export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanc
     applyToRow: false,
   },
   ...appearance,
+});
+
+/**
+ * Create Column Edit Config
+ */
+export const createColumnEditConfig = (item: Partial<ColumnEditConfig>): ColumnEditConfig => ({
+  enabled: false,
+  permission: {
+    mode: EditPermissionMode.ALLOWED,
+    field: {
+      source: '',
+      name: '',
+    },
+    userRole: [],
+  },
+  editor: {
+    type: ColumnEditorType.STRING,
+  },
+  ...item,
 });
 
 /**
@@ -49,6 +72,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   },
   appearance: createColumnAppearanceConfig({}),
   footer: [],
+  edit: createColumnEditConfig({}),
   ...item,
 });
 
@@ -108,6 +132,7 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   config: createColumnConfig(),
   field: {} as never,
   footerEnabled: false,
+  editable: false,
   ...meta,
 });
 
@@ -143,3 +168,16 @@ export class FooterContext {
     return this;
   }
 }
+
+/**
+ * Create Table Config
+ */
+export const createTableConfig = (table: Partial<TableConfig>): TableConfig => ({
+  name: '',
+  items: [],
+  update: {
+    datasource: '',
+    payload: {},
+  },
+  ...table,
+});

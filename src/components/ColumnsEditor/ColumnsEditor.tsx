@@ -1,12 +1,12 @@
 import { cx } from '@emotion/css';
 import { DataFrame, SelectableValue } from '@grafana/data';
-import { Button, Icon, IconButton, InlineField, InlineFieldRow, Select, useTheme2 } from '@grafana/ui';
+import { Button, Icon, IconButton, InlineField, InlineFieldRow, Select, Tag, useTheme2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { DEFAULT_COLUMN_APPEARANCE, TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource, TableConfig } from '@/types';
+import { DEFAULT_COLUMN_APPEARANCE, DEFAULT_COLUMN_EDIT, TEST_IDS } from '@/constants';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource } from '@/types';
 import { reorder } from '@/utils';
 
 import { ColumnEditor } from '../ColumnEditor';
@@ -16,7 +16,6 @@ import { getStyles } from './ColumnsEditor.styles';
  * Get Item Style
  */
 const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDraggingStyle | undefined) => ({
-  // marginLeft: index * 4,
   /**
    * styles we need to apply on draggables
    */
@@ -26,12 +25,26 @@ const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDr
 /**
  * Properties
  */
-interface Props extends TableConfig {
+interface Props {
+  /**
+   * Name
+   *
+   * @type {string}
+   */
+  name: string;
+
+  /**
+   * Value
+   *
+   * @type {ColumnConfig[]}
+   */
+  value: ColumnConfig[];
+
   /**
    * On Change
    * @param item
    */
-  onChange: (item: TableConfig) => void;
+  onChange: (value: ColumnConfig[]) => void;
 
   /**
    * Data
@@ -42,7 +55,7 @@ interface Props extends TableConfig {
 /**
  * Columns Editor
  */
-export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, data }) => {
+export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, data }) => {
   /**
    * Styles and Theme
    */
@@ -62,12 +75,9 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
   const onChangeItems = useCallback(
     (items: ColumnConfig[]) => {
       setItems(items);
-      onChange({
-        name,
-        items,
-      });
+      onChange(items);
     },
-    [name, onChange]
+    [onChange]
   );
 
   /**
@@ -155,6 +165,7 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
           },
           appearance: DEFAULT_COLUMN_APPEARANCE,
           footer: [],
+          edit: DEFAULT_COLUMN_EDIT,
         },
       ]);
       setNewItem(null);
@@ -193,7 +204,8 @@ export const ColumnsEditor: React.FC<Props> = ({ items: groups, name, onChange, 
                               <div className={styles.titleWrapper}>
                                 <div className={cx(styles.title)}>
                                   {item.field.name}
-                                  {item.group && ' [group]'}
+                                  {item.group && <Tag name="Group" />}
+                                  {item.edit.enabled && <Tag name="Editable" />}
                                 </div>
                               </div>
                             )}

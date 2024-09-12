@@ -9,7 +9,7 @@ import { TEST_IDS } from '@/constants';
 import { PanelOptions, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
-import { ColumnsEditor } from '../ColumnsEditor';
+import { TableEditor } from '../TableEditor';
 import { getStyles } from './TablesEditor.styles';
 
 /**
@@ -90,7 +90,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
    */
   const onAddNewItem = useCallback(() => {
     setNewItemName('');
-    onChangeItems(items.concat([{ name: newItemName, items: [] }]));
+    onChangeItems(items.concat([{ name: newItemName, items: [], update: { datasource: '', payload: {} } }]));
     onToggleItemExpandedState(newItemName);
   }, [items, newItemName, onChangeItems, onToggleItemExpandedState]);
 
@@ -161,8 +161,8 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
         <Droppable droppableId="tables-editor">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {items.map(({ name, items: levels }, index) => (
-                <Draggable key={name} draggableId={name} index={index}>
+              {items.map((item, index) => (
+                <Draggable key={item.name} draggableId={item.name} index={index}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -171,9 +171,9 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                       className={styles.item}
                     >
                       <Collapse
-                        key={name}
+                        key={item.name}
                         title={
-                          editItem === name ? (
+                          editItem === item.name ? (
                             <div
                               className={cx(styles.itemHeader, styles.itemHeaderForm)}
                               onClick={(event) => event.stopPropagation()}
@@ -219,13 +219,13 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                               />
                             </div>
                           ) : (
-                            <div className={cx(styles.itemHeader, styles.itemHeaderText)}>{name}</div>
+                            <div className={cx(styles.itemHeader, styles.itemHeaderText)}>{item.name}</div>
                           )
                         }
-                        headerTestId={TEST_IDS.tablesEditor.item.selector(name)}
+                        headerTestId={TEST_IDS.tablesEditor.item.selector(item.name)}
                         actions={
                           <>
-                            {editItem !== name && (
+                            {editItem !== item.name && (
                               <Button
                                 icon="edit"
                                 variant="secondary"
@@ -236,8 +236,8 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                   /**
                                    * Start Edit
                                    */
-                                  setEditName(name);
-                                  setEditItem(name);
+                                  setEditName(item.name);
+                                  setEditItem(item.name);
                                 }}
                                 {...TEST_IDS.tablesEditor.buttonStartRename.apply()}
                               />
@@ -252,7 +252,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                 /**
                                  * Remove Item
                                  */
-                                onChangeItems(items.filter((item) => item.name !== name));
+                                onChangeItems(items.filter((column) => column.name !== item.name));
                               }}
                               {...TEST_IDS.tablesEditor.buttonRemove.apply()}
                             />
@@ -261,10 +261,10 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                             </div>
                           </>
                         }
-                        isOpen={collapseState[name]}
-                        onToggle={() => onToggleItemExpandedState(name)}
+                        isOpen={collapseState[item.name]}
+                        onToggle={() => onToggleItemExpandedState(item.name)}
                       >
-                        <ColumnsEditor name={name} items={levels} data={data} onChange={onChangeItem} />
+                        <TableEditor value={item} onChange={onChangeItem} data={data} />
                       </Collapse>
                     </div>
                   )}

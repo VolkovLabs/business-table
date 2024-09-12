@@ -3,7 +3,7 @@ import { ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import React, { useEffect, useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useContentSizes, useSavedState, useTable } from '@/hooks';
+import { useContentSizes, useSavedState, useTable, useUpdateRow } from '@/hooks';
 import { PanelOptions } from '@/types';
 
 import { Table } from '../Table';
@@ -17,7 +17,7 @@ interface Props extends PanelProps<PanelOptions> {}
 /**
  * Table Panel
  */
-export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, eventBus }) => {
+export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, eventBus, replaceVariables }) => {
   /**
    * Styles
    */
@@ -32,11 +32,11 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
   });
 
   /**
-   * Current Columns
+   * Current Table
    */
-  const currentColumns = useMemo(() => {
+  const currentTable = useMemo(() => {
     if (options.tables?.length && currentGroup) {
-      return options.tables.find((group) => group.name === currentGroup)?.items;
+      return options.tables.find((group) => group.name === currentGroup);
     }
     return;
   }, [options.tables, currentGroup]);
@@ -44,7 +44,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
   /**
    * Table
    */
-  const { tableData, columns } = useTable({ data, columns: currentColumns });
+  const { tableData, columns } = useTable({ data, columns: currentTable?.items });
 
   /**
    * Change current group if was removed
@@ -89,6 +89,11 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
   } = useContentSizes({ height, options, tableData });
 
   /**
+   * Update Row
+   */
+  const onUpdateRow = useUpdateRow({ replaceVariables, currentTable });
+
+  /**
    * Return
    */
   return (
@@ -110,7 +115,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
       >
         {sortedGroups.length > 1 && (
           <div ref={headerRef} className={styles.header}>
-            <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.toolbar}>
+            <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>
               {sortedGroups.map((group, index) => (
                 <ToolbarButton
                   key={group.name}
@@ -118,7 +123,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
                   onClick={() => {
                     setCurrentGroup(group.name);
                   }}
-                  className={styles.toolbarButton}
+                  className={styles.tabButton}
                   style={{
                     maxWidth: index === 0 ? width - 60 : undefined,
                   }}
@@ -138,6 +143,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
           topOffset={tableTopOffset}
           scrollableContainerRef={scrollableContainerRef}
           eventBus={eventBus}
+          onUpdateRow={onUpdateRow}
         />
       </div>
     </div>

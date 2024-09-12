@@ -54,6 +54,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
       margin-left: ${theme.spacing(0.5)};
       overflow: hidden;
       text-overflow: ellipsis;
+      display: flex;
+      gap: ${theme.spacing(0.5)};
     `,
     item: css`
       margin-bottom: ${theme.spacing(1)};

@@ -1,12 +1,13 @@
 import { cx } from '@emotion/css';
 import { IconButton, useStyles2 } from '@grafana/ui';
-import { flexRender, Row } from '@tanstack/react-table';
+import { Cell, CellContext, flexRender, Row } from '@tanstack/react-table';
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import React from 'react';
 
-import { TEST_IDS } from '@/constants';
+import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 import { CellType, ColumnAlignment } from '@/types';
 
+import { TableEditableCell } from './components';
 import { getStyles } from './TableRow.styles';
 
 /**
@@ -29,12 +30,54 @@ interface Props<TData> {
    * Measure Element
    */
   rowVirtualizer: Virtualizer<HTMLDivElement, HTMLElement>;
+
+  /**
+   * Editing Row
+   */
+  editingRow: Row<TData> | null;
+
+  /**
+   * Start Edit
+   */
+  onStartEdit: (row: Row<TData>) => void;
+
+  /**
+   * Cancel Edit
+   */
+  onCancelEdit: () => void;
+
+  /**
+   * Change
+   */
+  onChange: (row: Row<TData>, event: { columnId: string; value: unknown }) => void;
+
+  /**
+   * Save
+   */
+  onSave: (row: Row<TData>) => void;
+
+  /**
+   * Is Saving
+   *
+   * @type {boolean}
+   */
+  isSaving: boolean;
 }
 
 /**
  * Table Row
  */
-export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TData>) => {
+export const TableRow = <TData,>({
+  virtualRow,
+  row,
+  rowVirtualizer,
+  editingRow,
+  onStartEdit,
+  onCancelEdit,
+  onChange,
+  onSave,
+  isSaving,
+}: Props<TData>) => {
   /**
    * Styles
    */
@@ -97,6 +140,42 @@ export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TDat
     }
   );
 
+  /**
+   * Render Cell
+   */
+  const renderCell = (cell: Cell<TData, unknown>, rendererProps: CellContext<TData, unknown>) => {
+    /**
+     * Edit Active
+     */
+    if (!!editingRow) {
+      /**
+       * Editable Cell With Data
+       */
+      if (cell.column.id !== ACTIONS_COLUMN_ID && cell.column.columnDef.meta?.editable) {
+        return <TableEditableCell {...cell.getContext()} row={editingRow} onChange={onChange} isSaving={isSaving} />;
+      }
+
+      return flexRender(cell.column.columnDef.cell, rendererProps);
+    }
+
+    return (
+      <>
+        {cell.getIsGrouped() && (
+          <IconButton
+            name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
+            aria-label={TEST_IDS.table.buttonExpandCell.selector(cell.id)}
+            className={styles.expandButton}
+          />
+        )}
+        {cell.getIsPlaceholder()
+          ? null
+          : cell.getIsAggregated()
+            ? flexRender(cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell, rendererProps)
+            : flexRender(cell.column.columnDef.cell, rendererProps)}
+      </>
+    );
+  };
+
   return (
     <tr
       data-index={virtualRow.index}
@@ -116,13 +195,23 @@ export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TDat
         const rendererProps = {
           ...cell.getContext(),
           bgColor: bgColor || rowAppearance.background,
+          isEditing: !!editingRow,
+          onStartEdit,
+          onCancelEdit,
+          onSave,
+          isSaving,
         };
+
+        if (!!editingRow) {
+          rendererProps.row = editingRow;
+        }
 
         return (
           <td
             key={cell.id}
             className={cx(styles.cell, {
               [styles.cellExpandable]: row.getCanExpand(),
+              [styles.cellEditable]: !row.getIsGrouped() && cell.column.id !== ACTIONS_COLUMN_ID,
             })}
             style={{
               maxWidth: cell.column.columnDef.maxSize,
@@ -136,18 +225,7 @@ export const TableRow = <TData,>({ virtualRow, row, rowVirtualizer }: Props<TDat
             onClick={row.getToggleExpandedHandler()}
             {...TEST_IDS.table.bodyCell.apply(cell.id)}
           >
-            {cell.getIsGrouped() && (
-              <IconButton
-                name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
-                aria-label={TEST_IDS.table.buttonExpandCell.selector(cell.id)}
-                className={styles.expandButton}
-              />
-            )}
-            {cell.getIsPlaceholder()
-              ? null
-              : cell.getIsAggregated()
-                ? flexRender(cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell, rendererProps)
-                : flexRender(cell.column.columnDef.cell, rendererProps)}
+            {renderCell(cell, rendererProps)}
           </td>
         );
       })}

@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
 
-import { TEST_IDS } from '@/constants';
+import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 import { createColumnMeta } from '@/utils';
 
 import { Table } from './Table';
@@ -73,6 +73,9 @@ describe('Table', () => {
               id: 'device',
               accessorKey: 'device',
             },
+            {
+              id: ACTIONS_COLUMN_ID,
+            },
           ],
           data: [
             {
@@ -88,6 +91,7 @@ describe('Table', () => {
 
     expect(selectors.root());
     expect(selectors.headerCell(false, 'device')).toBeInTheDocument();
+    expect(selectors.headerCell(false, ACTIONS_COLUMN_ID)).toBeInTheDocument();
     expect(selectors.bodyCell(false, '0_device')).toBeInTheDocument();
     expect(selectors.bodyCell(false, '1_device')).toBeInTheDocument();
   });

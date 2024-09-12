@@ -1,5 +1,6 @@
 import { Field } from '@grafana/data';
 
+import { ColumnEditorConfig, ColumnEditorControlOptions } from './column-editor';
 import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnFilterType } from './table';
 
 /**
@@ -120,6 +121,67 @@ export interface ColumnAppearanceConfig {
 }
 
 /**
+ * Edit Permission Mode
+ */
+export enum EditPermissionMode {
+  ALLOWED = '',
+  QUERY = 'query',
+  USER_ROLE = 'userRole',
+}
+
+/**
+ * Column Edit Permission Config
+ */
+export interface ColumnEditPermissionConfig {
+  /**
+   * Mode
+   *
+   * @type {EditPermissionMode}
+   */
+  mode: EditPermissionMode;
+
+  /**
+   * Field
+   *
+   * @type {FieldSource}
+   */
+  field: FieldSource;
+
+  /**
+   * User Role
+   *
+   * @type {string[]}
+   */
+  userRole: string[];
+}
+
+/**
+ * Column Edit Config
+ */
+export interface ColumnEditConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
+   * Permission
+   *
+   * @type {ColumnEditPermissionConfig}
+   */
+  permission: ColumnEditPermissionConfig;
+
+  /**
+   * Editor
+   *
+   * @type {ColumnEditorConfig}
+   */
+  editor: ColumnEditorConfig;
+}
+
+/**
  * Column Config
  */
 export interface ColumnConfig {
@@ -186,6 +248,30 @@ export interface ColumnConfig {
    * @type {string[]}
    */
   footer: string[];
+
+  /**
+   * Edit
+   */
+  edit: ColumnEditConfig;
+}
+
+/**
+ * Table Request Config
+ */
+export interface TableRequestConfig {
+  /**
+   * Data Source
+   *
+   * @type {string}
+   */
+  datasource: string;
+
+  /**
+   * Payload
+   *
+   * @type {Record<string, unknown>}
+   */
+  payload: Record<string, unknown>;
 }
 
 /**
@@ -204,8 +290,14 @@ export interface TableConfig {
    *
    * @type {ColumnConfig[]}
    */
-
   items: ColumnConfig[];
+
+  /**
+   * Update Request
+   *
+   * @type {TableRequestConfig}
+   */
+  update: TableRequestConfig;
 }
 
 /**
@@ -283,4 +375,18 @@ export interface ColumnMeta {
    * @type {boolean}
    */
   footerEnabled: boolean;
+
+  /**
+   * Editable
+   *
+   * @type {boolean}
+   */
+  editable: boolean;
+
+  /**
+   * Editor
+   *
+   * @type {ColumnEditorControlOptions}
+   */
+  editor?: ColumnEditorControlOptions;
 }
