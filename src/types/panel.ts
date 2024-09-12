@@ -145,7 +145,7 @@ export interface ColumnEditPermissionConfig {
    *
    * @type {FieldSource}
    */
-  field: FieldSource;
+  field?: FieldSource;
 
   /**
    * User Role

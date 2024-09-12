@@ -13,10 +13,9 @@ import {
   ColumnEditorControlOptions,
   ColumnFilterMode,
   ColumnFilterType,
-  EditPermissionMode,
 } from '@/types';
 import {
-  checkEditPermissionByOrgUserRole,
+  checkIfColumnEditable,
   columnFilter,
   filterFieldBySource,
   getFooterCell,
@@ -183,32 +182,16 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         sizeParams.maxSize = column.config.appearance.width.value;
       }
 
-      let isEditAllowed = false;
+      const isEditAllowed = checkIfColumnEditable(column.config.edit, {
+        series: data.series,
+        user: config.bootData.user,
+      });
 
       /**
-       * Check if column can be edited
+       * Edit Allowed
        */
-      if (column.config.edit.enabled) {
-        /**
-         * Check Edit Permission
-         */
-        switch (column.config.edit.permission.mode) {
-          case EditPermissionMode.ALLOWED: {
-            isEditAllowed = true;
-            break;
-          }
-          case EditPermissionMode.USER_ROLE: {
-            isEditAllowed = checkEditPermissionByOrgUserRole(column.config.edit, config.bootData.user);
-            break;
-          }
-        }
-
-        /**
-         * Edit Allowed
-         */
-        if (isEditAllowed) {
-          isActionsEnabled = true;
-        }
+      if (isEditAllowed) {
+        isActionsEnabled = true;
       }
 
       columns.push({
@@ -249,7 +232,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
     }
 
     return columns;
-  }, [columnsData.frame, columnsData.items, getEditorControlOptions, templateService, theme]);
+  }, [columnsData.frame, columnsData.items, data.series, getEditorControlOptions, templateService, theme]);
 
   return useMemo(
     () => ({

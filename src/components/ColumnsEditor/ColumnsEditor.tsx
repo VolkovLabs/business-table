@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css';
-import { DataFrame, SelectableValue } from '@grafana/data';
-import { Button, Icon, IconButton, InlineField, InlineFieldRow, Select, Tag, useTheme2 } from '@grafana/ui';
+import { DataFrame } from '@grafana/data';
+import { Button, Icon, IconButton, InlineField, InlineFieldRow, Tag, useTheme2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -10,6 +10,7 @@ import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource 
 import { reorder } from '@/utils';
 
 import { ColumnEditor } from '../ColumnEditor';
+import { FieldPicker } from '../FieldPicker';
 import { getStyles } from './ColumnsEditor.styles';
 
 /**
@@ -66,7 +67,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
    * States
    */
   const [items, setItems] = useState(groups);
-  const [newItem, setNewItem] = useState<(FieldSource & { value: string }) | null>(null);
+  const [newItem, setNewItem] = useState<FieldSource | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   /**
@@ -96,48 +97,6 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
     },
     [items, onChangeItems]
   );
-
-  /**
-   * Available Field Options
-   */
-  const availableFieldOptions = useMemo(() => {
-    const item = items[items.length - 1];
-
-    if (item) {
-      const dataFrameIndex = data.findIndex((dataFrame, index) =>
-        dataFrame.refId === undefined ? index === item.field.source : dataFrame.refId === item.field.source
-      );
-      const dataFrame = data[dataFrameIndex];
-
-      if (dataFrame) {
-        return (
-          dataFrame.fields
-            .map(({ name }) => ({
-              label: name,
-              source: dataFrame.refId ?? dataFrameIndex,
-              value: name,
-              fieldName: name,
-            }))
-            .filter((option) => !items.some((item) => item.field.name === option.value)) || []
-        );
-      }
-    }
-
-    return data.reduce((acc: SelectableValue[], dataFrame, index) => {
-      return acc.concat(
-        dataFrame.fields.map((field) => {
-          const source = dataFrame.refId || index;
-
-          return {
-            value: `${source}:${field.name}`,
-            fieldName: field.name,
-            label: `${source}:${field.name}`,
-            source,
-          };
-        })
-      );
-    }, []);
-  }, [data, items]);
 
   /**
    * Add New Item
@@ -177,6 +136,13 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
    */
   const isAggregationAvailable = useMemo(() => {
     return items.some((item) => item.group);
+  }, [items]);
+
+  /**
+   * Already Selected Fields
+   */
+  const alreadySelectedFields = useMemo(() => {
+    return items.map((item) => item.field);
   }, [items]);
 
   return (
@@ -262,17 +228,14 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
 
       <InlineFieldRow {...TEST_IDS.columnsEditor.newItem.apply()}>
         <InlineField label="New Column" grow={true}>
-          <Select
-            options={availableFieldOptions}
-            value={newItem?.value || null}
-            {...TEST_IDS.columnsEditor.newItemName.apply()}
-            onChange={(event) => {
-              setNewItem({
-                value: event.value,
-                source: event.source,
-                name: event.fieldName,
-              });
+          <FieldPicker
+            value={newItem ? newItem : undefined}
+            onChange={(field) => {
+              setNewItem(field ?? null);
             }}
+            data={data}
+            alreadySelectedFields={alreadySelectedFields}
+            {...TEST_IDS.columnsEditor.newItemName.apply()}
           />
         </InlineField>
         <Button
