@@ -358,12 +358,12 @@ export const Table = <TData,>({
           <ButtonSelect
             options={pageSizeOptions}
             value={{ value: pagination.value.pageSize }}
-            onChange={(event) =>
+            onChange={(event) => {
               pagination.onChange({
-                ...pagination.value,
+                pageIndex: 0,
                 pageSize: event.value!,
-              })
-            }
+              });
+            }}
           />
         </div>
       )}

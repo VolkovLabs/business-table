@@ -168,6 +168,20 @@ export const TEST_IDS = {
   tableEditor: {
     updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-editor update-section-content'),
+    paginationSectionHeader: createSelector('data-testid table-editor pagination-section-header'),
+    paginationSectionContent: createSelector('data-testid table-editor pagination-section-content'),
+    fieldPaginationEnabled: createSelector('data-testid table-editor field-pagination-enabled'),
+    fieldPaginationMode: createSelector('data-testid table-editor field-pagination-mode'),
+    fieldPaginationQueryPageIndexVariable: createSelector(
+      'data-testid table-editor field-pagination-query-page-index-variable'
+    ),
+    fieldPaginationQueryPageSizeVariable: createSelector(
+      'data-testid table-editor field-pagination-query-page-size-variable'
+    ),
+    fieldPaginationQueryOffsetVariable: createSelector(
+      'data-testid table-editor field-pagination-query-offset-variable'
+    ),
+    fieldPaginationQueryTotalCount: createSelector('data-testid table-editor field-pagination-query-total-count'),
   },
   fieldPicker: {
     root: createSelector('data-testid field-picker'),

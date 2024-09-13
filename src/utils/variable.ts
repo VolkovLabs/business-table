@@ -47,18 +47,23 @@ export const getVariableNumberValue = (variable: TypedVariableModel): number | u
 };
 
 /**
- * Set Variable Value
- * @param name
- * @param value
+ * Get Variable Key For Location
  */
-export const setVariableValue = (name: string, value: unknown) => {
+export const getVariableKeyForLocation = (varName: string): string => `var-${varName}`;
+
+/**
+ * Set Variable Value
+ */
+export const setVariablesValue = (payload: Record<string, unknown>) => {
   /**
-   * Update value in url
+   * Nothing to update
    */
-  locationService.partial(
-    {
-      [`var-${name}`]: value,
-    },
-    true
-  );
+  if (Object.keys(payload).length === 0) {
+    return;
+  }
+
+  /**
+   * Update values in url
+   */
+  locationService.partial(payload, true);
 };

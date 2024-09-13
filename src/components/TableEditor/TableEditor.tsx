@@ -166,6 +166,7 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
               },
             });
           }}
+          {...TEST_IDS.tableEditor.fieldPaginationEnabled.apply()}
         />
       </InlineField>
       {value.pagination.enabled && (
@@ -179,8 +180,8 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
             });
           }}
           isInlineContent={true}
-          headerTestId={TEST_IDS.tableEditor.updateSectionHeader.selector()}
-          contentTestId={TEST_IDS.tableEditor.updateSectionContent.selector()}
+          headerTestId={TEST_IDS.tableEditor.paginationSectionHeader.selector()}
+          contentTestId={TEST_IDS.tableEditor.paginationSectionContent.selector()}
         >
           <div className={styles.sectionContent}>
             <Field label="Mode">
@@ -196,6 +197,7 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
                   });
                 }}
                 options={paginationModeOptions}
+                {...TEST_IDS.tableEditor.fieldPaginationMode.apply()}
               />
             </Field>
             {value.pagination.mode === PaginationMode.QUERY && (
@@ -217,6 +219,7 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
                     }}
                     options={variableOptions}
                     isClearable={true}
+                    {...TEST_IDS.tableEditor.fieldPaginationQueryPageIndexVariable.apply()}
                   />
                 </Field>
                 <Field label="Offset Variable">
@@ -236,6 +239,7 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
                     }}
                     options={variableOptions}
                     isClearable={true}
+                    {...TEST_IDS.tableEditor.fieldPaginationQueryOffsetVariable.apply()}
                   />
                 </Field>
                 <Field label="Page Size Variable">
@@ -255,6 +259,7 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
                     }}
                     options={variableOptions}
                     isClearable={true}
+                    {...TEST_IDS.tableEditor.fieldPaginationQueryPageSizeVariable.apply()}
                   />
                 </Field>
                 <Field label="Total Count Field">
@@ -273,6 +278,7 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
                       });
                     }}
                     data={data}
+                    {...TEST_IDS.tableEditor.fieldPaginationQueryTotalCount.apply()}
                   />
                 </Field>
               </>

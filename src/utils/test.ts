@@ -14,6 +14,7 @@ import {
   PaginationMode,
   PanelOptions,
   TableConfig,
+  TablePaginationConfig,
 } from '@/types';
 
 /**
@@ -167,6 +168,15 @@ export class FooterContext {
 }
 
 /**
+ * Create Table Pagination Config
+ */
+export const createTablePaginationConfig = (pagination: Partial<TablePaginationConfig>): TablePaginationConfig => ({
+  enabled: false,
+  mode: PaginationMode.CLIENT,
+  ...pagination,
+});
+
+/**
  * Create Table Config
  */
 export const createTableConfig = (table: Partial<TableConfig>): TableConfig => ({
@@ -176,9 +186,6 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
     datasource: '',
     payload: {},
   },
-  pagination: {
-    enabled: false,
-    mode: PaginationMode.CLIENT,
-  },
+  pagination: createTablePaginationConfig({}),
   ...table,
 });

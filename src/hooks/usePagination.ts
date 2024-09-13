@@ -3,7 +3,7 @@ import { PaginationState } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Pagination, PaginationMode, TablePaginationConfig, ValueOrUpdater } from '@/types';
-import { getFieldBySource, getVariableNumberValue, setVariableValue } from '@/utils';
+import { getFieldBySource, getVariableKeyForLocation, getVariableNumberValue, setVariablesValue } from '@/utils';
 
 import { useRuntimeVariables } from './useRuntimeVariables';
 
@@ -21,7 +21,7 @@ export const usePagination = ({
 }): Pagination => {
   const [value, setValue] = useState<PaginationState>({
     pageSize: 10,
-    pageIndex: 1,
+    pageIndex: 0,
   });
   const { getVariable } = useRuntimeVariables(eventBus, '');
 
@@ -37,19 +37,34 @@ export const usePagination = ({
    */
   useEffect(() => {
     setValue((pagination) => {
-      const pageIndex = pageIndexVariable
+      if (paginationConfig?.mode === PaginationMode.CLIENT) {
+        return pagination;
+      }
+
+      let pageIndex = pageIndexVariable
         ? (getVariableNumberValue(pageIndexVariable) ?? pagination.pageIndex)
         : pagination.pageIndex;
-      const showCount = pageSizeVariable
+      const pageSize = pageSizeVariable
         ? (getVariableNumberValue(pageSizeVariable) ?? pagination.pageSize)
         : pagination.pageSize;
 
+      if (offsetVariable) {
+        const offset = getVariableNumberValue(offsetVariable);
+
+        if (offset !== undefined) {
+          const calculatedPageIndex = Math.ceil(offset / pageSize);
+          if (calculatedPageIndex !== pageIndex) {
+            pageIndex = calculatedPageIndex;
+          }
+        }
+      }
+
       return {
         pageIndex,
-        pageSize: showCount,
+        pageSize,
       };
     });
-  }, [getVariable, pageIndexVariable, pageSizeVariable]);
+  }, [getVariable, offsetVariable, pageIndexVariable, pageSizeVariable, paginationConfig?.mode]);
 
   /**
    * Total Count
@@ -78,26 +93,31 @@ export const usePagination = ({
           return updatedValue;
         }
 
+        const payloadToReplace: Record<string, unknown> = {};
+
         /**
          * Update Page Index Variable
          */
         if (pageIndexVariable) {
-          setVariableValue(pageIndexVariable.name, updatedValue.pageIndex);
+          payloadToReplace[getVariableKeyForLocation(pageIndexVariable.name)] = updatedValue.pageIndex;
         }
 
         /**
          * Update Show Count Variable
          */
         if (pageSizeVariable) {
-          setVariableValue(pageSizeVariable.name, updatedValue.pageSize);
+          payloadToReplace[getVariableKeyForLocation(pageSizeVariable.name)] = updatedValue.pageSize;
         }
 
         /**
          * Update Offset Variable
          */
         if (offsetVariable) {
-          setVariableValue(offsetVariable.name, updatedValue.pageIndex * updatedValue.pageSize);
+          payloadToReplace[getVariableKeyForLocation(offsetVariable.name)] =
+            updatedValue.pageIndex * updatedValue.pageSize;
         }
+
+        setVariablesValue(payloadToReplace);
 
         return updatedValue;
       });

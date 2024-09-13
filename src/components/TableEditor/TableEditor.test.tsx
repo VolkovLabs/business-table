@@ -1,10 +1,12 @@
+import { toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { createColumnConfig, createColumnEditConfig, createTableConfig } from '@/utils';
+import { PaginationMode } from '@/types';
+import { createColumnConfig, createColumnEditConfig, createTableConfig, createTablePaginationConfig } from '@/utils';
 
 import { TableEditor } from './TableEditor';
 
@@ -163,6 +165,304 @@ describe('TableEditor', () => {
             datasource: 'postgres',
             payload: {},
           },
+        })
+      );
+    });
+  });
+
+  describe('pagination', () => {
+    const openSection = () => {
+      expect(selectors.paginationSectionHeader()).toBeInTheDocument();
+
+      fireEvent.click(selectors.paginationSectionHeader());
+
+      expect(selectors.paginationSectionContent()).toBeInTheDocument();
+    };
+
+    it('Should allow to enable', () => {
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: false,
+            }),
+          }),
+        })
+      );
+
+      expect(selectors.fieldPaginationEnabled()).toBeInTheDocument();
+
+      fireEvent.click(selectors.fieldPaginationEnabled());
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            enabled: true,
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change mode', () => {
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.CLIENT,
+            }),
+          }),
+        })
+      );
+
+      openSection();
+
+      expect(selectors.fieldPaginationMode()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldPaginationMode(), { target: { value: PaginationMode.QUERY } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            mode: PaginationMode.QUERY,
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change query pageIndex var', () => {
+      jest.mocked(getTemplateSrv().getVariables).mockReturnValue([{ name: 'pageIndex' } as any]);
+
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+              query: {
+                pageIndexVariable: '',
+              },
+            }),
+          }),
+        })
+      );
+
+      openSection();
+
+      expect(selectors.fieldPaginationQueryPageIndexVariable()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldPaginationQueryPageIndexVariable(), { target: { value: 'pageIndex' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            query: expect.objectContaining({
+              pageIndexVariable: 'pageIndex',
+            }),
+          }),
+        })
+      );
+    });
+
+    it('Should allow to clear query pageIndex var', () => {
+      jest.mocked(getTemplateSrv().getVariables).mockReturnValue([{ name: 'pageIndex' } as any]);
+
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+              query: {
+                pageIndexVariable: 'pageIndex',
+              },
+            }),
+          }),
+        })
+      );
+
+      openSection();
+
+      expect(selectors.fieldPaginationQueryPageIndexVariable()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldPaginationQueryPageIndexVariable(), { target: { value: '' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            query: {},
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change query offset var', () => {
+      jest.mocked(getTemplateSrv().getVariables).mockReturnValue([{ name: 'offset' } as any]);
+
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+              query: {
+                offsetVariable: '',
+              },
+            }),
+          }),
+        })
+      );
+
+      openSection();
+
+      expect(selectors.fieldPaginationQueryOffsetVariable()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldPaginationQueryOffsetVariable(), { target: { value: 'offset' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            query: expect.objectContaining({
+              offsetVariable: 'offset',
+            }),
+          }),
+        })
+      );
+    });
+
+    it('Should allow to clear query offset var', () => {
+      jest.mocked(getTemplateSrv().getVariables).mockReturnValue([{ name: 'offset' } as any]);
+
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+              query: {
+                offsetVariable: 'offset',
+              },
+            }),
+          }),
+        })
+      );
+
+      openSection();
+
+      expect(selectors.fieldPaginationQueryOffsetVariable()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldPaginationQueryOffsetVariable(), { target: { value: '' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            query: {},
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change query pageSize var', () => {
+      jest.mocked(getTemplateSrv().getVariables).mockReturnValue([{ name: 'pageSize' } as any]);
+
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+              query: {
+                pageSizeVariable: '',
+              },
+            }),
+          }),
+        })
+      );
+
+      openSection();
+
+      expect(selectors.fieldPaginationQueryPageSizeVariable()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldPaginationQueryPageSizeVariable(), { target: { value: 'pageSize' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            query: expect.objectContaining({
+              pageSizeVariable: 'pageSize',
+            }),
+          }),
+        })
+      );
+    });
+
+    it('Should allow to clear query pageSize var', () => {
+      jest.mocked(getTemplateSrv().getVariables).mockReturnValue([{ name: 'pageSize' } as any]);
+
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+              query: {
+                pageSizeVariable: 'pageSize',
+              },
+            }),
+          }),
+        })
+      );
+
+      openSection();
+
+      expect(selectors.fieldPaginationQueryPageSizeVariable()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldPaginationQueryPageSizeVariable(), { target: { value: '' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            query: {},
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change query totalCount field', () => {
+      const frame = toDataFrame({
+        refId: 'A',
+        fields: [{ name: 'total', values: [100] }],
+      });
+
+      render(
+        getComponent({
+          value: createTableConfig({
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+              query: {},
+            }),
+          }),
+          data: [frame],
+        })
+      );
+
+      openSection();
+
+      expect(selectors.fieldPaginationQueryTotalCount()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldPaginationQueryTotalCount(), { target: { value: 'A:total' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          pagination: expect.objectContaining({
+            query: expect.objectContaining({
+              totalCountField: {
+                source: frame.refId,
+                name: 'total',
+              },
+            }),
+          }),
         })
       );
     });
