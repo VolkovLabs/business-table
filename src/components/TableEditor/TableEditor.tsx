@@ -219,6 +219,25 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
                     isClearable={true}
                   />
                 </Field>
+                <Field label="Offset Variable">
+                  <Select
+                    value={value.pagination.query?.offsetVariable}
+                    onChange={(event) => {
+                      onChange({
+                        ...value,
+                        pagination: {
+                          ...value.pagination,
+                          query: cleanPayloadObject({
+                            ...value.pagination.query,
+                            offsetVariable: event ? event.value : undefined,
+                          }),
+                        },
+                      });
+                    }}
+                    options={variableOptions}
+                    isClearable={true}
+                  />
+                </Field>
                 <Field label="Page Size Variable">
                   <Select
                     value={value.pagination.query?.pageSizeVariable}

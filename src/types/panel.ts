@@ -319,6 +319,13 @@ export interface TablePaginationConfig {
     pageSizeVariable?: string;
 
     /**
+     * Offset Variable
+     *
+     * @type {string}
+     */
+    offsetVariable?: string;
+
+    /**
      * Total Count Field
      *
      * @type {FieldSource}

@@ -30,6 +30,7 @@ export const usePagination = ({
    */
   const pageIndexVariable = getVariable(paginationConfig?.query?.pageIndexVariable ?? '');
   const pageSizeVariable = getVariable(paginationConfig?.query?.pageSizeVariable ?? '');
+  const offsetVariable = getVariable(paginationConfig?.query?.offsetVariable ?? '');
 
   /**
    * Set initial value from variables
@@ -91,16 +92,23 @@ export const usePagination = ({
           setVariableValue(pageSizeVariable.name, updatedValue.pageSize);
         }
 
+        /**
+         * Update Offset Variable
+         */
+        if (offsetVariable) {
+          setVariableValue(offsetVariable.name, updatedValue.pageIndex * updatedValue.pageSize);
+        }
+
         return updatedValue;
       });
     },
-    [pageIndexVariable, paginationConfig?.mode, pageSizeVariable]
+    [paginationConfig?.mode, pageIndexVariable, pageSizeVariable, offsetVariable]
   );
 
   return useMemo(
     () => ({
       isEnabled: !!paginationConfig?.enabled,
-      isManual: !!paginationConfig?.enabled && paginationConfig.mode === PaginationMode.QUERY,
+      isManual: !paginationConfig?.enabled || paginationConfig.mode === PaginationMode.QUERY,
       value,
       onChange,
       total: totalCount,

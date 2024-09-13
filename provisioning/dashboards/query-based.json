@@ -261,7 +261,6 @@
         ],
         "tabsSorting": false
       },
-      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -435,6 +434,7 @@
               "enabled": true,
               "mode": "query",
               "query": {
+                "offsetVariable": "offset",
                 "pageIndexVariable": "pageIndex",
                 "pageSizeVariable": "pageSize",
                 "showCountVariable": "showCount",
@@ -452,7 +452,6 @@
         ],
         "tabsSorting": false
       },
-      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -462,7 +461,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select * from devices\norder by id\nlimit ${pageSize}\noffset ${pageIndex};",
+          "rawSql": "select * from devices\norder by id\nlimit ${pageSize}\noffset ${offset};",
           "refId": "A",
           "sql": {
             "columns": [
@@ -619,6 +618,13 @@
         "query": "10",
         "skipUrlSync": false,
         "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "offset",
+        "query": "0",
+        "skipUrlSync": false,
+        "type": "constant"
       }
     ]
   },
@@ -630,6 +636,6 @@
   "timezone": "browser",
   "title": "Query-based",
   "uid": "edu2vo7b8jwn4b",
-  "version": 6,
+  "version": 8,
   "weekStart": ""
 }
