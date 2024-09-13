@@ -68,11 +68,36 @@
       },
       "id": 1,
       "options": {
-        "groups": [
+        "tables": [
           {
             "items": [
               {
                 "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "created",
                   "source": "A"
@@ -82,12 +107,41 @@
                   "mode": "client",
                   "variable": ""
                 },
+                "footer": [],
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
                 "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -97,12 +151,41 @@
                   "mode": "query",
                   "variable": "device"
                 },
+                "footer": [],
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
                 "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "status",
                   "source": "A"
@@ -112,12 +195,41 @@
                   "mode": "query",
                   "variable": "status"
                 },
+                "footer": [],
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               },
               {
                 "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -127,15 +239,29 @@
                   "mode": "query",
                   "variable": "value"
                 },
+                "footer": [],
                 "group": false,
                 "label": "",
+                "sort": {
+                  "enabled": false
+                },
                 "type": "auto"
               }
             ],
-            "name": "Table"
+            "name": "Table",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
           }
-        ]
+        ],
+        "tabsSorting": false
       },
+      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -181,6 +307,213 @@
       ],
       "title": "Query Filtering",
       "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "grafana-postgresql-datasource",
+        "uid": "timescale"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 15,
+        "x": 0,
+        "y": 9
+      },
+      "id": 2,
+      "options": {
+        "tables": [
+          {
+            "items": [
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "auto"
+              }
+            ],
+            "name": "All",
+            "pagination": {
+              "enabled": true,
+              "mode": "query",
+              "query": {
+                "pageIndexVariable": "pageIndex",
+                "pageSizeVariable": "pageSize",
+                "showCountVariable": "showCount",
+                "totalCountField": {
+                  "name": "count",
+                  "source": "B"
+                }
+              }
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false
+      },
+      "pluginVersion": "1.3.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "timescale"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select * from devices\norder by id\nlimit ${pageSize}\noffset ${pageIndex};",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "timescale"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select count(id) from devices;",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Query Pagination",
+      "type": "volkovlabs-table-panel"
     }
   ],
   "schemaVersion": 39,
@@ -203,7 +536,7 @@
       },
       {
         "current": {
-          "selected": false,
+          "selected": true,
           "text": [
             "All"
           ],
@@ -272,6 +605,20 @@
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
+      },
+      {
+        "hide": 2,
+        "name": "pageIndex",
+        "query": "0",
+        "skipUrlSync": false,
+        "type": "constant"
+      },
+      {
+        "hide": 2,
+        "name": "pageSize",
+        "query": "10",
+        "skipUrlSync": false,
+        "type": "constant"
       }
     ]
   },
@@ -283,6 +630,6 @@
   "timezone": "browser",
   "title": "Query-based",
   "uid": "edu2vo7b8jwn4b",
-  "version": 20,
+  "version": 6,
   "weekStart": ""
 }

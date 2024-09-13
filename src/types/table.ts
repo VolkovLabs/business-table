@@ -1,4 +1,5 @@
 import { TimeRange } from '@grafana/data';
+import { PaginationState } from '@tanstack/react-table';
 
 /**
  * Cell Type
@@ -96,4 +97,45 @@ export type ColumnFilterValue =
 export enum ColumnFilterMode {
   CLIENT = 'client',
   QUERY = 'query',
+}
+
+type Updater<TValue> = (value: TValue) => TValue;
+export type ValueOrUpdater<TValue> = TValue | Updater<TValue>;
+
+/**
+ * Pagination
+ */
+export interface Pagination {
+  /**
+   * Value
+   *
+   * @type {PaginationState}
+   */
+  value: PaginationState;
+
+  /**
+   * Change
+   */
+  onChange: (value: ValueOrUpdater<PaginationState>) => void;
+
+  /**
+   * Is Enabled
+   *
+   * @type {boolean}
+   */
+  isEnabled: boolean;
+
+  /**
+   * Is Manual
+   *
+   * @type {boolean}
+   */
+  isManual: boolean;
+
+  /**
+   * Total
+   *
+   * @type {number}
+   */
+  total: number;
 }

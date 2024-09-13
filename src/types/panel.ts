@@ -275,6 +275,59 @@ export interface TableRequestConfig {
 }
 
 /**
+ * Pagination Mode
+ */
+export enum PaginationMode {
+  CLIENT = 'client',
+  QUERY = 'query',
+}
+
+/**
+ * Table Pagination Config
+ */
+export interface TablePaginationConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
+   * Mode
+   *
+   * @type {PaginationMode}
+   */
+  mode: PaginationMode;
+
+  /**
+   * Options for Query Mode
+   */
+  query?: {
+    /**
+     * Page Index Variable
+     *
+     * @type {string}
+     */
+    pageIndexVariable?: string;
+
+    /**
+     * Page Size Variable
+     *
+     * @type {string}
+     */
+    pageSizeVariable?: string;
+
+    /**
+     * Total Count Field
+     *
+     * @type {FieldSource}
+     */
+    totalCountField?: FieldSource;
+  };
+}
+
+/**
  * Table Config
  */
 export interface TableConfig {
@@ -298,6 +351,13 @@ export interface TableConfig {
    * @type {TableRequestConfig}
    */
   update: TableRequestConfig;
+
+  /**
+   * Pagination
+   *
+   * @type {TablePaginationConfig}
+   */
+  pagination: TablePaginationConfig;
 }
 
 /**

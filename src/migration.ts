@@ -12,8 +12,10 @@ import {
   ColumnFilterMode,
   ColumnSortConfig,
   EditPermissionMode,
+  PaginationMode,
   PanelOptions,
   TableConfig,
+  TablePaginationConfig,
   TableRequestConfig,
 } from './types';
 
@@ -53,7 +55,7 @@ interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'a
 /**
  * Outdated Group
  */
-interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update'> {
+interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'pagination'> {
   items: OutdatedColumnConfig[];
 
   /**
@@ -62,6 +64,13 @@ interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update'> {
    * Introduced in 1.3.0
    */
   update?: TableRequestConfig;
+
+  /**
+   * Pagination
+   *
+   * Introduced in 1.3.0
+   */
+  pagination?: TablePaginationConfig;
 }
 
 /**
@@ -175,6 +184,16 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
         normalizedGroup.update = {
           datasource: '',
           payload: {},
+        };
+      }
+
+      /**
+       * Normalize Pagination
+       */
+      if (!normalizedGroup.pagination) {
+        normalizedGroup.pagination = {
+          enabled: false,
+          mode: PaginationMode.CLIENT,
         };
       }
 

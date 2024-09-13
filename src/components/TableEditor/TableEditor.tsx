@@ -1,10 +1,13 @@
 import { DataFrame } from '@grafana/data';
-import { Field, useStyles2 } from '@grafana/ui';
+import { getTemplateSrv } from '@grafana/runtime';
+import { Field, InlineField, InlineSwitch, Select, useStyles2 } from '@grafana/ui';
 import { Collapse } from '@volkovlabs/components';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
+import { FieldPicker } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { TableConfig } from '@/types';
+import { PaginationMode, TableConfig } from '@/types';
+import { cleanPayloadObject } from '@/utils';
 
 import { ColumnsEditor } from '../ColumnsEditor';
 import { DatasourceEditor } from '../DatasourceEditor';
@@ -34,6 +37,20 @@ interface Props {
 }
 
 /**
+ * Pagination Mode Options
+ */
+const paginationModeOptions = [
+  {
+    value: PaginationMode.CLIENT,
+    label: 'Client',
+  },
+  {
+    value: PaginationMode.QUERY,
+    label: 'Query',
+  },
+];
+
+/**
  * Table Editor
  */
 export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
@@ -44,8 +61,9 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
   /**
    * Expanded State
    */
-  const [expanded, setExpanded] = React.useState({
+  const [expanded, setExpanded] = useState({
     update: false,
+    pagination: false,
   });
 
   /**
@@ -54,6 +72,24 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
   const isEditableColumn = useMemo(() => {
     return value.items.some((item) => item.edit.enabled);
   }, [value.items]);
+
+  /**
+   * Variable Options
+   */
+  const variableOptions = useMemo(() => {
+    if (!value.pagination.enabled || value.pagination.mode !== PaginationMode.QUERY) {
+      return [];
+    }
+
+    const variables = getTemplateSrv().getVariables();
+
+    return variables.map((variable) => {
+      return {
+        label: variable.label || variable.name,
+        value: variable.name,
+      };
+    });
+  }, [value.pagination.enabled, value.pagination.mode]);
 
   return (
     <>
@@ -113,6 +149,114 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
                   datasourceName={value.update.datasource}
                 />
               </Field>
+            )}
+          </div>
+        </Collapse>
+      )}
+
+      <InlineField label="Pagination">
+        <InlineSwitch
+          value={value.pagination.enabled}
+          onChange={(event) => {
+            onChange({
+              ...value,
+              pagination: {
+                ...value.pagination,
+                enabled: event.currentTarget.checked,
+              },
+            });
+          }}
+        />
+      </InlineField>
+      {value.pagination.enabled && (
+        <Collapse
+          title="Pagination Settings"
+          isOpen={expanded.pagination}
+          onToggle={(isOpen) => {
+            setExpanded({
+              ...expanded,
+              pagination: isOpen,
+            });
+          }}
+          isInlineContent={true}
+          headerTestId={TEST_IDS.tableEditor.updateSectionHeader.selector()}
+          contentTestId={TEST_IDS.tableEditor.updateSectionContent.selector()}
+        >
+          <div className={styles.sectionContent}>
+            <Field label="Mode">
+              <Select
+                value={value.pagination.mode}
+                onChange={(event) => {
+                  onChange({
+                    ...value,
+                    pagination: {
+                      ...value.pagination,
+                      mode: event.value!,
+                    },
+                  });
+                }}
+                options={paginationModeOptions}
+              />
+            </Field>
+            {value.pagination.mode === PaginationMode.QUERY && (
+              <>
+                <Field label="Page Index Variable">
+                  <Select
+                    value={value.pagination.query?.pageIndexVariable}
+                    onChange={(event) => {
+                      onChange({
+                        ...value,
+                        pagination: {
+                          ...value.pagination,
+                          query: cleanPayloadObject({
+                            ...value.pagination.query,
+                            pageIndexVariable: event ? event.value : undefined,
+                          }),
+                        },
+                      });
+                    }}
+                    options={variableOptions}
+                    isClearable={true}
+                  />
+                </Field>
+                <Field label="Page Size Variable">
+                  <Select
+                    value={value.pagination.query?.pageSizeVariable}
+                    onChange={(event) => {
+                      onChange({
+                        ...value,
+                        pagination: {
+                          ...value.pagination,
+                          query: cleanPayloadObject({
+                            ...value.pagination.query,
+                            pageSizeVariable: event ? event.value : undefined,
+                          }),
+                        },
+                      });
+                    }}
+                    options={variableOptions}
+                    isClearable={true}
+                  />
+                </Field>
+                <Field label="Total Count Field">
+                  <FieldPicker
+                    value={value.pagination.query?.totalCountField}
+                    onChange={(field) => {
+                      onChange({
+                        ...value,
+                        pagination: {
+                          ...value.pagination,
+                          query: cleanPayloadObject({
+                            ...value.pagination.query,
+                            totalCountField: field,
+                          }),
+                        },
+                      });
+                    }}
+                    data={data}
+                  />
+                </Field>
+              </>
             )}
           </div>
         </Collapse>
