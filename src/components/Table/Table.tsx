@@ -340,7 +340,12 @@ export const Table = <TData,>({
         )}
       </table>
       {pagination.isEnabled && (
-        <div className={styles.paginationRow} ref={paginationRef} style={{ width: table.getCenterTotalSize() }}>
+        <div
+          className={styles.paginationRow}
+          ref={paginationRef}
+          style={{ width: table.getCenterTotalSize() }}
+          {...TEST_IDS.table.pagination.apply()}
+        >
           <Pagination
             currentPage={pagination.value.pageIndex + 1}
             numberOfPages={
@@ -354,6 +359,7 @@ export const Table = <TData,>({
             }}
             className={styles.pagination}
             showSmallVersion={width <= 200}
+            data-testid={TEST_IDS.table.fieldPageNumber.selector()}
           />
           <ButtonSelect
             options={pageSizeOptions}
@@ -364,6 +370,7 @@ export const Table = <TData,>({
                 pageSize: event.value!,
               });
             }}
+            data-testid={TEST_IDS.table.fieldPageSize.selector()}
           />
         </div>
       )}

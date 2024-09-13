@@ -103,6 +103,9 @@ export const TEST_IDS = {
     bodyRow: createSelector((name: unknown) => `data-testid table body-row-${name}`),
     bodyCell: createSelector((name: unknown) => `data-testid table body-cell-${name}`),
     buttonExpandCell: createSelector((name: unknown) => `table button-expand-cell-${name}`),
+    pagination: createSelector('data-testid table pagination'),
+    fieldPageNumber: createSelector('data-testid table field-page-number'),
+    fieldPageSize: createSelector('data-testid table field-page-size'),
   },
   filterFacetedList: {
     root: createSelector('data-testid filter-faceted-list'),

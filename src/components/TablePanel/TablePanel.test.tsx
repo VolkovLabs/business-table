@@ -38,7 +38,7 @@ const usePaginationMock = () => {
 
   return useMemo(
     () => ({
-      isEnabled: false,
+      isEnabled: true,
       isManual: false,
       onChange: setValue,
       value,
