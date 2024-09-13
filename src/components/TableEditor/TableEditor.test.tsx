@@ -1,3 +1,4 @@
+import { getTemplateSrv } from '@grafana/runtime';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
@@ -66,6 +67,10 @@ describe('TableEditor', () => {
   const getComponent = (props: Partial<Props>) => {
     return <TableEditor onChange={onChange} data={[]} {...(props as any)} />;
   };
+
+  beforeEach(() => {
+    jest.mocked(getTemplateSrv().getVariables).mockReturnValue([]);
+  });
 
   it('Should allow to change columns', () => {
     render(

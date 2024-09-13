@@ -1,47 +1,15 @@
-import { getTemplateSrv } from '@grafana/runtime';
+import { EventBusSrv } from '@grafana/data';
+import { getTemplateSrv, RefreshEvent } from '@grafana/runtime';
 import { act, renderHook, waitFor } from '@testing-library/react';
 
-import { VariableType } from '../types';
 import { useRuntimeVariables } from './useRuntimeVariables';
 
-/**
- * Mock @grafana/runtime
- */
-jest.mock('@grafana/runtime', () => ({
-  getTemplateSrv: jest.fn(() => ({
-    getVariables: jest.fn(() => []),
-  })),
-}));
-
-/**
- * Create eventBus mock
- */
-const createEventBus = () => {
-  let subscriber: () => void;
-
-  return {
-    getStream: jest.fn(() => ({
-      subscribe: jest.fn((handler) => {
-        subscriber = handler;
-        return {
-          unsubscribe: jest.fn(),
-        };
-      }),
-    })),
-    publish: () => {
-      if (subscriber) {
-        subscriber();
-      }
-    },
-  };
-};
-
 describe('Use Runtime Variables', () => {
-  const eventBus: any = createEventBus();
+  const eventBus = new EventBusSrv();
 
   const variableDevice = {
     name: 'device',
-    type: VariableType.CUSTOM,
+    type: 'custom',
     options: [
       {
         text: 'Device1',
@@ -51,53 +19,34 @@ describe('Use Runtime Variables', () => {
   };
   const variableCountry = {
     name: 'country',
-    type: VariableType.CUSTOM,
+    type: 'custom',
     options: [],
   };
-  jest.mocked(getTemplateSrv).mockImplementation(
-    () =>
-      ({
-        getVariables: jest.fn(() => [variableCountry, variableDevice]),
-      }) as any
-  );
+
+  beforeEach(() => {
+    jest.mocked(getTemplateSrv().getVariables).mockReturnValue([variableCountry, variableDevice] as never);
+  });
 
   it('Should return variable', () => {
-    const { result } = renderHook(() => useRuntimeVariables(eventBus, 'device'));
+    const { result } = renderHook(() => useRuntimeVariables(eventBus, variableDevice.name));
 
-    expect(result.current.variable).toEqual({
-      ...variableDevice,
-      optionIndexByName: expect.any(Map),
-      helpers: {
-        getOption: expect.any(Function),
-      },
-    });
+    expect(result.current.variable).toEqual(variableDevice);
   });
 
   it('Should update variable', async () => {
-    const { result } = renderHook(() => useRuntimeVariables(eventBus, 'device'));
+    const { result } = renderHook(() => useRuntimeVariables(eventBus, variableDevice.name));
 
-    expect(result.current.variable).toEqual({
-      ...variableDevice,
-      optionIndexByName: expect.any(Map),
-      helpers: {
-        getOption: expect.any(Function),
-      },
-    });
+    expect(result.current.variable).toEqual(variableDevice);
 
     /**
      * Update variables
      */
-    jest.mocked(getTemplateSrv).mockImplementation(
-      () =>
-        ({
-          getVariables: jest.fn(() => []),
-        }) as any
-    );
+    jest.mocked(getTemplateSrv().getVariables).mockReturnValue([]);
 
     /**
      * Trigger refresh event
      */
-    await act(() => eventBus.publish());
+    await act(() => eventBus.publish(RefreshEvent));
 
     /**
      * Check if updated variable returns

@@ -11,6 +11,7 @@ import {
   ColumnFilterMode,
   ColumnMeta,
   EditPermissionMode,
+  PaginationMode,
   PanelOptions,
   TableConfig,
 } from '@/types';
@@ -174,6 +175,10 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   update: {
     datasource: '',
     payload: {},
+  },
+  pagination: {
+    enabled: false,
+    mode: PaginationMode.CLIENT,
   },
   ...table,
 });

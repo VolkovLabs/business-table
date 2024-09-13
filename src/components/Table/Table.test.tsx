@@ -4,6 +4,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { Pagination } from '@/types';
 import { createColumnMeta } from '@/utils';
 
 import { Table } from './Table';
@@ -32,10 +33,21 @@ describe('Table', () => {
   };
 
   /**
+   * Pagination
+   */
+  const pagination: Pagination = {
+    value: { pageIndex: 0, pageSize: 10 },
+    isEnabled: false,
+    isManual: true,
+    onChange: jest.fn(),
+    total: 10,
+  };
+
+  /**
    * Get component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <Wrapper columns={[]} data={[]} eventBus={new EventBusSrv()} {...(props as any)} />;
+    return <Wrapper columns={[]} data={[]} eventBus={new EventBusSrv()} pagination={pagination} {...(props as any)} />;
   };
 
   const getDomRect = (width: number, height: number) => ({

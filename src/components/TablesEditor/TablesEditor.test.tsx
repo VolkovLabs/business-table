@@ -518,14 +518,14 @@ describe('TablesEditor', () => {
     it('Should keep toggled state after save', async () => {
       let options = {
         tables: [
-          {
+          createTableConfig({
             name: 'group1',
             items: [],
-          },
-          {
+          }),
+          createTableConfig({
             name: 'group2',
             items: [],
-          },
+          }),
         ],
       };
       const onChange = jest.fn((updated) => (options = updated));
@@ -588,8 +588,8 @@ describe('TablesEditor', () => {
        * Check if saved
        */
       expect(onChange).toHaveBeenCalledWith([
-        { name: 'group1', items: [] },
-        { name: 'hello', items: [] },
+        createTableConfig({ name: 'group1', items: [] }),
+        createTableConfig({ name: 'hello', items: [] }),
       ]);
 
       /**
@@ -619,14 +619,14 @@ describe('TablesEditor', () => {
           data: [dataFrameA, dataFrameB],
           options: {
             tables: [
-              {
+              createTableConfig({
                 name: 'group1',
                 items: [],
-              },
-              {
+              }),
+              createTableConfig({
                 name: 'group2',
                 items: [],
-              },
+              }),
             ],
           } as any,
         } as any,
@@ -664,7 +664,7 @@ describe('TablesEditor', () => {
           data: [dataFrameA, dataFrameB],
           options: {
             tables: [
-              {
+              createTableConfig({
                 name: 'group1',
                 items: [
                   createColumnConfig({
@@ -680,8 +680,8 @@ describe('TablesEditor', () => {
                     },
                   }),
                 ],
-              },
-              {
+              }),
+              createTableConfig({
                 name: 'group2',
                 items: [
                   createColumnConfig({
@@ -691,7 +691,7 @@ describe('TablesEditor', () => {
                     },
                   }),
                 ],
-              },
+              }),
             ],
           } as any,
         } as any,
@@ -710,11 +710,11 @@ describe('TablesEditor', () => {
     fireEvent.click(selectors.buttonLevelsUpdate());
 
     expect(onChange).toHaveBeenCalledWith([
-      {
+      createTableConfig({
         name: 'group1',
         items: [],
-      },
-      {
+      }),
+      createTableConfig({
         name: 'group2',
         items: [
           createColumnConfig({
@@ -724,7 +724,7 @@ describe('TablesEditor', () => {
             },
           }),
         ],
-      },
+      }),
     ]);
   });
 
