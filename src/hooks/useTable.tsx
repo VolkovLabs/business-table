@@ -204,6 +204,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         enableColumnFilter: column.config.filter.enabled && availableFilterTypes.length > 0,
         filterFn: column.config.filter.mode === ColumnFilterMode.CLIENT ? columnFilter : () => true,
         enableSorting: column.config.sort.enabled,
+        enablePinning: column.config.pin,
         meta: {
           availableFilterTypes,
           filterMode: column.config.filter.mode,

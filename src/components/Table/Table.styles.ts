@@ -52,7 +52,6 @@ export const getStyles = (theme: GrafanaTheme2) => {
       width: 100%;
       height: 100%;
       border-top: 1px solid ${borderColor};
-      overflow: auto;
     `,
     footerRow: css`
       display: flex;
