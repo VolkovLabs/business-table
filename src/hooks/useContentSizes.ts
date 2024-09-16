@@ -7,10 +7,12 @@ import { PanelOptions } from '@/types';
  */
 export const useContentSizes = ({
   tableData,
+  width,
   height,
   options,
 }: {
   tableData: unknown[];
+  width: number;
   height: number;
   options: PanelOptions;
 }) => {
@@ -21,11 +23,13 @@ export const useContentSizes = ({
   const headerRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
   const tableHeaderRef = useRef<HTMLTableSectionElement>(null);
+  const paginationRef = useRef<HTMLDivElement>(null);
 
   /**
    * States
    */
   const [tableTopOffset, setTableTopOffset] = useState(0);
+  const [tableBottomOffset, setTableBottomOffset] = useState(0);
 
   /**
    * Calculate table offset
@@ -37,9 +41,15 @@ export const useContentSizes = ({
         topOffset += headerRef.current.clientHeight;
       }
 
+      let bottomOffset = 0;
+      if (paginationRef.current) {
+        bottomOffset += paginationRef.current.clientHeight;
+      }
+
       setTableTopOffset(topOffset);
+      setTableBottomOffset(bottomOffset);
     }
-  }, [tableData, height, options.tables]);
+  }, [tableData, height, options.tables, width]);
 
   return {
     containerRef,
@@ -47,5 +57,7 @@ export const useContentSizes = ({
     tableRef,
     tableHeaderRef,
     tableTopOffset,
+    tableBottomOffset,
+    paginationRef,
   };
 };

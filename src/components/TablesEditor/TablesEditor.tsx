@@ -6,7 +6,7 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { PanelOptions, TableConfig } from '@/types';
+import { PaginationMode, PanelOptions, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
 import { TableEditor } from '../TableEditor';
@@ -90,7 +90,16 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
    */
   const onAddNewItem = useCallback(() => {
     setNewItemName('');
-    onChangeItems(items.concat([{ name: newItemName, items: [], update: { datasource: '', payload: {} } }]));
+    onChangeItems(
+      items.concat([
+        {
+          name: newItemName,
+          items: [],
+          update: { datasource: '', payload: {} },
+          pagination: { enabled: false, mode: PaginationMode.CLIENT },
+        },
+      ])
+    );
     onToggleItemExpandedState(newItemName);
   }, [items, newItemName, onChangeItems, onToggleItemExpandedState]);
 

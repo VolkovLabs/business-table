@@ -51,7 +51,6 @@ export const getStyles = (theme: GrafanaTheme2) => {
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: ${theme.colors.background.canvas};
       border-top: 1px solid ${borderColor};
       overflow: auto;
     `,
@@ -59,6 +58,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       display: flex;
       width: 100%;
       justify-content: space-between;
+      background-color: ${theme.colors.background.canvas};
     `,
     footerCell: css`
       display: flex;
@@ -71,6 +71,24 @@ export const getStyles = (theme: GrafanaTheme2) => {
 
       &:not(:last-child) {
         border-right: 1px solid ${borderColor};
+      }
+    `,
+    paginationRow: css`
+      background-color: ${theme.colors.background.primary};
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      min-width: 100%;
+      display: flex;
+      justify-content: center;
+      padding-top: ${theme.spacing(1)};
+      gap: ${theme.spacing(1)};
+      align-items: center;
+    `,
+    pagination: css`
+      float: none;
+      li {
+        margin-bottom: 0;
       }
     `,
   };

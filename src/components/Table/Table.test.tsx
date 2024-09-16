@@ -4,6 +4,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { Pagination } from '@/types';
 import { createColumnMeta } from '@/utils';
 
 import { Table } from './Table';
@@ -32,10 +33,23 @@ describe('Table', () => {
   };
 
   /**
+   * Pagination
+   */
+  const createPagination = (pagination: Partial<Pagination>): Pagination => ({
+    value: { pageIndex: 0, pageSize: 10 },
+    isEnabled: false,
+    isManual: false,
+    onChange: jest.fn(),
+    total: 10,
+    ...pagination,
+  });
+  const pagination = createPagination({});
+
+  /**
    * Get component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <Wrapper columns={[]} data={[]} eventBus={new EventBusSrv()} {...(props as any)} />;
+    return <Wrapper columns={[]} data={[]} eventBus={new EventBusSrv()} pagination={pagination} {...(props as any)} />;
   };
 
   const getDomRect = (width: number, height: number) => ({
@@ -61,7 +75,7 @@ describe('Table', () => {
   it('Should render', async () => {
     await act(async () => render(getComponent({})));
 
-    expect(selectors.root());
+    expect(selectors.root()).toBeInTheDocument();
   });
 
   it('Should render data', async () => {
@@ -176,5 +190,65 @@ describe('Table', () => {
     expect(selectors.footerCell(false, 'device')).toBeInTheDocument();
     expect(selectors.footerCell(false, 'value')).toBeInTheDocument();
     expect(selectors.footerCell(false, 'value')).toHaveTextContent('123');
+  });
+
+  it('Should show pagination', async () => {
+    const pagination = createPagination({ isEnabled: true, isManual: false });
+
+    await act(async () => render(getComponent({ pagination })));
+
+    expect(selectors.pagination()).toBeInTheDocument();
+  });
+
+  it('Should show manual pagination', async () => {
+    const pagination = createPagination({ isEnabled: true, isManual: true });
+
+    await act(async () => render(getComponent({ pagination })));
+
+    expect(selectors.pagination()).toBeInTheDocument();
+  });
+
+  it('Should allow to change page number', async () => {
+    const onChange = jest.fn();
+    const pagination = createPagination({
+      isEnabled: true,
+      isManual: true,
+      onChange,
+      value: { pageIndex: 0, pageSize: 10 },
+      total: 100,
+    });
+
+    await act(async () => render(getComponent({ pagination })));
+
+    expect(selectors.fieldPageNumber()).toBeInTheDocument();
+    expect(selectors.fieldPageNumber()).toHaveValue('1');
+
+    fireEvent.change(selectors.fieldPageNumber(), { target: { value: '3' } });
+
+    expect(onChange).toHaveBeenCalledWith({
+      pageIndex: 2,
+      pageSize: 10,
+    });
+  });
+
+  it('Should allow to change page size and reset page index', async () => {
+    const onChange = jest.fn();
+    const pagination = createPagination({
+      isEnabled: true,
+      isManual: true,
+      onChange,
+      value: { pageIndex: 1, pageSize: 10 },
+    });
+
+    await act(async () => render(getComponent({ pagination })));
+
+    expect(selectors.fieldPageSize()).toBeInTheDocument();
+
+    fireEvent.change(selectors.fieldPageSize(), { target: { value: '100' } });
+
+    expect(onChange).toHaveBeenCalledWith({
+      pageIndex: 0,
+      pageSize: 100,
+    });
   });
 });

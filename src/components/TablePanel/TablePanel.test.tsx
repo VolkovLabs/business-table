@@ -1,11 +1,11 @@
 import { EventBusSrv } from '@grafana/data';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useSavedState, useTable } from '@/hooks';
-import { createPanelOptions } from '@/utils';
+import { usePagination, useSavedState, useTable } from '@/hooks';
+import { createColumnConfig, createPanelOptions, createTableConfig } from '@/utils';
 
 import { TablePanel } from './TablePanel';
 
@@ -17,9 +17,11 @@ type Props = React.ComponentProps<typeof TablePanel>;
 /**
  * Mock hooks
  */
+const emptyArray: any[] = [];
+
 const useTableMock = () => ({
-  tableData: [],
-  columns: [],
+  tableData: emptyArray,
+  columns: emptyArray,
   getSubRows: jest.fn(),
 });
 
@@ -31,10 +33,34 @@ jest.mock('../../hooks/useSavedState', () => ({
   useSavedState: jest.fn(jest.requireActual('../../hooks/useSavedState').useSavedState),
 }));
 
+const usePaginationMock = () => {
+  const [value, setValue] = useState({ pageIndex: 0, pageSize: 10 });
+
+  return useMemo(
+    () => ({
+      isEnabled: true,
+      isManual: false,
+      onChange: setValue,
+      value,
+      total: 10,
+    }),
+    [value]
+  );
+};
+
+jest.mock('../../hooks/usePagination', () => ({
+  usePagination: jest.fn(),
+}));
+
 /**
  * Panel
  */
 describe('TablePanel', () => {
+  /**
+   * Event Bus
+   */
+  const eventBus = new EventBusSrv();
+
   /**
    * Selectors
    */
@@ -49,6 +75,11 @@ describe('TablePanel', () => {
   };
 
   /**
+   * Panel Options
+   */
+  const defaultOptions = createPanelOptions();
+
+  /**
    * Get Tested Component
    */
   const getComponent = (props: Partial<Props>) => {
@@ -57,8 +88,8 @@ describe('TablePanel', () => {
         width={400}
         height={400}
         data={data}
-        options={createPanelOptions()}
-        eventBus={new EventBusSrv()}
+        options={defaultOptions}
+        eventBus={eventBus}
         {...(props as any)}
       />
     );
@@ -66,6 +97,7 @@ describe('TablePanel', () => {
 
   beforeEach(() => {
     jest.mocked(useTable).mockImplementation(useTableMock);
+    jest.mocked(usePagination).mockImplementation(usePaginationMock);
     // jest.mocked(useLocalStorage).mockImplementation(useLocalStorageMock);
     jest.mocked(useSavedState).mockImplementation(jest.requireActual('../../hooks/useSavedState').useSavedState);
   });
@@ -76,24 +108,26 @@ describe('TablePanel', () => {
   });
 
   it('Should use first group', async () => {
+    const tables = [
+      createTableConfig({
+        name: 'group1',
+        items: [
+          createColumnConfig({
+            field: { name: 'group1Field', source: '' },
+          }),
+        ],
+      }),
+      createTableConfig({
+        name: 'group2',
+        items: [],
+      }),
+    ];
+
     await act(async () =>
       render(
         getComponent({
           options: {
-            tables: [
-              {
-                name: 'group1',
-                items: [
-                  {
-                    name: 'group1Field',
-                  },
-                ],
-              },
-              {
-                name: 'group2',
-                items: [],
-              },
-            ],
+            tables,
           } as any,
         })
       )
@@ -102,37 +136,33 @@ describe('TablePanel', () => {
     expect(useTable).toHaveBeenCalledWith(
       expect.objectContaining({
         columns: [
-          {
-            name: 'group1Field',
-          },
+          expect.objectContaining({
+            field: {
+              name: 'group1Field',
+              source: '',
+            },
+          }),
         ],
       })
     );
   });
 
   it('Should switch tables and scroll to selected', async () => {
+    const tables = [
+      createTableConfig({
+        name: 'group1',
+        items: [createColumnConfig({ field: { name: 'group1Field', source: '' } })],
+      }),
+      createTableConfig({
+        name: 'group2',
+        items: [createColumnConfig({ field: { name: 'group2Field', source: '' } })],
+      }),
+    ];
     await act(async () =>
       render(
         getComponent({
           options: {
-            tables: [
-              {
-                name: 'group1',
-                items: [
-                  {
-                    name: 'group1Field',
-                  },
-                ],
-              },
-              {
-                name: 'group2',
-                items: [
-                  {
-                    name: 'group2Field',
-                  },
-                ],
-              },
-            ],
+            tables,
           } as any,
         })
       )
@@ -149,9 +179,12 @@ describe('TablePanel', () => {
     expect(useTable).toHaveBeenCalledWith(
       expect.objectContaining({
         columns: [
-          {
-            name: 'group2Field',
-          },
+          expect.objectContaining({
+            field: {
+              name: 'group2Field',
+              source: '',
+            },
+          }),
         ],
       })
     );

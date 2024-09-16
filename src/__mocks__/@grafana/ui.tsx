@@ -149,6 +149,31 @@ const DateTimePickerMock = ({ onChange, ...restProps }: any) => {
 
 const DateTimePicker = jest.fn(DateTimePickerMock);
 
+/**
+ * Pagination
+ */
+const PaginationMock = ({ onNavigate, currentPage, numberOfPages, ...restProps }: any) => {
+  const options = [];
+
+  for (let page = 1; page <= numberOfPages; page += 1) {
+    options.push({
+      value: page,
+      label: page,
+    });
+  }
+
+  return (
+    <Select
+      value={currentPage}
+      options={options}
+      onChange={(event: any) => onNavigate(event.value)}
+      data-testid={restProps['data-testid']}
+    />
+  );
+};
+
+const Pagination = jest.fn(PaginationMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -157,6 +182,7 @@ beforeEach(() => {
   TimeRangeInput.mockImplementation(TimeRangeInputMock);
   Popover.mockImplementation(PopoverMock);
   DateTimePicker.mockImplementation(DateTimePickerMock);
+  Pagination.mockImplementation(PaginationMock);
 });
 
 module.exports = {
@@ -168,4 +194,5 @@ module.exports = {
   TimeRangeInput,
   Popover,
   DateTimePicker,
+  Pagination,
 };

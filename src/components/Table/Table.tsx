@@ -1,5 +1,5 @@
 import { EventBus } from '@grafana/data';
-import { useStyles2 } from '@grafana/ui';
+import { ButtonSelect, Pagination, useStyles2 } from '@grafana/ui';
 import {
   ColumnDef,
   ExpandedState,
@@ -10,6 +10,7 @@ import {
   getFacetedUniqueValues,
   getFilteredRowModel,
   getGroupedRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   SortingState,
   useReactTable,
@@ -19,6 +20,7 @@ import React, { RefObject, useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useEditableData, useSyncedColumnFilters } from '@/hooks';
+import { Pagination as PaginationOptions } from '@/types';
 
 import { TableHeaderCell, TableRow } from './components';
 import { getStyles } from './Table.styles';
@@ -64,6 +66,18 @@ interface Props<TData> {
   topOffset?: number;
 
   /**
+   * Table Header Ref
+   */
+  paginationRef: RefObject<HTMLDivElement>;
+
+  /**
+   * Bottom Offset
+   *
+   * @type {number}
+   */
+  bottomOffset?: number;
+
+  /**
    * Scrollable Container Ref
    */
   scrollableContainerRef: RefObject<HTMLDivElement>;
@@ -79,7 +93,29 @@ interface Props<TData> {
    * Update Row
    */
   onUpdateRow: (row: TData) => Promise<void>;
+
+  /**
+   * Width
+   *
+   * @type {number}
+   */
+  width: number;
+
+  /**
+   * Pagination
+   *
+   * @type {PaginationOptions}
+   */
+  pagination: PaginationOptions;
 }
+
+/**
+ * Page Size Options
+ */
+const pageSizeOptions = [10, 20, 50, 100, 1000].map((value) => ({
+  value,
+  label: value.toString(),
+}));
 
 /**
  * Table
@@ -93,6 +129,10 @@ export const Table = <TData,>({
   topOffset,
   eventBus,
   onUpdateRow,
+  bottomOffset,
+  paginationRef,
+  width,
+  pagination,
 }: Props<TData>) => {
   /**
    * Styles
@@ -130,6 +170,7 @@ export const Table = <TData,>({
       expanded,
       columnFilters,
       sorting,
+      pagination: pagination.value,
     },
 
     /**
@@ -162,6 +203,13 @@ export const Table = <TData,>({
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
     enableSorting: true,
+
+    /**
+     * Pagination
+     */
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: pagination.onChange,
+    manualPagination: pagination.isManual,
 
     /**
      * Debug
@@ -210,69 +258,22 @@ export const Table = <TData,>({
   const editableData = useEditableData({ table, onUpdateRow });
 
   return (
-    <table
-      className={styles.table}
-      ref={tableRef}
-      style={{
-        width: table.getCenterTotalSize(),
-      }}
-      {...TEST_IDS.table.root.apply()}
-    >
-      <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id} className={styles.headerRow}>
-            {headerGroup.headers.map((header) => (
-              <th
-                key={header.id}
-                className={styles.headerCell}
-                style={{
-                  maxWidth: header.column.columnDef.maxSize,
-                  minWidth: header.column.columnDef.minSize,
-                  width: header.getSize(),
-                  textAlign: header.column.columnDef.meta?.config.appearance.alignment,
-                  justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
-                }}
-                {...TEST_IDS.table.headerCell.apply(header.id)}
-              >
-                <TableHeaderCell header={header} />
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody
+    <>
+      <table
+        className={styles.table}
+        ref={tableRef}
         style={{
-          height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
+          width: table.getCenterTotalSize(),
         }}
-        className={styles.body}
+        {...TEST_IDS.table.root.apply()}
       >
-        {virtualRows.map((virtualRow) => {
-          const row = rows[virtualRow.index];
-
-          return (
-            <TableRow
-              key={row.id}
-              row={row}
-              virtualRow={virtualRow}
-              rowVirtualizer={rowVirtualizer}
-              editingRow={editableData.row?.id === row.id ? editableData.row : null}
-              onStartEdit={editableData.onStartEdit}
-              onCancelEdit={editableData.onCancelEdit}
-              onChange={editableData.onChange}
-              onSave={editableData.onSave}
-              isSaving={editableData.isSaving}
-            />
-          );
-        })}
-      </tbody>
-      {isFooterVisible && (
-        <tfoot className={styles.footer} style={{ maxHeight: rowVirtualizer.getTotalSize() }}>
-          {table.getFooterGroups().map((footerGroup) => (
-            <tr key={footerGroup.id} className={styles.footerRow}>
-              {footerGroup.headers.map((header) => (
+        <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id} className={styles.headerRow}>
+              {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className={styles.footerCell}
+                  className={styles.headerCell}
                   style={{
                     maxWidth: header.column.columnDef.maxSize,
                     minWidth: header.column.columnDef.minSize,
@@ -280,15 +281,99 @@ export const Table = <TData,>({
                     textAlign: header.column.columnDef.meta?.config.appearance.alignment,
                     justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
                   }}
-                  {...TEST_IDS.table.footerCell.apply(header.id)}
+                  {...TEST_IDS.table.headerCell.apply(header.id)}
                 >
-                  {flexRender(header.column.columnDef.footer, header.getContext())}
+                  <TableHeaderCell header={header} />
                 </th>
               ))}
             </tr>
           ))}
-        </tfoot>
+        </thead>
+        <tbody
+          style={{
+            height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
+          }}
+          className={styles.body}
+        >
+          {virtualRows.map((virtualRow) => {
+            const row = rows[virtualRow.index];
+
+            return (
+              <TableRow
+                key={row.id}
+                row={row}
+                virtualRow={virtualRow}
+                rowVirtualizer={rowVirtualizer}
+                editingRow={editableData.row?.id === row.id ? editableData.row : null}
+                onStartEdit={editableData.onStartEdit}
+                onCancelEdit={editableData.onCancelEdit}
+                onChange={editableData.onChange}
+                onSave={editableData.onSave}
+                isSaving={editableData.isSaving}
+              />
+            );
+          })}
+        </tbody>
+        {isFooterVisible && (
+          <tfoot className={styles.footer} style={{ maxHeight: rowVirtualizer.getTotalSize(), bottom: bottomOffset }}>
+            {table.getFooterGroups().map((footerGroup) => (
+              <tr key={footerGroup.id} className={styles.footerRow}>
+                {footerGroup.headers.map((header) => (
+                  <th
+                    key={header.id}
+                    className={styles.footerCell}
+                    style={{
+                      maxWidth: header.column.columnDef.maxSize,
+                      minWidth: header.column.columnDef.minSize,
+                      width: header.getSize(),
+                      textAlign: header.column.columnDef.meta?.config.appearance.alignment,
+                      justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
+                    }}
+                    {...TEST_IDS.table.footerCell.apply(header.id)}
+                  >
+                    {flexRender(header.column.columnDef.footer, header.getContext())}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </tfoot>
+        )}
+      </table>
+      {pagination.isEnabled && (
+        <div
+          className={styles.paginationRow}
+          ref={paginationRef}
+          style={{ width: table.getCenterTotalSize() }}
+          {...TEST_IDS.table.pagination.apply()}
+        >
+          <Pagination
+            currentPage={pagination.value.pageIndex + 1}
+            numberOfPages={
+              pagination.isManual ? Math.ceil(pagination.total / pagination.value.pageSize) : table.getPageCount()
+            }
+            onNavigate={(pageNumber) => {
+              pagination.onChange({
+                ...pagination.value,
+                pageIndex: pageNumber - 1,
+              });
+            }}
+            className={styles.pagination}
+            showSmallVersion={width <= 200}
+            data-testid={TEST_IDS.table.fieldPageNumber.selector()}
+          />
+          <ButtonSelect
+            options={pageSizeOptions}
+            value={{ value: pagination.value.pageSize }}
+            onChange={(event) => {
+              pagination.onChange({
+                pageIndex: 0,
+                pageSize: event.value!,
+              });
+            }}
+            data-testid={TEST_IDS.table.fieldPageSize.selector()}
+          />
+        </div>
       )}
-    </table>
+    </>
   );
 };

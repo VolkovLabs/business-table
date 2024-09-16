@@ -3,7 +3,7 @@ import { ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import React, { useEffect, useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useContentSizes, useSavedState, useTable, useUpdateRow } from '@/hooks';
+import { useContentSizes, usePagination, useSavedState, useTable, useUpdateRow } from '@/hooks';
 import { PanelOptions } from '@/types';
 
 import { Table } from '../Table';
@@ -47,6 +47,14 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
   const { tableData, columns } = useTable({ data, columns: currentTable?.items });
 
   /**
+   * Pagination
+   */
+  const pagination = usePagination({
+    paginationConfig: currentTable?.pagination,
+    eventBus,
+    data: data.series,
+  });
+  /**
    * Change current group if was removed
    */
   useEffect(() => {
@@ -86,7 +94,9 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
     headerRef,
     tableTopOffset,
     tableHeaderRef,
-  } = useContentSizes({ height, options, tableData });
+    paginationRef,
+    tableBottomOffset,
+  } = useContentSizes({ width, height, options, tableData });
 
   /**
    * Update Row
@@ -144,6 +154,10 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
           scrollableContainerRef={scrollableContainerRef}
           eventBus={eventBus}
           onUpdateRow={onUpdateRow}
+          bottomOffset={tableBottomOffset}
+          paginationRef={paginationRef}
+          width={width}
+          pagination={pagination}
         />
       </div>
     </div>

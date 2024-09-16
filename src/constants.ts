@@ -103,6 +103,9 @@ export const TEST_IDS = {
     bodyRow: createSelector((name: unknown) => `data-testid table body-row-${name}`),
     bodyCell: createSelector((name: unknown) => `data-testid table body-cell-${name}`),
     buttonExpandCell: createSelector((name: unknown) => `table button-expand-cell-${name}`),
+    pagination: createSelector('data-testid table pagination'),
+    fieldPageNumber: createSelector('data-testid table field-page-number'),
+    fieldPageSize: createSelector('data-testid table field-page-size'),
   },
   filterFacetedList: {
     root: createSelector('data-testid filter-faceted-list'),
@@ -168,6 +171,20 @@ export const TEST_IDS = {
   tableEditor: {
     updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-editor update-section-content'),
+    paginationSectionHeader: createSelector('data-testid table-editor pagination-section-header'),
+    paginationSectionContent: createSelector('data-testid table-editor pagination-section-content'),
+    fieldPaginationEnabled: createSelector('data-testid table-editor field-pagination-enabled'),
+    fieldPaginationMode: createSelector('data-testid table-editor field-pagination-mode'),
+    fieldPaginationQueryPageIndexVariable: createSelector(
+      'data-testid table-editor field-pagination-query-page-index-variable'
+    ),
+    fieldPaginationQueryPageSizeVariable: createSelector(
+      'data-testid table-editor field-pagination-query-page-size-variable'
+    ),
+    fieldPaginationQueryOffsetVariable: createSelector(
+      'data-testid table-editor field-pagination-query-offset-variable'
+    ),
+    fieldPaginationQueryTotalCount: createSelector('data-testid table-editor field-pagination-query-total-count'),
   },
   fieldPicker: {
     root: createSelector('data-testid field-picker'),
