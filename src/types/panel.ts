@@ -251,8 +251,17 @@ export interface ColumnConfig {
 
   /**
    * Edit
+   *
+   * @type {ColumnEditorConfig}
    */
   edit: ColumnEditConfig;
+
+  /**
+   * Pin
+   *
+   * @type {boolean}
+   */
+  pin: boolean;
 }
 
 /**

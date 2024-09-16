@@ -71,6 +71,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   appearance: createColumnAppearanceConfig({}),
   footer: [],
   edit: createColumnEditConfig({}),
+  pin: false,
   ...item,
 });
 

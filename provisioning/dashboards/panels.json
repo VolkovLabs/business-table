@@ -67,7 +67,7 @@
             "items": [
               {
                 "appearance": {
-                  "alignment": "start",
+                  "alignment": "end",
                   "background": {
                     "applyToRow": false
                   },
@@ -77,6 +77,20 @@
                     "value": 100
                   },
                   "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
                 },
                 "field": {
                   "name": "id",
@@ -90,6 +104,7 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": true,
                 "sort": {
                   "enabled": false
                 },
@@ -103,9 +118,24 @@
                   },
                   "width": {
                     "auto": true,
+                    "min": 200,
                     "value": 100
                   },
                   "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
                 },
                 "field": {
                   "name": "name",
@@ -132,9 +162,24 @@
                   },
                   "width": {
                     "auto": true,
+                    "min": 100,
                     "value": 100
                   },
                   "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
                 },
                 "field": {
                   "name": "value",
@@ -163,9 +208,24 @@
                   },
                   "width": {
                     "auto": true,
+                    "min": 200,
                     "value": 100
                   },
                   "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
                 },
                 "field": {
                   "name": "json",
@@ -183,13 +243,63 @@
                   "enabled": false
                 },
                 "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 100,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "comment",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "auto"
               }
             ],
-            "name": "Main"
+            "name": "Main",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
           }
         ],
         "tabsSorting": false
       },
+      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -236,6 +346,16 @@
                   "{ \"name\": \"Device1\" }",
                   "{ \"name\": \"Device2\" }",
                   "{ \"name\": \"Device3\" }"
+                ]
+              },
+              {
+                "config": {},
+                "name": "comment",
+                "type": "string",
+                "values": [
+                  "",
+                  "",
+                  ""
                 ]
               }
             ],
@@ -317,6 +437,20 @@
                   },
                   "wrap": true
                 },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "country",
                   "source": "A"
@@ -344,6 +478,20 @@
                     "value": 100
                   },
                   "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
                 },
                 "field": {
                   "name": "city",
@@ -375,6 +523,20 @@
                   },
                   "wrap": true
                 },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "device",
                   "source": "A"
@@ -405,6 +567,20 @@
                   },
                   "wrap": true
                 },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -423,7 +599,15 @@
                 "type": "coloredBackground"
               }
             ],
-            "name": "Country"
+            "name": "Country",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
           },
           {
             "items": [
@@ -438,6 +622,20 @@
                     "value": 100
                   },
                   "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
                 },
                 "field": {
                   "name": "device",
@@ -469,6 +667,20 @@
                   },
                   "wrap": true
                 },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -486,11 +698,20 @@
                 "type": "coloredBackground"
               }
             ],
-            "name": "Value"
+            "name": "Value",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
           }
         ],
         "tabsSorting": false
       },
+      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -635,6 +856,20 @@
                   },
                   "wrap": true
                 },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -665,6 +900,20 @@
                   },
                   "wrap": true
                 },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -685,11 +934,20 @@
                 "type": "auto"
               }
             ],
-            "name": "123"
+            "name": "123",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
           }
         ],
         "tabsSorting": false
       },
+      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -752,6 +1010,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 5,
+  "version": 2,
   "weekStart": ""
 }
