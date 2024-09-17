@@ -26,6 +26,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       flex: auto;
       overflow: hidden;
       text-overflow: ellipsis;
+      z-index: 0;
 
       &:not(:last-child) {
         border-right: 1px solid ${borderColor};

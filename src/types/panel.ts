@@ -182,6 +182,15 @@ export interface ColumnEditConfig {
 }
 
 /**
+ * Column Pin Direction
+ */
+export enum ColumnPinDirection {
+  NONE = '',
+  LEFT = 'left',
+  RIGHT = 'right',
+}
+
+/**
  * Column Config
  */
 export interface ColumnConfig {
@@ -259,9 +268,9 @@ export interface ColumnConfig {
   /**
    * Pin
    *
-   * @type {boolean}
+   * @type {ColumnPinDirection}
    */
-  pin: boolean;
+  pin: ColumnPinDirection;
 }
 
 /**

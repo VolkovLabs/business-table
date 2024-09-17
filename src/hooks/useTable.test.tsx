@@ -1,9 +1,12 @@
-import { FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
-import { getTemplateSrv } from '@grafana/runtime';
-import { renderHook } from '@testing-library/react';
-
 import { ACTIONS_COLUMN_ID } from '@/constants';
-import { CellAggregation, ColumnEditorType, ColumnFilterMode, ColumnFilterType, EditPermissionMode } from '@/types';
+import {
+  CellAggregation,
+  ColumnEditorType,
+  ColumnFilterMode,
+  ColumnFilterType,
+  ColumnPinDirection,
+  EditPermissionMode,
+} from '@/types';
 import {
   columnFilter,
   createColumnAppearanceConfig,
@@ -12,6 +15,9 @@ import {
   createVariable,
   FooterContext,
 } from '@/utils';
+import { FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
+import { renderHook } from '@testing-library/react';
 
 import { useTable } from './useTable';
 
@@ -656,14 +662,14 @@ describe('useTable', () => {
         source: refId,
         name: 'device',
       },
-      pin: true,
+      pin: ColumnPinDirection.LEFT,
     });
     const valueColumn = createColumnConfig({
       field: {
         source: refId,
         name: 'value',
       },
-      pin: false,
+      pin: ColumnPinDirection.NONE,
     });
 
     const { result } = renderHook(() =>

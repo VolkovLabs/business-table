@@ -1,14 +1,4 @@
 import {
-  createTheme,
-  DataFrame,
-  Field,
-  FieldType,
-  getDisplayProcessor,
-  toDataFrame,
-  TypedVariableModel,
-} from '@grafana/data';
-
-import {
   CellAggregation,
   CellType,
   ColumnAlignment,
@@ -18,6 +8,7 @@ import {
   ColumnEditorType,
   ColumnFilterMode,
   ColumnMeta,
+  ColumnPinDirection,
   EditPermissionMode,
   PaginationMode,
   PanelOptions,
@@ -25,6 +16,15 @@ import {
   TablePaginationConfig,
   ToolbarOptions,
 } from '@/types';
+import {
+  createTheme,
+  DataFrame,
+  Field,
+  FieldType,
+  getDisplayProcessor,
+  toDataFrame,
+  TypedVariableModel,
+} from '@grafana/data';
 
 /**
  * Create Column Appearance Config
@@ -80,7 +80,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   appearance: createColumnAppearanceConfig({}),
   footer: [],
   edit: createColumnEditConfig({}),
-  pin: false,
+  pin: ColumnPinDirection.NONE,
   ...item,
 });
 

@@ -12,6 +12,7 @@ import {
   ColumnAlignment,
   ColumnEditorType,
   ColumnFilterMode,
+  ColumnPinDirection,
   EditPermissionMode,
 } from '@/types';
 import { createColumnAppearanceConfig, createColumnConfig, createColumnEditConfig, createVariable } from '@/utils';
@@ -714,18 +715,18 @@ describe('ColumnEditor', () => {
   it('Should allow to enable pinning', () => {
     render(
       getComponent({
-        value: createColumnConfig({ pin: false }),
+        value: createColumnConfig({ pin: ColumnPinDirection.NONE }),
       })
     );
 
-    expect(selectors.fieldPinEnabled()).toBeInTheDocument();
-    expect(selectors.fieldPinEnabled()).not.toBeChecked();
+    expect(selectors.fieldPinDirection()).toBeInTheDocument();
+    expect(selectors.fieldPinDirection()).not.toBeChecked();
 
-    fireEvent.click(selectors.fieldPinEnabled());
+    fireEvent.click(selectors.pinDirectionOption(false, ColumnPinDirection.LEFT));
 
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
-        pin: true,
+        pin: ColumnPinDirection.LEFT,
       })
     );
   });

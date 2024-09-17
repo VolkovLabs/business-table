@@ -1,12 +1,11 @@
+import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { ColumnPinDirection, Pagination } from '@/types';
+import { createColumnConfig, createColumnMeta } from '@/utils';
 import { EventBusSrv } from '@grafana/data';
 import { Table as TableInstance } from '@tanstack/react-table';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
-
-import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
-import { Pagination } from '@/types';
-import { createColumnMeta } from '@/utils';
 
 import { Table } from './Table';
 
@@ -210,29 +209,57 @@ describe('Table', () => {
               accessorKey: 'value',
               enablePinning: true,
               meta: createColumnMeta({
+                config: createColumnConfig({
+                  pin: ColumnPinDirection.LEFT,
+                }),
                 footerEnabled: true,
               }),
               footer: () => '123',
+            },
+            {
+              id: 'value2',
+              accessorKey: 'value2',
+              enablePinning: true,
+              meta: createColumnMeta({
+                config: createColumnConfig({
+                  pin: ColumnPinDirection.RIGHT,
+                }),
+                footerEnabled: true,
+              }),
+              footer: () => '111',
             },
           ],
           data: [
             {
               device: 'device1',
               value: 10,
+              value2: 11,
             },
             {
               device: 'device2',
               value: 20,
+              value2: 21,
             },
           ],
         })
       )
     );
 
+    /**
+     * Left Pinned
+     */
     expect(selectors.headerCell(false, 'value')).toBeInTheDocument();
-    expect(selectors.headerCell(false, 'value')).toHaveStyle({ position: 'sticky' });
+    expect(selectors.headerCell(false, 'value')).toHaveStyle({ position: 'sticky', left: 0 });
     expect(selectors.footerCell(false, 'value')).toBeInTheDocument();
-    expect(selectors.footerCell(false, 'value')).toHaveStyle({ position: 'sticky' });
+    expect(selectors.footerCell(false, 'value')).toHaveStyle({ position: 'sticky', left: 0 });
+
+    /**
+     * Right Pinned
+     */
+    expect(selectors.headerCell(false, 'value2')).toBeInTheDocument();
+    expect(selectors.headerCell(false, 'value2')).toHaveStyle({ position: 'sticky', right: 0 });
+    expect(selectors.footerCell(false, 'value2')).toBeInTheDocument();
+    expect(selectors.footerCell(false, 'value2')).toHaveStyle({ position: 'sticky', right: 0 });
   });
 
   it('Should show pagination', async () => {
