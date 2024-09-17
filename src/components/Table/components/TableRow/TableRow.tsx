@@ -73,12 +73,17 @@ const getPinnedColumnStyle = <TData,>(
   column: Column<TData>,
   bgColor: string | undefined
 ): CSSProperties => {
-  if (!column.getIsPinned()) {
+  const pinnedPosition = column.getIsPinned();
+  if (!pinnedPosition) {
     return {};
   }
 
+  const isFirstRightPinnedColumn = pinnedPosition === 'right' && column.getIsFirstColumn('right');
+
   return {
-    left: `${column.getStart('left')}px`,
+    boxShadow: isFirstRightPinnedColumn ? `-1px 0 ${theme.colors.border.weak}` : undefined,
+    left: pinnedPosition === 'left' ? `${column.getStart('left')}px` : undefined,
+    right: pinnedPosition === 'right' ? `${column.getAfter('right')}px` : undefined,
     position: 'sticky',
     zIndex: 1,
     backgroundColor: bgColor || theme.colors.background.primary,
@@ -243,7 +248,7 @@ export const TableRow = <TData,>({
               wordBreak: cellAppearance?.wrap ? 'break-all' : 'normal',
               justifyContent: cellAppearance?.align,
               textAlign: cellAppearance?.align,
-              ...getPinnedColumnStyle(theme, cell.column, bgColor),
+              ...getPinnedColumnStyle(theme, cell.column, bgColor || rowAppearance.background),
             }}
             onClick={row.getToggleExpandedHandler()}
             {...TEST_IDS.table.bodyCell.apply(cell.id)}

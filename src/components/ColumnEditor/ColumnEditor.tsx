@@ -11,6 +11,7 @@ import {
   ColumnAlignment,
   ColumnConfig,
   ColumnFilterMode,
+  ColumnPinDirection,
   EditPermissionMode,
 } from '@/types';
 import { cleanPayloadObject, getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
@@ -152,6 +153,31 @@ const userOrgRoleOptions = Object.values(OrgRole).map((role) => ({
   value: role,
   label: role,
 }));
+
+/**
+ * Column Pin Direction Options
+ */
+const columnPinDirectionOptions = [
+  {
+    value: ColumnPinDirection.LEFT,
+    label: '',
+    icon: 'align-left',
+    description: 'Pinned to the left',
+    ariaLabel: TEST_IDS.columnEditor.pinDirectionOption.selector(ColumnPinDirection.LEFT),
+  },
+  {
+    value: ColumnPinDirection.NONE,
+    label: 'None',
+    ariaLabel: TEST_IDS.columnEditor.pinDirectionOption.selector(ColumnPinDirection.NONE),
+  },
+  {
+    value: ColumnPinDirection.RIGHT,
+    label: '',
+    icon: 'align-right',
+    description: 'Pinned to the right',
+    ariaLabel: TEST_IDS.columnEditor.pinDirectionOption.selector(ColumnPinDirection.RIGHT),
+  },
+];
 
 /**
  * Column Footer Editor
@@ -419,16 +445,16 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
             {...TEST_IDS.columnEditor.fieldSortEnabled.apply()}
           />
         </InlineField>
-        <InlineField label="Pin" grow={true}>
-          <InlineSwitch
+        <InlineField label="Pin" grow={true} {...TEST_IDS.columnEditor.fieldPinDirection.apply()}>
+          <RadioButtonGroup
             value={value.pin}
             onChange={(event) =>
               onChange({
                 ...value,
-                pin: event.currentTarget.checked,
+                pin: event,
               })
             }
-            {...TEST_IDS.columnEditor.fieldPinEnabled.apply()}
+            options={columnPinDirectionOptions}
           />
         </InlineField>
       </InlineFieldRow>

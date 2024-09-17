@@ -3,6 +3,7 @@ import { Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
   Column,
   ColumnDef,
+  ColumnPinningState,
   ExpandedState,
   flexRender,
   getCoreRowModel,
@@ -22,7 +23,7 @@ import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffe
 
 import { TEST_IDS } from '@/constants';
 import { useEditableData, useSyncedColumnFilters } from '@/hooks';
-import { Pagination as PaginationOptions } from '@/types';
+import { ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { ButtonSelect } from '../ButtonSelect';
 import { TableHeaderCell, TableRow } from './components';
@@ -129,12 +130,17 @@ const pageSizeOptions = [10, 20, 50, 100, 1000].map((value) => ({
  * Get Pinned Header Column Style
  */
 const getPinnedHeaderColumnStyle = <TData,>(theme: GrafanaTheme2, column: Column<TData>): CSSProperties => {
-  if (!column.getIsPinned()) {
+  const pinnedPosition = column.getIsPinned();
+  if (!pinnedPosition) {
     return {};
   }
 
+  const isFirstRightPinnedColumn = pinnedPosition === 'right' && column.getIsFirstColumn('right');
+
   return {
-    left: `${column.getStart('left')}px`,
+    boxShadow: isFirstRightPinnedColumn ? `-1px 0 ${theme.colors.border.weak}` : undefined,
+    left: pinnedPosition === 'left' ? `${column.getStart('left')}px` : undefined,
+    right: pinnedPosition === 'right' ? `${column.getAfter('right')}px` : undefined,
     position: 'sticky',
     zIndex: 1,
     backgroundColor: theme.colors.background.primary,
@@ -145,12 +151,17 @@ const getPinnedHeaderColumnStyle = <TData,>(theme: GrafanaTheme2, column: Column
  * Get Pinned Footer Column Style
  */
 const getPinnedFooterColumnStyle = <TData,>(theme: GrafanaTheme2, column: Column<TData>): CSSProperties => {
-  if (!column.getIsPinned()) {
+  const pinnedPosition = column.getIsPinned();
+  if (!pinnedPosition) {
     return {};
   }
 
+  const isFirstRightPinnedColumn = pinnedPosition === 'right' && column.getIsFirstColumn('right');
+
   return {
-    left: `${column.getStart('left')}px`,
+    boxShadow: isFirstRightPinnedColumn ? `-1px 0 ${theme.colors.border.weak}` : undefined,
+    left: pinnedPosition === 'left' ? `${column.getStart('left')}px` : undefined,
+    right: pinnedPosition === 'right' ? `${column.getAfter('right')}px` : undefined,
     position: 'sticky',
     zIndex: 1,
     backgroundColor: theme.colors.background.canvas,
@@ -189,10 +200,22 @@ export const Table = <TData,>({
   }, [columns]);
 
   /**
-   * Pinning
+   * Column Pinning
    */
-  const pinning = useMemo(() => {
-    return columns.filter((column) => column.enablePinning).map((pinnedColumn) => pinnedColumn.id || '');
+  const columnPinning = useMemo((): ColumnPinningState => {
+    const pinnedColumn = columns.filter((column) => column.enablePinning);
+    return pinnedColumn.reduce(
+      (acc, column) => {
+        if (column.meta?.config.pin === ColumnPinDirection.LEFT) {
+          acc.left?.push(column.id || '');
+        } else {
+          acc.right?.push(column.id || '');
+        }
+
+        return acc;
+      },
+      { left: [], right: [] } as ColumnPinningState
+    );
   }, [columns]);
 
   /**
@@ -220,9 +243,7 @@ export const Table = <TData,>({
       columnFilters,
       sorting,
       pagination: pagination.value,
-      columnPinning: {
-        left: pinning,
-      },
+      columnPinning,
     },
 
     /**

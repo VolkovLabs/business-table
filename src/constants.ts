@@ -75,7 +75,8 @@ export const TEST_IDS = {
     fieldFilterMode: createSelector('data-testid column-editor field-filter-mode'),
     fieldFilterVariable: createSelector('data-testid column-editor field-filter-variable'),
     fieldSortEnabled: createSelector('data-testid column-editor field-sort-enabled'),
-    fieldPinEnabled: createSelector('data-testid column-editor field-pin-enabled'),
+    fieldPinDirection: createSelector('data-testid column-editor field-pin-direction'),
+    pinDirectionOption: createSelector((name: unknown) => `column-editor pin-direction-${name}`),
     fieldAppearanceBackgroundApplyToRow: createSelector(
       'data-testid column-editor field-appearance-background-apply-to-row'
     ),
