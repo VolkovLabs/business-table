@@ -243,7 +243,7 @@ export const TableRow = <TData,>({
               wordBreak: cellAppearance?.wrap ? 'break-all' : 'normal',
               justifyContent: cellAppearance?.align,
               textAlign: cellAppearance?.align,
-              ...getPinnedColumnStyle(theme, cell.column, bgColor),
+              ...getPinnedColumnStyle(theme, cell.column, bgColor || rowAppearance.background),
             }}
             onClick={row.getToggleExpandedHandler()}
             {...TEST_IDS.table.bodyCell.apply(cell.id)}
