@@ -10,6 +10,7 @@ import {
   ColumnEditorType,
   ColumnFilterConfig,
   ColumnFilterMode,
+  ColumnPinDirection,
   ColumnSortConfig,
   EditPermissionMode,
   PaginationMode,
@@ -56,7 +57,7 @@ interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'a
    *
    * Introduced in 1.3.0
    */
-  pin?: boolean;
+  pin?: boolean | ColumnPinDirection;
 }
 
 /**
@@ -199,7 +200,9 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
          * Normalize pin
          */
         if (normalized.pin === undefined) {
-          normalized.pin = false;
+          normalized.pin = ColumnPinDirection.NONE;
+        } else if (typeof (normalized.pin as never) === 'boolean') {
+          normalized.pin = normalized.pin ? ColumnPinDirection.LEFT : ColumnPinDirection.NONE;
         }
 
         return normalized;

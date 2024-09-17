@@ -6,7 +6,7 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { DEFAULT_COLUMN_APPEARANCE, DEFAULT_COLUMN_EDIT, TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, FieldSource } from '@/types';
+import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, ColumnPinDirection, FieldSource } from '@/types';
 import { reorder } from '@/utils';
 
 import { ColumnEditor } from '../ColumnEditor';
@@ -125,7 +125,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
           appearance: DEFAULT_COLUMN_APPEARANCE,
           footer: [],
           edit: DEFAULT_COLUMN_EDIT,
-          pin: false,
+          pin: ColumnPinDirection.NONE,
         },
       ]);
       setNewItem(null);
@@ -173,6 +173,10 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
                                   {item.field.name}
                                   {item.group && <Tag name="Group" />}
                                   {item.edit.enabled && <Tag name="Editable" />}
+                                  {item.pin === ColumnPinDirection.LEFT && <Tag name="Pinned: Left" />}
+                                  {item.pin === ColumnPinDirection.RIGHT && <Tag name="Pinned: Right" />}
+                                  {item.filter.enabled && <Tag name="Filterable" />}
+                                  {item.sort.enabled && <Tag name="Sortable" />}
                                 </div>
                               </div>
                             )}

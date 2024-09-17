@@ -2,7 +2,13 @@ import { createTheme, dateTime, Field, FieldType, isDateTime, ReducerID, toDataF
 import { getTemplateSrv } from '@grafana/runtime';
 import { ColumnDef, createTable, getCoreRowModel, getFilteredRowModel, getSortedRowModel } from '@tanstack/react-table';
 
-import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
+import {
+  ColumnFilterMode,
+  ColumnFilterType,
+  ColumnFilterValue,
+  ColumnPinDirection,
+  NumberFilterOperator,
+} from '@/types';
 
 import {
   columnFilter,
@@ -990,7 +996,7 @@ describe('Table utils', () => {
       });
     });
 
-    it('Should move pinned fields to the start', () => {
+    it('Should move pinned fields to the start or end', () => {
       const columns: Array<ColumnDef<(typeof data)[0]>> = [
         {
           id: 'name',
@@ -1004,6 +1010,9 @@ describe('Table utils', () => {
           accessorKey: 'value',
           meta: createColumnMeta({
             field: frame.fields[1],
+            config: createColumnConfig({
+              pin: ColumnPinDirection.LEFT,
+            }),
           }),
           enablePinning: true,
         },

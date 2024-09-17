@@ -13,6 +13,7 @@ import {
   ColumnEditorControlOptions,
   ColumnFilterMode,
   ColumnFilterType,
+  ColumnPinDirection,
 } from '@/types';
 import {
   checkIfColumnEditable,
@@ -204,7 +205,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         enableColumnFilter: column.config.filter.enabled && availableFilterTypes.length > 0,
         filterFn: column.config.filter.mode === ColumnFilterMode.CLIENT ? columnFilter : () => true,
         enableSorting: column.config.sort.enabled,
-        enablePinning: column.config.pin,
+        enablePinning: column.config.pin !== ColumnPinDirection.NONE,
         meta: {
           availableFilterTypes,
           filterMode: column.config.filter.mode,
@@ -229,6 +230,9 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         cell: TableActionsCell,
         size: 120,
         maxSize: 120,
+        enablePinning: columns.some(
+          (column) => column.enablePinning && column.meta?.config.pin === ColumnPinDirection.RIGHT
+        ),
       });
     }
 

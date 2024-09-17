@@ -18,6 +18,7 @@ import {
   ColumnEditorType,
   ColumnFilterMode,
   ColumnMeta,
+  ColumnPinDirection,
   EditPermissionMode,
   PaginationMode,
   PanelOptions,
@@ -80,7 +81,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   appearance: createColumnAppearanceConfig({}),
   footer: [],
   edit: createColumnEditConfig({}),
-  pin: false,
+  pin: ColumnPinDirection.NONE,
   ...item,
 });
 
