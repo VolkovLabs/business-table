@@ -1,4 +1,4 @@
-import { dateTimeFormat, Field, FieldType, reduceField, toCSV, toDataFrame } from '@grafana/data';
+import { dateTimeFormat, toCSV } from '@grafana/data';
 import {
   ColumnDef,
   createTable,
@@ -7,11 +7,11 @@ import {
   getSortedRowModel,
   Table,
 } from '@tanstack/react-table';
-import { saveAs } from 'file-saver';
 import { useCallback } from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import { TableConfig } from '@/types';
+import { convertTableToDataFrame, downloadCsv } from '@/utils';
 
 /**
  * Use Export Data
@@ -33,6 +33,9 @@ export const useExportData = <TData>({
         return;
       }
 
+      /**
+       * Current Table State
+       */
       const tableState = table.getState();
 
       /**
@@ -51,76 +54,45 @@ export const useExportData = <TData>({
         getSortedRowModel: getSortedRowModel(),
         enableFilters: true,
         enableSorting: true,
-        onStateChange: () => null,
-        renderFallbackValue: () => null,
-      });
-
-      const headerGroup = tableForExport.getHeaderGroups()[0];
-      const fields = headerGroup.headers.map((header): Field => {
-        const field = header.column.columnDef.meta?.field || { name: header.id, type: FieldType.other, config: {} };
-
-        return {
-          ...field,
-          values: [],
-        };
+        onStateChange: null as never,
+        renderFallbackValue: null,
       });
 
       /**
-       * Add rows
+       * Data Frame For Export
        */
-      tableForExport.getRowModel().rows.forEach((row) => {
-        row.getVisibleCells().forEach((cell, cellIndex) => {
-          fields[cellIndex].values.push(cell.getValue());
-        });
-      });
-
-      /**
-       * Add footer row
-       */
-      if (columns.some((column) => !!column.meta?.footerEnabled)) {
-        const footerGroup = table.getFooterGroups()[0];
-
-        footerGroup.headers.forEach((header, index) => {
-          const calc = header.column.columnDef.meta?.config.footer[0];
-
-          /**
-           * No reducer
-           */
-          if (!calc) {
-            fields[index].values.push(null);
-            return;
-          }
-
-          const fieldCalcValue = reduceField({ field: fields[index], reducers: [calc] })[calc];
-          fields[index].values.push(fieldCalcValue);
-        });
-      }
-
-      /**
-       * Data Frame for export
-       */
-      const dataFrame = toDataFrame({ fields });
+      const dataFrame = convertTableToDataFrame(tableForExport);
 
       /**
        * CSV text
        */
-      const csv = toCSV([dataFrame], {
+      const content = toCSV([dataFrame], {
         useExcelHeader: false,
       });
 
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-
+      /**
+       * Filename Prefix
+       */
       let prefix = '';
 
+      /**
+       * Add Panel Title
+       */
       if (panelTitle) {
         prefix += `${panelTitle}-`;
       }
 
+      /**
+       * Add Table Name
+       */
       if (tableConfig?.name) {
         prefix += `${tableConfig.name}-`;
       }
 
-      saveAs(blob, `${prefix}${dateTimeFormat(new Date())}.csv`);
+      /**
+       * Download File
+       */
+      downloadCsv(content, `${prefix}${dateTimeFormat(new Date())}`);
     },
     [columns, data, panelTitle, tableConfig?.name]
   );

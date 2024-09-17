@@ -1,4 +1,12 @@
-import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame, TypedVariableModel } from '@grafana/data';
+import {
+  createTheme,
+  DataFrame,
+  Field,
+  FieldType,
+  getDisplayProcessor,
+  toDataFrame,
+  TypedVariableModel,
+} from '@grafana/data';
 
 import {
   CellAggregation,
@@ -200,3 +208,22 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   pagination: createTablePaginationConfig({}),
   ...table,
 });
+
+/**
+ * Data Frame To Object Array
+ */
+export const dataFrameToObjectArray = (dataFrame: DataFrame): Array<Record<string, unknown>> => {
+  const result: Array<Record<string, unknown>> = [];
+
+  dataFrame.fields.forEach((field) => {
+    field.values.forEach((value, rowIndex) => {
+      if (!result[rowIndex]) {
+        result[rowIndex] = {};
+      }
+
+      result[rowIndex][field.name] = value;
+    });
+  });
+
+  return result;
+};

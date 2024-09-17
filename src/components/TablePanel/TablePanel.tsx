@@ -176,6 +176,7 @@ export const TablePanel: React.FC<Props> = ({
                   onClick={() => onExport({ table: tableInstance.current as never })}
                   variant="primary"
                   size="sm"
+                  {...TEST_IDS.panel.buttonDownload.apply()}
                 >
                   Download CSV
                 </Button>
