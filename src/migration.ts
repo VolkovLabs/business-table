@@ -81,22 +81,41 @@ interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'paginati
 }
 
 /**
+ * Outdated Toolbar Options
+ */
+interface OutdatedToolbarOptions {
+  /**
+   * Export
+   *
+   * Introduced in 1.3.0
+   */
+  export?: boolean;
+}
+
+/**
  * Outdated Panel Options
  */
-interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups' | 'tabsSorting'> {
+interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups' | 'tabsSorting' | 'toolbar'> {
   /**
    * Groups
    *
-   * Renamed in v1.1.0
+   * Renamed in 1.1.0
    */
   groups?: OutdatedGroup[];
 
   /**
    * Tabs Sorting
    *
-   * Introduced in v1.1.0
+   * Introduced in 1.1.0
    */
   tabsSorting?: boolean;
+
+  /**
+   * Toolbar
+   *
+   * Introduced in 1.3.0
+   */
+  toolbar?: OutdatedToolbarOptions;
 }
 
 /**
@@ -222,6 +241,17 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
    */
   if (options.tabsSorting === undefined) {
     options.tabsSorting = false;
+  }
+
+  /**
+   * Normalize toolbar
+   */
+  if (!options.toolbar) {
+    options.toolbar = {};
+  }
+
+  if (options.toolbar.export === undefined) {
+    options.toolbar.export = false;
   }
 
   return options as PanelOptions;

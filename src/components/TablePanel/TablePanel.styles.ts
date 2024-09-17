@@ -30,6 +30,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
       }
       padding: 0;
       border-bottom: 1px solid ${theme.colors.border.weak};
+      background-color: transparent;
+      min-height: 33px;
     `,
     tabButton: css`
       overflow: hidden;

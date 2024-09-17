@@ -4,8 +4,8 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { usePagination, useSavedState, useTable } from '@/hooks';
-import { createColumnConfig, createPanelOptions, createTableConfig } from '@/utils';
+import { useExportData, usePagination, useSavedState, useTable } from '@/hooks';
+import { createColumnConfig, createPanelOptions, createTableConfig, createToolbarOptions } from '@/utils';
 
 import { TablePanel } from './TablePanel';
 
@@ -31,6 +31,13 @@ jest.mock('../../hooks/useTable', () => ({
 
 jest.mock('../../hooks/useSavedState', () => ({
   useSavedState: jest.fn(jest.requireActual('../../hooks/useSavedState').useSavedState),
+}));
+
+const onExportMock = jest.fn();
+const useExportDataMock = () => onExportMock;
+
+jest.mock('../../hooks/useExportData', () => ({
+  useExportData: jest.fn(),
 }));
 
 const usePaginationMock = () => {
@@ -100,6 +107,7 @@ describe('TablePanel', () => {
     jest.mocked(usePagination).mockImplementation(usePaginationMock);
     // jest.mocked(useLocalStorage).mockImplementation(useLocalStorageMock);
     jest.mocked(useSavedState).mockImplementation(jest.requireActual('../../hooks/useSavedState').useSavedState);
+    jest.mocked(useExportData).mockImplementation(useExportDataMock);
   });
 
   it('Should find component', async () => {
@@ -126,9 +134,9 @@ describe('TablePanel', () => {
     await act(async () =>
       render(
         getComponent({
-          options: {
+          options: createPanelOptions({
             tables,
-          } as any,
+          }),
         })
       )
     );
@@ -161,9 +169,9 @@ describe('TablePanel', () => {
     await act(async () =>
       render(
         getComponent({
-          options: {
+          options: createPanelOptions({
             tables,
-          } as any,
+          }),
         })
       )
     );
@@ -194,13 +202,36 @@ describe('TablePanel', () => {
     await act(async () =>
       render(
         getComponent({
-          options: {
-            tables: null,
-          } as any,
+          options: createPanelOptions({
+            tables: null as never,
+          }),
         })
       )
     );
 
     expect(selectors.root()).toBeInTheDocument();
+  });
+
+  it('Should allow to download data', async () => {
+    const tables = [createTableConfig({})];
+
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            tables,
+            toolbar: createToolbarOptions({
+              export: true,
+            }),
+          }),
+        })
+      )
+    );
+
+    expect(selectors.buttonDownload()).toBeInTheDocument();
+
+    fireEvent.click(selectors.buttonDownload());
+
+    expect(onExportMock).toHaveBeenCalled();
   });
 });

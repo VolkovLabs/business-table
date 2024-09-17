@@ -1,7 +1,9 @@
 import {
+  DataFrame,
   dateTime,
   Field,
   fieldReducers,
+  FieldType,
   formattedValueToString,
   getDisplayProcessor,
   GrafanaTheme2,
@@ -18,6 +20,7 @@ import {
   FilterMeta,
   HeaderContext,
   Row,
+  Table as TableInstance,
 } from '@tanstack/react-table';
 
 import { ColumnConfig, ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
@@ -391,8 +394,8 @@ export const getFooterCell = ({
     ],
   }).fields;
 
-  const format = field.display ?? getDisplayProcessor({ field: filteredField, theme });
   const fieldCalcValue = reduceField({ field: filteredField, reducers: config.footer })[calc];
+  const format = field.display ?? getDisplayProcessor({ field: filteredField, theme });
 
   /**
    * If the reducer preserves units then format the
@@ -407,4 +410,55 @@ export const getFooterCell = ({
    * Otherwise we simply return the formatted string
    */
   return formattedValueToString({ text: fieldCalcValue });
+};
+
+/**
+ * Convert Table To Data Frame
+ */
+export const convertTableToDataFrame = <TData>(table: TableInstance<TData>): DataFrame => {
+  const headerGroup = table.getHeaderGroups()[0];
+  const fields = headerGroup.headers.map((header): Field => {
+    const field = header.column.columnDef.meta?.field || { name: header.id, type: FieldType.other, config: {} };
+
+    return {
+      ...field,
+      values: [],
+    };
+  });
+
+  /**
+   * Add rows
+   */
+  table.getRowModel().rows.forEach((row) => {
+    row.getVisibleCells().forEach((cell, cellIndex) => {
+      fields[cellIndex].values.push(cell.getValue());
+    });
+  });
+
+  /**
+   * Add footer row
+   */
+  if (table.getAllColumns().some((column) => !!column.columnDef.meta?.footerEnabled)) {
+    const footerGroup = table.getFooterGroups()[0];
+
+    footerGroup.headers.forEach((header, index) => {
+      const calc = header.column.columnDef.meta?.config.footer[0];
+
+      /**
+       * No reducer
+       */
+      if (!calc) {
+        fields[index].values.push(null);
+        return;
+      }
+
+      const fieldCalcValue = reduceField({ field: fields[index], reducers: [calc] })[calc];
+      fields[index].values.push(fieldCalcValue);
+    });
+  }
+
+  /**
+   * Data Frame for export
+   */
+  return toDataFrame({ fields });
 };

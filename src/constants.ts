@@ -44,6 +44,7 @@ export const TEST_IDS = {
   panel: {
     root: createSelector('data-testid panel'),
     tab: createSelector((name: unknown) => `data-testid panel tab-${name}`),
+    buttonDownload: createSelector('data-testid panel button-download'),
   },
   tablesEditor: {
     buttonAddNew: createSelector('data-testid tables-editor button-add-new'),

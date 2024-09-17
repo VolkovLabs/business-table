@@ -1,17 +1,26 @@
-import { createTheme, dateTime, isDateTime, ReducerID } from '@grafana/data';
+import { createTheme, dateTime, Field, FieldType, isDateTime, ReducerID, toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
+import { ColumnDef, createTable, getCoreRowModel, getFilteredRowModel, getSortedRowModel } from '@tanstack/react-table';
 
 import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
 
 import {
   columnFilter,
+  convertTableToDataFrame,
   getFilterWithNewType,
   getFooterCell,
   getSupportedFilterTypesForVariable,
   getVariableColumnFilters,
   mergeColumnFilters,
 } from './table';
-import { createColumnConfig, createColumnMeta, createField, createVariable, FooterContext } from './test';
+import {
+  createColumnConfig,
+  createColumnMeta,
+  createField,
+  createVariable,
+  dataFrameToObjectArray,
+  FooterContext,
+} from './test';
 
 /**
  * Mock @grafana/runtime
@@ -851,6 +860,342 @@ describe('Table utils', () => {
           } as never,
         })
       ).toEqual('10');
+    });
+  });
+
+  describe('convertTableToDataFrame', () => {
+    /**
+     * Frame
+     */
+    const nameField: Field = {
+      name: 'name',
+      config: {
+        displayName: 'Name',
+      },
+      type: FieldType.string,
+      values: ['device1', 'device2'],
+    };
+    const valueField = {
+      name: 'value',
+      config: {},
+      type: FieldType.number,
+      values: [10, 20],
+    };
+    const frame = toDataFrame({
+      fields: [nameField, valueField],
+    });
+
+    /**
+     * Data
+     */
+    const data = dataFrameToObjectArray(frame);
+
+    it('Should use existing fields with config', () => {
+      const columns: Array<ColumnDef<(typeof data)[0]>> = [
+        {
+          id: 'name',
+          accessorKey: 'name',
+          meta: createColumnMeta({
+            field: frame.fields[0],
+          }),
+        },
+        {
+          id: 'value',
+          accessorKey: 'value',
+          meta: createColumnMeta({
+            field: frame.fields[1],
+          }),
+        },
+      ];
+
+      const table = createTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        enableFilters: true,
+        enableSorting: true,
+        onStateChange: () => null,
+        renderFallbackValue: () => null,
+        state: {
+          columnPinning: {
+            left: [],
+            right: [],
+          },
+          columnFilters: [],
+          sorting: [],
+        },
+      });
+
+      const result = convertTableToDataFrame(table);
+
+      expect(result.fields[0]).toEqual({
+        ...nameField,
+        values: nameField.values,
+      });
+      expect(result.fields[1]).toEqual({
+        ...valueField,
+        values: valueField.values,
+      });
+    });
+
+    it('Should work if no field', () => {
+      const columns: Array<ColumnDef<(typeof data)[0]>> = [
+        {
+          id: 'name',
+          accessorKey: 'name',
+          meta: createColumnMeta({
+            field: null as never,
+          }),
+        },
+        {
+          id: 'value',
+          accessorKey: 'value',
+          meta: createColumnMeta({
+            field: frame.fields[1],
+          }),
+        },
+      ];
+
+      const table = createTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        enableFilters: true,
+        enableSorting: true,
+        onStateChange: () => null,
+        renderFallbackValue: () => null,
+        state: {
+          columnPinning: {
+            left: [],
+            right: [],
+          },
+          columnFilters: [],
+          sorting: [],
+        },
+      });
+
+      const result = convertTableToDataFrame(table);
+
+      expect(result.fields[0]).toEqual({
+        type: FieldType.other,
+        name: 'name',
+        config: {},
+        values: nameField.values,
+      });
+      expect(result.fields[1]).toEqual({
+        ...valueField,
+        values: valueField.values,
+      });
+    });
+
+    it('Should move pinned fields to the start', () => {
+      const columns: Array<ColumnDef<(typeof data)[0]>> = [
+        {
+          id: 'name',
+          accessorKey: 'name',
+          meta: createColumnMeta({
+            field: frame.fields[0],
+          }),
+        },
+        {
+          id: 'value',
+          accessorKey: 'value',
+          meta: createColumnMeta({
+            field: frame.fields[1],
+          }),
+          enablePinning: true,
+        },
+      ];
+
+      const table = createTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        enableFilters: true,
+        enableSorting: true,
+        onStateChange: () => null,
+        renderFallbackValue: () => null,
+        state: {
+          columnPinning: {
+            left: [columns[1].id || ''],
+            right: [],
+          },
+          columnFilters: [],
+          sorting: [],
+        },
+      });
+
+      const result = convertTableToDataFrame(table);
+
+      expect(result.fields[0]).toEqual({
+        ...valueField,
+        values: valueField.values,
+      });
+      expect(result.fields[1]).toEqual({
+        ...nameField,
+        values: nameField.values,
+      });
+    });
+
+    it('Should add only filtered data', () => {
+      const columns: Array<ColumnDef<(typeof data)[0]>> = [
+        {
+          id: 'name',
+          accessorKey: 'name',
+          meta: createColumnMeta({
+            field: frame.fields[0],
+          }),
+        },
+        {
+          id: 'value',
+          accessorKey: 'value',
+          meta: createColumnMeta({
+            availableFilterTypes: [ColumnFilterType.NUMBER],
+            filterMode: ColumnFilterMode.CLIENT,
+            field: frame.fields[1],
+          }),
+          filterFn: columnFilter,
+        },
+      ];
+
+      const table = createTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        enableFilters: true,
+        enableSorting: true,
+        onStateChange: () => null,
+        renderFallbackValue: () => null,
+        state: {
+          columnPinning: {
+            left: [],
+            right: [],
+          },
+          columnFilters: [
+            { id: columns[1].id || '', value: { type: ColumnFilterType.NUMBER, value: [10, 0], operator: '>' } },
+          ],
+          sorting: [],
+        },
+      });
+
+      const result = convertTableToDataFrame(table);
+
+      expect(result.fields[0]).toEqual({
+        ...nameField,
+        values: [nameField.values[1]],
+      });
+      expect(result.fields[1]).toEqual({
+        ...valueField,
+        values: [valueField.values[1]],
+      });
+    });
+
+    it('Should add sorted data', () => {
+      const columns: Array<ColumnDef<(typeof data)[0]>> = [
+        {
+          id: 'name',
+          accessorKey: 'name',
+          meta: createColumnMeta({
+            field: frame.fields[0],
+          }),
+        },
+        {
+          id: 'value',
+          accessorKey: 'value',
+          meta: createColumnMeta({
+            field: frame.fields[1],
+          }),
+        },
+      ];
+
+      const table = createTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        enableFilters: true,
+        enableSorting: true,
+        onStateChange: () => null,
+        renderFallbackValue: () => null,
+        state: {
+          columnPinning: {
+            left: [],
+            right: [],
+          },
+          columnFilters: [],
+          sorting: [{ id: columns[1].id || '', desc: true }],
+        },
+      });
+
+      const result = convertTableToDataFrame(table);
+
+      expect(result.fields[0]).toEqual({
+        ...nameField,
+        values: [nameField.values[1], nameField.values[0]],
+      });
+      expect(result.fields[1]).toEqual({
+        ...valueField,
+        values: [valueField.values[1], valueField.values[0]],
+      });
+    });
+
+    it('Should add calculated values in the end if footer enabled', () => {
+      const columns: Array<ColumnDef<(typeof data)[0]>> = [
+        {
+          id: 'name',
+          accessorKey: 'name',
+          meta: createColumnMeta({
+            field: frame.fields[0],
+          }),
+        },
+        {
+          id: 'value',
+          accessorKey: 'value',
+          meta: createColumnMeta({
+            config: createColumnConfig({
+              footer: ['sum'],
+            }),
+            field: frame.fields[1],
+            footerEnabled: true,
+          }),
+          enablePinning: true,
+        },
+      ];
+
+      const table = createTable({
+        data,
+        columns,
+        getCoreRowModel: getCoreRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        enableFilters: true,
+        enableSorting: true,
+        onStateChange: () => null,
+        renderFallbackValue: () => null,
+        state: {
+          columnPinning: {
+            left: [],
+            right: [],
+          },
+          columnFilters: [],
+          sorting: [],
+        },
+      });
+
+      const result = convertTableToDataFrame(table);
+
+      expect(result.fields[0]).toEqual({
+        ...nameField,
+        values: [...nameField.values, null],
+      });
+      expect(result.fields[1]).toEqual({
+        ...valueField,
+        values: [...valueField.values, 30],
+      });
     });
   });
 });

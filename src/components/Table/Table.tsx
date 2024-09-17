@@ -14,10 +14,11 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
+  Table as TableInstance,
   useReactTable,
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import React, { CSSProperties, RefObject, useCallback, useMemo, useState } from 'react';
+import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useEditableData, useSyncedColumnFilters } from '@/hooks';
@@ -108,6 +109,11 @@ interface Props<TData> {
    * @type {PaginationOptions}
    */
   pagination: PaginationOptions;
+
+  /**
+   * Table Instance
+   */
+  tableInstance: MutableRefObject<TableInstance<TData>>;
 }
 
 /**
@@ -166,6 +172,7 @@ export const Table = <TData,>({
   paginationRef,
   width,
   pagination,
+  tableInstance,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -300,6 +307,13 @@ export const Table = <TData,>({
    * Editable Data
    */
   const editableData = useEditableData({ table, onUpdateRow });
+
+  /**
+   * Set table instance
+   */
+  useEffect(() => {
+    tableInstance.current = table;
+  }, [table, tableInstance]);
 
   return (
     <>
