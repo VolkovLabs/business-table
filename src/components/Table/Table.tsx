@@ -23,7 +23,7 @@ import { TEST_IDS } from '@/constants';
 import { useEditableData, useSyncedColumnFilters } from '@/hooks';
 import { Pagination as PaginationOptions } from '@/types';
 
-import { ButtonSelectComponent } from '../ButtonSelectComponent';
+import { ButtonSelect } from '../ButtonSelect';
 import { TableHeaderCell, TableRow } from './components';
 import { getStyles } from './Table.styles';
 
@@ -408,7 +408,7 @@ export const Table = <TData,>({
             showSmallVersion={width <= 200}
             data-testid={TEST_IDS.table.fieldPageNumber.selector()}
           />
-          <ButtonSelectComponent
+          <ButtonSelect
             options={pageSizeOptions}
             value={{ value: pagination.value.pageSize }}
             onChange={(event) => {

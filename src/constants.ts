@@ -105,7 +105,6 @@ export const TEST_IDS = {
     bodyCell: createSelector((name: unknown) => `data-testid table body-cell-${name}`),
     buttonExpandCell: createSelector((name: unknown) => `table button-expand-cell-${name}`),
     pagination: createSelector('data-testid table pagination'),
-    paginationCell: createSelector((name: unknown) => `table pagination-cell-${name}`),
     fieldPageNumber: createSelector('data-testid table field-page-number'),
     fieldPageSize: createSelector('data-testid table field-page-size'),
   },
@@ -190,6 +189,11 @@ export const TEST_IDS = {
   },
   fieldPicker: {
     root: createSelector('data-testid field-picker'),
+  },
+  buttonSelect: {
+    root: createSelector('button-select root'),
+    dropDown: createSelector('button-select dropdown'),
+    cell: createSelector((name: unknown) => `button-select cell-${name}`),
   },
 };
 

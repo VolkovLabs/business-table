@@ -15,7 +15,7 @@ import React, { HTMLAttributes, useState } from 'react';
 
 import { TEST_IDS } from '../../constants';
 import { ToolbarButtonVariant } from '../../types';
-import { getStyles } from './ButtonSelectComponent.styles';
+import { getStyles } from './ButtonSelect.styles';
 
 /**
  * Properties
@@ -32,7 +32,7 @@ interface Props<T> extends HTMLAttributes<HTMLButtonElement> {
   tooltip?: string;
 }
 
-export const ButtonSelectComponent = <T,>(props: Props<T>) => {
+export const ButtonSelect = <T,>(props: Props<T>) => {
   /**
    * Styles and Theme
    */
@@ -73,7 +73,7 @@ export const ButtonSelectComponent = <T,>(props: Props<T>) => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} {...TEST_IDS.buttonSelect.root.apply()}>
       <ToolbarButton
         className={className}
         isOpen={isOpen}
@@ -86,7 +86,13 @@ export const ButtonSelectComponent = <T,>(props: Props<T>) => {
         {value?.label || String(value?.value)}
       </ToolbarButton>
       {isOpen && (
-        <div className={styles.menuWrapper} ref={refs.setFloating} {...getFloatingProps()} style={floatingStyles}>
+        <div
+          className={styles.menuWrapper}
+          ref={refs.setFloating}
+          {...getFloatingProps()}
+          style={floatingStyles}
+          {...TEST_IDS.buttonSelect.dropDown.apply()}
+        >
           <FocusScope contain autoFocus restoreFocus>
             {/*
               tabIndex=-1 is needed here to support highlighting text within the menu when using FocusScope
@@ -104,7 +110,7 @@ export const ButtonSelectComponent = <T,>(props: Props<T>) => {
                   disabled={item.isDisabled}
                   component={item.component}
                   role="menuitemradio"
-                  {...TEST_IDS.table.paginationCell.apply(item.value)}
+                  {...TEST_IDS.buttonSelect.cell.apply(item.value)}
                 />
               ))}
             </Menu>

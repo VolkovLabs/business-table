@@ -1,4 +1,4 @@
-export * from './ButtonSelectComponent';
+export * from './ButtonSelect';
 export { editableColumnEditorsRegistry } from './ColumnEditor';
 export * from './FieldPicker';
 export * from './Table';

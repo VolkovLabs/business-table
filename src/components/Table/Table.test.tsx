@@ -11,6 +11,12 @@ import { Table } from './Table';
 
 type Props = React.ComponentProps<typeof Table>;
 
+/**
+ * Mock ButtonSelect
+ */
+
+jest.mock('../ButtonSelect');
+
 describe('Table', () => {
   /**
    * Selectors
@@ -43,6 +49,7 @@ describe('Table', () => {
     total: 10,
     ...pagination,
   });
+
   const pagination = createPagination({});
 
   /**
@@ -281,68 +288,13 @@ describe('Table', () => {
     });
 
     await act(async () => render(getComponent({ pagination })));
-
     expect(selectors.fieldPageSize()).toBeInTheDocument();
 
-    fireEvent.click(selectors.fieldPageSize());
-
-    expect(selectors.fieldPageSize()).toHaveTextContent('10');
-
-    expect(selectors.paginationCell(true, 100)).toBeInTheDocument();
-
-    fireEvent.click(selectors.paginationCell(true, 100));
+    fireEvent.change(selectors.fieldPageSize(), { target: { value: '100' } });
 
     expect(onChange).toHaveBeenCalledWith({
       pageIndex: 0,
       pageSize: 100,
     });
-  });
-
-  it('Should display value instead label', async () => {
-    const onChange = jest.fn();
-    const pagination = createPagination({
-      isEnabled: true,
-      isManual: true,
-      onChange,
-      value: { pageIndex: 1, pageSize: 10 } as any,
-    });
-
-    await act(async () => render(getComponent({ pagination })));
-
-    expect(selectors.fieldPageSize()).toBeInTheDocument();
-
-    fireEvent.click(selectors.fieldPageSize());
-
-    expect(selectors.fieldPageSize()).toHaveTextContent('10');
-
-    expect(selectors.paginationCell(true, 100)).toBeInTheDocument();
-
-    expect(selectors.paginationCell(true, 100)).toHaveTextContent('100');
-  });
-
-  it('Should open and close dropdown correctly', async () => {
-    const onChange = jest.fn();
-    const pagination = createPagination({
-      isEnabled: true,
-      isManual: true,
-      onChange,
-      value: { pageIndex: 1, pageSize: 10 } as any,
-    });
-
-    await act(async () => render(getComponent({ pagination })));
-
-    expect(selectors.fieldPageSize()).toBeInTheDocument();
-
-    fireEvent.click(selectors.fieldPageSize());
-
-    expect(selectors.fieldPageSize()).toHaveTextContent('10');
-
-    expect(selectors.paginationCell(true, 100)).toBeInTheDocument();
-
-    expect(selectors.paginationCell(true, 100)).toHaveTextContent('100');
-
-    fireEvent.click(selectors.fieldPageSize());
-
-    expect(selectors.paginationCell(true, 100)).not.toBeInTheDocument();
   });
 });
