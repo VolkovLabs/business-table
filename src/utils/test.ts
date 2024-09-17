@@ -1,4 +1,14 @@
 import {
+  createTheme,
+  DataFrame,
+  Field,
+  FieldType,
+  getDisplayProcessor,
+  toDataFrame,
+  TypedVariableModel,
+} from '@grafana/data';
+
+import {
   CellAggregation,
   CellType,
   ColumnAlignment,
@@ -16,15 +26,6 @@ import {
   TablePaginationConfig,
   ToolbarOptions,
 } from '@/types';
-import {
-  createTheme,
-  DataFrame,
-  Field,
-  FieldType,
-  getDisplayProcessor,
-  toDataFrame,
-  TypedVariableModel,
-} from '@grafana/data';
 
 /**
  * Create Column Appearance Config

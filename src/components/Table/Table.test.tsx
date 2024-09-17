@@ -1,11 +1,12 @@
-import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
-import { ColumnPinDirection, Pagination } from '@/types';
-import { createColumnConfig, createColumnMeta } from '@/utils';
 import { EventBusSrv } from '@grafana/data';
 import { Table as TableInstance } from '@tanstack/react-table';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
+
+import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { ColumnPinDirection, Pagination } from '@/types';
+import { createColumnConfig, createColumnMeta } from '@/utils';
 
 import { Table } from './Table';
 

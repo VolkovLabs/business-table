@@ -1,3 +1,7 @@
+import { FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
+import { renderHook } from '@testing-library/react';
+
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import {
   CellAggregation,
@@ -15,9 +19,6 @@ import {
   createVariable,
   FooterContext,
 } from '@/utils';
-import { FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
-import { getTemplateSrv } from '@grafana/runtime';
-import { renderHook } from '@testing-library/react';
 
 import { useTable } from './useTable';
 
