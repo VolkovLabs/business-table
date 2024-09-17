@@ -192,6 +192,46 @@ describe('Table', () => {
     expect(selectors.footerCell(false, 'value')).toHaveTextContent('123');
   });
 
+  it('Should make header and footer cells pinned', async () => {
+    await act(async () =>
+      render(
+        getComponent({
+          columns: [
+            {
+              id: 'device',
+              accessorKey: 'device',
+              enablePinning: false,
+            },
+            {
+              id: 'value',
+              accessorKey: 'value',
+              enablePinning: true,
+              meta: createColumnMeta({
+                footerEnabled: true,
+              }),
+              footer: () => '123',
+            },
+          ],
+          data: [
+            {
+              device: 'device1',
+              value: 10,
+            },
+            {
+              device: 'device2',
+              value: 20,
+            },
+          ],
+        })
+      )
+    );
+
+    expect(selectors.headerCell(false, 'value')).toBeInTheDocument();
+    expect(selectors.headerCell(false, 'value')).toHaveStyle({ position: 'sticky' });
+    expect(selectors.footerCell(false, 'value')).toBeInTheDocument();
+    expect(selectors.footerCell(false, 'value')).toHaveStyle({ position: 'sticky' });
+  });
+
   it('Should show pagination', async () => {
     const pagination = createPagination({ isEnabled: true, isManual: false });
 

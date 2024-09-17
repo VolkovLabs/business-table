@@ -648,4 +648,42 @@ describe('useTable', () => {
       expect(result.current.columns[1]).not.toBeDefined();
     });
   });
+
+  it('Should enable pinning', () => {
+    const deviceColumn = createColumnConfig({
+      label: 'Device',
+      field: {
+        source: refId,
+        name: 'device',
+      },
+      pin: true,
+    });
+    const valueColumn = createColumnConfig({
+      field: {
+        source: refId,
+        name: 'value',
+      },
+      pin: false,
+    });
+
+    const { result } = renderHook(() =>
+      useTable({
+        data: {
+          series: [frame],
+        } as any,
+        columns: [deviceColumn, valueColumn],
+      })
+    );
+
+    expect(result.current.columns).toEqual([
+      expect.objectContaining({
+        id: deviceColumn.field.name,
+        enablePinning: true,
+      }),
+      expect.objectContaining({
+        id: valueColumn.field.name,
+        enablePinning: false,
+      }),
+    ]);
+  });
 });

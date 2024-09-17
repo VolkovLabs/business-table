@@ -710,4 +710,23 @@ describe('ColumnEditor', () => {
       );
     });
   });
+
+  it('Should allow to enable pinning', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({ pin: false }),
+      })
+    );
+
+    expect(selectors.fieldPinEnabled()).toBeInTheDocument();
+    expect(selectors.fieldPinEnabled()).not.toBeChecked();
+
+    fireEvent.click(selectors.fieldPinEnabled());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pin: true,
+      })
+    );
+  });
 });

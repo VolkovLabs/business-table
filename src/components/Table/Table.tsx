@@ -1,6 +1,7 @@
-import { EventBus } from '@grafana/data';
-import { Pagination, useStyles2 } from '@grafana/ui';
+import { EventBus, GrafanaTheme2 } from '@grafana/data';
+import { Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
+  Column,
   ColumnDef,
   ExpandedState,
   flexRender,
@@ -16,7 +17,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import React, { RefObject, useCallback, useMemo, useState } from 'react';
+import React, { CSSProperties, RefObject, useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useEditableData, useSyncedColumnFilters } from '@/hooks';
@@ -119,6 +120,38 @@ const pageSizeOptions = [10, 20, 50, 100, 1000].map((value) => ({
 }));
 
 /**
+ * Get Pinned Header Column Style
+ */
+const getPinnedHeaderColumnStyle = <TData,>(theme: GrafanaTheme2, column: Column<TData>): CSSProperties => {
+  if (!column.getIsPinned()) {
+    return {};
+  }
+
+  return {
+    left: `${column.getStart('left')}px`,
+    position: 'sticky',
+    zIndex: 1,
+    backgroundColor: theme.colors.background.primary,
+  };
+};
+
+/**
+ * Get Pinned Footer Column Style
+ */
+const getPinnedFooterColumnStyle = <TData,>(theme: GrafanaTheme2, column: Column<TData>): CSSProperties => {
+  if (!column.getIsPinned()) {
+    return {};
+  }
+
+  return {
+    left: `${column.getStart('left')}px`,
+    position: 'sticky',
+    zIndex: 1,
+    backgroundColor: theme.colors.background.canvas,
+  };
+};
+
+/**
  * Table
  */
 export const Table = <TData,>({
@@ -136,8 +169,9 @@ export const Table = <TData,>({
   pagination,
 }: Props<TData>) => {
   /**
-   * Styles
+   * Styles and Theme
    */
+  const theme = useTheme2();
   const styles = useStyles2(getStyles);
 
   /**
@@ -145,6 +179,13 @@ export const Table = <TData,>({
    */
   const grouping = useMemo(() => {
     return columns.filter((column) => column.enableGrouping).map((columnWithGrouping) => columnWithGrouping.id || '');
+  }, [columns]);
+
+  /**
+   * Pinning
+   */
+  const pinning = useMemo(() => {
+    return columns.filter((column) => column.enablePinning).map((pinnedColumn) => pinnedColumn.id || '');
   }, [columns]);
 
   /**
@@ -172,6 +213,9 @@ export const Table = <TData,>({
       columnFilters,
       sorting,
       pagination: pagination.value,
+      columnPinning: {
+        left: pinning,
+      },
     },
 
     /**
@@ -281,6 +325,7 @@ export const Table = <TData,>({
                     width: header.getSize(),
                     textAlign: header.column.columnDef.meta?.config.appearance.alignment,
                     justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
+                    ...getPinnedHeaderColumnStyle(theme, header.column),
                   }}
                   {...TEST_IDS.table.headerCell.apply(header.id)}
                 >
@@ -329,6 +374,7 @@ export const Table = <TData,>({
                       width: header.getSize(),
                       textAlign: header.column.columnDef.meta?.config.appearance.alignment,
                       justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
+                      ...getPinnedFooterColumnStyle(theme, header.column),
                     }}
                     {...TEST_IDS.table.footerCell.apply(header.id)}
                   >

@@ -125,6 +125,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
           appearance: DEFAULT_COLUMN_APPEARANCE,
           footer: [],
           edit: DEFAULT_COLUMN_EDIT,
+          pin: false,
         },
       ]);
       setNewItem(null);

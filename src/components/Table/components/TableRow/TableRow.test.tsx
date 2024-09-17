@@ -1,6 +1,7 @@
 import { createTheme, ThresholdsMode } from '@grafana/data';
 import {
   ColumnDef,
+  ColumnPinningState,
   ExpandedState,
   getCoreRowModel,
   getExpandedRowModel,
@@ -30,6 +31,10 @@ describe('TableRow', () => {
    */
   const defaultGrouping: GroupingState = [];
   const defaultExpanded: ExpandedState = {};
+  const defaultColumnPinning: ColumnPinningState = {
+    left: [],
+    right: [],
+  };
 
   /**
    * Wrapper
@@ -41,6 +46,7 @@ describe('TableRow', () => {
     grouping = defaultGrouping,
     expanded = defaultExpanded,
     editingRowIndex,
+    columnPinning = defaultColumnPinning,
   }: {
     data: unknown[];
     columns: Array<ColumnDef<any>>;
@@ -48,6 +54,7 @@ describe('TableRow', () => {
     grouping?: GroupingState;
     expanded?: ExpandedState;
     editingRowIndex?: number;
+    columnPinning?: ColumnPinningState;
   }) => {
     const table = useReactTable({
       data,
@@ -60,6 +67,7 @@ describe('TableRow', () => {
       state: {
         grouping,
         expanded,
+        columnPinning,
       },
     });
 
@@ -94,6 +102,7 @@ describe('TableRow', () => {
     grouping?: GroupingState;
     expanded?: ExpandedState;
     editingRowIndex?: number;
+    columnPinning?: ColumnPinningState;
   }) => {
     return <Wrapper {...props} />;
   };
@@ -157,6 +166,46 @@ describe('TableRow', () => {
     expect(selectors.bodyRow(false, 'name:device1')).toBeInTheDocument();
     expect(selectors.bodyCell(false, 'name:device1_name')).toBeInTheDocument();
     expect(selectors.buttonExpandCell(false, 'name:device1_name')).toBeInTheDocument();
+  });
+
+  it('Should render pinned columns', async () => {
+    const data = [
+      { value: 'abc', name: 'device1' },
+      { value: 'hello', name: 'device1' },
+    ];
+    const columns = [
+      {
+        id: 'name',
+        accessorKey: 'name',
+        enablePinning: true,
+      },
+      {
+        id: 'value',
+        accessorKey: 'value',
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          columnPinning: {
+            left: ['name'],
+          },
+        })
+      )
+    );
+
+    expect(selectors.bodyCell(false, '0_name')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, '0_name')).toHaveStyle({
+      position: 'sticky',
+    });
+    expect(selectors.bodyCell(false, '0_value')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, '0_value')).not.toHaveStyle({
+      position: 'sticky',
+    });
   });
 
   it('Should render grouped expanded row', async () => {

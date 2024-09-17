@@ -419,6 +419,18 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
             {...TEST_IDS.columnEditor.fieldSortEnabled.apply()}
           />
         </InlineField>
+        <InlineField label="Pin" grow={true}>
+          <InlineSwitch
+            value={value.pin}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                pin: event.currentTarget.checked,
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldPinEnabled.apply()}
+          />
+        </InlineField>
       </InlineFieldRow>
 
       {!value.group && isAggregationAvailable && (

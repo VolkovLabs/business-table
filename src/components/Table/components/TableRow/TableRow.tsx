@@ -1,8 +1,9 @@
 import { cx } from '@emotion/css';
-import { IconButton, useStyles2 } from '@grafana/ui';
-import { Cell, CellContext, flexRender, Row } from '@tanstack/react-table';
+import { GrafanaTheme2 } from '@grafana/data';
+import { IconButton, useStyles2, useTheme2 } from '@grafana/ui';
+import { Cell, CellContext, Column, flexRender, Row } from '@tanstack/react-table';
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 import { CellType, ColumnAlignment } from '@/types';
@@ -65,6 +66,26 @@ interface Props<TData> {
 }
 
 /**
+ * Get Pinned Column Style
+ */
+const getPinnedColumnStyle = <TData,>(
+  theme: GrafanaTheme2,
+  column: Column<TData>,
+  bgColor: string | undefined
+): CSSProperties => {
+  if (!column.getIsPinned()) {
+    return {};
+  }
+
+  return {
+    left: `${column.getStart('left')}px`,
+    position: 'sticky',
+    zIndex: 1,
+    backgroundColor: bgColor || theme.colors.background.primary,
+  };
+};
+
+/**
  * Table Row
  */
 export const TableRow = <TData,>({
@@ -79,8 +100,9 @@ export const TableRow = <TData,>({
   isSaving,
 }: Props<TData>) => {
   /**
-   * Styles
+   * Styles and Theme
    */
+  const theme = useTheme2();
   const styles = useStyles2(getStyles);
 
   /**
@@ -221,6 +243,7 @@ export const TableRow = <TData,>({
               wordBreak: cellAppearance?.wrap ? 'break-all' : 'normal',
               justifyContent: cellAppearance?.align,
               textAlign: cellAppearance?.align,
+              ...getPinnedColumnStyle(theme, cell.column, bgColor),
             }}
             onClick={row.getToggleExpandedHandler()}
             {...TEST_IDS.table.bodyCell.apply(cell.id)}

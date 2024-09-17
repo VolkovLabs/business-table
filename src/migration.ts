@@ -22,7 +22,7 @@ import {
 /**
  * Outdated Column Config
  */
-interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance' | 'edit'> {
+interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance' | 'edit' | 'pin'> {
   /**
    * Filter
    *
@@ -50,6 +50,13 @@ interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'a
    * Introduced in 1.3.0
    */
   edit?: ColumnEditConfig;
+
+  /**
+   * Pin
+   *
+   * Introduced in 1.3.0
+   */
+  pin?: boolean;
 }
 
 /**
@@ -167,6 +174,13 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
             },
             editor: getColumnEditorConfig(ColumnEditorType.STRING),
           };
+        }
+
+        /**
+         * Normalize pin
+         */
+        if (normalized.pin === undefined) {
+          normalized.pin = false;
         }
 
         return normalized;
