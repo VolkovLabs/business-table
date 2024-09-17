@@ -15,6 +15,7 @@ import {
   PanelOptions,
   TableConfig,
   TablePaginationConfig,
+  ToolbarOptions,
 } from '@/types';
 
 /**
@@ -113,11 +114,20 @@ export const createVariable = (
   }) as never;
 
 /**
+ * Create Toolbar Options
+ */
+export const createToolbarOptions = (toolbar: Partial<ToolbarOptions>): ToolbarOptions => ({
+  export: false,
+  ...toolbar,
+});
+
+/**
  * Create Panel Options
  */
 export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOptions => ({
   tables: [],
   tabsSorting: false,
+  toolbar: createToolbarOptions({}),
   ...options,
 });
 

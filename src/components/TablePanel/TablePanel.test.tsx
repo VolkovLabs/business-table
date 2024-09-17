@@ -126,9 +126,9 @@ describe('TablePanel', () => {
     await act(async () =>
       render(
         getComponent({
-          options: {
+          options: createPanelOptions({
             tables,
-          } as any,
+          }),
         })
       )
     );
@@ -161,9 +161,9 @@ describe('TablePanel', () => {
     await act(async () =>
       render(
         getComponent({
-          options: {
+          options: createPanelOptions({
             tables,
-          } as any,
+          }),
         })
       )
     );
@@ -194,9 +194,9 @@ describe('TablePanel', () => {
     await act(async () =>
       render(
         getComponent({
-          options: {
-            tables: null,
-          } as any,
+          options: createPanelOptions({
+            tables: null as never,
+          }),
         })
       )
     );
