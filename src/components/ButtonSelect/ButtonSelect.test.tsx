@@ -59,7 +59,7 @@ describe('ButtonSelect', () => {
     expect(selectors.pageSize()).toHaveTextContent('10');
   });
 
-  it('Should open/close dropdown correctlys', async () => {
+  it('Should open/close dropdown correct', async () => {
     render(getComponent({ value: { value: 10 } }));
 
     expect(selectors.pageSize()).toBeInTheDocument();
@@ -75,5 +75,27 @@ describe('ButtonSelect', () => {
     fireEvent.click(selectors.pageSize());
 
     expect(selectors.dropDown(true)).not.toBeInTheDocument();
+  });
+
+  it('Should handle onChange', async () => {
+    const onChange = jest.fn();
+    render(getComponent({ value: { value: 10 }, onChange }));
+
+    expect(selectors.pageSize()).toBeInTheDocument();
+
+    expect(selectors.pageSize()).toHaveTextContent('10');
+
+    fireEvent.click(selectors.pageSize());
+
+    expect(selectors.dropDown(true)).toBeInTheDocument();
+
+    expect(selectors.cell(true, 100)).toBeInTheDocument();
+
+    fireEvent.click(selectors.cell(true, 100));
+
+    expect(onChange).toHaveBeenCalledWith({
+      label: '100',
+      value: 100,
+    });
   });
 });
