@@ -391,8 +391,8 @@ export const getFooterCell = ({
     ],
   }).fields;
 
-  const format = field.display ?? getDisplayProcessor({ field: filteredField, theme });
   const fieldCalcValue = reduceField({ field: filteredField, reducers: config.footer })[calc];
+  const format = field.display ?? getDisplayProcessor({ field: filteredField, theme });
 
   /**
    * If the reducer preserves units then format the

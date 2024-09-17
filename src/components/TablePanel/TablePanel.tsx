@@ -1,9 +1,10 @@
 import { PanelProps } from '@grafana/data';
-import { ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
-import React, { useEffect, useMemo } from 'react';
+import { Button, ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
+import { Table as TableInstance } from '@tanstack/react-table';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useContentSizes, usePagination, useSavedState, useTable, useUpdateRow } from '@/hooks';
+import { useContentSizes, useExportData, usePagination, useSavedState, useTable, useUpdateRow } from '@/hooks';
 import { PanelOptions } from '@/types';
 
 import { Table } from '../Table';
@@ -17,7 +18,16 @@ interface Props extends PanelProps<PanelOptions> {}
 /**
  * Table Panel
  */
-export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, eventBus, replaceVariables }) => {
+export const TablePanel: React.FC<Props> = ({
+  id,
+  data,
+  width,
+  height,
+  options,
+  eventBus,
+  replaceVariables,
+  title,
+}) => {
   /**
    * Styles
    */
@@ -45,6 +55,11 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
    * Table
    */
   const { tableData, columns } = useTable({ data, columns: currentTable?.items });
+
+  /**
+   * Table Instance
+   */
+  const tableInstance = useRef<TableInstance<(typeof tableData)[0]>>(null);
 
   /**
    * Pagination
@@ -86,6 +101,13 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
   }, [currentGroup, options.tables, options.tabsSorting]);
 
   /**
+   * Is Toolbar Visible
+   */
+  const isToolbarVisible = useMemo(() => {
+    return sortedGroups.length > 1 || options.toolbar.export;
+  }, [options.toolbar.export, sortedGroups.length]);
+
+  /**
    * Content Sizes
    */
   const {
@@ -102,6 +124,11 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
    * Update Row
    */
   const onUpdateRow = useUpdateRow({ replaceVariables, currentTable });
+
+  /**
+   * Export
+   */
+  const onExport = useExportData({ data: tableData, columns, tableConfig: currentTable, panelTitle: title });
 
   /**
    * Return
@@ -123,25 +150,36 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
           height,
         }}
       >
-        {sortedGroups.length > 1 && (
+        {isToolbarVisible && (
           <div ref={headerRef} className={styles.header}>
             <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>
-              {sortedGroups.map((group, index) => (
-                <ToolbarButton
-                  key={group.name}
-                  variant={currentGroup === group.name ? 'active' : 'default'}
-                  onClick={() => {
-                    setCurrentGroup(group.name);
-                  }}
-                  className={styles.tabButton}
-                  style={{
-                    maxWidth: index === 0 ? width - 60 : undefined,
-                  }}
-                  {...TEST_IDS.panel.tab.apply(group.name)}
+              {sortedGroups.length > 1 &&
+                sortedGroups.map((group, index) => (
+                  <ToolbarButton
+                    key={group.name}
+                    variant={currentGroup === group.name ? 'active' : 'default'}
+                    onClick={() => {
+                      setCurrentGroup(group.name);
+                    }}
+                    className={styles.tabButton}
+                    style={{
+                      maxWidth: index === 0 ? width - 60 : undefined,
+                    }}
+                    {...TEST_IDS.panel.tab.apply(group.name)}
+                  >
+                    {group.name}
+                  </ToolbarButton>
+                ))}
+              {options.toolbar.export && (
+                <Button
+                  icon="download-alt"
+                  onClick={() => onExport({ table: tableInstance.current as never })}
+                  variant="primary"
+                  size="sm"
                 >
-                  {group.name}
-                </ToolbarButton>
-              ))}
+                  Download CSV
+                </Button>
+              )}
             </ToolbarButtonRow>
           </div>
         )}
@@ -158,6 +196,7 @@ export const TablePanel: React.FC<Props> = ({ id, data, width, height, options, 
           paginationRef={paginationRef}
           width={width}
           pagination={pagination}
+          tableInstance={tableInstance as never}
         />
       </div>
     </div>

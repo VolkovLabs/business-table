@@ -377,6 +377,18 @@ export interface TableConfig {
 }
 
 /**
+ * Toolbar Options
+ */
+export interface ToolbarOptions {
+  /**
+   * Export
+   *
+   * @type {boolean}
+   */
+  export: boolean;
+}
+
+/**
  * Options
  */
 export interface PanelOptions {
@@ -393,6 +405,13 @@ export interface PanelOptions {
    * @type {boolean}
    */
   tabsSorting: boolean;
+
+  /**
+   * Toolbar
+   *
+   * @type {ToolbarOptions}
+   */
+  toolbar: ToolbarOptions;
 }
 
 /**

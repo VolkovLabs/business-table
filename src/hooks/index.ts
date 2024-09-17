@@ -9,3 +9,4 @@ export * from './useSavedState';
 export * from './useSyncedColumnFilters';
 export * from './useTable';
 export * from './useUpdateRow';
+export * from './useExportData';
