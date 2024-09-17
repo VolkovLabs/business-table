@@ -1,6 +1,6 @@
 import { getMigratedOptions } from '@/migration';
-import { ColumnFilterMode } from '@/types';
-import { createPanelOptions } from '@/utils';
+import { ColumnFilterMode, ColumnPinDirection } from '@/types';
+import { createColumnConfig, createPanelOptions, createTableConfig } from '@/utils';
 
 describe('migration', () => {
   it('Should return panel options', () => {
@@ -80,6 +80,40 @@ describe('migration', () => {
       expect(getMigratedOptions({ options: { tabsSorting: true } } as any)).toEqual(
         expect.objectContaining({
           tabsSorting: true,
+        })
+      );
+    });
+  });
+
+  describe('1.3.0', () => {
+    it('Should normalize column pin', () => {
+      expect(
+        getMigratedOptions({
+          options: {
+            tables: [
+              createTableConfig({
+                items: [
+                  createColumnConfig({
+                    pin: true as never,
+                  }),
+                  createColumnConfig({
+                    pin: false as never,
+                  }),
+                ],
+              }),
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              items: [
+                expect.objectContaining({ pin: ColumnPinDirection.LEFT }),
+                expect.objectContaining({ pin: ColumnPinDirection.NONE }),
+              ],
+            }),
+          ],
         })
       );
     });
