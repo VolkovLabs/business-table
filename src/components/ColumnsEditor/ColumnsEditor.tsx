@@ -173,8 +173,10 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
                                   {item.field.name}
                                   {item.group && <Tag name="Group" />}
                                   {item.edit.enabled && <Tag name="Editable" />}
-                                  {item.pin === ColumnPinDirection.LEFT && <Tag name="Left" />}
-                                  {item.pin === ColumnPinDirection.RIGHT && <Tag name="Right" />}
+                                  {item.pin === ColumnPinDirection.LEFT && <Tag name="Pinned: Left" />}
+                                  {item.pin === ColumnPinDirection.RIGHT && <Tag name="Pinned: Right" />}
+                                  {item.filter.enabled && <Tag name="Filterable" />}
+                                  {item.sort.enabled && <Tag name="Sortable" />}
                                 </div>
                               </div>
                             )}
