@@ -139,3 +139,5 @@ export interface Pagination {
    */
   total: number;
 }
+
+export type ToolbarButtonVariant = 'default' | 'primary' | 'destructive' | 'active' | 'canvas';

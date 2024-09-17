@@ -174,6 +174,22 @@ const PaginationMock = ({ onNavigate, currentPage, numberOfPages, ...restProps }
 
 const Pagination = jest.fn(PaginationMock);
 
+const MenuItemMock = ({ onClick, children, currentPage, numberOfPages, ...restProps }: any) => {
+  return (
+    <button
+      onClick={() => {
+        onClick();
+      }}
+      aria-label={restProps['aria-label']}
+      data-testid={restProps['aria-label']}
+    >
+      {restProps.label}
+    </button>
+  );
+};
+
+const MenuItem = jest.fn(MenuItemMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -183,6 +199,7 @@ beforeEach(() => {
   Popover.mockImplementation(PopoverMock);
   DateTimePicker.mockImplementation(DateTimePickerMock);
   Pagination.mockImplementation(PaginationMock);
+  MenuItem.mockImplementation(MenuItemMock);
 });
 
 module.exports = {
@@ -195,4 +212,5 @@ module.exports = {
   Popover,
   DateTimePicker,
   Pagination,
+  MenuItem,
 };
