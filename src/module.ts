@@ -23,6 +23,12 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         name: 'Tabs Sorting',
         description: 'Show selected tab at the first',
         showIf: (config) => config.tables?.length > 1,
+      })
+      .addBooleanSwitch({
+        path: 'toolbar.export',
+        name: 'Exportable',
+        description: 'Allow to download table data.',
+        defaultValue: false,
       });
 
     return builder;

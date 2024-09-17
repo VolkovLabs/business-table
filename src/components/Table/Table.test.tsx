@@ -1,4 +1,5 @@
 import { EventBusSrv } from '@grafana/data';
+import { Table as TableInstance } from '@tanstack/react-table';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
@@ -31,9 +32,11 @@ describe('Table', () => {
    */
   const Wrapper = (props: Partial<Props>) => {
     const ref = useRef<HTMLDivElement>(null);
+    const tableInstance = useRef<TableInstance<unknown>>(null);
+
     return (
       <div ref={ref} style={{ height: 400 }}>
-        <Table scrollableContainerRef={ref} {...(props as any)} />
+        <Table scrollableContainerRef={ref} tableInstance={tableInstance} {...(props as any)} />
       </div>
     );
   };

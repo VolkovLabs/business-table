@@ -67,15 +67,21 @@ describe('migration', () => {
     });
 
     it('Should normalize tabsSorting', () => {
-      expect(getMigratedOptions({ options: {} } as any)).toEqual({
-        tabsSorting: false,
-      });
-      expect(getMigratedOptions({ options: { tabsSorting: false } } as any)).toEqual({
-        tabsSorting: false,
-      });
-      expect(getMigratedOptions({ options: { tabsSorting: true } } as any)).toEqual({
-        tabsSorting: true,
-      });
+      expect(getMigratedOptions({ options: {} } as any)).toEqual(
+        expect.objectContaining({
+          tabsSorting: false,
+        })
+      );
+      expect(getMigratedOptions({ options: { tabsSorting: false } } as any)).toEqual(
+        expect.objectContaining({
+          tabsSorting: false,
+        })
+      );
+      expect(getMigratedOptions({ options: { tabsSorting: true } } as any)).toEqual(
+        expect.objectContaining({
+          tabsSorting: true,
+        })
+      );
     });
   });
 });

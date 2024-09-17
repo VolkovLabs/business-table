@@ -30,6 +30,7 @@ describe('plugin', () => {
     builder.addSliderInput.mockImplementation(addFieldMock);
     builder.addTextInput.mockImplementation(addFieldMock);
     builder.addMultiSelect.mockImplementation(addFieldMock);
+    builder.addBooleanSwitch.mockImplementation(addFieldMock);
   });
 
   it('Should be instance of PanelPlugin', () => {

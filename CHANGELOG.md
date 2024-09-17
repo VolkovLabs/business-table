@@ -8,6 +8,7 @@
 - Added edit permission based on query (#47)
 - Added client and query pagination (#50)
 - Added functionality to pin columns (#53)
+- Added download table data as CSV (#61)
 
 ## 1.2.0 (2023-09-05)
 

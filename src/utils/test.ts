@@ -1,4 +1,12 @@
-import { createTheme, Field, FieldType, getDisplayProcessor, toDataFrame, TypedVariableModel } from '@grafana/data';
+import {
+  createTheme,
+  DataFrame,
+  Field,
+  FieldType,
+  getDisplayProcessor,
+  toDataFrame,
+  TypedVariableModel,
+} from '@grafana/data';
 
 import {
   CellAggregation,
@@ -15,6 +23,7 @@ import {
   PanelOptions,
   TableConfig,
   TablePaginationConfig,
+  ToolbarOptions,
 } from '@/types';
 
 /**
@@ -113,11 +122,20 @@ export const createVariable = (
   }) as never;
 
 /**
+ * Create Toolbar Options
+ */
+export const createToolbarOptions = (toolbar: Partial<ToolbarOptions>): ToolbarOptions => ({
+  export: false,
+  ...toolbar,
+});
+
+/**
  * Create Panel Options
  */
 export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOptions => ({
   tables: [],
   tabsSorting: false,
+  toolbar: createToolbarOptions({}),
   ...options,
 });
 
@@ -190,3 +208,22 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   pagination: createTablePaginationConfig({}),
   ...table,
 });
+
+/**
+ * Data Frame To Object Array
+ */
+export const dataFrameToObjectArray = (dataFrame: DataFrame): Array<Record<string, unknown>> => {
+  const result: Array<Record<string, unknown>> = [];
+
+  dataFrame.fields.forEach((field) => {
+    field.values.forEach((value, rowIndex) => {
+      if (!result[rowIndex]) {
+        result[rowIndex] = {};
+      }
+
+      result[rowIndex][field.name] = value;
+    });
+  });
+
+  return result;
+};
