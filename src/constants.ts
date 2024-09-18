@@ -200,6 +200,11 @@ export const TEST_IDS = {
       (name: unknown) => `data-testid table-update-editor field-edit-quick-enabled-${name}`
     ),
   },
+  buttonSelect: {
+    root: createSelector('button-select root'),
+    dropdown: createSelector('button-select dropdown'),
+    option: createSelector((name: unknown) => `button-select option-${name}`),
+  },
 };
 
 /**

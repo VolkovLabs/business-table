@@ -9,6 +9,8 @@
 - Added client and query pagination (#50)
 - Added functionality to pin columns (#53, #65)
 - Added download table data as CSV (#61)
+- Updated Page size button to prevent overflow (#62)
+- Added reset table state on tab change (#67)
 
 ## 1.2.0 (2023-09-05)
 

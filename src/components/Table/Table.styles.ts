@@ -73,6 +73,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       }
     `,
     paginationRow: css`
+      z-index: 200;
       background-color: ${theme.colors.background.primary};
       position: sticky;
       bottom: 0;
