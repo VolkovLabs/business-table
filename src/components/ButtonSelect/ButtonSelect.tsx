@@ -14,8 +14,12 @@ import { FocusScope } from '@react-aria/focus';
 import React, { HTMLAttributes, useState } from 'react';
 
 import { TEST_IDS } from '../../constants';
-import { ToolbarButtonVariant } from '../../types';
 import { getStyles } from './ButtonSelect.styles';
+
+/**
+ * Toolbar Button Variant
+ */
+type ToolbarButtonVariant = 'default' | 'primary' | 'destructive' | 'active' | 'canvas';
 
 /**
  * Properties
