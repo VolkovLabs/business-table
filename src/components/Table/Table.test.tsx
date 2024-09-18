@@ -51,7 +51,6 @@ describe('Table', () => {
     total: 10,
     ...pagination,
   });
-
   const pagination = createPagination({});
 
   /**
