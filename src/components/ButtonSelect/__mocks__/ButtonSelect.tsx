@@ -9,7 +9,7 @@ export const ButtonSelect = ({ onChange, options, value, ...restProps }: any) =>
           (acc: SelectableValue[], option: SelectableValue) => acc.concat(option.options ? option.options : option),
           []
         );
-        // eslint-disable-next-line
+        // eslint-disable-next-line eqeqeq
         const option = plainOptions.find((option: any) => option.value == event.target.value);
 
         onChange(option);
