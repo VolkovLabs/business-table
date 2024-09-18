@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { getJestSelectors } from '@volkovlabs/jest-selectors';
+import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -28,21 +28,21 @@ describe('ButtonSelect', () => {
   /**
    * In Test Ids
    */
-  const InTestIds = {
-    pageSize: 'data-testid page-size',
+  const inTestIds = {
+    pageSize: createSelector('data-testid page-size'),
   };
 
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors({ ...TEST_IDS.buttonSelect, ...InTestIds });
+  const getSelectors = getJestSelectors({ ...TEST_IDS.buttonSelect, ...inTestIds });
   const selectors = getSelectors(screen);
 
   /**
    * Get Component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <ButtonSelect onChange={onChange} options={pageSizeOptions} data-testid={InTestIds.pageSize} {...props} />;
+    return <ButtonSelect onChange={onChange} options={pageSizeOptions} data-testid={inTestIds.pageSize} {...props} />;
   };
 
   it('Should render component', () => {
