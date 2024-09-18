@@ -11,6 +11,7 @@
 - Added download table data as CSV (#61)
 - Updated Page size button to prevent overflow (#62)
 - Added reset table state on tab change (#67)
+- Updated Table Editor to improve UI/UX (#66)
 
 ## 1.2.0 (2023-09-05)
 
