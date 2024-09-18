@@ -6,7 +6,14 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnPinDirection } from '@/types';
+import {
+  CellAggregation,
+  CellType,
+  ColumnAlignment,
+  ColumnFilterMode,
+  ColumnPinDirection,
+  ColumnSortDirection,
+} from '@/types';
 import { createColumnAppearanceConfig, createColumnConfig, createVariable } from '@/utils';
 
 import { ColumnEditor } from './ColumnEditor';
@@ -551,6 +558,33 @@ describe('ColumnEditor', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         pin: ColumnPinDirection.LEFT,
+      })
+    );
+  });
+
+  it('Should allow to set sort direction', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({
+          sort: {
+            enabled: true,
+            sortDescFirst: false,
+          },
+        }),
+      })
+    );
+
+    expect(selectors.fieldSortDirection()).toBeInTheDocument();
+    expect(selectors.fieldSortDirection()).not.toBeChecked();
+
+    fireEvent.click(selectors.sortDirectionOption(false, ColumnSortDirection.DESC));
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sort: {
+          enabled: true,
+          sortDescFirst: true,
+        },
       })
     );
   });
