@@ -40,23 +40,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       margin-left: ${theme.spacing(0.5)};
       color: ${theme.colors.text.disabled};
     `,
-    titleWrapper: css`
-      display: flex;
-      align-items: center;
-      flex-grow: 1;
-      cursor: pointer;
-      overflow: hidden;
-      margin-right: ${theme.spacing(0.5)};
-    `,
-    title: css`
-      font-weight: ${theme.typography.fontWeightBold};
-      color: ${theme.colors.text.secondary};
-      margin-left: ${theme.spacing(0.5)};
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: flex;
-      gap: ${theme.spacing(0.5)};
-    `,
+
     item: css`
       margin-bottom: ${theme.spacing(1)};
     `,

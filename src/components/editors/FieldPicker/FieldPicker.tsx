@@ -4,8 +4,9 @@ import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { FieldSource } from '@/types';
+import { getFieldKey } from '@/utils';
 
-import { getFieldKey, getFieldOption } from './utils';
+import { getFieldOption } from './utils';
 
 /**
  * Properties
@@ -101,7 +102,7 @@ export const FieldPicker: React.FC<Props> = ({
    */
   const selectValue = useMemo(() => {
     if (value) {
-      return getFieldKey(value.source, value.name);
+      return getFieldKey(value);
     }
 
     return null;

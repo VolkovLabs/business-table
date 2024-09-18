@@ -1,17 +1,16 @@
-import { cx } from '@emotion/css';
 import { DataFrame } from '@grafana/data';
 import { Button, Icon, IconButton, InlineField, InlineFieldRow, Tag, useTheme2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
+import { CollapseTitle, FieldPicker } from '@/components';
 import { DEFAULT_COLUMN_APPEARANCE, DEFAULT_COLUMN_EDIT, TEST_IDS } from '@/constants';
 import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, ColumnPinDirection, FieldSource } from '@/types';
-import { reorder } from '@/utils';
+import { getFieldKey, reorder } from '@/utils';
 
-import { ColumnEditor } from '../ColumnEditor';
-import { FieldPicker } from '../FieldPicker';
 import { getStyles } from './ColumnsEditor.styles';
+import { ColumnEditor } from './components';
 
 /**
  * Get Item Style
@@ -56,7 +55,7 @@ interface Props {
 /**
  * Columns Editor
  */
-export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, data }) => {
+export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, data }) => {
   /**
    * Styles and Theme
    */
@@ -66,7 +65,6 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
   /**
    * States
    */
-  const [items, setItems] = useState(groups);
   const [newItem, setNewItem] = useState<FieldSource | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -75,7 +73,6 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
    */
   const onChangeItems = useCallback(
     (items: ColumnConfig[]) => {
-      setItems(items);
       onChange(items);
     },
     [onChange]
@@ -154,7 +151,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
               {items.map((item, index) => (
-                <Draggable key={item.field.name} draggableId={item.field.name} index={index}>
+                <Draggable key={getFieldKey(item.field)} draggableId={getFieldKey(item.field)} index={index}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -163,32 +160,28 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
                       className={styles.item}
                     >
                       <Collapse
-                        headerTestId={TEST_IDS.columnsEditor.itemHeader.selector(item.field.name)}
-                        contentTestId={TEST_IDS.columnsEditor.itemContent.selector(item.field.name)}
+                        headerTestId={TEST_IDS.columnsEditor.itemHeader.selector(getFieldKey(item.field))}
+                        contentTestId={TEST_IDS.columnsEditor.itemContent.selector(getFieldKey(item.field))}
                         fill="solid"
                         title={
-                          <>
-                            {item.field.name && (
-                              <div className={styles.titleWrapper}>
-                                <div className={cx(styles.title)}>
-                                  {item.field.name}
-                                  {item.group && <Tag name="Group" />}
-                                  {item.edit.enabled && <Tag name="Editable" />}
-                                  {item.pin === ColumnPinDirection.LEFT && <Tag name="Pinned: Left" />}
-                                  {item.pin === ColumnPinDirection.RIGHT && <Tag name="Pinned: Right" />}
-                                  {item.filter.enabled && <Tag name="Filterable" />}
-                                  {item.sort.enabled && <Tag name="Sortable" />}
-                                </div>
-                              </div>
-                            )}
-                          </>
+                          <CollapseTitle>
+                            {item.field.name}
+                            {item.group && <Tag name="Group" />}
+                            {item.edit.enabled && <Tag name="Editable" />}
+                            {item.pin === ColumnPinDirection.LEFT && <Tag name="Pinned: Left" />}
+                            {item.pin === ColumnPinDirection.RIGHT && <Tag name="Pinned: Right" />}
+                            {item.filter.enabled && <Tag name="Filterable" />}
+                            {item.sort.enabled && <Tag name="Sortable" />}
+                          </CollapseTitle>
                         }
                         actions={
                           <>
                             <IconButton
                               name="trash-alt"
                               onClick={() =>
-                                onChangeItems(items.filter((column) => column.field.name !== item.field.name))
+                                onChangeItems(
+                                  items.filter((column) => getFieldKey(column.field) !== getFieldKey(item.field))
+                                )
                               }
                               aria-label="Remove"
                               {...TEST_IDS.columnsEditor.buttonRemove.apply()}
@@ -203,11 +196,11 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
                             </div>
                           </>
                         }
-                        isOpen={expanded[item.field.name]}
+                        isOpen={expanded[getFieldKey(item.field)]}
                         onToggle={(isOpen) =>
                           setExpanded({
                             ...expanded,
-                            [item.field.name]: isOpen,
+                            [getFieldKey(item.field)]: isOpen,
                           })
                         }
                       >
@@ -215,7 +208,9 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
                           value={item}
                           onChange={(item) => {
                             onChangeItems(
-                              items.map((column) => (column.field.name === item.field.name ? item : column))
+                              items.map((column) =>
+                                getFieldKey(column.field) === getFieldKey(item.field) ? item : column
+                              )
                             );
                           }}
                           data={data}

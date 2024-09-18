@@ -9,9 +9,7 @@ import { TEST_IDS } from '@/constants';
 import { PaginationMode, TableConfig } from '@/types';
 import { cleanPayloadObject } from '@/utils';
 
-import { ColumnsEditor } from '../ColumnsEditor';
-import { DatasourceEditor } from '../DatasourceEditor';
-import { DatasourcePayloadEditor } from '../DatasourcePayloadEditor';
+import { ColumnsEditor, TableUpdateEditor } from './components';
 import { getStyles } from './TableEditor.styles';
 
 /**
@@ -64,14 +62,8 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
   const [expanded, setExpanded] = useState({
     update: false,
     pagination: false,
+    editable: false,
   });
-
-  /**
-   * Is Editable Column
-   */
-  const isEditableColumn = useMemo(() => {
-    return value.items.some((item) => item.edit.enabled);
-  }, [value.items]);
 
   /**
    * Variable Options
@@ -104,55 +96,22 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
           });
         }}
       />
-      {isEditableColumn && (
+      <div className={styles.sectionWrapper}>
         <Collapse
-          title="Update Request"
-          isOpen={expanded.update}
+          title="Editable Data"
+          isOpen={expanded.editable}
           onToggle={(isOpen) => {
             setExpanded({
               ...expanded,
-              update: isOpen,
+              editable: isOpen,
             });
           }}
-          isInlineContent={true}
           headerTestId={TEST_IDS.tableEditor.updateSectionHeader.selector()}
           contentTestId={TEST_IDS.tableEditor.updateSectionContent.selector()}
         >
-          <div className={styles.sectionContent}>
-            <Field label="Data Source">
-              <DatasourceEditor
-                value={value.update.datasource}
-                onChange={(datasource) => {
-                  onChange({
-                    ...value,
-                    update: {
-                      ...value.update,
-                      datasource,
-                    },
-                  });
-                }}
-              />
-            </Field>
-            {value.update.datasource && (
-              <Field label="Query Editor" description="Updated row is placed in variable `${payload}`">
-                <DatasourcePayloadEditor
-                  value={value.update.payload}
-                  onChange={(payload) => {
-                    onChange({
-                      ...value,
-                      update: {
-                        ...value.update,
-                        payload: payload as Record<string, unknown>,
-                      },
-                    });
-                  }}
-                  datasourceName={value.update.datasource}
-                />
-              </Field>
-            )}
-          </div>
+          <TableUpdateEditor value={value} onChange={onChange} data={data} />
         </Collapse>
-      )}
+      </div>
 
       <InlineField label="Pagination">
         <InlineSwitch

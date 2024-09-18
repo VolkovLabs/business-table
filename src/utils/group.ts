@@ -4,6 +4,11 @@ import { findField } from '@volkovlabs/grafana-utils';
 import { FieldSource } from '@/types';
 
 /**
+ * Get Field Key
+ */
+export const getFieldKey = (field: FieldSource): string => `${field.source}:${field.name}`;
+
+/**
  * Reorder
  * @param list
  * @param startIndex

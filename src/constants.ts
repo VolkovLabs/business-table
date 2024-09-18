@@ -53,7 +53,8 @@ export const TEST_IDS = {
     buttonCancelRename: createSelector('data-testid tables-editor button-cancel-rename'),
     buttonSaveRename: createSelector('data-testid tables-editor button-save-rename'),
     fieldName: createSelector('data-testid tables-editor field-name'),
-    item: createSelector((name: unknown) => `data-testid tables-editor item-${name}`),
+    itemHeader: createSelector((name: unknown) => `data-testid tables-editor item-header-${name}`),
+    itemContent: createSelector((name: unknown) => `data-testid tables-editor item-content-${name}`),
     newItem: createSelector('data-testid tables-editor new-level'),
     newItemName: createSelector('data-testid tables-editor new-item-name'),
   },
@@ -91,12 +92,6 @@ export const TEST_IDS = {
     fieldAppearanceAlignmentOption: createSelector(
       (name: unknown) => `wcolumn-editor field-appearance-alignment-option-${name}`
     ),
-    fieldEditEnabled: createSelector('data-testid column-editor field-edit-enabled'),
-    editSettingsHeader: createSelector('data-testid column-editor edit-settings-header'),
-    editSettingsContent: createSelector('data-testid column-editor edit-settings-content'),
-    fieldEditPermissionMode: createSelector('data-testid column-editor field-edit-permission-mode'),
-    fieldEditPermissionOrgRole: createSelector('data-testid column-editor field-edit-permission-org-role'),
-    fieldEditPermissionField: createSelector('data-testid column-editor field-edit-permission-field'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -193,6 +188,19 @@ export const TEST_IDS = {
   },
   fieldPicker: {
     root: createSelector('data-testid field-picker'),
+  },
+  tableUpdateEditor: {
+    fieldEditPermissionMode: createSelector('data-testid table-update-editor field-edit-permission-mode'),
+    fieldEditPermissionOrgRole: createSelector('data-testid table-update-editor field-edit-permission-org-role'),
+    fieldEditPermissionField: createSelector('data-testid table-update-editor field-edit-permission-field'),
+    fieldEditEnabled: createSelector('data-testid table-update-editor field-edit-enabled'),
+    updateSectionHeader: createSelector('data-testid table-update-editor update-section-header'),
+    updateSectionContent: createSelector('data-testid table-update-editor update-section-content'),
+    columnHeader: createSelector((name: unknown) => `data-testid table-update-editor column-header-${name}`),
+    columnContent: createSelector((name: unknown) => `data-testid table-update-editor column-content-${name}`),
+    fieldEditQuickEnabled: createSelector(
+      (name: unknown) => `data-testid table-update-editor field-edit-quick-enabled-${name}`
+    ),
   },
   buttonSelect: {
     root: createSelector('button-select root'),

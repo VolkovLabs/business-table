@@ -49,7 +49,7 @@ export const useContentSizes = ({
       setTableTopOffset(topOffset);
       setTableBottomOffset(bottomOffset);
     }
-  }, [tableData, height, options.tables, width]);
+  }, [tableData, height, options.tables, width, options.toolbar.export]);
 
   return {
     containerRef,
