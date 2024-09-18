@@ -14,7 +14,6 @@ import {
   getGroupedRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  SortingState,
   Table as TableInstance,
   useReactTable,
 } from '@tanstack/react-table';
@@ -22,7 +21,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useEditableData, useSyncedColumnFilters } from '@/hooks';
+import { useEditableData, useSortState, useSyncedColumnFilters } from '@/hooks';
 import { ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { ButtonSelect } from '../ButtonSelect';
@@ -231,7 +230,7 @@ export const Table = <TData,>({
   /**
    * Sorting
    */
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const { sorting, onChangeSort } = useSortState({ columns });
 
   /**
    * React Table
@@ -274,7 +273,7 @@ export const Table = <TData,>({
      * Sorting
      */
     getSortedRowModel: getSortedRowModel(),
-    onSortingChange: setSorting,
+    onSortingChange: onChangeSort,
     enableSorting: true,
 
     /**

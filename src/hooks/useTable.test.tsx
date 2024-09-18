@@ -416,10 +416,12 @@ describe('useTable', () => {
       expect.objectContaining({
         id: deviceColumn.field.name,
         enableSorting: true,
+        sortDescFirst: false,
       }),
       expect.objectContaining({
         id: valueColumn.field.name,
         enableSorting: false,
+        sortDescFirst: false,
       }),
     ]);
   });

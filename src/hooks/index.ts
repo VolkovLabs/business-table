@@ -7,6 +7,7 @@ export * from './useExportData';
 export * from './useLocalStorage';
 export * from './usePagination';
 export * from './useSavedState';
+export * from './useSortState';
 export * from './useSyncedColumnFilters';
 export * from './useTable';
 export * from './useUpdateRow';
