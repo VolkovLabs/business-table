@@ -12,6 +12,12 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
   .setMigrationHandler(getMigratedOptions)
   .setPanelOptions((builder) => {
     builder
+      .addBooleanSwitch({
+        path: 'toolbar.export',
+        name: 'Exportable',
+        description: 'Allow to download table data.',
+        defaultValue: false,
+      })
       .addCustomEditor({
         id: 'tables',
         path: 'tables',
@@ -25,12 +31,6 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         description: 'Show selected tab at the first',
         showIf: (config) => config.tables?.length > 1,
         category: ['Layout'],
-      })
-      .addBooleanSwitch({
-        path: 'toolbar.export',
-        name: 'Exportable',
-        description: 'Allow to download table data.',
-        defaultValue: false,
       });
 
     return builder;
