@@ -151,6 +151,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
          */
         if (!normalized.sort) {
           normalized.sort = {
+            sortDescFirst: false,
             enabled: false,
           };
         }

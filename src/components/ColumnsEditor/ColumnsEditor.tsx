@@ -120,6 +120,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
             variable: '',
           },
           sort: {
+            sortDescFirst: false,
             enabled: false,
           },
           appearance: DEFAULT_COLUMN_APPEARANCE,

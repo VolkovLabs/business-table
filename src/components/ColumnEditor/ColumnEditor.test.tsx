@@ -273,7 +273,7 @@ describe('ColumnEditor', () => {
     it('Should allow to enable sorting', () => {
       render(
         getComponent({
-          value: createColumnConfig({ sort: { enabled: false } }),
+          value: createColumnConfig({ sort: { enabled: false, sortDescFirst: false } }),
         })
       );
 

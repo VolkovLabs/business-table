@@ -388,6 +388,7 @@ describe('useTable', () => {
         name: 'device',
       },
       sort: {
+        sortDescFirst: false,
         enabled: true,
       },
     });
@@ -397,6 +398,7 @@ describe('useTable', () => {
         name: 'value',
       },
       sort: {
+        sortDescFirst: false,
         enabled: false,
       },
     });

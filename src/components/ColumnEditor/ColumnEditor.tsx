@@ -180,6 +180,34 @@ const columnPinDirectionOptions = [
 ];
 
 /**
+ * Column Sort Direction
+ */
+export enum ColumnSortDirection {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
+/**
+ * Sort Direction Options
+ */
+const sortDirectionOptions = [
+  {
+    value: false,
+    label: ColumnSortDirection.ASC,
+    icon: 'sort-amount-up',
+    description: 'Ascending order',
+    ariaLabel: TEST_IDS.columnEditor.sortDirectionOption.selector(ColumnSortDirection.ASC),
+  },
+  {
+    value: true,
+    label: ColumnSortDirection.DESC,
+    icon: 'sort-amount-down',
+    description: 'Descending order',
+    ariaLabel: TEST_IDS.columnEditor.sortDirectionOption.selector(ColumnSortDirection.DESC),
+  },
+];
+
+/**
  * Column Footer Editor
  */
 const ColumnFooterEditor = standardEditorsRegistry.get('stats-picker').editor;
@@ -458,7 +486,23 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           />
         </InlineField>
       </InlineFieldRow>
-
+      {value.sort.enabled && (
+        <InlineField label="Default sort direction" grow={true} {...TEST_IDS.columnEditor.fieldSortDirection.apply()}>
+          <RadioButtonGroup
+            value={value.sort.sortDescFirst}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                sort: {
+                  ...value.sort,
+                  sortDescFirst: event,
+                },
+              })
+            }
+            options={sortDirectionOptions}
+          />
+        </InlineField>
+      )}
       {!value.group && isAggregationAvailable && (
         <InlineField label="Aggregation" grow={true}>
           <Select

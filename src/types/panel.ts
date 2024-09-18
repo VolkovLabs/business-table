@@ -56,6 +56,13 @@ export interface ColumnSortConfig {
    * @type {boolean}
    */
   enabled: boolean;
+
+  /**
+   * Sort direction (sort desc direction first)
+   *
+   * @type {boolean}
+   */
+  sortDescFirst: boolean;
 }
 
 /**
