@@ -192,6 +192,11 @@ export const TEST_IDS = {
   fieldPicker: {
     root: createSelector('data-testid field-picker'),
   },
+  buttonSelect: {
+    root: createSelector('button-select root'),
+    dropdown: createSelector('button-select dropdown'),
+    option: createSelector((name: unknown) => `button-select option-${name}`),
+  },
 };
 
 /**

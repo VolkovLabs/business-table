@@ -70,16 +70,27 @@ export const usePagination = ({
    * Total Count
    */
   const totalCount = useMemo(() => {
-    if (paginationConfig?.enabled && paginationConfig.query?.totalCountField) {
-      const field = getFieldBySource(data, paginationConfig.query?.totalCountField);
+    if (paginationConfig?.enabled && paginationConfig?.mode === PaginationMode.QUERY) {
+      if (paginationConfig.query?.totalCountField) {
+        const field = getFieldBySource(data, paginationConfig.query.totalCountField);
 
-      if (field) {
-        return field.values[0];
+        if (field) {
+          return field.values[0];
+        }
       }
+
+      return (value.pageIndex + 2) * value.pageSize;
     }
 
     return 0;
-  }, [data, paginationConfig?.enabled, paginationConfig?.query?.totalCountField]);
+  }, [
+    data,
+    paginationConfig?.enabled,
+    paginationConfig?.mode,
+    paginationConfig?.query?.totalCountField,
+    value.pageIndex,
+    value.pageSize,
+  ]);
 
   /**
    * Change
