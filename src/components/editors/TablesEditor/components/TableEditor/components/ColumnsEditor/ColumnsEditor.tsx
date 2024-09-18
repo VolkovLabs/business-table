@@ -55,7 +55,7 @@ interface Props {
 /**
  * Columns Editor
  */
-export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, data }) => {
+export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, data }) => {
   /**
    * Styles and Theme
    */
@@ -65,7 +65,6 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
   /**
    * States
    */
-  const [items, setItems] = useState(groups);
   const [newItem, setNewItem] = useState<FieldSource | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
@@ -74,7 +73,6 @@ export const ColumnsEditor: React.FC<Props> = ({ value: groups, name, onChange, 
    */
   const onChangeItems = useCallback(
     (items: ColumnConfig[]) => {
-      setItems(items);
       onChange(items);
     },
     [onChange]
