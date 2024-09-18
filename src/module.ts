@@ -15,14 +15,16 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addCustomEditor({
         id: 'tables',
         path: 'tables',
-        name: 'Tables',
+        name: '',
         editor: TablesEditor,
+        category: ['Layout'],
       })
       .addBooleanSwitch({
         path: 'tabsSorting',
         name: 'Tabs Sorting',
         description: 'Show selected tab at the first',
         showIf: (config) => config.tables?.length > 1,
+        category: ['Layout'],
       })
       .addBooleanSwitch({
         path: 'toolbar.export',
