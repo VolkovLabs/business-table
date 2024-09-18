@@ -12,6 +12,7 @@ import {
   ColumnConfig,
   ColumnFilterMode,
   ColumnPinDirection,
+  ColumnSortDirection,
   EditPermissionMode,
 } from '@/types';
 import { cleanPayloadObject, getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
@@ -178,14 +179,6 @@ const columnPinDirectionOptions = [
     ariaLabel: TEST_IDS.columnEditor.pinDirectionOption.selector(ColumnPinDirection.RIGHT),
   },
 ];
-
-/**
- * Column Sort Direction
- */
-export enum ColumnSortDirection {
-  ASC = 'asc',
-  DESC = 'desc',
-}
 
 /**
  * Sort Direction Options

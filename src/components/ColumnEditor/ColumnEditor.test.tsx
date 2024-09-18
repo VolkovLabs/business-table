@@ -13,6 +13,7 @@ import {
   ColumnEditorType,
   ColumnFilterMode,
   ColumnPinDirection,
+  ColumnSortDirection,
   EditPermissionMode,
 } from '@/types';
 import { createColumnAppearanceConfig, createColumnConfig, createColumnEditConfig, createVariable } from '@/utils';
@@ -727,6 +728,33 @@ describe('ColumnEditor', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         pin: ColumnPinDirection.LEFT,
+      })
+    );
+  });
+
+  it('Should allow to set sort direction', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({
+          sort: {
+            enabled: true,
+            sortDescFirst: false,
+          },
+        }),
+      })
+    );
+
+    expect(selectors.fieldSortDirection()).toBeInTheDocument();
+    expect(selectors.fieldSortDirection()).not.toBeChecked();
+
+    fireEvent.click(selectors.sortDirectionOption(false, ColumnSortDirection.DESC));
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sort: {
+          enabled: true,
+          sortDescFirst: true,
+        },
       })
     );
   });
