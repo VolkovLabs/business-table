@@ -317,6 +317,7 @@ describe('Table', () => {
     });
 
     await act(async () => render(getComponent({ pagination })));
+
     expect(selectors.fieldPageSize()).toBeInTheDocument();
 
     fireEvent.change(selectors.fieldPageSize(), { target: { value: '100' } });
