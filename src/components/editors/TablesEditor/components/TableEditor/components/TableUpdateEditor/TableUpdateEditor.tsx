@@ -73,6 +73,11 @@ const userOrgRoleOptions = Object.values(OrgRole).map((role) => ({
 }));
 
 /**
+ * Test Ids
+ */
+const testIds = TEST_IDS.tableUpdateEditor;
+
+/**
  * Table Update Editor
  */
 export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) => {
@@ -140,6 +145,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                         [getFieldKey(item.field)]: event.currentTarget.checked,
                       });
                     }}
+                    {...testIds.fieldEditQuickEnabled.apply(getFieldKey(item.field))}
                   />
                   {item.edit.enabled && <Tag name={item.edit.editor.type} />}
                 </CollapseTitle>
@@ -151,6 +157,8 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                   [getFieldKey(item.field)]: isOpen,
                 })
               }
+              headerTestId={testIds.columnHeader.selector(getFieldKey(item.field))}
+              contentTestId={testIds.columnContent.selector(getFieldKey(item.field))}
             >
               <>
                 <InlineField label="Editable">
@@ -165,6 +173,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                         },
                       });
                     }}
+                    {...testIds.fieldEditEnabled.apply()}
                   />
                 </InlineField>
                 {item.edit.enabled && (
@@ -186,7 +195,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                             });
                           }}
                           options={editPermissionModeOptions}
-                          {...TEST_IDS.columnEditor.fieldEditPermissionMode.apply()}
+                          {...testIds.fieldEditPermissionMode.apply()}
                         />
                       </InlineField>
                       {item.edit.permission.mode === EditPermissionMode.USER_ROLE && (
@@ -211,7 +220,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                             isMulti={true}
                             isClearable={true}
                             placeholder="Allowed Org User Role"
-                            {...TEST_IDS.columnEditor.fieldEditPermissionOrgRole.apply()}
+                            {...testIds.fieldEditPermissionOrgRole.apply()}
                           />
                         </InlineField>
                       )}
@@ -238,7 +247,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                             data={data}
                             includeTypes={[FieldType.boolean]}
                             isClearable={true}
-                            {...TEST_IDS.columnEditor.fieldEditPermissionField.apply()}
+                            {...testIds.fieldEditPermissionField.apply()}
                           />
                         </InlineField>
                       )}
@@ -277,6 +286,8 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                 update: isOpen,
               });
             }}
+            headerTestId={testIds.updateSectionHeader.selector()}
+            contentTestId={testIds.updateSectionContent.selector()}
           >
             <>
               <Field label="Data Source">

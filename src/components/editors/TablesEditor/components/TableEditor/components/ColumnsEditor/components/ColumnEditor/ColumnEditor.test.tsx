@@ -1,4 +1,4 @@
-import { OrgRole, toDataFrame } from '@grafana/data';
+import { toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { Select } from '@grafana/ui';
 import { fireEvent, render, screen } from '@testing-library/react';
@@ -6,16 +6,8 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import {
-  CellAggregation,
-  CellType,
-  ColumnAlignment,
-  ColumnEditorType,
-  ColumnFilterMode,
-  ColumnPinDirection,
-  EditPermissionMode,
-} from '@/types';
-import { createColumnAppearanceConfig, createColumnConfig, createColumnEditConfig, createVariable } from '@/utils';
+import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnPinDirection } from '@/types';
+import { createColumnAppearanceConfig, createColumnConfig, createVariable } from '@/utils';
 
 import { ColumnEditor } from './ColumnEditor';
 
@@ -542,174 +534,6 @@ describe('ColumnEditor', () => {
         footer: ['max'],
       })
     );
-  });
-
-  it('Should allow to enable edit', () => {
-    render(
-      getComponent({
-        value: createColumnConfig({
-          edit: createColumnEditConfig({
-            enabled: false,
-          }),
-        }),
-      })
-    );
-
-    expect(selectors.fieldEditEnabled()).toBeInTheDocument();
-
-    fireEvent.click(selectors.fieldEditEnabled());
-
-    expect(onChange).toHaveBeenCalledWith(
-      expect.objectContaining({
-        edit: expect.objectContaining({
-          enabled: true,
-        }),
-      })
-    );
-  });
-
-  describe('Edit Settings', () => {
-    const openSettings = () => {
-      expect(selectors.editSettingsHeader()).toBeInTheDocument();
-
-      fireEvent.click(selectors.editSettingsHeader());
-
-      expect(selectors.editSettingsContent()).toBeInTheDocument();
-    };
-
-    it('Should allow to set edit permission mode', () => {
-      render(
-        getComponent({
-          value: createColumnConfig({
-            edit: createColumnEditConfig({
-              enabled: true,
-            }),
-          }),
-        })
-      );
-
-      openSettings();
-
-      expect(selectors.fieldEditPermissionMode()).toBeInTheDocument();
-
-      fireEvent.change(selectors.fieldEditPermissionMode(), { target: { value: EditPermissionMode.USER_ROLE } });
-
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          edit: expect.objectContaining({
-            permission: expect.objectContaining({
-              mode: EditPermissionMode.USER_ROLE,
-            }),
-          }),
-        })
-      );
-    });
-
-    it('Should allow to set permission user role', () => {
-      render(
-        getComponent({
-          value: createColumnConfig({
-            edit: createColumnEditConfig({
-              enabled: true,
-              permission: {
-                mode: EditPermissionMode.USER_ROLE,
-                userRole: [],
-                field: {
-                  source: '',
-                  name: '',
-                },
-              },
-            }),
-          }),
-        })
-      );
-
-      openSettings();
-
-      expect(selectors.fieldEditPermissionOrgRole()).toBeInTheDocument();
-
-      fireEvent.change(selectors.fieldEditPermissionOrgRole(), { target: { values: [OrgRole.Admin] } });
-
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          edit: expect.objectContaining({
-            permission: expect.objectContaining({
-              userRole: [OrgRole.Admin],
-            }),
-          }),
-        })
-      );
-    });
-
-    it('Should allow to set permission field', () => {
-      render(
-        getComponent({
-          value: createColumnConfig({
-            edit: createColumnEditConfig({
-              enabled: true,
-              permission: {
-                mode: EditPermissionMode.QUERY,
-                userRole: [],
-              },
-            }),
-          }),
-          data: [toDataFrame({ refId: 'A', fields: [{ name: 'edit', values: [true] }] })],
-        })
-      );
-
-      openSettings();
-
-      expect(selectors.fieldEditPermissionField()).toBeInTheDocument();
-
-      fireEvent.change(selectors.fieldEditPermissionField(), { target: { value: 'A:edit' } });
-
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          edit: expect.objectContaining({
-            permission: expect.objectContaining({
-              field: {
-                source: 'A',
-                name: 'edit',
-              },
-            }),
-          }),
-        })
-      );
-    });
-
-    it('Should allow to set editor config', () => {
-      render(
-        getComponent({
-          value: createColumnConfig({
-            edit: createColumnEditConfig({
-              enabled: true,
-              editor: {
-                type: ColumnEditorType.NUMBER,
-              },
-            }),
-          }),
-        })
-      );
-
-      openSettings();
-
-      const editorConfigSelectors = getJestSelectors(TEST_IDS.editableColumnEditor)(screen);
-      expect(editorConfigSelectors.fieldNumberMin()).toBeInTheDocument();
-
-      fireEvent.change(editorConfigSelectors.fieldNumberMin(), { target: { value: 10 } });
-      fireEvent.blur(editorConfigSelectors.fieldNumberMin(), { target: { value: 10 } });
-
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          edit: expect.objectContaining({
-            editor: {
-              type: ColumnEditorType.NUMBER,
-              min: 10,
-            },
-          }),
-        })
-      );
-    });
   });
 
   it('Should allow to enable pinning', () => {

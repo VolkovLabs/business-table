@@ -102,8 +102,8 @@ describe('ColumnsEditor', () => {
       })
     );
 
-    expect(selectors.itemHeader(false, 'field1')).toBeInTheDocument();
-    expect(selectors.itemHeader(false, 'field2')).toBeInTheDocument();
+    expect(selectors.itemHeader(false, 'A:field1')).toBeInTheDocument();
+    expect(selectors.itemHeader(false, 'A:field2')).toBeInTheDocument();
   });
 
   it('Should allow select any fields', () => {
@@ -301,7 +301,7 @@ describe('ColumnsEditor', () => {
       })
     );
 
-    const field2 = selectors.itemHeader(false, 'field2');
+    const field2 = selectors.itemHeader(false, 'A:field2');
 
     /**
      * Check field presence
@@ -422,15 +422,15 @@ describe('ColumnsEditor', () => {
       })
     );
 
-    expect(selectors.itemHeader(false, 'field1')).toBeInTheDocument();
-    expect(selectors.itemContent(true, 'field1')).not.toBeInTheDocument();
+    expect(selectors.itemHeader(false, 'a:field1')).toBeInTheDocument();
+    expect(selectors.itemContent(true, 'a:field1')).not.toBeInTheDocument();
 
     /**
      * Expand
      */
-    fireEvent.click(selectors.itemHeader(false, 'field1'));
+    fireEvent.click(selectors.itemHeader(false, 'a:field1'));
 
-    expect(selectors.itemContent(false, 'field1')).toBeInTheDocument();
+    expect(selectors.itemContent(false, 'a:field1')).toBeInTheDocument();
   });
 
   it('Should allow to change item', () => {
@@ -449,7 +449,7 @@ describe('ColumnsEditor', () => {
     /**
      * Expand
      */
-    fireEvent.click(selectors.itemHeader(false, 'field1'));
+    fireEvent.click(selectors.itemHeader(false, 'a:field1'));
 
     expect(selectors.columnEditor()).toBeInTheDocument();
 

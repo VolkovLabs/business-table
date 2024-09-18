@@ -106,6 +106,8 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
               editable: isOpen,
             });
           }}
+          headerTestId={TEST_IDS.tableEditor.updateSectionHeader.selector()}
+          contentTestId={TEST_IDS.tableEditor.updateSectionContent.selector()}
         >
           <TableUpdateEditor value={value} onChange={onChange} data={data} />
         </Collapse>
