@@ -42,7 +42,7 @@ describe('ButtonSelect', () => {
    * Get Component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <ButtonSelect onChange={onChange} options={pageSizeOptions} data-testid={inTestIds.pageSize} {...props} />;
+    return <ButtonSelect onChange={onChange} options={pageSizeOptions} {...inTestIds.pageSize.apply()} {...props} />;
   };
 
   it('Should render component', () => {
@@ -55,7 +55,6 @@ describe('ButtonSelect', () => {
     render(getComponent({ value: { value: 10 } }));
 
     expect(selectors.pageSize()).toBeInTheDocument();
-
     expect(selectors.pageSize()).toHaveTextContent('10');
   });
 
@@ -63,17 +62,14 @@ describe('ButtonSelect', () => {
     render(getComponent({ value: { value: 10 } }));
 
     expect(selectors.pageSize()).toBeInTheDocument();
-
     expect(selectors.pageSize()).toHaveTextContent('10');
 
     expect(selectors.dropDown(true)).not.toBeInTheDocument();
 
     fireEvent.click(selectors.pageSize());
-
-    expect(selectors.dropDown(true)).toBeInTheDocument();
+    expect(selectors.dropDown()).toBeInTheDocument();
 
     fireEvent.click(selectors.pageSize());
-
     expect(selectors.dropDown(true)).not.toBeInTheDocument();
   });
 
@@ -82,17 +78,15 @@ describe('ButtonSelect', () => {
     render(getComponent({ value: { value: 10 }, onChange }));
 
     expect(selectors.pageSize()).toBeInTheDocument();
-
     expect(selectors.pageSize()).toHaveTextContent('10');
 
     fireEvent.click(selectors.pageSize());
 
-    expect(selectors.dropDown(true)).toBeInTheDocument();
+    expect(selectors.dropDown()).toBeInTheDocument();
 
-    expect(selectors.cell(true, 100)).toBeInTheDocument();
+    expect(selectors.cell(false, 100)).toBeInTheDocument();
 
-    fireEvent.click(selectors.cell(true, 100));
-
+    fireEvent.click(selectors.cell(false, 100));
     expect(onChange).toHaveBeenCalledWith({
       label: '100',
       value: 100,
