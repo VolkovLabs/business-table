@@ -9,7 +9,7 @@ import { TEST_IDS } from '@/constants';
 import { PaginationMode, PanelOptions, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
-import { TableEditor } from '../TableEditor';
+import { TableEditor } from './components';
 import { getStyles } from './TablesEditor.styles';
 
 /**
@@ -231,7 +231,8 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                             <div className={cx(styles.itemHeader, styles.itemHeaderText)}>{item.name}</div>
                           )
                         }
-                        headerTestId={TEST_IDS.tablesEditor.item.selector(item.name)}
+                        headerTestId={TEST_IDS.tablesEditor.itemHeader.selector(item.name)}
+                        contentTestId={TEST_IDS.tablesEditor.itemContent.selector(item.name)}
                         actions={
                           <>
                             {editItem !== item.name && (

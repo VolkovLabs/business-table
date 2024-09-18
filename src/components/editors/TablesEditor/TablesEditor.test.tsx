@@ -1,13 +1,13 @@
 import { toDataFrame } from '@grafana/data';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
-import { getJestSelectors } from '@volkovlabs/jest-selectors';
+import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { createColumnConfig, createTableConfig } from '@/utils';
+import { createColumnConfig, createPanelOptions, createTableConfig } from '@/utils';
 
-import { ColumnsEditor } from '../ColumnsEditor';
+import { TableEditor } from './components';
 import { TablesEditor } from './TablesEditor';
 
 /**
@@ -16,20 +16,21 @@ import { TablesEditor } from './TablesEditor';
 type Props = React.ComponentProps<typeof TablesEditor>;
 
 /**
- * Mock Columns Editor
- */
-const ColumnsEditorMock = () => <div {...TEST_IDS.columnsEditor.root.apply()} />;
-
-jest.mock('../ColumnsEditor', () => ({
-  ColumnsEditor: jest.fn(() => ColumnsEditorMock()),
-}));
-
-/**
  * In Test Ids
  */
-const InTestIds = {
-  buttonLevelsUpdate: 'data-testid button-levels-update',
+const inTestIds = {
+  tableEditor: createSelector('data-testid table-editor'),
+  buttonLevelsUpdate: createSelector('data-testid button-levels-update'),
 };
+
+/**
+ * Mock Table Editor
+ */
+const TableEditorMock = () => <div {...inTestIds.tableEditor.apply()} />;
+
+jest.mock('./components', () => ({
+  TableEditor: jest.fn(),
+}));
 
 describe('TablesEditor', () => {
   /**
@@ -67,18 +68,12 @@ describe('TablesEditor', () => {
    */
   const getSelectors = getJestSelectors({
     ...TEST_IDS.tablesEditor,
-    ...InTestIds,
+    ...inTestIds,
   });
   const selectors = getSelectors(screen);
 
-  /**
-   * Levels Selectors
-   */
-  const getLevelsSelectors = getJestSelectors(TEST_IDS.columnsEditor);
-  const levelsSelectors = getLevelsSelectors(screen);
-
   beforeEach(() => {
-    jest.mocked(ColumnsEditor).mockImplementation(ColumnsEditorMock);
+    jest.mocked(TableEditor).mockImplementation(TableEditorMock);
   });
 
   it('Should render tables', () => {
@@ -102,8 +97,8 @@ describe('TablesEditor', () => {
       })
     );
 
-    expect(selectors.item(false, 'group1')).toBeInTheDocument();
-    expect(selectors.item(false, 'group2')).toBeInTheDocument();
+    expect(selectors.itemHeader(false, 'group1')).toBeInTheDocument();
+    expect(selectors.itemHeader(false, 'group2')).toBeInTheDocument();
   });
 
   it('Should render if tables unspecified', () => {
@@ -176,7 +171,7 @@ describe('TablesEditor', () => {
       })
     );
 
-    const item2 = selectors.item(false, 'group2');
+    const item2 = selectors.itemHeader(false, 'group2');
     const item2Selectors = getSelectors(within(item2));
 
     /**
@@ -217,9 +212,9 @@ describe('TablesEditor', () => {
         })
       );
 
-      const item1 = selectors.item(false, 'group1');
+      const item1 = selectors.itemHeader(false, 'group1');
       const item1Selectors = getSelectors(within(item1));
-      const item2 = selectors.item(false, 'group2');
+      const item2 = selectors.itemHeader(false, 'group2');
       const item2Selectors = getSelectors(within(item2));
 
       /**
@@ -288,7 +283,7 @@ describe('TablesEditor', () => {
         })
       );
 
-      const item = selectors.item(false, 'group2');
+      const item = selectors.itemHeader(false, 'group2');
       const itemSelectors = getSelectors(within(item));
 
       /**
@@ -352,7 +347,7 @@ describe('TablesEditor', () => {
         })
       );
 
-      const item = selectors.item(false, 'group2');
+      const item = selectors.itemHeader(false, 'group2');
       const itemSelectors = getSelectors(within(item));
 
       /**
@@ -415,7 +410,7 @@ describe('TablesEditor', () => {
         })
       );
 
-      const item = selectors.item(false, 'group2');
+      const item = selectors.itemHeader(false, 'group2');
       const itemSelectors = getSelectors(within(item));
 
       /**
@@ -476,7 +471,7 @@ describe('TablesEditor', () => {
         })
       );
 
-      const item = selectors.item(false, 'group2');
+      const item = selectors.itemHeader(false, 'group2');
       const itemSelectors = getSelectors(within(item));
 
       /**
@@ -540,7 +535,7 @@ describe('TablesEditor', () => {
         })
       );
 
-      const item = selectors.item(false, 'group2');
+      const item = selectors.itemHeader(false, 'group2');
       const itemSelectors = getSelectors(within(item));
 
       /**
@@ -556,7 +551,7 @@ describe('TablesEditor', () => {
       /**
        * Check if item expanded
        */
-      expect(levelsSelectors.root()).toBeInTheDocument();
+      expect(selectors.tableEditor()).toBeInTheDocument();
 
       /**
        * Check rename is not started
@@ -606,7 +601,7 @@ describe('TablesEditor', () => {
       /**
        * Check if item still expanded
        */
-      expect(levelsSelectors.root()).toBeInTheDocument();
+      expect(selectors.tableEditor()).toBeInTheDocument();
     });
   });
 
@@ -634,7 +629,7 @@ describe('TablesEditor', () => {
       })
     );
 
-    const item1 = selectors.item(false, 'group1');
+    const item1 = selectors.itemHeader(false, 'group1');
 
     /**
      * Check field presence
@@ -646,15 +641,20 @@ describe('TablesEditor', () => {
      */
     await act(() => fireEvent.click(item1));
 
-    expect(levelsSelectors.root()).toBeInTheDocument();
+    expect(selectors.tableEditor()).toBeInTheDocument();
   });
 
   it('Should update item', () => {
     const onChange = jest.fn();
 
-    jest.mocked(ColumnsEditor).mockImplementation(({ onChange }) => (
-      <div data-testid={TEST_IDS.columnsEditor.root}>
-        <button data-testid={InTestIds.buttonLevelsUpdate} onClick={() => onChange([])} />
+    jest.mocked(TableEditor).mockImplementation(({ value, onChange }) => (
+      <div {...inTestIds.tableEditor.apply()}>
+        <button
+          {...inTestIds.buttonLevelsUpdate.apply()}
+          onClick={() => {
+            onChange(createTableConfig({ name: value.name, items: [] }));
+          }}
+        />
       </div>
     ));
 
@@ -662,7 +662,7 @@ describe('TablesEditor', () => {
       getComponent({
         context: {
           data: [dataFrameA, dataFrameB],
-          options: {
+          options: createPanelOptions({
             tables: [
               createTableConfig({
                 name: 'group1',
@@ -693,7 +693,7 @@ describe('TablesEditor', () => {
                 ],
               }),
             ],
-          } as any,
+          }),
         } as any,
         onChange,
       })
@@ -702,7 +702,8 @@ describe('TablesEditor', () => {
     /**
      * Open group1
      */
-    fireEvent.click(selectors.item(false, 'group1'));
+    fireEvent.click(selectors.itemHeader(false, 'group1'));
+    expect(selectors.itemContent(false, 'group1')).toBeInTheDocument();
 
     /**
      * Simulate group change

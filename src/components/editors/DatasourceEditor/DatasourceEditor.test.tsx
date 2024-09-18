@@ -10,7 +10,7 @@ import { DatasourceEditor } from './DatasourceEditor';
 /**
  * Mock hooks
  */
-jest.mock('../../hooks', () => ({
+jest.mock('@/hooks', () => ({
   useDatasources: jest.fn(() => []),
 }));
 
