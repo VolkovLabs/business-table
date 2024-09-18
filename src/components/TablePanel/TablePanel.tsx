@@ -185,6 +185,7 @@ export const TablePanel: React.FC<Props> = ({
           </div>
         )}
         <Table
+          key={currentTable?.name}
           data={tableData}
           columns={columns}
           tableRef={tableRef}
