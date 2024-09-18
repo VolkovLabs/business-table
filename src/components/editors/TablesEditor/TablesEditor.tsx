@@ -9,7 +9,7 @@ import { TEST_IDS } from '@/constants';
 import { PaginationMode, PanelOptions, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
-import { TableEditor } from '../TableEditor';
+import { TableEditor } from './components';
 import { getStyles } from './TablesEditor.styles';
 
 /**

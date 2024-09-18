@@ -7,7 +7,7 @@ import React from 'react';
 import { TEST_IDS } from '@/constants';
 import { createColumnConfig, createTableConfig } from '@/utils';
 
-import { ColumnsEditor } from '../ColumnsEditor';
+import { TableEditor } from './components';
 import { TablesEditor } from './TablesEditor';
 
 /**
@@ -16,12 +16,12 @@ import { TablesEditor } from './TablesEditor';
 type Props = React.ComponentProps<typeof TablesEditor>;
 
 /**
- * Mock Columns Editor
+ * Mock Table Editor
  */
-const ColumnsEditorMock = () => <div {...TEST_IDS.columnsEditor.root.apply()} />;
+const TableEditorMock = () => <div {...TEST_IDS.columnsEditor.root.apply()} />;
 
-jest.mock('../ColumnsEditor', () => ({
-  ColumnsEditor: jest.fn(() => ColumnsEditorMock()),
+jest.mock('./components', () => ({
+  TableEditor: jest.fn().mockImplementation(TableEditorMock),
 }));
 
 /**
@@ -78,7 +78,7 @@ describe('TablesEditor', () => {
   const levelsSelectors = getLevelsSelectors(screen);
 
   beforeEach(() => {
-    jest.mocked(ColumnsEditor).mockImplementation(ColumnsEditorMock);
+    jest.mocked(TableEditor).mockImplementation(TableEditorMock);
   });
 
   it('Should render tables', () => {
@@ -652,9 +652,9 @@ describe('TablesEditor', () => {
   it('Should update item', () => {
     const onChange = jest.fn();
 
-    jest.mocked(ColumnsEditor).mockImplementation(({ onChange }) => (
+    jest.mocked(TableEditor).mockImplementation(({ onChange }) => (
       <div data-testid={TEST_IDS.columnsEditor.root}>
-        <button data-testid={InTestIds.buttonLevelsUpdate} onClick={() => onChange([])} />
+        <button data-testid={InTestIds.buttonLevelsUpdate} onClick={() => onChange(createTableConfig({ items: [] }))} />
       </div>
     ));
 

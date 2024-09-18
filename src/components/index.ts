@@ -1,5 +1,4 @@
-export { editableColumnEditorsRegistry } from './ColumnEditor';
-export * from './FieldPicker';
+export * from './editors';
 export * from './Table';
 export * from './TablePanel';
-export * from './TablesEditor';
+export * from './ui';

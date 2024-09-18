@@ -8,8 +8,8 @@ import React from 'react';
 import { DEFAULT_COLUMN_APPEARANCE, TEST_IDS } from '@/constants';
 import { createColumnAppearanceConfig, createColumnConfig } from '@/utils';
 
-import { ColumnEditor } from '../ColumnEditor';
 import { ColumnsEditor } from './ColumnsEditor';
+import { ColumnEditor } from './components';
 
 /**
  * Props
@@ -35,7 +35,7 @@ const ColumnEditorMock = ({ value, onChange }: any) => (
 /**
  * Mock Column Editor
  */
-jest.mock('../ColumnEditor', () => ({
+jest.mock('./components/ColumnEditor', () => ({
   ColumnEditor: jest.fn(),
 }));
 
