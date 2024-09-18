@@ -64,13 +64,13 @@ describe('ButtonSelect', () => {
     expect(selectors.pageSize()).toBeInTheDocument();
     expect(selectors.pageSize()).toHaveTextContent('10');
 
-    expect(selectors.dropDown(true)).not.toBeInTheDocument();
+    expect(selectors.dropdown(true)).not.toBeInTheDocument();
 
     fireEvent.click(selectors.pageSize());
-    expect(selectors.dropDown()).toBeInTheDocument();
+    expect(selectors.dropdown()).toBeInTheDocument();
 
     fireEvent.click(selectors.pageSize());
-    expect(selectors.dropDown(true)).not.toBeInTheDocument();
+    expect(selectors.dropdown(true)).not.toBeInTheDocument();
   });
 
   it('Should handle onChange', async () => {
@@ -82,11 +82,11 @@ describe('ButtonSelect', () => {
 
     fireEvent.click(selectors.pageSize());
 
-    expect(selectors.dropDown()).toBeInTheDocument();
+    expect(selectors.dropdown()).toBeInTheDocument();
 
-    expect(selectors.cell(false, 100)).toBeInTheDocument();
+    expect(selectors.option(false, 100)).toBeInTheDocument();
 
-    fireEvent.click(selectors.cell(false, 100));
+    fireEvent.click(selectors.option(false, 100));
     expect(onChange).toHaveBeenCalledWith({
       label: '100',
       value: 100,

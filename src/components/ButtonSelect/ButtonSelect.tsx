@@ -13,7 +13,8 @@ import { Menu, MenuItem, ToolbarButton, useTheme2 } from '@grafana/ui';
 import { FocusScope } from '@react-aria/focus';
 import React, { HTMLAttributes, useState } from 'react';
 
-import { TEST_IDS } from '../../constants';
+import { TEST_IDS } from '@/constants';
+
 import { getStyles } from './ButtonSelect.styles';
 
 /**
@@ -46,7 +47,9 @@ export const ButtonSelect = <T,>(props: Props<T>) => {
   const { className, options, value, onChange, narrow, variant, ...restProps } = props;
   const [isOpen, setIsOpen] = useState(false);
 
-  // the order of middleware is important!
+  /**
+   * The order of middleware is important!
+   */
   const middleware = [
     offset(0),
     flip({
@@ -95,7 +98,7 @@ export const ButtonSelect = <T,>(props: Props<T>) => {
           ref={refs.setFloating}
           {...getFloatingProps()}
           style={floatingStyles}
-          {...TEST_IDS.buttonSelect.dropDown.apply()}
+          {...TEST_IDS.buttonSelect.dropdown.apply()}
         >
           <FocusScope contain autoFocus restoreFocus>
             {/*
@@ -114,7 +117,7 @@ export const ButtonSelect = <T,>(props: Props<T>) => {
                   disabled={item.isDisabled}
                   component={item.component}
                   role="menuitemradio"
-                  {...TEST_IDS.buttonSelect.cell.apply(item.value)}
+                  {...TEST_IDS.buttonSelect.option.apply(item.value)}
                 />
               ))}
             </Menu>

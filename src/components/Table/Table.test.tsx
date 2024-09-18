@@ -15,7 +15,6 @@ type Props = React.ComponentProps<typeof Table>;
 /**
  * Mock ButtonSelect
  */
-
 jest.mock('../ButtonSelect');
 
 describe('Table', () => {

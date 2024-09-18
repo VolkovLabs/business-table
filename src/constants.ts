@@ -194,8 +194,8 @@ export const TEST_IDS = {
   },
   buttonSelect: {
     root: createSelector('button-select root'),
-    dropDown: createSelector('button-select dropdown'),
-    cell: createSelector((name: unknown) => `button-select cell-${name}`),
+    dropdown: createSelector('button-select dropdown'),
+    option: createSelector((name: unknown) => `button-select option-${name}`),
   },
 };
 
