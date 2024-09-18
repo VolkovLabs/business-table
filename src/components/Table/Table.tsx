@@ -1,5 +1,5 @@
 import { EventBus, GrafanaTheme2 } from '@grafana/data';
-import { ButtonSelect, Pagination, useStyles2, useTheme2 } from '@grafana/ui';
+import { Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
   Column,
   ColumnDef,
@@ -25,6 +25,7 @@ import { TEST_IDS } from '@/constants';
 import { useEditableData, useSyncedColumnFilters } from '@/hooks';
 import { ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
+import { ButtonSelect } from '../ButtonSelect';
 import { TableHeaderCell, TableRow } from './components';
 import { getStyles } from './Table.styles';
 
