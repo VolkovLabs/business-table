@@ -105,7 +105,7 @@ describe('usePagination', () => {
       expect(result.current.total).toEqual(10500);
     });
 
-    it('Should work if no frame with total', async () => {
+    it('Should make fallback if no frame with total', async () => {
       const paginationConfig = createTablePaginationConfig({
         enabled: true,
         mode: PaginationMode.QUERY,
@@ -127,7 +127,11 @@ describe('usePagination', () => {
         )
       );
 
-      expect(result.current.total).toEqual(0);
+      expect(result.current.total).toEqual(20);
+
+      await act(async () => result.current.onChange({ pageIndex: 1, pageSize: 15 }));
+
+      expect(result.current.total).toEqual(45);
     });
 
     it('Should take initial values from variables', async () => {
