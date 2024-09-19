@@ -47,14 +47,6 @@ export interface ColumnFilterConfig {
 }
 
 /**
- * Column Sort Direction
- */
-export enum ColumnSortDirection {
-  ASC = 'asc',
-  DESC = 'desc',
-}
-
-/**
  * Column Sort Config
  */
 export interface ColumnSortConfig {
@@ -66,11 +58,11 @@ export interface ColumnSortConfig {
   enabled: boolean;
 
   /**
-   * Sort direction (sort desc direction first)
+   * If Desc Direction First
    *
    * @type {boolean}
    */
-  sortDescFirst: boolean;
+  descFirst: boolean;
 }
 
 /**

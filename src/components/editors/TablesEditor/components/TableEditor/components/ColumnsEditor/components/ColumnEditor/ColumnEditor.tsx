@@ -13,7 +13,6 @@ import {
   ColumnConfig,
   ColumnFilterMode,
   ColumnPinDirection,
-  ColumnSortDirection,
 } from '@/types';
 import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
@@ -157,17 +156,17 @@ const columnPinDirectionOptions = [
 const sortDirectionOptions = [
   {
     value: false,
-    label: ColumnSortDirection.ASC,
+    label: 'A-Z',
     icon: 'sort-amount-up',
     description: 'Ascending order',
-    ariaLabel: TEST_IDS.columnEditor.sortDirectionOption.selector(ColumnSortDirection.ASC),
+    ariaLabel: TEST_IDS.columnEditor.sortDirectionOption.selector('asc'),
   },
   {
     value: true,
-    label: ColumnSortDirection.DESC,
+    label: 'Z-A',
     icon: 'sort-amount-down',
     description: 'Descending order',
-    ariaLabel: TEST_IDS.columnEditor.sortDirectionOption.selector(ColumnSortDirection.DESC),
+    ariaLabel: TEST_IDS.columnEditor.sortDirectionOption.selector('desc'),
   },
 ];
 
@@ -476,13 +475,13 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
         <FieldsGroup label="Sort">
           <InlineField label="Default sort direction" grow={true} {...TEST_IDS.columnEditor.fieldSortDirection.apply()}>
             <RadioButtonGroup
-              value={value.sort.sortDescFirst}
+              value={value.sort.descFirst}
               onChange={(event) =>
                 onChange({
                   ...value,
                   sort: {
                     ...value.sort,
-                    sortDescFirst: event,
+                    descFirst: event,
                   },
                 })
               }

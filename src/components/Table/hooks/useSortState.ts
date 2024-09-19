@@ -10,15 +10,16 @@ export const useSortState = <TData>({ columns }: { columns: Array<ColumnDef<TDat
    */
   const [sorting, setSorting] = useState<SortingState>([]);
 
+  /**
+   * Update Sorting State
+   */
   useEffect(() => {
     /**
-     * Handle editor options
+     * Find first sortable column
      */
-    const sortingState = columns
-      .filter((column) => column.enableSorting)
-      .map((column) => ({ id: column.id!, desc: column.sortDescFirst! }));
+    const firstSortableColumn = columns.find((column) => column.enableSorting);
 
-    setSorting(sortingState);
+    setSorting(firstSortableColumn ? [{ id: firstSortableColumn.id!, desc: firstSortableColumn.sortDescFirst! }] : []);
   }, [columns]);
 
   /**

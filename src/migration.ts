@@ -151,7 +151,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
          */
         if (!normalized.sort) {
           normalized.sort = {
-            sortDescFirst: false,
+            descFirst: false,
             enabled: false,
           };
         }
@@ -159,10 +159,10 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
         /**
          * Add sortDescFirst option if missed
          */
-        if (!normalized.sort.hasOwnProperty('sortDescFirst')) {
+        if (normalized.sort.descFirst === undefined) {
           normalized.sort = {
             ...normalized.sort,
-            sortDescFirst: false,
+            descFirst: false,
           };
         }
 

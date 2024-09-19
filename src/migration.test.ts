@@ -118,7 +118,7 @@ describe('migration', () => {
       );
     });
 
-    it('Should normalize sortDescFirst option for sort', () => {
+    it('Should normalize descFirst option for sort', () => {
       expect(
         getMigratedOptions({
           options: {
@@ -138,7 +138,7 @@ describe('migration', () => {
                   createColumnConfig({
                     sort: {
                       enabled: true,
-                      sortDescFirst: false,
+                      descFirst: true,
                     } as any,
                   }),
                 ],
@@ -151,9 +151,9 @@ describe('migration', () => {
           tables: [
             expect.objectContaining({
               items: [
-                expect.objectContaining({ sort: { enabled: false, sortDescFirst: false } }),
-                expect.objectContaining({ sort: { enabled: true, sortDescFirst: false } }),
-                expect.objectContaining({ sort: { enabled: true, sortDescFirst: false } }),
+                expect.objectContaining({ sort: { enabled: false, descFirst: false } }),
+                expect.objectContaining({ sort: { enabled: true, descFirst: false } }),
+                expect.objectContaining({ sort: { enabled: true, descFirst: true } }),
               ],
             }),
           ],

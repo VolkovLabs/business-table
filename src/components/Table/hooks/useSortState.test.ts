@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react';
 import { useSortState } from './useSortState';
 
 describe('useSortState', () => {
-  it('Should initialize sorting state based on enabled sorting columns', () => {
+  it('Should set first sortable column to initial state', () => {
     const columns = [
       {
         id: 'name',
@@ -23,10 +23,22 @@ describe('useSortState', () => {
     ];
 
     const { result } = renderHook(() => useSortState({ columns }));
-    expect(result.current.sorting).toEqual([
-      { id: 'name', desc: false },
-      { id: 'location', desc: true },
-    ]);
+
+    expect(result.current.sorting).toEqual([{ id: 'name', desc: false }]);
+  });
+
+  it('Should work if no sortable column', () => {
+    const columns = [
+      {
+        id: 'name',
+        enableSorting: false,
+        sortDescFirst: false,
+      },
+    ];
+
+    const { result } = renderHook(() => useSortState({ columns }));
+
+    expect(result.current.sorting).toEqual([]);
   });
 
   it('Should update sorting state when columns change', () => {
@@ -58,6 +70,7 @@ describe('useSortState', () => {
     ];
 
     rerender({ columns: newColumns });
+
     expect(result.current.sorting).toEqual([{ id: 'age', desc: true }]);
   });
 });

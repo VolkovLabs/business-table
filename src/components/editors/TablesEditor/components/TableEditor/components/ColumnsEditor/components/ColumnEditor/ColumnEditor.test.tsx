@@ -6,14 +6,7 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import {
-  CellAggregation,
-  CellType,
-  ColumnAlignment,
-  ColumnFilterMode,
-  ColumnPinDirection,
-  ColumnSortDirection,
-} from '@/types';
+import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnPinDirection } from '@/types';
 import { createColumnAppearanceConfig, createColumnConfig, createVariable } from '@/utils';
 
 import { ColumnEditor } from './ColumnEditor';
@@ -272,7 +265,7 @@ describe('ColumnEditor', () => {
     it('Should allow to enable sorting', () => {
       render(
         getComponent({
-          value: createColumnConfig({ sort: { enabled: false, sortDescFirst: false } }),
+          value: createColumnConfig({ sort: { enabled: false, descFirst: false } }),
         })
       );
 
@@ -568,7 +561,7 @@ describe('ColumnEditor', () => {
         value: createColumnConfig({
           sort: {
             enabled: true,
-            sortDescFirst: false,
+            descFirst: false,
           },
         }),
       })
@@ -577,13 +570,13 @@ describe('ColumnEditor', () => {
     expect(selectors.fieldSortDirection()).toBeInTheDocument();
     expect(selectors.fieldSortDirection()).not.toBeChecked();
 
-    fireEvent.click(selectors.sortDirectionOption(false, ColumnSortDirection.DESC));
+    fireEvent.click(selectors.sortDirectionOption(false, 'desc'));
 
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         sort: {
           enabled: true,
-          sortDescFirst: true,
+          descFirst: true,
         },
       })
     );
