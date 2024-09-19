@@ -473,7 +473,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
 
       {value.sort.enabled && (
         <FieldsGroup label="Sort">
-          <InlineField label="First Direction" grow={true} {...TEST_IDS.columnEditor.fieldSortDirection.apply()}>
+          <InlineField label="Direction" grow={true} {...TEST_IDS.columnEditor.fieldSortDirection.apply()}>
             <RadioButtonGroup
               value={value.sort.descFirst}
               onChange={(event) =>
