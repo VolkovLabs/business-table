@@ -77,6 +77,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   },
   sort: {
     enabled: false,
+    descFirst: false,
   },
   appearance: createColumnAppearanceConfig({}),
   footer: [],

@@ -388,6 +388,7 @@ describe('useTable', () => {
         name: 'device',
       },
       sort: {
+        descFirst: false,
         enabled: true,
       },
     });
@@ -397,6 +398,7 @@ describe('useTable', () => {
         name: 'value',
       },
       sort: {
+        descFirst: false,
         enabled: false,
       },
     });
@@ -414,10 +416,12 @@ describe('useTable', () => {
       expect.objectContaining({
         id: deviceColumn.field.name,
         enableSorting: true,
+        sortDescFirst: false,
       }),
       expect.objectContaining({
         id: valueColumn.field.name,
         enableSorting: false,
+        sortDescFirst: false,
       }),
     ]);
   });

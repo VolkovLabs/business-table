@@ -265,7 +265,7 @@ describe('ColumnEditor', () => {
     it('Should allow to enable sorting', () => {
       render(
         getComponent({
-          value: createColumnConfig({ sort: { enabled: false } }),
+          value: createColumnConfig({ sort: { enabled: false, descFirst: false } }),
         })
       );
 
@@ -551,6 +551,33 @@ describe('ColumnEditor', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         pin: ColumnPinDirection.LEFT,
+      })
+    );
+  });
+
+  it('Should allow to set sort direction', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({
+          sort: {
+            enabled: true,
+            descFirst: false,
+          },
+        }),
+      })
+    );
+
+    expect(selectors.fieldSortDirection()).toBeInTheDocument();
+    expect(selectors.fieldSortDirection()).not.toBeChecked();
+
+    fireEvent.click(selectors.sortDirectionOption(false, 'desc'));
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        sort: {
+          enabled: true,
+          descFirst: true,
+        },
       })
     );
   });

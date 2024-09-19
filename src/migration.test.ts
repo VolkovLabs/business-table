@@ -117,5 +117,48 @@ describe('migration', () => {
         })
       );
     });
+
+    it('Should normalize descFirst option for sort', () => {
+      expect(
+        getMigratedOptions({
+          options: {
+            tables: [
+              createTableConfig({
+                items: [
+                  createColumnConfig({
+                    sort: {
+                      enabled: false,
+                    } as any,
+                  }),
+                  createColumnConfig({
+                    sort: {
+                      enabled: true,
+                    } as any,
+                  }),
+                  createColumnConfig({
+                    sort: {
+                      enabled: true,
+                      descFirst: true,
+                    } as any,
+                  }),
+                ],
+              }),
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              items: [
+                expect.objectContaining({ sort: { enabled: false, descFirst: false } }),
+                expect.objectContaining({ sort: { enabled: true, descFirst: false } }),
+                expect.objectContaining({ sort: { enabled: true, descFirst: true } }),
+              ],
+            }),
+          ],
+        })
+      );
+    });
   });
 });
