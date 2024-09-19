@@ -151,6 +151,26 @@ const columnPinDirectionOptions = [
 ];
 
 /**
+ * Sort Direction Options
+ */
+const sortDirectionOptions = [
+  {
+    value: false,
+    label: 'A-Z',
+    icon: 'sort-amount-up',
+    description: 'Ascending order',
+    ariaLabel: TEST_IDS.columnEditor.sortDirectionOption.selector('asc'),
+  },
+  {
+    value: true,
+    label: 'Z-A',
+    icon: 'sort-amount-down',
+    description: 'Descending order',
+    ariaLabel: TEST_IDS.columnEditor.sortDirectionOption.selector('desc'),
+  },
+];
+
+/**
  * Column Footer Editor
  */
 const ColumnFooterEditor = standardEditorsRegistry.get('stats-picker').editor;
@@ -450,6 +470,26 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           </InlineField>
         )}
       </FieldsGroup>
+
+      {value.sort.enabled && (
+        <FieldsGroup label="Sort">
+          <InlineField label="Direction" grow={true} {...TEST_IDS.columnEditor.fieldSortDirection.apply()}>
+            <RadioButtonGroup
+              value={value.sort.descFirst}
+              onChange={(event) =>
+                onChange({
+                  ...value,
+                  sort: {
+                    ...value.sort,
+                    descFirst: event,
+                  },
+                })
+              }
+              options={sortDirectionOptions}
+            />
+          </InlineField>
+        </FieldsGroup>
+      )}
 
       {value.filter.enabled && (
         <FieldsGroup label="Filter">

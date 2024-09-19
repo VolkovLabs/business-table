@@ -104,9 +104,10 @@
                 "footer": [],
                 "group": false,
                 "label": "",
-                "pin": true,
+                "pin": "left",
                 "sort": {
-                  "enabled": false
+                  "descFirst": false,
+                  "enabled": true
                 },
                 "type": "auto"
               },
@@ -149,8 +150,10 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
-                  "enabled": false
+                  "descFirst": true,
+                  "enabled": true
                 },
                 "type": "auto"
               },
@@ -195,7 +198,9 @@
                 ],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -239,7 +244,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -280,7 +287,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -464,7 +473,9 @@
                 },
                 "footer": [],
                 "group": true,
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -507,7 +518,9 @@
                 "footer": [],
                 "group": true,
                 "label": "City",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -551,7 +564,9 @@
                 "footer": [
                   "distinctCount"
                 ],
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -595,7 +610,9 @@
                 "footer": [
                   "sum"
                 ],
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "coloredBackground"
@@ -651,7 +668,9 @@
                 "footer": [],
                 "group": true,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -694,7 +713,9 @@
                 },
                 "footer": [],
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "coloredBackground"
@@ -886,7 +907,9 @@
                 "footer": [],
                 "group": true,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -932,7 +955,9 @@
                 ],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -1016,6 +1041,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 2,
+  "version": 11,
   "weekStart": ""
 }

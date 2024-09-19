@@ -117,6 +117,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
             variable: '',
           },
           sort: {
+            descFirst: false,
             enabled: false,
           },
           appearance: DEFAULT_COLUMN_APPEARANCE,
