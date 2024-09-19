@@ -21,11 +21,11 @@ import {
 import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { ButtonSelect } from '@/components';
 import { TEST_IDS } from '@/constants';
 import { useEditableData, useSyncedColumnFilters } from '@/hooks';
 import { ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
-import { ButtonSelect } from '../ButtonSelect';
 import { TableHeaderCell, TableRow } from './components';
 import { getStyles } from './Table.styles';
 

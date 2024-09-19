@@ -99,6 +99,8 @@ describe('TablesEditor', () => {
 
     expect(selectors.itemHeader(false, 'group1')).toBeInTheDocument();
     expect(selectors.itemHeader(false, 'group2')).toBeInTheDocument();
+
+    expect(selectors.noItemsMessage(true)).not.toBeInTheDocument();
   });
 
   it('Should render if tables unspecified', () => {
@@ -112,6 +114,7 @@ describe('TablesEditor', () => {
     );
 
     expect(selectors.newItem()).toBeInTheDocument();
+    expect(selectors.noItemsMessage()).toBeInTheDocument();
   });
 
   it('Should add new group', async () => {

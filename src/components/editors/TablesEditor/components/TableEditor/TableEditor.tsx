@@ -9,7 +9,7 @@ import { TEST_IDS } from '@/constants';
 import { PaginationMode, TableConfig } from '@/types';
 import { cleanPayloadObject } from '@/utils';
 
-import { ColumnsEditor, TableUpdateEditor } from './components';
+import { ColumnsEditor } from './components';
 import { getStyles } from './TableEditor.styles';
 
 /**
@@ -96,22 +96,6 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
           });
         }}
       />
-      <div className={styles.sectionWrapper}>
-        <Collapse
-          title="Editable Data"
-          isOpen={expanded.editable}
-          onToggle={(isOpen) => {
-            setExpanded({
-              ...expanded,
-              editable: isOpen,
-            });
-          }}
-          headerTestId={TEST_IDS.tableEditor.updateSectionHeader.selector()}
-          contentTestId={TEST_IDS.tableEditor.updateSectionContent.selector()}
-        >
-          <TableUpdateEditor value={value} onChange={onChange} data={data} />
-        </Collapse>
-      </div>
 
       <InlineField label="Pagination">
         <InlineSwitch

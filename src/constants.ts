@@ -57,6 +57,7 @@ export const TEST_IDS = {
     itemContent: createSelector((name: unknown) => `data-testid tables-editor item-content-${name}`),
     newItem: createSelector('data-testid tables-editor new-level'),
     newItemName: createSelector('data-testid tables-editor new-item-name'),
+    noItemsMessage: createSelector('data-testid tables-editor no-items-message'),
   },
   columnsEditor: {
     buttonAddNew: createSelector('data-testid columns-editor button-add-new'),
@@ -199,11 +200,16 @@ export const TEST_IDS = {
     fieldEditQuickEnabled: createSelector(
       (name: unknown) => `data-testid table-update-editor field-edit-quick-enabled-${name}`
     ),
+    noColumnsMessage: createSelector('data-testid table-update-editor no-columns-message'),
   },
   buttonSelect: {
     root: createSelector('button-select root'),
     dropdown: createSelector('button-select dropdown'),
     option: createSelector((name: unknown) => `button-select option-${name}`),
+  },
+  editableDataEditor: {
+    itemHeader: createSelector((name: unknown) => `data-testid editable-data-editor item-header-${name}`),
+    itemContent: createSelector((name: unknown) => `data-testid editable-data-editor item-content-${name}`),
   },
 };
 
