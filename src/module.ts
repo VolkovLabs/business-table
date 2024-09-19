@@ -1,6 +1,6 @@
 import { PanelPlugin } from '@grafana/data';
 
-import { TablePanel, TablesEditor } from './components';
+import { EditableDataEditor, TablePanel, TablesEditor } from './components';
 import { getMigratedOptions } from './migration';
 import { PanelOptions } from './types';
 
@@ -24,6 +24,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         name: '',
         editor: TablesEditor,
         category: ['Layout'],
+        defaultValue: [],
       })
       .addBooleanSwitch({
         path: 'tabsSorting',
@@ -31,6 +32,15 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         description: 'Show selected tab at the first',
         showIf: (config) => config.tables?.length > 1,
         category: ['Layout'],
+      })
+      .addCustomEditor({
+        id: 'editableData',
+        path: 'tables',
+        name: '',
+        editor: EditableDataEditor,
+        category: ['Editable Data'],
+        defaultValue: [],
+        showIf: (config) => config.tables.length > 0,
       });
 
     return builder;

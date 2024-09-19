@@ -20,7 +20,6 @@ type Props = React.ComponentProps<typeof TableEditor>;
  */
 const inTestIds = {
   columnsEditor: createSelector('data-testid columns-editor'),
-  tableUpdateEditor: createSelector('data-testid table-update-editor'),
 };
 
 /**
@@ -29,9 +28,6 @@ const inTestIds = {
 jest.mock('./components', () => ({
   ColumnsEditor: ({ value, onChange }: any) => (
     <input {...inTestIds.columnsEditor.apply()} onChange={() => onChange(value)} />
-  ),
-  TableUpdateEditor: ({ value, onChange }: any) => (
-    <input {...inTestIds.tableUpdateEditor.apply()} onChange={() => onChange(value)} />
   ),
 }));
 
@@ -76,38 +72,6 @@ describe('TableEditor', () => {
         items: [createColumnConfig({})],
       })
     );
-  });
-
-  describe('Editable Data', () => {
-    const openSection = () => {
-      expect(selectors.updateSectionHeader()).toBeInTheDocument();
-
-      fireEvent.click(selectors.updateSectionHeader());
-
-      expect(selectors.updateSectionContent()).toBeInTheDocument();
-    };
-
-    it('Should allow to change editable data', () => {
-      render(
-        getComponent({
-          value: createTableConfig({
-            items: [],
-          }),
-        })
-      );
-
-      openSection();
-
-      expect(selectors.tableUpdateEditor()).toBeInTheDocument();
-
-      fireEvent.change(selectors.tableUpdateEditor(), { target: { value: '123' } });
-
-      expect(onChange).toHaveBeenCalledWith(
-        createTableConfig({
-          items: [],
-        })
-      );
-    });
   });
 
   describe('pagination', () => {

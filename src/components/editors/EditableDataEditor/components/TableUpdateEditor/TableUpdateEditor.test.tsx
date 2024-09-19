@@ -61,6 +61,18 @@ describe('TableUpdateEditor', () => {
     return <TableUpdateEditor onChange={onChange} data={[]} {...(props as any)} />;
   };
 
+  it('Should show message if no items', () => {
+    render(getComponent({ value: createTableConfig({ items: [] }) }));
+
+    expect(selectors.noColumnsMessage()).toBeInTheDocument();
+  });
+
+  it('Should not show message if items present', () => {
+    render(getComponent({ value: createTableConfig({ items: [createColumnConfig({})] }) }));
+
+    expect(selectors.noColumnsMessage(true)).not.toBeInTheDocument();
+  });
+
   describe('Update Request', () => {
     const openSection = () => {
       expect(selectors.updateSectionHeader()).toBeInTheDocument();
