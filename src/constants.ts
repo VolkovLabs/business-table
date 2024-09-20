@@ -198,7 +198,6 @@ export const TEST_IDS = {
     fieldEditPermissionMode: createSelector('data-testid table-update-editor field-edit-permission-mode'),
     fieldEditPermissionOrgRole: createSelector('data-testid table-update-editor field-edit-permission-org-role'),
     fieldEditPermissionField: createSelector('data-testid table-update-editor field-edit-permission-field'),
-    fieldEditEnabled: createSelector('data-testid table-update-editor field-edit-enabled'),
     updateSectionHeader: createSelector('data-testid table-update-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-update-editor update-section-content'),
     columnHeader: createSelector((name: unknown) => `data-testid table-update-editor column-header-${name}`),

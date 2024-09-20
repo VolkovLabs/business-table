@@ -325,6 +325,29 @@ describe('TableUpdateEditor', () => {
       );
     });
 
+    it('Should not allow to expand settings if edit disabled', () => {
+      render(
+        getComponent({
+          value: createTableConfig({
+            items: [
+              createColumnConfig({
+                field: defaultField,
+                edit: createColumnEditConfig({
+                  enabled: false,
+                }),
+              }),
+            ],
+          }),
+        })
+      );
+
+      expect(selectors.columnContent(true, defaultName)).not.toBeInTheDocument();
+
+      fireEvent.click(selectors.columnHeader(false, defaultName));
+
+      expect(selectors.columnContent(true, defaultName)).not.toBeInTheDocument();
+    });
+
     it('Should allow to set editor config', () => {
       render(
         getComponent({
