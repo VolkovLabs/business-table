@@ -122,7 +122,6 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
             <div key={getFieldKey(item.field)} className={styles.column}>
               <Collapse
                 fill="solid"
-                isExpandDisabled={!item.edit.enabled}
                 title={
                   <CollapseTitle>
                     {item.field.name}
