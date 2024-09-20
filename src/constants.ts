@@ -108,6 +108,10 @@ export const TEST_IDS = {
     fieldPageNumber: createSelector('data-testid table field-page-number'),
     fieldPageSize: createSelector('data-testid table field-page-size'),
   },
+  tableCell: {
+    tableLink: createSelector((name: unknown) => `table link-${name}`),
+    tableLinkMenu: createSelector(`table link-menu`),
+  },
   filterFacetedList: {
     root: createSelector('data-testid filter-faceted-list'),
     allOption: createSelector('data-testid filter-faceted-list all-option'),

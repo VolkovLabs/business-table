@@ -33,24 +33,29 @@ describe('useTable', () => {
       {
         name: 'device',
         values: ['device1', 'device2'],
+        getLinks: jest.fn(() => []),
       },
       {
         name: 'value',
         values: [10, 20],
+        getLinks: jest.fn(() => []),
       },
       {
         name: 'created',
         type: FieldType.time,
         values: [new Date().valueOf(), new Date().valueOf()],
+        getLinks: jest.fn(() => []),
       },
       {
         name: 'other',
         type: FieldType.other,
         values: ['a', 'b'],
+        getLinks: jest.fn(() => []),
       },
       {
         name: 'unused',
         values: [11, 22],
+        getLinks: jest.fn(() => []),
       },
     ],
   });

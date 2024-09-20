@@ -1,5 +1,7 @@
-import { dateTime, SelectableValue } from '@grafana/data';
-import React from 'react';
+import { dateTime, Field, LinkModel, SelectableValue } from '@grafana/data';
+import React, { useState } from 'react';
+
+import { TEST_IDS } from '@/constants';
 
 const actual = jest.requireActual('@grafana/ui');
 
@@ -105,6 +107,41 @@ const ToolbarButtonRowMock = ({ leftItems, children }: any) => {
 const ToolbarButtonRow = jest.fn(ToolbarButtonRowMock);
 
 /**
+ * Mock DataLinksContextMenu component
+ */
+const DataLinksContextMenuMock = ({ ...restProps }: any) => {
+  /**
+   * Get links
+   */
+  const links: Array<LinkModel<Field>> = restProps.links();
+  const [isOpen, setIsOpen] = useState(false);
+
+  /**
+   * mock api to open menu
+   */
+  const api = {
+    openMenu: jest.fn(() => setIsOpen(true)),
+  };
+
+  return (
+    <>
+      {isOpen && (
+        <div>
+          {links.map((link) => (
+            <a key={link.title} href={link.href} {...TEST_IDS.tableCell.tableLink.apply(link.title)}>
+              {link.title}
+            </a>
+          ))}
+        </div>
+      )}
+      {restProps.children(api)}
+    </>
+  );
+};
+
+const DataLinksContextMenu = jest.fn(DataLinksContextMenuMock);
+
+/**
  * Mock TimeRangeInput component
  */
 const TimeRangeInputMock = ({ onChange, ...restProps }: any) => {
@@ -200,6 +237,7 @@ beforeEach(() => {
   DateTimePicker.mockImplementation(DateTimePickerMock);
   Pagination.mockImplementation(PaginationMock);
   MenuItem.mockImplementation(MenuItemMock);
+  DataLinksContextMenu.mockImplementation(DataLinksContextMenuMock);
 });
 
 module.exports = {
@@ -213,4 +251,5 @@ module.exports = {
   DateTimePicker,
   Pagination,
   MenuItem,
+  DataLinksContextMenu,
 };

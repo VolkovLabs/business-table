@@ -1,15 +1,25 @@
 import { cx } from '@emotion/css';
-import { GrafanaTheme2 } from '@grafana/data';
-import { IconButton, useStyles2, useTheme2 } from '@grafana/ui';
+import { Field, GrafanaTheme2, LinkModel } from '@grafana/data';
+import { useStyles2, useTheme2 } from '@grafana/ui';
 import { Cell, CellContext, Column, flexRender, Row } from '@tanstack/react-table';
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useMemo } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 import { CellType, ColumnAlignment } from '@/types';
 
-import { TableEditableCell } from './components';
+import { TableCell, TableEditableCell } from './components';
 import { getStyles } from './TableRow.styles';
+
+/**
+ * Original row
+ */
+interface OriginalRow {
+  /**
+   * Links
+   */
+  links: Array<LinkModel<Field>>;
+}
 
 /**
  * Properties
@@ -115,6 +125,16 @@ export const TableRow = <TData,>({
    */
   const visibleCells = row.getVisibleCells();
 
+  const links = useMemo(() => {
+    /**
+     * Doesn`t return links for grouped row
+     */
+    if (row.getIsGrouped()) {
+      return [];
+    }
+    return (row.original as OriginalRow).links.filter((link) => link.href);
+  }, [row]);
+
   /**
    * Row Appearance
    */
@@ -185,22 +205,7 @@ export const TableRow = <TData,>({
       return flexRender(cell.column.columnDef.cell, rendererProps);
     }
 
-    return (
-      <>
-        {cell.getIsGrouped() && (
-          <IconButton
-            name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
-            aria-label={TEST_IDS.table.buttonExpandCell.selector(cell.id)}
-            className={styles.expandButton}
-          />
-        )}
-        {cell.getIsPlaceholder()
-          ? null
-          : cell.getIsAggregated()
-            ? flexRender(cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell, rendererProps)
-            : flexRender(cell.column.columnDef.cell, rendererProps)}
-      </>
-    );
+    return <TableCell cell={cell} links={links} rendererProps={rendererProps} row={row} />;
   };
 
   return (

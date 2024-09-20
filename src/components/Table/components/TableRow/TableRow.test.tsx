@@ -108,7 +108,7 @@ describe('TableRow', () => {
   };
 
   it('Should render row with cells', async () => {
-    const data = [{ value: 'abc', name: 'device1' }];
+    const data = [{ value: 'abc', name: 'device1', links: [{ href: 'test.com', title: 'test title' }] }];
     const columns = [
       {
         id: 'name',
@@ -137,8 +137,8 @@ describe('TableRow', () => {
 
   it('Should render grouped row', async () => {
     const data = [
-      { value: 'abc', name: 'device1' },
-      { value: 'hello', name: 'device1' },
+      { value: 'abc', name: 'device1', links: [] },
+      { value: 'hello', name: 'device1', links: [] },
     ];
     const columns = [
       {
@@ -170,8 +170,8 @@ describe('TableRow', () => {
 
   it('Should render pinned columns', async () => {
     const data = [
-      { value: 'abc', name: 'device1' },
-      { value: 'hello', name: 'device1' },
+      { value: 'abc', name: 'device1', links: [] },
+      { value: 'hello', name: 'device1', links: [] },
     ];
     const columns = [
       {
@@ -210,8 +210,8 @@ describe('TableRow', () => {
 
   it('Should render grouped expanded row', async () => {
     const data = [
-      { value: 'abc', name: 'device1' },
-      { value: 'hello', name: 'device1' },
+      { value: 'abc', name: 'device1', links: [] },
+      { value: 'hello', name: 'device1', links: [] },
     ];
     const columns = [
       {
@@ -244,7 +244,7 @@ describe('TableRow', () => {
   });
 
   it('Should set cell background', async () => {
-    const data = [{ value: 20, name: 'device1' }];
+    const data = [{ value: 20, name: 'device1', links: [] }];
     const columns = [
       {
         id: 'name',
@@ -300,7 +300,7 @@ describe('TableRow', () => {
   });
 
   it('Should set row background if enabled', async () => {
-    const data = [{ value: 20, name: 'device1' }];
+    const data = [{ value: 20, name: 'device1', links: [] }];
     const columns = [
       {
         id: 'name',
@@ -360,7 +360,7 @@ describe('TableRow', () => {
   });
 
   it('Should render editing row', async () => {
-    const data = [{ value: 'abc', name: 'device1' }];
+    const data = [{ value: 'abc', name: 'device1', links: [] }];
     const columns = [
       {
         id: 'name',

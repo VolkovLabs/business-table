@@ -92,6 +92,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         (acc, item) => ({
           ...acc,
           [item.field.name]: item.field.values[rowIndex],
+          links: item.field.getLinks!({ valueRowIndex: rowIndex }),
         }),
         {}
       );
