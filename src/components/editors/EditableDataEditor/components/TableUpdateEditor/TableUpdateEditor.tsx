@@ -160,23 +160,9 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                 }
                 headerTestId={testIds.columnHeader.selector(getFieldKey(item.field))}
                 contentTestId={testIds.columnContent.selector(getFieldKey(item.field))}
+                isExpandDisabled={!item.edit.enabled}
               >
                 <>
-                  <InlineField label="Editable">
-                    <InlineSwitch
-                      value={item.edit.enabled}
-                      onChange={(event) => {
-                        onChangeItem({
-                          ...item,
-                          edit: {
-                            ...item.edit,
-                            enabled: event.currentTarget.checked,
-                          },
-                        });
-                      }}
-                      {...testIds.fieldEditEnabled.apply()}
-                    />
-                  </InlineField>
                   {item.edit.enabled && (
                     <>
                       <FieldsGroup label="Permission">
