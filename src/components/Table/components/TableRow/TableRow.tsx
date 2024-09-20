@@ -93,7 +93,7 @@ const getPinnedColumnStyle = <TData,>(
 /**
  * Table Row
  */
-export const TableRow = <TData extends { [LINKS_ROW_KEY]?: Array<LinkModel<Field>> }>({
+export const TableRow = <TData,>({
   virtualRow,
   row,
   rowVirtualizer,
@@ -119,7 +119,7 @@ export const TableRow = <TData extends { [LINKS_ROW_KEY]?: Array<LinkModel<Field
    * Links
    */
   const links = useMemo(() => {
-    return row.original[LINKS_ROW_KEY]?.filter((link) => link.href);
+    return (row.original as { [LINKS_ROW_KEY]?: Array<LinkModel<Field>> })[LINKS_ROW_KEY]?.filter((link) => link.href);
   }, [row]);
 
   /**
