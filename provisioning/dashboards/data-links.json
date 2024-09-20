@@ -24,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -204,7 +203,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
                 "group": false,
                 "label": "",
                 "pin": "",
@@ -330,19 +331,34 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3, 4]
+                "values": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20, 30]
+                "values": [
+                  10,
+                  15,
+                  20,
+                  30
+                ]
               },
               {
                 "config": {},
@@ -359,7 +375,12 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": ["", "", "", ""]
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
               },
               {
                 "config": {},
@@ -567,7 +588,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
                 "group": false,
                 "label": "",
                 "pin": "",
@@ -693,19 +716,34 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3, 4]
+                "values": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20, 30]
+                "values": [
+                  10,
+                  15,
+                  20,
+                  30
+                ]
               },
               {
                 "config": {},
@@ -722,7 +760,12 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": ["", "", "", ""]
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
               },
               {
                 "config": {},
@@ -856,7 +899,7 @@
                 "label": "",
                 "pin": "left",
                 "sort": {
-                  "enabled": false
+                  "enabled": true
                 },
                 "type": "auto"
               },
@@ -941,7 +984,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
                 "group": false,
                 "label": "",
                 "pin": "",
@@ -1067,19 +1112,34 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3, 4]
+                "values": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20, 30]
+                "values": [
+                  10,
+                  15,
+                  20,
+                  30
+                ]
               },
               {
                 "config": {},
@@ -1096,16 +1156,21 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": ["", "", "", ""]
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
               },
               {
                 "config": {},
                 "name": "url",
                 "type": "string",
                 "values": [
-                  "https://volkovlabs.io/plugins/business-table/",
-                  "",
-                  "https://volkovlabs.io/plugins/business-table/",
+                  "1.com",
+                  "2.com",
+                  "3.com",
                   ""
                 ]
               }
@@ -1305,7 +1370,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
                 "group": false,
                 "label": "",
                 "pin": "",
@@ -1431,19 +1498,34 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3, 4]
+                "values": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20, 30]
+                "values": [
+                  10,
+                  15,
+                  20,
+                  30
+                ]
               },
               {
                 "config": {},
@@ -1460,7 +1542,12 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": ["", "", "", ""]
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
               },
               {
                 "config": {},
@@ -1671,7 +1758,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["distinctCount"],
+                "footer": [
+                  "distinctCount"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -1714,7 +1803,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["sum"],
+                "footer": [
+                  "sum"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -1852,13 +1943,33 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -1880,7 +1991,17 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
               },
               {
                 "config": {},
@@ -2098,7 +2219,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["distinctCount"],
+                "footer": [
+                  "distinctCount"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2141,7 +2264,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["sum"],
+                "footer": [
+                  "sum"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2279,13 +2404,33 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -2307,7 +2452,17 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
               },
               {
                 "config": {},
@@ -2512,7 +2667,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["distinctCount"],
+                "footer": [
+                  "distinctCount"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2555,7 +2712,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["sum"],
+                "footer": [
+                  "sum"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2565,7 +2724,7 @@
             ],
             "name": "Country",
             "pagination": {
-              "enabled": false,
+              "enabled": true,
               "mode": "client"
             },
             "update": {
@@ -2693,13 +2852,39 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -2714,6 +2899,9 @@
                   "device 4",
                   "device 4",
                   "device 5",
+                  "device 5",
+                  "device 5",
+                  "device 5",
                   "device 5"
                 ]
               },
@@ -2721,7 +2909,20 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8,
+                  8,
+                  8,
+                  8
+                ]
               },
               {
                 "config": {},
@@ -2736,7 +2937,10 @@
                   "",
                   "",
                   "https://www.youtube.com/watch?v=K1NHBV5e6VE",
-                  ""
+                  "",
+                  "",
+                  "11",
+                  "12"
                 ]
               }
             ],
@@ -2798,6 +3002,6 @@
   "timezone": "",
   "title": "Data links",
   "uid": "ddyd0vor9qebke",
-  "version": 40,
+  "version": 2,
   "weekStart": ""
 }
