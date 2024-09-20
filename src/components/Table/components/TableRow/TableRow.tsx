@@ -5,21 +5,11 @@ import { Cell, CellContext, Column, flexRender, Row } from '@tanstack/react-tabl
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties, useMemo } from 'react';
 
-import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { ACTIONS_COLUMN_ID, LINKS_ROW_KEY, TEST_IDS } from '@/constants';
 import { CellType, ColumnAlignment } from '@/types';
 
 import { TableCell, TableEditableCell } from './components';
 import { getStyles } from './TableRow.styles';
-
-/**
- * Original row
- */
-interface OriginalRow {
-  /**
-   * Links
-   */
-  links: Array<LinkModel<Field>>;
-}
 
 /**
  * Properties
@@ -103,7 +93,7 @@ const getPinnedColumnStyle = <TData,>(
 /**
  * Table Row
  */
-export const TableRow = <TData,>({
+export const TableRow = <TData extends { [LINKS_ROW_KEY]?: Array<LinkModel<Field>> }>({
   virtualRow,
   row,
   rowVirtualizer,
@@ -125,14 +115,11 @@ export const TableRow = <TData,>({
    */
   const visibleCells = row.getVisibleCells();
 
+  /**
+   * Links
+   */
   const links = useMemo(() => {
-    /**
-     * Doesn`t return links for grouped row
-     */
-    if (row.getIsGrouped()) {
-      return [];
-    }
-    return (row.original as OriginalRow).links.filter((link) => link.href);
+    return row.original[LINKS_ROW_KEY]?.filter((link) => link.href);
   }, [row]);
 
   /**

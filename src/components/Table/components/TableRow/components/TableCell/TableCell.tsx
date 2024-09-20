@@ -2,7 +2,7 @@ import { css, cx } from '@emotion/css';
 import { Field, LinkModel } from '@grafana/data';
 import { DataLinksContextMenu, IconButton, useStyles2 } from '@grafana/ui';
 import { Cell, CellContext, flexRender, Row } from '@tanstack/react-table';
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 
@@ -20,7 +20,7 @@ interface Props<TData> {
   /**
    * Links
    */
-  links: Array<LinkModel<Field>>;
+  links?: Array<LinkModel<Field>>;
 
   /**
    * Renderer props
@@ -42,22 +42,49 @@ export const TableCell = <TData,>({ links, row, cell, rendererProps }: Props<TDa
    */
   const styles = useStyles2(getStyles);
 
-  const renderCell = useCallback(() => {
+  /**
+   * Render Cell Content
+   */
+  const renderCellContent = () => {
     return cell.getIsAggregated()
       ? flexRender(cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell, rendererProps)
       : flexRender(cell.column.columnDef.cell, rendererProps);
-  }, [cell, rendererProps]);
+  };
 
-  const dataLinks = useMemo(() => {
+  /**
+   * Render Cell
+   */
+  const renderCell = () => {
+    /**
+     * No content if placeholder
+     */
+    if (cell.getIsPlaceholder()) {
+      return null;
+    }
+
+    /**
+     * Disable links if group
+     */
+    if (row.getIsGrouped()) {
+      return renderCellContent();
+    }
+
     /**
      *  Do not create links for edit cell with icons
      */
     if (cell.id.includes(ACTIONS_COLUMN_ID)) {
-      return renderCell();
+      return renderCellContent();
     }
 
     /**
-     *  One Link
+     * No Links
+     */
+    if (!links || links.length === 0) {
+      return renderCellContent();
+    }
+
+    /**
+     * One Link
      */
     return links.length === 1 ? (
       <a
@@ -68,7 +95,7 @@ export const TableCell = <TData,>({ links, row, cell, rendererProps }: Props<TDa
         className={styles.link}
         {...TEST_IDS.tableCell.tableLink.apply(links[0].title)}
       >
-        {renderCell()}
+        {renderCellContent()}
       </a>
     ) : (
       /**
@@ -89,12 +116,12 @@ export const TableCell = <TData,>({ links, row, cell, rendererProps }: Props<TDa
             }}
             {...TEST_IDS.tableCell.tableLinkMenu.apply()}
           >
-            {renderCell()}
+            {renderCellContent()}
           </div>
         )}
       </DataLinksContextMenu>
     );
-  }, [cell.id, links, renderCell, styles.link]);
+  };
 
   return (
     <>
@@ -105,7 +132,7 @@ export const TableCell = <TData,>({ links, row, cell, rendererProps }: Props<TDa
           className={styles.expandButton}
         />
       )}
-      {cell.getIsPlaceholder() ? null : !!links.length ? dataLinks : renderCell()}
+      {renderCell()}
     </>
   );
 };

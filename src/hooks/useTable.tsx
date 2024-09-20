@@ -5,7 +5,7 @@ import { ColumnDef } from '@tanstack/react-table';
 import { useCallback, useMemo } from 'react';
 
 import { CellRenderer, editableColumnEditorsRegistry, TableActionsCell } from '@/components';
-import { ACTIONS_COLUMN_ID } from '@/constants';
+import { ACTIONS_COLUMN_ID, LINKS_ROW_KEY } from '@/constants';
 import {
   CellAggregation,
   ColumnConfig,
@@ -92,7 +92,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         (acc, item) => ({
           ...acc,
           [item.field.name]: item.field.values[rowIndex],
-          links: item.field.getLinks!({ valueRowIndex: rowIndex }),
+          [LINKS_ROW_KEY]: item.field.getLinks?.({ valueRowIndex: rowIndex }),
         }),
         {}
       );
