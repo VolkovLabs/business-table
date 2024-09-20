@@ -1,11 +1,11 @@
 import { cx } from '@emotion/css';
-import { Field, GrafanaTheme2, LinkModel } from '@grafana/data';
+import { GrafanaTheme2 } from '@grafana/data';
 import { useStyles2, useTheme2 } from '@grafana/ui';
 import { Cell, CellContext, Column, flexRender, Row } from '@tanstack/react-table';
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
-import React, { CSSProperties, useMemo } from 'react';
+import React, { CSSProperties } from 'react';
 
-import { ACTIONS_COLUMN_ID, LINKS_ROW_KEY, TEST_IDS } from '@/constants';
+import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 import { CellType, ColumnAlignment } from '@/types';
 
 import { TableCell, TableEditableCell } from './components';
@@ -116,13 +116,6 @@ export const TableRow = <TData,>({
   const visibleCells = row.getVisibleCells();
 
   /**
-   * Links
-   */
-  const links = useMemo(() => {
-    return (row.original as { [LINKS_ROW_KEY]?: Array<LinkModel<Field>> })[LINKS_ROW_KEY]?.filter((link) => link.href);
-  }, [row]);
-
-  /**
    * Row Appearance
    */
   const rowAppearance = visibleCells.reduce(
@@ -192,7 +185,7 @@ export const TableRow = <TData,>({
       return flexRender(cell.column.columnDef.cell, rendererProps);
     }
 
-    return <TableCell cell={cell} links={links} rendererProps={rendererProps} row={row} />;
+    return <TableCell cell={cell} rendererProps={rendererProps} row={row} />;
   };
 
   return (

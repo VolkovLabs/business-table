@@ -38,11 +38,6 @@ export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
 export const ACTIONS_COLUMN_ID = '__actions';
 
 /**
- * Links Key
- */
-export const LINKS_ROW_KEY = '__links';
-
-/**
  * Test Identifiers
  */
 export const TEST_IDS = {

@@ -85,11 +85,6 @@ describe('TableCell', () => {
     const visibleCells: any = rows[0].getVisibleCells();
 
     /**
-     * links
-     */
-    const links = rows[0].original.links.filter((link: any) => link.href);
-
-    /**
      * rendererProps
      */
     const rendererProps = {
@@ -100,7 +95,7 @@ describe('TableCell', () => {
 
     return (
       <div onClick={onOuterClick}>
-        <TableCell rendererProps={rendererProps} links={links} cell={visibleCells[0]} row={rows[0]} />
+        <TableCell rendererProps={rendererProps} cell={visibleCells[0]} row={rows[0]} />
       </div>
     );
   };

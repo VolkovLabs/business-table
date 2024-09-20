@@ -1,8 +1,7 @@
 import { css, cx } from '@emotion/css';
-import { Field, LinkModel } from '@grafana/data';
 import { DataLinksContextMenu, IconButton, useStyles2 } from '@grafana/ui';
 import { Cell, CellContext, flexRender, Row } from '@tanstack/react-table';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 
@@ -18,11 +17,6 @@ interface Props<TData> {
   cell: Cell<TData, unknown>;
 
   /**
-   * Links
-   */
-  links?: Array<LinkModel<Field>>;
-
-  /**
    * Renderer props
    */
   rendererProps: CellContext<TData, unknown>;
@@ -36,11 +30,24 @@ interface Props<TData> {
 /**
  * TableCell
  */
-export const TableCell = <TData,>({ links, row, cell, rendererProps }: Props<TData>) => {
+export const TableCell = <TData,>({ row, cell, rendererProps }: Props<TData>) => {
   /**
    * Styles and Theme
    */
   const styles = useStyles2(getStyles);
+
+  /**
+   * Links
+   */
+  const links = useMemo(() => {
+    const field = cell.column.columnDef.meta?.field;
+
+    if (!field) {
+      return;
+    }
+
+    return field.getLinks?.({ valueRowIndex: row.index });
+  }, [cell.column.columnDef.meta?.field, row.index]);
 
   /**
    * Render Cell Content
