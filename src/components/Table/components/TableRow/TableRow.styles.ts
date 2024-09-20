@@ -44,12 +44,5 @@ export const getStyles = (theme: GrafanaTheme2) => {
     expandButton: css`
       margin-right: ${theme.spacing(1)};
     `,
-    link: css`
-      color: ${theme.colors.text.link};
-      &:hover {
-        color: ${theme.colors.text.link};
-        text-decoration: underline;
-      }
-    `,
   };
 };
