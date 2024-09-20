@@ -99,7 +99,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -134,10 +136,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "field": {
@@ -152,7 +151,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -187,10 +188,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "field": {
@@ -205,7 +203,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -240,10 +240,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "field": {
@@ -258,7 +255,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -288,10 +287,7 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "field": {
@@ -306,20 +302,26 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
               }
             ],
             "name": "List",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
             "update": {
               "datasource": "Timescale",
               "payload": {
                 "editorMode": "code",
                 "format": "table",
                 "rawQuery": true,
-                "rawSql": "UPDATE devices\nSET name = ${payload.name}\nWHERE id = ${payload.id};",
+                "rawSql": "UPDATE devices\nSET name = ${payload.name:sqlstring}\nWHERE id = ${payload.id};",
                 "refId": "A",
                 "sql": {
                   "columns": [
@@ -383,7 +385,9 @@
                 "footer": [],
                 "group": true,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -428,7 +432,9 @@
                 "footer": [],
                 "group": true,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -473,7 +479,9 @@
                 "footer": [],
                 "group": true,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -518,21 +526,31 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
               }
             ],
             "name": "Grouped",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
             "update": {
               "datasource": "",
               "payload": {}
             }
           }
         ],
-        "tabsSorting": false
+        "tabsSorting": false,
+        "toolbar": {
+          "export": false
+        }
       },
+      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -660,9 +678,7 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": [
-                  "true"
-                ]
+                "values": ["true"]
               }
             ],
             "meta": {},
@@ -689,6 +705,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 11,
+  "version": 1,
   "weekStart": ""
 }
