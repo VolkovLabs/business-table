@@ -2,6 +2,10 @@
 
 ## 1.3.0 (2024-09-20)
 
+### Breaking changes
+
+- Requires Grafana 10.3 and Grafana 11
+
 ### Features / Enhancements
 
 - Added edit data with based permission check (#40, #76)
