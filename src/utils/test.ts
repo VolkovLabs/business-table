@@ -4,6 +4,7 @@ import {
   Field,
   FieldType,
   getDisplayProcessor,
+  LinkModel,
   toDataFrame,
   TypedVariableModel,
 } from '@grafana/data';
@@ -229,3 +230,14 @@ export const dataFrameToObjectArray = (dataFrame: DataFrame): Array<Record<strin
 
   return result;
 };
+
+/**
+ * Create Data Link
+ */
+export const createDataLink = (link: Partial<LinkModel>): LinkModel => ({
+  origin: '',
+  href: '',
+  target: '_blank',
+  title: '',
+  ...link,
+});

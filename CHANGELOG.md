@@ -13,6 +13,7 @@
 - Added reset table state on tab change (#67)
 - Updated Table Editor to improve UI/UX (#66)
 - Updated Sorting options (#69)
+- Added DataLinks support (#75)
 
 ## 1.2.0 (2023-09-05)
 

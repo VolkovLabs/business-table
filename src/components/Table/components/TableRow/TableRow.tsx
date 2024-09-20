@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css';
 import { GrafanaTheme2 } from '@grafana/data';
-import { IconButton, useStyles2, useTheme2 } from '@grafana/ui';
+import { useStyles2, useTheme2 } from '@grafana/ui';
 import { Cell, CellContext, Column, flexRender, Row } from '@tanstack/react-table';
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties } from 'react';
@@ -8,7 +8,7 @@ import React, { CSSProperties } from 'react';
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 import { CellType, ColumnAlignment } from '@/types';
 
-import { TableEditableCell } from './components';
+import { TableCell, TableEditableCell } from './components';
 import { getStyles } from './TableRow.styles';
 
 /**
@@ -185,22 +185,7 @@ export const TableRow = <TData,>({
       return flexRender(cell.column.columnDef.cell, rendererProps);
     }
 
-    return (
-      <>
-        {cell.getIsGrouped() && (
-          <IconButton
-            name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
-            aria-label={TEST_IDS.table.buttonExpandCell.selector(cell.id)}
-            className={styles.expandButton}
-          />
-        )}
-        {cell.getIsPlaceholder()
-          ? null
-          : cell.getIsAggregated()
-            ? flexRender(cell.column.columnDef.aggregatedCell ?? cell.column.columnDef.cell, rendererProps)
-            : flexRender(cell.column.columnDef.cell, rendererProps)}
-      </>
-    );
+    return <TableCell cell={cell} rendererProps={rendererProps} row={row} />;
   };
 
   return (
