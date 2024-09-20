@@ -110,7 +110,7 @@ export const TEST_IDS = {
   },
   tableCell: {
     tableLink: createSelector((name: unknown) => `table link-${name}`),
-    tableLinkMenu: createSelector(`table link-menu`),
+    tableLinkMenu: createSelector('table link-menu'),
   },
   filterFacetedList: {
     root: createSelector('data-testid filter-faceted-list'),

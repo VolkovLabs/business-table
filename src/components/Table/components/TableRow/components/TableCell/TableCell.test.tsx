@@ -13,6 +13,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { act } from 'react';
 
 import { TEST_IDS } from '@/constants';
+import { createColumnMeta, createDataLink, createField } from '@/utils';
 
 import { TableCell } from './TableCell';
 
@@ -126,23 +127,23 @@ describe('TableCell', () => {
       {
         id: 'name',
         accessorKey: 'name',
-        meta: {
-          field: {
-            getLinks: jest.fn(() => [
-              {
+        meta: createColumnMeta({
+          field: createField({
+            getLinks: () => [
+              createDataLink({
                 href: 'https://test.com',
                 target: '_blank',
                 title: 'test-url',
-              },
-            ]),
-          },
-        },
+              }),
+            ],
+          }),
+        }),
       },
       {
         id: 'value',
         accessorKey: 'value',
       },
-    ] as any;
+    ];
 
     await act(async () =>
       render(
@@ -167,23 +168,23 @@ describe('TableCell', () => {
       {
         id: 'name',
         accessorKey: 'name',
-        meta: {
-          field: {
-            getLinks: jest.fn(() => [
-              {
+        meta: createColumnMeta({
+          field: createField({
+            getLinks: () => [
+              createDataLink({
                 href: 'https://test.com',
                 target: '_blank',
                 title: 'test-url',
-              },
-            ]),
-          },
-        },
+              }),
+            ],
+          }),
+        }),
       },
       {
         id: 'value',
         accessorKey: 'value',
       },
-    ] as any;
+    ];
 
     await act(async () =>
       render(
@@ -201,7 +202,7 @@ describe('TableCell', () => {
      * onOuterClick should not call if stopPropagation() works
      */
     fireEvent.click(selectors.tableLink(false, 'test-url'));
-    expect(onOuterClick).toHaveBeenCalledTimes(0);
+    expect(onOuterClick).not.toHaveBeenCalled();
   });
 
   it('Should render more than one links', async () => {
@@ -215,28 +216,28 @@ describe('TableCell', () => {
       {
         id: 'name',
         accessorKey: 'name',
-        meta: {
-          field: {
-            getLinks: jest.fn(() => [
-              {
+        meta: createColumnMeta({
+          field: createField({
+            getLinks: () => [
+              createDataLink({
                 href: 'https://test.com',
                 target: '_blank',
                 title: 'test-url',
-              },
-              {
+              }),
+              createDataLink({
                 href: 'https://test2.com',
                 target: '_blank',
                 title: 'test-url-2',
-              },
-            ]),
-          },
-        },
+              }),
+            ],
+          }),
+        }),
       },
       {
         id: 'value',
         accessorKey: 'value',
       },
-    ] as any;
+    ];
 
     await act(async () =>
       render(
@@ -254,13 +255,13 @@ describe('TableCell', () => {
     expect(selectors.tableLink(true, 'test-url-2')).not.toBeInTheDocument();
 
     /**
-     * onOuterClick should not call if stopPropagation() works when menu is open
+     * Open links dropdown
      */
     fireEvent.click(selectors.tableLinkMenu());
-    expect(onOuterClick).toHaveBeenCalledTimes(0);
+    expect(onOuterClick).not.toHaveBeenCalled();
 
     /**
-     * Mock implementation on __mocks__ grafana for DataLinksContextMenuMock
+     * Check links dropdown presence
      */
     expect(selectors.tableLink(false, 'test-url')).toBeInTheDocument();
     expect(selectors.tableLink(false, 'test-url-2')).toBeInTheDocument();

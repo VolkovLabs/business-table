@@ -102,11 +102,9 @@ describe('Table', () => {
           data: [
             {
               device: 'device1',
-              links: [],
             },
             {
               device: 'device2',
-              links: [],
             },
           ],
         })
@@ -140,12 +138,10 @@ describe('Table', () => {
             {
               device: 'device1',
               value: 10,
-              links: [],
             },
             {
               device: 'device2',
               value: 20,
-              links: [],
             },
           ],
         })
@@ -189,12 +185,10 @@ describe('Table', () => {
             {
               device: 'device1',
               value: 10,
-              links: [],
             },
             {
               device: 'device2',
               value: 20,
-              links: [],
             },
           ],
         })
@@ -246,13 +240,11 @@ describe('Table', () => {
               device: 'device1',
               value: 10,
               value2: 11,
-              links: [],
             },
             {
               device: 'device2',
               value: 20,
               value2: 21,
-              links: [],
             },
           ],
         })
