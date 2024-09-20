@@ -120,25 +120,29 @@ describe('TableCell', () => {
       {
         value: 'abc',
         name: 'device1',
-        links: [
-          {
-            href: 'https://test.com',
-            target: '_blank',
-            title: 'test-url',
-          },
-        ],
       },
     ];
     const columns = [
       {
         id: 'name',
         accessorKey: 'name',
+        meta: {
+          field: {
+            getLinks: jest.fn(() => [
+              {
+                href: 'https://test.com',
+                target: '_blank',
+                title: 'test-url',
+              },
+            ]),
+          },
+        },
       },
       {
         id: 'value',
         accessorKey: 'value',
       },
-    ];
+    ] as any;
 
     await act(async () =>
       render(
@@ -149,7 +153,7 @@ describe('TableCell', () => {
         })
       )
     );
-    expect(selectors.tableLink(false, data[0].links[0].title)).toBeInTheDocument();
+    expect(selectors.tableLink(false, 'test-url')).toBeInTheDocument();
   });
 
   it('Should call stopPropagation on click', async () => {
@@ -157,25 +161,29 @@ describe('TableCell', () => {
       {
         value: 'abc',
         name: 'device1',
-        links: [
-          {
-            href: 'https://test.com',
-            target: '_blank',
-            title: 'test-url',
-          },
-        ],
       },
     ];
     const columns = [
       {
         id: 'name',
         accessorKey: 'name',
+        meta: {
+          field: {
+            getLinks: jest.fn(() => [
+              {
+                href: 'https://test.com',
+                target: '_blank',
+                title: 'test-url',
+              },
+            ]),
+          },
+        },
       },
       {
         id: 'value',
         accessorKey: 'value',
       },
-    ];
+    ] as any;
 
     await act(async () =>
       render(
@@ -187,12 +195,12 @@ describe('TableCell', () => {
       )
     );
 
-    expect(selectors.tableLink(false, data[0].links[0].title)).toBeInTheDocument();
+    expect(selectors.tableLink(false, 'test-url')).toBeInTheDocument();
 
     /**
      * onOuterClick should not call if stopPropagation() works
      */
-    fireEvent.click(selectors.tableLink(false, data[0].links[0].title));
+    fireEvent.click(selectors.tableLink(false, 'test-url'));
     expect(onOuterClick).toHaveBeenCalledTimes(0);
   });
 
@@ -201,30 +209,34 @@ describe('TableCell', () => {
       {
         value: 'abc',
         name: 'device1',
-        links: [
-          {
-            href: 'https://test.com',
-            target: '_blank',
-            title: 'test-url',
-          },
-          {
-            href: 'https://test2.com',
-            target: '_blank',
-            title: 'test-url-2',
-          },
-        ],
       },
     ];
     const columns = [
       {
         id: 'name',
         accessorKey: 'name',
+        meta: {
+          field: {
+            getLinks: jest.fn(() => [
+              {
+                href: 'https://test.com',
+                target: '_blank',
+                title: 'test-url',
+              },
+              {
+                href: 'https://test2.com',
+                target: '_blank',
+                title: 'test-url-2',
+              },
+            ]),
+          },
+        },
       },
       {
         id: 'value',
         accessorKey: 'value',
       },
-    ];
+    ] as any;
 
     await act(async () =>
       render(
@@ -238,8 +250,8 @@ describe('TableCell', () => {
 
     expect(selectors.tableLinkMenu()).toBeInTheDocument();
 
-    expect(selectors.tableLink(true, data[0].links[0].title)).not.toBeInTheDocument();
-    expect(selectors.tableLink(true, data[0].links[1].title)).not.toBeInTheDocument();
+    expect(selectors.tableLink(true, 'test-url')).not.toBeInTheDocument();
+    expect(selectors.tableLink(true, 'test-url-2')).not.toBeInTheDocument();
 
     /**
      * onOuterClick should not call if stopPropagation() works when menu is open
@@ -250,7 +262,7 @@ describe('TableCell', () => {
     /**
      * Mock implementation on __mocks__ grafana for DataLinksContextMenuMock
      */
-    expect(selectors.tableLink(false, data[0].links[0].title)).toBeInTheDocument();
-    expect(selectors.tableLink(false, data[0].links[1].title)).toBeInTheDocument();
+    expect(selectors.tableLink(false, 'test-url')).toBeInTheDocument();
+    expect(selectors.tableLink(false, 'test-url-2')).toBeInTheDocument();
   });
 });
