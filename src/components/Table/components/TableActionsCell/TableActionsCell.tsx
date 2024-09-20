@@ -1,4 +1,4 @@
-import { Button, IconButton, Stack } from '@grafana/ui';
+import { IconButton, Stack } from '@grafana/ui';
 import { CellContext, Row } from '@tanstack/react-table';
 import React from 'react';
 
@@ -49,29 +49,30 @@ export const TableActionsCell: React.FC<Props> = ({ row, isEditing, onStartEdit,
         aria-label="Edit"
         onClick={() => onStartEdit?.(row)}
         disabled={isSaving}
+        tooltip="Edit row"
         {...TEST_IDS.tableActionsCell.buttonStartEdit.apply()}
       />
     </>
   ) : (
     <Stack gap={0.5}>
-      <Button
-        size="sm"
+      <IconButton
+        onClick={() => onSave?.(row)}
+        aria-label="Save"
+        disabled={isSaving}
+        name={isSaving ? 'spinner' : 'save'}
+        tooltip="Save"
+        variant="primary"
+        {...TEST_IDS.tableActionsCell.buttonSave.apply()}
+      />
+      <IconButton
         variant="secondary"
         onClick={onCancelEdit}
+        aria-label="Cancel"
         disabled={isSaving}
+        tooltip="Cancel"
+        name={'times'}
         {...TEST_IDS.tableActionsCell.buttonCancel.apply()}
-      >
-        Cancel
-      </Button>
-      <Button
-        size="sm"
-        onClick={() => onSave?.(row)}
-        disabled={isSaving}
-        icon={isSaving ? 'spinner' : undefined}
-        {...TEST_IDS.tableActionsCell.buttonSave.apply()}
-      >
-        {!isSaving && 'Save'}
-      </Button>
+      />
     </Stack>
   );
 };
