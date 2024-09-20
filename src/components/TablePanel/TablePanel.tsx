@@ -174,11 +174,11 @@ export const TablePanel: React.FC<Props> = ({
                 <Button
                   icon="download-alt"
                   onClick={() => onExport({ table: tableInstance.current as never })}
-                  variant="primary"
+                  variant="secondary"
                   size="sm"
                   {...TEST_IDS.panel.buttonDownload.apply()}
                 >
-                  Download CSV
+                  Download
                 </Button>
               )}
             </ToolbarButtonRow>

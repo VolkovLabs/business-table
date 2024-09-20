@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -110,7 +111,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -154,7 +157,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -198,7 +203,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -242,7 +249,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -259,8 +268,12 @@
             }
           }
         ],
-        "tabsSorting": false
+        "tabsSorting": false,
+        "toolbar": {
+          "export": false
+        }
       },
+      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -382,7 +395,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -423,7 +438,9 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -450,8 +467,12 @@
             }
           }
         ],
-        "tabsSorting": false
+        "tabsSorting": false,
+        "toolbar": {
+          "export": false
+        }
       },
+      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -536,12 +557,8 @@
       {
         "current": {
           "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
+          "text": ["All"],
+          "value": ["$__all"]
         },
         "hide": 0,
         "includeAll": true,
@@ -636,6 +653,6 @@
   "timezone": "browser",
   "title": "Query-based",
   "uid": "edu2vo7b8jwn4b",
-  "version": 8,
+  "version": 1,
   "weekStart": ""
 }
