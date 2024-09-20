@@ -325,40 +325,6 @@ describe('TableUpdateEditor', () => {
       );
     });
 
-    it('Should allow to enable edit in content', () => {
-      render(
-        getComponent({
-          value: createTableConfig({
-            items: [
-              createColumnConfig({
-                field: defaultField,
-                edit: createColumnEditConfig({
-                  enabled: false,
-                }),
-              }),
-            ],
-          }),
-        })
-      );
-
-      openSettings(defaultName);
-
-      expect(selectors.fieldEditEnabled()).toBeInTheDocument();
-      fireEvent.click(selectors.fieldEditEnabled());
-
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: [
-            expect.objectContaining({
-              edit: expect.objectContaining({
-                enabled: true,
-              }),
-            }),
-          ],
-        })
-      );
-    });
-
     it('Should allow to set editor config', () => {
       render(
         getComponent({

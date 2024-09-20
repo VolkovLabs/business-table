@@ -126,6 +126,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                   <CollapseTitle>
                     {item.field.name}
                     <InlineSwitch
+                      isTogglerDisabled={!item.edit.enabled}
                       value={item.edit.enabled}
                       label="Editable"
                       transparent={true}
@@ -162,21 +163,6 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                 contentTestId={testIds.columnContent.selector(getFieldKey(item.field))}
               >
                 <>
-                  <InlineField label="Editable">
-                    <InlineSwitch
-                      value={item.edit.enabled}
-                      onChange={(event) => {
-                        onChangeItem({
-                          ...item,
-                          edit: {
-                            ...item.edit,
-                            enabled: event.currentTarget.checked,
-                          },
-                        });
-                      }}
-                      {...testIds.fieldEditEnabled.apply()}
-                    />
-                  </InlineField>
                   {item.edit.enabled && (
                     <>
                       <FieldsGroup label="Permission">
