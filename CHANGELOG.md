@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.4.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Update aggregated cell to support Standard Options (#79)
+
 ## 1.3.0 (2024-09-20)
 
 ### Breaking changes

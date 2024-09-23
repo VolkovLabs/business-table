@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -785,6 +785,411 @@
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 11,
+      "options": {
+        "tables": [
+          {
+            "items": [
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "country",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "city",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "City",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "count",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "device",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": ["distinctCount"],
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "sum",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": true
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": ["sum"],
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "coloredBackground"
+              }
+            ],
+            "name": "Country",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          },
+          {
+            "items": [
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "device",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "max",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "label": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "coloredBackground"
+              }
+            ],
+            "name": "Value",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "export": true
+        }
+      },
+      "pluginVersion": "1.3.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "country",
+                "type": "string",
+                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+              },
+              {
+                "config": {},
+                "name": "city",
+                "type": "string",
+                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+              },
+              {
+                "config": {},
+                "name": "device",
+                "type": "string",
+                "values": [
+                  "device 1",
+                  "device 2",
+                  "device 2",
+                  "device 3",
+                  "device 3",
+                  "device 4",
+                  "device 4",
+                  "device 5",
+                  "device 5"
+                ]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Standart options",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "country": "Country"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -806,7 +1211,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 26
       },
       "id": 8,
       "options": {
@@ -987,6 +1392,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 1,
+  "version": 11,
   "weekStart": ""
 }

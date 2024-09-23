@@ -1,2 +1,2 @@
-export { CellRenderer, TableActionsCell } from './components';
+export { AggregatedCellRenderer, CellRenderer, TableActionsCell } from './components';
 export * from './Table';

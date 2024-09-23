@@ -4,7 +4,7 @@ import { useTheme2 } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { useCallback, useMemo } from 'react';
 
-import { CellRenderer, editableColumnEditorsRegistry, TableActionsCell } from '@/components';
+import { AggregatedCellRenderer, CellRenderer, editableColumnEditorsRegistry, TableActionsCell } from '@/components';
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import {
   CellAggregation,
@@ -200,6 +200,7 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         accessorKey: column.field.name,
         header: column.config.label || column.field.config?.displayName || column.field.name,
         cell: CellRenderer,
+        aggregatedCell: AggregatedCellRenderer,
         enableGrouping: column.config.group,
         aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
         enableColumnFilter: column.config.filter.enabled && availableFilterTypes.length > 0,
