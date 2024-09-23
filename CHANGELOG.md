@@ -1,10 +1,14 @@
 # Change Log
 
-## 1.3.0 (IN PROGRESS)
+## 1.3.0 (2024-09-20)
+
+### Breaking changes
+
+- Requires Grafana 10.3 and Grafana 11
 
 ### Features / Enhancements
 
-- Added edit data with based permission check (#40)
+- Added edit data with based permission check (#40, #76)
 - Added edit permission based on query (#47)
 - Added client and query pagination (#50)
 - Added functionality to pin columns (#53, #65)
@@ -15,7 +19,7 @@
 - Updated Sorting options (#69)
 - Added DataLinks support (#75)
 
-## 1.2.0 (2023-09-05)
+## 1.2.0 (2024-09-05)
 
 ### Features / Enhancements
 

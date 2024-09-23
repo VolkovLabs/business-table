@@ -325,7 +325,7 @@ describe('TableUpdateEditor', () => {
       );
     });
 
-    it('Should allow to enable edit in content', () => {
+    it('Should not allow to expand settings if edit disabled', () => {
       render(
         getComponent({
           value: createTableConfig({
@@ -341,22 +341,11 @@ describe('TableUpdateEditor', () => {
         })
       );
 
-      openSettings(defaultName);
+      expect(selectors.columnContent(true, defaultName)).not.toBeInTheDocument();
 
-      expect(selectors.fieldEditEnabled()).toBeInTheDocument();
-      fireEvent.click(selectors.fieldEditEnabled());
+      fireEvent.click(selectors.columnHeader(false, defaultName));
 
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: [
-            expect.objectContaining({
-              edit: expect.objectContaining({
-                enabled: true,
-              }),
-            }),
-          ],
-        })
-      );
+      expect(selectors.columnContent(true, defaultName)).not.toBeInTheDocument();
     });
 
     it('Should allow to set editor config', () => {
