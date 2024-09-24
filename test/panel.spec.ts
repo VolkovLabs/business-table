@@ -183,3 +183,53 @@ test.describe('Sorting', () => {
     await expect(cells[2]).toHaveText('20');
   });
 });
+
+test.describe('Filtering', () => {
+  test('Should filter table', async ({ page, gotoDashboardPage, dashboardPage }) => {
+    /**
+     * Go To Panels dashboard panels.json
+     * return dashboardPage
+     */
+    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+
+    /**
+     * Get Table panel with enable filtering
+     * return dashboardPage
+     */
+    const panel = await dashboardPage.getPanelByTitle('Table');
+
+    /**
+     * Check table header cell with available filtering
+     */
+    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('name'))).toBeVisible();
+
+    /**
+     * Should be 3 rows in table body
+     */
+    const rows = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr');
+    await expect(rows).toHaveCount(3);
+
+    /**
+     * Should open filter modal popup
+     */
+    const searchButton = await panel.locator
+      .getByTestId(TEST_IDS.table.headerCell.selector('name'))
+      .getByTestId(TEST_IDS.tableHeaderCellFilter.root.selector());
+
+    await searchButton.click();
+    await expect(page.getByTestId(TEST_IDS.filterPopup.root.selector())).toBeVisible();
+    await expect(page.getByTestId(TEST_IDS.filterSearch.root.selector())).toBeVisible();
+    await expect(page.getByTestId(TEST_IDS.filterPopup.buttonSave.selector())).toBeVisible();
+
+    /**
+     * Apply filter
+     */
+    await page.getByTestId(TEST_IDS.filterSearch.root.selector()).fill('long');
+    await page.getByTestId(TEST_IDS.filterPopup.buttonSave.selector()).click();
+
+    /**
+     * Should show one filtering line
+     */
+    await expect(rows).toHaveCount(1);
+  });
+});
