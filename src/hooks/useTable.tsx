@@ -1,19 +1,23 @@
-import { DataFrame, Field, FieldType, PanelData } from '@grafana/data';
+import { DataFrame, Field, FieldType, InterpolateFunction, PanelData } from '@grafana/data';
 import { config, getTemplateSrv } from '@grafana/runtime';
 import { useTheme2 } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import { AggregatedCellRenderer, CellRenderer, editableColumnEditorsRegistry, TableActionsCell } from '@/components';
+import { nestedObjectEditorsRegistry } from '@/components/editors/NestedObjectsEditor/components';
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import {
   CellAggregation,
+  CellType,
   ColumnConfig,
   ColumnEditorConfig,
   ColumnEditorControlOptions,
   ColumnFilterMode,
   ColumnFilterType,
   ColumnPinDirection,
+  NestedObjectConfig,
+  NestedObjectControlOptions,
 } from '@/types';
 import {
   checkIfColumnEditable,
@@ -24,10 +28,22 @@ import {
   getSupportedFilterTypesForVariable,
 } from '@/utils';
 
+import { useNestedObjects } from './useNestedObjects';
+
 /**
  * Use Table
  */
-export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; columns?: ColumnConfig[] }) => {
+export const useTable = ({
+  data,
+  columns: columnsConfig,
+  objects,
+  replaceVariables,
+}: {
+  data: PanelData;
+  columns?: ColumnConfig[];
+  objects: NestedObjectConfig[];
+  replaceVariables: InterpolateFunction;
+}) => {
   /**
    * Theme
    */
@@ -103,6 +119,35 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
   }, [columnsData]);
 
   /**
+   * Nested Objects
+   */
+  const { onLoad: onLoadNestedData, getValuesForColumn: getNestedData } = useNestedObjects({
+    objects,
+    replaceVariables,
+  });
+
+  /**
+   * Columns With Nested Objects
+   */
+  const columnsWithNestedObjects = useMemo(() => {
+    return columnsConfig?.filter((column) => column.type === CellType.NESTED_OBJECTS);
+  }, [columnsConfig]);
+
+  /**
+   * Load Nested Objects
+   */
+  useEffect(() => {
+    if (columnsWithNestedObjects?.length) {
+      columnsWithNestedObjects.forEach((column) => {
+        /**
+         * Load Nested Data
+         */
+        onLoadNestedData(column, tableData);
+      });
+    }
+  }, [columnsWithNestedObjects, onLoadNestedData, tableData]);
+
+  /**
    * Get Editor Control Options
    */
   const getEditorControlOptions = useCallback(
@@ -114,6 +159,22 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
       }
 
       return editorConfig as ColumnEditorControlOptions;
+    },
+    [data]
+  );
+
+  /**
+   * Get Nested Object Control Options
+   */
+  const getNestedObjectControlOptions = useCallback(
+    (object: NestedObjectConfig): NestedObjectControlOptions | undefined => {
+      const item = nestedObjectEditorsRegistry.get(object.type);
+
+      if (item) {
+        return item?.getControlOptions({ config: object as never, data });
+      }
+
+      return;
     },
     [data]
   );
@@ -195,6 +256,11 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
         isActionsEnabled = true;
       }
 
+      const nestedObjectConfig =
+        column.config.type === CellType.NESTED_OBJECTS
+          ? objects.find((object) => object.id === column.config.objectType)
+          : undefined;
+
       columns.push({
         id: column.field.name,
         accessorKey: column.field.name,
@@ -217,6 +283,9 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
           footerEnabled: column.config.footer.length > 0,
           editable: isEditAllowed,
           editor: isEditAllowed ? getEditorControlOptions(column.config.edit.editor) : undefined,
+          nestedObjectOptions: nestedObjectConfig ? getNestedObjectControlOptions(nestedObjectConfig) : undefined,
+          nestedData:
+            column.config.type === CellType.NESTED_OBJECTS ? getNestedData(column.config.objectType) : undefined,
         },
         footer: (context) => getFooterCell({ context, config: column.config, field: column.field, theme }),
         ...sizeParams,
@@ -239,7 +308,17 @@ export const useTable = ({ data, columns: columnsConfig }: { data: PanelData; co
     }
 
     return columns;
-  }, [columnsData.frame, columnsData.items, data.series, getEditorControlOptions, templateService, theme]);
+  }, [
+    columnsData.frame,
+    columnsData.items,
+    data.series,
+    getEditorControlOptions,
+    getNestedData,
+    getNestedObjectControlOptions,
+    objects,
+    templateService,
+    theme,
+  ]);
 
   return useMemo(
     () => ({

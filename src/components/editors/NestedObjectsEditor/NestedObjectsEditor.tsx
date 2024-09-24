@@ -6,7 +6,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { TEST_IDS } from '@/constants';
+import { nestedObjectsEditorContext } from '@/hooks';
 import { NestedObjectConfig, NestedObjectType, PanelOptions } from '@/types';
+import { getNestedObjectEditorConfig } from '@/utils';
 
 import { NestedObjectEditor } from './components';
 import { getStyles } from './NestedObjectsEditor.styles';
@@ -70,11 +72,12 @@ export const NestedObjectsEditor: React.FC<Props> = ({ context: { data }, value,
         {
           id: uuidv4(),
           name: newItemName,
-          type: NestedObjectType.COMMENTS,
+          type: NestedObjectType.CARDS,
           get: {
             datasource: '',
             payload: {},
           },
+          editor: getNestedObjectEditorConfig(NestedObjectType.CARDS),
         },
       ])
     );
@@ -143,7 +146,7 @@ export const NestedObjectsEditor: React.FC<Props> = ({ context: { data }, value,
   }, [value, onChangeItems, onCancelEdit, editItem, editName]);
 
   return (
-    <>
+    <nestedObjectsEditorContext.Provider value={{ data }}>
       {value.length > 0 ? (
         <div>
           {value.map((item) => (
@@ -273,6 +276,6 @@ export const NestedObjectsEditor: React.FC<Props> = ({ context: { data }, value,
           Add
         </Button>
       </InlineFieldRow>
-    </>
+    </nestedObjectsEditorContext.Provider>
   );
 };

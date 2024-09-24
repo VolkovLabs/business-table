@@ -2,7 +2,7 @@ import { Field } from '@grafana/data';
 
 import { ColumnEditorConfig, ColumnEditorControlOptions } from './column-editor';
 import { FieldSource } from './frame';
-import { NestedObjectConfig } from './nested-object';
+import { NestedObjectConfig, NestedObjectControlOptions } from './nested-object';
 import { PermissionConfig } from './permission';
 import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnFilterType } from './table';
 
@@ -465,4 +465,18 @@ export interface ColumnMeta {
    * @type {ColumnEditorControlOptions}
    */
   editor?: ColumnEditorControlOptions;
+
+  /**
+   * Nested Object Options
+   *
+   * @type {NestedObjectControlOptions}
+   */
+  nestedObjectOptions?: NestedObjectControlOptions;
+
+  /**
+   * Nested Data
+   *
+   * @type {Map<string, Record<string, unknown>>}
+   */
+  nestedData?: Map<string, Record<string, unknown>>;
 }

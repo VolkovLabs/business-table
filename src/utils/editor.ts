@@ -1,4 +1,10 @@
-import { ColumnEditorConfig, ColumnEditorType, EditableColumnEditorRegistryItem } from '@/types';
+import {
+  ColumnEditorConfig,
+  ColumnEditorType,
+  EditableColumnEditorRegistryItem,
+  NestedObjectEditorRegistryItem,
+  NestedObjectType,
+} from '@/types';
 
 /**
  * Get Column Editor Config
@@ -47,6 +53,26 @@ export const createEditableColumnEditorRegistryItem = <TType extends ColumnEdito
  * @param items
  */
 export const createEditableColumnEditorsRegistry = <TRegistry extends { id: string }>(items: TRegistry[]) => {
+  const itemsMap = new Map<TRegistry['id'], TRegistry>();
+
+  items.forEach((item) => itemsMap.set(item.id, item));
+
+  return itemsMap;
+};
+
+/**
+ * Create Nested Object Registry Item
+ * @param item
+ */
+export const createNestedObjectEditorRegistryItem = <TType extends NestedObjectType>(
+  item: NestedObjectEditorRegistryItem<TType>
+): NestedObjectEditorRegistryItem<typeof item.id> => item;
+
+/**
+ * Create Nested Object Editors Registry
+ * @param items
+ */
+export const createNestedObjectEditorsRegistry = <TRegistry extends { id: string }>(items: TRegistry[]) => {
   const itemsMap = new Map<TRegistry['id'], TRegistry>();
 
   items.forEach((item) => itemsMap.set(item.id, item));

@@ -198,9 +198,6 @@ export const TEST_IDS = {
     root: createSelector('data-testid field-picker'),
   },
   tableUpdateEditor: {
-    fieldEditPermissionMode: createSelector('data-testid table-update-editor field-edit-permission-mode'),
-    fieldEditPermissionOrgRole: createSelector('data-testid table-update-editor field-edit-permission-org-role'),
-    fieldEditPermissionField: createSelector('data-testid table-update-editor field-edit-permission-field'),
     updateSectionHeader: createSelector('data-testid table-update-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-update-editor update-section-content'),
     columnHeader: createSelector((name: unknown) => `data-testid table-update-editor column-header-${name}`),
@@ -221,6 +218,11 @@ export const TEST_IDS = {
   },
   nestedObjectsEditor: {
     newItem: createSelector('data-testid nested-object-editor new-item'),
+  },
+  permissionEditor: {
+    fieldMode: createSelector('data-testid permission-editor field-mode'),
+    fieldOrgRole: createSelector('data-testid permission-editor field-org-role'),
+    fieldPicker: createSelector('data-testid permission-editor field-picker'),
   },
 };
 

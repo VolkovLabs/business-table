@@ -3,40 +3,32 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useState } from 'react';
 
 import { CollapseTitle, FieldsGroup, RequestEditor } from '@/components';
-import { NestedObjectConfig, NestedObjectOperationConfig, NestedObjectType, PermissionMode } from '@/types';
+import {
+  EditorProps,
+  NestedObjectConfig,
+  NestedObjectOperationConfig,
+  NestedObjectType,
+  PermissionMode,
+} from '@/types';
+import { getNestedObjectEditorConfig } from '@/utils';
 
 import { NestedObjectOperationEditor } from './components';
 import { getStyles } from './NestedObjectEditor.styles';
-
-/**
- * Value
- */
-type Value = NestedObjectConfig;
+import { nestedObjectEditorsRegistry } from './NestedObjectEditorsRegistry';
 
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {Value}
-   */
-  value: Value;
-
-  /**
-   * Change
-   */
-  onChange: (value: Value) => void;
-}
+interface Props extends EditorProps<NestedObjectConfig> {}
 
 /**
  * Type Options
  */
 const typeOptions = [
   {
-    value: NestedObjectType.COMMENTS,
-    label: 'Comments',
+    value: NestedObjectType.CARDS,
+    label: 'Cards',
+    icon: 'gf-layout-simple',
   },
 ];
 
@@ -81,15 +73,23 @@ export const NestedObjectEditor: React.FC<Props> = ({ value, onChange }) => {
     delete: false,
   });
 
+  /**
+   * Editor Config
+   */
+  const EditorConfig = nestedObjectEditorsRegistry.get(value.type)?.editor;
+
   return (
     <>
       <InlineField label="Type" grow={true}>
         <Select
           value={value.type}
           onChange={(event) => {
+            const newType = event.value!;
+
             onChange({
               ...value,
-              type: event.value!,
+              type: newType,
+              editor: getNestedObjectEditorConfig(newType),
             });
           }}
           options={typeOptions}
@@ -118,6 +118,17 @@ export const NestedObjectEditor: React.FC<Props> = ({ value, onChange }) => {
           />
         </Collapse>
       </div>
+      {EditorConfig && (
+        <EditorConfig
+          value={value.editor}
+          onChange={(editor) => {
+            onChange({
+              ...value,
+              editor,
+            });
+          }}
+        />
+      )}
       <FieldsGroup label="Operations">
         {(['add', 'update', 'delete'] as Array<'add' | 'update' | 'delete'>).map((operation) => {
           const config = value[operation];

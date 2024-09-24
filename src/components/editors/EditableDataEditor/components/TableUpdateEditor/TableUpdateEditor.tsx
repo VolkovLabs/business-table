@@ -1,12 +1,12 @@
-import { DataFrame, FieldType, OrgRole } from '@grafana/data';
-import { Alert, InlineField, InlineSwitch, Label, Select, Tag, useStyles2 } from '@grafana/ui';
+import { DataFrame } from '@grafana/data';
+import { Alert, InlineSwitch, Label, Tag, useStyles2 } from '@grafana/ui';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { CollapseTitle, EditableColumnEditor, FieldPicker, FieldsGroup, RequestEditor } from '@/components';
+import { CollapseTitle, EditableColumnEditor, FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { ColumnConfig, PermissionMode, TableConfig } from '@/types';
-import { cleanPayloadObject, getFieldKey } from '@/utils';
+import { ColumnConfig, TableConfig } from '@/types';
+import { getFieldKey } from '@/utils';
 
 import { getStyles } from './TableUpdateEditor.styles';
 
@@ -38,32 +38,6 @@ interface Props {
    */
   data: DataFrame[];
 }
-
-/**
- * Edit Permission Mode Options
- */
-const editPermissionModeOptions = [
-  {
-    value: PermissionMode.ALLOWED,
-    label: 'Always Allowed',
-  },
-  {
-    value: PermissionMode.USER_ROLE,
-    label: 'By Org User Role',
-  },
-  {
-    value: PermissionMode.QUERY,
-    label: 'By Backend',
-  },
-];
-
-/**
- * User Org Role Options
- */
-const userOrgRoleOptions = Object.values(OrgRole).map((role) => ({
-  value: role,
-  label: role,
-}));
 
 /**
  * Test Ids
@@ -159,78 +133,19 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                   {item.edit.enabled && (
                     <>
                       <FieldsGroup label="Permission">
-                        <InlineField label="Check" grow={true}>
-                          <Select
-                            value={item.edit.permission.mode}
-                            onChange={(event) => {
-                              onChangeItem({
-                                ...item,
-                                edit: {
-                                  ...item.edit,
-                                  permission: {
-                                    ...item.edit.permission,
-                                    mode: event.value!,
-                                  },
-                                },
-                              });
-                            }}
-                            options={editPermissionModeOptions}
-                            {...testIds.fieldEditPermissionMode.apply()}
-                          />
-                        </InlineField>
-                        {item.edit.permission.mode === PermissionMode.USER_ROLE && (
-                          <InlineField label="User Role" grow={true}>
-                            <Select
-                              value={item.edit.permission.userRole}
-                              onChange={(event) => {
-                                const values = Array.isArray(event) ? event : [event];
-
-                                onChangeItem({
-                                  ...item,
-                                  edit: {
-                                    ...item.edit,
-                                    permission: {
-                                      ...item.edit.permission,
-                                      userRole: values.map((item) => item.value),
-                                    },
-                                  },
-                                });
-                              }}
-                              options={userOrgRoleOptions}
-                              isMulti={true}
-                              isClearable={true}
-                              placeholder="Allowed Org User Role"
-                              {...testIds.fieldEditPermissionOrgRole.apply()}
-                            />
-                          </InlineField>
-                        )}
-                        {item.edit.permission.mode === PermissionMode.QUERY && (
-                          <InlineField
-                            label="Field"
-                            tooltip="Field with boolean value to allow/disallow edit. Last value will be used if several values."
-                            grow={true}
-                          >
-                            <FieldPicker
-                              value={item.edit.permission.field}
-                              onChange={(field) => {
-                                onChangeItem({
-                                  ...item,
-                                  edit: {
-                                    ...item.edit,
-                                    permission: cleanPayloadObject({
-                                      ...item.edit.permission,
-                                      field,
-                                    }),
-                                  },
-                                });
-                              }}
-                              data={data}
-                              includeTypes={[FieldType.boolean]}
-                              isClearable={true}
-                              {...testIds.fieldEditPermissionField.apply()}
-                            />
-                          </InlineField>
-                        )}
+                        <PermissionEditor
+                          data={data}
+                          value={item.edit.permission}
+                          onChange={(permission) => {
+                            onChangeItem({
+                              ...item,
+                              edit: {
+                                ...item.edit,
+                                permission,
+                              },
+                            });
+                          }}
+                        />
                       </FieldsGroup>
                       <FieldsGroup label="Editor">
                         <EditableColumnEditor

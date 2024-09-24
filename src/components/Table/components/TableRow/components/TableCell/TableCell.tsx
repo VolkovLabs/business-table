@@ -3,7 +3,9 @@ import { DataLinksContextMenu, IconButton, useStyles2 } from '@grafana/ui';
 import { Cell, CellContext, flexRender, Row } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
+import { nestedObjectEditorsRegistry } from '@/components';
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { CellType } from '@/types';
 
 import { getStyles } from './TableCell.styles';
 
@@ -74,6 +76,23 @@ export const TableCell = <TData,>({ row, cell, rendererProps }: Props<TData>) =>
      */
     if (row.getIsGrouped()) {
       return renderCellContent();
+    }
+
+    /**
+     * Render Nested Objects
+     */
+    if (cell.column.columnDef.meta?.config.type === CellType.NESTED_OBJECTS) {
+      if (cell.column.columnDef.meta?.nestedObjectOptions) {
+        const Control = nestedObjectEditorsRegistry.get(cell.column.columnDef.meta?.nestedObjectOptions.type)?.control;
+
+        if (Control) {
+          const value = cell.getValue();
+          const nestedData = cell.column.columnDef.meta?.nestedData;
+          const data = Array.isArray(value) ? value.map((key) => nestedData?.get(key)).filter((item) => !!item) : [];
+
+          return <Control config={cell.column.columnDef.meta?.nestedObjectOptions} data={data} />;
+        }
+      }
     }
 
     /**

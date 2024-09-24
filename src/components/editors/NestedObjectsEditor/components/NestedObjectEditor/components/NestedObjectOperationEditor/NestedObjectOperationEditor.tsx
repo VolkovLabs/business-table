@@ -1,35 +1,24 @@
 import { Collapse } from '@volkovlabs/components';
 import React, { useState } from 'react';
 
-import { RequestEditor } from '@/components';
-import { NestedObjectOperationConfig } from '@/types';
-
-/**
- * Value
- */
-type Value = NestedObjectOperationConfig;
+import { FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
+import { nestedObjectsEditorContext } from '@/hooks';
+import { EditorProps, NestedObjectOperationConfig } from '@/types';
 
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {Value}
-   */
-  value: Value;
-
-  /**
-   * Change
-   */
-  onChange: (value: Value) => void;
-}
+interface Props extends EditorProps<NestedObjectOperationConfig> {}
 
 /**
  * Nested Object Operation Editor
  */
 export const NestedObjectOperationEditor: React.FC<Props> = ({ value, onChange }) => {
+  /**
+   * Context
+   */
+  const { data } = nestedObjectsEditorContext.useContext();
+
   /**
    * Expanded State
    */
@@ -39,6 +28,18 @@ export const NestedObjectOperationEditor: React.FC<Props> = ({ value, onChange }
 
   return (
     <>
+      <FieldsGroup label="Permission">
+        <PermissionEditor
+          data={data}
+          value={value.permission}
+          onChange={(permission) => {
+            onChange({
+              ...value,
+              permission,
+            });
+          }}
+        />
+      </FieldsGroup>
       <Collapse
         isOpen={expandedState.request}
         onToggle={(isOpen) => {

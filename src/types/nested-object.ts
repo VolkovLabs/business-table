@@ -1,12 +1,15 @@
-import { PermissionConfig } from '@/types/permission';
+import { PanelData } from '@grafana/data';
+// eslint-disable-next-line @typescript-eslint/naming-convention
+import React from 'react';
 
 import { TableRequestConfig } from './panel';
+import { PermissionConfig } from './permission';
 
 /**
  * Nested Object Type
  */
 export enum NestedObjectType {
-  COMMENTS = 'comments',
+  CARDS = 'cards',
 }
 
 /**
@@ -34,6 +37,68 @@ export interface NestedObjectOperationConfig {
    */
   permission: PermissionConfig;
 }
+
+/**
+ * Editor Cards Options
+ */
+interface NestedObjectEditorCardsOptions {
+  /**
+   * ID Field
+   *
+   * @type {name}
+   */
+  id: string;
+
+  /**
+   * Title
+   *
+   * @type {string}
+   */
+  title: string;
+}
+
+/**
+ * Nested Object Control Card
+ */
+interface NestedObjectControlCardItem {
+  /**
+   * ID
+   *
+   * @type {unknown}
+   */
+  id: unknown;
+
+  /**
+   * Title
+   *
+   * @type {string}
+   */
+  title: string;
+}
+
+/**
+ * Nested Object Control Cards Options
+ */
+interface NestedObjectControlCardsOptions {
+  /**
+   * Items
+   *
+   * @type {NestedObjectControlCardItem}
+   */
+  items: NestedObjectControlCardItem;
+}
+
+/**
+ * Nested Object Editor Config
+ */
+export type NestedObjectEditorConfig = { type: NestedObjectType.CARDS } & NestedObjectEditorCardsOptions;
+
+/**
+ * Nested Object Control Options
+ */
+export type NestedObjectControlOptions = {
+  type: NestedObjectType.CARDS;
+} & NestedObjectControlCardsOptions;
 
 /**
  * Nested Object Config
@@ -87,4 +152,30 @@ export interface NestedObjectConfig {
    * @type {NestedObjectOperationConfig}
    */
   delete?: NestedObjectOperationConfig;
+
+  /**
+   * Editor
+   *
+   * @type {NestedObjectEditorConfig}
+   */
+  editor: NestedObjectEditorConfig;
+}
+
+/**
+ * Nested Object Editor Registry Item
+ */
+export interface NestedObjectEditorRegistryItem<TType extends NestedObjectType> {
+  id: TType;
+  editor: React.FC<{
+    value: NestedObjectEditorConfig & { type: TType };
+    onChange: (value: NestedObjectEditorConfig & { type: TType }) => void;
+  }>;
+  control: React.FC<{
+    config: NestedObjectControlOptions & { type: TType };
+    data: Array<Record<string, unknown>>;
+  }>;
+  getControlOptions: (params: {
+    config: NestedObjectEditorConfig & { type: TType };
+    data: PanelData;
+  }) => NestedObjectControlOptions & { type: TType };
 }

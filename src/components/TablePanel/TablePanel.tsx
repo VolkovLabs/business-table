@@ -54,7 +54,12 @@ export const TablePanel: React.FC<Props> = ({
   /**
    * Table
    */
-  const { tableData, columns } = useTable({ data, columns: currentTable?.items });
+  const { tableData, columns } = useTable({
+    data,
+    columns: currentTable?.items,
+    replaceVariables,
+    objects: options.nestedObjects,
+  });
 
   /**
    * Table Instance

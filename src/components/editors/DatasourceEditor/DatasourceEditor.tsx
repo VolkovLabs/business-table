@@ -1,3 +1,4 @@
+import { EditorProps } from '@/types';
 import { Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
@@ -7,19 +8,7 @@ import { useDatasources } from '@/hooks';
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {string}
-   */
-  value: string;
-
-  /**
-   * Change
-   */
-  onChange: (value: string) => void;
-}
+interface Props extends EditorProps<string> {}
 
 /**
  * Data Source Editor

@@ -14,25 +14,14 @@ import {
   ColumnConfig,
   ColumnFilterMode,
   ColumnPinDirection,
+  EditorProps,
 } from '@/types';
 import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {ColumnConfig}
-   */
-  value: ColumnConfig;
-
-  /**
-   * Change
-   */
-  onChange: (value: ColumnConfig) => void;
-
+interface Props extends EditorProps<ColumnConfig> {
   /**
    * Data
    *

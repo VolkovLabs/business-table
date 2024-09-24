@@ -1,3 +1,4 @@
+import { DataFrame } from '@grafana/data';
 import { createContext, useContext } from 'react';
 
 import { NestedObjectConfig } from '@/types';
@@ -25,4 +26,11 @@ const createCustomContext = <TValue>() => {
  */
 export const tablesEditorContext = createCustomContext<{
   nestedObjects: NestedObjectConfig[];
+}>();
+
+/**
+ * Nested Objects Editor Context
+ */
+export const nestedObjectsEditorContext = createCustomContext<{
+  data: DataFrame[];
 }>();
