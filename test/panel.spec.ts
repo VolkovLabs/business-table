@@ -134,7 +134,7 @@ test.describe('Download Button', () => {
 });
 
 test.describe('Sorting', () => {
-  test('Should sort table rows', async ({ page, gotoDashboardPage, dashboardPage, panelEditPage, selectors }) => {
+  test('Should sort table rows', async ({ gotoDashboardPage, dashboardPage }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
@@ -148,7 +148,38 @@ test.describe('Sorting', () => {
     const panel = await dashboardPage.getPanelByTitle('Table');
 
     await expect(panel.locator).toBeVisible();
+
+    /**
+     * Check table header cell with available sort
+     */
     await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toBeVisible();
     await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toHaveText('id');
+
+    /**
+     * Check cells in first row
+     */
+    const cells = await panel.locator
+      .getByTestId(TEST_IDS.table.root.selector())
+      .locator('tbody')
+      .locator('tr')
+      .first()
+      .locator('td')
+      .all();
+
+    await expect(cells[0]).toHaveText('1');
+    await expect(cells[1]).toHaveText('DeviceWithVeryLongTitle');
+    await expect(cells[2]).toHaveText('10');
+
+    /**
+     * Sort table
+     */
+    await panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id')).click();
+
+    /**
+     * Cells in first row should be after sort
+     */
+    await expect(cells[0]).toHaveText('3');
+    await expect(cells[1]).toHaveText('Device 3');
+    await expect(cells[2]).toHaveText('20');
   });
 });
