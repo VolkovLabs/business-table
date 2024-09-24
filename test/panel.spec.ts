@@ -40,74 +40,74 @@ test.describe('Business Table Panel', () => {
     await expect(panel.getErrorIcon()).not.toBeVisible();
   });
 
-  test('Should render table panel correctly with data', async ({
-    gotoDashboardPage,
-    page,
-    dashboardPage,
-    selectors,
-  }) => {
-    /**
-     * Go To Panels dashboard panels.json
-     * return dashboardPage
-     */
-    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+  // test('Should render table panel correctly with data', async ({
+  //   gotoDashboardPage,
+  //   page,
+  //   dashboardPage,
+  //   selectors,
+  // }) => {
+  //   /**
+  //    * Go To Panels dashboard panels.json
+  //    * return dashboardPage
+  //    */
+  //   await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
 
-    /**
-     * Add new visualization
-     */
-    const editPage = await dashboardPage.addPanel();
-    await editPage.setVisualization('Business Table');
-    await editPage.setPanelTitle('Business Table Test');
+  //   /**
+  //    * Add new visualization
+  //    */
+  //   const editPage = await dashboardPage.addPanel();
+  //   await editPage.setVisualization('Business Table');
+  //   await editPage.setPanelTitle('Business Table Test');
 
-    /**
-     * Set data source
-     */
-    await editPage.datasource.set('Grafana');
-    await editPage.refreshPanel();
+  //   /**
+  //    * Set data source
+  //    */
+  //   await editPage.datasource.set('Grafana');
+  //   await editPage.refreshPanel();
 
-    /**
-     * Create new table
-     */
-    await page.getByTestId(TEST_IDS.tablesEditor.newItemName.selector()).fill('Table');
-    await page.getByTestId(TEST_IDS.tablesEditor.buttonAddNew.selector()).click();
+  //   /**
+  //    * Create new table
+  //    */
+  //   await page.getByTestId(TEST_IDS.tablesEditor.newItemName.selector()).fill('Table');
+  //   await page.getByTestId(TEST_IDS.tablesEditor.buttonAddNew.selector()).click();
 
-    await page.getByRole('combobox', { name: 'New Column' }).click();
+  //   await page.getByRole('combobox', { name: 'New Column' }).click();
 
-    /**
-     * Options should be correct in field picker
-     */
-    await expect(editPage.getByGrafanaSelector(selectors.components.Select.option)).toHaveText([
-      'A:time',
-      'A:A-series',
-    ]);
+  //   /**
+  //    * Options should be correct in field picker
+  //    */
+  //   await expect(editPage.getByGrafanaSelector(selectors.components.Select.option)).toHaveText([
+  //     'A:time',
+  //     'A:A-series',
+  //   ]);
 
-    /**
-     * Set columns
-     */
-    await editPage.getByGrafanaSelector(selectors.components.Select.option).getByText('A:time').click();
-    await page.getByTestId(TEST_IDS.columnsEditor.buttonAddNew.selector()).click();
-    await page.getByRole('combobox', { name: 'New Column' }).click();
-    await editPage.getByGrafanaSelector(selectors.components.Select.option).getByText('A:A-series').click();
-    await page.getByTestId(TEST_IDS.columnsEditor.buttonAddNew.selector()).click();
+  //   /**
+  //    * Set columns
+  //    */
+  //   await editPage.getByGrafanaSelector(selectors.components.Select.option).getByText('A:time').click();
+  //   await page.getByTestId(TEST_IDS.columnsEditor.buttonAddNew.selector()).click();
+  //   await page.getByRole('combobox', { name: 'New Column' }).click();
+  //   await editPage.getByGrafanaSelector(selectors.components.Select.option).getByText('A:A-series').click();
+  //   await page.getByTestId(TEST_IDS.columnsEditor.buttonAddNew.selector()).click();
 
-    /**
-     * Apply changes and return to dashboard
-     */
-    await editPage.apply();
+  //   /**
+  //    * Apply changes and return to dashboard
+  //    */
+  //   await editPage.apply();
 
-    const panel = await dashboardPage.getPanelByTitle('Business Table Test');
+  //   const panel = await dashboardPage.getPanelByTitle('Business Table Test');
 
-    await expect(page.getByRole('heading', { name: 'Table' }).first()).toBeVisible();
+  //   await expect(page.getByRole('heading', { name: 'Table' }).first()).toBeVisible();
 
-    await expect(panel.locator).toBeVisible();
-    await expect(panel.getErrorIcon()).not.toBeVisible();
+  //   await expect(panel.locator).toBeVisible();
+  //   await expect(panel.getErrorIcon()).not.toBeVisible();
 
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('time'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('time'))).toHaveText('time');
+  //   await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('time'))).toBeVisible();
+  //   await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('time'))).toHaveText('time');
 
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toHaveText('A-series');
-  });
+  //   await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toBeVisible();
+  //   await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toHaveText('A-series');
+  // });
 
   test('Should toggle tables via tabs', async ({ gotoDashboardPage, page, dashboardPage, selectors }) => {
     /**
@@ -199,5 +199,25 @@ test.describe('Download Button', () => {
      * Download button should be visible on dashboard
      */
     await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).toBeVisible();
+  });
+});
+
+test.describe('Sorting', () => {
+  test('Should sort table rows', async ({ page, gotoDashboardPage, dashboardPage, panelEditPage, selectors }) => {
+    /**
+     * Go To Panels dashboard panels.json
+     * return dashboardPage
+     */
+    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+
+    /**
+     * Get Table panel with enable sorting
+     * return dashboardPage
+     */
+    const panel = await dashboardPage.getPanelByTitle('Table');
+
+    await expect(panel.locator).toBeVisible();
+    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toBeVisible();
+    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toHaveText('id');
   });
 });

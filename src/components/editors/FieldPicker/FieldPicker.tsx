@@ -1,5 +1,5 @@
 import { DataFrame, FieldType, SelectableValue } from '@grafana/data';
-import { InlineField, Select, SelectBaseProps } from '@grafana/ui';
+import { Select, SelectBaseProps } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -109,24 +109,22 @@ export const FieldPicker: React.FC<Props> = ({
   }, [value]);
 
   return (
-    <InlineField label="New Column" grow={true}>
-      <Select
-        inputId="config-new-column"
-        options={availableFieldOptions}
-        value={selectValue}
-        onChange={(event) => {
-          onChange(
-            event
-              ? {
-                  source: event.source,
-                  name: event.fieldName,
-                }
-              : undefined
-          );
-        }}
-        {...TEST_IDS.fieldPicker.root.apply()}
-        {...restProps}
-      />
-    </InlineField>
+    <Select
+      inputId="config-new-column"
+      options={availableFieldOptions}
+      value={selectValue}
+      onChange={(event) => {
+        onChange(
+          event
+            ? {
+                source: event.source,
+                name: event.fieldName,
+              }
+            : undefined
+        );
+      }}
+      {...TEST_IDS.fieldPicker.root.apply()}
+      {...restProps}
+    />
   );
 };
