@@ -8,6 +8,7 @@ export enum CellType {
   AUTO = 'auto',
   COLORED_TEXT = 'coloredText',
   COLORED_BACKGROUND = 'coloredBackground',
+  NESTED_OBJECTS = 'nested_objects',
 }
 
 /**

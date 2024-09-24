@@ -12,9 +12,9 @@ import {
   ColumnFilterMode,
   ColumnPinDirection,
   ColumnSortConfig,
-  EditPermissionMode,
   PaginationMode,
   PanelOptions,
+  PermissionMode,
   TableConfig,
   TablePaginationConfig,
   TableRequestConfig,
@@ -196,7 +196,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
           normalized.edit = {
             enabled: false,
             permission: {
-              mode: EditPermissionMode.ALLOWED,
+              mode: PermissionMode.ALLOWED,
               field: {
                 source: '',
                 name: '',

@@ -124,6 +124,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
           footer: [],
           edit: DEFAULT_COLUMN_EDIT,
           pin: ColumnPinDirection.NONE,
+          objectType: '',
         },
       ]);
       setNewItem(null);

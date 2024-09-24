@@ -1,18 +1,11 @@
 import { DataFrame, FieldType, OrgRole } from '@grafana/data';
-import { Alert, Field, InlineField, InlineSwitch, Label, Select, Tag, useStyles2 } from '@grafana/ui';
+import { Alert, InlineField, InlineSwitch, Label, Select, Tag, useStyles2 } from '@grafana/ui';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import {
-  CollapseTitle,
-  DatasourceEditor,
-  DatasourcePayloadEditor,
-  EditableColumnEditor,
-  FieldPicker,
-  FieldsGroup,
-} from '@/components';
+import { CollapseTitle, EditableColumnEditor, FieldPicker, FieldsGroup, RequestEditor } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { ColumnConfig, EditPermissionMode, TableConfig } from '@/types';
+import { ColumnConfig, PermissionMode, TableConfig } from '@/types';
 import { cleanPayloadObject, getFieldKey } from '@/utils';
 
 import { getStyles } from './TableUpdateEditor.styles';
@@ -51,15 +44,15 @@ interface Props {
  */
 const editPermissionModeOptions = [
   {
-    value: EditPermissionMode.ALLOWED,
+    value: PermissionMode.ALLOWED,
     label: 'Always Allowed',
   },
   {
-    value: EditPermissionMode.USER_ROLE,
+    value: PermissionMode.USER_ROLE,
     label: 'By Org User Role',
   },
   {
-    value: EditPermissionMode.QUERY,
+    value: PermissionMode.QUERY,
     label: 'By Backend',
   },
 ];
@@ -185,7 +178,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                             {...testIds.fieldEditPermissionMode.apply()}
                           />
                         </InlineField>
-                        {item.edit.permission.mode === EditPermissionMode.USER_ROLE && (
+                        {item.edit.permission.mode === PermissionMode.USER_ROLE && (
                           <InlineField label="User Role" grow={true}>
                             <Select
                               value={item.edit.permission.userRole}
@@ -211,7 +204,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                             />
                           </InlineField>
                         )}
-                        {item.edit.permission.mode === EditPermissionMode.QUERY && (
+                        {item.edit.permission.mode === PermissionMode.QUERY && (
                           <InlineField
                             label="Field"
                             tooltip="Field with boolean value to allow/disallow edit. Last value will be used if several values."
@@ -281,39 +274,16 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
             headerTestId={testIds.updateSectionHeader.selector()}
             contentTestId={testIds.updateSectionContent.selector()}
           >
-            <>
-              <Field label="Data Source">
-                <DatasourceEditor
-                  value={value.update.datasource}
-                  onChange={(datasource) => {
-                    onChange({
-                      ...value,
-                      update: {
-                        ...value.update,
-                        datasource,
-                      },
-                    });
-                  }}
-                />
-              </Field>
-              {value.update.datasource && (
-                <Field label="Query Editor" description="Updated row is placed in variable `${payload}`">
-                  <DatasourcePayloadEditor
-                    value={value.update.payload}
-                    onChange={(payload) => {
-                      onChange({
-                        ...value,
-                        update: {
-                          ...value.update,
-                          payload: payload as Record<string, unknown>,
-                        },
-                      });
-                    }}
-                    datasourceName={value.update.datasource}
-                  />
-                </Field>
-              )}
-            </>
+            <RequestEditor
+              value={value.update}
+              onChange={(update) => {
+                onChange({
+                  ...value,
+                  update,
+                });
+              }}
+              queryEditorDescription="Updated row is placed in variable `${payload}`"
+            />
           </Collapse>
         </>
       )}

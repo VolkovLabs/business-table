@@ -9,7 +9,7 @@ import {
   ColumnFilterMode,
   ColumnFilterType,
   ColumnPinDirection,
-  EditPermissionMode,
+  PermissionMode,
 } from '@/types';
 import {
   columnFilter,
@@ -545,7 +545,7 @@ describe('useTable', () => {
         edit: createColumnEditConfig({
           enabled: true,
           permission: {
-            mode: EditPermissionMode.ALLOWED,
+            mode: PermissionMode.ALLOWED,
             userRole: [],
             field: { source: '', name: '' },
           },
@@ -589,7 +589,7 @@ describe('useTable', () => {
         edit: createColumnEditConfig({
           enabled: true,
           permission: {
-            mode: EditPermissionMode.ALLOWED,
+            mode: PermissionMode.ALLOWED,
             userRole: [],
             field: { source: '', name: '' },
           },
@@ -628,7 +628,7 @@ describe('useTable', () => {
         edit: createColumnEditConfig({
           enabled: true,
           permission: {
-            mode: EditPermissionMode.USER_ROLE,
+            mode: PermissionMode.USER_ROLE,
             userRole: [OrgRole.Admin],
             field: { source: '', name: '' },
           },

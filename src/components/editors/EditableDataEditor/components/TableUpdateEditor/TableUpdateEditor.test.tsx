@@ -4,7 +4,7 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { ColumnEditorType, EditPermissionMode } from '@/types';
+import { ColumnEditorType, PermissionMode } from '@/types';
 import { createColumnConfig, createColumnEditConfig, createTableConfig } from '@/utils';
 
 import { TableUpdateEditor } from './TableUpdateEditor';
@@ -178,7 +178,7 @@ describe('TableUpdateEditor', () => {
 
       expect(selectors.fieldEditPermissionMode()).toBeInTheDocument();
 
-      fireEvent.change(selectors.fieldEditPermissionMode(), { target: { value: EditPermissionMode.USER_ROLE } });
+      fireEvent.change(selectors.fieldEditPermissionMode(), { target: { value: PermissionMode.USER_ROLE } });
 
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -186,7 +186,7 @@ describe('TableUpdateEditor', () => {
             expect.objectContaining({
               edit: expect.objectContaining({
                 permission: expect.objectContaining({
-                  mode: EditPermissionMode.USER_ROLE,
+                  mode: PermissionMode.USER_ROLE,
                 }),
               }),
             }),
@@ -205,7 +205,7 @@ describe('TableUpdateEditor', () => {
                 edit: createColumnEditConfig({
                   enabled: true,
                   permission: {
-                    mode: EditPermissionMode.USER_ROLE,
+                    mode: PermissionMode.USER_ROLE,
                     userRole: [],
                     field: {
                       source: '',
@@ -250,7 +250,7 @@ describe('TableUpdateEditor', () => {
                 edit: createColumnEditConfig({
                   enabled: true,
                   permission: {
-                    mode: EditPermissionMode.QUERY,
+                    mode: PermissionMode.QUERY,
                     userRole: [],
                   },
                 }),

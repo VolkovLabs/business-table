@@ -6,6 +6,7 @@ import React, { useMemo } from 'react';
 
 import { FieldsGroup } from '@/components';
 import { TEST_IDS } from '@/constants';
+import { tablesEditorContext } from '@/hooks';
 import {
   CellAggregation,
   CellType,
@@ -62,6 +63,11 @@ const cellTypeOptions = [
   {
     value: CellType.COLORED_BACKGROUND,
     label: 'Colored background',
+  },
+  {
+    value: CellType.NESTED_OBJECTS,
+    label: 'Nested Objects',
+    description: 'Column Value should be an array of object ids.',
   },
 ];
 
@@ -208,6 +214,17 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
     });
   }, [value.filter.enabled, value.filter.mode]);
 
+  /**
+   * Nested Object Options
+   */
+  const { nestedObjects } = tablesEditorContext.useContext();
+  const nestedObjectOptions = useMemo(() => {
+    return nestedObjects.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
+  }, [nestedObjects]);
+
   return (
     <>
       <InlineField label="Label" grow={true}>
@@ -254,6 +271,22 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 })
               }
               {...TEST_IDS.columnEditor.fieldAppearanceBackgroundApplyToRow.apply()}
+            />
+          </InlineField>
+        )}
+        {value.type === CellType.NESTED_OBJECTS && (
+          <InlineField label="Object Type" grow={true}>
+            <Select
+              onChange={(event) => {
+                onChange({
+                  ...value,
+                  objectType: event?.value ?? '',
+                });
+              }}
+              value={value.objectType}
+              options={nestedObjectOptions}
+              isClearable={true}
+              isSearchable={true}
             />
           </InlineField>
         )}

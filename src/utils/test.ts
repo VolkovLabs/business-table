@@ -20,9 +20,9 @@ import {
   ColumnFilterMode,
   ColumnMeta,
   ColumnPinDirection,
-  EditPermissionMode,
   PaginationMode,
   PanelOptions,
+  PermissionMode,
   TableConfig,
   TablePaginationConfig,
   ToolbarOptions,
@@ -50,7 +50,7 @@ export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanc
 export const createColumnEditConfig = (item: Partial<ColumnEditConfig>): ColumnEditConfig => ({
   enabled: false,
   permission: {
-    mode: EditPermissionMode.ALLOWED,
+    mode: PermissionMode.ALLOWED,
     userRole: [],
   },
   editor: {
@@ -84,6 +84,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   footer: [],
   edit: createColumnEditConfig({}),
   pin: ColumnPinDirection.NONE,
+  objectType: '',
   ...item,
 });
 
@@ -139,6 +140,7 @@ export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOp
   tables: [],
   tabsSorting: false,
   toolbar: createToolbarOptions({}),
+  nestedObjects: [],
   ...options,
 });
 

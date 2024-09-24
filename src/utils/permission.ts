@@ -1,6 +1,6 @@
 import { CurrentUserDTO, DataFrame } from '@grafana/data';
 
-import { ColumnEditConfig, EditPermissionMode } from '@/types';
+import { ColumnEditConfig, PermissionMode } from '@/types';
 
 import { getFieldBySource } from './group';
 
@@ -52,13 +52,13 @@ export const checkIfColumnEditable = (
    * Check Edit Permission
    */
   switch (editConfig.permission.mode) {
-    case EditPermissionMode.ALLOWED: {
+    case PermissionMode.ALLOWED: {
       return true;
     }
-    case EditPermissionMode.USER_ROLE: {
+    case PermissionMode.USER_ROLE: {
       return checkEditPermissionByOrgUserRole(editConfig, user);
     }
-    case EditPermissionMode.QUERY: {
+    case PermissionMode.QUERY: {
       return checkEditPermissionByQueryField(editConfig, series);
     }
   }

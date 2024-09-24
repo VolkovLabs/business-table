@@ -1,6 +1,6 @@
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, EditPermissionMode } from '@/types';
+import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, PermissionMode } from '@/types';
 
 /**
  * Default Column Appearance
@@ -24,7 +24,7 @@ export const DEFAULT_COLUMN_APPEARANCE = {
 export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
   enabled: false,
   permission: {
-    mode: EditPermissionMode.ALLOWED,
+    mode: PermissionMode.ALLOWED,
     userRole: [],
   },
   editor: {
@@ -218,6 +218,9 @@ export const TEST_IDS = {
   editableDataEditor: {
     itemHeader: createSelector((name: unknown) => `data-testid editable-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid editable-data-editor item-content-${name}`),
+  },
+  nestedObjectsEditor: {
+    newItem: createSelector('data-testid nested-object-editor new-item'),
   },
 };
 

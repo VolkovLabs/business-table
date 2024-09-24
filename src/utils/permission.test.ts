@@ -1,6 +1,6 @@
 import { OrgRole, toDataFrame } from '@grafana/data';
 
-import { EditPermissionMode } from '@/types';
+import { PermissionMode } from '@/types';
 import { createColumnEditConfig } from '@/utils/test';
 
 import { checkEditPermissionByOrgUserRole, checkEditPermissionByQueryField, checkIfColumnEditable } from './permission';
@@ -10,7 +10,7 @@ describe('Permission utils', () => {
     it('Should be granted if user role included', () => {
       const columnEditConfig = createColumnEditConfig({
         permission: {
-          mode: EditPermissionMode.USER_ROLE,
+          mode: PermissionMode.USER_ROLE,
           userRole: [OrgRole.Editor, OrgRole.Admin],
         },
       });
@@ -25,7 +25,7 @@ describe('Permission utils', () => {
     it('Should be granted if value is truthy', () => {
       const columnEditConfig = createColumnEditConfig({
         permission: {
-          mode: EditPermissionMode.USER_ROLE,
+          mode: PermissionMode.USER_ROLE,
           userRole: [],
           field: {
             source: 'A',
@@ -65,7 +65,7 @@ describe('Permission utils', () => {
         checkEditPermissionByQueryField(
           createColumnEditConfig({
             permission: {
-              mode: EditPermissionMode.USER_ROLE,
+              mode: PermissionMode.USER_ROLE,
               userRole: [],
             },
           }),
@@ -85,7 +85,7 @@ describe('Permission utils', () => {
     it('Should allow to edit if always allowed', () => {
       expect(
         checkIfColumnEditable(
-          createColumnEditConfig({ enabled: true, permission: { mode: EditPermissionMode.ALLOWED, userRole: [] } }),
+          createColumnEditConfig({ enabled: true, permission: { mode: PermissionMode.ALLOWED, userRole: [] } }),
           { series: [], user: {} as any }
         )
       ).toBeTruthy();
@@ -96,7 +96,7 @@ describe('Permission utils', () => {
         checkIfColumnEditable(
           createColumnEditConfig({
             enabled: true,
-            permission: { mode: EditPermissionMode.USER_ROLE, userRole: [OrgRole.Admin] },
+            permission: { mode: PermissionMode.USER_ROLE, userRole: [OrgRole.Admin] },
           }),
           { series: [], user: { orgRole: OrgRole.Admin } as any }
         )
@@ -105,7 +105,7 @@ describe('Permission utils', () => {
         checkIfColumnEditable(
           createColumnEditConfig({
             enabled: true,
-            permission: { mode: EditPermissionMode.USER_ROLE, userRole: [OrgRole.Admin] },
+            permission: { mode: PermissionMode.USER_ROLE, userRole: [OrgRole.Admin] },
           }),
           { series: [], user: { orgRole: OrgRole.Editor } as any }
         )
@@ -117,7 +117,7 @@ describe('Permission utils', () => {
         checkIfColumnEditable(
           createColumnEditConfig({
             enabled: true,
-            permission: { mode: EditPermissionMode.QUERY, userRole: [], field: { source: 'A', name: 'edit' } },
+            permission: { mode: PermissionMode.QUERY, userRole: [], field: { source: 'A', name: 'edit' } },
           }),
           { series: [toDataFrame({ refId: 'A', fields: [{ name: 'edit', values: [true] }] })], user: {} as any }
         )
@@ -126,7 +126,7 @@ describe('Permission utils', () => {
         checkIfColumnEditable(
           createColumnEditConfig({
             enabled: true,
-            permission: { mode: EditPermissionMode.QUERY, userRole: [], field: { source: 'A', name: 'edit' } },
+            permission: { mode: PermissionMode.QUERY, userRole: [], field: { source: 'A', name: 'edit' } },
           }),
           { series: [toDataFrame({ refId: 'A', fields: [{ name: 'edit', values: [false] }] })], user: {} as any }
         )
