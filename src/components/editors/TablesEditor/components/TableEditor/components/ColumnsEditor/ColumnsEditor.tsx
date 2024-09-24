@@ -1,5 +1,5 @@
 import { DataFrame } from '@grafana/data';
-import { Button, Icon, IconButton, InlineField, InlineFieldRow, Tag, useTheme2 } from '@grafana/ui';
+import { Button, Icon, IconButton, InlineFieldRow, Tag, useTheme2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
@@ -228,17 +228,15 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
       </DragDropContext>
 
       <InlineFieldRow {...TEST_IDS.columnsEditor.newItem.apply()}>
-        <InlineField label="New Column" grow={true}>
-          <FieldPicker
-            value={newItem ? newItem : undefined}
-            onChange={(field) => {
-              setNewItem(field ?? null);
-            }}
-            data={data}
-            alreadySelectedFields={alreadySelectedFields}
-            {...TEST_IDS.columnsEditor.newItemName.apply()}
-          />
-        </InlineField>
+        <FieldPicker
+          value={newItem ? newItem : undefined}
+          onChange={(field) => {
+            setNewItem(field ?? null);
+          }}
+          data={data}
+          alreadySelectedFields={alreadySelectedFields}
+          {...TEST_IDS.columnsEditor.newItemName.apply()}
+        />
         <Button
           icon="plus"
           title="Add Column"
