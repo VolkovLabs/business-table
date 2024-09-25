@@ -8,22 +8,24 @@ test.describe('Business Table Panel', () => {
     expect(grafanaVersion).toEqual(grafanaVersion);
   });
 
-  test('Should display a Table', async ({ gotoDashboardPage, page }) => {
+  test('Should display a Table', async ({ gotoDashboardPage, readProvisionedDashboard, page }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
      */
-    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+    const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+    await gotoDashboardPage({ uid: dashboard.uid });
 
     await expect(page.getByRole('heading', { name: 'Table' }).first()).toBeVisible();
   });
 
-  test('Should add a empty Business Table', async ({ gotoDashboardPage, dashboardPage }) => {
+  test('Should add a empty Business Table', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
      */
-    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+    const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
     /**
      * Add new visualization
@@ -43,14 +45,15 @@ test.describe('Business Table Panel', () => {
   test('Should render table panel correctly with data', async ({
     gotoDashboardPage,
     page,
-    dashboardPage,
+    readProvisionedDashboard,
     selectors,
   }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
      */
-    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+    const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
     /**
      * Add new visualization
@@ -109,12 +112,13 @@ test.describe('Business Table Panel', () => {
     await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toHaveText('A-series');
   });
 
-  test('Should toggle tables via tabs', async ({ gotoDashboardPage, page, dashboardPage, selectors }) => {
+  test('Should toggle tables via tabs', async ({ gotoDashboardPage, page, readProvisionedDashboard }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
      */
-    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+    const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
     const panel = await dashboardPage.getPanelByTitle('Groups');
 
@@ -157,235 +161,254 @@ test.describe('Business Table Panel', () => {
     await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('country'))).not.toBeVisible();
     await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('city'))).not.toBeVisible();
   });
-});
 
-test.describe('Download Button', () => {
-  test('Should add Download button', async ({ page, gotoDashboardPage, dashboardPage, panelEditPage, selectors }) => {
-    /**
-     * Go To Panels dashboard devices.json
-     * return dashboardPage
-     */
-    await gotoDashboardPage({ uid: 'edxke3hyi04cgc' });
+  test.describe('Download Button', () => {
+    test('Should add Download button', async ({
+      page,
+      gotoDashboardPage,
+      readProvisionedDashboard,
+      panelEditPage,
+      selectors,
+    }) => {
+      /**
+       * Go To Panels dashboard devices.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'devices.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
-    /**
-     * Add new visualization
-     */
-    const editPage = await dashboardPage.addPanel();
-    await editPage.setVisualization('Business Table');
-    await editPage.setPanelTitle('Business Table Test');
+      /**
+       * Add new visualization
+       */
+      const editPage = await dashboardPage.addPanel();
+      await editPage.setVisualization('Business Table');
+      await editPage.setPanelTitle('Business Table Test');
 
-    /**
-     * Download button should not be visible
-     */
-    await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).not.toBeVisible();
+      /**
+       * Download button should not be visible
+       */
+      await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).not.toBeVisible();
 
-    /**
-     * Download button should be visible
-     */
-    const showSeriesSwitch = panelEditPage
-      .getByGrafanaSelector(selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable'))
-      .getByLabel('Toggle switch');
-    await expect(showSeriesSwitch).toBeVisible();
+      /**
+       * Download button should be visible
+       */
+      const showSeriesSwitch = panelEditPage
+        .getByGrafanaSelector(selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable'))
+        .getByLabel('Toggle switch');
+      await expect(showSeriesSwitch).toBeVisible();
 
-    await showSeriesSwitch.click();
-    await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).toBeVisible();
+      await showSeriesSwitch.click();
+      await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).toBeVisible();
 
-    /**
-     * Apply changes and return to dashboard
-     */
-    await editPage.apply();
+      /**
+       * Apply changes and return to dashboard
+       */
+      await editPage.apply();
 
-    /**
-     * Download button should be visible on dashboard
-     */
-    await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).toBeVisible();
+      /**
+       * Download button should be visible on dashboard
+       */
+      await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).toBeVisible();
+    });
   });
-});
 
-test.describe('Sorting', () => {
-  test('Should sort table rows', async ({ gotoDashboardPage, dashboardPage }) => {
-    /**
-     * Go To Panels dashboard panels.json
-     * return dashboardPage
-     */
-    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+  test.describe('Sorting', () => {
+    test('Should sort table rows', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
+      /**
+       * Go To Panels dashboard panels.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
-    /**
-     * Get Table panel with enable sorting
-     * return dashboardPage
-     */
-    const panel = await dashboardPage.getPanelByTitle('Table');
+      /**
+       * Get Table panel with enable sorting
+       * return dashboardPage
+       */
+      const panel = await dashboardPage.getPanelByTitle('Table');
 
-    await expect(panel.locator).toBeVisible();
+      await expect(panel.locator).toBeVisible();
 
-    /**
-     * Check table header cell with available sort
-     */
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toHaveText('id');
+      /**
+       * Check table header cell with available sort
+       */
+      await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toBeVisible();
+      await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toHaveText('id');
 
-    /**
-     * Check cells in first row
-     */
-    const cells = await panel.locator
-      .getByTestId(TEST_IDS.table.root.selector())
-      .locator('tbody')
-      .locator('tr')
-      .first()
-      .locator('td')
-      .all();
+      /**
+       * Check cells in first row
+       */
+      const cells = await panel.locator
+        .getByTestId(TEST_IDS.table.root.selector())
+        .locator('tbody')
+        .locator('tr')
+        .first()
+        .locator('td')
+        .all();
 
-    await expect(cells[0]).toHaveText('1');
-    await expect(cells[1]).toHaveText('DeviceWithVeryLongTitle');
-    await expect(cells[2]).toHaveText('10');
+      await expect(cells[0]).toHaveText('1');
+      await expect(cells[1]).toHaveText('DeviceWithVeryLongTitle');
+      await expect(cells[2]).toHaveText('10');
 
-    /**
-     * Sort table
-     */
-    await panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id')).click();
+      /**
+       * Sort table
+       */
+      await panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id')).click();
 
-    /**
-     * Cells in first row should be after sort
-     */
-    await expect(cells[0]).toHaveText('3');
-    await expect(cells[1]).toHaveText('Device 3');
-    await expect(cells[2]).toHaveText('20');
+      /**
+       * Cells in first row should be after sort
+       */
+      await expect(cells[0]).toHaveText('3');
+      await expect(cells[1]).toHaveText('Device 3');
+      await expect(cells[2]).toHaveText('20');
+    });
   });
-});
 
-test.describe('Filtering', () => {
-  test('Should filter table', async ({ page, gotoDashboardPage, dashboardPage }) => {
-    /**
-     * Go To Panels dashboard panels.json
-     * return dashboardPage
-     */
-    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+  test.describe('Filtering', () => {
+    test('Should filter table', async ({ page, gotoDashboardPage, readProvisionedDashboard }) => {
+      /**
+       * Go To Panels dashboard panels.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
-    /**
-     * Get Table panel with enable filtering
-     * return dashboardPage
-     */
-    const panel = await dashboardPage.getPanelByTitle('Table');
+      /**
+       * Get Table panel with enable filtering
+       * return dashboardPage
+       */
+      const panel = await dashboardPage.getPanelByTitle('Table');
 
-    /**
-     * Check table header cell with available filtering
-     */
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('name'))).toBeVisible();
+      /**
+       * Check table header cell with available filtering
+       */
+      await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('name'))).toBeVisible();
 
-    /**
-     * Should be 3 rows in table body
-     */
-    const rows = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr');
-    await expect(rows).toHaveCount(3);
+      /**
+       * Should be 3 rows in table body
+       */
+      const rows = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr');
+      await expect(rows).toHaveCount(3);
 
-    /**
-     * Should open filter modal popup
-     */
-    const searchButton = await panel.locator
-      .getByTestId(TEST_IDS.table.headerCell.selector('name'))
-      .getByTestId(TEST_IDS.tableHeaderCellFilter.root.selector());
+      /**
+       * Should open filter modal popup
+       */
+      const searchButton = await panel.locator
+        .getByTestId(TEST_IDS.table.headerCell.selector('name'))
+        .getByTestId(TEST_IDS.tableHeaderCellFilter.root.selector());
 
-    await searchButton.click();
-    await expect(page.getByTestId(TEST_IDS.filterPopup.root.selector())).toBeVisible();
-    await expect(page.getByTestId(TEST_IDS.filterSearch.root.selector())).toBeVisible();
-    await expect(page.getByTestId(TEST_IDS.filterPopup.buttonSave.selector())).toBeVisible();
+      await searchButton.click();
+      await expect(page.getByTestId(TEST_IDS.filterPopup.root.selector())).toBeVisible();
+      await expect(page.getByTestId(TEST_IDS.filterSearch.root.selector())).toBeVisible();
+      await expect(page.getByTestId(TEST_IDS.filterPopup.buttonSave.selector())).toBeVisible();
 
-    /**
-     * Apply filter
-     */
-    await page.getByTestId(TEST_IDS.filterSearch.root.selector()).fill('long');
-    await page.getByTestId(TEST_IDS.filterPopup.buttonSave.selector()).click();
+      /**
+       * Apply filter
+       */
+      await page.getByTestId(TEST_IDS.filterSearch.root.selector()).fill('long');
+      await page.getByTestId(TEST_IDS.filterPopup.buttonSave.selector()).click();
 
-    /**
-     * Should show one filtering line
-     */
-    await expect(rows).toHaveCount(1);
+      /**
+       * Should show one filtering line
+       */
+      await expect(rows).toHaveCount(1);
+    });
   });
-});
 
-test.describe('Edit cells', () => {
-  test('Should edit table cell in row', async ({ gotoDashboardPage, dashboardPage }) => {
-    /**
-     * Go To Panels dashboard devices.json
-     * return dashboardPage
-     */
-    await gotoDashboardPage({ uid: 'edxke3hyi04cgc' });
+  test.describe('Edit cells', () => {
+    test('Should edit table cell in row', async ({ readProvisionedDashboard, gotoDashboardPage }) => {
+      /**
+       * Go To Panels dashboard devices.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'devices.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
-    /**
-     * Get Table panel with enable filtering
-     * return dashboardPage
-     */
-    const panel = await dashboardPage.getPanelByTitle('Devices');
+      /**
+       * Get Table panel with enable filtering
+       * return dashboardPage
+       */
+      const panel = await dashboardPage.getPanelByTitle('Devices');
 
-    const row = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr').first();
-    const cells = await row.locator('td').all();
+      const row = await panel.locator
+        .getByTestId(TEST_IDS.table.root.selector())
+        .locator('tbody')
+        .locator('tr')
+        .first();
+      const cells = await row.locator('td').all();
 
-    const startEditButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonStartEdit.selector());
-    const saveButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonSave.selector());
-    const cancelButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonCancel.selector());
+      const startEditButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonStartEdit.selector());
+      const saveButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonSave.selector());
+      const cancelButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonCancel.selector());
 
-    await expect(cells).toHaveLength(6);
-    await expect(startEditButton).toBeVisible();
-    await expect(saveButton).not.toBeVisible();
-    await expect(cancelButton).not.toBeVisible();
+      await expect(cells).toHaveLength(6);
+      await expect(startEditButton).toBeVisible();
+      await expect(saveButton).not.toBeVisible();
+      await expect(cancelButton).not.toBeVisible();
 
-    /**
-     * Check cell before edit
-     */
-    await expect(cells[cells.length - 2]).toHaveText('Chicago North 125');
+      /**
+       * Check cell before edit
+       */
+      await expect(cells[cells.length - 2]).toHaveText('Chicago North 125');
 
-    /**
-     * Should display editor elements
-     */
-    await startEditButton.click();
+      /**
+       * Should display editor elements
+       */
+      await startEditButton.click();
 
-    await expect(saveButton).toBeVisible();
-    await expect(cancelButton).toBeVisible();
+      await expect(saveButton).toBeVisible();
+      await expect(cancelButton).toBeVisible();
 
-    await row.getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125-test');
-    await saveButton.click();
+      await row.getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125-test');
+      await saveButton.click();
 
-    /**
-     * Check cell after edit
-     */
-    await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-test');
-    await expect(cells[cells.length - 2]).not.toHaveText('Chicago North 125');
+      /**
+       * Check cell after edit
+       */
+      await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-test');
+      await expect(cells[cells.length - 2]).not.toHaveText('Chicago North 125');
+
+      await startEditButton.click();
+      await row.getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125');
+      await saveButton.click();
+    });
   });
-});
 
-test.describe('Grouped rows', () => {
-  test('Expand rows in group', async ({ gotoDashboardPage, dashboardPage, page }) => {
-    /**
-     * Go To Panels dashboard panels.json
-     * return dashboardPage
-     */
-    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+  test.describe('Grouped rows', () => {
+    test('Expand rows in group', async ({ gotoDashboardPage, readProvisionedDashboard, page }) => {
+      /**
+       * Go To Panels dashboard panels.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
-    /**
-     * Get Table panel with enable filtering
-     * return dashboardPage
-     */
-    const panel = await dashboardPage.getPanelByTitle('Groups');
+      /**
+       * Get Table panel with enable filtering
+       * return dashboardPage
+       */
+      const panel = await dashboardPage.getPanelByTitle('Groups');
 
-    /**
-     * Should be 2 rows in body
-     */
-    const rows = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr').all();
-    await expect(rows).toHaveLength(2);
+      /**
+       * Should be 2 rows in body
+       */
+      const rows = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr').all();
+      await expect(rows).toHaveLength(2);
 
-    /**
-     * Should be 4 rows in body after click
-     */
-    const expandButton = await rows[0].getByRole('button');
-    await expect(expandButton).toBeVisible();
+      /**
+       * Should be 4 rows in body after click
+       */
+      const expandButton = await rows[0].getByRole('button');
+      await expect(expandButton).toBeVisible();
 
-    await expandButton.click();
-    const expandedRows = await panel.locator
-      .getByTestId(TEST_IDS.table.root.selector())
-      .locator('tbody')
-      .locator('tr')
-      .all();
+      await expandButton.click();
+      const expandedRows = await panel.locator
+        .getByTestId(TEST_IDS.table.root.selector())
+        .locator('tbody')
+        .locator('tr')
+        .all();
 
-    await expect(expandedRows).toHaveLength(4);
+      await expect(expandedRows).toHaveLength(4);
+    });
   });
 });
