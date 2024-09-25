@@ -23,6 +23,7 @@ export const useNestedObjects = ({
    * Nested Objects Data
    */
   const [nestedObjectsData, setNestedObjectsData] = useState<Record<string, Map<string, Record<string, unknown>>>>({});
+  const [nestedObjectsLoading, setNestedObjectsLoading] = useState<Record<string, boolean>>({});
 
   /**
    * Load
@@ -34,6 +35,13 @@ export const useNestedObjects = ({
       if (!object) {
         return;
       }
+
+      const objectKey = object.id;
+
+      setNestedObjectsLoading((current) => ({
+        ...current,
+        [objectKey]: true,
+      }));
 
       const result = await datasourceRequest({
         query: object.get.payload,
@@ -53,14 +61,17 @@ export const useNestedObjects = ({
         replaceVariables,
       });
 
-      console.warn('load');
-
       if (result.data && result.data[0]) {
         setNestedObjectsData((value) => ({
           ...value,
-          [object.id]: prepareFrameForNestedObject(object, result.data[0]),
+          [objectKey]: prepareFrameForNestedObject(object, result.data[0]),
         }));
       }
+
+      setNestedObjectsLoading((current) => ({
+        ...current,
+        [objectKey]: false,
+      }));
     },
     [datasourceRequest, objects, replaceVariables]
   );
@@ -70,8 +81,7 @@ export const useNestedObjects = ({
    */
   const getValuesForColumn = useCallback(
     (objectId: string) => {
-      console.log(nestedObjectsData, objectId);
-      console.log('result', nestedObjectsData[objectId]);
+      console.log('getValuesForColumn', nestedObjectsData[objectId]);
       return nestedObjectsData[objectId];
     },
     [nestedObjectsData]
@@ -81,6 +91,7 @@ export const useNestedObjects = ({
     return {
       onLoad,
       getValuesForColumn,
+      loadingState: nestedObjectsLoading,
     };
-  }, [getValuesForColumn, onLoad]);
+  }, [getValuesForColumn, nestedObjectsLoading, onLoad]);
 };

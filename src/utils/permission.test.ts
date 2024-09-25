@@ -3,7 +3,7 @@ import { OrgRole, toDataFrame } from '@grafana/data';
 import { PermissionMode } from '@/types';
 import { createColumnEditConfig } from '@/utils/test';
 
-import { checkEditPermissionByOrgUserRole, checkEditPermissionByQueryField, checkIfColumnEditable } from './permission';
+import { checkPermissionByOrgUserRole, checkEditPermissionByQueryField, checkIfOperationEnabled } from './permission';
 
 describe('Permission utils', () => {
   describe('checkEditPermissionByOrgUserRole', () => {
@@ -15,9 +15,9 @@ describe('Permission utils', () => {
         },
       });
 
-      expect(checkEditPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Admin } as any)).toBeTruthy();
-      expect(checkEditPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Editor } as any)).toBeTruthy();
-      expect(checkEditPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Viewer } as any)).toBeFalsy();
+      expect(checkPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Admin } as any)).toBeTruthy();
+      expect(checkPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Editor } as any)).toBeTruthy();
+      expect(checkPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Viewer } as any)).toBeFalsy();
     });
   });
 
@@ -78,13 +78,13 @@ describe('Permission utils', () => {
   describe('checkIfColumnEditable', () => {
     it('Should not allow to edit if disabled', () => {
       expect(
-        checkIfColumnEditable(createColumnEditConfig({ enabled: false }), { series: [], user: {} as any })
+        checkIfOperationEnabled(createColumnEditConfig({ enabled: false }), { series: [], user: {} as any })
       ).toBeFalsy();
     });
 
     it('Should allow to edit if always allowed', () => {
       expect(
-        checkIfColumnEditable(
+        checkIfOperationEnabled(
           createColumnEditConfig({ enabled: true, permission: { mode: PermissionMode.ALLOWED, userRole: [] } }),
           { series: [], user: {} as any }
         )
@@ -93,7 +93,7 @@ describe('Permission utils', () => {
 
     it('Should allow to edit if correct user role', () => {
       expect(
-        checkIfColumnEditable(
+        checkIfOperationEnabled(
           createColumnEditConfig({
             enabled: true,
             permission: { mode: PermissionMode.USER_ROLE, userRole: [OrgRole.Admin] },
@@ -102,7 +102,7 @@ describe('Permission utils', () => {
         )
       ).toBeTruthy();
       expect(
-        checkIfColumnEditable(
+        checkIfOperationEnabled(
           createColumnEditConfig({
             enabled: true,
             permission: { mode: PermissionMode.USER_ROLE, userRole: [OrgRole.Admin] },
@@ -114,7 +114,7 @@ describe('Permission utils', () => {
 
     it('Should allow to edit if allowed by query', () => {
       expect(
-        checkIfColumnEditable(
+        checkIfOperationEnabled(
           createColumnEditConfig({
             enabled: true,
             permission: { mode: PermissionMode.QUERY, userRole: [], field: { source: 'A', name: 'edit' } },
@@ -123,7 +123,7 @@ describe('Permission utils', () => {
         )
       ).toBeTruthy();
       expect(
-        checkIfColumnEditable(
+        checkIfOperationEnabled(
           createColumnEditConfig({
             enabled: true,
             permission: { mode: PermissionMode.QUERY, userRole: [], field: { source: 'A', name: 'edit' } },

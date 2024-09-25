@@ -82,15 +82,12 @@ export const TableCell = <TData,>({ row, cell, rendererProps }: Props<TData>) =>
      * Render Nested Objects
      */
     if (cell.column.columnDef.meta?.config.type === CellType.NESTED_OBJECTS) {
-      if (cell.column.columnDef.meta?.nestedObjectOptions) {
-        const Control = nestedObjectEditorsRegistry.get(cell.column.columnDef.meta?.nestedObjectOptions.type)?.control;
+      const value = cell.getValue();
+      if (cell.column.columnDef.meta.nestedObjectOptions && Array.isArray(value)) {
+        const Control = nestedObjectEditorsRegistry.get(cell.column.columnDef.meta.nestedObjectOptions.type)?.control;
 
         if (Control) {
-          const value = cell.getValue();
-          const nestedData = cell.column.columnDef.meta?.nestedData;
-          const data = Array.isArray(value) ? value.map((key) => nestedData?.get(key)).filter((item) => !!item) : [];
-
-          return <Control config={cell.column.columnDef.meta?.nestedObjectOptions} data={data} />;
+          return <Control options={cell.column.columnDef.meta.nestedObjectOptions} value={value} row={row.original} />;
         }
       }
     }

@@ -4,7 +4,15 @@ import { Table as TableInstance } from '@tanstack/react-table';
 import React, { useEffect, useMemo, useRef } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useContentSizes, useExportData, usePagination, useSavedState, useTable, useUpdateRow } from '@/hooks';
+import {
+  useContentSizes,
+  useExportData,
+  usePagination,
+  useSavedState,
+  useTable,
+  useUpdateRow,
+  tablePanelContext,
+} from '@/hooks';
 import { PanelOptions } from '@/types';
 
 import { Table } from '../Table';
@@ -139,73 +147,75 @@ export const TablePanel: React.FC<Props> = ({
    * Return
    */
   return (
-    <div
-      {...TEST_IDS.panel.root.apply()}
-      className={styles.root}
-      style={{
-        width,
-        height,
-      }}
-    >
+    <tablePanelContext.Provider value={{ replaceVariables }}>
       <div
-        ref={scrollableContainerRef}
-        className={styles.content}
+        {...TEST_IDS.panel.root.apply()}
+        className={styles.root}
         style={{
           width,
           height,
         }}
       >
-        {isToolbarVisible && (
-          <div ref={headerRef} className={styles.header}>
-            <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>
-              {sortedGroups.length > 1 &&
-                sortedGroups.map((group, index) => (
-                  <ToolbarButton
-                    key={group.name}
-                    variant={currentGroup === group.name ? 'active' : 'default'}
-                    onClick={() => {
-                      setCurrentGroup(group.name);
-                    }}
-                    className={styles.tabButton}
-                    style={{
-                      maxWidth: index === 0 ? width - 60 : undefined,
-                    }}
-                    {...TEST_IDS.panel.tab.apply(group.name)}
+        <div
+          ref={scrollableContainerRef}
+          className={styles.content}
+          style={{
+            width,
+            height,
+          }}
+        >
+          {isToolbarVisible && (
+            <div ref={headerRef} className={styles.header}>
+              <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>
+                {sortedGroups.length > 1 &&
+                  sortedGroups.map((group, index) => (
+                    <ToolbarButton
+                      key={group.name}
+                      variant={currentGroup === group.name ? 'active' : 'default'}
+                      onClick={() => {
+                        setCurrentGroup(group.name);
+                      }}
+                      className={styles.tabButton}
+                      style={{
+                        maxWidth: index === 0 ? width - 60 : undefined,
+                      }}
+                      {...TEST_IDS.panel.tab.apply(group.name)}
+                    >
+                      {group.name}
+                    </ToolbarButton>
+                  ))}
+                {options.toolbar.export && (
+                  <Button
+                    icon="download-alt"
+                    onClick={() => onExport({ table: tableInstance.current as never })}
+                    variant="secondary"
+                    size="sm"
+                    {...TEST_IDS.panel.buttonDownload.apply()}
                   >
-                    {group.name}
-                  </ToolbarButton>
-                ))}
-              {options.toolbar.export && (
-                <Button
-                  icon="download-alt"
-                  onClick={() => onExport({ table: tableInstance.current as never })}
-                  variant="secondary"
-                  size="sm"
-                  {...TEST_IDS.panel.buttonDownload.apply()}
-                >
-                  Download
-                </Button>
-              )}
-            </ToolbarButtonRow>
-          </div>
-        )}
-        <Table
-          key={currentTable?.name}
-          data={tableData}
-          columns={columns}
-          tableRef={tableRef}
-          tableHeaderRef={tableHeaderRef}
-          topOffset={tableTopOffset}
-          scrollableContainerRef={scrollableContainerRef}
-          eventBus={eventBus}
-          onUpdateRow={onUpdateRow}
-          bottomOffset={tableBottomOffset}
-          paginationRef={paginationRef}
-          width={width}
-          pagination={pagination}
-          tableInstance={tableInstance as never}
-        />
+                    Download
+                  </Button>
+                )}
+              </ToolbarButtonRow>
+            </div>
+          )}
+          <Table
+            key={currentTable?.name}
+            data={tableData}
+            columns={columns}
+            tableRef={tableRef}
+            tableHeaderRef={tableHeaderRef}
+            topOffset={tableTopOffset}
+            scrollableContainerRef={scrollableContainerRef}
+            eventBus={eventBus}
+            onUpdateRow={onUpdateRow}
+            bottomOffset={tableBottomOffset}
+            paginationRef={paginationRef}
+            width={width}
+            pagination={pagination}
+            tableInstance={tableInstance as never}
+          />
+        </div>
       </div>
-    </div>
+    </tablePanelContext.Provider>
   );
 };

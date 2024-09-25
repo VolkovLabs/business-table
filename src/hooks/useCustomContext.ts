@@ -1,4 +1,4 @@
-import { DataFrame } from '@grafana/data';
+import { DataFrame, InterpolateFunction } from '@grafana/data';
 import { createContext, useContext } from 'react';
 
 import { NestedObjectConfig } from '@/types';
@@ -33,4 +33,11 @@ export const tablesEditorContext = createCustomContext<{
  */
 export const nestedObjectsEditorContext = createCustomContext<{
   data: DataFrame[];
+}>();
+
+/**
+ * Table Panel Context
+ */
+export const tablePanelContext = createCustomContext<{
+  replaceVariables: InterpolateFunction;
 }>();

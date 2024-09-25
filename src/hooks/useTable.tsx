@@ -20,7 +20,7 @@ import {
   NestedObjectControlOptions,
 } from '@/types';
 import {
-  checkIfColumnEditable,
+  checkIfOperationEnabled,
   columnFilter,
   filterFieldBySource,
   getFooterCell,
@@ -93,7 +93,7 @@ export const useTable = ({
   /**
    * Table Data
    */
-  const tableData = useMemo(() => {
+  const tableRawData = useMemo(() => {
     /**
      * No frame
      */
@@ -121,7 +121,11 @@ export const useTable = ({
   /**
    * Nested Objects
    */
-  const { onLoad: onLoadNestedData, getValuesForColumn: getNestedData } = useNestedObjects({
+  const {
+    onLoad: onLoadNestedData,
+    getValuesForColumn: getNestedData,
+    loadingState: nestedDataLoadingState,
+  } = useNestedObjects({
     objects,
     replaceVariables,
   });
@@ -142,10 +146,41 @@ export const useTable = ({
         /**
          * Load Nested Data
          */
-        onLoadNestedData(column, tableData);
+        onLoadNestedData(column, tableRawData);
       });
     }
-  }, [columnsWithNestedObjects, onLoadNestedData, tableData]);
+  }, [columnsWithNestedObjects, onLoadNestedData, tableRawData]);
+
+  /**
+   * Table Data With Nested Objects
+   */
+  const tableData = useMemo(() => {
+    const nestedObjectsForRow =
+      columnsWithNestedObjects?.reduce((acc, column) => {
+        return {
+          ...acc,
+          [column.field.name]: getNestedData(column.objectType),
+        };
+      }, {}) || {};
+
+    return tableRawData.map((row) => {
+      return {
+        ...row,
+        ...Object.entries(nestedObjectsForRow).reduce((acc, [key, nestedData]) => {
+          const ids = row[key as keyof typeof row] as unknown;
+
+          if (Array.isArray(ids) && nestedData instanceof Map) {
+            return {
+              ...acc,
+              [key]: ids.map((id) => nestedData.get(id)).filter((item) => !!item),
+            };
+          }
+
+          return acc;
+        }, {}),
+      };
+    });
+  }, [columnsWithNestedObjects, getNestedData, tableRawData]);
 
   /**
    * Get Editor Control Options
@@ -167,16 +202,50 @@ export const useTable = ({
    * Get Nested Object Control Options
    */
   const getNestedObjectControlOptions = useCallback(
-    (object: NestedObjectConfig): NestedObjectControlOptions | undefined => {
+    (object: NestedObjectConfig, header: string): NestedObjectControlOptions | undefined => {
       const item = nestedObjectEditorsRegistry.get(object.type);
 
       if (item) {
-        return item?.getControlOptions({ config: object as never, data });
+        return item?.getControlOptions({
+          header,
+          config: object.editor,
+          data,
+          isLoading: nestedDataLoadingState[object.id],
+          operations: {
+            add: {
+              enabled: object.add
+                ? checkIfOperationEnabled(object.add, {
+                    series: data.series,
+                    user: config.bootData.user,
+                  })
+                : false,
+              request: object.add?.request,
+            },
+            update: {
+              enabled: object.update
+                ? checkIfOperationEnabled(object.update, {
+                    series: data.series,
+                    user: config.bootData.user,
+                  })
+                : false,
+              request: object.update?.request,
+            },
+            delete: {
+              enabled: object.delete
+                ? checkIfOperationEnabled(object.delete, {
+                    series: data.series,
+                    user: config.bootData.user,
+                  })
+                : false,
+              request: object.delete?.request,
+            },
+          },
+        });
       }
 
       return;
     },
-    [data]
+    [data, nestedDataLoadingState]
   );
 
   /**
@@ -244,7 +313,7 @@ export const useTable = ({
         sizeParams.maxSize = column.config.appearance.width.value;
       }
 
-      const isEditAllowed = checkIfColumnEditable(column.config.edit, {
+      const isEditAllowed = checkIfOperationEnabled(column.config.edit, {
         series: data.series,
         user: config.bootData.user,
       });
@@ -261,10 +330,12 @@ export const useTable = ({
           ? objects.find((object) => object.id === column.config.objectType)
           : undefined;
 
+      const header = column.config.label || column.field.config?.displayName || column.field.name;
+
       columns.push({
         id: column.field.name,
         accessorKey: column.field.name,
-        header: column.config.label || column.field.config?.displayName || column.field.name,
+        header,
         cell: CellRenderer,
         aggregatedCell: AggregatedCellRenderer,
         enableGrouping: column.config.group,
@@ -283,9 +354,9 @@ export const useTable = ({
           footerEnabled: column.config.footer.length > 0,
           editable: isEditAllowed,
           editor: isEditAllowed ? getEditorControlOptions(column.config.edit.editor) : undefined,
-          nestedObjectOptions: nestedObjectConfig ? getNestedObjectControlOptions(nestedObjectConfig) : undefined,
-          nestedData:
-            column.config.type === CellType.NESTED_OBJECTS ? getNestedData(column.config.objectType) : undefined,
+          nestedObjectOptions: nestedObjectConfig
+            ? getNestedObjectControlOptions(nestedObjectConfig, header)
+            : undefined,
         },
         footer: (context) => getFooterCell({ context, config: column.config, field: column.field, theme }),
         ...sizeParams,
@@ -313,7 +384,6 @@ export const useTable = ({
     columnsData.items,
     data.series,
     getEditorControlOptions,
-    getNestedData,
     getNestedObjectControlOptions,
     objects,
     templateService,

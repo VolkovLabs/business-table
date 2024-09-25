@@ -472,11 +472,4 @@ export interface ColumnMeta {
    * @type {NestedObjectControlOptions}
    */
   nestedObjectOptions?: NestedObjectControlOptions;
-
-  /**
-   * Nested Data
-   *
-   * @type {Map<string, Record<string, unknown>>}
-   */
-  nestedData?: Map<string, Record<string, unknown>>;
 }

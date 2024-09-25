@@ -58,9 +58,80 @@
       "options": {
         "nestedObjects": [
           {
+            "add": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "Timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "INSERT INTO comments (id, device_id, title, body, user_id)\nVALUES (nextval('seq_comments'), ${payload.row.id}, ${payload.item.title:sqlstring}, ${payload.item.body:sqlstring}, ${__user.id})",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
+            "delete": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "Timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "DELETE FROM comments WHERE id=${payload.item.id}",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
             "editor": {
-              "id": "",
-              "title": "",
+              "author": "user_id",
+              "body": "body",
+              "id": "id",
+              "time": "created_date",
+              "title": "title",
               "type": "cards"
             },
             "get": {
@@ -92,7 +163,41 @@
             },
             "id": "86a57480-78e4-428d-b04e-0fdaf14550cf",
             "name": "Comments",
-            "type": "cards"
+            "type": "cards",
+            "update": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "Timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "UPDATE comments\nSET title = ${payload.item.title:sqlstring}, body = ${payload.item.body:sqlstring}\nWHERE id = ${payload.item.id};",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            }
           }
         ],
         "tables": [
@@ -816,6 +921,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 8,
+  "version": 19,
   "weekStart": ""
 }

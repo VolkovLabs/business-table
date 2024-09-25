@@ -58,6 +58,7 @@ export const NestedObjectOperationEditor: React.FC<Props> = ({ value, onChange }
               request,
             });
           }}
+          queryEditorDescription="Use `${payload.row}` and `${payload.item}` variables to get access to the current item or row."
         />
       </Collapse>
     </>
