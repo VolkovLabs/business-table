@@ -233,3 +233,56 @@ test.describe('Filtering', () => {
     await expect(rows).toHaveCount(1);
   });
 });
+
+test.describe('Edit cells', () => {
+  test('Should edit table cell in row', async ({ selectors, page, gotoDashboardPage, dashboardPage }) => {
+    /**
+     * Go To Panels dashboard devices.json
+     * return dashboardPage
+     */
+    await gotoDashboardPage({ uid: 'edxke3hyi04cgc' });
+
+    /**
+     * Get Table panel with enable filtering
+     * return dashboardPage
+     */
+    const panel = await dashboardPage.getPanelByTitle('Devices');
+
+    /**
+     * Should be 3 rows in table body
+     */
+    const row = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr').first();
+
+    const cells = await row.locator('td').all();
+
+    const startEditButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonStartEdit.selector());
+    const saveButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonSave.selector());
+    const cancelButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonCancel.selector());
+
+    await expect(cells).toHaveLength(6);
+    await expect(startEditButton).toBeVisible();
+    await expect(saveButton).not.toBeVisible();
+    await expect(cancelButton).not.toBeVisible();
+    /**
+     * Check cell before edit
+     */
+    await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-1');
+
+    /**
+     * Should display editor elements
+     */
+    await startEditButton.click();
+
+    await expect(saveButton).toBeVisible();
+    await expect(cancelButton).toBeVisible();
+
+    await row.getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125-1-test');
+    await saveButton.click();
+
+    /**
+     * Check cell after edit
+     */
+    await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-1-test');
+    await expect(cells[cells.length - 2]).not.toHaveText('Chicago North 125-1');
+  });
+});
