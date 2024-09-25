@@ -40,6 +40,75 @@ test.describe('Business Table Panel', () => {
     await expect(panel.getErrorIcon()).not.toBeVisible();
   });
 
+  test('Should render table panel correctly with data', async ({
+    gotoDashboardPage,
+    page,
+    dashboardPage,
+    selectors,
+  }) => {
+    /**
+     * Go To Panels dashboard panels.json
+     * return dashboardPage
+     */
+    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+
+    /**
+     * Add new visualization
+     */
+    const editPage = await dashboardPage.addPanel();
+    await editPage.setVisualization('Business Table');
+    await editPage.setPanelTitle('Business Table Test');
+
+    /**
+     * Set data source
+     */
+    await editPage.datasource.set('Grafana');
+    await editPage.refreshPanel();
+
+    /**
+     * Create new table
+     */
+    await page.getByTestId(TEST_IDS.tablesEditor.newItemName.selector()).fill('Table');
+    await page.getByTestId(TEST_IDS.tablesEditor.buttonAddNew.selector()).click();
+
+    await page.getByRole('combobox', { name: 'New Column' }).click();
+
+    /**
+     * Options should be correct in field picker
+     */
+    await expect(editPage.getByGrafanaSelector(selectors.components.Select.option)).toHaveText([
+      'A:time',
+      'A:A-series',
+    ]);
+
+    /**
+     * Set columns
+     */
+    await editPage.getByGrafanaSelector(selectors.components.Select.option).getByText('A:time').click();
+    await page.getByTestId(TEST_IDS.columnsEditor.buttonAddNew.selector()).click();
+    await page.getByRole('combobox', { name: 'New Column' }).click();
+    await editPage.getByGrafanaSelector(selectors.components.Select.option).getByText('A:A-series').click();
+    await page.getByTestId(TEST_IDS.columnsEditor.buttonAddNew.selector()).click();
+
+    /**
+     * Apply changes and return to dashboard
+     */
+    await editPage.apply();
+
+    const panel = await dashboardPage.getPanelByTitle('Business Table Test');
+
+    await expect(page.getByRole('heading', { name: 'Table' }).first()).toBeVisible();
+
+    await expect(panel.locator).toBeVisible();
+    await expect(panel.getErrorIcon()).not.toBeVisible();
+
+    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('time'))).toBeVisible();
+    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('time'))).toHaveText('time');
+
+    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toBeVisible();
+    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toHaveText('A-series');
+  });
+
   test('Should toggle tables via tabs', async ({ gotoDashboardPage, page, dashboardPage, selectors }) => {
     /**
      * Go To Panels dashboard panels.json
@@ -263,10 +332,11 @@ test.describe('Edit cells', () => {
     await expect(startEditButton).toBeVisible();
     await expect(saveButton).not.toBeVisible();
     await expect(cancelButton).not.toBeVisible();
+
     /**
      * Check cell before edit
      */
-    await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-1');
+    await expect(cells[cells.length - 2]).toHaveText('Chicago North 125');
 
     /**
      * Should display editor elements
@@ -276,13 +346,13 @@ test.describe('Edit cells', () => {
     await expect(saveButton).toBeVisible();
     await expect(cancelButton).toBeVisible();
 
-    await row.getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125-1-test');
+    await row.getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125-test');
     await saveButton.click();
 
     /**
      * Check cell after edit
      */
-    await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-1-test');
-    await expect(cells[cells.length - 2]).not.toHaveText('Chicago North 125-1');
+    await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-test');
+    await expect(cells[cells.length - 2]).not.toHaveText('Chicago North 125');
   });
 });
