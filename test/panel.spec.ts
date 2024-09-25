@@ -304,7 +304,7 @@ test.describe('Filtering', () => {
 });
 
 test.describe('Edit cells', () => {
-  test('Should edit table cell in row', async ({ selectors, page, gotoDashboardPage, dashboardPage }) => {
+  test('Should edit table cell in row', async ({ gotoDashboardPage, dashboardPage }) => {
     /**
      * Go To Panels dashboard devices.json
      * return dashboardPage
@@ -317,11 +317,7 @@ test.describe('Edit cells', () => {
      */
     const panel = await dashboardPage.getPanelByTitle('Devices');
 
-    /**
-     * Should be 3 rows in table body
-     */
     const row = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr').first();
-
     const cells = await row.locator('td').all();
 
     const startEditButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonStartEdit.selector());
@@ -354,5 +350,42 @@ test.describe('Edit cells', () => {
      */
     await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-test');
     await expect(cells[cells.length - 2]).not.toHaveText('Chicago North 125');
+  });
+});
+
+test.describe('Grouped rows', () => {
+  test('Expand rows in group', async ({ gotoDashboardPage, dashboardPage, page }) => {
+    /**
+     * Go To Panels dashboard panels.json
+     * return dashboardPage
+     */
+    await gotoDashboardPage({ uid: 'O4tc_E6Gz' });
+
+    /**
+     * Get Table panel with enable filtering
+     * return dashboardPage
+     */
+    const panel = await dashboardPage.getPanelByTitle('Groups');
+
+    /**
+     * Should be 2 rows in body
+     */
+    const rows = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr').all();
+    await expect(rows).toHaveLength(2);
+
+    /**
+     * Should be 4 rows in body after click
+     */
+    const expandButton = await rows[0].getByRole('button');
+    await expect(expandButton).toBeVisible();
+
+    await expandButton.click();
+    const expandedRows = await panel.locator
+      .getByTestId(TEST_IDS.table.root.selector())
+      .locator('tbody')
+      .locator('tr')
+      .all();
+
+    await expect(expandedRows).toHaveLength(4);
   });
 });
