@@ -1,6 +1,7 @@
-import { test, expect, PanelEditPage } from '@grafana/plugin-e2e';
+import { test, expect } from '@grafana/plugin-e2e';
 
 import { TEST_IDS } from '../src/constants';
+import { getRowCells, getBodyRows, getHeaderCells } from './helpers';
 
 test.describe('Business Table Panel', () => {
   test('Check grafana version', async ({ grafanaVersion }) => {
@@ -136,14 +137,12 @@ test.describe('Business Table Panel', () => {
     /**
      * Check Table headings for Country table
      */
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('country'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('country'))).toHaveText('Country');
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('city'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('city'))).toHaveText('City');
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('device'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('device'))).toHaveText('device');
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('value'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('value'))).toHaveText('value');
+    const headerCells = await getHeaderCells(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+    await expect(headerCells).toHaveLength(4);
+    await expect(headerCells[0]).toHaveText('Country');
+    await expect(headerCells[1]).toHaveText('City');
+    await expect(headerCells[2]).toHaveText('device');
+    await expect(headerCells[3]).toHaveText('value');
 
     /**
      * Switch to Value table
@@ -153,10 +152,8 @@ test.describe('Business Table Panel', () => {
     /**
      * Check Table headings for Value table
      */
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('device'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('device'))).toHaveText('device');
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('value'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('value'))).toHaveText('value');
+    await expect(headerCells[0]).toHaveText('device');
+    await expect(headerCells[1]).toHaveText('value');
 
     await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('country'))).not.toBeVisible();
     await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('city'))).not.toBeVisible();
@@ -238,13 +235,8 @@ test.describe('Business Table Panel', () => {
       /**
        * Check cells in first row
        */
-      const cells = await panel.locator
-        .getByTestId(TEST_IDS.table.root.selector())
-        .locator('tbody')
-        .locator('tr')
-        .first()
-        .locator('td')
-        .all();
+      const row = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      const cells = await getRowCells(row[0]);
 
       await expect(cells[0]).toHaveText('1');
       await expect(cells[1]).toHaveText('DeviceWithVeryLongTitle');
@@ -287,9 +279,8 @@ test.describe('Business Table Panel', () => {
       /**
        * Should be 3 rows in table body
        */
-      const rows = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr');
-      await expect(rows).toHaveCount(3);
-
+      const rows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      await expect(rows).toHaveLength(3);
       /**
        * Should open filter modal popup
        */
@@ -311,7 +302,8 @@ test.describe('Business Table Panel', () => {
       /**
        * Should show one filtering line
        */
-      await expect(rows).toHaveCount(1);
+      const filteredRows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      await expect(filteredRows).toHaveLength(1);
     });
   });
 
@@ -330,12 +322,8 @@ test.describe('Business Table Panel', () => {
        */
       const panel = await dashboardPage.getPanelByTitle('Devices');
 
-      const row = await panel.locator
-        .getByTestId(TEST_IDS.table.root.selector())
-        .locator('tbody')
-        .locator('tr')
-        .first();
-      const cells = await row.locator('td').all();
+      const rows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      const cells = await getRowCells(rows[0]);
 
       const startEditButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonStartEdit.selector());
       const saveButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonSave.selector());
@@ -359,7 +347,7 @@ test.describe('Business Table Panel', () => {
       await expect(saveButton).toBeVisible();
       await expect(cancelButton).toBeVisible();
 
-      await row.getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125-test');
+      await rows[0].getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125-test');
       await saveButton.click();
 
       /**
@@ -369,7 +357,7 @@ test.describe('Business Table Panel', () => {
       await expect(cells[cells.length - 2]).not.toHaveText('Chicago North 125');
 
       await startEditButton.click();
-      await row.getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125');
+      await rows[0].getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125');
       await saveButton.click();
     });
   });
@@ -392,7 +380,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Should be 2 rows in body
        */
-      const rows = await panel.locator.getByTestId(TEST_IDS.table.root.selector()).locator('tbody').locator('tr').all();
+      const rows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
       await expect(rows).toHaveLength(2);
 
       /**
@@ -402,11 +390,7 @@ test.describe('Business Table Panel', () => {
       await expect(expandButton).toBeVisible();
 
       await expandButton.click();
-      const expandedRows = await panel.locator
-        .getByTestId(TEST_IDS.table.root.selector())
-        .locator('tbody')
-        .locator('tr')
-        .all();
+      const expandedRows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
 
       await expect(expandedRows).toHaveLength(4);
     });
