@@ -1,7 +1,8 @@
-import { useDatasourceRequest } from '@/hooks/useDatasourceRequest';
-import { ColumnConfig, NestedObjectConfig } from '@/types';
 import { InterpolateFunction } from '@grafana/data';
 import { useCallback, useMemo, useState } from 'react';
+
+import { useDatasourceRequest } from '@/hooks/useDatasourceRequest';
+import { ColumnConfig, NestedObjectConfig } from '@/types';
 import { prepareFrameForNestedObject } from '@/utils';
 
 /**
@@ -30,7 +31,7 @@ export const useNestedObjects = ({
    */
   const onLoad = useCallback(
     async (column: ColumnConfig, tableData: Array<Record<string, unknown>>) => {
-      const object = objects.find((object) => object.id === column.objectType);
+      const object = objects.find((object) => object.id === column.objectId);
 
       if (!object) {
         return;

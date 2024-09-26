@@ -159,7 +159,7 @@ export const useTable = ({
       columnsWithNestedObjects?.reduce((acc, column) => {
         return {
           ...acc,
-          [column.field.name]: getNestedData(column.objectType),
+          [column.field.name]: getNestedData(column.objectId),
         };
       }, {}) || {};
 
@@ -327,7 +327,7 @@ export const useTable = ({
 
       const nestedObjectConfig =
         column.config.type === CellType.NESTED_OBJECTS
-          ? objects.find((object) => object.id === column.config.objectType)
+          ? objects.find((object) => object.id === column.config.objectId)
           : undefined;
 
       const header = column.config.label || column.field.config?.displayName || column.field.name;

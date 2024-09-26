@@ -1,6 +1,6 @@
-import { DataFrame, standardEditorsRegistry } from '@grafana/data';
+import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select } from '@grafana/ui';
+import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select, StatsPicker } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { useMemo } from 'react';
 
@@ -16,7 +16,7 @@ import {
   ColumnPinDirection,
   EditorProps,
 } from '@/types';
-import { getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
+import { getColumnConfigWithNewType, getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
 /**
  * Properties
@@ -166,9 +166,9 @@ const sortDirectionOptions = [
 ];
 
 /**
- * Column Footer Editor
+ * Allowed Stats For Nested Objects
  */
-const ColumnFooterEditor = standardEditorsRegistry.get('stats-picker').editor;
+const allowedStatsForNestedObjects = ['count'];
 
 /**
  * Column Editor
@@ -235,10 +235,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
             options={cellTypeOptions}
             value={value.type}
             onChange={(event) => {
-              onChange({
-                ...value,
-                type: event.value!,
-              });
+              onChange(getColumnConfigWithNewType(value, event.value!));
             }}
             {...TEST_IDS.columnEditor.fieldType.apply()}
           />
@@ -269,10 +266,10 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               onChange={(event) => {
                 onChange({
                   ...value,
-                  objectType: event?.value ?? '',
+                  objectId: event?.value ?? '',
                 });
               }}
-              value={value.objectType}
+              value={value.objectId}
               options={nestedObjectOptions}
               isClearable={true}
               isSearchable={true}
@@ -363,59 +360,61 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           )}
         </InlineFieldRow>
       </FieldsGroup>
-      <FieldsGroup label="Text">
-        <InlineFieldRow>
-          <InlineField label="Wrap">
-            <InlineSwitch
-              value={value.appearance.wrap}
-              onChange={(event) =>
-                onChange({
-                  ...value,
-                  appearance: {
-                    ...value.appearance,
-                    wrap: event.currentTarget.checked,
+      {value.type !== CellType.NESTED_OBJECTS && (
+        <FieldsGroup label="Text">
+          <InlineFieldRow>
+            <InlineField label="Wrap">
+              <InlineSwitch
+                value={value.appearance.wrap}
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    appearance: {
+                      ...value.appearance,
+                      wrap: event.currentTarget.checked,
+                    },
+                  })
+                }
+                {...TEST_IDS.columnEditor.fieldAppearanceWrap.apply()}
+              />
+            </InlineField>
+            <InlineField label="Alignment" {...TEST_IDS.columnEditor.fieldAppearanceAlignment.apply()}>
+              <RadioButtonGroup
+                value={value.appearance.alignment}
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    appearance: {
+                      ...value.appearance,
+                      alignment: event,
+                    },
+                  })
+                }
+                options={[
+                  {
+                    value: ColumnAlignment.START,
+                    icon: 'align-left',
+                    description: 'Start',
+                    ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.START),
                   },
-                })
-              }
-              {...TEST_IDS.columnEditor.fieldAppearanceWrap.apply()}
-            />
-          </InlineField>
-          <InlineField label="Alignment" {...TEST_IDS.columnEditor.fieldAppearanceAlignment.apply()}>
-            <RadioButtonGroup
-              value={value.appearance.alignment}
-              onChange={(event) =>
-                onChange({
-                  ...value,
-                  appearance: {
-                    ...value.appearance,
-                    alignment: event,
+                  {
+                    value: ColumnAlignment.CENTER,
+                    icon: 'bars',
+                    description: 'Center',
+                    ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.CENTER),
                   },
-                })
-              }
-              options={[
-                {
-                  value: ColumnAlignment.START,
-                  icon: 'align-left',
-                  description: 'Start',
-                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.START),
-                },
-                {
-                  value: ColumnAlignment.CENTER,
-                  icon: 'bars',
-                  description: 'Center',
-                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.CENTER),
-                },
-                {
-                  value: ColumnAlignment.END,
-                  icon: 'align-right',
-                  description: 'End',
-                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.END),
-                },
-              ]}
-            />
-          </InlineField>
-        </InlineFieldRow>
-      </FieldsGroup>
+                  {
+                    value: ColumnAlignment.END,
+                    icon: 'align-right',
+                    description: 'End',
+                    ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.END),
+                  },
+                ]}
+              />
+            </InlineField>
+          </InlineFieldRow>
+        </FieldsGroup>
+      )}
       <FieldsGroup label="Position">
         <InlineField label="Pin" grow={true} {...TEST_IDS.columnEditor.fieldPinDirection.apply()}>
           <RadioButtonGroup
@@ -432,33 +431,37 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
       </FieldsGroup>
       <FieldsGroup label="Data Settings">
         <InlineFieldRow>
-          <InlineField label="Group" grow={true}>
-            <InlineSwitch
-              value={value.group}
-              onChange={(event) =>
-                onChange({
-                  ...value,
-                  group: event.currentTarget.checked,
-                })
-              }
-              {...TEST_IDS.columnEditor.fieldGroup.apply()}
-            />
-          </InlineField>
-          <InlineField label="Filter" grow={true}>
-            <InlineSwitch
-              value={value.filter.enabled}
-              onChange={(event) =>
-                onChange({
-                  ...value,
-                  filter: {
-                    ...value.filter,
-                    enabled: event.currentTarget.checked,
-                  },
-                })
-              }
-              {...TEST_IDS.columnEditor.fieldFilterEnabled.apply()}
-            />
-          </InlineField>
+          {value.type !== CellType.NESTED_OBJECTS && (
+            <InlineField label="Group" grow={true}>
+              <InlineSwitch
+                value={value.group}
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    group: event.currentTarget.checked,
+                  })
+                }
+                {...TEST_IDS.columnEditor.fieldGroup.apply()}
+              />
+            </InlineField>
+          )}
+          {value.type !== CellType.NESTED_OBJECTS && (
+            <InlineField label="Filter" grow={true}>
+              <InlineSwitch
+                value={value.filter.enabled}
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    filter: {
+                      ...value.filter,
+                      enabled: event.currentTarget.checked,
+                    },
+                  })
+                }
+                {...TEST_IDS.columnEditor.fieldFilterEnabled.apply()}
+              />
+            </InlineField>
+          )}
           <InlineField label="Sort" grow={true}>
             <InlineSwitch
               value={value.sort.enabled}
@@ -557,16 +560,20 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
 
       <FieldsGroup label="Footer">
         <InlineField label="Show" grow={true}>
-          <ColumnFooterEditor
-            value={value.footer}
+          <StatsPicker
+            stats={value.footer}
             onChange={(footer) => {
               onChange({
                 ...value,
                 footer,
               });
             }}
-            context={{} as never}
-            item={{ id: 'columnFooterEditor', name: 'columnFooterEditor' }}
+            filterOptions={(option) => {
+              if (value.type === CellType.NESTED_OBJECTS) {
+                return allowedStatsForNestedObjects.includes(option.id);
+              }
+              return true;
+            }}
           />
         </InlineField>
       </FieldsGroup>

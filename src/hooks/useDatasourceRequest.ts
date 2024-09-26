@@ -24,14 +24,6 @@ export const useDatasourceRequest = () => {
       /**
        * Replace Variables
        */
-      console.log(
-        replaceVariables(JSON.stringify(query), {
-          payload: {
-            value: payload,
-          },
-        })
-      );
-
       const target = JSON.parse(
         replaceVariables(JSON.stringify(query), {
           payload: {

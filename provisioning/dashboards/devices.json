@@ -198,6 +198,46 @@
                 }
               }
             }
+          },
+          {
+            "editor": {
+              "author": "",
+              "body": "",
+              "id": "id",
+              "time": "",
+              "title": "title",
+              "type": "cards"
+            },
+            "get": {
+              "datasource": "Timescale",
+              "payload": {
+                "editorMode": "code",
+                "format": "table",
+                "rawQuery": true,
+                "rawSql": "select id, title from comments WHERE id IN (${payload.ids:sqlstring});",
+                "refId": "A",
+                "sql": {
+                  "columns": [
+                    {
+                      "parameters": [],
+                      "type": "function"
+                    }
+                  ],
+                  "groupBy": [
+                    {
+                      "property": {
+                        "type": "string"
+                      },
+                      "type": "groupBy"
+                    }
+                  ],
+                  "limit": 50
+                }
+              }
+            },
+            "id": "fdfb236a-45e7-4f3b-9369-8a47cdcfae42",
+            "name": "Small Comments",
+            "type": "cards"
           }
         ],
         "tables": [
@@ -500,8 +540,52 @@
                 },
                 "footer": [],
                 "group": false,
-                "label": "",
-                "objectType": "86a57480-78e4-428d-b04e-0fdaf14550cf",
+                "label": "Comments",
+                "objectId": "86a57480-78e4-428d-b04e-0fdaf14550cf",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "nested_objects"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "small_comments",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "Small Comments",
+                "objectId": "fdfb236a-45e7-4f3b-9369-8a47cdcfae42",
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -760,7 +844,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select\n*,\narray_to_json(array(\n\tselect id\n\tfrom comments comments\n\twhere comments.device_id = devices.id\n)) as comments\nfrom devices\norder by id;",
+          "rawSql": "select\n*,\narray_to_json(array(\n\tselect id\n\tfrom comments comments\n\twhere comments.device_id = devices.id\n)) as comments,\narray_to_json(array(\n\tselect id\n\tfrom comments comments\n\twhere comments.device_id = devices.id\n)) as small_comments\nfrom devices\norder by id;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -899,6 +983,10 @@
               {
                 "destinationType": "other",
                 "targetField": "comments"
+              },
+              {
+                "destinationType": "other",
+                "targetField": "small_comments"
               }
             ],
             "fields": {}
@@ -921,6 +1009,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 19,
+  "version": 21,
   "weekStart": ""
 }

@@ -1,12 +1,11 @@
+import { CollapseTitle, EditableColumnEditor, FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
+import { TEST_IDS } from '@/constants';
+import { CellType, ColumnConfig, TableConfig } from '@/types';
+import { getFieldKey } from '@/utils';
 import { DataFrame } from '@grafana/data';
 import { Alert, InlineSwitch, Label, Tag, useStyles2 } from '@grafana/ui';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
-
-import { CollapseTitle, EditableColumnEditor, FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
-import { TEST_IDS } from '@/constants';
-import { ColumnConfig, TableConfig } from '@/types';
-import { getFieldKey } from '@/utils';
 
 import { getStyles } from './TableUpdateEditor.styles';
 
@@ -113,6 +112,7 @@ export const TableUpdateEditor: React.FC<Props> = ({ value, onChange, data }) =>
                           [getFieldKey(item.field)]: event.currentTarget.checked,
                         });
                       }}
+                      disabled={item.type === CellType.NESTED_OBJECTS}
                       {...testIds.fieldEditQuickEnabled.apply(getFieldKey(item.field))}
                     />
                     {item.edit.enabled && <Tag name={item.edit.editor.type} />}

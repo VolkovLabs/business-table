@@ -84,7 +84,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   footer: [],
   edit: createColumnEditConfig({}),
   pin: ColumnPinDirection.NONE,
-  objectType: '',
+  objectId: '',
   ...item,
 });
 

@@ -1,10 +1,43 @@
 import {
+  CellType,
+  ColumnConfig,
   ColumnEditorConfig,
   ColumnEditorType,
   EditableColumnEditorRegistryItem,
   NestedObjectEditorRegistryItem,
   NestedObjectType,
 } from '@/types';
+
+/**
+ * Get Column Config
+ */
+export const getColumnConfigWithNewType = (value: ColumnConfig, type: CellType): ColumnConfig => {
+  switch (type) {
+    case CellType.NESTED_OBJECTS: {
+      return {
+        ...value,
+        type,
+        filter: {
+          ...value.filter,
+          enabled: false,
+        },
+        group: false,
+        footer: [],
+        edit: {
+          ...value.edit,
+          enabled: false,
+        },
+      };
+    }
+
+    default: {
+      return {
+        ...value,
+        type,
+      };
+    }
+  }
+};
 
 /**
  * Get Column Editor Config

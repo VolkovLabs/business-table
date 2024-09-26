@@ -174,11 +174,11 @@ export interface ColumnConfig {
   type: CellType;
 
   /**
-   * Object Type
+   * Object ID
    *
    * @type {string}
    */
-  objectType: string;
+  objectId: string;
 
   /**
    * Group
