@@ -24,6 +24,11 @@ import { useTable } from './useTable';
 
 describe('useTable', () => {
   /**
+   * Replace Variables
+   */
+  const replaceVariables = (str: string) => str;
+
+  /**
    * Frame
    */
   const refId = 'A';
@@ -75,6 +80,8 @@ describe('useTable', () => {
             },
           }),
         ],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -115,6 +122,8 @@ describe('useTable', () => {
             },
           }),
         ],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -150,6 +159,8 @@ describe('useTable', () => {
             },
           }),
         ],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -163,6 +174,8 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -194,6 +207,8 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [deviceColumn, valueColumn],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -275,6 +290,8 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [deviceColumn, valueColumn, createdColumn, otherColumn],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -358,6 +375,8 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [deviceColumn],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -409,6 +428,8 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [deviceColumn, valueColumn],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -460,6 +481,8 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [deviceColumn, valueColumn],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -498,6 +521,8 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [deviceColumn, valueColumn],
+        objects: [],
+        replaceVariables,
       })
     );
 
@@ -561,6 +586,8 @@ describe('useTable', () => {
             series: [frame],
           } as any,
           columns: [deviceColumn],
+          objects: [],
+          replaceVariables,
         })
       );
 
@@ -605,6 +632,8 @@ describe('useTable', () => {
             series: [frame],
           } as any,
           columns: [deviceColumn],
+          objects: [],
+          replaceVariables,
         })
       );
 
@@ -644,6 +673,8 @@ describe('useTable', () => {
             series: [frame],
           } as any,
           columns: [columnForAdminEdit],
+          objects: [],
+          replaceVariables,
         })
       );
 
@@ -683,6 +714,8 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [deviceColumn, valueColumn],
+        objects: [],
+        replaceVariables,
       })
     );
 
