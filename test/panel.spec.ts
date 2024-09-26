@@ -101,16 +101,17 @@ test.describe('Business Table Panel', () => {
 
     const panel = await dashboardPage.getPanelByTitle('Business Table Test');
 
-    await expect(page.getByRole('heading', { name: 'Table' }).first()).toBeVisible();
+    const getLocators = getLocatorSelectors(TEST_IDS.table);
+    const locators = getLocators(panel.locator);
 
-    await expect(panel.locator).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Table' }).first()).toBeVisible();
     await expect(panel.getErrorIcon()).not.toBeVisible();
 
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('time'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('time'))).toHaveText('time');
+    await expect(locators.headerCell('time')).toBeVisible();
+    await expect(locators.headerCell('time')).toHaveText('time');
 
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('A-series'))).toHaveText('A-series');
+    await expect(locators.headerCell('A-series')).toBeVisible();
+    await expect(locators.headerCell('A-series')).toHaveText('A-series');
   });
 
   test('Should toggle tables via tabs', async ({ gotoDashboardPage, page, readProvisionedDashboard }) => {
@@ -226,19 +227,21 @@ test.describe('Business Table Panel', () => {
        * return dashboardPage
        */
       const panel = await dashboardPage.getPanelByTitle('Table');
-
+      const getLocators = getLocatorSelectors(TEST_IDS.table);
+      const locators = getLocators(panel.locator);
       await expect(panel.locator).toBeVisible();
 
       /**
        * Check table header cell with available sort
        */
-      await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toBeVisible();
-      await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id'))).toHaveText('id');
+
+      await expect(locators.headerCell('id')).toBeVisible();
+      await expect(locators.headerCell('id')).toHaveText('id');
 
       /**
        * Check cells in first row
        */
-      const row = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      const row = await getBodyRows(locators.root());
       const cells = await getRowCells(row[0]);
 
       await expect(cells[0]).toHaveText('1');
@@ -248,7 +251,8 @@ test.describe('Business Table Panel', () => {
       /**
        * Sort table
        */
-      await panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('id')).click();
+
+      await locators.headerCell('id').click();
 
       /**
        * Cells in first row should be after sort
@@ -274,21 +278,26 @@ test.describe('Business Table Panel', () => {
        */
       const panel = await dashboardPage.getPanelByTitle('Table');
 
+      const getLocators = getLocatorSelectors(TEST_IDS.table);
+      const locators = getLocators(panel.locator);
+
       /**
        * Check table header cell with available filtering
        */
-      await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('name'))).toBeVisible();
+      await expect(locators.headerCell('name')).toBeVisible();
 
       /**
        * Should be 3 rows in table body
        */
-      const rows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      const rows = await getBodyRows(locators.root());
       await expect(rows).toHaveLength(3);
+
       /**
        * Should open filter modal popup
        */
-      const searchButton = await panel.locator
-        .getByTestId(TEST_IDS.table.headerCell.selector('name'))
+
+      const searchButton = await locators
+        .headerCell('name')
         .getByTestId(TEST_IDS.tableHeaderCellFilter.root.selector());
 
       await searchButton.click();
@@ -305,7 +314,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Should show one filtering line
        */
-      const filteredRows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      const filteredRows = await getBodyRows(locators.root());
       await expect(filteredRows).toHaveLength(1);
     });
   });
@@ -325,7 +334,10 @@ test.describe('Business Table Panel', () => {
        */
       const panel = await dashboardPage.getPanelByTitle('Devices');
 
-      const rows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      const getLocators = getLocatorSelectors(TEST_IDS.table);
+      const locators = getLocators(panel.locator);
+
+      const rows = await getBodyRows(locators.root());
       const cells = await getRowCells(rows[0]);
 
       const startEditButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonStartEdit.selector());
@@ -379,11 +391,12 @@ test.describe('Business Table Panel', () => {
        * return dashboardPage
        */
       const panel = await dashboardPage.getPanelByTitle('Groups');
-
+      const getLocators = getLocatorSelectors(TEST_IDS.table);
+      const locators = getLocators(panel.locator);
       /**
        * Should be 2 rows in body
        */
-      const rows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      const rows = await getBodyRows(locators.root());
       await expect(rows).toHaveLength(2);
 
       /**
@@ -393,7 +406,7 @@ test.describe('Business Table Panel', () => {
       await expect(expandButton).toBeVisible();
 
       await expandButton.click();
-      const expandedRows = await getBodyRows(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+      const expandedRows = await getBodyRows(locators.root());
 
       await expect(expandedRows).toHaveLength(4);
     });
