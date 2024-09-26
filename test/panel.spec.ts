@@ -1,7 +1,7 @@
 import { test, expect } from '@grafana/plugin-e2e';
 
 import { TEST_IDS } from '../src/constants';
-import { getRowCells, getBodyRows, getHeaderCells } from './helpers';
+import { getRowCells, getBodyRows, getHeaderCells, getLocatorSelectors } from './helpers';
 
 test.describe('Business Table Panel', () => {
   test('Check grafana version', async ({ grafanaVersion }) => {
@@ -126,18 +126,21 @@ test.describe('Business Table Panel', () => {
     await expect(page.getByRole('heading', { name: 'Groups' }).first()).toBeVisible();
     await expect(panel.getErrorIcon()).not.toBeVisible();
 
+    const getLocators = getLocatorSelectors({ ...TEST_IDS.panel, ...TEST_IDS.table });
+    const locators = getLocators(panel.locator);
+
     /**
      * Check Tabs
      */
-    await expect(panel.locator.getByTestId(TEST_IDS.panel.tab.selector('Country'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.panel.tab.selector('Country'))).toHaveText('Country');
-    await expect(panel.locator.getByTestId(TEST_IDS.panel.tab.selector('Value'))).toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.panel.tab.selector('Value'))).toHaveText('Value');
+    await expect(locators.tab('Country')).toBeVisible();
+    await expect(locators.tab('Country')).toHaveText('Country');
+    await expect(locators.tab('Value')).toBeVisible();
+    await expect(locators.tab('Value')).toHaveText('Value');
 
     /**
      * Check Table headings for Country table
      */
-    const headerCells = await getHeaderCells(panel.locator.getByTestId(TEST_IDS.table.root.selector()));
+    const headerCells = await getHeaderCells(locators.root());
     await expect(headerCells).toHaveLength(4);
     await expect(headerCells[0]).toHaveText('Country');
     await expect(headerCells[1]).toHaveText('City');
@@ -147,7 +150,7 @@ test.describe('Business Table Panel', () => {
     /**
      * Switch to Value table
      */
-    await panel.locator.getByTestId(TEST_IDS.panel.tab.selector('Value')).click();
+    await locators.tab('Value').click();
 
     /**
      * Check Table headings for Value table
@@ -155,8 +158,8 @@ test.describe('Business Table Panel', () => {
     await expect(headerCells[0]).toHaveText('device');
     await expect(headerCells[1]).toHaveText('value');
 
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('country'))).not.toBeVisible();
-    await expect(panel.locator.getByTestId(TEST_IDS.table.headerCell.selector('city'))).not.toBeVisible();
+    await expect(locators.headerCell('country')).not.toBeVisible();
+    await expect(locators.headerCell('city')).not.toBeVisible();
   });
 
   test.describe('Download Button', () => {
