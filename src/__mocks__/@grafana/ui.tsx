@@ -27,6 +27,7 @@ const SelectMock = ({
   isLoading,
   onOpenMenu,
   onCloseMenu,
+  isSearchable,
   ...restProps
 }: any) => (
   <select
@@ -227,6 +228,13 @@ const MenuItemMock = ({ onClick, children, currentPage, numberOfPages, ...restPr
 
 const MenuItem = jest.fn(MenuItemMock);
 
+/**
+ * Stats Picker
+ */
+const StatsPickerMock = SelectMock;
+
+const StatsPicker = jest.fn(StatsPickerMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -238,6 +246,7 @@ beforeEach(() => {
   Pagination.mockImplementation(PaginationMock);
   MenuItem.mockImplementation(MenuItemMock);
   DataLinksContextMenu.mockImplementation(DataLinksContextMenuMock);
+  StatsPicker.mockImplementation(StatsPickerMock);
 });
 
 module.exports = {
@@ -252,4 +261,5 @@ module.exports = {
   Pagination,
   MenuItem,
   DataLinksContextMenu,
+  StatsPicker,
 };

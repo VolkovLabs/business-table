@@ -273,6 +273,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               options={nestedObjectOptions}
               isClearable={true}
               isSearchable={true}
+              {...TEST_IDS.columnEditor.fieldObjectId.apply()}
             />
           </InlineField>
         )}

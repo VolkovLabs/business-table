@@ -71,6 +71,7 @@ export const TEST_IDS = {
   columnEditor: {
     fieldLabel: createSelector('data-testid column-editor field-label'),
     fieldType: createSelector('data-testid column-editor field-type'),
+    fieldObjectId: createSelector('data-testid column-editor field-object-id'),
     fieldGroup: createSelector('data-testid column-editor field-group'),
     fieldAggregation: createSelector('data-testid column-editor field-aggregation'),
     fieldFilterEnabled: createSelector('data-testid column-editor field-filter-enabled'),

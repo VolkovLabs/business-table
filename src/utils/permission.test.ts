@@ -1,41 +1,37 @@
 import { OrgRole, toDataFrame } from '@grafana/data';
 
 import { PermissionMode } from '@/types';
-import { createColumnEditConfig } from '@/utils/test';
+import { createColumnEditConfig, createPermissionConfig } from '@/utils/test';
 
-import { checkEditPermissionByQueryField, checkIfOperationEnabled,checkPermissionByOrgUserRole } from './permission';
+import { checkEditPermissionByQueryField, checkIfOperationEnabled, checkPermissionByOrgUserRole } from './permission';
 
 describe('Permission utils', () => {
   describe('checkEditPermissionByOrgUserRole', () => {
     it('Should be granted if user role included', () => {
-      const columnEditConfig = createColumnEditConfig({
-        permission: {
-          mode: PermissionMode.USER_ROLE,
-          userRole: [OrgRole.Editor, OrgRole.Admin],
-        },
+      const permissionConfig = createPermissionConfig({
+        mode: PermissionMode.USER_ROLE,
+        userRole: [OrgRole.Editor, OrgRole.Admin],
       });
 
-      expect(checkPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Admin } as any)).toBeTruthy();
-      expect(checkPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Editor } as any)).toBeTruthy();
-      expect(checkPermissionByOrgUserRole(columnEditConfig, { orgRole: OrgRole.Viewer } as any)).toBeFalsy();
+      expect(checkPermissionByOrgUserRole(permissionConfig, { orgRole: OrgRole.Admin } as any)).toBeTruthy();
+      expect(checkPermissionByOrgUserRole(permissionConfig, { orgRole: OrgRole.Editor } as any)).toBeTruthy();
+      expect(checkPermissionByOrgUserRole(permissionConfig, { orgRole: OrgRole.Viewer } as any)).toBeFalsy();
     });
   });
 
   describe('checkEditPermissionByQueryField', () => {
     it('Should be granted if value is truthy', () => {
-      const columnEditConfig = createColumnEditConfig({
-        permission: {
-          mode: PermissionMode.USER_ROLE,
-          userRole: [],
-          field: {
-            source: 'A',
-            name: 'edit',
-          },
+      const permissionConfig = createPermissionConfig({
+        mode: PermissionMode.USER_ROLE,
+        userRole: [],
+        field: {
+          source: 'A',
+          name: 'edit',
         },
       });
 
       expect(
-        checkEditPermissionByQueryField(columnEditConfig, [
+        checkEditPermissionByQueryField(permissionConfig, [
           toDataFrame({
             refId: 'A',
             fields: [
@@ -48,7 +44,7 @@ describe('Permission utils', () => {
         ])
       ).toBeTruthy();
       expect(
-        checkEditPermissionByQueryField(columnEditConfig, [
+        checkEditPermissionByQueryField(permissionConfig, [
           toDataFrame({
             refId: 'A',
             fields: [
@@ -60,14 +56,12 @@ describe('Permission utils', () => {
           }),
         ])
       ).toBeFalsy();
-      expect(checkEditPermissionByQueryField(columnEditConfig, [])).toBeFalsy();
+      expect(checkEditPermissionByQueryField(permissionConfig, [])).toBeFalsy();
       expect(
         checkEditPermissionByQueryField(
-          createColumnEditConfig({
-            permission: {
-              mode: PermissionMode.USER_ROLE,
-              userRole: [],
-            },
+          createPermissionConfig({
+            mode: PermissionMode.USER_ROLE,
+            userRole: [],
           }),
           []
         )

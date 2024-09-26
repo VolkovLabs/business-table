@@ -12,6 +12,7 @@ import {
   ColumnFilterMode,
   ColumnPinDirection,
   ColumnSortConfig,
+  NestedObjectConfig,
   PaginationMode,
   PanelOptions,
   PermissionMode,
@@ -96,7 +97,7 @@ interface OutdatedToolbarOptions {
 /**
  * Outdated Panel Options
  */
-interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups' | 'tabsSorting' | 'toolbar'> {
+interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups' | 'tabsSorting' | 'toolbar' | 'nestedObjects'> {
   /**
    * Groups
    *
@@ -117,6 +118,13 @@ interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups' | 'tabsSortin
    * Introduced in 1.3.0
    */
   toolbar?: OutdatedToolbarOptions;
+
+  /**
+   * Nested Objects
+   *
+   * Introduced in 1.4.0
+   */
+  nestedObjects?: NestedObjectConfig[];
 }
 
 /**
@@ -251,14 +259,14 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
   }
 
   /**
-   * Normalize tabs sorting
+   * Normalize Tabs Sorting
    */
   if (options.tabsSorting === undefined) {
     options.tabsSorting = false;
   }
 
   /**
-   * Normalize toolbar
+   * Normalize Toolbar
    */
   if (!options.toolbar) {
     options.toolbar = {};
@@ -266,6 +274,13 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
 
   if (options.toolbar.export === undefined) {
     options.toolbar.export = false;
+  }
+
+  /**
+   * Normalize Nested Objects
+   */
+  if (!options.nestedObjects) {
+    options.nestedObjects = [];
   }
 
   return options as PanelOptions;

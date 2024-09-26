@@ -1,13 +1,21 @@
 import { toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { Select } from '@grafana/ui';
+import { Select, StatsPicker } from '@grafana/ui';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
+import { tablesEditorContext } from '@/hooks';
 import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnPinDirection } from '@/types';
-import { createColumnAppearanceConfig, createColumnConfig, createVariable } from '@/utils';
+import {
+  createColumnAppearanceConfig,
+  createColumnConfig,
+  createColumnFilterConfig,
+  createColumnSortConfig,
+  createNestedObjectConfig,
+  createVariable,
+} from '@/utils';
 
 import { ColumnEditor } from './ColumnEditor';
 
@@ -19,26 +27,6 @@ type Props = React.ComponentProps<typeof ColumnEditor>;
 const inTestIds = {
   footerEditor: createSelector('data-testid footer-editor'),
 };
-
-/**
- * Mock @grafana/data
- */
-jest.mock('@grafana/data', () => ({
-  ...jest.requireActual('@grafana/data'),
-  standardEditorsRegistry: {
-    get: () => ({
-      editor: ({ value, onChange }: any) => (
-        <Select
-          value={value}
-          onChange={(event) => onChange(event.map(({ value }: never) => value))}
-          options={[{ value: 'min' }, { value: 'max' }]}
-          isMulti={true}
-          {...inTestIds.footerEditor.apply()}
-        />
-      ),
-    }),
-  },
-}));
 
 describe('ColumnEditor', () => {
   /**
@@ -66,17 +54,39 @@ describe('ColumnEditor', () => {
   /**
    * Get component
    */
-  const getComponent = (props: Partial<Props>) => {
+  const getComponent = ({
+    contextValue,
+    ...restProps
+  }: Partial<Props> & { contextValue?: ReturnType<typeof tablesEditorContext.useContext> }) => {
     return (
-      <ColumnEditor
-        value={createColumnConfig()}
-        onChange={onChange}
-        data={[frame]}
-        isAggregationAvailable={false}
-        {...(props as any)}
-      />
+      <tablesEditorContext.Provider value={contextValue || { nestedObjects: [] }}>
+        <ColumnEditor
+          value={createColumnConfig()}
+          onChange={onChange}
+          data={[frame]}
+          isAggregationAvailable={false}
+          {...(restProps as any)}
+        />
+      </tablesEditorContext.Provider>
     );
   };
+
+  beforeEach(() => {
+    jest
+      .mocked(StatsPicker)
+      .mockImplementation(
+        ({ stats, onChange, filterOptions }: any) =>
+          (
+            <Select
+              value={stats}
+              onChange={(event) => onChange(event.map(({ value }: never) => value))}
+              options={[{ value: 'min' }, { value: 'max' }, { id: 'count', value: 'count' }].filter(filterOptions)}
+              isMulti={true}
+              {...inTestIds.footerEditor.apply()}
+            />
+          ) as any
+      );
+  });
 
   it('Should allow to change label', () => {
     render(getComponent({ value: createColumnConfig({ label: '123' }) }));
@@ -580,5 +590,78 @@ describe('ColumnEditor', () => {
         },
       })
     );
+  });
+
+  describe('Nested Objects', () => {
+    it('Should allow to change object id', () => {
+      const nestedObject = createNestedObjectConfig({ id: 'hello', name: 'Hello' });
+
+      render(
+        getComponent({
+          contextValue: { nestedObjects: [nestedObject] },
+          value: createColumnConfig({
+            type: CellType.NESTED_OBJECTS,
+          }),
+        })
+      );
+
+      expect(selectors.fieldObjectId()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldObjectId(), { target: { value: nestedObject.id } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          objectId: nestedObject.id,
+        })
+      );
+    });
+
+    it('Should disable unavailable options if nested objects', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.COLORED_TEXT,
+            filter: createColumnFilterConfig({
+              enabled: true,
+            }),
+            sort: createColumnSortConfig({
+              enabled: true,
+            }),
+            group: true,
+            footer: ['min'],
+          }),
+        })
+      );
+
+      fireEvent.change(selectors.fieldType(), { target: { value: CellType.NESTED_OBJECTS } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: CellType.NESTED_OBJECTS,
+          filter: expect.objectContaining({
+            enabled: false,
+          }),
+          sort: expect.objectContaining({
+            enabled: true,
+          }),
+          footer: [],
+          group: false,
+        })
+      );
+    });
+
+    it('Should not allow to enable unavailable options', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.NESTED_OBJECTS,
+          }),
+        })
+      );
+
+      expect(selectors.fieldFilterEnabled(true)).not.toBeInTheDocument();
+      expect(selectors.fieldGroup(true)).not.toBeInTheDocument();
+      expect(selectors.fieldAppearanceWrap(true)).not.toBeInTheDocument();
+    });
   });
 });

@@ -17,14 +17,21 @@ import {
   ColumnConfig,
   ColumnEditConfig,
   ColumnEditorType,
+  ColumnFilterConfig,
   ColumnFilterMode,
   ColumnMeta,
   ColumnPinDirection,
+  ColumnSortConfig,
+  NestedObjectConfig,
+  NestedObjectEditorConfig,
+  NestedObjectType,
   PaginationMode,
   PanelOptions,
+  PermissionConfig,
   PermissionMode,
   TableConfig,
   TablePaginationConfig,
+  TableRequestConfig,
   ToolbarOptions,
 } from '@/types';
 
@@ -45,17 +52,42 @@ export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanc
 });
 
 /**
+ * Create Permission Config
+ */
+export const createPermissionConfig = (permission: Partial<PermissionConfig>): PermissionConfig => ({
+  mode: PermissionMode.ALLOWED,
+  userRole: [],
+  ...permission,
+});
+
+/**
  * Create Column Edit Config
  */
 export const createColumnEditConfig = (item: Partial<ColumnEditConfig>): ColumnEditConfig => ({
   enabled: false,
-  permission: {
-    mode: PermissionMode.ALLOWED,
-    userRole: [],
-  },
+  permission: createPermissionConfig({}),
   editor: {
     type: ColumnEditorType.STRING,
   },
+  ...item,
+});
+
+/**
+ * Create Column Filter Config
+ */
+export const createColumnFilterConfig = (item: Partial<ColumnFilterConfig>): ColumnFilterConfig => ({
+  enabled: false,
+  mode: ColumnFilterMode.CLIENT,
+  variable: '',
+  ...item,
+});
+
+/**
+ * Create Column Sort Config
+ */
+export const createColumnSortConfig = (item: Partial<ColumnSortConfig>): ColumnSortConfig => ({
+  enabled: false,
+  descFirst: false,
   ...item,
 });
 
@@ -71,15 +103,8 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   type: CellType.AUTO,
   group: false,
   aggregation: CellAggregation.NONE,
-  filter: {
-    enabled: false,
-    mode: ColumnFilterMode.CLIENT,
-    variable: '',
-  },
-  sort: {
-    enabled: false,
-    descFirst: false,
-  },
+  filter: createColumnFilterConfig({}),
+  sort: createColumnSortConfig({}),
   appearance: createColumnAppearanceConfig({}),
   footer: [],
   edit: createColumnEditConfig({}),
@@ -201,15 +226,21 @@ export const createTablePaginationConfig = (pagination: Partial<TablePaginationC
 });
 
 /**
+ * Create Table Request Config
+ */
+export const createTableRequestConfig = (item: Partial<TableRequestConfig>): TableRequestConfig => ({
+  datasource: '',
+  payload: {},
+  ...item,
+});
+
+/**
  * Create Table Config
  */
 export const createTableConfig = (table: Partial<TableConfig>): TableConfig => ({
   name: '',
   items: [],
-  update: {
-    datasource: '',
-    payload: {},
-  },
+  update: createTableRequestConfig({}),
   pagination: createTablePaginationConfig({}),
   ...table,
 });
@@ -242,4 +273,29 @@ export const createDataLink = (link: Partial<LinkModel>): LinkModel => ({
   target: '_blank',
   title: '',
   ...link,
+});
+
+/**
+ * Create Nested Object Editor Config
+ */
+export const createNestedObjectEditorConfig = (item: Partial<NestedObjectEditorConfig>): NestedObjectEditorConfig => ({
+  type: NestedObjectType.CARDS,
+  id: '',
+  title: '',
+  author: '',
+  body: '',
+  time: '',
+  ...item,
+});
+
+/**
+ * Create Nested Object Config
+ */
+export const createNestedObjectConfig = (item: Partial<NestedObjectConfig>): NestedObjectConfig => ({
+  id: '',
+  type: NestedObjectType.CARDS,
+  editor: createNestedObjectEditorConfig({}),
+  name: '',
+  get: createTableRequestConfig({}),
+  ...item,
 });
