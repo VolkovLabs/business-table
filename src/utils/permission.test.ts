@@ -3,7 +3,7 @@ import { OrgRole, toDataFrame } from '@grafana/data';
 import { PermissionMode } from '@/types';
 import { createColumnEditConfig } from '@/utils/test';
 
-import { checkPermissionByOrgUserRole, checkEditPermissionByQueryField, checkIfOperationEnabled } from './permission';
+import { checkEditPermissionByQueryField, checkIfOperationEnabled,checkPermissionByOrgUserRole } from './permission';
 
 describe('Permission utils', () => {
   describe('checkEditPermissionByOrgUserRole', () => {

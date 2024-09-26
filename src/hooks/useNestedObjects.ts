@@ -82,7 +82,6 @@ export const useNestedObjects = ({
    */
   const getValuesForColumn = useCallback(
     (objectId: string) => {
-      console.log('getValuesForColumn', nestedObjectsData[objectId]);
       return nestedObjectsData[objectId];
     },
     [nestedObjectsData]

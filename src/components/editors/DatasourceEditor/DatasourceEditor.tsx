@@ -1,9 +1,9 @@
-import { EditorProps } from '@/types';
 import { Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useDatasources } from '@/hooks';
+import { EditorProps } from '@/types';
 
 /**
  * Properties

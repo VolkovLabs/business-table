@@ -5,13 +5,13 @@ import React, { useEffect, useMemo, useRef } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import {
+  tablePanelContext,
   useContentSizes,
   useExportData,
   usePagination,
   useSavedState,
   useTable,
   useUpdateRow,
-  tablePanelContext,
 } from '@/hooks';
 import { PanelOptions } from '@/types';
 

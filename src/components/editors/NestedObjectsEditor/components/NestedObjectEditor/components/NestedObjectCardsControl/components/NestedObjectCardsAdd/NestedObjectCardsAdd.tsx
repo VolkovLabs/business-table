@@ -67,7 +67,6 @@ export const NestedObjectCardsAdd: React.FC<Props> = ({ mapper, onAdd, replaceVa
             setNewItem(null);
             setIsLoading(false);
           } catch (e) {
-            console.error('error', e);
             setIsLoading(false);
           }
         }}

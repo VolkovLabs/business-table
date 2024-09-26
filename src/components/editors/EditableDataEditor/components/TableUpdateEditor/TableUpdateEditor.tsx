@@ -1,11 +1,12 @@
-import { CollapseTitle, EditableColumnEditor, FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
-import { TEST_IDS } from '@/constants';
-import { CellType, ColumnConfig, TableConfig } from '@/types';
-import { getFieldKey } from '@/utils';
 import { DataFrame } from '@grafana/data';
 import { Alert, InlineSwitch, Label, Tag, useStyles2 } from '@grafana/ui';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
+
+import { CollapseTitle, EditableColumnEditor, FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
+import { TEST_IDS } from '@/constants';
+import { CellType, ColumnConfig, TableConfig } from '@/types';
+import { getFieldKey } from '@/utils';
 
 import { getStyles } from './TableUpdateEditor.styles';
 
