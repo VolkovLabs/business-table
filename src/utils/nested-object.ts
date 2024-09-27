@@ -25,7 +25,7 @@ export const getNestedObjectEditorConfig = (
 export const prepareFrameForNestedObject = (
   object: NestedObjectConfig,
   frame: DataFrame
-): Map<string, Record<string, unknown>> => {
+): Map<string | number, Record<string, unknown>> => {
   const idKey = object.editor.id || 'id';
 
   const objects: Array<Record<string, unknown>> = [];
@@ -44,9 +44,9 @@ export const prepareFrameForNestedObject = (
   }
 
   return objects.reduce((acc, object) => {
-    acc.set(object[idKey] as string, object);
+    acc.set(object[idKey] as string | number, object);
     return acc;
-  }, new Map<string, Record<string, unknown>>());
+  }, new Map<string | number, Record<string, unknown>>());
 };
 
 /**
@@ -118,11 +118,11 @@ export class NestedObjectCardMapper {
    */
   getPayload(item: Record<string, unknown>): NestedObjectItemPayload {
     return cleanPayloadObject({
-      id: this.getId(item),
-      title: this.getTitle(item),
-      body: this.getBody(item),
-      author: this.getAuthor(item),
-      time: this.getTime(item),
+      id: this.config.id ? this.getId(item) : undefined,
+      title: this.config.title ? this.getTitle(item) : undefined,
+      body: this.config.body ? this.getBody(item) : undefined,
+      author: this.config.body ? this.getAuthor(item) : undefined,
+      time: this.config.time ? this.getTime(item) : undefined,
     }) as NestedObjectItemPayload;
   }
 

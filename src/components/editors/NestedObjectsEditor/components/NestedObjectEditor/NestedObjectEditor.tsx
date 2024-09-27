@@ -3,6 +3,7 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useState } from 'react';
 
 import { CollapseTitle, FieldsGroup, RequestEditor } from '@/components';
+import { TEST_IDS } from '@/constants';
 import {
   EditorProps,
   NestedObjectConfig,
@@ -20,6 +21,11 @@ import { nestedObjectEditorsRegistry } from './NestedObjectEditorsRegistry';
  * Properties
  */
 interface Props extends EditorProps<NestedObjectConfig> {}
+
+/**
+ * Test Ids
+ */
+const testIds = TEST_IDS.nestedObjectEditor;
 
 /**
  * Type Options
@@ -93,6 +99,7 @@ export const NestedObjectEditor: React.FC<Props> = ({ value, onChange }) => {
             });
           }}
           options={typeOptions}
+          {...testIds.fieldType.apply()}
         />
       </InlineField>
       <div className={styles.collapseItem}>
@@ -106,6 +113,8 @@ export const NestedObjectEditor: React.FC<Props> = ({ value, onChange }) => {
           }
           title={<CollapseTitle>Get Options</CollapseTitle>}
           fill="solid"
+          headerTestId={testIds.getRequestSectionHeader.selector()}
+          contentTestId={testIds.getRequestSectionContent.selector()}
         >
           <RequestEditor
             value={value.get}
@@ -165,11 +174,14 @@ export const NestedObjectEditor: React.FC<Props> = ({ value, onChange }) => {
                           [operation]: isEnabled,
                         });
                       }}
+                      {...testIds.fieldOperationEnabled.apply(operation)}
                     />
                   </CollapseTitle>
                 }
                 fill="solid"
                 isExpandDisabled={!config?.enabled}
+                headerTestId={testIds.operationSectionHeader.selector(operation)}
+                contentTestId={testIds.operationSectionContent.selector(operation)}
               >
                 {config && (
                   <NestedObjectOperationEditor

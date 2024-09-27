@@ -75,12 +75,12 @@ describe('ColumnEditor', () => {
     jest
       .mocked(StatsPicker)
       .mockImplementation(
-        ({ stats, onChange, filterOptions }: any) =>
+        ({ stats, onChange }: any) =>
           (
             <Select
               value={stats}
               onChange={(event) => onChange(event.map(({ value }: never) => value))}
-              options={[{ value: 'min' }, { value: 'max' }, { id: 'count', value: 'count' }].filter(filterOptions)}
+              options={[{ value: 'min' }, { value: 'max' }]}
               isMulti={true}
               {...inTestIds.footerEditor.apply()}
             />
@@ -612,6 +612,30 @@ describe('ColumnEditor', () => {
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({
           objectId: nestedObject.id,
+        })
+      );
+    });
+
+    it('Should allow to clear object id', () => {
+      const nestedObject = createNestedObjectConfig({ id: 'hello', name: 'Hello' });
+
+      render(
+        getComponent({
+          contextValue: { nestedObjects: [nestedObject] },
+          value: createColumnConfig({
+            type: CellType.NESTED_OBJECTS,
+            objectId: nestedObject.id,
+          }),
+        })
+      );
+
+      expect(selectors.fieldObjectId()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldObjectId(), { target: { value: '' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          objectId: '',
         })
       );
     });

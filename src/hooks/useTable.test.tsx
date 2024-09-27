@@ -1,14 +1,12 @@
-import { FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
-import { getTemplateSrv } from '@grafana/runtime';
-import { renderHook } from '@testing-library/react';
-
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import {
   CellAggregation,
+  CellType,
   ColumnEditorType,
   ColumnFilterMode,
   ColumnFilterType,
   ColumnPinDirection,
+  NestedObjectType,
   PermissionMode,
 } from '@/types';
 import {
@@ -16,11 +14,30 @@ import {
   createColumnAppearanceConfig,
   createColumnConfig,
   createColumnEditConfig,
+  createNestedObjectConfig,
+  createNestedObjectOperationConfig,
+  createPermissionConfig,
+  createTableRequestConfig,
   createVariable,
   FooterContext,
 } from '@/utils';
+import { FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
+import { getTemplateSrv } from '@grafana/runtime';
+import { act, renderHook } from '@testing-library/react';
 
+import { useNestedObjects } from './useNestedObjects';
 import { useTable } from './useTable';
+
+/**
+ * Mock useNestedObjects
+ */
+jest.mock('./useNestedObjects', () => ({
+  useNestedObjects: jest.fn(() => ({
+    onLoad: jest.fn(),
+    getValuesForColumn: jest.fn(),
+    loadingState: {},
+  })),
+}));
 
 describe('useTable', () => {
   /**
@@ -57,7 +74,24 @@ describe('useTable', () => {
         name: 'unused',
         values: [11, 22],
       },
+      {
+        name: 'comments',
+        values: [[1, 2], [3]],
+      },
     ],
+  });
+
+  /**
+   * NestedObjects Mock
+   */
+  const nestedObjectsMock = {
+    onLoad: jest.fn(),
+    getValuesForColumn: jest.fn(),
+    loadingState: {},
+  };
+
+  beforeEach(() => {
+    jest.mocked(useNestedObjects).mockReturnValue(nestedObjectsMock);
   });
 
   it('Should return table data for configured columns', () => {
@@ -174,6 +208,21 @@ describe('useTable', () => {
           series: [frame],
         } as any,
         columns: [],
+        objects: [],
+        replaceVariables,
+      })
+    );
+
+    expect(result.current.tableData).toEqual([]);
+  });
+
+  it('Should work if columns not defined', () => {
+    const { result } = renderHook(() =>
+      useTable({
+        data: {
+          series: [frame],
+        } as any,
+        columns: undefined,
         objects: [],
         replaceVariables,
       })
@@ -606,6 +655,54 @@ describe('useTable', () => {
       expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
     });
 
+    it('Should make editor column pinned if right pinned columns present', () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        edit: createColumnEditConfig({
+          enabled: true,
+          permission: {
+            mode: PermissionMode.ALLOWED,
+            userRole: [],
+            field: { source: '', name: '' },
+          },
+          editor: {
+            type: ColumnEditorType.STRING,
+          },
+        }),
+        pin: ColumnPinDirection.RIGHT,
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn],
+          objects: [],
+          replaceVariables,
+        })
+      );
+
+      expect(result.current.columns[0].meta).toEqual(
+        expect.objectContaining({
+          editable: true,
+          editor: {
+            type: ColumnEditorType.STRING,
+          },
+        })
+      );
+
+      /**
+       * Check actions column is pinned
+       */
+      expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
+      expect(result.current.columns[1].enablePinning).toBeTruthy();
+    });
+
     it('Should work if unknown editor', () => {
       const deviceColumn = createColumnConfig({
         label: 'Device',
@@ -729,5 +826,311 @@ describe('useTable', () => {
         enablePinning: false,
       }),
     ]);
+  });
+
+  describe('Nested Objects', () => {
+    it('Should load nested data', async () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+      });
+
+      const nestedObject = createNestedObjectConfig({
+        id: 'abc',
+      });
+
+      const commentsColumn = createColumnConfig({
+        label: 'Comments',
+        field: {
+          source: refId,
+          name: 'comments',
+        },
+        type: CellType.NESTED_OBJECTS,
+        objectId: nestedObject.id,
+      });
+
+      /**
+       * Mock Nested Data
+       */
+      const nestedData = new Map();
+      nestedData.set(1, { id: 1, title: 'hello' });
+      nestedData.set(2, { id: 2, title: 'hello2' });
+      nestedData.set(3, { id: 3, title: 'hello3' });
+
+      nestedObjectsMock.getValuesForColumn.mockReturnValue(nestedData);
+
+      const { result } = await act(async () =>
+        renderHook(() =>
+          useTable({
+            data: {
+              series: [frame],
+            } as any,
+            columns: [deviceColumn, commentsColumn],
+            objects: [nestedObject],
+            replaceVariables,
+          })
+        )
+      );
+
+      expect(result.current.tableData).toEqual([
+        {
+          device: 'device1',
+          comments: [
+            { id: 1, title: 'hello' },
+            { id: 2, title: 'hello2' },
+          ],
+        },
+        {
+          device: 'device2',
+          comments: [{ id: 3, title: 'hello3' }],
+        },
+      ]);
+    });
+
+    it('Should work if no ids', async () => {
+      const frame = toDataFrame({
+        refId,
+        fields: [
+          {
+            name: 'device',
+            values: ['device1', 'device2'],
+          },
+          {
+            name: 'comments',
+            values: [[1], 2],
+          },
+        ],
+      });
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+      });
+
+      const nestedObject = createNestedObjectConfig({
+        id: 'abc',
+      });
+
+      const commentsColumn = createColumnConfig({
+        label: 'Comments',
+        field: {
+          source: refId,
+          name: 'comments',
+        },
+        type: CellType.NESTED_OBJECTS,
+        objectId: nestedObject.id,
+      });
+
+      /**
+       * Mock Nested Data
+       */
+      const nestedData = new Map();
+      nestedData.set(1, { id: 1, title: 'hello' });
+      nestedData.set(2, { id: 2, title: 'hello2' });
+
+      nestedObjectsMock.getValuesForColumn.mockReturnValue(nestedData);
+
+      const { result } = await act(async () =>
+        renderHook(() =>
+          useTable({
+            data: {
+              series: [frame],
+            } as any,
+            columns: [deviceColumn, commentsColumn],
+            objects: [nestedObject],
+            replaceVariables,
+          })
+        )
+      );
+
+      expect(result.current.tableData).toEqual([
+        {
+          device: 'device1',
+          comments: [{ id: 1, title: 'hello' }],
+        },
+        {
+          device: 'device2',
+          comments: 2,
+        },
+      ]);
+    });
+
+    it('Should build options for column with nested objects', async () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+      });
+
+      const commentsObject = createNestedObjectConfig({
+        id: 'comments',
+        type: NestedObjectType.CARDS,
+        add: createNestedObjectOperationConfig({
+          enabled: true,
+          permission: createPermissionConfig({
+            mode: PermissionMode.ALLOWED,
+          }),
+          request: createTableRequestConfig({
+            datasource: 'addDatasource',
+          }),
+        }),
+        update: createNestedObjectOperationConfig({
+          enabled: true,
+          permission: createPermissionConfig({
+            mode: PermissionMode.ALLOWED,
+          }),
+          request: createTableRequestConfig({
+            datasource: 'updateDatasource',
+          }),
+        }),
+        delete: createNestedObjectOperationConfig({
+          enabled: true,
+          permission: createPermissionConfig({
+            mode: PermissionMode.ALLOWED,
+          }),
+          request: createTableRequestConfig({
+            datasource: 'deleteDatasource',
+          }),
+        }),
+      });
+
+      const readonlyObject = createNestedObjectConfig({
+        id: 'readonlyComments',
+        type: NestedObjectType.CARDS,
+        add: createNestedObjectOperationConfig({
+          enabled: false,
+        }),
+        update: createNestedObjectOperationConfig({
+          enabled: false,
+        }),
+        delete: createNestedObjectOperationConfig({
+          enabled: false,
+        }),
+      });
+
+      const commentsColumn = createColumnConfig({
+        label: 'Comments',
+        field: {
+          source: refId,
+          name: 'comments',
+        },
+        type: CellType.NESTED_OBJECTS,
+        objectId: commentsObject.id,
+      });
+
+      const readonlyCommentsColumn = createColumnConfig({
+        label: 'Readonly Comments',
+        field: {
+          source: refId,
+          name: 'comments',
+        },
+        type: CellType.NESTED_OBJECTS,
+        objectId: readonlyObject.id,
+      });
+
+      const { result } = await act(async () =>
+        renderHook(() =>
+          useTable({
+            data: {
+              series: [frame],
+            } as any,
+            columns: [deviceColumn, commentsColumn, readonlyCommentsColumn],
+            objects: [commentsObject, readonlyObject],
+            replaceVariables,
+          })
+        )
+      );
+
+      expect(result.current.columns[1]).toEqual(
+        expect.objectContaining({
+          id: 'comments',
+          meta: expect.objectContaining({
+            nestedObjectOptions: expect.objectContaining({
+              operations: {
+                add: {
+                  enabled: true,
+                  request: commentsObject.add?.request,
+                },
+                update: {
+                  enabled: true,
+                  request: commentsObject.update?.request,
+                },
+                delete: {
+                  enabled: true,
+                  request: commentsObject.delete?.request,
+                },
+              },
+            }),
+          }),
+        })
+      );
+
+      expect(result.current.columns[2]).toEqual(
+        expect.objectContaining({
+          id: 'comments',
+          meta: expect.objectContaining({
+            nestedObjectOptions: expect.objectContaining({
+              operations: {
+                add: expect.objectContaining({
+                  enabled: false,
+                }),
+                update: expect.objectContaining({
+                  enabled: false,
+                }),
+                delete: expect.objectContaining({
+                  enabled: false,
+                }),
+              },
+            }),
+          }),
+        })
+      );
+    });
+
+    it('Should build options if unknown object type', async () => {
+      const commentsObject = createNestedObjectConfig({
+        id: 'comments',
+        type: 'unknown' as never,
+      });
+
+      const commentsColumn = createColumnConfig({
+        label: 'Comments',
+        field: {
+          source: refId,
+          name: 'comments',
+        },
+        type: CellType.NESTED_OBJECTS,
+        objectId: commentsObject.id,
+      });
+
+      const { result } = await act(async () =>
+        renderHook(() =>
+          useTable({
+            data: {
+              series: [frame],
+            } as any,
+            columns: [commentsColumn],
+            objects: [commentsObject],
+            replaceVariables,
+          })
+        )
+      );
+
+      expect(result.current.columns[0]).toEqual(
+        expect.objectContaining({
+          id: 'comments',
+          meta: expect.objectContaining({
+            nestedObjectOptions: undefined,
+          }),
+        })
+      );
+    });
   });
 });

@@ -24,6 +24,7 @@ import {
   ColumnSortConfig,
   NestedObjectConfig,
   NestedObjectEditorConfig,
+  NestedObjectOperationConfig,
   NestedObjectType,
   PaginationMode,
   PanelOptions,
@@ -285,6 +286,18 @@ export const createNestedObjectEditorConfig = (item: Partial<NestedObjectEditorC
   author: '',
   body: '',
   time: '',
+  ...item,
+});
+
+/**
+ * Create Nested Object Operation Config
+ */
+export const createNestedObjectOperationConfig = (
+  item: Partial<NestedObjectOperationConfig>
+): NestedObjectOperationConfig => ({
+  enabled: false,
+  permission: createPermissionConfig({}),
+  request: createTableRequestConfig({}),
   ...item,
 });
 

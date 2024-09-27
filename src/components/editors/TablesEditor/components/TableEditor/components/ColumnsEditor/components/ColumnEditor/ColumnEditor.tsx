@@ -166,11 +166,6 @@ const sortDirectionOptions = [
 ];
 
 /**
- * Allowed Stats For Nested Objects
- */
-const allowedStatsForNestedObjects = ['count'];
-
-/**
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable }) => {
@@ -559,25 +554,21 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
         </FieldsGroup>
       )}
 
-      <FieldsGroup label="Footer">
-        <InlineField label="Show" grow={true}>
-          <StatsPicker
-            stats={value.footer}
-            onChange={(footer) => {
-              onChange({
-                ...value,
-                footer,
-              });
-            }}
-            filterOptions={(option) => {
-              if (value.type === CellType.NESTED_OBJECTS) {
-                return allowedStatsForNestedObjects.includes(option.id);
-              }
-              return true;
-            }}
-          />
-        </InlineField>
-      </FieldsGroup>
+      {value.type !== CellType.NESTED_OBJECTS && (
+        <FieldsGroup label="Footer">
+          <InlineField label="Show" grow={true}>
+            <StatsPicker
+              stats={value.footer}
+              onChange={(footer) => {
+                onChange({
+                  ...value,
+                  footer,
+                });
+              }}
+            />
+          </InlineField>
+        </FieldsGroup>
+      )}
     </>
   );
 };

@@ -235,6 +235,11 @@ const StatsPickerMock = SelectMock;
 
 const StatsPicker = jest.fn(StatsPickerMock);
 
+/**
+ * Mock Card Description to prevent validateDOMNesting error
+ */
+(actual.Card as any).Description = ({ children }: any) => children;
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);

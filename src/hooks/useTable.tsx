@@ -4,8 +4,13 @@ import { useTheme2 } from '@grafana/ui';
 import { ColumnDef } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo } from 'react';
 
-import { AggregatedCellRenderer, CellRenderer, editableColumnEditorsRegistry, TableActionsCell } from '@/components';
-import { nestedObjectEditorsRegistry } from '@/components/editors/NestedObjectsEditor/components';
+import {
+  AggregatedCellRenderer,
+  CellRenderer,
+  editableColumnEditorsRegistry,
+  nestedObjectEditorsRegistry,
+  TableActionsCell,
+} from '@/components';
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import {
   CellAggregation,

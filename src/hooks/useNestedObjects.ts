@@ -1,9 +1,10 @@
 import { InterpolateFunction } from '@grafana/data';
 import { useCallback, useMemo, useState } from 'react';
 
-import { useDatasourceRequest } from '@/hooks/useDatasourceRequest';
 import { ColumnConfig, NestedObjectConfig } from '@/types';
 import { prepareFrameForNestedObject } from '@/utils';
+
+import { useDatasourceRequest } from './useDatasourceRequest';
 
 /**
  * Use Nested Objects
@@ -23,7 +24,9 @@ export const useNestedObjects = ({
   /**
    * Nested Objects Data
    */
-  const [nestedObjectsData, setNestedObjectsData] = useState<Record<string, Map<string, Record<string, unknown>>>>({});
+  const [nestedObjectsData, setNestedObjectsData] = useState<
+    Record<string, Map<string | number, Record<string, unknown>>>
+  >({});
   const [nestedObjectsLoading, setNestedObjectsLoading] = useState<Record<string, boolean>>({});
 
   /**

@@ -112,6 +112,10 @@ export const TEST_IDS = {
     fieldPageNumber: createSelector('data-testid table field-page-number'),
     fieldPageSize: createSelector('data-testid table field-page-size'),
   },
+  tableHeaderCell: {
+    root: createSelector('data-testid table-header-cell'),
+    sortIcon: createSelector((iconName: unknown) => String(iconName), 'data-testid'),
+  },
   tableCell: {
     tableLink: createSelector((name: unknown) => `table link-${name}`),
     tableLinkMenu: createSelector('table link-menu'),
@@ -218,7 +222,21 @@ export const TEST_IDS = {
     itemContent: createSelector((name: unknown) => `data-testid editable-data-editor item-content-${name}`),
   },
   nestedObjectsEditor: {
-    newItem: createSelector('data-testid nested-object-editor new-item'),
+    newItem: createSelector('data-testid nested-objects-editor new-item'),
+  },
+  nestedObjectEditor: {
+    fieldType: createSelector('data-testid nested-object-editor field-type'),
+    getRequestSectionHeader: createSelector('data-testid nested-object-editor get-request-section-header'),
+    getRequestSectionContent: createSelector('data-testid nested-object-editor get-request-section-content'),
+    operationSectionHeader: createSelector(
+      (name: unknown) => `data-testid nested-object-editor operation-${name}-section-header`
+    ),
+    operationSectionContent: createSelector(
+      (name: unknown) => `data-testid nested-object-editor operation-${name}-section-content`
+    ),
+    fieldOperationEnabled: createSelector(
+      (name: unknown) => `data-testid nested-object-editor field-operation-${name}-enabled`
+    ),
   },
   permissionEditor: {
     fieldMode: createSelector('data-testid permission-editor field-mode'),
