@@ -21,7 +21,7 @@ interface Props extends StandardEditorProps<NestedObjectConfig[], null, PanelOpt
 /**
  * Test Ids
  */
-const testIds = TEST_IDS.tablesEditor;
+const testIds = TEST_IDS.nestedObjectsEditor;
 
 /**
  * Nested Objects Editor

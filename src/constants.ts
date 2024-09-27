@@ -221,9 +221,6 @@ export const TEST_IDS = {
     itemHeader: createSelector((name: unknown) => `data-testid editable-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid editable-data-editor item-content-${name}`),
   },
-  nestedObjectsEditor: {
-    newItem: createSelector('data-testid nested-objects-editor new-item'),
-  },
   nestedObjectEditor: {
     fieldType: createSelector('data-testid nested-object-editor field-type'),
     getRequestSectionHeader: createSelector('data-testid nested-object-editor get-request-section-header'),
@@ -266,6 +263,19 @@ export const TEST_IDS = {
     loadingIcon: createSelector('spinner', 'data-testid'),
     buttonShowItems: createSelector('data-testid nested-object-cards-control button-show-items'),
     noItemsMessage: createSelector('data-testid nested-object-cards-control no-items-message'),
+  },
+  nestedObjectsEditor: {
+    buttonAddNew: createSelector('data-testid nested-objects-editor button-add-new'),
+    buttonRemove: createSelector('data-testid nested-objects-editor button-remove'),
+    buttonStartRename: createSelector('data-testid nested-objects-editor button-start-rename'),
+    buttonCancelRename: createSelector('data-testid nested-objects-editor button-cancel-rename'),
+    buttonSaveRename: createSelector('data-testid nested-objects-editor button-save-rename'),
+    fieldName: createSelector('data-testid nested-objects-editor field-name'),
+    itemHeader: createSelector((name: unknown) => `data-testid nested-objects-editor item-header-${name}`),
+    itemContent: createSelector((name: unknown) => `data-testid nested-objects-editor item-content-${name}`),
+    newItem: createSelector('data-testid nested-objects-editor new-level'),
+    newItemName: createSelector('data-testid nested-objects-editor new-item-name'),
+    noItemsMessage: createSelector('data-testid nested-objects-editor no-items-message'),
   },
   permissionEditor: {
     fieldMode: createSelector('data-testid permission-editor field-mode'),
