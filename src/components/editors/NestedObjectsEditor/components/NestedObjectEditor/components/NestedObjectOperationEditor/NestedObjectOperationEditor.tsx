@@ -1,8 +1,8 @@
-import { TEST_IDS } from '@/constants';
 import { Collapse } from '@volkovlabs/components';
 import React, { useState } from 'react';
 
 import { FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
+import { TEST_IDS } from '@/constants';
 import { nestedObjectsEditorContext } from '@/hooks';
 import { EditorProps, NestedObjectOperationConfig } from '@/types';
 
