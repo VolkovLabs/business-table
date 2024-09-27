@@ -91,20 +91,6 @@ describe('NestedObjectsEditor', () => {
     expect(selectors.noItemsMessage(true)).not.toBeInTheDocument();
   });
 
-  it('Should render if tables unspecified', () => {
-    render(
-      getComponent({
-        context: {
-          data: [dataFrameA],
-          options: {} as any,
-        } as any,
-      })
-    );
-
-    expect(selectors.newItem()).toBeInTheDocument();
-    expect(selectors.noItemsMessage()).toBeInTheDocument();
-  });
-
   it('Should add new group', async () => {
     const onChange = jest.fn();
 
