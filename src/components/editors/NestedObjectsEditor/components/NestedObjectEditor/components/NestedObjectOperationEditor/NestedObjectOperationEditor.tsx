@@ -1,3 +1,4 @@
+import { TEST_IDS } from '@/constants';
 import { Collapse } from '@volkovlabs/components';
 import React, { useState } from 'react';
 
@@ -9,6 +10,11 @@ import { EditorProps, NestedObjectOperationConfig } from '@/types';
  * Properties
  */
 interface Props extends EditorProps<NestedObjectOperationConfig> {}
+
+/**
+ * Test Ids
+ */
+const testIds = TEST_IDS.nestedObjectOperationEditor;
 
 /**
  * Nested Object Operation Editor
@@ -49,6 +55,8 @@ export const NestedObjectOperationEditor: React.FC<Props> = ({ value, onChange }
           });
         }}
         title="Request"
+        headerTestId={testIds.requestSectionHeader.selector()}
+        contentTestId={testIds.requestSectionContent.selector()}
       >
         <RequestEditor
           value={value.request}

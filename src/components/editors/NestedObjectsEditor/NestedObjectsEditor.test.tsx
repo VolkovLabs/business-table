@@ -605,4 +605,20 @@ describe('NestedObjectsEditor', () => {
       }),
     ]);
   });
+
+  it('Should show no items message', async () => {
+    const onChange = jest.fn();
+
+    render(
+      getComponent({
+        context: {
+          data: [dataFrameA, dataFrameB],
+        } as any,
+        onChange,
+        value: [],
+      })
+    );
+
+    expect(selectors.noItemsMessage()).toBeInTheDocument();
+  });
 });

@@ -277,6 +277,10 @@ export const TEST_IDS = {
     newItemName: createSelector('data-testid nested-objects-editor new-item-name'),
     noItemsMessage: createSelector('data-testid nested-objects-editor no-items-message'),
   },
+  nestedObjectOperationEditor: {
+    requestSectionHeader: createSelector('data-testid nested-object-operation-editor request-section-header'),
+    requestSectionContent: createSelector('data-testid nested-object-operation-editor request-section-content'),
+  },
   permissionEditor: {
     fieldMode: createSelector('data-testid permission-editor field-mode'),
     fieldOrgRole: createSelector('data-testid permission-editor field-org-role'),
