@@ -238,6 +238,13 @@ export const TEST_IDS = {
       (name: unknown) => `data-testid nested-object-editor field-operation-${name}-enabled`
     ),
   },
+  nestedObjectCardsEditor: {
+    fieldId: createSelector('data-testid nested-object-cards-editor field-id'),
+    fieldTitle: createSelector('data-testid nested-object-cards-editor field-title'),
+    fieldTime: createSelector('data-testid nested-object-cards-editor field-time'),
+    fieldAuthor: createSelector('data-testid nested-object-cards-editor field-author'),
+    fieldBody: createSelector('data-testid nested-object-cards-editor field-body'),
+  },
   permissionEditor: {
     fieldMode: createSelector('data-testid permission-editor field-mode'),
     fieldOrgRole: createSelector('data-testid permission-editor field-org-role'),
