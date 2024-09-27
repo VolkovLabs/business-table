@@ -23,6 +23,7 @@ import {
   ColumnPinDirection,
   ColumnSortConfig,
   NestedObjectConfig,
+  NestedObjectControlOperationOptions,
   NestedObjectEditorConfig,
   NestedObjectOperationConfig,
   NestedObjectType,
@@ -310,5 +311,16 @@ export const createNestedObjectConfig = (item: Partial<NestedObjectConfig>): Nes
   editor: createNestedObjectEditorConfig({}),
   name: '',
   get: createTableRequestConfig({}),
+  ...item,
+});
+
+/**
+ * Create Nested Object Operation Options
+ */
+export const createNestedObjectOperationOptions = (
+  item: Partial<NestedObjectControlOperationOptions>
+): NestedObjectControlOperationOptions => ({
+  enabled: false,
+  request: createTableRequestConfig({}),
   ...item,
 });

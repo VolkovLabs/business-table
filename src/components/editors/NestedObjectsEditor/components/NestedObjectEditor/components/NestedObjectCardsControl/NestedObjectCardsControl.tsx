@@ -3,6 +3,7 @@ import { getAppEvents } from '@grafana/runtime';
 import { Button, Drawer, EmptySearchResult, Icon } from '@grafana/ui';
 import React, { useCallback, useState } from 'react';
 
+import { TEST_IDS } from '@/constants';
 import { tablePanelContext, useDatasourceRequest } from '@/hooks';
 import { NestedObjectControlProps, NestedObjectItemPayload, NestedObjectType } from '@/types';
 
@@ -12,6 +13,11 @@ import { NestedObjectCardsAdd, NestedObjectCardsItem } from './components';
  * Properties
  */
 type Props = NestedObjectControlProps<NestedObjectType.CARDS>;
+
+/**
+ * Test Ids
+ */
+const testIds = TEST_IDS.nestedObjectCardsControl;
 
 /**
  * Nested Object Cards Control
@@ -152,11 +158,7 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
    * Delete
    */
   const onDelete = useCallback(
-    async (payload: NestedObjectItemPayload | null) => {
-      if (!payload) {
-        return;
-      }
-
+    async (payload: NestedObjectItemPayload) => {
       if (operations.delete.enabled && operations.delete.request) {
         try {
           const item = mapper.createObject(payload);
@@ -218,7 +220,7 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
    * Loading
    */
   if (isLoading && !isDrawerOpen) {
-    return <Icon name="spinner" />;
+    return <Icon name="spinner" {...testIds.loadingIcon.apply()} />;
   }
 
   return (
@@ -228,6 +230,7 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
         fill="text"
         size="sm"
         onClick={() => setDrawerOpen(true)}
+        {...testIds.buttonShowItems.apply()}
       >
         {value.length} {header}
       </Button>
@@ -249,7 +252,9 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
               );
             })
           ) : (
-            <EmptySearchResult>{`No ${header}`}</EmptySearchResult>
+            <div {...testIds.noItemsMessage.apply()}>
+              <EmptySearchResult>{`No ${header}`}</EmptySearchResult>
+            </div>
           )}
           {operations.add.enabled && (
             <NestedObjectCardsAdd mapper={mapper} onAdd={onAdd} replaceVariables={onReplaceVariables} />

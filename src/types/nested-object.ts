@@ -83,7 +83,7 @@ interface NestedObjectEditorCardsOptions {
 /**
  * Nested Object Operation Options
  */
-interface NestedObjectControlOperationOptions {
+export interface NestedObjectControlOperationOptions {
   /**
    * Enabled
    *

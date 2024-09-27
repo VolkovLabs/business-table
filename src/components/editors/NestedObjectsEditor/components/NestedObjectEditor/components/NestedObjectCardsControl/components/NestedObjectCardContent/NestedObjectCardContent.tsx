@@ -2,6 +2,8 @@ import { InterpolateFunction } from '@grafana/data';
 import MarkdownIt from 'markdown-it';
 import React from 'react';
 
+import { TEST_IDS } from '@/constants';
+
 /**
  * Properties
  */
@@ -29,8 +31,13 @@ const md = new MarkdownIt({
 });
 
 /**
+ * Test Ids
+ */
+const testIds = TEST_IDS.nestedObjectCardContent;
+
+/**
  * Nested Object Card Content
  */
 export const NestedObjectCardContent: React.FC<Props> = ({ text, replaceVariables }) => {
-  return <div dangerouslySetInnerHTML={{ __html: md.render(replaceVariables(text)) }} />;
+  return <div {...testIds.root.apply()} dangerouslySetInnerHTML={{ __html: md.render(replaceVariables(text)) }} />;
 };

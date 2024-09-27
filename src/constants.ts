@@ -245,6 +245,28 @@ export const TEST_IDS = {
     fieldAuthor: createSelector('data-testid nested-object-cards-editor field-author'),
     fieldBody: createSelector('data-testid nested-object-cards-editor field-body'),
   },
+  nestedObjectCardContent: {
+    root: createSelector('data-testid nested-object-card-content'),
+  },
+  nestedObjectCardsItem: {
+    root: createSelector('data-testid nested-object-cards-item'),
+    header: createSelector('nested-object-cards-item header'),
+    fieldTitle: createSelector('data-testid nested-object-cards-item field-title'),
+    fieldBody: createSelector('nested-object-cards-item field-body'),
+    buttonCancelEdit: createSelector('data-testid nested-object-cards-item button-cancel-edit'),
+    buttonSaveEdit: createSelector('data-testid nested-object-cards-item button-save-edit'),
+    buttonStartEdit: createSelector('data-testid nested-object-cards-item button-start-edit'),
+    buttonStartDelete: createSelector('data-testid nested-object-cards-item button-start-delete'),
+    modalConfirmDelete: createSelector('data-testid nested-object-cards-item modal-confirm-delete'),
+  },
+  nestedObjectCardsAdd: {
+    buttonAdd: createSelector('data-testid nested-object-cards-add button-add'),
+  },
+  nestedObjectCardsControl: {
+    loadingIcon: createSelector('spinner', 'data-testid'),
+    buttonShowItems: createSelector('data-testid nested-object-cards-control button-show-items'),
+    noItemsMessage: createSelector('data-testid nested-object-cards-control no-items-message'),
+  },
   permissionEditor: {
     fieldMode: createSelector('data-testid permission-editor field-mode'),
     fieldOrgRole: createSelector('data-testid permission-editor field-org-role'),

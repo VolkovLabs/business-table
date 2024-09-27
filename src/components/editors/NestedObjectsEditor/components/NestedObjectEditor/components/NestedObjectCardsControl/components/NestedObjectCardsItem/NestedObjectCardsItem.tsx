@@ -3,6 +3,7 @@ import { Button, Card, ConfirmModal, IconButton, Input } from '@grafana/ui';
 import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { useCallback, useState } from 'react';
 
+import { TEST_IDS } from '@/constants';
 import { NestedObjectItemPayload } from '@/types';
 
 import { NestedObjectCardContent } from '../NestedObjectCardContent';
@@ -65,6 +66,11 @@ interface Props {
 }
 
 /**
+ * Test Ids
+ */
+const testIds = TEST_IDS.nestedObjectCardsItem;
+
+/**
  * Nested Object Cards Item
  */
 export const NestedObjectCardsItem: React.FC<Props> = ({
@@ -117,8 +123,8 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
 
   return (
     <>
-      <Card>
-        <Card.Heading>
+      <Card {...testIds.root.apply()}>
+        <Card.Heading {...testIds.root.apply()}>
           {typeof itemPayload.title !== 'undefined' && (
             <>
               {isEditing ? (
@@ -131,6 +137,7 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
                       title: event.currentTarget.value,
                     })
                   }
+                  {...testIds.fieldTitle.apply()}
                 />
               ) : (
                 replaceVariables(itemPayload.title)
@@ -160,6 +167,7 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
                 language="markdown"
                 modalTitle="Body"
                 modalButtonTooltip=""
+                {...testIds.fieldBody.apply()}
               />
             ) : (
               <NestedObjectCardContent text={itemPayload.body} replaceVariables={replaceVariables} />
@@ -177,18 +185,26 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
                   onEdit(null);
                 }}
                 disabled={isLoading}
+                {...testIds.buttonCancelEdit.apply()}
               >
                 Cancel
               </Button>
-              <Button variant="primary" onClick={onSaveEdit} disabled={isLoading}>
+              <Button variant="primary" onClick={onSaveEdit} disabled={isLoading} {...testIds.buttonSaveEdit.apply()}>
                 Save
               </Button>
             </>
           ) : (
             <>
-              {isEditEnabled && <IconButton name="pen" aria-label="Edit" onClick={onStartEdit} />}
+              {isEditEnabled && (
+                <IconButton name="pen" aria-label="Edit" onClick={onStartEdit} {...testIds.buttonStartEdit.apply()} />
+              )}
               {isDeleteEnabled && (
-                <IconButton name="trash-alt" aria-label="Delete" onClick={() => setIsDeleting(true)} />
+                <IconButton
+                  name="trash-alt"
+                  aria-label="Delete"
+                  onClick={() => setIsDeleting(true)}
+                  {...testIds.buttonStartDelete.apply()}
+                />
               )}
             </>
           )}
@@ -202,6 +218,7 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
           confirmText="Confirm"
           onConfirm={() => onDelete?.(itemPayload)}
           onDismiss={() => setIsDeleting(false)}
+          {...testIds.modalConfirmDelete.apply()}
         />
       )}
     </>

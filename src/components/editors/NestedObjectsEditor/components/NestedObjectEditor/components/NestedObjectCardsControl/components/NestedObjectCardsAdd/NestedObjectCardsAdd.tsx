@@ -2,6 +2,7 @@ import { InterpolateFunction } from '@grafana/data';
 import { Button, FieldSet } from '@grafana/ui';
 import React, { useState } from 'react';
 
+import { TEST_IDS } from '@/constants';
 import { NestedObjectItemPayload } from '@/types';
 import { NestedObjectCardMapper } from '@/utils';
 
@@ -32,6 +33,11 @@ interface Props {
 }
 
 /**
+ * Test Ids
+ */
+const testIds = TEST_IDS.nestedObjectCardsAdd;
+
+/**
  * Nested Object Cards Add
  */
 export const NestedObjectCardsAdd: React.FC<Props> = ({ mapper, onAdd, replaceVariables }) => {
@@ -43,7 +49,7 @@ export const NestedObjectCardsAdd: React.FC<Props> = ({ mapper, onAdd, replaceVa
 
   if (!newItem) {
     return (
-      <Button icon="plus-circle" onClick={() => setNewItem(mapper.createNewPayload())}>
+      <Button icon="plus-circle" onClick={() => setNewItem(mapper.createNewPayload())} {...testIds.buttonAdd.apply()}>
         Add
       </Button>
     );

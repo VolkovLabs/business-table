@@ -240,6 +240,20 @@ const StatsPicker = jest.fn(StatsPickerMock);
  */
 (actual.Card as any).Description = ({ children }: any) => children;
 
+/**
+ * Mock Confirm Modal
+ */
+const ConfirmModalMock = ({ onConfirm, onDismiss, isOpen = true, ...restProps }: any) => {
+  return isOpen ? (
+    <div data-testid={restProps['data-testid']}>
+      <button data-testid="confirm" onClick={onConfirm} />
+      <button data-testid="dismiss" onClick={onDismiss} />
+    </div>
+  ) : null;
+};
+
+const ConfirmModal = jest.fn(ConfirmModalMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -252,6 +266,7 @@ beforeEach(() => {
   MenuItem.mockImplementation(MenuItemMock);
   DataLinksContextMenu.mockImplementation(DataLinksContextMenuMock);
   StatsPicker.mockImplementation(StatsPickerMock);
+  ConfirmModal.mockImplementation(ConfirmModalMock);
 });
 
 module.exports = {
@@ -267,4 +282,5 @@ module.exports = {
   MenuItem,
   DataLinksContextMenu,
   StatsPicker,
+  ConfirmModal,
 };
