@@ -1,3 +1,4 @@
+import { selectors } from '@grafana/e2e-selectors';
 import { createSelector } from '@volkovlabs/jest-selectors';
 
 import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, PermissionMode } from '@/types';
@@ -263,6 +264,7 @@ export const TEST_IDS = {
     loadingIcon: createSelector('spinner', 'data-testid'),
     buttonShowItems: createSelector('data-testid nested-object-cards-control button-show-items'),
     noItemsMessage: createSelector('data-testid nested-object-cards-control no-items-message'),
+    buttonCloseDrawer: createSelector(selectors.components.Drawer.General.close),
   },
   nestedObjectsEditor: {
     buttonAddNew: createSelector('data-testid nested-objects-editor button-add-new'),

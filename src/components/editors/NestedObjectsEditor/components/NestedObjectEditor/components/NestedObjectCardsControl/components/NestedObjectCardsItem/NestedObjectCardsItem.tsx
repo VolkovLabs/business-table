@@ -107,11 +107,6 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
    * Save Edit
    */
   const onSaveEdit = useCallback(async () => {
-    if (!localValue) {
-      setIsEditing(false);
-      return;
-    }
-
     try {
       await onEdit(localValue);
 

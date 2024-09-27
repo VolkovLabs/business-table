@@ -138,6 +138,11 @@ describe('NestedObjectCardsControl', () => {
     openDrawer();
 
     expect(selectors.noItemsMessage()).toBeInTheDocument();
+
+    expect(selectors.buttonCloseDrawer()).toBeInTheDocument();
+    fireEvent.click(selectors.buttonCloseDrawer());
+
+    expect(selectors.noItemsMessage(true)).not.toBeInTheDocument();
   });
 
   describe('Add', () => {
