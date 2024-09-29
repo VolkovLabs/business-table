@@ -6,23 +6,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useAutoSave } from '@/hooks';
+import { EditorProps } from '@/types';
 
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {Record<string, unknown>}
-   */
-  value: unknown;
-
-  /**
-   * Change
-   */
-  onChange: (value: unknown) => void;
-
+interface Props extends EditorProps<unknown> {
   /**
    * Data Source Name
    *

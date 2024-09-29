@@ -56,6 +56,190 @@
       },
       "id": 1,
       "options": {
+        "nestedObjects": [
+          {
+            "add": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "Timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "INSERT INTO comments (id, device_id, title, body, user_id)\nVALUES (nextval('seq_comments'), ${payload.row.id}, ${payload.item.title:sqlstring}, ${payload.item.body:sqlstring}, ${__user.id})",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
+            "delete": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "Timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "DELETE FROM comments WHERE id=${payload.item.id}",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
+            "editor": {
+              "author": "user_id",
+              "body": "body",
+              "id": "id",
+              "time": "created_date",
+              "title": "title",
+              "type": "cards"
+            },
+            "get": {
+              "datasource": "Timescale",
+              "payload": {
+                "editorMode": "code",
+                "format": "table",
+                "rawQuery": true,
+                "rawSql": "select * from comments WHERE id IN (${payload.ids:sqlstring});",
+                "refId": "A",
+                "sql": {
+                  "columns": [
+                    {
+                      "parameters": [],
+                      "type": "function"
+                    }
+                  ],
+                  "groupBy": [
+                    {
+                      "property": {
+                        "type": "string"
+                      },
+                      "type": "groupBy"
+                    }
+                  ],
+                  "limit": 50
+                }
+              }
+            },
+            "id": "86a57480-78e4-428d-b04e-0fdaf14550cf",
+            "name": "Comments",
+            "type": "cards",
+            "update": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "Timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "UPDATE comments\nSET title = ${payload.item.title:sqlstring}, body = ${payload.item.body:sqlstring}\nWHERE id = ${payload.item.id};",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            }
+          },
+          {
+            "editor": {
+              "author": "",
+              "body": "",
+              "id": "id",
+              "time": "",
+              "title": "title",
+              "type": "cards"
+            },
+            "get": {
+              "datasource": "Timescale",
+              "payload": {
+                "editorMode": "code",
+                "format": "table",
+                "rawQuery": true,
+                "rawSql": "select id, title from comments WHERE id IN (${payload.ids:sqlstring});",
+                "refId": "A",
+                "sql": {
+                  "columns": [
+                    {
+                      "parameters": [],
+                      "type": "function"
+                    }
+                  ],
+                  "groupBy": [
+                    {
+                      "property": {
+                        "type": "string"
+                      },
+                      "type": "groupBy"
+                    }
+                  ],
+                  "limit": 50
+                }
+              }
+            },
+            "id": "fdfb236a-45e7-4f3b-9369-8a47cdcfae42",
+            "name": "Small Comments",
+            "type": "cards"
+          }
+        ],
         "tables": [
           {
             "items": [
@@ -136,7 +320,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": ["Editor", "Admin"]
+                    "userRole": [
+                      "Editor",
+                      "Admin"
+                    ]
                   }
                 },
                 "field": {
@@ -188,7 +375,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": ["Editor", "Admin"]
+                    "userRole": [
+                      "Editor",
+                      "Admin"
+                    ]
                   }
                 },
                 "field": {
@@ -240,7 +430,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": ["Editor", "Admin"]
+                    "userRole": [
+                      "Editor",
+                      "Admin"
+                    ]
                   }
                 },
                 "field": {
@@ -287,7 +480,10 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": ["Editor", "Admin"]
+                    "userRole": [
+                      "Editor",
+                      "Admin"
+                    ]
                   }
                 },
                 "field": {
@@ -308,6 +504,94 @@
                   "enabled": false
                 },
                 "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "comments",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "Comments",
+                "objectId": "86a57480-78e4-428d-b04e-0fdaf14550cf",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "nested_objects"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "small_comments",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "Small Comments",
+                "objectId": "fdfb236a-45e7-4f3b-9369-8a47cdcfae42",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "nested_objects"
               }
             ],
             "name": "List",
@@ -560,7 +844,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "select * from devices order by id;",
+          "rawSql": "select\n*,\narray_to_json(array(\n\tselect id\n\tfrom comments comments\n\twhere comments.device_id = devices.id\n)) as comments,\narray_to_json(array(\n\tselect id\n\tfrom comments comments\n\twhere comments.device_id = devices.id\n)) as small_comments\nfrom devices\norder by id;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -678,7 +962,9 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": ["true"]
+                "values": [
+                  "true"
+                ]
               }
             ],
             "meta": {},
@@ -689,6 +975,24 @@
         }
       ],
       "title": "Devices",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "other",
+                "targetField": "comments"
+              },
+              {
+                "destinationType": "other",
+                "targetField": "small_comments"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
       "type": "volkovlabs-table-panel"
     }
   ],
@@ -705,6 +1009,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 1,
+  "version": 21,
   "weekStart": ""
 }

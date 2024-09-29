@@ -3,23 +3,12 @@ import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useDatasources } from '@/hooks';
+import { EditorProps } from '@/types';
 
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {string}
-   */
-  value: string;
-
-  /**
-   * Change
-   */
-  onChange: (value: string) => void;
-}
+interface Props extends EditorProps<string> {}
 
 /**
  * Data Source Editor

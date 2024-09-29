@@ -6,7 +6,15 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { CollapseTitle, FieldPicker } from '@/components';
 import { DEFAULT_COLUMN_APPEARANCE, DEFAULT_COLUMN_EDIT, TEST_IDS } from '@/constants';
-import { CellAggregation, CellType, ColumnConfig, ColumnFilterMode, ColumnPinDirection, FieldSource } from '@/types';
+import {
+  CellAggregation,
+  CellType,
+  ColumnConfig,
+  ColumnFilterMode,
+  ColumnPinDirection,
+  EditorProps,
+  FieldSource,
+} from '@/types';
 import { getFieldKey, reorder } from '@/utils';
 
 import { getStyles } from './ColumnsEditor.styles';
@@ -25,26 +33,13 @@ const getItemStyle = (isDragging: boolean, draggableStyle: DraggingStyle | NotDr
 /**
  * Properties
  */
-interface Props {
+interface Props extends EditorProps<ColumnConfig[]> {
   /**
    * Name
    *
    * @type {string}
    */
   name: string;
-
-  /**
-   * Value
-   *
-   * @type {ColumnConfig[]}
-   */
-  value: ColumnConfig[];
-
-  /**
-   * On Change
-   * @param item
-   */
-  onChange: (value: ColumnConfig[]) => void;
 
   /**
    * Data
@@ -124,6 +119,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
           footer: [],
           edit: DEFAULT_COLUMN_EDIT,
           pin: ColumnPinDirection.NONE,
+          objectId: '',
         },
       ]);
       setNewItem(null);

@@ -1,24 +1,10 @@
 import { Field } from '@grafana/data';
 
 import { ColumnEditorConfig, ColumnEditorControlOptions } from './column-editor';
+import { FieldSource } from './frame';
+import { NestedObjectConfig, NestedObjectControlOptions } from './nested-object';
+import { PermissionConfig } from './permission';
 import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnFilterType } from './table';
-
-/**
- * Field Source
- */
-export interface FieldSource {
-  /**
-   * Field Name
-   *
-   * @type {string}
-   */
-  name: string;
-
-  /**
-   * Data Frame ID or Frame Index if no specified
-   */
-  source: string | number;
-}
 
 /**
  * Column Filter Config
@@ -128,41 +114,6 @@ export interface ColumnAppearanceConfig {
 }
 
 /**
- * Edit Permission Mode
- */
-export enum EditPermissionMode {
-  ALLOWED = '',
-  QUERY = 'query',
-  USER_ROLE = 'userRole',
-}
-
-/**
- * Column Edit Permission Config
- */
-export interface ColumnEditPermissionConfig {
-  /**
-   * Mode
-   *
-   * @type {EditPermissionMode}
-   */
-  mode: EditPermissionMode;
-
-  /**
-   * Field
-   *
-   * @type {FieldSource}
-   */
-  field?: FieldSource;
-
-  /**
-   * User Role
-   *
-   * @type {string[]}
-   */
-  userRole: string[];
-}
-
-/**
  * Column Edit Config
  */
 export interface ColumnEditConfig {
@@ -176,9 +127,9 @@ export interface ColumnEditConfig {
   /**
    * Permission
    *
-   * @type {ColumnEditPermissionConfig}
+   * @type {PermissionConfig}
    */
-  permission: ColumnEditPermissionConfig;
+  permission: PermissionConfig;
 
   /**
    * Editor
@@ -221,6 +172,13 @@ export interface ColumnConfig {
    * @type {CellType}
    */
   type: CellType;
+
+  /**
+   * Object ID
+   *
+   * @type {string}
+   */
+  objectId: string;
 
   /**
    * Group
@@ -428,6 +386,13 @@ export interface PanelOptions {
    * @type {ToolbarOptions}
    */
   toolbar: ToolbarOptions;
+
+  /**
+   * Nested Objects
+   *
+   * @type {NestedObjectConfig[]}
+   */
+  nestedObjects: NestedObjectConfig[];
 }
 
 /**
@@ -500,4 +465,11 @@ export interface ColumnMeta {
    * @type {ColumnEditorControlOptions}
    */
   editor?: ColumnEditorControlOptions;
+
+  /**
+   * Nested Object Options
+   *
+   * @type {NestedObjectControlOptions}
+   */
+  nestedObjectOptions?: NestedObjectControlOptions;
 }

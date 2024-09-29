@@ -6,6 +6,7 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
+import { tablesEditorContext } from '@/hooks';
 import { PaginationMode, PanelOptions, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
@@ -170,7 +171,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
   }, [items, onChangeItems, onCancelEdit, editItem, editName]);
 
   return (
-    <>
+    <tablesEditorContext.Provider value={{ nestedObjects: options?.nestedObjects || [] }}>
       {items.length > 0 ? (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="tables-editor">
@@ -323,6 +324,6 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
           Add
         </Button>
       </InlineFieldRow>
-    </>
+    </tablesEditorContext.Provider>
   );
 };

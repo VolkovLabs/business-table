@@ -12,10 +12,21 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { act } from 'react';
 
+import { nestedObjectEditorsRegistry } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { createColumnMeta, createDataLink, createField } from '@/utils';
+import { CellType, NestedObjectType } from '@/types';
+import { createColumnConfig, createColumnMeta, createDataLink, createField, createNestedObjectConfig } from '@/utils';
 
 import { TableCell } from './TableCell';
+
+/**
+ * Mock nestedObjectEditorsRegistry
+ */
+jest.mock('@/components/editors/NestedObjectsEditor', () => ({
+  nestedObjectEditorsRegistry: {
+    get: jest.fn(),
+  },
+}));
 
 /**
  * Table cell
@@ -265,5 +276,55 @@ describe('TableCell', () => {
      */
     expect(selectors.tableLink(false, 'test-url')).toBeInTheDocument();
     expect(selectors.tableLink(false, 'test-url-2')).toBeInTheDocument();
+  });
+
+  it('Should render nested objects', async () => {
+    const data = [
+      {
+        comments: [{ id: 1, title: 'my title' }],
+      },
+    ];
+
+    const nestedObject = createNestedObjectConfig({
+      id: '123',
+      type: NestedObjectType.CARDS,
+    });
+
+    const columns = [
+      {
+        id: 'comments',
+        accessorKey: 'comments',
+        meta: createColumnMeta({
+          config: createColumnConfig({
+            type: CellType.NESTED_OBJECTS,
+            objectId: nestedObject.id,
+          }),
+          nestedObjectOptions: {} as any,
+        }),
+      },
+    ];
+
+    const controlMock = jest.fn(() => null);
+
+    jest.mocked(nestedObjectEditorsRegistry.get).mockReturnValue({
+      control: controlMock,
+    } as any);
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+        })
+      )
+    );
+
+    expect(controlMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        value: [{ id: 1, title: 'my title' }],
+      }),
+      expect.anything()
+    );
   });
 });

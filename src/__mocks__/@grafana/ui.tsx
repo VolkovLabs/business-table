@@ -28,6 +28,7 @@ const SelectMock = ({
   onOpenMenu,
   onCloseMenu,
   inputId,
+  isSearchable,
   ...restProps
 }: any) => (
   <select
@@ -228,6 +229,32 @@ const MenuItemMock = ({ onClick, children, currentPage, numberOfPages, ...restPr
 
 const MenuItem = jest.fn(MenuItemMock);
 
+/**
+ * Stats Picker
+ */
+const StatsPickerMock = SelectMock;
+
+const StatsPicker = jest.fn(StatsPickerMock);
+
+/**
+ * Mock Card Description to prevent validateDOMNesting error
+ */
+(actual.Card as any).Description = ({ children }: any) => children;
+
+/**
+ * Mock Confirm Modal
+ */
+const ConfirmModalMock = ({ onConfirm, onDismiss, isOpen = true, ...restProps }: any) => {
+  return isOpen ? (
+    <div data-testid={restProps['data-testid']}>
+      <button data-testid="confirm" onClick={onConfirm} />
+      <button data-testid="dismiss" onClick={onDismiss} />
+    </div>
+  ) : null;
+};
+
+const ConfirmModal = jest.fn(ConfirmModalMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -239,6 +266,8 @@ beforeEach(() => {
   Pagination.mockImplementation(PaginationMock);
   MenuItem.mockImplementation(MenuItemMock);
   DataLinksContextMenu.mockImplementation(DataLinksContextMenuMock);
+  StatsPicker.mockImplementation(StatsPickerMock);
+  ConfirmModal.mockImplementation(ConfirmModalMock);
 });
 
 module.exports = {
@@ -253,4 +282,6 @@ module.exports = {
   Pagination,
   MenuItem,
   DataLinksContextMenu,
+  StatsPicker,
+  ConfirmModal,
 };

@@ -1,3 +1,4 @@
+export * from './AggregatedCellRenderer';
 export * from './CellRenderer';
 export * from './FilterPopup';
 export * from './TableActionsCell';
