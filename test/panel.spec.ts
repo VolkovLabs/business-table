@@ -344,7 +344,7 @@ test.describe('Business Table Panel', () => {
       const saveButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonSave.selector());
       const cancelButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonCancel.selector());
 
-      await expect(cells).toHaveLength(6);
+      await expect(cells).toHaveLength(8);
       await expect(startEditButton).toBeVisible();
       await expect(saveButton).not.toBeVisible();
       await expect(cancelButton).not.toBeVisible();
