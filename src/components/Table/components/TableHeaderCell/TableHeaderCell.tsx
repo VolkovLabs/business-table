@@ -3,7 +3,7 @@ import { Icon, useStyles2 } from '@grafana/ui';
 import { flexRender, Header } from '@tanstack/react-table';
 import React from 'react';
 
-import { ACTIONS_COLUMN_ID } from '@/constants';
+import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 
 import { getStyles } from './TableHeaderCell.styles';
 import { TableHeaderCellFilter } from './TableHeaderCellFilter';
@@ -43,9 +43,15 @@ export const TableHeaderCell = <TData,>({ header }: Props<TData>) => {
         className={cx({
           [styles.labelSortable]: header.column.getCanSort(),
         })}
+        {...TEST_IDS.tableHeaderCell.root.apply()}
       >
         {flexRender(header.column.columnDef.header, header.getContext())}
-        {!!sort && <Icon name={sort === 'asc' ? 'arrow-up' : 'arrow-down'} />}
+        {!!sort && (
+          <Icon
+            name={sort === 'asc' ? 'arrow-up' : 'arrow-down'}
+            {...TEST_IDS.tableHeaderCell.sortIcon.apply(sort === 'asc' ? 'arrow-up' : 'arrow-down')}
+          />
+        )}
       </div>
       {header.column.columnDef.enableColumnFilter && <TableHeaderCellFilter header={header} />}
     </>

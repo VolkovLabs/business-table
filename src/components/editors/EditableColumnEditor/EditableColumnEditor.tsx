@@ -3,7 +3,7 @@ import { InlineField, Select } from '@grafana/ui';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { ColumnEditorConfig, ColumnEditorType } from '@/types';
+import { ColumnEditorConfig, ColumnEditorType, EditorProps } from '@/types';
 import { getColumnEditorConfig } from '@/utils';
 
 import { editableColumnEditorsRegistry } from './EditableColumnEditorsRegistry';
@@ -11,19 +11,7 @@ import { editableColumnEditorsRegistry } from './EditableColumnEditorsRegistry';
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {ColumnEditorConfig}
-   */
-  value: ColumnEditorConfig;
-
-  /**
-   * Change
-   */
-  onChange: (value: ColumnEditorConfig) => void;
-
+interface Props extends EditorProps<ColumnEditorConfig> {
   /**
    * Data
    *

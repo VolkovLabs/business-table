@@ -1,6 +1,6 @@
 import { getMigratedOptions } from '@/migration';
 import { ColumnFilterMode, ColumnPinDirection } from '@/types';
-import { createColumnConfig, createPanelOptions, createTableConfig } from '@/utils';
+import { createColumnConfig, createNestedObjectConfig, createPanelOptions, createTableConfig } from '@/utils';
 
 describe('migration', () => {
   it('Should return panel options', () => {
@@ -157,6 +157,23 @@ describe('migration', () => {
               ],
             }),
           ],
+        })
+      );
+    });
+  });
+
+  describe('1.4.0', () => {
+    it('Should normalize nested objects', () => {
+      expect(getMigratedOptions({ options: {} } as any)).toEqual(
+        expect.objectContaining({
+          nestedObjects: [],
+        })
+      );
+
+      const nestedObject = createNestedObjectConfig({ name: '123' });
+      expect(getMigratedOptions({ options: createPanelOptions({ nestedObjects: [nestedObject] }) } as any)).toEqual(
+        expect.objectContaining({
+          nestedObjects: [nestedObject],
         })
       );
     });

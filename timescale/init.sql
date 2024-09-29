@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 
 CREATE TABLE devices (
-    id integer NOT NULL,
+    id integer PRIMARY KEY,
     name text NOT NULL,
     city text NOT NULL,
     state text NOT NULL,
@@ -26,3 +26,19 @@ insert into devices values (nextval('seq_devices'), 'JPY 398', 'Tokyo', 'Tokyo',
 insert into devices values (nextval('seq_devices'), 'JPY 176', 'Tokyo', 'Tokyo', 'Japan');
 insert into devices values (nextval('seq_devices'), 'Asia 287', 'Singapore', 'Singapore', 'Singapore');
 insert into devices values (nextval('seq_devices'), 'Asia 987', 'Singapore', 'Singapore', 'Singapore');
+
+CREATE TABLE comments (
+    id integer PRIMARY KEY,
+    device_id integer NOT NULL,
+    title text NOT NULL,
+    body text NOT NULL,
+    user_id integer NOT NULL,
+    created_date timestamp DEFAULT NOW(),
+    FOREIGN KEY (device_id) REFERENCES devices(id)
+);
+
+CREATE SEQUENCE seq_comments START 1;
+
+insert into comments values (nextval('seq_comments'), 1, 'Comment 1', 'Some description here', 1);
+insert into comments values (nextval('seq_comments'), 1, 'Comment 2', 'Very long description here', 1);
+insert into comments values (nextval('seq_comments'), 2, 'Comment 3', 'Very Very long description here', 1);

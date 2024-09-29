@@ -1,6 +1,7 @@
+import { selectors } from '@grafana/e2e-selectors';
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, EditPermissionMode } from '@/types';
+import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, PermissionMode } from '@/types';
 
 /**
  * Default Column Appearance
@@ -24,7 +25,7 @@ export const DEFAULT_COLUMN_APPEARANCE = {
 export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
   enabled: false,
   permission: {
-    mode: EditPermissionMode.ALLOWED,
+    mode: PermissionMode.ALLOWED,
     userRole: [],
   },
   editor: {
@@ -71,6 +72,7 @@ export const TEST_IDS = {
   columnEditor: {
     fieldLabel: createSelector('data-testid column-editor field-label'),
     fieldType: createSelector('data-testid column-editor field-type'),
+    fieldObjectId: createSelector('data-testid column-editor field-object-id'),
     fieldGroup: createSelector('data-testid column-editor field-group'),
     fieldAggregation: createSelector('data-testid column-editor field-aggregation'),
     fieldFilterEnabled: createSelector('data-testid column-editor field-filter-enabled'),
@@ -110,6 +112,10 @@ export const TEST_IDS = {
     pagination: createSelector('data-testid table pagination'),
     fieldPageNumber: createSelector('data-testid table field-page-number'),
     fieldPageSize: createSelector('data-testid table field-page-size'),
+  },
+  tableHeaderCell: {
+    root: createSelector('data-testid table-header-cell'),
+    sortIcon: createSelector((iconName: unknown) => String(iconName), 'data-testid'),
   },
   tableCell: {
     tableLink: createSelector((name: unknown) => `table link-${name}`),
@@ -198,9 +204,6 @@ export const TEST_IDS = {
     root: createSelector('data-testid field-picker'),
   },
   tableUpdateEditor: {
-    fieldEditPermissionMode: createSelector('data-testid table-update-editor field-edit-permission-mode'),
-    fieldEditPermissionOrgRole: createSelector('data-testid table-update-editor field-edit-permission-org-role'),
-    fieldEditPermissionField: createSelector('data-testid table-update-editor field-edit-permission-field'),
     updateSectionHeader: createSelector('data-testid table-update-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-update-editor update-section-content'),
     columnHeader: createSelector((name: unknown) => `data-testid table-update-editor column-header-${name}`),
@@ -218,6 +221,72 @@ export const TEST_IDS = {
   editableDataEditor: {
     itemHeader: createSelector((name: unknown) => `data-testid editable-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid editable-data-editor item-content-${name}`),
+  },
+  nestedObjectEditor: {
+    fieldType: createSelector('data-testid nested-object-editor field-type'),
+    getRequestSectionHeader: createSelector('data-testid nested-object-editor get-request-section-header'),
+    getRequestSectionContent: createSelector('data-testid nested-object-editor get-request-section-content'),
+    operationSectionHeader: createSelector(
+      (name: unknown) => `data-testid nested-object-editor operation-${name}-section-header`
+    ),
+    operationSectionContent: createSelector(
+      (name: unknown) => `data-testid nested-object-editor operation-${name}-section-content`
+    ),
+    fieldOperationEnabled: createSelector(
+      (name: unknown) => `data-testid nested-object-editor field-operation-${name}-enabled`
+    ),
+  },
+  nestedObjectCardsEditor: {
+    fieldId: createSelector('data-testid nested-object-cards-editor field-id'),
+    fieldTitle: createSelector('data-testid nested-object-cards-editor field-title'),
+    fieldTime: createSelector('data-testid nested-object-cards-editor field-time'),
+    fieldAuthor: createSelector('data-testid nested-object-cards-editor field-author'),
+    fieldBody: createSelector('data-testid nested-object-cards-editor field-body'),
+  },
+  nestedObjectCardContent: {
+    root: createSelector('data-testid nested-object-card-content'),
+  },
+  nestedObjectCardsItem: {
+    root: createSelector('data-testid nested-object-cards-item'),
+    header: createSelector('nested-object-cards-item header'),
+    fieldTitle: createSelector('data-testid nested-object-cards-item field-title'),
+    fieldBody: createSelector('nested-object-cards-item field-body'),
+    buttonCancelEdit: createSelector('data-testid nested-object-cards-item button-cancel-edit'),
+    buttonSaveEdit: createSelector('data-testid nested-object-cards-item button-save-edit'),
+    buttonStartEdit: createSelector('data-testid nested-object-cards-item button-start-edit'),
+    buttonStartDelete: createSelector('data-testid nested-object-cards-item button-start-delete'),
+    modalConfirmDelete: createSelector('data-testid nested-object-cards-item modal-confirm-delete'),
+  },
+  nestedObjectCardsAdd: {
+    buttonAdd: createSelector('data-testid nested-object-cards-add button-add'),
+  },
+  nestedObjectCardsControl: {
+    loadingIcon: createSelector('spinner', 'data-testid'),
+    buttonShowItems: createSelector('data-testid nested-object-cards-control button-show-items'),
+    noItemsMessage: createSelector('data-testid nested-object-cards-control no-items-message'),
+    buttonCloseDrawer: createSelector(selectors.components.Drawer.General.close),
+  },
+  nestedObjectsEditor: {
+    buttonAddNew: createSelector('data-testid nested-objects-editor button-add-new'),
+    buttonRemove: createSelector('data-testid nested-objects-editor button-remove'),
+    buttonStartRename: createSelector('data-testid nested-objects-editor button-start-rename'),
+    buttonCancelRename: createSelector('data-testid nested-objects-editor button-cancel-rename'),
+    buttonSaveRename: createSelector('data-testid nested-objects-editor button-save-rename'),
+    fieldName: createSelector('data-testid nested-objects-editor field-name'),
+    itemHeader: createSelector((name: unknown) => `data-testid nested-objects-editor item-header-${name}`),
+    itemContent: createSelector((name: unknown) => `data-testid nested-objects-editor item-content-${name}`),
+    newItem: createSelector('data-testid nested-objects-editor new-level'),
+    newItemName: createSelector('data-testid nested-objects-editor new-item-name'),
+    noItemsMessage: createSelector('data-testid nested-objects-editor no-items-message'),
+  },
+  nestedObjectOperationEditor: {
+    requestSectionHeader: createSelector('data-testid nested-object-operation-editor request-section-header'),
+    requestSectionContent: createSelector('data-testid nested-object-operation-editor request-section-content'),
+  },
+  permissionEditor: {
+    fieldMode: createSelector('data-testid permission-editor field-mode'),
+    fieldOrgRole: createSelector('data-testid permission-editor field-org-role'),
+    fieldPicker: createSelector('data-testid permission-editor field-picker'),
   },
 };
 

@@ -1,28 +1,28 @@
 import { CurrentUserDTO, DataFrame } from '@grafana/data';
 
-import { ColumnEditConfig, EditPermissionMode } from '@/types';
+import { ColumnEditConfig, NestedObjectOperationConfig, PermissionConfig, PermissionMode } from '@/types';
 
 import { getFieldBySource } from './group';
 
 /**
  * Check Org User Role
  */
-export const checkEditPermissionByOrgUserRole = (editConfig: ColumnEditConfig, user: CurrentUserDTO): boolean => {
-  return editConfig.permission.userRole.includes(user.orgRole);
+export const checkPermissionByOrgUserRole = (permission: PermissionConfig, user: CurrentUserDTO): boolean => {
+  return permission.userRole.includes(user.orgRole);
 };
 
 /**
  * Check Query Field
  */
-export const checkEditPermissionByQueryField = (editConfig: ColumnEditConfig, series: DataFrame[]): boolean => {
+export const checkEditPermissionByQueryField = (permission: PermissionConfig, series: DataFrame[]): boolean => {
   /**
    * No field source
    */
-  if (!editConfig.permission.field) {
+  if (!permission.field) {
     return false;
   }
 
-  const field = getFieldBySource(series, editConfig.permission.field);
+  const field = getFieldBySource(series, permission.field);
 
   /**
    * No Field
@@ -35,31 +35,31 @@ export const checkEditPermissionByQueryField = (editConfig: ColumnEditConfig, se
 };
 
 /**
- * Check if column editable
+ * Check If Operation Enabled
  */
-export const checkIfColumnEditable = (
-  editConfig: ColumnEditConfig,
+export const checkIfOperationEnabled = (
+  config: ColumnEditConfig | NestedObjectOperationConfig,
   { series, user }: { series: DataFrame[]; user: CurrentUserDTO }
 ): boolean => {
   /**
    * Not Editable
    */
-  if (!editConfig.enabled) {
+  if (!config.enabled) {
     return false;
   }
 
   /**
    * Check Edit Permission
    */
-  switch (editConfig.permission.mode) {
-    case EditPermissionMode.ALLOWED: {
+  switch (config.permission.mode) {
+    case PermissionMode.ALLOWED: {
       return true;
     }
-    case EditPermissionMode.USER_ROLE: {
-      return checkEditPermissionByOrgUserRole(editConfig, user);
+    case PermissionMode.USER_ROLE: {
+      return checkPermissionByOrgUserRole(config.permission, user);
     }
-    case EditPermissionMode.QUERY: {
-      return checkEditPermissionByQueryField(editConfig, series);
+    case PermissionMode.QUERY: {
+      return checkEditPermissionByQueryField(config.permission, series);
     }
   }
 };

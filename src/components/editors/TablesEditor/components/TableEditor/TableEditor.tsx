@@ -6,7 +6,7 @@ import React, { useMemo, useState } from 'react';
 
 import { FieldPicker } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { PaginationMode, TableConfig } from '@/types';
+import { EditorProps, PaginationMode, TableConfig } from '@/types';
 import { cleanPayloadObject } from '@/utils';
 
 import { ColumnsEditor } from './components';
@@ -15,19 +15,7 @@ import { getStyles } from './TableEditor.styles';
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {TableConfig}
-   */
-  value: TableConfig;
-
-  /**
-   * Change
-   */
-  onChange: (value: TableConfig) => void;
-
+interface Props extends EditorProps<TableConfig> {
   /**
    * Data
    */

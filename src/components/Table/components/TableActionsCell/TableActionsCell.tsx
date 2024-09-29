@@ -43,16 +43,14 @@ interface Props extends CellContext<unknown, unknown> {
  */
 export const TableActionsCell: React.FC<Props> = ({ row, isEditing, onStartEdit, onCancelEdit, onSave, isSaving }) => {
   return !isEditing ? (
-    <>
-      <IconButton
-        name="pen"
-        aria-label="Edit"
-        onClick={() => onStartEdit?.(row)}
-        disabled={isSaving}
-        tooltip="Edit row"
-        {...TEST_IDS.tableActionsCell.buttonStartEdit.apply()}
-      />
-    </>
+    <IconButton
+      name="pen"
+      aria-label="Edit"
+      onClick={() => onStartEdit?.(row)}
+      disabled={isSaving}
+      tooltip="Edit row"
+      {...TEST_IDS.tableActionsCell.buttonStartEdit.apply()}
+    />
   ) : (
     <Stack gap={0.5}>
       <IconButton

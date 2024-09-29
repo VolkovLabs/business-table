@@ -1,7 +1,7 @@
 import { cx } from '@emotion/css';
 import { GrafanaTheme2 } from '@grafana/data';
 import { useStyles2, useTheme2 } from '@grafana/ui';
-import { Cell, CellContext, Column, flexRender, Row } from '@tanstack/react-table';
+import { Cell, CellContext, Column, Row } from '@tanstack/react-table';
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties } from 'react';
 
@@ -181,8 +181,6 @@ export const TableRow = <TData,>({
       if (cell.column.id !== ACTIONS_COLUMN_ID && cell.column.columnDef.meta?.editable) {
         return <TableEditableCell {...cell.getContext()} row={editingRow} onChange={onChange} isSaving={isSaving} />;
       }
-
-      return flexRender(cell.column.columnDef.cell, rendererProps);
     }
 
     return <TableCell cell={cell} rendererProps={rendererProps} row={row} />;

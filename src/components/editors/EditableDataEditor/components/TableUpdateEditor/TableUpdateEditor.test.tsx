@@ -1,11 +1,16 @@
-import { OrgRole, toDataFrame } from '@grafana/data';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { ColumnEditorType, EditPermissionMode } from '@/types';
-import { createColumnConfig, createColumnEditConfig, createTableConfig } from '@/utils';
+import { ColumnEditorType, PermissionMode } from '@/types';
+import {
+  createColumnConfig,
+  createColumnEditConfig,
+  createPermissionConfig,
+  createTableConfig,
+  createTableRequestConfig,
+} from '@/utils';
 
 import { TableUpdateEditor } from './TableUpdateEditor';
 
@@ -18,25 +23,25 @@ type Props = React.ComponentProps<typeof TableUpdateEditor>;
  * In Test Ids
  */
 const inTestIds = {
-  datasourceEditor: createSelector('data-testid datasource-editor'),
-  datasourcePayloadEditor: createSelector('data-testid datasource-payload-editor'),
+  requestEditor: createSelector('data-testid request-editor'),
+  permissionEditor: createSelector('data-testid permission-editor'),
 };
 
 /**
- * Mock Datasource Editor
+ * Mock Request Editor
  */
-jest.mock('@/components/editors/DatasourceEditor', () => ({
-  DatasourceEditor: ({ onChange }: any) => (
-    <input {...inTestIds.datasourceEditor.apply()} onChange={(event) => onChange(event.currentTarget.value)} />
+jest.mock('@/components/editors/RequestEditor', () => ({
+  RequestEditor: ({ onChange, value }: any) => (
+    <input {...inTestIds.requestEditor.apply()} onChange={() => onChange(value)} />
   ),
 }));
 
 /**
- * Mock Datasource Payload Editor
+ * Mock Permission Editor
  */
-jest.mock('@/components/editors/DatasourcePayloadEditor', () => ({
-  DatasourcePayloadEditor: ({ value, onChange }: any) => (
-    <input {...inTestIds.datasourcePayloadEditor.apply()} onChange={() => onChange(value)} />
+jest.mock('@/components/editors/PermissionEditor', () => ({
+  PermissionEditor: ({ onChange, value }: any) => (
+    <input {...inTestIds.permissionEditor.apply()} onChange={() => onChange(value)} />
   ),
 }));
 
@@ -82,7 +87,7 @@ describe('TableUpdateEditor', () => {
       expect(selectors.updateSectionContent()).toBeInTheDocument();
     };
 
-    it('Should allow to change datasource', () => {
+    it('Should allow to change request', () => {
       render(
         getComponent({
           value: createTableConfig({
@@ -93,57 +98,24 @@ describe('TableUpdateEditor', () => {
                 }),
               }),
             ],
-          }),
-        })
-      );
-
-      openSection();
-
-      expect(selectors.datasourceEditor()).toBeInTheDocument();
-
-      fireEvent.change(selectors.datasourceEditor(), { target: { value: 'postgres' } });
-
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          update: {
-            datasource: 'postgres',
-            payload: {},
-          },
-        })
-      );
-    });
-
-    it('Should allow to change datasource payload', () => {
-      render(
-        getComponent({
-          value: createTableConfig({
-            items: [
-              createColumnConfig({
-                edit: createColumnEditConfig({
-                  enabled: true,
-                }),
-              }),
-            ],
-            update: {
+            update: createTableRequestConfig({
               datasource: 'postgres',
-              payload: {},
-            },
+            }),
           }),
         })
       );
 
       openSection();
 
-      expect(selectors.datasourcePayloadEditor()).toBeInTheDocument();
+      expect(selectors.requestEditor()).toBeInTheDocument();
 
-      fireEvent.change(selectors.datasourcePayloadEditor(), { target: { value: '123' } });
+      fireEvent.change(selectors.requestEditor(), { target: { value: '123' } });
 
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({
-          update: {
+          update: createTableRequestConfig({
             datasource: 'postgres',
-            payload: {},
-          },
+          }),
         })
       );
     });
@@ -158,7 +130,7 @@ describe('TableUpdateEditor', () => {
       expect(selectors.columnContent(false, name)).toBeInTheDocument();
     };
 
-    it('Should allow to set edit permission mode', () => {
+    it('Should allow to update permission', () => {
       render(
         getComponent({
           value: createTableConfig({
@@ -167,6 +139,9 @@ describe('TableUpdateEditor', () => {
                 field: defaultField,
                 edit: createColumnEditConfig({
                   enabled: true,
+                  permission: createPermissionConfig({
+                    mode: PermissionMode.QUERY,
+                  }),
                 }),
               }),
             ],
@@ -176,107 +151,17 @@ describe('TableUpdateEditor', () => {
 
       openSettings(defaultName);
 
-      expect(selectors.fieldEditPermissionMode()).toBeInTheDocument();
+      expect(selectors.permissionEditor()).toBeInTheDocument();
 
-      fireEvent.change(selectors.fieldEditPermissionMode(), { target: { value: EditPermissionMode.USER_ROLE } });
-
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: [
-            expect.objectContaining({
-              edit: expect.objectContaining({
-                permission: expect.objectContaining({
-                  mode: EditPermissionMode.USER_ROLE,
-                }),
-              }),
-            }),
-          ],
-        })
-      );
-    });
-
-    it('Should allow to set permission user role', () => {
-      render(
-        getComponent({
-          value: createTableConfig({
-            items: [
-              createColumnConfig({
-                field: defaultField,
-                edit: createColumnEditConfig({
-                  enabled: true,
-                  permission: {
-                    mode: EditPermissionMode.USER_ROLE,
-                    userRole: [],
-                    field: {
-                      source: '',
-                      name: '',
-                    },
-                  },
-                }),
-              }),
-            ],
-          }),
-        })
-      );
-
-      openSettings(defaultName);
-
-      expect(selectors.fieldEditPermissionOrgRole()).toBeInTheDocument();
-
-      fireEvent.change(selectors.fieldEditPermissionOrgRole(), { target: { values: [OrgRole.Admin] } });
+      fireEvent.change(selectors.permissionEditor(), { target: { value: 'hello' } });
 
       expect(onChange).toHaveBeenCalledWith(
         expect.objectContaining({
           items: [
             expect.objectContaining({
               edit: expect.objectContaining({
-                permission: expect.objectContaining({
-                  userRole: [OrgRole.Admin],
-                }),
-              }),
-            }),
-          ],
-        })
-      );
-    });
-
-    it('Should allow to set permission field', () => {
-      render(
-        getComponent({
-          value: createTableConfig({
-            items: [
-              createColumnConfig({
-                field: defaultField,
-                edit: createColumnEditConfig({
-                  enabled: true,
-                  permission: {
-                    mode: EditPermissionMode.QUERY,
-                    userRole: [],
-                  },
-                }),
-              }),
-            ],
-          }),
-          data: [toDataFrame({ refId: 'A', fields: [{ name: 'edit', values: [true] }] })],
-        })
-      );
-
-      openSettings(defaultName);
-
-      expect(selectors.fieldEditPermissionField()).toBeInTheDocument();
-
-      fireEvent.change(selectors.fieldEditPermissionField(), { target: { value: 'A:edit' } });
-
-      expect(onChange).toHaveBeenCalledWith(
-        expect.objectContaining({
-          items: [
-            expect.objectContaining({
-              edit: expect.objectContaining({
-                permission: expect.objectContaining({
-                  field: {
-                    source: 'A',
-                    name: 'edit',
-                  },
+                permission: createPermissionConfig({
+                  mode: PermissionMode.QUERY,
                 }),
               }),
             }),
