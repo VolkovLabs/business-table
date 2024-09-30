@@ -35,7 +35,12 @@ export const getLocatorSelectors =
       const getElement = (...args: unknown[]): Locator => {
         const getValue = typeof selector === 'object' && 'selector' in selector! ? selector.selector : selector;
         const value = typeof getValue === 'function' ? getValue(...args) : getValue;
-        return locator.getByTestId(value);
+
+        if (value.startsWith('data-testid')) {
+          return locator.getByTestId(value);
+        }
+
+        return locator.getByLabel(value);
       };
 
       return {

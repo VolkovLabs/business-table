@@ -348,7 +348,7 @@ export const Table = <TData,>({
       >
         <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className={styles.headerRow}>
+            <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}

@@ -1,7 +1,6 @@
 import { test, expect } from '@grafana/plugin-e2e';
 
-import { TEST_IDS } from '../src/constants';
-import { getRowCells, getBodyRows, getHeaderCells, getLocatorSelectors } from './helpers';
+import { PanelHelper } from './utils';
 
 test.describe('Business Table Panel', () => {
   test('Check grafana version', async ({ grafanaVersion }) => {
@@ -15,12 +14,22 @@ test.describe('Business Table Panel', () => {
      * return dashboardPage
      */
     const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
-    await gotoDashboardPage({ uid: dashboard.uid });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
-    await expect(page.getByRole('heading', { name: 'Table' }).first()).toBeVisible();
+    const panel = new PanelHelper(dashboardPage, 'Table');
+
+    /**
+     * Check Panel Presence
+     */
+    await panel.checkPresence();
+
+    /**
+     * Check Table Presence
+     */
+    await panel.getTable().checkPresence();
   });
 
-  test('Should add a empty Business Table', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
+  test('Should add an empty Business Table', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
@@ -39,8 +48,8 @@ test.describe('Business Table Panel', () => {
     /**
      * Should add empty visualization without errors
      */
-    const panel = await dashboardPage.getPanelByTitle('Business Table Test');
-    await expect(panel.getErrorIcon()).not.toBeVisible();
+    const panel = new PanelHelper(dashboardPage, 'Business Table Test');
+    await panel.checkIfNoErrors();
   });
 
   test('Should render table panel correctly with data', async ({
@@ -69,49 +78,51 @@ test.describe('Business Table Panel', () => {
     await editPage.datasource.set('Grafana');
     await editPage.refreshPanel();
 
+    const panelNew = new PanelHelper(dashboardPage, 'Business Table Test');
+    const editor = panelNew.getPanelEditor(page.locator('body'), editPage);
+
     /**
      * Create new table
      */
-    await page.getByTestId(TEST_IDS.tablesEditor.newItemName.selector()).fill('Table');
-    await page.getByTestId(TEST_IDS.tablesEditor.buttonAddNew.selector()).click();
+    await editor.addTable('Table');
 
-    await page.getByRole('combobox', { name: 'New Column' }).click();
-
-    /**
-     * Options should be correct in field picker
-     */
-    await expect(editPage.getByGrafanaSelector(selectors.components.Select.option)).toHaveText([
-      'A:time',
-      'A:A-series',
-    ]);
+    const tableEditor = editor.getTableEditor('Table');
 
     /**
      * Set columns
      */
-    await editPage.getByGrafanaSelector(selectors.components.Select.option).getByText('A:time').click();
-    await page.getByTestId(TEST_IDS.columnsEditor.buttonAddNew.selector()).click();
-    await page.getByRole('combobox', { name: 'New Column' }).click();
-    await editPage.getByGrafanaSelector(selectors.components.Select.option).getByText('A:A-series').click();
-    await page.getByTestId(TEST_IDS.columnsEditor.buttonAddNew.selector()).click();
+    await tableEditor.addColumn('A:time');
+    await tableEditor.addColumn('A:A-series');
 
     /**
      * Apply changes and return to dashboard
      */
     await editPage.apply();
 
-    const panel = await dashboardPage.getPanelByTitle('Business Table Test');
+    const panel = new PanelHelper(dashboardPage, 'Business Table Test');
 
-    const getLocators = getLocatorSelectors(TEST_IDS.table);
-    const locators = getLocators(panel.locator);
+    /**
+     * Check Presence
+     */
+    await panel.checkPresence();
+    await panel.checkIfNoErrors();
 
-    await expect(page.getByRole('heading', { name: 'Table' }).first()).toBeVisible();
-    await expect(panel.getErrorIcon()).not.toBeVisible();
+    /**
+     * Check Table
+     */
+    const table = panel.getTable();
+    await table.checkPresence();
 
-    await expect(locators.headerCell('time')).toBeVisible();
-    await expect(locators.headerCell('time')).toHaveText('time');
+    /**
+     * Check Header
+     */
+    const header = table.getHeaderRow();
 
-    await expect(locators.headerCell('A-series')).toBeVisible();
-    await expect(locators.headerCell('A-series')).toHaveText('A-series');
+    await header.getHeaderCell('time').checkPresence();
+    await header.getHeaderCell('time').checkText('time');
+
+    await header.getHeaderCell('A-series').checkPresence();
+    await header.getHeaderCell('A-series').checkText('A-series');
   });
 
   test('Should toggle tables via tabs', async ({ gotoDashboardPage, page, readProvisionedDashboard }) => {
@@ -122,55 +133,37 @@ test.describe('Business Table Panel', () => {
     const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
     const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
-    const panel = await dashboardPage.getPanelByTitle('Groups');
-
-    await expect(page.getByRole('heading', { name: 'Groups' }).first()).toBeVisible();
-    await expect(panel.getErrorIcon()).not.toBeVisible();
-
-    const getLocators = getLocatorSelectors({ ...TEST_IDS.panel, ...TEST_IDS.table });
-    const locators = getLocators(panel.locator);
+    const panel = new PanelHelper(dashboardPage, 'Groups');
+    const table = panel.getTable();
 
     /**
      * Check Tabs
      */
-    await expect(locators.tab('Country')).toBeVisible();
-    await expect(locators.tab('Country')).toHaveText('Country');
-    await expect(locators.tab('Value')).toBeVisible();
-    await expect(locators.tab('Value')).toHaveText('Value');
+    await panel.checkTabPresence('Country');
+    await panel.checkTabPresence('Value');
 
     /**
      * Check Table headings for Country table
      */
-    const headerCells = await getHeaderCells(locators.root());
-    await expect(headerCells).toHaveLength(4);
-    await expect(headerCells[0]).toHaveText('Country');
-    await expect(headerCells[1]).toHaveText('City');
-    await expect(headerCells[2]).toHaveText('device');
-    await expect(headerCells[3]).toHaveText('value');
+    await table.getHeaderRow().getHeaderCell('country').checkPresence();
+    await table.getHeaderRow().getHeaderCell('city').checkPresence();
+    await table.getHeaderRow().getHeaderCell('device').checkPresence();
+    await table.getHeaderRow().getHeaderCell('value').checkPresence();
 
     /**
      * Switch to Value table
      */
-    await locators.tab('Value').click();
+    await panel.selectTab('Value');
 
     /**
-     * Check Table headings for Value table
+     * Check Table Headings for Value table
      */
-    await expect(headerCells[0]).toHaveText('device');
-    await expect(headerCells[1]).toHaveText('value');
-
-    await expect(locators.headerCell('country')).not.toBeVisible();
-    await expect(locators.headerCell('city')).not.toBeVisible();
+    await table.getHeaderRow().getHeaderCell('device').checkPresence();
+    await table.getHeaderRow().getHeaderCell('value').checkPresence();
   });
 
   test.describe('Download Button', () => {
-    test('Should add Download button', async ({
-      page,
-      gotoDashboardPage,
-      readProvisionedDashboard,
-      panelEditPage,
-      selectors,
-    }) => {
+    test('Should add Download button', async ({ page, gotoDashboardPage, readProvisionedDashboard }) => {
       /**
        * Go To Panels dashboard devices.json
        * return dashboardPage
@@ -185,21 +178,22 @@ test.describe('Business Table Panel', () => {
       await editPage.setVisualization('Business Table');
       await editPage.setPanelTitle('Business Table Test');
 
+      const panel = new PanelHelper(dashboardPage, 'Business Table Test');
+
       /**
        * Download button should not be visible
        */
-      await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).not.toBeVisible();
+      await panel.checkIfDownloadNotPresence();
+
+      /**
+       * Enabled Download
+       */
+      await panel.getPanelEditor(page.locator('body'), editPage).enableDownload();
 
       /**
        * Download button should be visible
        */
-      const showSeriesSwitch = panelEditPage
-        .getByGrafanaSelector(selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable'))
-        .getByLabel('Toggle switch');
-      await expect(showSeriesSwitch).toBeVisible();
-
-      await showSeriesSwitch.click();
-      await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).toBeVisible();
+      await panel.checkDownloadPresence();
 
       /**
        * Apply changes and return to dashboard
@@ -209,7 +203,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Download button should be visible on dashboard
        */
-      await expect(page.getByTestId(TEST_IDS.panel.buttonDownload.selector())).toBeVisible();
+      await panel.checkDownloadPresence();
     });
   });
 
@@ -226,40 +220,39 @@ test.describe('Business Table Panel', () => {
        * Get Table panel with enable sorting
        * return dashboardPage
        */
-      const panel = await dashboardPage.getPanelByTitle('Table');
-      const getLocators = getLocatorSelectors(TEST_IDS.table);
-      const locators = getLocators(panel.locator);
-      await expect(panel.locator).toBeVisible();
+      const panel = new PanelHelper(dashboardPage, 'Table');
+      await panel.checkPresence();
+
+      const table = panel.getTable();
 
       /**
        * Check table header cell with available sort
        */
-
-      await expect(locators.headerCell('id')).toBeVisible();
-      await expect(locators.headerCell('id')).toHaveText('id');
+      await table.getHeaderRow().getHeaderCell('id').checkPresence();
+      await table.getHeaderRow().getHeaderCell('id').checkIfSortable();
 
       /**
        * Check cells in first row
        */
-      const row = await getBodyRows(locators.root());
-      const cells = await getRowCells(row[0]);
-
-      await expect(cells[0]).toHaveText('1');
-      await expect(cells[1]).toHaveText('DeviceWithVeryLongTitle');
-      await expect(cells[2]).toHaveText('10');
+      await table.getRow(0).checkOrder(0);
+      await table.getRow(0).getCell('id').checkText('1');
+      await table.getRow(0).getCell('name').checkText('DeviceWithVeryLongTitle');
+      await table.getRow(0).getCell('value').checkText('10');
 
       /**
        * Sort table
        */
-
-      await locators.headerCell('id').click();
+      await table.getHeaderRow().getHeaderCell('id').toggleSort();
 
       /**
-       * Cells in first row should be after sort
+       * Check Row Order
        */
-      await expect(cells[0]).toHaveText('3');
-      await expect(cells[1]).toHaveText('Device 3');
-      await expect(cells[2]).toHaveText('20');
+      await table.getRow(0).checkOrder(2);
+
+      /**
+       * Check Sort Icon Presence
+       */
+      await table.getHeaderRow().getHeaderCell('id').checkSortDir('desc');
     });
   });
 
@@ -276,51 +269,35 @@ test.describe('Business Table Panel', () => {
        * Get Table panel with enable filtering
        * return dashboardPage
        */
-      const panel = await dashboardPage.getPanelByTitle('Table');
-
-      const getLocators = getLocatorSelectors(TEST_IDS.table);
-      const locators = getLocators(panel.locator);
+      const panel = new PanelHelper(dashboardPage, 'Table');
+      const table = panel.getTable();
 
       /**
        * Check table header cell with available filtering
        */
-      await expect(locators.headerCell('name')).toBeVisible();
+      await table.getHeaderRow().getHeaderCell('name').checkPresence();
+      await table.getHeaderRow().getHeaderCell('name').checkIfFilterable();
 
       /**
        * Should be 3 rows in table body
        */
-      const rows = await getBodyRows(locators.root());
-      await expect(rows).toHaveLength(3);
+      await table.checkBodyRowsCount(3);
 
       /**
-       * Should open filter modal popup
+       * Apply Filter
        */
-
-      const searchButton = await locators
-        .headerCell('name')
-        .getByTestId(TEST_IDS.tableHeaderCellFilter.root.selector());
-
-      await searchButton.click();
-      await expect(page.getByTestId(TEST_IDS.filterPopup.root.selector())).toBeVisible();
-      await expect(page.getByTestId(TEST_IDS.filterSearch.root.selector())).toBeVisible();
-      await expect(page.getByTestId(TEST_IDS.filterPopup.buttonSave.selector())).toBeVisible();
-
-      /**
-       * Apply filter
-       */
-      await page.getByTestId(TEST_IDS.filterSearch.root.selector()).fill('long');
-      await page.getByTestId(TEST_IDS.filterPopup.buttonSave.selector()).click();
+      const filter = table.getHeaderRow().getHeaderCell('name').getFilter();
+      await filter.applySearchValue('long');
 
       /**
        * Should show one filtering line
        */
-      const filteredRows = await getBodyRows(locators.root());
-      await expect(filteredRows).toHaveLength(1);
+      await table.checkBodyRowsCount(1);
     });
   });
 
   test.describe('Edit cells', () => {
-    test('Should edit table cell in row', async ({ readProvisionedDashboard, gotoDashboardPage }) => {
+    test('Should allow to change string value', async ({ readProvisionedDashboard, gotoDashboardPage }) => {
       /**
        * Go To Panels dashboard devices.json
        * return dashboardPage
@@ -329,56 +306,116 @@ test.describe('Business Table Panel', () => {
       const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
       /**
-       * Get Table panel with enable filtering
+       * Get Table panel
+       */
+      const panel = new PanelHelper(dashboardPage, 'Devices');
+
+      const table = panel.getTable();
+      const firstRow = table.getRow(0);
+
+      /**
+       * Check Row Presence
+       */
+      await firstRow.checkPresence();
+
+      /**
+       * Check If Row Editable
+       */
+      await firstRow.checkIfEditable();
+
+      /**
+       * Check Name Value Before Edit
+       */
+      await firstRow.getCell('name').checkPresence();
+      await firstRow.getCell('name').checkText('Chicago North 125');
+
+      /**
+       * Start Edit
+       */
+      await firstRow.startEdit();
+
+      /**
+       * Change Value
+       */
+      await firstRow.getCell('name').checkIfEditable();
+      await firstRow.getCell('name').changeValue('Chicago North 125-test');
+
+      /**
+       * Save Edit
+       */
+      await firstRow.saveEdit();
+
+      /**
+       * Check Name Value After Edit
+       */
+      await firstRow.getCell('name').checkText('Chicago North 125-test');
+
+      /**
+       * Revert Changes
+       */
+      await firstRow.startEdit();
+      await firstRow.getCell('name').changeValue('Chicago North 125');
+      await firstRow.saveEdit();
+      await firstRow.getCell('name').checkText('Chicago North 125');
+    });
+
+    test('Should not save changes if cancel edit', async ({ readProvisionedDashboard, gotoDashboardPage }) => {
+      /**
+       * Go To Panels dashboard devices.json
        * return dashboardPage
        */
-      const panel = await dashboardPage.getPanelByTitle('Devices');
-
-      const getLocators = getLocatorSelectors(TEST_IDS.table);
-      const locators = getLocators(panel.locator);
-
-      const rows = await getBodyRows(locators.root());
-      const cells = await getRowCells(rows[0]);
-
-      const startEditButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonStartEdit.selector());
-      const saveButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonSave.selector());
-      const cancelButton = cells[cells.length - 1].getByTestId(TEST_IDS.tableActionsCell.buttonCancel.selector());
-
-      await expect(cells).toHaveLength(8);
-      await expect(startEditButton).toBeVisible();
-      await expect(saveButton).not.toBeVisible();
-      await expect(cancelButton).not.toBeVisible();
+      const dashboard = await readProvisionedDashboard({ fileName: 'devices.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
       /**
-       * Check cell before edit
+       * Get Table panel
        */
-      await expect(cells[cells.length - 2]).toHaveText('Chicago North 125');
+      const panel = new PanelHelper(dashboardPage, 'Devices');
+
+      const table = panel.getTable();
+      const firstRow = table.getRow(0);
 
       /**
-       * Should display editor elements
+       * Check Row Presence
        */
-      await startEditButton.click();
-
-      await expect(saveButton).toBeVisible();
-      await expect(cancelButton).toBeVisible();
-
-      await rows[0].getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125-test');
-      await saveButton.click();
+      await firstRow.checkPresence();
 
       /**
-       * Check cell after edit
+       * Check If Row Editable
        */
-      await expect(cells[cells.length - 2]).toHaveText('Chicago North 125-test');
-      await expect(cells[cells.length - 2]).not.toHaveText('Chicago North 125');
+      await firstRow.checkIfEditable();
 
-      await startEditButton.click();
-      await rows[0].getByTestId(TEST_IDS.editableCell.fieldString.selector()).fill('Chicago North 125');
-      await saveButton.click();
+      /**
+       * Check Name Value Before Edit
+       */
+      await firstRow.getCell('name').checkPresence();
+      await firstRow.getCell('name').checkText('Chicago North 125');
+
+      /**
+       * Start Edit
+       */
+      await firstRow.startEdit();
+
+      /**
+       * Change Value
+       */
+      await firstRow.getCell('name').checkIfEditable();
+      await firstRow.getCell('name').changeValue('Chicago North 125-test');
+
+      /**
+       * Cancel Edit
+       */
+      await firstRow.cancelEdit();
+
+      /**
+       * Check New Name Value Not Saved
+       */
+      await firstRow.getCell('name').checkText('Chicago North 125');
     });
   });
 
   test.describe('Grouped rows', () => {
-    test('Expand rows in group', async ({ gotoDashboardPage, readProvisionedDashboard, page }) => {
+    test('Expand rows in group', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
       /**
        * Go To Panels dashboard panels.json
        * return dashboardPage
@@ -390,25 +427,41 @@ test.describe('Business Table Panel', () => {
        * Get Table panel with enable filtering
        * return dashboardPage
        */
-      const panel = await dashboardPage.getPanelByTitle('Groups');
-      const getLocators = getLocatorSelectors(TEST_IDS.table);
-      const locators = getLocators(panel.locator);
-      /**
-       * Should be 2 rows in body
-       */
-      const rows = await getBodyRows(locators.root());
-      await expect(rows).toHaveLength(2);
+      const panel = new PanelHelper(dashboardPage, 'Groups');
+
+      const table = panel.getTable();
+      const countryUsaRow = table.getGroupedRow('country', 'USA');
 
       /**
-       * Should be 4 rows in body after click
+       * Check Row Presence
        */
-      const expandButton = await rows[0].getByRole('button');
-      await expect(expandButton).toBeVisible();
+      await countryUsaRow.checkPresence();
 
-      await expandButton.click();
-      const expandedRows = await getBodyRows(locators.root());
+      /**
+       * Check Row Grouped
+       */
+      await countryUsaRow.checkIfGrouped();
 
-      await expect(expandedRows).toHaveLength(4);
+      /**
+       * Expand
+       */
+      await countryUsaRow.toggleExpand();
+
+      /**
+       * Check If Nested Column Expanded
+       */
+      const countryUsaNewYorkRow = table.getGroupedRow('city', 'New York', countryUsaRow.id);
+      await countryUsaNewYorkRow.checkPresence();
+
+      /**
+       * Collapse
+       */
+      await countryUsaRow.toggleExpand();
+
+      /**
+       * Check If Collapsed
+       */
+      await countryUsaNewYorkRow.checkIfNotPresence();
     });
   });
 });
