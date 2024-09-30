@@ -3,12 +3,18 @@ import { test, expect } from '@grafana/plugin-e2e';
 import { PanelHelper } from './utils';
 
 test.describe('Business Table Panel', () => {
+  /**
+   * Disable scenes for tests with panel edit
+   */
+  const sceneDisabledParams = new URLSearchParams();
+  sceneDisabledParams.set('scenes', 'false');
+
   test('Check grafana version', async ({ grafanaVersion }) => {
     console.log('Grafana version: ', grafanaVersion);
     expect(grafanaVersion).toEqual(grafanaVersion);
   });
 
-  test('Should display a Table', async ({ gotoDashboardPage, readProvisionedDashboard, page }) => {
+  test('Should display a Table', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
@@ -35,7 +41,7 @@ test.describe('Business Table Panel', () => {
      * return dashboardPage
      */
     const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
-    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
 
     /**
      * Add new visualization
@@ -56,14 +62,13 @@ test.describe('Business Table Panel', () => {
     gotoDashboardPage,
     page,
     readProvisionedDashboard,
-    selectors,
   }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
      */
     const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
-    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
 
     /**
      * Add new visualization
@@ -125,7 +130,7 @@ test.describe('Business Table Panel', () => {
     await header.getHeaderCell('A-series').checkText('A-series');
   });
 
-  test('Should toggle tables via tabs', async ({ gotoDashboardPage, page, readProvisionedDashboard }) => {
+  test('Should toggle tables via tabs', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
     /**
      * Go To Panels dashboard panels.json
      * return dashboardPage
@@ -169,7 +174,7 @@ test.describe('Business Table Panel', () => {
        * return dashboardPage
        */
       const dashboard = await readProvisionedDashboard({ fileName: 'devices.json' });
-      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
 
       /**
        * Add new visualization
@@ -257,7 +262,7 @@ test.describe('Business Table Panel', () => {
   });
 
   test.describe('Filtering', () => {
-    test('Should filter table', async ({ page, gotoDashboardPage, readProvisionedDashboard }) => {
+    test('Should filter table', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
       /**
        * Go To Panels dashboard panels.json
        * return dashboardPage
@@ -303,7 +308,10 @@ test.describe('Business Table Panel', () => {
        * return dashboardPage
        */
       const dashboard = await readProvisionedDashboard({ fileName: 'devices.json' });
-      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+      /**
+       * Disable scene due until refresh panel data issue is resolved
+       */
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
 
       /**
        * Get Table panel
@@ -365,7 +373,10 @@ test.describe('Business Table Panel', () => {
        * return dashboardPage
        */
       const dashboard = await readProvisionedDashboard({ fileName: 'devices.json' });
-      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+      /**
+       * Disable scene due until refresh panel data issue is resolved
+       */
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
 
       /**
        * Get Table panel
