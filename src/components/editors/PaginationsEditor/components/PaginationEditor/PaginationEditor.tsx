@@ -1,6 +1,6 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { Field, InlineField, InlineSwitch, Select, useStyles2 } from '@grafana/ui';
+import { Field, Select, useStyles2 } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { FieldPicker } from '@/components';
