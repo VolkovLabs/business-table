@@ -54,6 +54,7 @@ export const TEST_IDS = {
     buttonCancelRename: createSelector('data-testid tables-editor button-cancel-rename'),
     buttonSaveRename: createSelector('data-testid tables-editor button-save-rename'),
     fieldName: createSelector('data-testid tables-editor field-name'),
+    item: createSelector((name: unknown) => `data-testid tables-editor item-${name}`),
     itemHeader: createSelector((name: unknown) => `data-testid tables-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid tables-editor item-content-${name}`),
     newItem: createSelector('data-testid tables-editor new-level'),
@@ -104,6 +105,7 @@ export const TEST_IDS = {
   },
   table: {
     root: createSelector('data-testid table'),
+    headerRow: createSelector((name: unknown) => `data-testid table header-row-${name}`),
     headerCell: createSelector((name: unknown) => `data-testid table header-cell-${name}`),
     footerCell: createSelector((name: unknown) => `data-testid table footer-cell-${name}`),
     bodyRow: createSelector((name: unknown) => `data-testid table body-row-${name}`),

@@ -224,7 +224,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
       </DragDropContext>
 
       <InlineFieldRow {...TEST_IDS.columnsEditor.newItem.apply()}>
-        <InlineField label="New Column" grow={true}>
+        <InlineField htmlFor="config-new-column" label="New Column" grow={true}>
           <FieldPicker
             value={newItem ? newItem : undefined}
             onChange={(field) => {

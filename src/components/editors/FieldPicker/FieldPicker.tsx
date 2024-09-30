@@ -110,6 +110,7 @@ export const FieldPicker: React.FC<Props> = ({
 
   return (
     <Select
+      inputId="config-new-column"
       options={availableFieldOptions}
       value={selectValue}
       onChange={(event) => {
