@@ -18,9 +18,75 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
   "links": [],
   "panels": [
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "thresholdsStyle": {
+              "mode": "color",
+              "thresholds": []
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 15,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "alwaysVisibleFilter": false,
+        "autoScroll": false,
+        "collapsedByDefault": false,
+        "customValue": false,
+        "displayMode": "button",
+        "emptyValue": false,
+        "favorites": {
+          "enabled": false,
+          "storage": "browser"
+        },
+        "filter": false,
+        "groupSelection": false,
+        "header": true,
+        "padding": 10,
+        "persistent": false,
+        "saveSelectedGroup": false,
+        "saveSelectedGroupKey": "",
+        "showGroupTotal": false,
+        "showLabel": false,
+        "showName": false,
+        "showResetButton": false,
+        "showTotal": false,
+        "statusSort": false,
+        "sticky": false,
+        "tabsInOrder": true,
+        "variable": "status"
+      },
+      "pluginVersion": "3.4.0",
+      "type": "volkovlabs-variable-panel"
+    },
     {
       "datasource": {
         "type": "marcusolsson-static-datasource",
@@ -65,7 +131,7 @@
         "h": 9,
         "w": 15,
         "x": 0,
-        "y": 0
+        "y": 2
       },
       "id": 1,
       "options": {
@@ -273,7 +339,7 @@
           "export": false
         }
       },
-      "pluginVersion": "1.3.0",
+      "pluginVersion": "1.4.0",
       "targets": [
         {
           "datasource": {
@@ -352,7 +418,7 @@
         "h": 8,
         "w": 15,
         "x": 0,
-        "y": 9
+        "y": 11
       },
       "id": 2,
       "options": {
@@ -472,7 +538,7 @@
           "export": false
         }
       },
-      "pluginVersion": "1.3.0",
+      "pluginVersion": "1.4.0",
       "targets": [
         {
           "datasource": {
@@ -556,7 +622,7 @@
       },
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": ["All"],
           "value": ["$__all"]
         },

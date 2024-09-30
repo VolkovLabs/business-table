@@ -185,6 +185,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                         {...provided.draggableProps}
                         style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}
                         className={styles.item}
+                        {...testIds.item.apply(item.name)}
                       >
                         <Collapse
                           key={item.name}

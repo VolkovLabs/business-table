@@ -23,7 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@grafana/eslint-config": "^7.0.0",
-    "@grafana/plugin-e2e": "^1.7.1",
+    "@grafana/plugin-e2e": "^1.8.2",
     "@grafana/tsconfig": "^2.0.0",
     "@swc/core": "^1.7.23",
     "@swc/helpers": "^0.5.13",
@@ -74,6 +74,7 @@
     "lint:fix": "eslint --fix --ignore-path ./.eslintignore --ext .js,.jsx,.ts,.tsx .",
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "start": "docker compose pull grafana && docker compose --profile dev up",
+    "start:dep": "docker compose pull grafana-dep && docker compose --profile dependency up",
     "start:main": "docker compose pull grafana-main && docker compose --profile main up",
     "stop": "docker compose down",
     "test": "jest --watch --onlyChanged",

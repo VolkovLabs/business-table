@@ -27,6 +27,7 @@ const SelectMock = ({
   isLoading,
   onOpenMenu,
   onCloseMenu,
+  inputId,
   isSearchable,
   ...restProps
 }: any) => (
