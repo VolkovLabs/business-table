@@ -1,6 +1,9 @@
 import { PanelPlugin } from '@grafana/data';
 
+import { PanelOptions } from '@/types';
+
 import { plugin } from './module';
+import { createTableConfig } from './utils';
 
 /*
  Plugin
@@ -47,5 +50,40 @@ describe('plugin', () => {
      * Inputs
      */
     expect(builder.addCustomEditor).toHaveBeenCalled();
+  });
+
+  describe('Visibility', () => {
+    /**
+     * Add Input Implementation
+     * @param config
+     * @param result
+     */
+    const addInputImplementation = (config: Partial<PanelOptions>, result: string[]) => (input: any) => {
+      if (input.showIf) {
+        if (input.showIf(config)) {
+          result.push(input.path);
+        }
+      } else {
+        result.push(input.path);
+      }
+      return builder;
+    };
+
+    it('Should show pagination editor', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addCustomEditor.mockImplementation(
+        addInputImplementation(
+          {
+            tables: [createTableConfig({ name: 'group1', items: [] })],
+          },
+          shownOptionsPaths
+        )
+      );
+
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['tables', 'tables', 'tables', 'nestedObjects']));
+    });
   });
 });
