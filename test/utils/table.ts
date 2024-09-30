@@ -1,6 +1,5 @@
 import { Locator } from '@playwright/test';
 import { DashboardPage, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e';
-import { selectors } from '@grafana/e2e-selectors';
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '../../src/constants';
 import { getLocatorSelectors, LocatorSelectors } from './selectors';
 
@@ -354,7 +353,10 @@ class TableEditorHelper {
 
   public async addColumn(fieldKey: string) {
     await this.locator.getByRole('combobox', { name: 'New Column' }).click();
-    await this.editPage.getByGrafanaSelector(selectors.components.Select.option).getByText(fieldKey).click();
+    await this.editPage
+      .getByGrafanaSelector(this.editPage.ctx.selectors.components.Select.option)
+      .getByText(fieldKey)
+      .click();
     await this.columnsSelectors.buttonAddNew().click();
   }
 }
@@ -383,7 +385,9 @@ class PanelEditorHelper {
 
   public async enableDownload() {
     return this.editPage
-      .getByGrafanaSelector(selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable'))
+      .getByGrafanaSelector(
+        this.editPage.ctx.selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable')
+      )
       .getByLabel('Toggle switch')
       .click();
   }
