@@ -28,16 +28,19 @@ const displayOptions = [
     label: '',
     icon: 'sort-amount-down',
     description: 'Show First',
+    ariaLabel: testIds.option.selector(NestedObjectCardsDisplay.FIRST),
   },
   {
     value: NestedObjectCardsDisplay.NONE,
     label: 'None',
+    ariaLabel: testIds.option.selector(NestedObjectCardsDisplay.NONE),
   },
   {
     value: NestedObjectCardsDisplay.LAST,
     label: '',
     icon: 'sort-amount-up',
     description: 'Show Latest',
+    ariaLabel: testIds.option.selector(NestedObjectCardsDisplay.LAST),
   },
 ];
 
@@ -115,7 +118,7 @@ export const NestedObjectCardsEditor: React.FC<Props> = ({ value, onChange }) =>
         </Card>
       </FieldsGroup>
       <FieldsGroup label="View">
-        <InlineField label="Display In Table" grow={true}>
+        <InlineField label="Display In Table" grow={true} {...testIds.fieldDisplay.apply()}>
           <RadioButtonGroup
             options={displayOptions}
             value={value.display}
@@ -140,6 +143,7 @@ export const NestedObjectCardsEditor: React.FC<Props> = ({ value, onChange }) =>
                   displayCount: displayCount || null,
                 });
               }}
+              {...testIds.fieldDisplayCount.apply()}
             />
           </InlineField>
         )}
