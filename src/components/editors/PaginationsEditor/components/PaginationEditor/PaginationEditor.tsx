@@ -1,14 +1,12 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { Field, Select, useStyles2 } from '@grafana/ui';
+import { Field, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { FieldPicker } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { PaginationMode, TableConfig } from '@/types';
+import { EditorProps, PaginationMode, TableConfig } from '@/types';
 import { cleanPayloadObject } from '@/utils';
-
-import { getStyles } from './PaginationEditor.styles';
 
 /**
  * Pagination Mode Options
@@ -25,26 +23,9 @@ const paginationModeOptions = [
 ];
 
 /**
- * Value
- */
-type Value = TableConfig;
-
-/**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {Value}
-   */
-  value: Value;
-
-  /**
-   * Change
-   */
-  onChange: (value: Value) => void;
-
+interface Props extends EditorProps<TableConfig> {
   /**
    * Data
    *
@@ -62,11 +43,6 @@ const testIds = TEST_IDS.paginationEditor;
  * Pagination Editor
  */
 export const PaginationEditor: React.FC<Props> = ({ value, onChange, data }) => {
-  /**
-   * Styles
-   */
-  const styles = useStyles2(getStyles);
-
   /**
    * Variable Options
    */
@@ -88,24 +64,22 @@ export const PaginationEditor: React.FC<Props> = ({ value, onChange, data }) => 
   return (
     <>
       {value.pagination.enabled && (
-        <div className={styles.paginationSection}>
-          <Field label="Mode">
-            <Select
-              value={value.pagination.mode}
-              onChange={(event) => {
-                onChange({
-                  ...value,
-                  pagination: {
-                    ...value.pagination,
-                    mode: event.value!,
-                  },
-                });
-              }}
-              options={paginationModeOptions}
-              {...testIds.fieldPaginationMode.apply()}
-            />
-          </Field>
-        </div>
+        <Field label="Mode">
+          <Select
+            value={value.pagination.mode}
+            onChange={(event) => {
+              onChange({
+                ...value,
+                pagination: {
+                  ...value.pagination,
+                  mode: event.value!,
+                },
+              });
+            }}
+            options={paginationModeOptions}
+            {...testIds.fieldPaginationMode.apply()}
+          />
+        </Field>
       )}
       {value.pagination.enabled && value.pagination.mode === PaginationMode.QUERY && (
         <>
