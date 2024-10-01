@@ -35,6 +35,39 @@ test.describe('Business Table Panel', () => {
     await panel.getTable().checkPresence();
   });
 
+  test('Should display data for columns with dots', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
+    /**
+     * Go To Panels dashboard panels.json
+     * return dashboardPage
+     */
+    const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+
+    const panel = new PanelHelper(dashboardPage, 'Table');
+    const table = panel.getTable();
+
+    /**
+     * Check Panel Presence
+     */
+    await panel.checkPresence();
+
+    /**
+     * Check Column Header With Dots
+     */
+    await table.getHeaderRow().getHeaderCell('comment.info.name').checkPresence();
+    await table.getHeaderRow().getHeaderCell('comment.info.name').checkText('comment.info.name');
+
+    /**
+     * Check Column Row With Dots
+     */
+    await table.getRow(0).getCell('comment.info.name').checkPresence();
+    await table.getRow(0).getCell('comment.info.name').checkText('Some comment');
+    await table.getRow(1).getCell('comment.info.name').checkPresence();
+    await table.getRow(1).getCell('comment.info.name').checkText('Some notes');
+    await table.getRow(2).getCell('comment.info.name').checkPresence();
+    await table.getRow(2).getCell('comment.info.name').checkText('');
+  });
+
   test('Should add an empty Business Table', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
     /**
      * Go To Panels dashboard panels.json

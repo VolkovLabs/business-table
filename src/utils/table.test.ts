@@ -13,6 +13,7 @@ import {
 import {
   columnFilter,
   convertTableToDataFrame,
+  createColumnAccessorFn,
   getFilterWithNewType,
   getFooterCell,
   getSupportedFilterTypesForVariable,
@@ -900,14 +901,14 @@ describe('Table utils', () => {
       const columns: Array<ColumnDef<(typeof data)[0]>> = [
         {
           id: 'name',
-          accessorKey: 'name',
+          accessorFn: createColumnAccessorFn('name'),
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
         },
         {
           id: 'value',
-          accessorKey: 'value',
+          accessorFn: createColumnAccessorFn('value'),
           meta: createColumnMeta({
             field: frame.fields[1],
           }),
@@ -949,14 +950,14 @@ describe('Table utils', () => {
       const columns: Array<ColumnDef<(typeof data)[0]>> = [
         {
           id: 'name',
-          accessorKey: 'name',
+          accessorFn: createColumnAccessorFn('name'),
           meta: createColumnMeta({
             field: null as never,
           }),
         },
         {
           id: 'value',
-          accessorKey: 'value',
+          accessorFn: createColumnAccessorFn('value'),
           meta: createColumnMeta({
             field: frame.fields[1],
           }),
@@ -1000,14 +1001,14 @@ describe('Table utils', () => {
       const columns: Array<ColumnDef<(typeof data)[0]>> = [
         {
           id: 'name',
-          accessorKey: 'name',
+          accessorFn: createColumnAccessorFn('name'),
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
         },
         {
           id: 'value',
-          accessorKey: 'value',
+          accessorFn: createColumnAccessorFn('value'),
           meta: createColumnMeta({
             field: frame.fields[1],
             config: createColumnConfig({
@@ -1053,14 +1054,14 @@ describe('Table utils', () => {
       const columns: Array<ColumnDef<(typeof data)[0]>> = [
         {
           id: 'name',
-          accessorKey: 'name',
+          accessorFn: createColumnAccessorFn('name'),
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
         },
         {
           id: 'value',
-          accessorKey: 'value',
+          accessorFn: createColumnAccessorFn('value'),
           meta: createColumnMeta({
             availableFilterTypes: [ColumnFilterType.NUMBER],
             filterMode: ColumnFilterMode.CLIENT,
@@ -1107,14 +1108,14 @@ describe('Table utils', () => {
       const columns: Array<ColumnDef<(typeof data)[0]>> = [
         {
           id: 'name',
-          accessorKey: 'name',
+          accessorFn: createColumnAccessorFn('name'),
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
         },
         {
           id: 'value',
-          accessorKey: 'value',
+          accessorFn: createColumnAccessorFn('value'),
           meta: createColumnMeta({
             field: frame.fields[1],
           }),
@@ -1157,14 +1158,14 @@ describe('Table utils', () => {
       const columns: Array<ColumnDef<(typeof data)[0]>> = [
         {
           id: 'name',
-          accessorKey: 'name',
+          accessorFn: createColumnAccessorFn('name'),
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
         },
         {
           id: 'value',
-          accessorKey: 'value',
+          accessorFn: createColumnAccessorFn('value'),
           meta: createColumnMeta({
             config: createColumnConfig({
               footer: ['sum'],
@@ -1205,6 +1206,13 @@ describe('Table utils', () => {
         ...valueField,
         values: [...valueField.values, 30],
       });
+    });
+  });
+
+  describe('createColumnAccessorFn', () => {
+    it('Should take data by key', () => {
+      expect(createColumnAccessorFn('name')({ name: 'device1' })).toEqual('device1');
+      expect(createColumnAccessorFn('comment.info.name')({ 'comment.info.name': 'hello' })).toEqual('hello');
     });
   });
 });

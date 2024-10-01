@@ -3,7 +3,13 @@ import { ColumnDef, createTable, getCoreRowModel, getFilteredRowModel } from '@t
 import { renderHook } from '@testing-library/react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
-import { createColumnMeta, createTableConfig, dataFrameToObjectArray, downloadCsv } from '@/utils';
+import {
+  createColumnAccessorFn,
+  createColumnMeta,
+  createTableConfig,
+  dataFrameToObjectArray,
+  downloadCsv,
+} from '@/utils';
 
 import { useExportData } from './useExportData';
 
@@ -64,14 +70,14 @@ describe('useExportData', () => {
     const columns: Array<ColumnDef<unknown>> = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         meta: createColumnMeta({
           field: nameField,
         }),
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
         meta: createColumnMeta({
           field: valueField,
         }),
@@ -124,21 +130,21 @@ describe('useExportData', () => {
     const columns: Array<ColumnDef<unknown>> = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         meta: createColumnMeta({
           field: nameField,
         }),
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
         meta: createColumnMeta({
           field: valueField,
         }),
       },
       {
         id: ACTIONS_COLUMN_ID,
-        accessorKey: '',
+        accessorFn: createColumnAccessorFn(''),
       },
     ];
 

@@ -36,6 +36,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
       gap: ${theme.spacing(0.5)};
       flex-wrap: wrap;
       flex: auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       &:not(:last-child) {
         border-right: 1px solid ${borderColor};

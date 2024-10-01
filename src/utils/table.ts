@@ -462,3 +462,9 @@ export const convertTableToDataFrame = <TData>(table: TableInstance<TData>): Dat
    */
   return toDataFrame({ fields });
 };
+
+/**
+ * Create Column Accessor Fn
+ */
+export const createColumnAccessorFn = (accessorKey: string) => (row: unknown) =>
+  (row as Record<string, unknown>)[accessorKey];
