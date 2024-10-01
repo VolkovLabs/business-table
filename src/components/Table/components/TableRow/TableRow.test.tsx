@@ -15,7 +15,13 @@ import React from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { CellType, ColumnEditorType } from '@/types';
-import { createColumnAppearanceConfig, createColumnConfig, createColumnMeta, createField } from '@/utils';
+import {
+  createColumnAccessorFn,
+  createColumnAppearanceConfig,
+  createColumnConfig,
+  createColumnMeta,
+  createField,
+} from '@/utils';
 
 import { TableRow } from './TableRow';
 
@@ -112,11 +118,11 @@ describe('TableRow', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
       },
     ];
 
@@ -143,12 +149,12 @@ describe('TableRow', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         enableGrouping: true,
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
       },
     ];
 
@@ -176,12 +182,12 @@ describe('TableRow', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         enablePinning: true,
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
       },
     ];
 
@@ -216,12 +222,12 @@ describe('TableRow', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         enableGrouping: true,
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
       },
     ];
 
@@ -248,11 +254,11 @@ describe('TableRow', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
         meta: createColumnMeta({
           config: createColumnConfig({
             type: CellType.COLORED_BACKGROUND,
@@ -304,11 +310,11 @@ describe('TableRow', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
         meta: createColumnMeta({
           config: createColumnConfig({
             type: CellType.COLORED_BACKGROUND,
@@ -364,7 +370,7 @@ describe('TableRow', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         meta: createColumnMeta({
           editable: true,
           editor: {
@@ -374,7 +380,7 @@ describe('TableRow', () => {
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
       },
     ];
 

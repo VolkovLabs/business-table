@@ -8,6 +8,7 @@ import {
   toDataFrame,
   TypedVariableModel,
 } from '@grafana/data';
+import { ColumnDef } from '@tanstack/react-table';
 
 import {
   CellAggregation,
@@ -327,3 +328,14 @@ export const createNestedObjectOperationOptions = (
   request: createTableRequestConfig({}),
   ...item,
 });
+
+/**
+ * Get ColumnDef Value
+ */
+export const getColumnDefValue = (column: ColumnDef<unknown>, rowData: Record<string, unknown>): unknown => {
+  if ('accessorFn' in column) {
+    return column.accessorFn(rowData, 0);
+  }
+
+  return undefined;
+};

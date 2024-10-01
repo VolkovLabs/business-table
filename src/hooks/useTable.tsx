@@ -27,6 +27,7 @@ import {
 import {
   checkIfOperationEnabled,
   columnFilter,
+  createColumnAccessorFn,
   filterFieldBySource,
   getFooterCell,
   getFrameBySource,
@@ -339,7 +340,7 @@ export const useTable = ({
 
       columns.push({
         id: column.field.name,
-        accessorKey: column.field.name,
+        accessorFn: createColumnAccessorFn(column.field.name),
         header,
         cell: CellRenderer,
         aggregatedCell: AggregatedCellRenderer,

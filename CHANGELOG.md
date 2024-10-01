@@ -7,6 +7,7 @@
 - Updated aggregated cell to support Standard Options (#79)
 - Added nested objects cell type (#80)
 - Updated e2e tests (#81)
+- Moved pagination options to separate category (#87)
 
 ## 1.3.0 (2024-09-20)
 

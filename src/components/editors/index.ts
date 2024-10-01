@@ -4,6 +4,7 @@ export * from './EditableColumnEditor';
 export * from './EditableDataEditor';
 export * from './FieldPicker';
 export * from './NestedObjectsEditor';
+export * from './PaginationsEditor';
 export * from './PermissionEditor';
 export * from './RequestEditor';
 export * from './TablesEditor';

@@ -15,7 +15,14 @@ import React, { act } from 'react';
 import { nestedObjectEditorsRegistry } from '@/components';
 import { TEST_IDS } from '@/constants';
 import { CellType, NestedObjectType } from '@/types';
-import { createColumnConfig, createColumnMeta, createDataLink, createField, createNestedObjectConfig } from '@/utils';
+import {
+  createColumnAccessorFn,
+  createColumnConfig,
+  createColumnMeta,
+  createDataLink,
+  createField,
+  createNestedObjectConfig,
+} from '@/utils';
 
 import { TableCell } from './TableCell';
 
@@ -137,7 +144,7 @@ describe('TableCell', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         meta: createColumnMeta({
           field: createField({
             getLinks: () => [
@@ -152,7 +159,7 @@ describe('TableCell', () => {
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
       },
     ];
 
@@ -178,7 +185,7 @@ describe('TableCell', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         meta: createColumnMeta({
           field: createField({
             getLinks: () => [
@@ -193,7 +200,7 @@ describe('TableCell', () => {
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
       },
     ];
 
@@ -226,7 +233,7 @@ describe('TableCell', () => {
     const columns = [
       {
         id: 'name',
-        accessorKey: 'name',
+        accessorFn: createColumnAccessorFn('name'),
         meta: createColumnMeta({
           field: createField({
             getLinks: () => [
@@ -246,7 +253,7 @@ describe('TableCell', () => {
       },
       {
         id: 'value',
-        accessorKey: 'value',
+        accessorFn: createColumnAccessorFn('value'),
       },
     ];
 
@@ -293,7 +300,7 @@ describe('TableCell', () => {
     const columns = [
       {
         id: 'comments',
-        accessorKey: 'comments',
+        accessorFn: createColumnAccessorFn('comments'),
         meta: createColumnMeta({
           config: createColumnConfig({
             type: CellType.NESTED_OBJECTS,
