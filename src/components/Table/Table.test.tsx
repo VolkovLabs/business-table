@@ -6,7 +6,7 @@ import React, { useRef } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 import { ColumnPinDirection, Pagination } from '@/types';
-import { createColumnConfig, createColumnMeta } from '@/utils';
+import { createColumnAccessorFn, createColumnConfig, createColumnMeta } from '@/utils';
 
 import { Table } from './Table';
 
@@ -93,7 +93,11 @@ describe('Table', () => {
           columns: [
             {
               id: 'device',
-              accessorKey: 'device',
+              accessorFn: createColumnAccessorFn('device'),
+            },
+            {
+              id: 'comment.info.name',
+              accessorFn: createColumnAccessorFn('comment.info.name'),
             },
             {
               id: ACTIONS_COLUMN_ID,
@@ -102,9 +106,11 @@ describe('Table', () => {
           data: [
             {
               device: 'device1',
+              'comment.info.name': 'comment1',
             },
             {
               device: 'device2',
+              'comment.info.name': 'comment2',
             },
           ],
         })
@@ -114,8 +120,16 @@ describe('Table', () => {
     expect(selectors.root());
     expect(selectors.headerCell(false, 'device')).toBeInTheDocument();
     expect(selectors.headerCell(false, ACTIONS_COLUMN_ID)).toBeInTheDocument();
+
     expect(selectors.bodyCell(false, '0_device')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, '0_device')).toHaveTextContent('device1');
+    expect(selectors.bodyCell(false, '0_comment.info.name')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, '0_comment.info.name')).toHaveTextContent('comment1');
+
     expect(selectors.bodyCell(false, '1_device')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, '1_device')).toHaveTextContent('device2');
+    expect(selectors.bodyCell(false, '1_comment.info.name')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, '1_comment.info.name')).toHaveTextContent('comment2');
   });
 
   it('Should allow to expand grouped cell', async () => {
@@ -125,12 +139,12 @@ describe('Table', () => {
           columns: [
             {
               id: 'device',
-              accessorKey: 'device',
+              accessorFn: createColumnAccessorFn('device'),
               enableGrouping: true,
             },
             {
               id: 'value',
-              accessorKey: 'value',
+              accessorFn: createColumnAccessorFn('value'),
               aggregationFn: () => null,
             },
           ],
@@ -170,11 +184,11 @@ describe('Table', () => {
           columns: [
             {
               id: 'device',
-              accessorKey: 'device',
+              accessorFn: createColumnAccessorFn('device'),
             },
             {
               id: 'value',
-              accessorKey: 'value',
+              accessorFn: createColumnAccessorFn('value'),
               meta: createColumnMeta({
                 footerEnabled: true,
               }),
@@ -207,12 +221,12 @@ describe('Table', () => {
           columns: [
             {
               id: 'device',
-              accessorKey: 'device',
+              accessorFn: createColumnAccessorFn('device'),
               enablePinning: false,
             },
             {
               id: 'value',
-              accessorKey: 'value',
+              accessorFn: createColumnAccessorFn('value'),
               enablePinning: true,
               meta: createColumnMeta({
                 config: createColumnConfig({
@@ -224,7 +238,7 @@ describe('Table', () => {
             },
             {
               id: 'value2',
-              accessorKey: 'value2',
+              accessorFn: createColumnAccessorFn('value2'),
               enablePinning: true,
               meta: createColumnMeta({
                 config: createColumnConfig({

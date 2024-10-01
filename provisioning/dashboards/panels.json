@@ -24,7 +24,6 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -63,6 +62,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
+        "nestedObjects": [],
         "tables": [
           {
             "items": [
@@ -194,7 +194,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
                 "group": false,
                 "label": "",
                 "pin": "",
@@ -258,9 +260,9 @@
                     "applyToRow": false
                   },
                   "width": {
-                    "auto": true,
+                    "auto": false,
                     "min": 100,
-                    "value": 100
+                    "value": 150
                   },
                   "wrap": true
                 },
@@ -275,7 +277,7 @@
                   }
                 },
                 "field": {
-                  "name": "comment",
+                  "name": "comment.info.name",
                   "source": "A"
                 },
                 "filter": {
@@ -286,7 +288,8 @@
                 "footer": [],
                 "group": false,
                 "label": "",
-                "pin": "",
+                "objectId": "",
+                "pin": "right",
                 "sort": {
                   "descFirst": false,
                   "enabled": false
@@ -310,7 +313,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -323,31 +325,51 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3]
+                "values": [
+                  1,
+                  2,
+                  3
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20]
+                "values": [
+                  10,
+                  15,
+                  20
+                ]
               },
               {
                 "config": {},
                 "name": "json",
                 "type": "string",
-                "values": ["{ \"name\": \"Device1\" }", "{ \"name\": \"Device2\" }", "{ \"name\": \"Device3\" }"]
+                "values": [
+                  "{ \"name\": \"Device1\" }",
+                  "{ \"name\": \"Device2\" }",
+                  "{ \"name\": \"Device3\" }"
+                ]
               },
               {
                 "config": {},
-                "name": "comment",
+                "name": "comment.info.name",
                 "type": "string",
-                "values": ["", "", ""]
+                "values": [
+                  "Some comment",
+                  "Some notes",
+                  ""
+                ]
               }
             ],
             "meta": {},
@@ -389,8 +411,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -413,6 +434,7 @@
       },
       "id": 10,
       "options": {
+        "nestedObjects": [],
         "tables": [
           {
             "items": [
@@ -541,7 +563,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["distinctCount"],
+                "footer": [
+                  "distinctCount"
+                ],
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -585,7 +609,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["sum"],
+                "footer": [
+                  "sum"
+                ],
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -713,7 +739,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -726,13 +751,33 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -754,7 +799,17 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
               }
             ],
             "meta": {}
@@ -793,8 +848,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -818,6 +872,7 @@
       },
       "id": 11,
       "options": {
+        "nestedObjects": [],
         "tables": [
           {
             "items": [
@@ -946,7 +1001,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["distinctCount"],
+                "footer": [
+                  "distinctCount"
+                ],
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -990,7 +1047,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["sum"],
+                "footer": [
+                  "sum"
+                ],
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -1118,7 +1177,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -1131,13 +1189,33 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -1159,7 +1237,17 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
               }
             ],
             "meta": {}
@@ -1195,8 +1283,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1302,7 +1389,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["count"],
+                "footer": [
+                  "count"
+                ],
                 "group": false,
                 "label": "",
                 "pin": "",
@@ -1329,7 +1418,6 @@
           "export": false
         }
       },
-      "pluginVersion": "1.3.0",
       "targets": [
         {
           "datasource": {
@@ -1392,6 +1480,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 11,
+  "version": 2,
   "weekStart": ""
 }

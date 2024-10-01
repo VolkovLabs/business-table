@@ -24,6 +24,7 @@ import {
   createTableRequestConfig,
   createVariable,
   FooterContext,
+  getColumnDefValue,
 } from '@/utils';
 
 import { useNestedObjects } from './useNestedObjects';
@@ -78,6 +79,10 @@ describe('useTable', () => {
       {
         name: 'comments',
         values: [[1, 2], [3]],
+      },
+      {
+        name: 'nested.value',
+        values: ['nested1', 'nested2'],
       },
     ],
   });
@@ -250,13 +255,19 @@ describe('useTable', () => {
       group: false,
       aggregation: CellAggregation.NONE,
     });
+    const nestedColumn = createColumnConfig({
+      field: {
+        source: refId,
+        name: 'nested.value',
+      },
+    });
 
     const { result } = renderHook(() =>
       useTable({
         data: {
           series: [frame],
         } as any,
-        columns: [deviceColumn, valueColumn],
+        columns: [deviceColumn, valueColumn, nestedColumn],
         objects: [],
         replaceVariables,
       })
@@ -265,7 +276,6 @@ describe('useTable', () => {
     expect(result.current.columns).toEqual([
       expect.objectContaining({
         id: deviceColumn.field.name,
-        accessorKey: deviceColumn.field.name,
         header: deviceColumn.label,
         cell: expect.any(Function),
         enableGrouping: deviceColumn.group,
@@ -273,13 +283,26 @@ describe('useTable', () => {
       }),
       expect.objectContaining({
         id: valueColumn.field.name,
-        accessorKey: valueColumn.field.name,
         header: frame.fields[1].name,
         cell: expect.any(Function),
         enableGrouping: valueColumn.group,
         aggregationFn: expect.any(Function),
       }),
+      expect.objectContaining({
+        id: nestedColumn.field.name,
+        header: 'nested.value',
+        cell: expect.any(Function),
+        enableGrouping: valueColumn.group,
+        aggregationFn: expect.any(Function),
+      }),
     ]);
+
+    /**
+     * Check accessorFn returns column data
+     */
+    expect(getColumnDefValue(result.current.columns[0], result.current.tableData[0])).toEqual('device1');
+    expect(getColumnDefValue(result.current.columns[1], result.current.tableData[0])).toEqual(10);
+    expect(getColumnDefValue(result.current.columns[2], result.current.tableData[0])).toEqual('nested1');
 
     /**
      * Check if none aggregation returns nothing
