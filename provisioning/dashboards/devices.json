@@ -129,7 +129,7 @@
             "editor": {
               "author": "user_id",
               "body": "body",
-              "display": "first",
+              "display": "last",
               "displayCount": 2,
               "id": "id",
               "time": "created_date",
@@ -1012,6 +1012,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
