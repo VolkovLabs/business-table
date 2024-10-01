@@ -1,5 +1,5 @@
 import { dateTimeFormat, InterpolateFunction } from '@grafana/data';
-import { Button, Card, ConfirmModal, IconButton, Input } from '@grafana/ui';
+import { Button, Card, ConfirmModal, IconButton, Input, Stack } from '@grafana/ui';
 import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { useCallback, useState } from 'react';
 
@@ -118,7 +118,7 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
 
   return (
     <>
-      <Card {...testIds.root.apply()}>
+      <Card {...testIds.root.apply()} isCompact={true}>
         <Card.Heading {...testIds.root.apply()}>
           {typeof itemPayload.title !== 'undefined' && (
             <>
@@ -145,33 +145,33 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
           {typeof itemPayload.author === 'string' ? itemPayload.author : ''}
           {typeof itemPayload.author === 'number' ? itemPayload.author : ''}
         </Card.Meta>
-        {typeof itemPayload.body !== 'undefined' && (
-          <Card.Description>
-            {isEditing ? (
-              <AutosizeCodeEditor
-                value={itemPayload.body.replaceAll('\\n', '\n')}
-                onChange={(body) => {
-                  /**
-                   * itemPayload is cached here somehow so use value from callback
-                   */
-                  setLocalValue((current) => ({
-                    ...current,
-                    body: body.replaceAll('\n', '\\n'),
-                  }));
-                }}
-                language="markdown"
-                modalTitle="Body"
-                modalButtonTooltip=""
-                {...testIds.fieldBody.apply()}
-              />
-            ) : (
-              <NestedObjectCardContent text={itemPayload.body} replaceVariables={replaceVariables} />
-            )}
-          </Card.Description>
-        )}
-        <Card.SecondaryActions>
-          {isEditing ? (
+        <Card.Description>
+          {typeof itemPayload.body !== 'undefined' && (
             <>
+              {isEditing ? (
+                <AutosizeCodeEditor
+                  value={itemPayload.body.replaceAll('\\n', '\n')}
+                  onChange={(body) => {
+                    /**
+                     * itemPayload is cached here somehow so use value from callback
+                     */
+                    setLocalValue((current) => ({
+                      ...current,
+                      body: body.replaceAll('\n', '\\n'),
+                    }));
+                  }}
+                  language="markdown"
+                  modalTitle="Body"
+                  modalButtonTooltip=""
+                  {...testIds.fieldBody.apply()}
+                />
+              ) : (
+                <NestedObjectCardContent text={itemPayload.body} replaceVariables={replaceVariables} />
+              )}
+            </>
+          )}
+          {isEditing ? (
+            <Stack gap={1}>
               <Button
                 variant="secondary"
                 onClick={() => {
@@ -187,9 +187,9 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
               <Button variant="primary" onClick={onSaveEdit} disabled={isLoading} {...testIds.buttonSaveEdit.apply()}>
                 Save
               </Button>
-            </>
+            </Stack>
           ) : (
-            <>
+            <Stack gap={0.5}>
               {isEditEnabled && (
                 <IconButton name="pen" aria-label="Edit" onClick={onStartEdit} {...testIds.buttonStartEdit.apply()} />
               )}
@@ -201,9 +201,9 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
                   {...testIds.buttonStartDelete.apply()}
                 />
               )}
-            </>
+            </Stack>
           )}
-        </Card.SecondaryActions>
+        </Card.Description>
       </Card>
       {isDeleting && (
         <ConfirmModal

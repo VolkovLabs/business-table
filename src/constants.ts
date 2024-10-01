@@ -267,6 +267,7 @@ export const TEST_IDS = {
     buttonShowItems: createSelector('data-testid nested-object-cards-control button-show-items'),
     noItemsMessage: createSelector('data-testid nested-object-cards-control no-items-message'),
     buttonCloseDrawer: createSelector(selectors.components.Drawer.General.close),
+    list: createSelector('data-testid nested-object-cards-control list'),
   },
   nestedObjectsEditor: {
     buttonAddNew: createSelector('data-testid nested-objects-editor button-add-new'),
