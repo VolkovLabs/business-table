@@ -187,20 +187,6 @@ export const TEST_IDS = {
   tableEditor: {
     updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-editor update-section-content'),
-    paginationSectionHeader: createSelector('data-testid table-editor pagination-section-header'),
-    paginationSectionContent: createSelector('data-testid table-editor pagination-section-content'),
-    fieldPaginationEnabled: createSelector('data-testid table-editor field-pagination-enabled'),
-    fieldPaginationMode: createSelector('data-testid table-editor field-pagination-mode'),
-    fieldPaginationQueryPageIndexVariable: createSelector(
-      'data-testid table-editor field-pagination-query-page-index-variable'
-    ),
-    fieldPaginationQueryPageSizeVariable: createSelector(
-      'data-testid table-editor field-pagination-query-page-size-variable'
-    ),
-    fieldPaginationQueryOffsetVariable: createSelector(
-      'data-testid table-editor field-pagination-query-offset-variable'
-    ),
-    fieldPaginationQueryTotalCount: createSelector('data-testid table-editor field-pagination-query-total-count'),
   },
   fieldPicker: {
     root: createSelector('data-testid field-picker'),
@@ -289,6 +275,26 @@ export const TEST_IDS = {
     fieldMode: createSelector('data-testid permission-editor field-mode'),
     fieldOrgRole: createSelector('data-testid permission-editor field-org-role'),
     fieldPicker: createSelector('data-testid permission-editor field-picker'),
+  },
+  paginationsEditor: {
+    itemHeader: createSelector((name: unknown) => `data-testid editable-data-editor item-header-${name}`),
+    itemContent: createSelector((name: unknown) => `data-testid editable-data-editor item-content-${name}`),
+    fieldPaginationEnabled: createSelector(
+      (name: unknown) => `data-testid table-editor field-pagination-enabled-${name}`
+    ),
+  },
+  paginationEditor: {
+    fieldPaginationMode: createSelector('data-testid table-editor field-pagination-mode'),
+    fieldPaginationQueryPageIndexVariable: createSelector(
+      'data-testid table-editor field-pagination-query-page-index-variable'
+    ),
+    fieldPaginationQueryPageSizeVariable: createSelector(
+      'data-testid table-editor field-pagination-query-page-size-variable'
+    ),
+    fieldPaginationQueryOffsetVariable: createSelector(
+      'data-testid table-editor field-pagination-query-offset-variable'
+    ),
+    fieldPaginationQueryTotalCount: createSelector('data-testid table-editor field-pagination-query-total-count'),
   },
 };
 
