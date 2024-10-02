@@ -99,6 +99,7 @@ export const createColumnSortConfig = (item: Partial<ColumnSortConfig>): ColumnS
  * Create Column Config
  */
 export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConfig => ({
+  enabled: true,
   field: {
     name: 'field',
     source: 'A',

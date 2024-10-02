@@ -48,6 +48,11 @@ interface Props extends EditorProps<ColumnConfig[]> {
 }
 
 /**
+ * Test Ids
+ */
+const testIds = TEST_IDS.columnsEditor;
+
+/**
  * Columns Editor
  */
 export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, data }) => {
@@ -98,6 +103,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
       onChangeItems([
         ...items,
         {
+          enabled: true,
           field: {
             name: newItem.name,
             source: newItem.source,
@@ -141,7 +147,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
   }, [items]);
 
   return (
-    <div {...TEST_IDS.columnsEditor.root.apply()}>
+    <div {...testIds.root.apply()}>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId={name}>
           {(provided) => (
@@ -156,8 +162,8 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
                       className={styles.item}
                     >
                       <Collapse
-                        headerTestId={TEST_IDS.columnsEditor.itemHeader.selector(getFieldKey(item.field))}
-                        contentTestId={TEST_IDS.columnsEditor.itemContent.selector(getFieldKey(item.field))}
+                        headerTestId={testIds.itemHeader.selector(getFieldKey(item.field))}
+                        contentTestId={testIds.itemContent.selector(getFieldKey(item.field))}
                         fill="solid"
                         title={
                           <CollapseTitle>
@@ -173,6 +179,24 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
                         actions={
                           <>
                             <IconButton
+                              name={item.enabled ? 'eye' : 'eye-slash'}
+                              aria-label={item.enabled ? 'Hide' : 'Show'}
+                              onClick={() => {
+                                onChangeItems(
+                                  items.map((column) =>
+                                    getFieldKey(column.field) === getFieldKey(item.field)
+                                      ? {
+                                          ...item,
+                                          enabled: !item.enabled,
+                                        }
+                                      : column
+                                  )
+                                );
+                              }}
+                              tooltip={item.enabled ? 'Hide' : 'Show'}
+                              {...testIds.buttonToggleVisibility.apply()}
+                            />
+                            <IconButton
                               name="trash-alt"
                               onClick={() =>
                                 onChangeItems(
@@ -180,7 +204,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
                                 )
                               }
                               aria-label="Remove"
-                              {...TEST_IDS.columnsEditor.buttonRemove.apply()}
+                              {...testIds.buttonRemove.apply()}
                             />
                             <div className={styles.dragHandle} {...provided.dragHandleProps}>
                               <Icon
@@ -223,7 +247,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
         </Droppable>
       </DragDropContext>
 
-      <InlineFieldRow {...TEST_IDS.columnsEditor.newItem.apply()}>
+      <InlineFieldRow {...testIds.newItem.apply()}>
         <InlineField htmlFor="config-new-column" label="New Column" grow={true}>
           <FieldPicker
             value={newItem ? newItem : undefined}
@@ -232,7 +256,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
             }}
             data={data}
             alreadySelectedFields={alreadySelectedFields}
-            {...TEST_IDS.columnsEditor.newItemName.apply()}
+            {...testIds.newItemName.apply()}
           />
         </InlineField>
         <Button
@@ -240,7 +264,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
           title="Add Column"
           disabled={!newItem}
           onClick={onAddNewItem}
-          {...TEST_IDS.columnsEditor.buttonAddNew.apply()}
+          {...testIds.buttonAddNew.apply()}
         >
           Add
         </Button>

@@ -153,6 +153,13 @@ export enum ColumnPinDirection {
  */
 export interface ColumnConfig {
   /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
    * Field
    *
    * @type {FieldSource}

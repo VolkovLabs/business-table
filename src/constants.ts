@@ -64,6 +64,7 @@ export const TEST_IDS = {
   columnsEditor: {
     buttonAddNew: createSelector('data-testid columns-editor button-add-new'),
     buttonRemove: createSelector('data-testid columns-editor button-remove'),
+    buttonToggleVisibility: createSelector('data-testid columns-editor button-toggle-visibility'),
     itemHeader: createSelector((name: unknown) => `data-testid columns-editor item-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid columns-editor item-content-${name}`),
     newItem: createSelector('data-testid columns-editor new-item'),
