@@ -1,11 +1,12 @@
 import { StandardEditorProps } from '@grafana/data';
-import { InlineSwitch, useStyles2 } from '@grafana/ui';
+import { InlineSwitch, Tag, useStyles2 } from '@grafana/ui';
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useState } from 'react';
 
 import { CollapseTitle } from '@/components';
 import { TEST_IDS } from '@/constants';
 import { PanelOptions, TableConfig } from '@/types';
+import { hasTablePaginationError } from '@/utils';
 
 import { PaginationEditor } from './components';
 import { getStyles } from './PaginationsEditor.styles';
@@ -75,7 +76,6 @@ export const PaginationsEditor: React.FC<Props> = ({ context: { data }, onChange
                 {item.name}
                 <InlineSwitch
                   value={item.pagination.enabled}
-                  label="Pagination"
                   transparent={true}
                   onChange={(event) => {
                     onChangeItem({
@@ -94,8 +94,10 @@ export const PaginationsEditor: React.FC<Props> = ({ context: { data }, onChange
                       [item.name]: event.currentTarget.checked,
                     });
                   }}
+                  showLabel={true}
                   {...testIds.fieldPaginationEnabled.apply(item.name)}
                 />
+                {hasTablePaginationError(item) && <Tag name="Error" colorIndex={0} />}
               </CollapseTitle>
             }
             headerTestId={testIds.itemHeader.selector(item.name)}
