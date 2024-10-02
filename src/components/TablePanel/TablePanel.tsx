@@ -54,7 +54,17 @@ export const TablePanel: React.FC<Props> = ({
    */
   const currentTable = useMemo(() => {
     if (options.tables?.length && currentGroup) {
-      return options.tables.find((group) => group.name === currentGroup);
+      const table = options.tables.find((group) => group.name === currentGroup);
+
+      /**
+       * Filter Disabled Columns
+       */
+      if (table) {
+        return {
+          ...table,
+          items: table.items.filter((item) => item.enabled),
+        };
+      }
     }
     return;
   }, [options.tables, currentGroup]);

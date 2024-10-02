@@ -163,6 +163,74 @@ test.describe('Business Table Panel', () => {
     await header.getHeaderCell('A-series').checkText('A-series');
   });
 
+  test('Should render only visible columns in table', async ({ gotoDashboardPage, page, readProvisionedDashboard }) => {
+    /**
+     * Go To Panels dashboard panels.json
+     * return dashboardPage
+     */
+    const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
+
+    /**
+     * Add new visualization
+     */
+    const editPage = await dashboardPage.addPanel();
+    await editPage.setVisualization('Business Table');
+    await editPage.setPanelTitle('Business Table Test');
+
+    /**
+     * Set data source
+     */
+    await editPage.datasource.set('Grafana');
+    await editPage.refreshPanel();
+
+    const panelNew = new PanelHelper(dashboardPage, 'Business Table Test');
+    const editor = panelNew.getPanelEditor(page.locator('body'), editPage);
+
+    /**
+     * Create new table
+     */
+    await editor.addTable('Table');
+
+    const tableEditor = editor.getTableEditor('Table');
+
+    /**
+     * Set columns
+     */
+    await tableEditor.addColumn('A:time');
+    await tableEditor.addColumn('A:A-series');
+
+    /**
+     * Hide column
+     */
+    await tableEditor.toggleColumnVisibility('A:A-series');
+
+    /**
+     * Apply changes and return to dashboard
+     */
+    await editPage.apply();
+
+    const panel = new PanelHelper(dashboardPage, 'Business Table Test');
+
+    /**
+     * Check Presence
+     */
+    await panel.checkPresence();
+    await panel.checkIfNoErrors();
+
+    /**
+     * Check Table
+     */
+    const table = panel.getTable();
+    await table.checkPresence();
+
+    /**
+     * Check Header
+     */
+    await table.getHeaderRow().getHeaderCell('time').checkPresence();
+    await table.getHeaderRow().getHeaderCell('A-series').checkIfNotPresence();
+  });
+
   test('Should toggle tables via tabs', async ({ gotoDashboardPage, readProvisionedDashboard }) => {
     /**
      * Go To Panels dashboard panels.json

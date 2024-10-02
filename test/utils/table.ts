@@ -63,6 +63,10 @@ class TableHeaderCellHelper {
     return expect(this.get(), this.getMsg('Check Presence')).toBeVisible();
   }
 
+  public async checkIfNotPresence() {
+    return expect(this.get(), this.getMsg('Check If Not Presence')).not.toBeVisible();
+  }
+
   public async checkText(text: string) {
     return expect(this.get(), this.getMsg('Check Text')).toHaveText(text);
   }
@@ -347,8 +351,10 @@ class TableEditorHelper {
     this.columnsSelectors = getLocatorSelectors(TEST_IDS.columnsEditor)(this.tablesSelectors.item(name));
   }
 
-  public async toggleExpand() {
-    return this.tablesSelectors.itemHeader(this.name).click();
+  public async expand() {
+    if (!this.tablesSelectors.itemContent(this.name)) {
+      await this.tablesSelectors.itemHeader(this.name).click();
+    }
   }
 
   public async addColumn(fieldKey: string) {
@@ -358,6 +364,12 @@ class TableEditorHelper {
       .getByText(fieldKey)
       .click();
     await this.columnsSelectors.buttonAddNew().click();
+  }
+
+  public async toggleColumnVisibility(fieldKey: string) {
+    const columnHeader = this.columnsSelectors.itemHeader(fieldKey);
+
+    return getLocatorSelectors(TEST_IDS.columnsEditor)(columnHeader).buttonToggleVisibility().click();
   }
 }
 

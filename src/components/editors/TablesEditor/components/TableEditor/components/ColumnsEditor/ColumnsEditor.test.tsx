@@ -6,7 +6,14 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { DEFAULT_COLUMN_APPEARANCE, TEST_IDS } from '@/constants';
-import { createColumnAppearanceConfig, createColumnConfig } from '@/utils';
+import { ColumnPinDirection } from '@/types';
+import {
+  createColumnAppearanceConfig,
+  createColumnConfig,
+  createColumnEditConfig,
+  createColumnFilterConfig,
+  createColumnSortConfig,
+} from '@/utils';
 
 import { ColumnsEditor } from './ColumnsEditor';
 import { ColumnEditor } from './components';
@@ -316,6 +323,88 @@ describe('ColumnsEditor', () => {
     expect(onChange).toHaveBeenCalledWith([createColumnConfig({ field: { name: 'field1', source: 'A' } })]);
   });
 
+  it('Should hide item', async () => {
+    const onChange = jest.fn();
+
+    render(
+      getComponent({
+        data: [dataFrameA, dataFrameB],
+        name: 'Group 1',
+        value: [
+          createColumnConfig({
+            field: { name: 'field2', source: 'A' },
+            enabled: true,
+          }),
+          createColumnConfig({
+            field: { name: 'field1', source: 'A' },
+          }),
+        ],
+        onChange,
+      })
+    );
+
+    const field2 = selectors.itemHeader(false, 'A:field2');
+
+    /**
+     * Check field presence
+     */
+    expect(field2).toBeInTheDocument();
+
+    /**
+     * Hide
+     */
+    await act(() => fireEvent.click(getSelectors(within(field2)).buttonToggleVisibility()));
+
+    expect(onChange).toHaveBeenCalledWith([
+      expect.objectContaining({
+        field: { name: 'field2', source: 'A' },
+        enabled: false,
+      }),
+      expect.anything(),
+    ]);
+  });
+
+  it('Should show item', async () => {
+    const onChange = jest.fn();
+
+    render(
+      getComponent({
+        data: [dataFrameA, dataFrameB],
+        name: 'Group 1',
+        value: [
+          createColumnConfig({
+            field: { name: 'field2', source: 'A' },
+            enabled: false,
+          }),
+          createColumnConfig({
+            field: { name: 'field1', source: 'A' },
+          }),
+        ],
+        onChange,
+      })
+    );
+
+    const field2 = selectors.itemHeader(false, 'A:field2');
+
+    /**
+     * Check field presence
+     */
+    expect(field2).toBeInTheDocument();
+
+    /**
+     * Show
+     */
+    await act(() => fireEvent.click(getSelectors(within(field2)).buttonToggleVisibility()));
+
+    expect(onChange).toHaveBeenCalledWith([
+      expect.objectContaining({
+        field: { name: 'field2', source: 'A' },
+        enabled: true,
+      }),
+      expect.anything(),
+    ]);
+  });
+
   it('Should render without errors if dataFrame was removed', () => {
     render(
       getComponent({
@@ -462,5 +551,133 @@ describe('ColumnsEditor', () => {
       createColumnConfig({ field: { name: 'field1', source: 'a' } }),
       createColumnConfig({ field: { name: 'field2', source: 'a' } }),
     ]);
+  });
+
+  describe('Tags', () => {
+    it('Should show group', () => {
+      render(
+        getComponent({
+          data: [dataFrameA, dataFrameB],
+          name: 'Group 1',
+          value: [
+            createColumnConfig({
+              field: { name: 'field1', source: 'A' },
+              group: true,
+            }),
+          ],
+        })
+      );
+
+      /**
+       * Check tag presence
+       */
+      expect(selectors.itemHeader(false, 'A:field1')).toBeInTheDocument();
+      expect(selectors.itemHeader(false, 'A:field1')).toHaveTextContent('Group');
+    });
+
+    it('Should show editable', () => {
+      render(
+        getComponent({
+          data: [dataFrameA, dataFrameB],
+          name: 'Group 1',
+          value: [
+            createColumnConfig({
+              field: { name: 'field1', source: 'A' },
+              edit: createColumnEditConfig({ enabled: true }),
+            }),
+          ],
+        })
+      );
+
+      /**
+       * Check tag presence
+       */
+      expect(selectors.itemHeader(false, 'A:field1')).toBeInTheDocument();
+      expect(selectors.itemHeader(false, 'A:field1')).toHaveTextContent('Editable');
+    });
+
+    it('Should show pinned left', () => {
+      render(
+        getComponent({
+          data: [dataFrameA, dataFrameB],
+          name: 'Group 1',
+          value: [
+            createColumnConfig({
+              field: { name: 'field1', source: 'A' },
+              pin: ColumnPinDirection.LEFT,
+            }),
+          ],
+        })
+      );
+
+      /**
+       * Check tag presence
+       */
+      expect(selectors.itemHeader(false, 'A:field1')).toBeInTheDocument();
+      expect(selectors.itemHeader(false, 'A:field1')).toHaveTextContent('Pinned: Left');
+    });
+
+    it('Should show pinned right', () => {
+      render(
+        getComponent({
+          data: [dataFrameA, dataFrameB],
+          name: 'Group 1',
+          value: [
+            createColumnConfig({
+              field: { name: 'field1', source: 'A' },
+              pin: ColumnPinDirection.RIGHT,
+            }),
+          ],
+        })
+      );
+
+      /**
+       * Check tag presence
+       */
+      expect(selectors.itemHeader(false, 'A:field1')).toBeInTheDocument();
+      expect(selectors.itemHeader(false, 'A:field1')).toHaveTextContent('Pinned: Right');
+    });
+
+    it('Should show filter', () => {
+      render(
+        getComponent({
+          data: [dataFrameA, dataFrameB],
+          name: 'Group 1',
+          value: [
+            createColumnConfig({
+              field: { name: 'field1', source: 'A' },
+              filter: createColumnFilterConfig({ enabled: true }),
+            }),
+          ],
+        })
+      );
+
+      /**
+       * Check tag presence
+       */
+      expect(selectors.itemHeader(false, 'A:field1')).toBeInTheDocument();
+      expect(selectors.itemHeader(false, 'A:field1')).toHaveTextContent('Filterable');
+    });
+
+    it('Should show filter', () => {
+      render(
+        getComponent({
+          data: [dataFrameA, dataFrameB],
+          name: 'Group 1',
+          value: [
+            createColumnConfig({
+              field: { name: 'field1', source: 'A' },
+              sort: createColumnSortConfig({ enabled: true }),
+            }),
+          ],
+        })
+      );
+
+      /**
+       * Check tag presence
+       */
+      expect(selectors.itemHeader(false, 'A:field1')).toBeInTheDocument();
+      expect(selectors.itemHeader(false, 'A:field1')).toHaveTextContent('Sortable');
+    });
   });
 });

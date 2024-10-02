@@ -24,7 +24,8 @@ import {
 /**
  * Outdated Column Config
  */
-interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance' | 'edit' | 'pin'> {
+interface OutdatedColumnConfig
+  extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance' | 'edit' | 'pin' | 'enabled'> {
   /**
    * Filter
    *
@@ -59,6 +60,13 @@ interface OutdatedColumnConfig extends Omit<ColumnConfig, 'filter' | 'sort' | 'a
    * Introduced in 1.3.0
    */
   pin?: boolean | ColumnPinDirection;
+
+  /**
+   * Enabled
+   *
+   * Introduced in 1.4.0
+   */
+  enabled?: boolean;
 }
 
 /**
@@ -222,6 +230,13 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
           normalized.pin = ColumnPinDirection.NONE;
         } else if (typeof (normalized.pin as never) === 'boolean') {
           normalized.pin = normalized.pin ? ColumnPinDirection.LEFT : ColumnPinDirection.NONE;
+        }
+
+        /**
+         * Normalize enabled
+         */
+        if (normalized.enabled === undefined) {
+          normalized.enabled = true;
         }
 
         return normalized;
