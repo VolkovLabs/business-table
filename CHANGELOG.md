@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.4.0 (IN PROGRESS)
+## 1.4.0 (2024-10-02)
 
 ### Features / Enhancements
 
@@ -11,6 +11,9 @@
 - Updated nested objects to show first or last object in the table (#92)
 - Updated row data for accessor key with dots (#90)
 - Added YouTube tutorial (#93)
+- Updated to show/hide columns (#94)
+- Added query pagination error with enabled client column filtering (#95)
+- Updated e2e to support panel edit in dashboard scene (#96)
 
 ## 1.3.0 (2024-09-20)
 
