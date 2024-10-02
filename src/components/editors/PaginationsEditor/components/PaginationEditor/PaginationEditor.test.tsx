@@ -1,11 +1,12 @@
-import { TEST_IDS } from '@/constants';
-import { ColumnFilterMode, PaginationMode } from '@/types';
-import { createColumnConfig, createColumnFilterConfig, createTableConfig, createTablePaginationConfig } from '@/utils';
 import { toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
+
+import { TEST_IDS } from '@/constants';
+import { ColumnFilterMode, PaginationMode } from '@/types';
+import { createColumnConfig, createColumnFilterConfig, createTableConfig, createTablePaginationConfig } from '@/utils';
 
 import { PaginationEditor } from './PaginationEditor';
 
