@@ -12,9 +12,13 @@
 
 Business Table panel is a Grafana plugin that allows to summarize large amounts of data from various data sources.
 
+[![Business Table panel for Grafana 1.3.0 | Overview and tutorial for beginners](https://raw.githubusercontent.com/volkovlabs/business-table/main/img/overview.png)](https://youtu.be/kOjt9Bl3VQo)
+
 ## Requirements
 
 - Business Table panel 1.X requires **Grafana 10.3** or **Grafana 11**.
+
+## Getting Started
 
 You can install the Business Table panel plugin from the [Grafana Plugins catalog](https://grafana.com/grafana/plugins/volkovlabs-table-panel/) or use the Grafana command line tool.
 
