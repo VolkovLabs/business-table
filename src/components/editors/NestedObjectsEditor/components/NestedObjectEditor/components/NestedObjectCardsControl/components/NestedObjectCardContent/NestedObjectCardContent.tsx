@@ -1,8 +1,11 @@
 import { InterpolateFunction } from '@grafana/data';
+import { useStyles2 } from '@grafana/ui';
 import MarkdownIt from 'markdown-it';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
+
+import { getStyles } from './NestedObjectCardContent.styles';
 
 /**
  * Properties
@@ -39,5 +42,12 @@ const testIds = TEST_IDS.nestedObjectCardContent;
  * Nested Object Card Content
  */
 export const NestedObjectCardContent: React.FC<Props> = ({ text, replaceVariables }) => {
-  return <div {...testIds.root.apply()} dangerouslySetInnerHTML={{ __html: md.render(replaceVariables(text)) }} />;
+  const styles = useStyles2(getStyles);
+  return (
+    <div
+      {...testIds.root.apply()}
+      className={styles.root}
+      dangerouslySetInnerHTML={{ __html: md.render(replaceVariables(text)) }}
+    />
+  );
 };

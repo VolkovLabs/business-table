@@ -6,7 +6,7 @@ import React from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { tablePanelContext, useDatasourceRequest } from '@/hooks';
-import { NestedObjectControlOptions, NestedObjectType } from '@/types';
+import { NestedObjectCardsDisplay, NestedObjectControlOptions, NestedObjectType } from '@/types';
 import { createNestedObjectEditorConfig, createNestedObjectOperationOptions, NestedObjectCardMapper } from '@/utils';
 
 import { NestedObjectCardsAdd, NestedObjectCardsItem } from './components';
@@ -71,6 +71,7 @@ describe('NestedObjectCardsControl', () => {
    * Create Options
    */
   const createOptions = (item: Partial<NestedObjectControlOptions>): NestedObjectControlOptions => ({
+    config: createNestedObjectEditorConfig({ type: NestedObjectType.CARDS }),
     isLoading: false,
     operations: {
       add: createNestedObjectOperationOptions({}),
@@ -123,6 +124,163 @@ describe('NestedObjectCardsControl', () => {
     );
 
     expect(selectors.loadingIcon()).toBeInTheDocument();
+  });
+
+  describe('List', () => {
+    beforeEach(() => {
+      jest.mocked(NestedObjectCardsItem).mockImplementation(({ value }) => <div {...inTestIds.item.apply(value.id)} />);
+    });
+
+    it('Should show first 2 items', () => {
+      const editorConfig = createNestedObjectEditorConfig({
+        type: NestedObjectType.CARDS,
+        display: NestedObjectCardsDisplay.FIRST,
+        displayCount: 2,
+        id: 'id',
+        title: 'title',
+      });
+      const mapper = new NestedObjectCardMapper(editorConfig);
+
+      render(
+        getComponent({
+          options: createOptions({
+            config: editorConfig,
+            mapper,
+          }),
+          value: [
+            mapper.createObject({
+              id: '1',
+              title: 'item 1',
+            }),
+            mapper.createObject({
+              id: '2',
+              title: 'item 2',
+            }),
+            mapper.createObject({
+              id: '3',
+              title: 'item 2',
+            }),
+          ],
+        })
+      );
+
+      expect(selectors.list()).toBeInTheDocument();
+      expect(selectors.item(false, '1')).toBeInTheDocument();
+      expect(selectors.item(false, '2')).toBeInTheDocument();
+      expect(selectors.item(true, '3')).not.toBeInTheDocument();
+    });
+
+    it('Should show last 2 items', () => {
+      const editorConfig = createNestedObjectEditorConfig({
+        type: NestedObjectType.CARDS,
+        display: NestedObjectCardsDisplay.LAST,
+        displayCount: 2,
+        id: 'id',
+        title: 'title',
+      });
+      const mapper = new NestedObjectCardMapper(editorConfig);
+
+      render(
+        getComponent({
+          options: createOptions({
+            config: editorConfig,
+            mapper,
+          }),
+          value: [
+            mapper.createObject({
+              id: '1',
+              title: 'item 1',
+            }),
+            mapper.createObject({
+              id: '2',
+              title: 'item 2',
+            }),
+            mapper.createObject({
+              id: '3',
+              title: 'item 2',
+            }),
+          ],
+        })
+      );
+
+      expect(selectors.list()).toBeInTheDocument();
+      expect(selectors.item(true, '1')).not.toBeInTheDocument();
+      expect(selectors.item(false, '2')).toBeInTheDocument();
+      expect(selectors.item(false, '3')).toBeInTheDocument();
+    });
+
+    it('Should show all items', () => {
+      const editorConfig = createNestedObjectEditorConfig({
+        type: NestedObjectType.CARDS,
+        display: NestedObjectCardsDisplay.LAST,
+        displayCount: null,
+        id: 'id',
+        title: 'title',
+      });
+      const mapper = new NestedObjectCardMapper(editorConfig);
+
+      render(
+        getComponent({
+          options: createOptions({
+            config: editorConfig,
+            mapper,
+          }),
+          value: [
+            mapper.createObject({
+              id: '1',
+              title: 'item 1',
+            }),
+            mapper.createObject({
+              id: '2',
+              title: 'item 2',
+            }),
+            mapper.createObject({
+              id: '3',
+              title: 'item 2',
+            }),
+          ],
+        })
+      );
+
+      expect(selectors.list()).toBeInTheDocument();
+      expect(selectors.item(false, '1')).toBeInTheDocument();
+      expect(selectors.item(false, '2')).toBeInTheDocument();
+      expect(selectors.item(false, '3')).toBeInTheDocument();
+    });
+
+    it('Should allow to open drawer', () => {
+      const editorConfig = createNestedObjectEditorConfig({
+        type: NestedObjectType.CARDS,
+        display: NestedObjectCardsDisplay.LAST,
+        displayCount: null,
+        id: 'id',
+        title: 'title',
+      });
+      const mapper = new NestedObjectCardMapper(editorConfig);
+
+      render(
+        getComponent({
+          options: createOptions({
+            config: editorConfig,
+            mapper,
+          }),
+          value: [
+            mapper.createObject({
+              id: '1',
+              title: 'item 1',
+            }),
+          ],
+        })
+      );
+
+      expect(selectors.list()).toBeInTheDocument();
+      expect(selectors.buttonShowItems()).toBeInTheDocument();
+      expect(screen.getAllByTestId(inTestIds.item.selector('1'))).toHaveLength(1);
+
+      fireEvent.click(selectors.buttonShowItems());
+
+      expect(screen.getAllByTestId(inTestIds.item.selector('1'))).toHaveLength(2);
+    });
   });
 
   it('Should show no items message', () => {

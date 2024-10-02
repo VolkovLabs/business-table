@@ -41,6 +41,15 @@ export interface NestedObjectOperationConfig {
 }
 
 /**
+ * Nested Object Cards Display
+ */
+export enum NestedObjectCardsDisplay {
+  NONE = '',
+  FIRST = 'first',
+  LAST = 'last',
+}
+
+/**
  * Editor Cards Options
  */
 interface NestedObjectEditorCardsOptions {
@@ -78,6 +87,20 @@ interface NestedObjectEditorCardsOptions {
    * @type {string}
    */
   author: string;
+
+  /**
+   * Display
+   *
+   * @type {NestedObjectCardsDisplay}
+   */
+  display: NestedObjectCardsDisplay;
+
+  /**
+   * Display Count
+   *
+   * @type {number}
+   */
+  displayCount: number | null;
 }
 
 /**
@@ -165,7 +188,7 @@ export type NestedObjectEditorConfig = { type: NestedObjectType.CARDS } & Nested
 export type NestedObjectControlOptions = NestedObjectControlBaseOptions &
   ({
     type: NestedObjectType.CARDS;
-  } & NestedObjectControlCardsOptions);
+  } & NestedObjectControlCardsOptions & { config: NestedObjectEditorConfig & { type: NestedObjectType.CARDS } });
 
 /**
  * Nested Object Config

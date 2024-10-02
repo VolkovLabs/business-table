@@ -1,13 +1,14 @@
 import { AlertErrorPayload, AlertPayload, AppEvents, LoadingState, ScopedVars } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
-import { Button, Drawer, EmptySearchResult, Icon } from '@grafana/ui';
-import React, { useCallback, useState } from 'react';
+import { Button, Drawer, EmptySearchResult, Icon, useStyles2 } from '@grafana/ui';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { tablePanelContext, useDatasourceRequest } from '@/hooks';
-import { NestedObjectControlProps, NestedObjectItemPayload, NestedObjectType } from '@/types';
+import { NestedObjectCardsDisplay, NestedObjectControlProps, NestedObjectItemPayload, NestedObjectType } from '@/types';
 
 import { NestedObjectCardsAdd, NestedObjectCardsItem } from './components';
+import { getStyles } from './NestedObjectCardsControl.styles';
 
 /**
  * Properties
@@ -25,8 +26,13 @@ const testIds = TEST_IDS.nestedObjectCardsControl;
 export const NestedObjectCardsControl: React.FC<Props> = ({
   value,
   row,
-  options: { isLoading, mapper, operations, header },
+  options: { isLoading, mapper, operations, header, config },
 }) => {
+  /**
+   * Styles
+   */
+  const styles = useStyles2(getStyles);
+
   /**
    * State
    */
@@ -217,6 +223,25 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
   );
 
   /**
+   * Rendered Items
+   */
+  const renderedItems = useMemo(() => {
+    if (config.display === NestedObjectCardsDisplay.NONE) {
+      return [];
+    }
+
+    if (config.displayCount === null) {
+      return value;
+    }
+
+    if (config.display === NestedObjectCardsDisplay.FIRST) {
+      return value.slice(0, config.displayCount);
+    }
+
+    return value.slice(-config.displayCount);
+  }, [config.display, config.displayCount, value]);
+
+  /**
    * Loading
    */
   if (isLoading && !isDrawerOpen) {
@@ -225,15 +250,42 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
 
   return (
     <>
-      <Button
-        variant={value.length > 0 ? 'primary' : 'secondary'}
-        fill="text"
-        size="sm"
-        onClick={() => setDrawerOpen(true)}
-        {...testIds.buttonShowItems.apply()}
-      >
-        {value.length} {header}
-      </Button>
+      {renderedItems.length > 0 ? (
+        <div className={styles.list} {...testIds.list.apply()}>
+          {renderedItems.map((item, index) => {
+            const itemPayload = mapper.getPayload(item);
+            return (
+              <NestedObjectCardsItem
+                key={itemPayload.id || index}
+                value={itemPayload}
+                isEditEnabled={false}
+                isDeleteEnabled={false}
+                onEdit={onUpdate}
+                replaceVariables={onReplaceVariables}
+              />
+            );
+          })}
+          <Button
+            variant="primary"
+            fill="text"
+            size="sm"
+            onClick={() => setDrawerOpen(true)}
+            {...testIds.buttonShowItems.apply()}
+          >
+            Show All {header}
+          </Button>
+        </div>
+      ) : (
+        <Button
+          variant={value.length > 0 ? 'primary' : 'secondary'}
+          fill="text"
+          size="sm"
+          onClick={() => setDrawerOpen(true)}
+          {...testIds.buttonShowItems.apply()}
+        >
+          {value.length} {header}
+        </Button>
+      )}
       {isDrawerOpen && (
         <Drawer title={header} onClose={() => setDrawerOpen(false)}>
           {value.length > 0 ? (

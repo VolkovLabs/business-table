@@ -23,6 +23,7 @@ import {
   ColumnMeta,
   ColumnPinDirection,
   ColumnSortConfig,
+  NestedObjectCardsDisplay,
   NestedObjectConfig,
   NestedObjectControlOperationOptions,
   NestedObjectEditorConfig,
@@ -288,6 +289,8 @@ export const createNestedObjectEditorConfig = (item: Partial<NestedObjectEditorC
   author: '',
   body: '',
   time: '',
+  display: NestedObjectCardsDisplay.NONE,
+  displayCount: null,
   ...item,
 });
 

@@ -8,6 +8,9 @@
 - Added nested objects cell type (#80)
 - Updated e2e tests (#81)
 - Moved pagination options to separate category (#87)
+- Updated nested objects to show first or last object in the table (#92)
+- Updated row data for accessor key with dots (#90)
+- Added YouTube tutorial (#93)
 
 ## 1.3.0 (2024-09-20)
 

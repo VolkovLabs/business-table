@@ -1,6 +1,12 @@
 import { DataFrame, dateTime, isValidDate } from '@grafana/data';
 
-import { NestedObjectConfig, NestedObjectEditorConfig, NestedObjectItemPayload, NestedObjectType } from '@/types';
+import {
+  NestedObjectCardsDisplay,
+  NestedObjectConfig,
+  NestedObjectEditorConfig,
+  NestedObjectItemPayload,
+  NestedObjectType,
+} from '@/types';
 import { cleanPayloadObject } from '@/utils/editor';
 
 /**
@@ -16,6 +22,8 @@ export const getNestedObjectEditorConfig = (
     time: '',
     author: '',
     body: '',
+    display: NestedObjectCardsDisplay.NONE,
+    displayCount: null,
   };
 };
 
