@@ -3,8 +3,8 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { PaginationMode } from '@/types';
-import { createTableConfig, createTablePaginationConfig } from '@/utils';
+import { ColumnFilterMode, PaginationMode } from '@/types';
+import { createColumnConfig, createColumnFilterConfig, createTableConfig, createTablePaginationConfig } from '@/utils';
 
 import { PaginationsEditor } from './PaginationsEditor';
 
@@ -29,7 +29,7 @@ jest.mock('./components/PaginationEditor', () => ({
   ),
 }));
 
-describe('Paginations Editor', () => {
+describe('PaginationsEditor', () => {
   /**
    * Defaults
    */
@@ -59,7 +59,7 @@ describe('Paginations Editor', () => {
     expect(selectors.itemContent(true, 'item1')).not.toBeInTheDocument();
   });
 
-  it('Should  allow to expand item if pagination enable', () => {
+  it('Should allow to expand item if pagination enable', () => {
     render(
       getComponent({
         value: [
@@ -128,5 +128,49 @@ describe('Paginations Editor', () => {
     fireEvent.change(selectors.paginationEditor(), { target: { value: 'hello' } });
 
     expect(onChange).toHaveBeenCalledWith(value);
+  });
+
+  it('Should show item error', () => {
+    render(
+      getComponent({
+        value: [
+          createTableConfig({
+            name: 'item1',
+            items: [
+              createColumnConfig({
+                enabled: true,
+                filter: createColumnFilterConfig({
+                  enabled: true,
+                  mode: ColumnFilterMode.CLIENT,
+                }),
+              }),
+            ],
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+            }),
+          }),
+          createTableConfig({
+            name: 'item2',
+            items: [
+              createColumnConfig({
+                enabled: true,
+                filter: createColumnFilterConfig({
+                  enabled: true,
+                  mode: ColumnFilterMode.QUERY,
+                }),
+              }),
+            ],
+            pagination: createTablePaginationConfig({
+              enabled: true,
+              mode: PaginationMode.QUERY,
+            }),
+          }),
+        ],
+      })
+    );
+
+    expect(selectors.itemHeader(false, 'item1')).toHaveTextContent('Error');
+    expect(selectors.itemHeader(false, 'item2')).not.toHaveTextContent('Error');
   });
 });

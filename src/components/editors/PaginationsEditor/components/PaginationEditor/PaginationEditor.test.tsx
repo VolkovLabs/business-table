@@ -5,8 +5,8 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { PaginationMode } from '@/types';
-import { createTableConfig, createTablePaginationConfig } from '@/utils';
+import { ColumnFilterMode, PaginationMode } from '@/types';
+import { createColumnConfig, createColumnFilterConfig, createTableConfig, createTablePaginationConfig } from '@/utils';
 
 import { PaginationEditor } from './PaginationEditor';
 
@@ -57,6 +57,34 @@ describe('PaginationEditor', () => {
         }),
       })
     );
+  });
+
+  it('Should not allow to set query mode if disabled', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          items: [
+            createColumnConfig({
+              enabled: true,
+              filter: createColumnFilterConfig({
+                enabled: true,
+                mode: ColumnFilterMode.CLIENT,
+              }),
+            }),
+          ],
+          pagination: createTablePaginationConfig({
+            enabled: true,
+            mode: undefined,
+          }),
+        }),
+      })
+    );
+
+    expect(selectors.fieldPaginationMode()).toBeInTheDocument();
+
+    fireEvent.change(selectors.fieldPaginationMode(), { target: { value: PaginationMode.QUERY } });
+
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('Should allow to change query pageIndex var', () => {

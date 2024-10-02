@@ -3,9 +3,12 @@ import {
   ColumnConfig,
   ColumnEditorConfig,
   ColumnEditorType,
+  ColumnFilterMode,
   EditableColumnEditorRegistryItem,
   NestedObjectEditorRegistryItem,
   NestedObjectType,
+  PaginationMode,
+  TableConfig,
 } from '@/types';
 
 /**
@@ -111,4 +114,32 @@ export const createNestedObjectEditorsRegistry = <TRegistry extends { id: string
   items.forEach((item) => itemsMap.set(item.id, item));
 
   return itemsMap;
+};
+
+/**
+ * Has Table Pagination Query Disabled
+ */
+export const hasTablePaginationQueryDisabled = (item: TableConfig): boolean => {
+  /**
+   * Should be visible columns with enabled client filter
+   */
+  return (
+    item.items.filter(
+      (column) => column.enabled && column.filter.enabled && column.filter.mode === ColumnFilterMode.CLIENT
+    ).length > 0
+  );
+};
+
+/**
+ * Has Table Pagination Error
+ */
+export const hasTablePaginationError = (item: TableConfig): boolean => {
+  if (!item.pagination.enabled || item.pagination.mode === PaginationMode.CLIENT) {
+    return false;
+  }
+
+  /**
+   * Find visible columns with client filter
+   */
+  return hasTablePaginationQueryDisabled(item);
 };

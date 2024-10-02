@@ -6,7 +6,7 @@ import React, { useMemo } from 'react';
 import { FieldPicker } from '@/components';
 import { TEST_IDS } from '@/constants';
 import { EditorProps, PaginationMode, TableConfig } from '@/types';
-import { cleanPayloadObject } from '@/utils';
+import { cleanPayloadObject, hasTablePaginationError, hasTablePaginationQueryDisabled } from '@/utils';
 
 /**
  * Pagination Mode Options
@@ -64,7 +64,11 @@ export const PaginationEditor: React.FC<Props> = ({ value, onChange, data }) => 
   return (
     <>
       {value.pagination.enabled && (
-        <Field label="Mode">
+        <Field
+          label="Mode"
+          invalid={hasTablePaginationError(value)}
+          error="Query pagination is not supported with client filtering"
+        >
           <Select
             value={value.pagination.mode}
             onChange={(event) => {
@@ -76,7 +80,19 @@ export const PaginationEditor: React.FC<Props> = ({ value, onChange, data }) => 
                 },
               });
             }}
-            options={paginationModeOptions}
+            options={paginationModeOptions.map((option) => {
+              if (option.value === PaginationMode.QUERY) {
+                const isDisabled = hasTablePaginationQueryDisabled(value);
+
+                return {
+                  ...option,
+                  isDisabled,
+                  description: isDisabled ? 'Not supported with client filtering' : '',
+                };
+              }
+
+              return option;
+            })}
             {...testIds.fieldPaginationMode.apply()}
           />
         </Field>
