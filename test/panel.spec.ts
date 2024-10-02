@@ -74,7 +74,7 @@ test.describe('Business Table Panel', () => {
      * return dashboardPage
      */
     const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
-    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
     /**
      * Add new visualization
@@ -82,7 +82,7 @@ test.describe('Business Table Panel', () => {
     const editPage = await dashboardPage.addPanel();
     await editPage.setVisualization('Business Table');
     await editPage.setPanelTitle('Business Table Test');
-    await editPage.apply();
+    await editPage.backToDashboard();
 
     /**
      * Should add empty visualization without errors
@@ -101,7 +101,7 @@ test.describe('Business Table Panel', () => {
      * return dashboardPage
      */
     const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
-    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
     /**
      * Add new visualization
@@ -135,7 +135,7 @@ test.describe('Business Table Panel', () => {
     /**
      * Apply changes and return to dashboard
      */
-    await editPage.apply();
+    await editPage.backToDashboard();
 
     const panel = new PanelHelper(dashboardPage, 'Business Table Test');
 
@@ -169,7 +169,7 @@ test.describe('Business Table Panel', () => {
      * return dashboardPage
      */
     const dashboard = await readProvisionedDashboard({ fileName: 'panels.json' });
-    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
+    const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
     /**
      * Add new visualization
@@ -208,7 +208,7 @@ test.describe('Business Table Panel', () => {
     /**
      * Apply changes and return to dashboard
      */
-    await editPage.apply();
+    await editPage.backToDashboard();
 
     const panel = new PanelHelper(dashboardPage, 'Business Table Test');
 
@@ -275,7 +275,7 @@ test.describe('Business Table Panel', () => {
        * return dashboardPage
        */
       const dashboard = await readProvisionedDashboard({ fileName: 'devices.json' });
-      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
       /**
        * Add new visualization
@@ -304,7 +304,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Apply changes and return to dashboard
        */
-      await editPage.apply();
+      await editPage.backToDashboard();
 
       /**
        * Download button should be visible on dashboard
