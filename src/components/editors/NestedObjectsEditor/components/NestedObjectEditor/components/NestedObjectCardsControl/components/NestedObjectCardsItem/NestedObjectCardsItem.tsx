@@ -161,8 +161,6 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
                     }));
                   }}
                   language="markdown"
-                  modalTitle="Body"
-                  modalButtonTooltip=""
                   {...testIds.fieldBody.apply()}
                 />
               ) : (
