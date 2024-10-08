@@ -1,4 +1,4 @@
-import { InterpolateFunction } from '@grafana/data';
+import { InterpolateFunction, textUtil } from '@grafana/data';
 import { useStyles2 } from '@grafana/ui';
 import MarkdownIt from 'markdown-it';
 import React from 'react';
@@ -47,7 +47,7 @@ export const NestedObjectCardContent: React.FC<Props> = ({ text, replaceVariable
     <div
       {...testIds.root.apply()}
       className={styles.root}
-      dangerouslySetInnerHTML={{ __html: md.render(replaceVariables(text)) }}
+      dangerouslySetInnerHTML={{ __html: textUtil.sanitize(md.render(replaceVariables(text))) }}
     />
   );
 };
