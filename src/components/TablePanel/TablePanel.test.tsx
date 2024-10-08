@@ -198,43 +198,6 @@ describe('TablePanel', () => {
     );
   });
 
-  it('Should filter hidden columns', async () => {
-    await act(async () =>
-      render(
-        getComponent({
-          options: createPanelOptions({
-            tables: [
-              createTableConfig({
-                name: 'group1',
-                items: [
-                  createColumnConfig({ field: { name: 'group1Field1', source: '' }, enabled: true }),
-                  createColumnConfig({ field: { name: 'group1Field2', source: '' }, enabled: false }),
-                ],
-              }),
-            ],
-          }),
-        })
-      )
-    );
-
-    /**
-     * Check if hidden columns filtered
-     */
-    expect(useTable).toHaveBeenCalledWith(
-      expect.objectContaining({
-        columns: [
-          expect.objectContaining({
-            field: {
-              name: 'group1Field1',
-              source: '',
-            },
-            enabled: true,
-          }),
-        ],
-      })
-    );
-  });
-
   it('Should work if no tables', async () => {
     await act(async () =>
       render(

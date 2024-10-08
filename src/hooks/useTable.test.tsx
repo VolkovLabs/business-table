@@ -119,6 +119,16 @@ describe('useTable', () => {
               name: 'value',
             },
           }),
+          /**
+           * Check if data presents for hidden column
+           */
+          createColumnConfig({
+            enabled: false,
+            field: {
+              source: refId,
+              name: 'other',
+            },
+          }),
         ],
         objects: [],
         replaceVariables,
@@ -129,10 +139,12 @@ describe('useTable', () => {
       {
         device: frame.fields[0].values[0],
         value: frame.fields[1].values[0],
+        other: frame.fields[3].values[0],
       },
       {
         device: frame.fields[0].values[1],
         value: frame.fields[1].values[1],
+        other: frame.fields[3].values[1],
       },
     ]);
   });
@@ -261,13 +273,20 @@ describe('useTable', () => {
         name: 'nested.value',
       },
     });
+    const disabledColumn = createColumnConfig({
+      enabled: false,
+      field: {
+        source: refId,
+        name: 'other',
+      },
+    });
 
     const { result } = renderHook(() =>
       useTable({
         data: {
           series: [frame],
         } as any,
-        columns: [deviceColumn, valueColumn, nestedColumn],
+        columns: [deviceColumn, valueColumn, nestedColumn, disabledColumn],
         objects: [],
         replaceVariables,
       })

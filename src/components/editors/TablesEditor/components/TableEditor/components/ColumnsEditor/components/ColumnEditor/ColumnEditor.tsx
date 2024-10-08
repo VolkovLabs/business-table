@@ -256,7 +256,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           </InlineField>
         )}
         {value.type === CellType.NESTED_OBJECTS && (
-          <InlineField label="Object Type" grow={true}>
+          <InlineField label="Object" grow={true}>
             <Select
               onChange={(event) => {
                 onChange({
