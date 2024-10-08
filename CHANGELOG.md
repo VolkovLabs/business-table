@@ -1,11 +1,12 @@
 # Change Log
 
-## 1.5.0 (IN PROGRESS)
+## 1.5.0 (2024-10-08)
 
 ### Features / Enhancements
 
 - Updated Autosize Code Editor toolbar (#99)
 - Added sanitizing html content (#110)
+- Added data for hidden columns to payload #112
 
 ### Bugfixes
 
