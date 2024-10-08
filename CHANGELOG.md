@@ -7,6 +7,10 @@
 - Updated Autosize Code Editor toolbar (#99)
 - Added sanitizing html content (#110)
 
+### Bugfixes
+
+- Fixed escaping new lines for content edit (#111)
+
 ## 1.4.0 (2024-10-02)
 
 ### Features / Enhancements
