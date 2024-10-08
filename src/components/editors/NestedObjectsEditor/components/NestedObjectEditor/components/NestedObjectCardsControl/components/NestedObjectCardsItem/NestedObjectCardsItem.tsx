@@ -1,5 +1,5 @@
 import { dateTimeFormat, InterpolateFunction } from '@grafana/data';
-import { Button, Card, ConfirmModal, IconButton, Input, Stack } from '@grafana/ui';
+import { Button, Card, ConfirmModal, Field, IconButton, Input, Stack } from '@grafana/ui';
 import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { useCallback, useState } from 'react';
 
@@ -100,7 +100,10 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
    */
   const onStartEdit = useCallback(() => {
     setIsEditing(true);
-    setLocalValue(value);
+    setLocalValue({
+      ...value,
+      body: value.body ? value.body.replaceAll('\n', '\\n') : value.body,
+    });
   }, [value]);
 
   /**
@@ -149,20 +152,22 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
           {typeof itemPayload.body !== 'undefined' && (
             <>
               {isEditing ? (
-                <AutosizeCodeEditor
-                  value={itemPayload.body.replaceAll('\\n', '\n')}
-                  onChange={(body) => {
-                    /**
-                     * itemPayload is cached here somehow so use value from callback
-                     */
-                    setLocalValue((current) => ({
-                      ...current,
-                      body: body.replaceAll('\n', '\\n'),
-                    }));
-                  }}
-                  language="markdown"
-                  {...testIds.fieldBody.apply()}
-                />
+                <Field>
+                  <AutosizeCodeEditor
+                    value={itemPayload.body.replaceAll('\\n', '\n')}
+                    onChange={(body) => {
+                      /**
+                       * itemPayload is cached here somehow so use value from callback
+                       */
+                      setLocalValue((current) => ({
+                        ...current,
+                        body: body.replaceAll('\n', '\\n'),
+                      }));
+                    }}
+                    language="markdown"
+                    {...testIds.fieldBody.apply()}
+                  />
+                </Field>
               ) : (
                 <NestedObjectCardContent text={itemPayload.body} replaceVariables={replaceVariables} />
               )}
