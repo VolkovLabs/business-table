@@ -6,7 +6,7 @@
 
 - Updated Autosize Code Editor toolbar (#99)
 - Added sanitizing html content (#110)
-- Added data for hidden columns to payload #112
+- Added data for hidden columns to payload (#112)
 
 ### Bugfixes
 
