@@ -140,7 +140,7 @@ export const useTable = ({
    * Columns With Nested Objects
    */
   const columnsWithNestedObjects = useMemo(() => {
-    return columnsConfig?.filter((column) => column.type === CellType.NESTED_OBJECTS);
+    return columnsConfig?.filter((column) => column.type === CellType.NESTED_OBJECTS && column.enabled);
   }, [columnsConfig]);
 
   /**
@@ -271,7 +271,12 @@ export const useTable = ({
 
     const columns: Array<ColumnDef<unknown>> = [];
 
-    for (const column of columnsData.items) {
+    /**
+     * Use only visible columns
+     */
+    const enabledColumns = columnsData.items.filter((column) => column.config.enabled);
+
+    for (const column of enabledColumns) {
       const availableFilterTypes: ColumnFilterType[] = [];
 
       /**
