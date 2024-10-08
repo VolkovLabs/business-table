@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Updated Autosize Code Editor toolbar (#99)
+- Added sanitizing html content (#110)
 
 ## 1.4.0 (2024-10-02)
 
