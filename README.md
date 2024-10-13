@@ -10,7 +10,7 @@
 
 ## Introduction
 
-Business Table panel is a Grafana plugin that allows to summarize large amounts of data from various data sources.
+The Business Table panel is a Grafana plugin that allows to summarize large amounts of data from various data sources.
 
 [![Business Table panel for Grafana 1.3.0 | Overview and tutorial for beginners](https://raw.githubusercontent.com/volkovlabs/business-table/main/img/overview.png)](https://youtu.be/kOjt9Bl3VQo)
 
@@ -32,7 +32,8 @@ grafana-cli plugins install volkovlabs-table-panel
 
 - Tree View with expandable and collapsible elements.
 - Supporting tabs for multiple data frame views.
-- Sorting using dashboard variables.
+- Filtering data using dashboard variables.
+- Grafana's Thresholds are incorporated.
 
 ## Business Suite for Grafana
 
@@ -42,14 +43,17 @@ The collection aims to solve the most frequent business tasks by providing an in
 
 [![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)](https://volkovlabs.io/plugins/)
 
-## Feedback
+### Enterprise Support
 
-We're looking forward to hearing from you. You can use different ways to get in touch with us.
+With the [Business Suite Enterprise](https://volkovlabs.io/pricing/), you're not just getting a product, you're getting a complete support system. You'll have a designated support team ready to tackle any issues.
 
-- Ask a question, request a new feature, or report an issue at [GitHub issues](https://github.com/volkovlabs/business-table/issues).
-- Subscribe to our [YouTube Channel](https://www.youtube.com/@volkovlabs) and leave your comments.
-- Sponsor our open-source plugins for Grafana at [GitHub Sponsor](https://github.com/sponsors/VolkovLabs).
-- Support our project by starring the repository.
+You can contact us via Zendesk, receive priority in feature requests and bug fixes, meet with us for in-person consultation, and get access to the Business Intelligence. It's a package that's designed to make your life easier.
+
+## Always happy to hear from you
+
+- Ask a question, request a new feature, and file a bug with [GitHub issues](https://github.com/volkovlabs/business-table/issues).
+- Subscribe to our [YouTube Channel](https://youtube.com/@volkovlabs) and leave your comments.
+- Become a [Business Suite sponsor](https://github.com/sponsors/VolkovLabs).
 
 ## License
 
