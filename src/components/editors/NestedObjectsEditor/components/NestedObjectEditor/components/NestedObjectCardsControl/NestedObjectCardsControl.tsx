@@ -1,6 +1,7 @@
 import { AlertErrorPayload, AlertPayload, AppEvents, LoadingState, ScopedVars } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { Button, Drawer, EmptySearchResult, Icon, useStyles2 } from '@grafana/ui';
+import { useDashboardRefresh } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -42,6 +43,11 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
    * Data Source Request
    */
   const datasourceRequest = useDatasourceRequest();
+
+  /**
+   * Refresh dashboard
+   */
+  const refreshDashboard = useDashboardRefresh();
 
   /**
    * Context
@@ -88,7 +94,7 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
           }
 
           notifySuccess(['Success', 'Item has been added successfully.']);
-          appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
+          refreshDashboard();
         } catch (e: unknown) {
           const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
           notifyError(['Error', errorMessage]);
@@ -97,13 +103,13 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
       }
     },
     [
-      appEvents,
       datasourceRequest,
       mapper,
       notifyError,
       notifySuccess,
       operations.add.enabled,
       operations.add.request,
+      refreshDashboard,
       replaceVariables,
       row,
     ]
@@ -117,7 +123,6 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
       if (!payload) {
         return;
       }
-
       if (operations.update.enabled && operations.update.request) {
         try {
           const item = mapper.createObject(payload);
@@ -139,7 +144,7 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
           }
 
           notifySuccess(['Success', 'Item has been updated successfully.']);
-          appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
+          refreshDashboard();
         } catch (e: unknown) {
           const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
           notifyError(['Error', errorMessage]);
@@ -148,13 +153,13 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
       }
     },
     [
-      appEvents,
       datasourceRequest,
       mapper,
       notifyError,
       notifySuccess,
       operations.update.enabled,
       operations.update.request,
+      refreshDashboard,
       replaceVariables,
       row,
     ]
@@ -186,7 +191,7 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
           }
 
           notifySuccess(['Success', 'Item has been deleted successfully.']);
-          appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
+          refreshDashboard();
         } catch (e: unknown) {
           const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
           notifyError(['Error', errorMessage]);
@@ -195,13 +200,13 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
       }
     },
     [
-      appEvents,
       datasourceRequest,
       mapper,
       notifyError,
       notifySuccess,
       operations.delete.enabled,
       operations.delete.request,
+      refreshDashboard,
       replaceVariables,
       row,
     ]
