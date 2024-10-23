@@ -1,6 +1,5 @@
 import { EventBus, TypedVariableModel } from '@grafana/data';
-import { getTemplateSrv, RefreshEvent } from '@grafana/runtime';
-import { useCallback, useEffect, useState } from 'react';
+import { useDashboardVariables } from '@volkovlabs/components';
 
 import { getVariablesMap } from '@/utils';
 
@@ -10,37 +9,16 @@ import { getVariablesMap } from '@/utils';
  * @param variableName
  */
 export const useRuntimeVariables = (eventBus: EventBus, variableName: string) => {
-  const [variables, setVariables] = useState<Record<string, TypedVariableModel>>({});
-  const [variable, setVariable] = useState<TypedVariableModel>();
-
-  useEffect(() => {
-    setVariables(getVariablesMap(getTemplateSrv().getVariables()));
-
-    /**
-     * Update variable on Refresh
-     */
-    const subscriber = eventBus.getStream(RefreshEvent).subscribe(() => {
-      setVariables(getVariablesMap(getTemplateSrv().getVariables()));
-    });
-
-    return () => {
-      subscriber.unsubscribe();
-    };
-  }, [eventBus]);
-
-  const getVariable = useCallback(
-    (variableName: string): TypedVariableModel | undefined => {
-      return variables[variableName] || undefined;
-    },
-    [variables]
-  );
-
-  useEffect(() => {
-    setVariable(getVariable(variableName));
-  }, [getVariable, variableName]);
+  const { variable, getVariable } = useDashboardVariables<TypedVariableModel, Record<string, TypedVariableModel>>({
+    eventBus,
+    variableName,
+    toState: getVariablesMap,
+    getOne: (variablesMap, variableName) => variablesMap[variableName],
+    initial: {},
+  });
 
   return {
-    variable,
-    getVariable,
+    variable: variable,
+    getVariable: getVariable,
   };
 };
