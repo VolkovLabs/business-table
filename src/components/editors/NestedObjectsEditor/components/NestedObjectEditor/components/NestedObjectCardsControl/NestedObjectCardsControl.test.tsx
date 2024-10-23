@@ -1,7 +1,7 @@
 import { LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
-import { sceneGraph, SceneObject } from '@grafana/scenes';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { useDashboardRefresh } from '@volkovlabs/components';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
@@ -29,12 +29,11 @@ const inTestIds = {
 };
 
 /**
- * Mock @grafana/scenes
+ * Mock @grafana/runtime
  */
-jest.mock('@grafana/scenes', () => ({
-  sceneGraph: {
-    getTimeRange: jest.fn(),
-  },
+jest.mock('@volkovlabs/components', () => ({
+  ...jest.requireActual('@volkovlabs/components'),
+  useDashboardRefresh: jest.fn(),
 }));
 
 /**
@@ -118,15 +117,13 @@ describe('NestedObjectCardsControl', () => {
     fireEvent.click(selectors.buttonShowItems());
   };
 
+  const refresh = jest.fn();
+
   beforeEach(() => {
     jest.mocked(NestedObjectCardsItem).mockImplementation(() => null);
     jest.mocked(NestedObjectCardsAdd).mockImplementation(() => null);
     jest.mocked(useDatasourceRequest).mockReturnValue(datasourceRequestMock);
-
-    /**
-     * delete __grafanaSceneContext
-     */
-    delete window.__grafanaSceneContext;
+    jest.mocked(useDashboardRefresh).mockImplementation(() => refresh);
   });
 
   it('Should show loading state', () => {
@@ -383,74 +380,7 @@ describe('NestedObjectCardsControl', () => {
       /**
        * Should run refresh
        */
-      expect(getAppEvents().publish).toHaveBeenCalledWith(expect.objectContaining({ type: 'variables-changed' }));
-      expect(getAppEvents().publish).toHaveBeenCalledTimes(2);
-    });
-
-    it('Should allow to add in scene dashboard and refresh panel', async () => {
-      window.__grafanaSceneContext = {
-        body: {
-          text: 'hello',
-        },
-      };
-
-      jest.mocked(sceneGraph.getTimeRange).mockReturnValue({
-        onRefresh: jest.fn(),
-      } as any);
-
-      const sceneResult = sceneGraph.getTimeRange(window.__grafanaSceneContext as SceneObject);
-
-      const row = { deviceId: 123 };
-
-      render(
-        getComponent({
-          options: createOptions({
-            isLoading: false,
-            operations: {
-              add: createNestedObjectOperationOptions({
-                enabled: true,
-                request: {
-                  datasource: 'postgres',
-                  payload: {},
-                },
-              }),
-              update: createNestedObjectOperationOptions({}),
-              delete: createNestedObjectOperationOptions({}),
-            },
-          }),
-          row,
-        })
-      );
-
-      datasourceRequestMock.mockResolvedValue({});
-
-      openDrawer();
-
-      expect(selectors.buttonAddItem()).toBeInTheDocument();
-      await act(async () => fireEvent.click(selectors.buttonAddItem()));
-
-      expect(datasourceRequestMock).toHaveBeenCalledWith(
-        expect.objectContaining({
-          datasource: 'postgres',
-          payload: {
-            item: {
-              myId: '1',
-              myTitle: 'hello',
-            },
-            row,
-          },
-        })
-      );
-
-      expect(getAppEvents().publish).toHaveBeenCalledWith(
-        expect.objectContaining({ payload: ['Success', 'Item has been added successfully.'], type: 'alert-success' })
-      );
-      expect(getAppEvents().publish).toHaveBeenCalledTimes(1);
-
-      /**
-       * Should run refresh
-       */
-      expect(sceneResult.onRefresh).toHaveBeenCalledTimes(1);
+      expect(refresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should show response error', async () => {
@@ -626,6 +556,11 @@ describe('NestedObjectCardsControl', () => {
           },
         })
       );
+
+      /**
+       * Should run refresh
+       */
+      expect(refresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should show response error', async () => {
@@ -906,6 +841,11 @@ describe('NestedObjectCardsControl', () => {
           },
         })
       );
+
+      /**
+       * Should run refresh
+       */
+      expect(refresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should show response error', async () => {
