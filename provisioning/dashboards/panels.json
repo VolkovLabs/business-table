@@ -362,7 +362,7 @@
           "refId": "A"
         }
       ],
-      "title": "$title",
+      "title": "Table",
       "transformations": [
         {
           "id": "organize",
@@ -1187,7 +1187,7 @@
           "refId": "A"
         }
       ],
-      "title": "Standart options",
+      "title": "$title",
       "transformations": [
         {
           "id": "organize",
