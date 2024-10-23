@@ -1,4 +1,4 @@
-import { dateTimeFormat, toCSV } from '@grafana/data';
+import { dateTimeFormat, InterpolateFunction, toCSV } from '@grafana/data';
 import {
   ColumnDef,
   createTable,
@@ -21,11 +21,13 @@ export const useExportData = <TData>({
   columns,
   tableConfig,
   panelTitle,
+  replaceVariables,
 }: {
   data: TData[];
   columns: Array<ColumnDef<TData>>;
   tableConfig?: TableConfig;
   panelTitle: string;
+  replaceVariables: InterpolateFunction;
 }) => {
   return useCallback(
     ({ table }: { table: Table<TData> | null }) => {
@@ -79,7 +81,7 @@ export const useExportData = <TData>({
        * Add Panel Title
        */
       if (panelTitle) {
-        prefix += `${panelTitle}-`;
+        prefix += `${replaceVariables(panelTitle)}-`;
       }
 
       /**
@@ -94,6 +96,6 @@ export const useExportData = <TData>({
        */
       downloadCsv(content, `${prefix}${dateTimeFormat(new Date())}`);
     },
-    [columns, data, panelTitle, tableConfig?.name]
+    [columns, data, panelTitle, replaceVariables, tableConfig?.name]
   );
 };
