@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.6.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Add replaceVariables to file name (#131)
+
 ## 1.5.0 (2024-10-08)
 
 ### Features / Enhancements

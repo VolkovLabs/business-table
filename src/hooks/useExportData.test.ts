@@ -22,6 +22,11 @@ jest.mock('../utils/file', () => ({
 
 describe('useExportData', () => {
   /**
+   * Replace Variables
+   */
+  const replaceVariables = jest.fn();
+
+  /**
    * Frame
    */
   const nameField: Field = {
@@ -58,12 +63,14 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        replaceVariables,
       })
     );
 
     result.current({ table: null });
 
     expect(downloadCsv).not.toHaveBeenCalled();
+    expect(replaceVariables).not.toHaveBeenCalled();
   });
 
   it('Should download data as csv', () => {
@@ -92,6 +99,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        replaceVariables,
       })
     );
 
@@ -116,6 +124,7 @@ describe('useExportData', () => {
 
     result.current({ table });
 
+    expect(replaceVariables).toHaveBeenCalled();
     expect(downloadCsv).toHaveBeenCalledWith(
       toCSV([
         toDataFrame({
@@ -156,6 +165,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        replaceVariables,
       })
     );
 
