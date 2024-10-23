@@ -29,7 +29,7 @@ const inTestIds = {
 };
 
 /**
- * Mock @grafana/runtime
+ * Mock @volkovlabs/components
  */
 jest.mock('@volkovlabs/components', () => ({
   ...jest.requireActual('@volkovlabs/components'),
@@ -117,6 +117,9 @@ describe('NestedObjectCardsControl', () => {
     fireEvent.click(selectors.buttonShowItems());
   };
 
+  /**
+   * Refresh Event
+   */
   const refresh = jest.fn();
 
   beforeEach(() => {

@@ -2,6 +2,7 @@ import { AppEvents, LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { sceneGraph, SceneObject } from '@grafana/scenes';
 import { renderHook } from '@testing-library/react';
+import { useDashboardRefresh } from '@volkovlabs/components';
 
 import { createTableConfig } from '@/utils';
 
@@ -16,12 +17,11 @@ jest.mock('./useDatasourceRequest', () => ({
 }));
 
 /**
- * Mock @grafana/scenes
+ * Mock @volkovlabs/components
  */
-jest.mock('@grafana/scenes', () => ({
-  sceneGraph: {
-    getTimeRange: jest.fn(),
-  },
+jest.mock('@volkovlabs/components', () => ({
+  ...jest.requireActual('@volkovlabs/components'),
+  useDashboardRefresh: jest.fn(),
 }));
 
 describe('useUpdateRow', () => {
@@ -30,14 +30,11 @@ describe('useUpdateRow', () => {
    */
   const replaceVariables = jest.fn();
   const datasourceRequest = jest.fn();
+  const refresh = jest.fn();
 
   beforeEach(() => {
     jest.mocked(useDatasourceRequest).mockReturnValue(datasourceRequest);
-
-    /**
-     * delete __grafanaSceneContext
-     */
-    delete window.__grafanaSceneContext;
+    jest.mocked(useDashboardRefresh).mockImplementation(() => refresh);
   });
 
   it('Should not update data if no update request', async () => {
@@ -87,63 +84,9 @@ describe('useUpdateRow', () => {
     );
 
     /**
-     * Check if dashboard refreshed
+     * Should run refresh
      */
-    expect(getAppEvents().publish).toHaveBeenCalledWith(
-      expect.objectContaining({
-        type: 'variables-changed',
-        payload: { refreshAll: true },
-      })
-    );
-  });
-
-  it('Should run datasource request in scene dashboard', async () => {
-    window.__grafanaSceneContext = {
-      body: {
-        text: 'hello',
-      },
-    };
-
-    jest.mocked(sceneGraph.getTimeRange).mockReturnValue({
-      onRefresh: jest.fn(),
-    } as any);
-
-    const sceneResult = sceneGraph.getTimeRange(window.__grafanaSceneContext as SceneObject);
-
-    const currentTable = createTableConfig({
-      update: {
-        datasource: 'postgres',
-        payload: {},
-      },
-    });
-
-    datasourceRequest.mockResolvedValue({
-      state: LoadingState.Done,
-    });
-
-    const { result } = renderHook(() =>
-      useUpdateRow({
-        replaceVariables,
-        currentTable,
-      })
-    );
-
-    const row = { id: 1 };
-
-    await result.current(row);
-
-    expect(datasourceRequest).toHaveBeenCalledWith(
-      expect.objectContaining({
-        payload: row,
-        query: currentTable.update.payload,
-        datasource: currentTable.update.datasource,
-      })
-    );
-
-    /**
-     * Dashboard should be refreshed
-     */
-    expect(sceneResult.onRefresh).toHaveBeenCalledTimes(1);
+    expect(refresh).toHaveBeenCalledTimes(1);
   });
 
   it('Should show datasource request error message', async () => {
