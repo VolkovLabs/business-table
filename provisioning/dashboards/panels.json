@@ -24,8 +24,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 3,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -93,6 +93,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -139,6 +140,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -185,6 +187,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -194,9 +197,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "mean"
-                ],
+                "footer": ["mean"],
                 "group": false,
                 "label": "",
                 "pin": "",
@@ -233,6 +234,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "json",
                   "source": "A"
@@ -276,6 +278,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "comment.info.name",
                   "source": "A"
@@ -313,6 +316,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.5.0",
       "targets": [
         {
           "datasource": {
@@ -325,51 +329,31 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3
-                ]
+                "values": [1, 2, 3]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": [
-                  "DeviceWithVeryLongTitle",
-                  "Device 2",
-                  "Device 3"
-                ]
+                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  20
-                ]
+                "values": [10, 15, 20]
               },
               {
                 "config": {},
                 "name": "json",
                 "type": "string",
-                "values": [
-                  "{ \"name\": \"Device1\" }",
-                  "{ \"name\": \"Device2\" }",
-                  "{ \"name\": \"Device3\" }"
-                ]
+                "values": ["{ \"name\": \"Device1\" }", "{ \"name\": \"Device2\" }", "{ \"name\": \"Device3\" }"]
               },
               {
                 "config": {},
                 "name": "comment.info.name",
                 "type": "string",
-                "values": [
-                  "Some comment",
-                  "Some notes",
-                  ""
-                ]
+                "values": ["Some comment", "Some notes", ""]
               }
             ],
             "meta": {},
@@ -378,7 +362,7 @@
           "refId": "A"
         }
       ],
-      "title": "Table",
+      "title": "$title",
       "transformations": [
         {
           "id": "organize",
@@ -411,7 +395,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "yellow",
@@ -464,6 +449,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "country",
                   "source": "A"
@@ -508,6 +494,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "city",
                   "source": "A"
@@ -554,6 +541,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "device",
                   "source": "A"
@@ -563,9 +551,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "distinctCount"
-                ],
+                "footer": ["distinctCount"],
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -600,6 +586,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -609,9 +596,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "sum"
-                ],
+                "footer": ["sum"],
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -658,6 +643,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "device",
                   "source": "A"
@@ -704,6 +690,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -739,6 +726,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.5.0",
       "targets": [
         {
           "datasource": {
@@ -751,33 +739,13 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": [
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "Japan",
-                  "Japan",
-                  "Japan",
-                  "Japan"
-                ]
+                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": [
-                  "New York",
-                  "New York",
-                  "New York",
-                  "Tampa",
-                  "Tampa",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo"
-                ]
+                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
               },
               {
                 "config": {},
@@ -799,17 +767,7 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  2,
-                  13,
-                  8,
-                  17,
-                  4,
-                  13,
-                  8
-                ]
+                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
               }
             ],
             "meta": {}
@@ -848,7 +806,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "yellow",
@@ -902,6 +861,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "country",
                   "source": "A"
@@ -946,6 +906,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "city",
                   "source": "A"
@@ -992,6 +953,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "device",
                   "source": "A"
@@ -1001,9 +963,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "distinctCount"
-                ],
+                "footer": ["distinctCount"],
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -1038,6 +998,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -1047,9 +1008,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "sum"
-                ],
+                "footer": ["sum"],
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -1096,6 +1055,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "device",
                   "source": "A"
@@ -1142,6 +1102,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -1177,6 +1138,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.5.0",
       "targets": [
         {
           "datasource": {
@@ -1189,33 +1151,13 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": [
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "Japan",
-                  "Japan",
-                  "Japan",
-                  "Japan"
-                ]
+                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": [
-                  "New York",
-                  "New York",
-                  "New York",
-                  "Tampa",
-                  "Tampa",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo"
-                ]
+                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
               },
               {
                 "config": {},
@@ -1237,17 +1179,7 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  2,
-                  13,
-                  8,
-                  17,
-                  4,
-                  13,
-                  8
-                ]
+                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
               }
             ],
             "meta": {}
@@ -1283,7 +1215,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1304,6 +1237,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
+        "nestedObjects": [],
         "tables": [
           {
             "items": [
@@ -1334,6 +1268,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -1380,6 +1315,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -1389,9 +1325,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "count"
-                ],
+                "footer": ["count"],
                 "group": false,
                 "label": "",
                 "pin": "",
@@ -1418,6 +1352,7 @@
           "export": false
         }
       },
+      "pluginVersion": "1.5.0",
       "targets": [
         {
           "datasource": {
@@ -1466,11 +1401,31 @@
       "type": "volkovlabs-table-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "text": "Panel Table",
+          "value": "Panel Table"
+        },
+        "description": "",
+        "label": "Title",
+        "name": "title",
+        "options": [
+          {
+            "selected": true,
+            "text": "Panel Table",
+            "value": "Panel Table"
+          }
+        ],
+        "query": "Panel Table",
+        "type": "textbox"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -1480,6 +1435,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
