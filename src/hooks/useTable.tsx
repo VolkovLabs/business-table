@@ -341,7 +341,7 @@ export const useTable = ({
           ? objects.find((object) => object.id === column.config.objectId)
           : undefined;
 
-      const header = column.config.label || column.field.config?.displayName || column.field.name;
+      const header = replaceVariables(column.config.label) || column.field.config?.displayName || column.field.name;
 
       columns.push({
         id: column.field.name,
@@ -397,6 +397,7 @@ export const useTable = ({
     getEditorControlOptions,
     getNestedObjectControlOptions,
     objects,
+    replaceVariables,
     templateService,
     theme,
   ]);
