@@ -1,5 +1,5 @@
 import { dateTime } from '@grafana/data';
-import { DateTimePicker, InlineField, InlineFieldRow, Input, Select } from '@grafana/ui';
+import { DateTimePicker, InlineField, InlineFieldRow, Input, Select, TextArea } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
@@ -30,6 +30,41 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         style={{ width: '100%' }}
         disabled={isSaving}
         {...TEST_IDS.editableCell.fieldString.apply()}
+      />
+    ),
+    getControlOptions: (params) => params.config,
+  }),
+  createEditableColumnEditorRegistryItem({
+    id: ColumnEditorType.TEXT_AREA,
+    editor: ({ value, onChange }) => (
+      <InlineFieldRow>
+        <InlineField label="Rows" labelWidth={8}>
+          <Input
+            placeholder="Rows"
+            onChange={(event: ChangeEvent<HTMLInputElement>) => {
+              onChange({
+                ...value,
+                rows: Number(event.target.value),
+              });
+            }}
+            type="number"
+            width={10}
+            value={value.rows}
+            {...TEST_IDS.editableColumnEditor.fieldTextAreaRows.apply()}
+          />
+        </InlineField>
+      </InlineFieldRow>
+    ),
+    control: ({ value, onChange, isSaving, config }) => (
+      <TextArea
+        value={(value as string).replaceAll('\\n', '\n')}
+        onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
+          onChange(event.target.value.replaceAll('\n', '\\n'));
+        }}
+        cols={100}
+        rows={config.rows}
+        disabled={isSaving}
+        {...TEST_IDS.editableCell.fieldTextArea.apply()}
       />
     ),
     getControlOptions: (params) => params.config,

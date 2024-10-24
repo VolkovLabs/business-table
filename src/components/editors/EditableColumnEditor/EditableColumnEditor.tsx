@@ -25,6 +25,7 @@ interface Props extends EditorProps<ColumnEditorConfig> {
  */
 const columnEditorOptions = [
   { value: ColumnEditorType.STRING, label: 'String' },
+  { value: ColumnEditorType.TEXT_AREA, label: 'Text Area' },
   { value: ColumnEditorType.NUMBER, label: 'Number' },
   { value: ColumnEditorType.SELECT, label: 'Select' },
   { value: ColumnEditorType.DATETIME, label: 'Datetime' },

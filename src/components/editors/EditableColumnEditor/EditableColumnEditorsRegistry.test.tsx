@@ -451,4 +451,83 @@ describe('editableColumnEditorsRegistry', () => {
       });
     });
   });
+
+  describe('Text Area', () => {
+    it('Should render editor', () => {
+      render(
+        getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA } }).editor })
+      );
+
+      /**
+       * Editor
+       */
+      expect(editorSelectors.fieldTextAreaRows()).toBeInTheDocument();
+    });
+
+    it('Should allow to set rows in config', () => {
+      render(
+        getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA } }).editor })
+      );
+
+      expect(editorSelectors.fieldTextAreaRows()).toBeInTheDocument();
+      expect(editorSelectors.fieldTextAreaRows()).toHaveValue(null);
+
+      fireEvent.change(editorSelectors.fieldTextAreaRows(), { target: { value: 10 } });
+
+      expect(onChangeConfig).toHaveBeenCalledWith({
+        rows: 10,
+        type: ColumnEditorType.TEXT_AREA,
+      });
+    });
+
+    it('Should allow to set rows to 0 in config', () => {
+      render(
+        getEditorComponent({
+          value: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA, rows: 10 } }).editor,
+        })
+      );
+
+      expect(editorSelectors.fieldTextAreaRows()).toBeInTheDocument();
+      expect(editorSelectors.fieldTextAreaRows()).toHaveValue(10);
+
+      fireEvent.change(editorSelectors.fieldTextAreaRows(), { target: { value: '' } });
+
+      expect(onChangeConfig).toHaveBeenCalledWith({
+        rows: 0,
+        type: ColumnEditorType.TEXT_AREA,
+      });
+    });
+
+    it('Should render control', () => {
+      render(
+        getControlComponent({
+          value: 'line',
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldTextArea()).toBeInTheDocument();
+      expect(controlSelectors.fieldTextArea()).toHaveValue('line');
+
+      fireEvent.change(controlSelectors.fieldTextArea(), { target: { value: 'line updated' } });
+
+      expect(onChange).toHaveBeenCalledWith('line updated');
+    });
+
+    it('Should render control with replaced lines and replace line onChange correctly', () => {
+      render(
+        getControlComponent({
+          value: 'line\\nline-2',
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldTextArea()).toBeInTheDocument();
+      expect(controlSelectors.fieldTextArea()).toHaveValue('line\nline-2');
+
+      fireEvent.change(controlSelectors.fieldTextArea(), { target: { value: 'line\nline-2\nline-3' } });
+
+      expect(onChange).toHaveBeenCalledWith('line\\nline-2\\nline-3');
+    });
+  });
 });
