@@ -474,10 +474,10 @@ describe('editableColumnEditorsRegistry', () => {
         })
       );
 
-      expect(controlSelectors.fieldTextArea()).toBeInTheDocument();
-      expect(controlSelectors.fieldTextArea()).toHaveValue('line');
+      expect(controlSelectors.fieldTextarea()).toBeInTheDocument();
+      expect(controlSelectors.fieldTextarea()).toHaveValue('line');
 
-      fireEvent.change(controlSelectors.fieldTextArea(), { target: { value: 'line updated' } });
+      fireEvent.change(controlSelectors.fieldTextarea(), { target: { value: 'line updated' } });
 
       expect(onChange).toHaveBeenCalledWith('line updated');
     });
@@ -490,10 +490,10 @@ describe('editableColumnEditorsRegistry', () => {
         })
       );
 
-      expect(controlSelectors.fieldTextArea()).toBeInTheDocument();
-      expect(controlSelectors.fieldTextArea()).toHaveValue('line\nline-2');
+      expect(controlSelectors.fieldTextarea()).toBeInTheDocument();
+      expect(controlSelectors.fieldTextarea()).toHaveValue('line\nline-2');
 
-      fireEvent.change(controlSelectors.fieldTextArea(), { target: { value: 'line\nline-2\nline-3' } });
+      fireEvent.change(controlSelectors.fieldTextarea(), { target: { value: 'line\nline-2\nline-3' } });
 
       expect(onChange).toHaveBeenCalledWith('line\\nline-2\\nline-3');
     });

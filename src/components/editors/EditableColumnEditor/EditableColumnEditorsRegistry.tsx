@@ -44,7 +44,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
           onChange(event.target.value.replaceAll('\n', '\\n'));
         }}
         disabled={isSaving}
-        {...TEST_IDS.editableCell.fieldTextArea.apply()}
+        {...TEST_IDS.editableCell.fieldTextarea.apply()}
       />
     ),
     getControlOptions: (params) => params.config,
