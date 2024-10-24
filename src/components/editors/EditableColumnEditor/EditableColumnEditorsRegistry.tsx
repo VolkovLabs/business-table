@@ -36,33 +36,13 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
   }),
   createEditableColumnEditorRegistryItem({
     id: ColumnEditorType.TEXT_AREA,
-    editor: ({ value, onChange }) => (
-      <InlineFieldRow>
-        <InlineField label="Rows" labelWidth={8}>
-          <Input
-            placeholder="Rows"
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              onChange({
-                ...value,
-                rows: Number(event.target.value),
-              });
-            }}
-            type="number"
-            width={10}
-            value={value.rows}
-            {...TEST_IDS.editableColumnEditor.fieldTextAreaRows.apply()}
-          />
-        </InlineField>
-      </InlineFieldRow>
-    ),
-    control: ({ value, onChange, isSaving, config }) => (
+    editor: () => null,
+    control: ({ value, onChange, isSaving }) => (
       <TextArea
         value={(value as string).replaceAll('\\n', '\n')}
         onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
           onChange(event.target.value.replaceAll('\n', '\\n'));
         }}
-        cols={100}
-        rows={config.rows}
         disabled={isSaving}
         {...TEST_IDS.editableCell.fieldTextArea.apply()}
       />
