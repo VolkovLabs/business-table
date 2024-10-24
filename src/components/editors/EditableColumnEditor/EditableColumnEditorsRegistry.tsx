@@ -35,7 +35,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
     getControlOptions: (params) => params.config,
   }),
   createEditableColumnEditorRegistryItem({
-    id: ColumnEditorType.TEXT_AREA,
+    id: ColumnEditorType.TEXTAREA,
     editor: () => null,
     control: ({ value, onChange, isSaving }) => (
       <TextArea
