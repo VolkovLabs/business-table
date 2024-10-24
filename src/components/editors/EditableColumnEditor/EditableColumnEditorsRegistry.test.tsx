@@ -456,7 +456,7 @@ describe('editableColumnEditorsRegistry', () => {
     it('Should render editor', () => {
       render(
         getEditorComponent({
-          value: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA, rows: 1 } }).editor,
+          value: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA } }).editor,
         })
       );
 
@@ -470,7 +470,7 @@ describe('editableColumnEditorsRegistry', () => {
       render(
         getControlComponent({
           value: 'line',
-          config: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA, rows: 1 } }).editor,
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXT_AREA } }).editor,
         })
       );
 
