@@ -451,4 +451,51 @@ describe('editableColumnEditorsRegistry', () => {
       });
     });
   });
+
+  describe('Text Area', () => {
+    it('Should render editor', () => {
+      render(
+        getEditorComponent({
+          value: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXTAREA } }).editor,
+        })
+      );
+
+      /**
+       * String doesn't have editor yet
+       */
+      expect(true).toBeTruthy();
+    });
+
+    it('Should render control', () => {
+      render(
+        getControlComponent({
+          value: 'line',
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXTAREA } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldTextarea()).toBeInTheDocument();
+      expect(controlSelectors.fieldTextarea()).toHaveValue('line');
+
+      fireEvent.change(controlSelectors.fieldTextarea(), { target: { value: 'line updated' } });
+
+      expect(onChange).toHaveBeenCalledWith('line updated');
+    });
+
+    it('Should render control with replaced lines and replace line onChange correctly', () => {
+      render(
+        getControlComponent({
+          value: 'line\\nline-2',
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXTAREA } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldTextarea()).toBeInTheDocument();
+      expect(controlSelectors.fieldTextarea()).toHaveValue('line\nline-2');
+
+      fireEvent.change(controlSelectors.fieldTextarea(), { target: { value: 'line\nline-2\nline-3' } });
+
+      expect(onChange).toHaveBeenCalledWith('line\\nline-2\\nline-3');
+    });
+  });
 });
