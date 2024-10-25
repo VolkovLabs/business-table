@@ -3,6 +3,7 @@ import { CellContext } from '@tanstack/react-table';
 import React from 'react';
 
 import { ACCEPTABLE_AGGREGATION_TYPE, TEST_IDS } from '@/constants';
+import { CellType } from '@/types';
 
 /**
  * Properties
@@ -41,10 +42,17 @@ export const AggregatedCellRenderer: React.FC<Props> = ({ renderValue, column, b
   if (field.display && ACCEPTABLE_AGGREGATION_TYPE.includes(config.aggregation)) {
     const displayValue = field.display(value);
 
+    let color = 'inherit';
+
+    if (displayValue.color) {
+      color = displayValue.color;
+    }
+
     return (
       <span
         style={{
-          color: bgColor ? theme.colors.getContrastText(bgColor) : 'inherit',
+          color:
+            config.type === CellType.COLORED_TEXT ? color : bgColor ? theme.colors.getContrastText(bgColor) : 'inherit',
         }}
         {...TEST_IDS.aggregatedCellRenderer.root.apply()}
       >

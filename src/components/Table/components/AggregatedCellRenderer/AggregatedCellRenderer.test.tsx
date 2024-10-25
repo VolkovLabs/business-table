@@ -4,7 +4,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellAggregation, ColumnMeta } from '@/types';
+import { CellAggregation, CellType, ColumnMeta } from '@/types';
 import { createColumnConfig, createField } from '@/utils';
 
 import { AggregatedCellRenderer } from './AggregatedCellRenderer';
@@ -119,5 +119,24 @@ describe('AggregatedCellRenderer', () => {
     expect(selectors.root()).toBeInTheDocument();
     expect(selectors.root()).toHaveTextContent('123%');
     expect(selectors.root().style.color).toBe('');
+  });
+
+  it('Should add text color if config specified', async () => {
+    const renderValue: any = jest.fn(() => 123);
+    render(
+      getComponent({
+        column: createColumnWithMeta({
+          config: createColumnConfig({ type: CellType.COLORED_TEXT, aggregation: CellAggregation.MIN }),
+          field: createField({ config: { unit: 'percent' } }),
+        }),
+        renderValue: renderValue,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.root()).toHaveTextContent('123%');
+    expect(selectors.root()).toHaveStyle({
+      color: 'rgb(128, 128, 128)',
+    });
   });
 });
