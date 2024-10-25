@@ -400,8 +400,8 @@ class PanelEditorHelper {
       .getByGrafanaSelector(
         this.editPage.ctx.selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable')
       )
-      .getByLabel('Toggle switch')
-      .click();
+      .getByRole('switch')
+      .setChecked(true, { force: true });
   }
 }
 
