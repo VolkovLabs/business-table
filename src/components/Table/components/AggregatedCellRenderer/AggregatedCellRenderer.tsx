@@ -1,30 +1,29 @@
-import { FormattedValueDisplay } from '@grafana/ui';
+import { FormattedValueDisplay, useTheme2 } from '@grafana/ui';
 import { CellContext } from '@tanstack/react-table';
 import React from 'react';
 
-import { TEST_IDS } from '@/constants';
-import { CellAggregation } from '@/types';
+import { ACCEPTABLE_AGGREGATION_TYPE, TEST_IDS } from '@/constants';
 
 /**
  * Properties
  */
-interface Props extends CellContext<unknown, unknown> {}
-
-/**
- * Aggregation Type acceptable for display processor
- */
-export const acceptableAggregationType = [
-  CellAggregation.MIN,
-  CellAggregation.MAX,
-  CellAggregation.MEAN,
-  CellAggregation.MEDIAN,
-  CellAggregation.SUM,
-];
+interface Props extends CellContext<unknown, unknown> {
+  /**
+   * Bg Color
+   *
+   * @type {string}
+   */
+  bgColor?: string;
+}
 
 /**
  * Aggregated Cell Renderer
  */
-export const AggregatedCellRenderer: React.FC<Props> = ({ renderValue, column }) => {
+export const AggregatedCellRenderer: React.FC<Props> = ({ renderValue, column, bgColor }) => {
+  /**
+   * Theme
+   */
+  const theme = useTheme2();
   /**
    * No meta
    */
@@ -39,11 +38,16 @@ export const AggregatedCellRenderer: React.FC<Props> = ({ renderValue, column })
   /**
    * Use Display Processor
    */
-  if (field.display && acceptableAggregationType.includes(config.aggregation)) {
+  if (field.display && ACCEPTABLE_AGGREGATION_TYPE.includes(config.aggregation)) {
     const displayValue = field.display(value);
 
     return (
-      <span {...TEST_IDS.aggregatedCellRenderer.root.apply()}>
+      <span
+        style={{
+          color: bgColor ? theme.colors.getContrastText(bgColor) : 'inherit',
+        }}
+        {...TEST_IDS.aggregatedCellRenderer.root.apply()}
+      >
         <FormattedValueDisplay value={displayValue} />
       </span>
     );

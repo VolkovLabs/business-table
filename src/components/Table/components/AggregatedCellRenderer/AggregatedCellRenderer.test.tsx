@@ -83,4 +83,41 @@ describe('AggregatedCellRenderer', () => {
     expect(selectors.root()).toBeInTheDocument();
     expect(selectors.root()).toHaveTextContent('123%');
   });
+
+  it('Should add contrast color if background passed', async () => {
+    const renderValue: any = jest.fn(() => 123);
+    render(
+      getComponent({
+        column: createColumnWithMeta({
+          config: createColumnConfig({ aggregation: CellAggregation.MIN }),
+          field: createField({ config: { unit: 'percent' } }),
+        }),
+        renderValue: renderValue,
+        bgColor: '#ffc300 ',
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.root()).toHaveTextContent('123%');
+    expect(selectors.root()).toHaveStyle({
+      color: 'rgb(0, 0, 0)',
+    });
+  });
+
+  it('Should add inherit color if background not specified', async () => {
+    const renderValue: any = jest.fn(() => 123);
+    render(
+      getComponent({
+        column: createColumnWithMeta({
+          config: createColumnConfig({ aggregation: CellAggregation.MIN }),
+          field: createField({ config: { unit: 'percent' } }),
+        }),
+        renderValue: renderValue,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.root()).toHaveTextContent('123%');
+    expect(selectors.root().style.color).toBe('');
+  });
 });

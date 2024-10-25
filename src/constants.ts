@@ -1,7 +1,7 @@
 import { selectors } from '@grafana/e2e-selectors';
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, PermissionMode } from '@/types';
+import { CellAggregation, ColumnAlignment, ColumnEditConfig, ColumnEditorType, PermissionMode } from '@/types';
 
 /**
  * Default Column Appearance
@@ -312,3 +312,14 @@ export const ALL_VALUE_PARAMETER = '$__all';
  * Auto Save timeout ms
  */
 export const AUTO_SAVE_TIMEOUT = 1000;
+
+/**
+ * Aggregation Type acceptable for display processor
+ */
+export const ACCEPTABLE_AGGREGATION_TYPE = [
+  CellAggregation.MIN,
+  CellAggregation.MAX,
+  CellAggregation.MEAN,
+  CellAggregation.MEDIAN,
+  CellAggregation.SUM,
+];
