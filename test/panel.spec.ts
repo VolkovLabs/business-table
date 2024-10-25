@@ -269,7 +269,12 @@ test.describe('Business Table Panel', () => {
   });
 
   test.describe('Download Button', () => {
-    test('Should add Download button', async ({ page, gotoDashboardPage, readProvisionedDashboard }) => {
+    test('Should add Download button', async ({
+      page,
+      gotoDashboardPage,
+      readProvisionedDashboard,
+      grafanaVersion,
+    }) => {
       /**
        * Go To Panels dashboard devices.json
        * return dashboardPage
@@ -294,7 +299,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Enabled Download
        */
-      await panel.getPanelEditor(page.locator('body'), editPage).enableDownload();
+      await panel.getPanelEditor(page.locator('body'), editPage).enableDownload(grafanaVersion);
 
       /**
        * Download button should be visible

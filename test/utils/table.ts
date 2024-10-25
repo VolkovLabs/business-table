@@ -1,3 +1,4 @@
+import * as semver from 'semver';
 import { Locator } from '@playwright/test';
 import { DashboardPage, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e';
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '../../src/constants';
@@ -395,13 +396,16 @@ class PanelEditorHelper {
     return new TableEditorHelper(name, this.locator, this.editPage);
   }
 
-  public async enableDownload() {
-    return this.editPage
-      .getByGrafanaSelector(
-        this.editPage.ctx.selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable')
-      )
-      .getByLabel('Toggle switch')
-      .click();
+  public async enableDownload(grafanaVersion: string) {
+    const downloadLabel = this.editPage.getByGrafanaSelector(
+      this.editPage.ctx.selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable')
+    );
+
+    const switchField = semver.gte(grafanaVersion, '11.4.0')
+      ? downloadLabel.getByRole('switch')
+      : downloadLabel.getByLabel('Toggle switch');
+
+    return switchField.click({ force: true });
   }
 }
 
