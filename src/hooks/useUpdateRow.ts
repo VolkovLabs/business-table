@@ -1,5 +1,6 @@
 import { AlertErrorPayload, AlertPayload, AppEvents, InterpolateFunction, LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
+import { useDashboardRefresh } from '@volkovlabs/components';
 import { useCallback } from 'react';
 
 import { TableConfig } from '@/types';
@@ -25,6 +26,11 @@ export const useUpdateRow = ({
     (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload }),
     [appEvents]
   );
+
+  /**
+   * Refresh dashboard
+   */
+  const refreshDashboard = useDashboardRefresh();
 
   /**
    * Data Source Request
@@ -61,13 +67,13 @@ export const useUpdateRow = ({
         }
 
         notifySuccess(['Success', 'Values updated successfully.']);
-        appEvents.publish({ type: 'variables-changed', payload: { refreshAll: true } });
+        refreshDashboard();
       } catch (e: unknown) {
         const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
         notifyError(['Error', errorMessage]);
         throw e;
       }
     },
-    [appEvents, currentTable?.update, datasourceRequest, notifyError, notifySuccess, replaceVariables]
+    [currentTable?.update, datasourceRequest, notifyError, notifySuccess, refreshDashboard, replaceVariables]
   );
 };
