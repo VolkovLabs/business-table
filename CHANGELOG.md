@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.6.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Updated refresh and useRuntimeVariables for dashboard scene (#129)
+- Add replaceVariables to file name (#131)
+
 ## 1.5.0 (2024-10-08)
 
 ### Features / Enhancements
