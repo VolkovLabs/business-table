@@ -1,6 +1,7 @@
 import { AppEvents, LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { renderHook } from '@testing-library/react';
+import { useDashboardRefresh } from '@volkovlabs/components';
 
 import { createTableConfig } from '@/utils';
 
@@ -14,15 +15,25 @@ jest.mock('./useDatasourceRequest', () => ({
   useDatasourceRequest: jest.fn(),
 }));
 
+/**
+ * Mock @volkovlabs/components
+ */
+jest.mock('@volkovlabs/components', () => ({
+  ...jest.requireActual('@volkovlabs/components'),
+  useDashboardRefresh: jest.fn(),
+}));
+
 describe('useUpdateRow', () => {
   /**
    * Mocks
    */
   const replaceVariables = jest.fn();
   const datasourceRequest = jest.fn();
+  const refresh = jest.fn();
 
   beforeEach(() => {
     jest.mocked(useDatasourceRequest).mockReturnValue(datasourceRequest);
+    jest.mocked(useDashboardRefresh).mockImplementation(() => refresh);
   });
 
   it('Should not update data if no update request', async () => {
@@ -72,14 +83,9 @@ describe('useUpdateRow', () => {
     );
 
     /**
-     * Check if dashboard refreshed
+     * Should run refresh
      */
-    expect(getAppEvents().publish).toHaveBeenCalledWith(
-      expect.objectContaining({
-        type: 'variables-changed',
-        payload: { refreshAll: true },
-      })
-    );
+    expect(refresh).toHaveBeenCalledTimes(1);
   });
 
   it('Should show datasource request error message', async () => {
