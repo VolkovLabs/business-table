@@ -141,7 +141,13 @@ export const TablePanel: React.FC<Props> = ({
   /**
    * Export
    */
-  const onExport = useExportData({ data: tableData, columns, tableConfig: currentTable, panelTitle: title });
+  const onExport = useExportData({
+    data: tableData,
+    columns,
+    tableConfig: currentTable,
+    panelTitle: title,
+    replaceVariables,
+  });
 
   /**
    * Return

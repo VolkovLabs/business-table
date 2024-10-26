@@ -46,17 +46,17 @@ const cellTypeOptions = [
     label: 'Auto',
   },
   {
-    value: CellType.COLORED_TEXT,
-    label: 'Colored text',
-  },
-  {
     value: CellType.COLORED_BACKGROUND,
     label: 'Colored background',
   },
   {
+    value: CellType.COLORED_TEXT,
+    label: 'Colored text',
+  },
+  {
     value: CellType.NESTED_OBJECTS,
-    label: 'Nested Objects',
-    description: 'Column Value should be an array of object ids.',
+    label: 'Nested objects',
+    description: 'Column value should be an array of object ids.',
   },
 ];
 
