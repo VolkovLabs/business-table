@@ -123,6 +123,7 @@ export const NestedObjectCardsControl: React.FC<Props> = ({
       if (!payload) {
         return;
       }
+
       if (operations.update.enabled && operations.update.request) {
         try {
           const item = mapper.createObject(payload);
