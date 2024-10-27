@@ -526,6 +526,162 @@ describe('ColumnEditor', () => {
         );
       });
     });
+
+    describe('Font size', () => {
+      it('Should allow to change value', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({}),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceFontSize()).toBeInTheDocument();
+
+        fireEvent.change(selectors.fieldAppearanceFontSize(), { target: { value: '15' } });
+        fireEvent.blur(selectors.fieldAppearanceFontSize(), { target: { value: '15' } });
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              fontSize: 15,
+            }),
+          })
+        );
+      });
+
+      it('Should not allow to change value with string character', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({}),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceFontSize()).toBeInTheDocument();
+
+        fireEvent.change(selectors.fieldAppearanceFontSize(), { target: { value: 'aa' } });
+        fireEvent.blur(selectors.fieldAppearanceFontSize(), { target: { value: 'aa' } });
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              fontSize: 0,
+            }),
+          })
+        );
+      });
+    });
+
+    describe('Colors', () => {
+      it('Should allow to change font color', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({}),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceFontColor()).toBeInTheDocument();
+
+        fireEvent.change(selectors.fieldAppearanceFontColor(), { target: { value: '#ffffff' } });
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              colors: {
+                fontColor: '#ffffff',
+              },
+            }),
+          })
+        );
+      });
+
+      it('Should allow to change background color', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({}),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceBackgroundColor()).toBeInTheDocument();
+
+        fireEvent.change(selectors.fieldAppearanceBackgroundColor(), { target: { value: '#c1c1c1' } });
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              colors: {
+                backgroundColor: '#c1c1c1',
+              },
+            }),
+          })
+        );
+      });
+
+      it('Should allow to reset background color', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                colors: {
+                  backgroundColor: '#c1c1c1',
+                },
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceBackgroundColor()).toBeInTheDocument();
+        expect(selectors.buttonRemoveBackgroundColor()).toBeInTheDocument();
+
+        fireEvent.click(selectors.buttonRemoveBackgroundColor());
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              colors: {
+                backgroundColor: '',
+              },
+            }),
+          })
+        );
+      });
+
+      it('Should allow to reset font color', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                colors: {
+                  fontColor: '#c1c1c1',
+                },
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldAppearanceBackgroundColor()).toBeInTheDocument();
+        expect(selectors.buttonRemoveFontColor()).toBeInTheDocument();
+
+        fireEvent.click(selectors.buttonRemoveFontColor());
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              colors: {
+                fontColor: '',
+              },
+            }),
+          })
+        );
+      });
+    });
   });
 
   it('Should allow to change footer', () => {

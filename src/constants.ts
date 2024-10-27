@@ -14,6 +14,7 @@ export const DEFAULT_COLUMN_APPEARANCE = {
     min: 20,
     value: 100,
   },
+  colors: {},
   background: {
     applyToRow: false,
   },
@@ -92,6 +93,11 @@ export const TEST_IDS = {
     fieldAppearanceWidthMin: createSelector('data-testid column-editor field-appearance-width-min'),
     fieldAppearanceWidthMax: createSelector('data-testid column-editor field-appearance-width-max'),
     fieldAppearanceWidthValue: createSelector('data-testid column-editor field-appearance-width-value'),
+    fieldAppearanceFontColor: createSelector('data-testid column-editor field-appearance-font-color'),
+    buttonRemoveFontColor: createSelector('data-testid column-editor button-remove-font-color'),
+    fieldAppearanceBackgroundColor: createSelector('data-testid column-editor field-appearance-background-color'),
+    buttonRemoveBackgroundColor: createSelector('data-testid column-editor button-remove-background-color'),
+    fieldAppearanceFontSize: createSelector('data-testid column-editor field-font-size'),
     fieldAppearanceWrap: createSelector('data-testid column-editor field-appearance-wrap'),
     fieldAppearanceAlignment: createSelector('data-testid column-editor field-appearance-alignment'),
     fieldAppearanceAlignmentOption: createSelector(

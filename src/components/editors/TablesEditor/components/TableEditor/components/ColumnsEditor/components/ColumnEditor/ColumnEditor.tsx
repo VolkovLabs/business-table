@@ -1,6 +1,17 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select, StatsPicker } from '@grafana/ui';
+import {
+  ColorPicker,
+  IconButton,
+  InlineField,
+  InlineFieldRow,
+  InlineSwitch,
+  Input,
+  RadioButtonGroup,
+  Select,
+  StatsPicker,
+  useStyles2,
+} from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { useMemo } from 'react';
 
@@ -17,6 +28,8 @@ import {
   EditorProps,
 } from '@/types';
 import { getColumnConfigWithNewType, getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
+
+import { getStyles } from './ColumnEditor.styles';
 
 /**
  * Properties
@@ -169,6 +182,11 @@ const sortDirectionOptions = [
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable }) => {
+  /**
+   * Styles
+   */
+  const styles = useStyles2(getStyles);
+
   /**
    * Current field
    */
@@ -356,6 +374,93 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           )}
         </InlineFieldRow>
       </FieldsGroup>
+      <FieldsGroup label="Colors">
+        <InlineFieldRow>
+          <InlineField label="Font Color" className={styles.colorPickerContainer} labelWidth={10}>
+            <div className={styles.colorPickerButtons}>
+              <ColorPicker
+                color={value.appearance.colors?.fontColor || 'transparent'}
+                onChange={(fontColor) => {
+                  onChange({
+                    ...value,
+                    appearance: {
+                      ...value.appearance,
+                      colors: {
+                        ...value.appearance.colors,
+                        fontColor,
+                      },
+                    },
+                  });
+                }}
+                {...TEST_IDS.columnEditor.fieldAppearanceFontColor.apply()}
+              />
+              {value.appearance.colors?.fontColor && (
+                <IconButton
+                  name="times"
+                  size="md"
+                  variant="secondary"
+                  tooltip="Reset to default"
+                  onClick={() =>
+                    onChange({
+                      ...value,
+                      appearance: {
+                        ...value.appearance,
+                        colors: {
+                          ...value.appearance.colors,
+                          fontColor: '',
+                        },
+                      },
+                    })
+                  }
+                  {...TEST_IDS.columnEditor.buttonRemoveFontColor.apply()}
+                />
+              )}
+            </div>
+          </InlineField>
+
+          <InlineField label="Background Color" className={styles.colorPickerContainer} labelWidth={20}>
+            <div className={styles.colorPickerButtons}>
+              <ColorPicker
+                color={value.appearance.colors?.backgroundColor || 'transparent'}
+                onChange={(backgroundColor) => {
+                  onChange({
+                    ...value,
+                    appearance: {
+                      ...value.appearance,
+                      colors: {
+                        ...value.appearance.colors,
+                        backgroundColor,
+                      },
+                    },
+                  });
+                }}
+                {...TEST_IDS.columnEditor.fieldAppearanceBackgroundColor.apply()}
+              />
+              {value.appearance.colors?.backgroundColor && (
+                <IconButton
+                  name="times"
+                  size="md"
+                  variant="secondary"
+                  tooltip="Reset to default"
+                  onClick={() =>
+                    onChange({
+                      ...value,
+                      appearance: {
+                        ...value.appearance,
+                        colors: {
+                          ...value.appearance.colors,
+                          backgroundColor: '',
+                        },
+                      },
+                    })
+                  }
+                  {...TEST_IDS.columnEditor.buttonRemoveBackgroundColor.apply()}
+                />
+              )}
+            </div>
+          </InlineField>
+        </InlineFieldRow>
+      </FieldsGroup>
       {value.type !== CellType.NESTED_OBJECTS && (
         <FieldsGroup label="Text">
           <InlineFieldRow>
@@ -406,6 +511,22 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                     ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.END),
                   },
                 ]}
+              />
+            </InlineField>
+            <InlineField tooltip="Keep 0 to display by default" label="Text size" labelWidth={12}>
+              <NumberInput
+                value={value.appearance.fontSize ?? ''}
+                placeholder="Size"
+                onChange={(fontSize) => {
+                  onChange({
+                    ...value,
+                    appearance: {
+                      ...value.appearance,
+                      fontSize,
+                    },
+                  });
+                }}
+                {...TEST_IDS.columnEditor.fieldAppearanceFontSize.apply()}
               />
             </InlineField>
           </InlineFieldRow>

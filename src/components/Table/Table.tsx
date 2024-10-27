@@ -349,23 +349,27 @@ export const Table = <TData,>({
         <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className={styles.headerCell}
-                  style={{
-                    maxWidth: header.column.columnDef.maxSize,
-                    minWidth: header.column.columnDef.minSize,
-                    width: header.getSize(),
-                    textAlign: header.column.columnDef.meta?.config.appearance.alignment,
-                    justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
-                    ...getPinnedHeaderColumnStyle(theme, header.column),
-                  }}
-                  {...TEST_IDS.table.headerCell.apply(header.id)}
-                >
-                  <TableHeaderCell header={header} />
-                </th>
-              ))}
+              {headerGroup.headers.map((header) => {
+                const bgColor = header.column.columnDef.meta?.config.appearance.colors?.backgroundColor;
+                return (
+                  <th
+                    key={header.id}
+                    className={styles.headerCell}
+                    style={{
+                      maxWidth: header.column.columnDef.maxSize,
+                      minWidth: header.column.columnDef.minSize,
+                      background: bgColor,
+                      width: header.getSize(),
+                      textAlign: header.column.columnDef.meta?.config.appearance.alignment,
+                      justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
+                      ...getPinnedHeaderColumnStyle(theme, header.column),
+                    }}
+                    {...TEST_IDS.table.headerCell.apply(header.id)}
+                  >
+                    <TableHeaderCell header={header} />
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>

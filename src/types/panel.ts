@@ -111,6 +111,29 @@ export interface ColumnAppearanceConfig {
      */
     applyToRow: boolean;
   };
+
+  /**
+   * Font size
+   *
+   * @type {number}
+   */
+  fontSize?: number;
+
+  colors: {
+    /**
+     * Font color
+     *
+     * @type {string}
+     */
+    fontColor?: string;
+
+    /**
+     * Background color
+     *
+     * @type {string}
+     */
+    backgroundColor?: string;
+  };
 }
 
 /**

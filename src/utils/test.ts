@@ -52,6 +52,7 @@ export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanc
   background: {
     applyToRow: false,
   },
+  colors: {},
   ...appearance,
 });
 

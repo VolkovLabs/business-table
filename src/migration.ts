@@ -193,6 +193,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
           background: {
             applyToRow: false,
           },
+          colors: {},
           wrap: true,
           alignment: ColumnAlignment.START,
           ...(normalized.appearance as Partial<ColumnAppearanceConfig>),
