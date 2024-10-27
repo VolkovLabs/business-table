@@ -1,16 +1,17 @@
 import { toDataFrame } from '@grafana/data';
 import { act, renderHook } from '@testing-library/react';
+import { useDatasourceRequest } from '@volkovlabs/components';
 
 import { CellType } from '@/types';
 import { createColumnConfig, createNestedObjectConfig, createNestedObjectEditorConfig } from '@/utils';
 
-import { useDatasourceRequest } from './useDatasourceRequest';
 import { useNestedObjects } from './useNestedObjects';
 
 /**
- * Mock useDatasourceRequest
+ * Mock @volkovlabs/components
  */
-jest.mock('./useDatasourceRequest', () => ({
+jest.mock('@volkovlabs/components', () => ({
+  ...jest.requireActual('@volkovlabs/components'),
   useDatasourceRequest: jest.fn(),
 }));
 
