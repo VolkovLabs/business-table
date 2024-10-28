@@ -63,10 +63,10 @@ export enum ColumnAlignment {
  * Column Header Font Size
  */
 export enum ColumnHeaderFontSize {
-  LG = '18px',
-  MD = '14px',
-  SM = '12px',
-  XS = '10px',
+  LG = 'lg',
+  MD = 'md',
+  SM = 'sm',
+  XS = 'xs',
 }
 
 /**

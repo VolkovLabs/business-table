@@ -323,3 +323,13 @@ export const ALL_VALUE_PARAMETER = '$__all';
  * Auto Save timeout ms
  */
 export const AUTO_SAVE_TIMEOUT = 1000;
+
+/**
+ * Font Sizes
+ */
+export const FONT_SIZES = {
+  lg: 18,
+  md: 14,
+  sm: 12,
+  xs: 10,
+};
