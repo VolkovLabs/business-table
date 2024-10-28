@@ -29,15 +29,6 @@ const inTestIds = {
 };
 
 /**
- * Mock @volkovlabs/components
- */
-jest.mock('@volkovlabs/components', () => ({
-  ...jest.requireActual('@volkovlabs/components'),
-  useDashboardRefresh: jest.fn(),
-  useDatasourceRequest: jest.fn(),
-}));
-
-/**
  * Mock NestedObjectCardsItem
  */
 jest.mock('./components/NestedObjectCardsItem', () => ({

@@ -7,15 +7,6 @@ import { createTableConfig } from '@/utils';
 
 import { useUpdateRow } from './useUpdateRow';
 
-/**
- * Mock @volkovlabs/components
- */
-jest.mock('@volkovlabs/components', () => ({
-  ...jest.requireActual('@volkovlabs/components'),
-  useDashboardRefresh: jest.fn(),
-  useDatasourceRequest: jest.fn(),
-}));
-
 describe('useUpdateRow', () => {
   /**
    * Mocks

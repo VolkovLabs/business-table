@@ -7,14 +7,6 @@ import { createColumnConfig, createNestedObjectConfig, createNestedObjectEditorC
 
 import { useNestedObjects } from './useNestedObjects';
 
-/**
- * Mock @volkovlabs/components
- */
-jest.mock('@volkovlabs/components', () => ({
-  ...jest.requireActual('@volkovlabs/components'),
-  useDatasourceRequest: jest.fn(),
-}));
-
 describe('useNestedObjects', () => {
   const replaceVariables = jest.fn();
   const datasourceRequestMock = jest.fn();
