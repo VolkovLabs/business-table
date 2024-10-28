@@ -5,7 +5,7 @@ import { Cell, CellContext, Column, Row } from '@tanstack/react-table';
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties } from 'react';
 
-import { ACCEPTABLE_AGGREGATION_TYPE, ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { ACTIONS_COLUMN_ID, AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR, TEST_IDS } from '@/constants';
 import { CellType, ColumnAlignment } from '@/types';
 
 import { TableCell, TableEditableCell } from './components';
@@ -157,7 +157,7 @@ export const TableRow = <TData,>({
         field.display &&
         config.type === CellType.COLORED_BACKGROUND &&
         cell.getIsAggregated() &&
-        ACCEPTABLE_AGGREGATION_TYPE.includes(config.aggregation)
+        AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR.includes(config.aggregation)
       ) {
         const displayValue = field.display(value);
 

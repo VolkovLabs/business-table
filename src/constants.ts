@@ -317,7 +317,7 @@ export const AUTO_SAVE_TIMEOUT = 1000;
 /**
  * Aggregation Type acceptable for display processor
  */
-export const ACCEPTABLE_AGGREGATION_TYPE = [
+export const AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR = [
   CellAggregation.MIN,
   CellAggregation.MAX,
   CellAggregation.MEAN,

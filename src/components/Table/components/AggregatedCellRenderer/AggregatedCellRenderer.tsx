@@ -2,7 +2,7 @@ import { FormattedValueDisplay, useTheme2 } from '@grafana/ui';
 import { CellContext } from '@tanstack/react-table';
 import React from 'react';
 
-import { ACCEPTABLE_AGGREGATION_TYPE, TEST_IDS } from '@/constants';
+import { AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR, TEST_IDS } from '@/constants';
 import { CellType } from '@/types';
 
 /**
@@ -39,7 +39,7 @@ export const AggregatedCellRenderer: React.FC<Props> = ({ renderValue, column, b
   /**
    * Use Display Processor
    */
-  if (field.display && ACCEPTABLE_AGGREGATION_TYPE.includes(config.aggregation)) {
+  if (field.display && AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR.includes(config.aggregation)) {
     const displayValue = field.display(value);
 
     let color = 'inherit';
