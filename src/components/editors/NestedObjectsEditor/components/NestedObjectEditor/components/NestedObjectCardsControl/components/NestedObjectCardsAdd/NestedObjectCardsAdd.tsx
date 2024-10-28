@@ -72,6 +72,7 @@ export const NestedObjectCardsAdd: React.FC<Props> = ({ mapper, onAdd, replaceVa
             await onAdd(payload);
             setNewItem(null);
             setIsLoading(false);
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
           } catch (e) {
             setIsLoading(false);
           }

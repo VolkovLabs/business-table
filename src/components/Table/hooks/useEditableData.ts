@@ -61,6 +61,7 @@ export const useEditableData = <TData>({
 
         setIsSaving(false);
         onCancelEdit();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         setIsSaving(false);
       }

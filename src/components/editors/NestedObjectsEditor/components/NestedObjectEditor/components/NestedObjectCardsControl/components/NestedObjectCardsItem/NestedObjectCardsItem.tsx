@@ -116,7 +116,7 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
       if (!isInitialEditing) {
         setIsEditing(false);
       }
-    } catch (e) {}
+    } catch {}
   }, [isInitialEditing, localValue, onEdit]);
 
   return (
