@@ -153,6 +153,9 @@ export const TableRow = <TData,>({
         }
       }
 
+      /**
+       * Apply Display Processor to Aggregated Row
+       */
       if (
         field.display &&
         config.type === CellType.COLORED_BACKGROUND &&

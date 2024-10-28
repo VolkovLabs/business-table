@@ -25,6 +25,7 @@ export const AggregatedCellRenderer: React.FC<Props> = ({ renderValue, column, b
    * Theme
    */
   const theme = useTheme2();
+
   /**
    * No meta
    */
