@@ -563,26 +563,30 @@ describe('ColumnEditor', () => {
         );
       });
     });
-
     describe('Colors', () => {
       it('Should allow to change font color', () => {
         render(
           getComponent({
             value: createColumnConfig({
-              appearance: createColumnAppearanceConfig({}),
+              appearance: createColumnAppearanceConfig({
+                header: {
+                  fontSize: ColumnHeaderFontSize.MD,
+                },
+              }),
             }),
           })
         );
 
-        expect(selectors.fieldAppearanceFontColor()).toBeInTheDocument();
+        expect(selectors.fieldAppearanceColor(false, 'font-color')).toBeInTheDocument();
 
-        fireEvent.change(selectors.fieldAppearanceFontColor(), { target: { value: '#ffffff' } });
+        fireEvent.change(selectors.fieldAppearanceColor(false, 'font-color'), { target: { value: '#ffffff' } });
 
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             appearance: expect.objectContaining({
-              colors: {
+              header: {
                 fontColor: '#ffffff',
+                fontSize: ColumnHeaderFontSize.MD,
               },
             }),
           })
@@ -593,80 +597,25 @@ describe('ColumnEditor', () => {
         render(
           getComponent({
             value: createColumnConfig({
-              appearance: createColumnAppearanceConfig({}),
-            }),
-          })
-        );
-
-        expect(selectors.fieldAppearanceBackgroundColor()).toBeInTheDocument();
-
-        fireEvent.change(selectors.fieldAppearanceBackgroundColor(), { target: { value: '#c1c1c1' } });
-
-        expect(onChange).toHaveBeenCalledWith(
-          expect.objectContaining({
-            appearance: expect.objectContaining({
-              colors: {
-                backgroundColor: '#c1c1c1',
-              },
-            }),
-          })
-        );
-      });
-
-      it('Should allow to reset background color', () => {
-        render(
-          getComponent({
-            value: createColumnConfig({
               appearance: createColumnAppearanceConfig({
                 header: {
                   fontSize: ColumnHeaderFontSize.MD,
-                  backgroundColor: '#c1c1c1',
                 },
               }),
             }),
           })
         );
 
-        expect(selectors.fieldAppearanceBackgroundColor()).toBeInTheDocument();
-        expect(selectors.buttonRemoveBackgroundColor()).toBeInTheDocument();
+        expect(selectors.fieldAppearanceColor(false, 'background-color')).toBeInTheDocument();
 
-        fireEvent.click(selectors.buttonRemoveBackgroundColor());
-
-        expect(onChange).toHaveBeenCalledWith(
-          expect.objectContaining({
-            appearance: expect.objectContaining({
-              colors: {
-                backgroundColor: '',
-              },
-            }),
-          })
-        );
-      });
-
-      it('Should allow to reset font color', () => {
-        render(
-          getComponent({
-            value: createColumnConfig({
-              appearance: createColumnAppearanceConfig({
-                header: {
-                  fontSize: ColumnHeaderFontSize.MD,
-                  fontColor: '#c1c1c1',
-                },
-              }),
-            }),
-          })
-        );
-
-        expect(selectors.fieldAppearanceBackgroundColor()).toBeInTheDocument();
-        expect(selectors.buttonRemoveFontColor()).toBeInTheDocument();
-
-        fireEvent.click(selectors.buttonRemoveFontColor());
+        fireEvent.change(selectors.fieldAppearanceColor(false, 'background-color'), { target: { value: '#ffffff' } });
 
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             appearance: expect.objectContaining({
-              colors: {
-                fontColor: '',
+              header: {
+                backgroundColor: '#ffffff',
+                fontSize: ColumnHeaderFontSize.MD,
               },
             }),
           })

@@ -1,17 +1,6 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import {
-  ColorPicker,
-  IconButton,
-  InlineField,
-  InlineFieldRow,
-  InlineSwitch,
-  Input,
-  RadioButtonGroup,
-  Select,
-  StatsPicker,
-  useStyles2,
-} from '@grafana/ui';
+import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select, StatsPicker } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { useMemo } from 'react';
 
@@ -30,7 +19,7 @@ import {
 } from '@/types';
 import { getColumnConfigWithNewType, getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
 
-import { getStyles } from './ColumnEditor.styles';
+import { ColorEditor } from '../ColorEditor';
 
 /**
  * Properties
@@ -184,11 +173,6 @@ const sortDirectionOptions = [
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable }) => {
   /**
-   * Styles
-   */
-  const styles = useStyles2(getStyles);
-
-  /**
    * Current field
    */
   const field = useMemo(() => {
@@ -294,90 +278,40 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           />
         </InlineField>
         <InlineFieldRow>
-          <InlineField label="Font Color" className={styles.colorPickerContainer} labelWidth={10}>
-            <div className={styles.colorPickerButtons}>
-              <ColorPicker
-                color={value.appearance.header?.fontColor || 'transparent'}
-                onChange={(fontColor) => {
-                  onChange({
-                    ...value,
-                    appearance: {
-                      ...value.appearance,
-                      header: {
-                        ...value.appearance.header,
-                        fontColor,
-                      },
-                    },
-                  });
-                }}
-                {...TEST_IDS.columnEditor.fieldAppearanceFontColor.apply()}
-              />
-              {value.appearance.header?.fontColor && (
-                <IconButton
-                  name="times"
-                  size="md"
-                  variant="secondary"
-                  tooltip="Reset to default"
-                  onClick={() =>
-                    onChange({
-                      ...value,
-                      appearance: {
-                        ...value.appearance,
-                        header: {
-                          ...value.appearance.header,
-                          fontColor: '',
-                        },
-                      },
-                    })
-                  }
-                  {...TEST_IDS.columnEditor.buttonRemoveFontColor.apply()}
-                />
-              )}
-            </div>
-          </InlineField>
-
-          <InlineField label="Background Color" className={styles.colorPickerContainer} labelWidth={20}>
-            <div className={styles.colorPickerButtons}>
-              <ColorPicker
-                color={value.appearance.header?.backgroundColor || 'transparent'}
-                onChange={(backgroundColor) => {
-                  onChange({
-                    ...value,
-                    appearance: {
-                      ...value.appearance,
-                      header: {
-                        ...value.appearance.header,
-                        backgroundColor,
-                      },
-                    },
-                  });
-                }}
-                {...TEST_IDS.columnEditor.fieldAppearanceBackgroundColor.apply()}
-              />
-              {value.appearance.header?.backgroundColor && (
-                <IconButton
-                  name="times"
-                  size="md"
-                  variant="secondary"
-                  tooltip="Reset to default"
-                  onClick={() =>
-                    onChange({
-                      ...value,
-                      appearance: {
-                        ...value.appearance,
-                        header: {
-                          ...value.appearance.header,
-                          backgroundColor: '',
-                        },
-                      },
-                    })
-                  }
-                  {...TEST_IDS.columnEditor.buttonRemoveBackgroundColor.apply()}
-                />
-              )}
-            </div>
-          </InlineField>
-
+          <ColorEditor
+            label="Font Color"
+            name="font-color"
+            value={value.appearance.header?.fontColor}
+            onChange={(color) => {
+              onChange({
+                ...value,
+                appearance: {
+                  ...value.appearance,
+                  header: {
+                    ...value.appearance.header,
+                    fontColor: color,
+                  },
+                },
+              });
+            }}
+          />
+          <ColorEditor
+            label="Background Color"
+            name="background-color"
+            value={value.appearance.header?.backgroundColor}
+            onChange={(color) => {
+              onChange({
+                ...value,
+                appearance: {
+                  ...value.appearance,
+                  header: {
+                    ...value.appearance.header,
+                    backgroundColor: color,
+                  },
+                },
+              });
+            }}
+          />
           <InlineField label="Text size" labelWidth={12} {...TEST_IDS.columnEditor.fieldAppearanceFontSize.apply()}>
             <RadioButtonGroup
               value={value.appearance.header.fontSize}
