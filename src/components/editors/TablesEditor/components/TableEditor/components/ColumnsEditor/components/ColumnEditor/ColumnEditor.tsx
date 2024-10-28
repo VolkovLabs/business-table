@@ -24,6 +24,7 @@ import {
   ColumnAlignment,
   ColumnConfig,
   ColumnFilterMode,
+  ColumnHeaderFontSize,
   ColumnPinDirection,
   EditorProps,
 } from '@/types';
@@ -229,19 +230,6 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
 
   return (
     <>
-      <InlineField label="Label" grow={true}>
-        <Input
-          value={value.label}
-          placeholder={field?.config.displayName ?? field?.name}
-          onChange={(event) =>
-            onChange({
-              ...value,
-              label: event.currentTarget.value,
-            })
-          }
-          {...TEST_IDS.columnEditor.fieldLabel.apply()}
-        />
-      </InlineField>
       <FieldsGroup label="Format">
         <InlineField label="Type" grow={true}>
           <Select
@@ -291,90 +279,20 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           </InlineField>
         )}
       </FieldsGroup>
-      <FieldsGroup label="Size">
-        <InlineFieldRow>
-          <InlineField label="Auto Width">
-            <InlineSwitch
-              value={value.appearance.width.auto}
-              onChange={(event) =>
-                onChange({
-                  ...value,
-                  appearance: {
-                    ...value.appearance,
-                    width: {
-                      ...value.appearance.width,
-                      auto: event.currentTarget.checked,
-                    },
-                  },
-                })
-              }
-              {...TEST_IDS.columnEditor.fieldAppearanceWidthAuto.apply()}
-            />
-          </InlineField>
-          {value.appearance.width.auto ? (
-            <>
-              <InlineField label="Min">
-                <NumberInput
-                  value={value.appearance.width.min ?? 0}
-                  onChange={(min) => {
-                    onChange({
-                      ...value,
-                      appearance: {
-                        ...value.appearance,
-                        width: {
-                          ...value.appearance.width,
-                          min,
-                        },
-                      },
-                    });
-                  }}
-                  {...TEST_IDS.columnEditor.fieldAppearanceWidthMin.apply()}
-                />
-              </InlineField>
-              <InlineField label="Max">
-                <NumberInput
-                  value={value.appearance.width.max ?? 0}
-                  placeholder="Auto"
-                  onChange={(max) => {
-                    onChange({
-                      ...value,
-                      appearance: {
-                        ...value.appearance,
-                        width: {
-                          ...value.appearance.width,
-                          max: max || undefined,
-                        },
-                      },
-                    });
-                  }}
-                  {...TEST_IDS.columnEditor.fieldAppearanceWidthMax.apply()}
-                />
-              </InlineField>
-            </>
-          ) : (
-            <InlineField label="Width">
-              <NumberInput
-                value={value.appearance.width.value}
-                placeholder="Auto"
-                onChange={(width) => {
-                  onChange({
-                    ...value,
-                    appearance: {
-                      ...value.appearance,
-                      width: {
-                        ...value.appearance.width,
-                        value: width,
-                      },
-                    },
-                  });
-                }}
-                {...TEST_IDS.columnEditor.fieldAppearanceWidthValue.apply()}
-              />
-            </InlineField>
-          )}
-        </InlineFieldRow>
-      </FieldsGroup>
-      <FieldsGroup label="Colors">
+      <FieldsGroup label="Header">
+        <InlineField label="Label" grow={true}>
+          <Input
+            value={value.label}
+            placeholder={field?.config.displayName ?? field?.name}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                label: event.currentTarget.value,
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldLabel.apply()}
+          />
+        </InlineField>
         <InlineFieldRow>
           <InlineField label="Font Color" className={styles.colorPickerContainer} labelWidth={10}>
             <div className={styles.colorPickerButtons}>
@@ -459,8 +377,129 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               )}
             </div>
           </InlineField>
+
+          <InlineField label="Text size" labelWidth={12} {...TEST_IDS.columnEditor.fieldAppearanceFontSize.apply()}>
+            <RadioButtonGroup
+              value={value.appearance.fontSize}
+              onChange={(event) =>
+                onChange({
+                  ...value,
+                  appearance: {
+                    ...value.appearance,
+                    fontSize: event,
+                  },
+                })
+              }
+              options={[
+                {
+                  value: ColumnHeaderFontSize.LG,
+                  label: 'lg',
+                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceFontSizeOption.selector(ColumnHeaderFontSize.LG),
+                },
+                {
+                  value: ColumnHeaderFontSize.MD,
+                  label: 'md',
+                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceFontSizeOption.selector(ColumnHeaderFontSize.MD),
+                },
+                {
+                  value: ColumnHeaderFontSize.SM,
+                  label: 'sm',
+                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceFontSizeOption.selector(ColumnHeaderFontSize.SM),
+                },
+                {
+                  value: ColumnHeaderFontSize.XS,
+                  label: 'xs',
+                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceFontSizeOption.selector(ColumnHeaderFontSize.XS),
+                },
+              ]}
+            />
+          </InlineField>
         </InlineFieldRow>
       </FieldsGroup>
+      <FieldsGroup label="Width">
+        <InlineFieldRow>
+          <InlineField label="Auto">
+            <InlineSwitch
+              value={value.appearance.width.auto}
+              onChange={(event) =>
+                onChange({
+                  ...value,
+                  appearance: {
+                    ...value.appearance,
+                    width: {
+                      ...value.appearance.width,
+                      auto: event.currentTarget.checked,
+                    },
+                  },
+                })
+              }
+              {...TEST_IDS.columnEditor.fieldAppearanceWidthAuto.apply()}
+            />
+          </InlineField>
+          {value.appearance.width.auto ? (
+            <>
+              <InlineField label="Min">
+                <NumberInput
+                  value={value.appearance.width.min ?? 0}
+                  onChange={(min) => {
+                    onChange({
+                      ...value,
+                      appearance: {
+                        ...value.appearance,
+                        width: {
+                          ...value.appearance.width,
+                          min,
+                        },
+                      },
+                    });
+                  }}
+                  {...TEST_IDS.columnEditor.fieldAppearanceWidthMin.apply()}
+                />
+              </InlineField>
+              <InlineField label="Max">
+                <NumberInput
+                  value={value.appearance.width.max ?? 0}
+                  placeholder="Auto"
+                  onChange={(max) => {
+                    onChange({
+                      ...value,
+                      appearance: {
+                        ...value.appearance,
+                        width: {
+                          ...value.appearance.width,
+                          max: max || undefined,
+                        },
+                      },
+                    });
+                  }}
+                  {...TEST_IDS.columnEditor.fieldAppearanceWidthMax.apply()}
+                />
+              </InlineField>
+            </>
+          ) : (
+            <InlineField label="Size">
+              <NumberInput
+                value={value.appearance.width.value}
+                placeholder="Auto"
+                onChange={(width) => {
+                  onChange({
+                    ...value,
+                    appearance: {
+                      ...value.appearance,
+                      width: {
+                        ...value.appearance.width,
+                        value: width,
+                      },
+                    },
+                  });
+                }}
+                {...TEST_IDS.columnEditor.fieldAppearanceWidthValue.apply()}
+              />
+            </InlineField>
+          )}
+        </InlineFieldRow>
+      </FieldsGroup>
+
       {value.type !== CellType.NESTED_OBJECTS && (
         <FieldsGroup label="Text">
           <InlineFieldRow>
@@ -511,22 +550,6 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                     ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.END),
                   },
                 ]}
-              />
-            </InlineField>
-            <InlineField tooltip="Keep 0 to display by default" label="Text size" labelWidth={12}>
-              <NumberInput
-                value={value.appearance.fontSize ?? ''}
-                placeholder="Size"
-                onChange={(fontSize) => {
-                  onChange({
-                    ...value,
-                    appearance: {
-                      ...value.appearance,
-                      fontSize,
-                    },
-                  });
-                }}
-                {...TEST_IDS.columnEditor.fieldAppearanceFontSize.apply()}
               />
             </InlineField>
           </InlineFieldRow>

@@ -1,5 +1,5 @@
 import { css, cx } from '@emotion/css';
-import { Icon, useStyles2, useTheme2 } from '@grafana/ui';
+import { Icon, useStyles2 } from '@grafana/ui';
 import { flexRender, Header } from '@tanstack/react-table';
 import React from 'react';
 
@@ -26,10 +26,8 @@ export const TableHeaderCell = <TData,>({ header }: Props<TData>) => {
    * Styles
    */
   const styles = useStyles2(getStyles);
-  const theme = useTheme2();
   const sort = header.column.getIsSorted();
   const fontColor = header.column.columnDef.meta?.config.appearance.colors?.fontColor || 'inherit';
-  const fontSize = header.column.columnDef.meta?.config.appearance.fontSize || theme.typography.fontSize;
 
   /**
    * Actions Header
@@ -48,7 +46,7 @@ export const TableHeaderCell = <TData,>({ header }: Props<TData>) => {
           },
           css`
             color: ${fontColor};
-            font-size: ${fontSize}px;
+            font-size: ${header.column.columnDef.meta?.config.appearance.fontSize};
           `
         )}
         {...TEST_IDS.tableHeaderCell.root.apply()}

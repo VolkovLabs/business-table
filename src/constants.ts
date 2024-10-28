@@ -1,7 +1,7 @@
 import { selectors } from '@grafana/e2e-selectors';
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, PermissionMode } from '@/types';
+import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, ColumnHeaderFontSize, PermissionMode } from '@/types';
 
 /**
  * Default Column Appearance
@@ -14,6 +14,7 @@ export const DEFAULT_COLUMN_APPEARANCE = {
     min: 20,
     value: 100,
   },
+  fontSize: ColumnHeaderFontSize.MD,
   colors: {},
   background: {
     applyToRow: false,
@@ -98,10 +99,11 @@ export const TEST_IDS = {
     fieldAppearanceBackgroundColor: createSelector('data-testid column-editor field-appearance-background-color'),
     buttonRemoveBackgroundColor: createSelector('data-testid column-editor button-remove-background-color'),
     fieldAppearanceFontSize: createSelector('data-testid column-editor field-font-size'),
+    fieldAppearanceFontSizeOption: createSelector((name: unknown) => `column-editor field-font-size-${name}`),
     fieldAppearanceWrap: createSelector('data-testid column-editor field-appearance-wrap'),
     fieldAppearanceAlignment: createSelector('data-testid column-editor field-appearance-alignment'),
     fieldAppearanceAlignmentOption: createSelector(
-      (name: unknown) => `wcolumn-editor field-appearance-alignment-option-${name}`
+      (name: unknown) => `column-editor field-appearance-alignment-option-${name}`
     ),
   },
   defaultCellRenderer: {

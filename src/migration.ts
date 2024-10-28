@@ -10,6 +10,7 @@ import {
   ColumnEditorType,
   ColumnFilterConfig,
   ColumnFilterMode,
+  ColumnHeaderFontSize,
   ColumnPinDirection,
   ColumnSortConfig,
   NestedObjectConfig,
@@ -190,6 +191,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
             auto: true,
             value: 100,
           },
+          fontSize: ColumnHeaderFontSize.MD,
           background: {
             applyToRow: false,
           },

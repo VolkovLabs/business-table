@@ -7,7 +7,14 @@ import React from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { tablesEditorContext } from '@/hooks';
-import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnPinDirection } from '@/types';
+import {
+  CellAggregation,
+  CellType,
+  ColumnAlignment,
+  ColumnFilterMode,
+  ColumnHeaderFontSize,
+  ColumnPinDirection,
+} from '@/types';
 import {
   createColumnAppearanceConfig,
   createColumnConfig,
@@ -532,43 +539,21 @@ describe('ColumnEditor', () => {
         render(
           getComponent({
             value: createColumnConfig({
-              appearance: createColumnAppearanceConfig({}),
+              appearance: createColumnAppearanceConfig({
+                fontSize: ColumnHeaderFontSize.LG,
+              }),
             }),
           })
         );
 
         expect(selectors.fieldAppearanceFontSize()).toBeInTheDocument();
 
-        fireEvent.change(selectors.fieldAppearanceFontSize(), { target: { value: '15' } });
-        fireEvent.blur(selectors.fieldAppearanceFontSize(), { target: { value: '15' } });
+        fireEvent.click(selectors.fieldAppearanceFontSizeOption(false, ColumnHeaderFontSize.MD));
 
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             appearance: expect.objectContaining({
-              fontSize: 15,
-            }),
-          })
-        );
-      });
-
-      it('Should not allow to change value with string character', () => {
-        render(
-          getComponent({
-            value: createColumnConfig({
-              appearance: createColumnAppearanceConfig({}),
-            }),
-          })
-        );
-
-        expect(selectors.fieldAppearanceFontSize()).toBeInTheDocument();
-
-        fireEvent.change(selectors.fieldAppearanceFontSize(), { target: { value: 'aa' } });
-        fireEvent.blur(selectors.fieldAppearanceFontSize(), { target: { value: 'aa' } });
-
-        expect(onChange).toHaveBeenCalledWith(
-          expect.objectContaining({
-            appearance: expect.objectContaining({
-              fontSize: 0,
+              fontSize: ColumnHeaderFontSize.MD,
             }),
           })
         );

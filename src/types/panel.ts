@@ -4,7 +4,14 @@ import { ColumnEditorConfig, ColumnEditorControlOptions } from './column-editor'
 import { FieldSource } from './frame';
 import { NestedObjectConfig, NestedObjectControlOptions } from './nested-object';
 import { PermissionConfig } from './permission';
-import { CellAggregation, CellType, ColumnAlignment, ColumnFilterMode, ColumnFilterType } from './table';
+import {
+  CellAggregation,
+  CellType,
+  ColumnAlignment,
+  ColumnFilterMode,
+  ColumnFilterType,
+  ColumnHeaderFontSize,
+} from './table';
 
 /**
  * Column Filter Config
@@ -115,9 +122,9 @@ export interface ColumnAppearanceConfig {
   /**
    * Font size
    *
-   * @type {number}
+   * @type {ColumnHeaderFontSize}
    */
-  fontSize?: number;
+  fontSize: ColumnHeaderFontSize;
 
   colors: {
     /**
