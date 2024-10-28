@@ -50,11 +50,12 @@ export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanc
   },
   wrap: false,
   alignment: ColumnAlignment.START,
-  fontSize: ColumnHeaderFontSize.MD,
+  header: {
+    fontSize: ColumnHeaderFontSize.MD,
+  },
   background: {
     applyToRow: false,
   },
-  colors: {},
   ...appearance,
 });
 

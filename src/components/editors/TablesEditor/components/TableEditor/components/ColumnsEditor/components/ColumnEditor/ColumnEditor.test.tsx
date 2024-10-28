@@ -540,7 +540,9 @@ describe('ColumnEditor', () => {
           getComponent({
             value: createColumnConfig({
               appearance: createColumnAppearanceConfig({
-                fontSize: ColumnHeaderFontSize.LG,
+                header: {
+                  fontSize: ColumnHeaderFontSize.LG,
+                },
               }),
             }),
           })
@@ -553,7 +555,9 @@ describe('ColumnEditor', () => {
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             appearance: expect.objectContaining({
-              fontSize: ColumnHeaderFontSize.MD,
+              header: {
+                fontSize: ColumnHeaderFontSize.MD,
+              },
             }),
           })
         );
@@ -614,7 +618,8 @@ describe('ColumnEditor', () => {
           getComponent({
             value: createColumnConfig({
               appearance: createColumnAppearanceConfig({
-                colors: {
+                header: {
+                  fontSize: ColumnHeaderFontSize.MD,
                   backgroundColor: '#c1c1c1',
                 },
               }),
@@ -643,7 +648,8 @@ describe('ColumnEditor', () => {
           getComponent({
             value: createColumnConfig({
               appearance: createColumnAppearanceConfig({
-                colors: {
+                header: {
+                  fontSize: ColumnHeaderFontSize.MD,
                   fontColor: '#c1c1c1',
                 },
               }),

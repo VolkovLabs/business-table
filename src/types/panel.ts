@@ -119,14 +119,13 @@ export interface ColumnAppearanceConfig {
     applyToRow: boolean;
   };
 
-  /**
-   * Font size
-   *
-   * @type {ColumnHeaderFontSize}
-   */
-  fontSize: ColumnHeaderFontSize;
-
-  colors: {
+  header: {
+    /**
+     * Font size
+     *
+     * @type {ColumnHeaderFontSize}
+     */
+    fontSize: ColumnHeaderFontSize;
     /**
      * Font color
      *

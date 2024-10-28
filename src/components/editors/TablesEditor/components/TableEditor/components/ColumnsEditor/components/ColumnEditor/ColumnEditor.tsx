@@ -297,14 +297,14 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           <InlineField label="Font Color" className={styles.colorPickerContainer} labelWidth={10}>
             <div className={styles.colorPickerButtons}>
               <ColorPicker
-                color={value.appearance.colors?.fontColor || 'transparent'}
+                color={value.appearance.header?.fontColor || 'transparent'}
                 onChange={(fontColor) => {
                   onChange({
                     ...value,
                     appearance: {
                       ...value.appearance,
-                      colors: {
-                        ...value.appearance.colors,
+                      header: {
+                        ...value.appearance.header,
                         fontColor,
                       },
                     },
@@ -312,7 +312,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 }}
                 {...TEST_IDS.columnEditor.fieldAppearanceFontColor.apply()}
               />
-              {value.appearance.colors?.fontColor && (
+              {value.appearance.header?.fontColor && (
                 <IconButton
                   name="times"
                   size="md"
@@ -323,8 +323,8 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                       ...value,
                       appearance: {
                         ...value.appearance,
-                        colors: {
-                          ...value.appearance.colors,
+                        header: {
+                          ...value.appearance.header,
                           fontColor: '',
                         },
                       },
@@ -339,14 +339,14 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           <InlineField label="Background Color" className={styles.colorPickerContainer} labelWidth={20}>
             <div className={styles.colorPickerButtons}>
               <ColorPicker
-                color={value.appearance.colors?.backgroundColor || 'transparent'}
+                color={value.appearance.header?.backgroundColor || 'transparent'}
                 onChange={(backgroundColor) => {
                   onChange({
                     ...value,
                     appearance: {
                       ...value.appearance,
-                      colors: {
-                        ...value.appearance.colors,
+                      header: {
+                        ...value.appearance.header,
                         backgroundColor,
                       },
                     },
@@ -354,7 +354,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 }}
                 {...TEST_IDS.columnEditor.fieldAppearanceBackgroundColor.apply()}
               />
-              {value.appearance.colors?.backgroundColor && (
+              {value.appearance.header?.backgroundColor && (
                 <IconButton
                   name="times"
                   size="md"
@@ -365,8 +365,8 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                       ...value,
                       appearance: {
                         ...value.appearance,
-                        colors: {
-                          ...value.appearance.colors,
+                        header: {
+                          ...value.appearance.header,
                           backgroundColor: '',
                         },
                       },
@@ -380,13 +380,16 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
 
           <InlineField label="Text size" labelWidth={12} {...TEST_IDS.columnEditor.fieldAppearanceFontSize.apply()}>
             <RadioButtonGroup
-              value={value.appearance.fontSize}
+              value={value.appearance.header.fontSize}
               onChange={(event) =>
                 onChange({
                   ...value,
                   appearance: {
                     ...value.appearance,
-                    fontSize: event,
+                    header: {
+                      ...value.appearance.header,
+                      fontSize: event,
+                    },
                   },
                 })
               }

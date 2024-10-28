@@ -14,7 +14,9 @@ export const DEFAULT_COLUMN_APPEARANCE = {
     min: 20,
     value: 100,
   },
-  fontSize: ColumnHeaderFontSize.MD,
+  header: {
+    fontSize: ColumnHeaderFontSize.MD,
+  },
   colors: {},
   background: {
     applyToRow: false,

@@ -191,11 +191,12 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
             auto: true,
             value: 100,
           },
-          fontSize: ColumnHeaderFontSize.MD,
+          header: {
+            fontSize: ColumnHeaderFontSize.MD,
+          },
           background: {
             applyToRow: false,
           },
-          colors: {},
           wrap: true,
           alignment: ColumnAlignment.START,
           ...(normalized.appearance as Partial<ColumnAppearanceConfig>),

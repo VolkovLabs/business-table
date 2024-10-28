@@ -27,7 +27,7 @@ export const TableHeaderCell = <TData,>({ header }: Props<TData>) => {
    */
   const styles = useStyles2(getStyles);
   const sort = header.column.getIsSorted();
-  const fontColor = header.column.columnDef.meta?.config.appearance.colors?.fontColor || 'inherit';
+  const fontColor = header.column.columnDef.meta?.config.appearance.header.fontColor || 'inherit';
 
   /**
    * Actions Header
@@ -46,7 +46,7 @@ export const TableHeaderCell = <TData,>({ header }: Props<TData>) => {
           },
           css`
             color: ${fontColor};
-            font-size: ${header.column.columnDef.meta?.config.appearance.fontSize};
+            font-size: ${header.column.columnDef.meta?.config.appearance.header.fontSize};
           `
         )}
         {...TEST_IDS.tableHeaderCell.root.apply()}
