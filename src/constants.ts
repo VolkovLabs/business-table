@@ -185,6 +185,7 @@ export const TEST_IDS = {
     fieldNumber: createSelector('data-testid editableCell field-number'),
     fieldDatetime: createSelector('data-testid editableCell field-datetime'),
     fieldSelect: createSelector('data-testid editableCell field-select'),
+    fieldTextarea: createSelector('data-testid editableCell field-textarea'),
   },
   tableActionsCell: {
     buttonStartEdit: createSelector('data-testid table-actions-cell button-start-edit'),

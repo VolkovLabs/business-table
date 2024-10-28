@@ -10,6 +10,7 @@ export enum ColumnEditorType {
   NUMBER = 'number',
   SELECT = 'select',
   DATETIME = 'datetime',
+  TEXTAREA = 'textarea',
 }
 
 /**
@@ -90,6 +91,7 @@ interface EditorDatetimeOptions {
  */
 export type ColumnEditorConfig =
   | { type: ColumnEditorType.STRING }
+  | { type: ColumnEditorType.TEXTAREA }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.SELECT } & EditorSelectOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions);
@@ -101,6 +103,7 @@ export type ColumnEditorControlOptions =
   | {
       type: ColumnEditorType.STRING;
     }
+  | { type: ColumnEditorType.TEXTAREA }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
   | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[] });

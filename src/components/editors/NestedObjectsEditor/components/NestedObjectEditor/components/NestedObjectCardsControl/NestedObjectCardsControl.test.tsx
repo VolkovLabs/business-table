@@ -1,6 +1,7 @@
 import { LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { useDashboardRefresh } from '@volkovlabs/components';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
@@ -26,6 +27,14 @@ const inTestIds = {
   buttonDeleteItem: createSelector((id: unknown) => `data-testid button-delete-item ${id}`),
   item: createSelector((id: unknown) => `data-testid item-${id}`),
 };
+
+/**
+ * Mock @volkovlabs/components
+ */
+jest.mock('@volkovlabs/components', () => ({
+  ...jest.requireActual('@volkovlabs/components'),
+  useDashboardRefresh: jest.fn(),
+}));
 
 /**
  * Mock NestedObjectCardsItem
@@ -108,10 +117,16 @@ describe('NestedObjectCardsControl', () => {
     fireEvent.click(selectors.buttonShowItems());
   };
 
+  /**
+   * Refresh Event
+   */
+  const refresh = jest.fn();
+
   beforeEach(() => {
     jest.mocked(NestedObjectCardsItem).mockImplementation(() => null);
     jest.mocked(NestedObjectCardsAdd).mockImplementation(() => null);
     jest.mocked(useDatasourceRequest).mockReturnValue(datasourceRequestMock);
+    jest.mocked(useDashboardRefresh).mockImplementation(() => refresh);
   });
 
   it('Should show loading state', () => {
@@ -364,6 +379,11 @@ describe('NestedObjectCardsControl', () => {
           },
         })
       );
+
+      /**
+       * Should run refresh
+       */
+      expect(refresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should show response error', async () => {
@@ -539,6 +559,11 @@ describe('NestedObjectCardsControl', () => {
           },
         })
       );
+
+      /**
+       * Should run refresh
+       */
+      expect(refresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should show response error', async () => {
@@ -819,6 +844,11 @@ describe('NestedObjectCardsControl', () => {
           },
         })
       );
+
+      /**
+       * Should run refresh
+       */
+      expect(refresh).toHaveBeenCalledTimes(1);
     });
 
     it('Should show response error', async () => {
