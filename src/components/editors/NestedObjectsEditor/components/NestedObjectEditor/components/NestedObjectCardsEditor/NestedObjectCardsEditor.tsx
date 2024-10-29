@@ -12,7 +12,7 @@ import { EditorProps, NestedObjectCardsDisplay, NestedObjectEditorConfig, Nested
 /**
  * Properties
  */
-interface Props extends EditorProps<NestedObjectEditorConfig & { type: NestedObjectType.CARDS }> {}
+type Props = EditorProps<NestedObjectEditorConfig & { type: NestedObjectType.CARDS }>;
 
 /**
  * Test Ids

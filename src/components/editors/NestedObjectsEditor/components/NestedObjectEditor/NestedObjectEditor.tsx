@@ -20,7 +20,7 @@ import { nestedObjectEditorsRegistry } from './NestedObjectEditorsRegistry';
 /**
  * Properties
  */
-interface Props extends EditorProps<NestedObjectConfig> {}
+type Props = EditorProps<NestedObjectConfig>;
 
 /**
  * Test Ids

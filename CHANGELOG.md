@@ -8,6 +8,8 @@
 - Added replaceVariables to file name (#131)
 - Added Textarea column editor type (#133)
 - Added replaceVariables to column header (#134)
+- Updated to Grafana 11.3. and dependencies (#137)
+- Added colored Text and colored Background for aggregated rows (#136)
 
 ## 1.5.0 (2024-10-08)
 

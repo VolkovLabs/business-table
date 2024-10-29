@@ -2,7 +2,7 @@
 
 ![Table](https://github.com/VolkovLabs/business-table/raw/main/src/img/dashboard.png)
 
-![Grafana](https://img.shields.io/badge/Grafana-11.2-orange)
+![Grafana](https://img.shields.io/badge/Grafana-11.3-orange)
 ![CI](https://github.com/volkovlabs/business-table/workflows/CI/badge.svg)
 ![E2E](https://github.com/volkovlabs/business-table/workflows/E2E/badge.svg)
 [![codecov](https://codecov.io/gh/VolkovLabs/business-table/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/business-table)
@@ -10,7 +10,7 @@
 
 ## Introduction
 
-The Business Table panel is a Grafana plugin that allows to summarize large amounts of data from various data sources.
+The Business Table panel is a Grafana plugin that allows to simplify data visualization in table format.
 
 [![Business Table panel for Grafana 1.3.0 | Overview and tutorial for beginners](https://raw.githubusercontent.com/volkovlabs/business-table/main/img/overview.png)](https://youtu.be/kOjt9Bl3VQo)
 
@@ -33,6 +33,7 @@ grafana-cli plugins install volkovlabs-table-panel
 - Tree View with expandable and collapsible elements.
 - Supporting tabs for multiple data frame views.
 - Filtering data using dashboard variables.
+- Server-side pagination.
 - Grafana's Thresholds are incorporated.
 
 ## Business Suite for Grafana

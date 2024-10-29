@@ -316,7 +316,7 @@ describe('NestedObjectCardsControl', () => {
                   myTitle: 'hello',
                 })
               );
-            } catch (e) {}
+            } catch {}
           }}
         />
       ));
@@ -492,7 +492,7 @@ describe('NestedObjectCardsControl', () => {
             onClick={async () => {
               try {
                 await onEdit(value);
-              } catch (e) {}
+              } catch {}
             }}
           />
         </>
@@ -688,7 +688,7 @@ describe('NestedObjectCardsControl', () => {
             onClick={async () => {
               try {
                 await onEdit(null);
-              } catch (e) {}
+              } catch {}
             }}
           />
         </>
@@ -777,7 +777,7 @@ describe('NestedObjectCardsControl', () => {
             onClick={async () => {
               try {
                 await onDelete?.(value);
-              } catch (e) {}
+              } catch {}
             }}
           />
         </>
