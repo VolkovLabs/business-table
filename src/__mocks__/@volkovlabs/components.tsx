@@ -23,7 +23,19 @@ beforeEach(() => {
   AutosizeCodeEditor.mockImplementation(AutosizeCodeEditorMock);
 });
 
+/**
+ * Mock useDatasourceRequest hook
+ */
+const useDatasourceRequest = jest.fn();
+
+/**
+ * Mock useDashboardRefresh hook
+ */
+const useDashboardRefresh = jest.fn();
+
 module.exports = {
   ...actual,
   AutosizeCodeEditor,
+  useDatasourceRequest,
+  useDashboardRefresh,
 };

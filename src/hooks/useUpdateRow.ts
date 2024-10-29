@@ -1,11 +1,9 @@
 import { AlertErrorPayload, AlertPayload, AppEvents, InterpolateFunction, LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
-import { useDashboardRefresh } from '@volkovlabs/components';
+import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import { useCallback } from 'react';
 
 import { TableConfig } from '@/types';
-
-import { useDatasourceRequest } from './useDatasourceRequest';
 
 export const useUpdateRow = ({
   replaceVariables,

@@ -1,11 +1,11 @@
 import { AlertErrorPayload, AlertPayload, AppEvents, LoadingState, ScopedVars } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { Button, Drawer, EmptySearchResult, Icon, useStyles2 } from '@grafana/ui';
-import { useDashboardRefresh } from '@volkovlabs/components';
+import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { tablePanelContext, useDatasourceRequest } from '@/hooks';
+import { tablePanelContext } from '@/hooks';
 import { NestedObjectCardsDisplay, NestedObjectControlProps, NestedObjectItemPayload, NestedObjectType } from '@/types';
 
 import { NestedObjectCardsAdd, NestedObjectCardsItem } from './components';

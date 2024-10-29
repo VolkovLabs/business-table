@@ -8,7 +8,7 @@ import { EditorProps } from '@/types';
 /**
  * Properties
  */
-interface Props extends EditorProps<string> {}
+type Props = EditorProps<string>;
 
 /**
  * Data Source Editor

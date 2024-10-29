@@ -1,7 +1,14 @@
 import { selectors } from '@grafana/e2e-selectors';
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-import { ColumnAlignment, ColumnEditConfig, ColumnEditorType, ColumnHeaderFontSize, PermissionMode } from '@/types';
+import {
+  CellAggregation,
+  ColumnAlignment,
+  ColumnEditConfig,
+  ColumnEditorType,
+  ColumnHeaderFontSize,
+  PermissionMode,
+} from '@/types';
 
 /**
  * Default Column Appearance
@@ -331,3 +338,14 @@ export const FONT_SIZES = {
   sm: 12,
   xs: 10,
 };
+
+/**
+ * Aggregation Type acceptable for display processor
+ */
+export const AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR = [
+  CellAggregation.MIN,
+  CellAggregation.MAX,
+  CellAggregation.MEAN,
+  CellAggregation.MEDIAN,
+  CellAggregation.SUM,
+];

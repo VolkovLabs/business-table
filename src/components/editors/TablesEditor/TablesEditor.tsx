@@ -16,7 +16,7 @@ import { getStyles } from './TablesEditor.styles';
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<TableConfig[], null, PanelOptions> {}
+type Props = StandardEditorProps<TableConfig[], null, PanelOptions>;
 
 /**
  * Get Item Style
