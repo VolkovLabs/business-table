@@ -15,6 +15,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       align-items: center;
       gap: ${theme.spacing(1)};
       padding: ${theme.spacing(0, 1)};
+      min-height: ${theme.spacing(4)};
     `,
   };
 };

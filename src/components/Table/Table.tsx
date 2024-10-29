@@ -1,3 +1,4 @@
+import { cx } from '@emotion/css';
 import { EventBus, GrafanaTheme2 } from '@grafana/data';
 import { Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
@@ -22,7 +23,7 @@ import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffe
 
 import { ButtonSelect } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
+import { ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { TableHeaderCell, TableRow } from './components';
 import { useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
@@ -351,10 +352,17 @@ export const Table = <TData,>({
             <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
               {headerGroup.headers.map((header) => {
                 const bgColor = header.column.columnDef.meta?.config.appearance.header?.backgroundColor;
+                const fontSize =
+                  header.column.columnDef.meta?.config.appearance.header.fontSize || ColumnHeaderFontSize.MD;
                 return (
                   <th
                     key={header.id}
-                    className={styles.headerCell}
+                    className={cx(styles.headerCell, {
+                      [styles.sizeLg]: fontSize === ColumnHeaderFontSize.LG,
+                      [styles.sizeMd]: fontSize === ColumnHeaderFontSize.MD,
+                      [styles.sizeSm]: fontSize === ColumnHeaderFontSize.SM,
+                      [styles.sizeXs]: fontSize === ColumnHeaderFontSize.XS,
+                    })}
                     style={{
                       maxWidth: header.column.columnDef.maxSize,
                       minWidth: header.column.columnDef.minSize,
@@ -366,7 +374,7 @@ export const Table = <TData,>({
                     }}
                     {...TEST_IDS.table.headerCell.apply(header.id)}
                   >
-                    <TableHeaderCell header={header} />
+                    <TableHeaderCell header={header} size={fontSize} />
                   </th>
                 );
               })}

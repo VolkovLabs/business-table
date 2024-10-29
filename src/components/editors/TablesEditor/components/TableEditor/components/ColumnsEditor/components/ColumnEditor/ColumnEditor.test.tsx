@@ -534,36 +534,7 @@ describe('ColumnEditor', () => {
       });
     });
 
-    describe('Font size', () => {
-      it('Should allow to change value', () => {
-        render(
-          getComponent({
-            value: createColumnConfig({
-              appearance: createColumnAppearanceConfig({
-                header: {
-                  fontSize: ColumnHeaderFontSize.LG,
-                },
-              }),
-            }),
-          })
-        );
-
-        expect(selectors.fieldAppearanceFontSize()).toBeInTheDocument();
-
-        fireEvent.click(selectors.fieldAppearanceFontSizeOption(false, ColumnHeaderFontSize.MD));
-
-        expect(onChange).toHaveBeenCalledWith(
-          expect.objectContaining({
-            appearance: expect.objectContaining({
-              header: {
-                fontSize: ColumnHeaderFontSize.MD,
-              },
-            }),
-          })
-        );
-      });
-    });
-    describe('Colors', () => {
+    describe('Header', () => {
       it('Should allow to change font color', () => {
         render(
           getComponent({
@@ -577,9 +548,9 @@ describe('ColumnEditor', () => {
           })
         );
 
-        expect(selectors.fieldAppearanceColor(false, 'font-color')).toBeInTheDocument();
+        expect(selectors.fieldHeaderFontColor()).toBeInTheDocument();
 
-        fireEvent.change(selectors.fieldAppearanceColor(false, 'font-color'), { target: { value: '#ffffff' } });
+        fireEvent.change(selectors.fieldHeaderFontColor(), { target: { value: '#ffffff' } });
 
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -606,15 +577,43 @@ describe('ColumnEditor', () => {
           })
         );
 
-        expect(selectors.fieldAppearanceColor(false, 'background-color')).toBeInTheDocument();
+        expect(selectors.fieldHeaderBackgroundColor()).toBeInTheDocument();
 
-        fireEvent.change(selectors.fieldAppearanceColor(false, 'background-color'), { target: { value: '#ffffff' } });
+        fireEvent.change(selectors.fieldHeaderBackgroundColor(), { target: { value: '#ffffff' } });
 
         expect(onChange).toHaveBeenCalledWith(
           expect.objectContaining({
             appearance: expect.objectContaining({
               header: {
                 backgroundColor: '#ffffff',
+                fontSize: ColumnHeaderFontSize.MD,
+              },
+            }),
+          })
+        );
+      });
+
+      it('Should allow to change font size', () => {
+        render(
+          getComponent({
+            value: createColumnConfig({
+              appearance: createColumnAppearanceConfig({
+                header: {
+                  fontSize: ColumnHeaderFontSize.LG,
+                },
+              }),
+            }),
+          })
+        );
+
+        expect(selectors.fieldHeaderFontSize()).toBeInTheDocument();
+
+        fireEvent.click(selectors.fieldHeaderFontSizeOption(false, ColumnHeaderFontSize.MD));
+
+        expect(onChange).toHaveBeenCalledWith(
+          expect.objectContaining({
+            appearance: expect.objectContaining({
+              header: {
                 fontSize: ColumnHeaderFontSize.MD,
               },
             }),

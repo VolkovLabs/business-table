@@ -1,9 +1,10 @@
-import { css, cx } from '@emotion/css';
-import { Icon, useStyles2, useTheme2 } from '@grafana/ui';
+import { cx } from '@emotion/css';
+import { Icon, useStyles2 } from '@grafana/ui';
 import { flexRender, Header } from '@tanstack/react-table';
 import React from 'react';
 
-import { ACTIONS_COLUMN_ID, FONT_SIZES, TEST_IDS } from '@/constants';
+import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { ColumnHeaderFontSize } from '@/types';
 
 import { getStyles } from './TableHeaderCell.styles';
 import { TableHeaderCellFilter } from './TableHeaderCellFilter';
@@ -16,22 +17,25 @@ interface Props<TData> {
    * Header
    */
   header: Header<TData, unknown>;
+
+  /**
+   * Size
+   *
+   * @type {ColumnHeaderFontSize}
+   */
+  size: ColumnHeaderFontSize;
 }
 
 /**
  * Table Header Cell
  */
-export const TableHeaderCell = <TData,>({ header }: Props<TData>) => {
+export const TableHeaderCell = <TData,>({ header, size }: Props<TData>) => {
   /**
    * Styles
    */
-  const theme = useTheme2();
   const styles = useStyles2(getStyles);
   const sort = header.column.getIsSorted();
   const fontColor = header.column.columnDef.meta?.config.appearance.header.fontColor || 'inherit';
-  const fontSize = theme.typography.pxToRem(
-    FONT_SIZES[header.column.columnDef.meta?.config.appearance.header.fontSize || 'md']
-  );
 
   /**
    * Actions Header
@@ -44,26 +48,24 @@ export const TableHeaderCell = <TData,>({ header }: Props<TData>) => {
     <>
       <div
         onClick={header.column.getToggleSortingHandler()}
-        className={cx(
-          {
-            [styles.labelSortable]: header.column.getCanSort(),
-          },
-          css`
-            color: ${fontColor};
-            font-size: ${fontSize};
-          `
-        )}
+        className={cx({
+          [styles.labelSortable]: header.column.getCanSort(),
+        })}
+        style={{
+          color: fontColor,
+        }}
         {...TEST_IDS.tableHeaderCell.root.apply()}
       >
         {flexRender(header.column.columnDef.header, header.getContext())}
         {!!sort && (
           <Icon
             name={sort === 'asc' ? 'arrow-up' : 'arrow-down'}
+            size={size}
             {...TEST_IDS.tableHeaderCell.sortIcon.apply(sort === 'asc' ? 'arrow-up' : 'arrow-down')}
           />
         )}
       </div>
-      {header.column.columnDef.enableColumnFilter && <TableHeaderCellFilter header={header} />}
+      {header.column.columnDef.enableColumnFilter && <TableHeaderCellFilter header={header} size={size} />}
     </>
   );
 };

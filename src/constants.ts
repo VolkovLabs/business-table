@@ -103,10 +103,10 @@ export const TEST_IDS = {
     fieldAppearanceWidthMin: createSelector('data-testid column-editor field-appearance-width-min'),
     fieldAppearanceWidthMax: createSelector('data-testid column-editor field-appearance-width-max'),
     fieldAppearanceWidthValue: createSelector('data-testid column-editor field-appearance-width-value'),
-    fieldAppearanceColor: createSelector((name: unknown) => `data-testid column-editor field-appearance-color-${name}`),
-    buttonRemoveColor: createSelector((name: unknown) => `data-testid column-editor button-remove-color-${name}`),
-    fieldAppearanceFontSize: createSelector('data-testid column-editor field-font-size'),
-    fieldAppearanceFontSizeOption: createSelector((name: unknown) => `column-editor field-font-size-${name}`),
+    fieldHeaderBackgroundColor: createSelector('data-testid column-editor field-header-background-color'),
+    fieldHeaderFontColor: createSelector('data-testid column-editor field-header-font-color'),
+    fieldHeaderFontSize: createSelector('data-testid column-editor field-font-size'),
+    fieldHeaderFontSizeOption: createSelector((name: unknown) => `column-editor field-font-size-${name}`),
     fieldAppearanceWrap: createSelector('data-testid column-editor field-appearance-wrap'),
     fieldAppearanceAlignment: createSelector('data-testid column-editor field-appearance-alignment'),
     fieldAppearanceAlignmentOption: createSelector(
@@ -317,6 +317,10 @@ export const TEST_IDS = {
     ),
     fieldPaginationQueryTotalCount: createSelector('data-testid table-editor field-pagination-query-total-count'),
   },
+  colorEditor: {
+    fieldValue: createSelector('data-testid color-editor field-value'),
+    buttonClear: createSelector('data-testid color-editor button-clear'),
+  },
 };
 
 /**
@@ -328,16 +332,6 @@ export const ALL_VALUE_PARAMETER = '$__all';
  * Auto Save timeout ms
  */
 export const AUTO_SAVE_TIMEOUT = 1000;
-
-/**
- * Font Sizes
- */
-export const FONT_SIZES = {
-  lg: 18,
-  md: 14,
-  sm: 12,
-  xs: 10,
-};
 
 /**
  * Aggregation Type acceptable for display processor

@@ -2,9 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '@/constants';
-
-import { ColorEditor } from './ColorEditor';
+import { ColorEditor, testIds } from './ColorEditor';
 
 type Props = React.ComponentProps<typeof ColorEditor>;
 
@@ -12,7 +10,7 @@ describe('ColumnEditor', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors({ ...TEST_IDS.columnEditor });
+  const getSelectors = getJestSelectors(testIds);
   const selectors = getSelectors(screen);
 
   /**
@@ -23,17 +21,31 @@ describe('ColumnEditor', () => {
   /**
    * Get component
    */
-  const getComponent = ({ ...restProps }: Partial<Props>) => {
-    return <ColorEditor {...(restProps as any)} />;
+  const getComponent = (props: Partial<Props>) => {
+    return <ColorEditor onChange={onChange} value={undefined} {...props} />;
   };
 
-  it('Should allow to reset color', () => {
-    render(getComponent({ value: '#ffffff', label: 'Change color', name: 'color', onChange }));
+  it('Should allow to change value', () => {
+    render(getComponent({ value: '#ffffff', onChange }));
 
-    expect(selectors.fieldAppearanceColor(false, 'color')).toBeInTheDocument();
-    expect(selectors.buttonRemoveColor(false, 'color')).toBeInTheDocument();
+    expect(selectors.fieldValue()).toBeInTheDocument();
+    fireEvent.change(selectors.fieldValue(), { target: { value: '#000' } });
+    expect(onChange).toHaveBeenCalledWith('#000');
+  });
 
-    fireEvent.click(selectors.buttonRemoveColor(false, 'color'));
-    expect(onChange).toHaveBeenCalledWith('');
+  it('Should allow to reset value', () => {
+    render(getComponent({ value: '#ffffff', onChange }));
+
+    expect(selectors.fieldValue()).toBeInTheDocument();
+    expect(selectors.buttonClear()).toBeInTheDocument();
+
+    fireEvent.click(selectors.buttonClear());
+    expect(onChange).toHaveBeenCalledWith(undefined);
+  });
+
+  it('Should not allow to reset value if empty', () => {
+    render(getComponent({ value: undefined, onChange }));
+
+    expect(selectors.buttonClear(true)).not.toBeInTheDocument();
   });
 });

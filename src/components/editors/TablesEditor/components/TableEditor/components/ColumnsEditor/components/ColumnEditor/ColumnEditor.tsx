@@ -17,7 +17,12 @@ import {
   ColumnPinDirection,
   EditorProps,
 } from '@/types';
-import { getColumnConfigWithNewType, getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
+import {
+  cleanPayloadObject,
+  getColumnConfigWithNewType,
+  getFieldBySource,
+  getSupportedFilterTypesForVariable,
+} from '@/utils';
 
 import { ColorEditor } from '../ColorEditor';
 
@@ -278,41 +283,43 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           />
         </InlineField>
         <InlineFieldRow>
-          <ColorEditor
-            label="Font Color"
-            name="font-color"
-            value={value.appearance.header?.fontColor}
-            onChange={(color) => {
-              onChange({
-                ...value,
-                appearance: {
-                  ...value.appearance,
-                  header: {
-                    ...value.appearance.header,
-                    fontColor: color,
+          <InlineField label="Font">
+            <ColorEditor
+              value={value.appearance.header?.fontColor}
+              onChange={(color) => {
+                onChange({
+                  ...value,
+                  appearance: {
+                    ...value.appearance,
+                    header: cleanPayloadObject({
+                      ...value.appearance.header,
+                      fontColor: color,
+                    }),
                   },
-                },
-              });
-            }}
-          />
-          <ColorEditor
-            label="Background Color"
-            name="background-color"
-            value={value.appearance.header?.backgroundColor}
-            onChange={(color) => {
-              onChange({
-                ...value,
-                appearance: {
-                  ...value.appearance,
-                  header: {
-                    ...value.appearance.header,
-                    backgroundColor: color,
+                });
+              }}
+              {...TEST_IDS.columnEditor.fieldHeaderFontColor.apply()}
+            />
+          </InlineField>
+          <InlineField label="Background">
+            <ColorEditor
+              value={value.appearance.header?.backgroundColor}
+              onChange={(color) => {
+                onChange({
+                  ...value,
+                  appearance: {
+                    ...value.appearance,
+                    header: cleanPayloadObject({
+                      ...value.appearance.header,
+                      backgroundColor: color,
+                    }),
                   },
-                },
-              });
-            }}
-          />
-          <InlineField label="Text size" labelWidth={12} {...TEST_IDS.columnEditor.fieldAppearanceFontSize.apply()}>
+                });
+              }}
+              {...TEST_IDS.columnEditor.fieldHeaderBackgroundColor.apply()}
+            />
+          </InlineField>
+          <InlineField label="Size" {...TEST_IDS.columnEditor.fieldHeaderFontSize.apply()}>
             <RadioButtonGroup
               value={value.appearance.header.fontSize}
               onChange={(event) =>
@@ -331,22 +338,22 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 {
                   value: ColumnHeaderFontSize.LG,
                   label: 'lg',
-                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceFontSizeOption.selector(ColumnHeaderFontSize.LG),
+                  ariaLabel: TEST_IDS.columnEditor.fieldHeaderFontSizeOption.selector(ColumnHeaderFontSize.LG),
                 },
                 {
                   value: ColumnHeaderFontSize.MD,
                   label: 'md',
-                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceFontSizeOption.selector(ColumnHeaderFontSize.MD),
+                  ariaLabel: TEST_IDS.columnEditor.fieldHeaderFontSizeOption.selector(ColumnHeaderFontSize.MD),
                 },
                 {
                   value: ColumnHeaderFontSize.SM,
                   label: 'sm',
-                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceFontSizeOption.selector(ColumnHeaderFontSize.SM),
+                  ariaLabel: TEST_IDS.columnEditor.fieldHeaderFontSizeOption.selector(ColumnHeaderFontSize.SM),
                 },
                 {
                   value: ColumnHeaderFontSize.XS,
                   label: 'xs',
-                  ariaLabel: TEST_IDS.columnEditor.fieldAppearanceFontSizeOption.selector(ColumnHeaderFontSize.XS),
+                  ariaLabel: TEST_IDS.columnEditor.fieldHeaderFontSizeOption.selector(ColumnHeaderFontSize.XS),
                 },
               ]}
             />

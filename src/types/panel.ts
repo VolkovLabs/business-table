@@ -126,6 +126,7 @@ export interface ColumnAppearanceConfig {
      * @type {ColumnHeaderFontSize}
      */
     fontSize: ColumnHeaderFontSize;
+
     /**
      * Font color
      *

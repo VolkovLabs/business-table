@@ -4,24 +4,12 @@ import React, { useMemo } from 'react';
 
 import { FieldPicker } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { FieldSource, QueryOptionsMapper } from '@/types';
+import { EditorProps, FieldSource, QueryOptionsMapper } from '@/types';
 
 /**
  * Properties
  */
-interface Props {
-  /**
-   * Value
-   *
-   * @type {QueryOptionsMapper | undefined}
-   */
-  value: QueryOptionsMapper | undefined;
-
-  /**
-   * On Change
-   */
-  onChange: (value: QueryOptionsMapper | undefined) => void;
-
+interface Props extends EditorProps<QueryOptionsMapper | undefined> {
   /**
    * Data
    */
