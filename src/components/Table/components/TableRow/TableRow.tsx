@@ -245,6 +245,7 @@ export const TableRow = <TData,>({
               width: cell.column.getSize(),
               backgroundColor: bgColor,
               wordBreak: cellAppearance?.wrap ? 'break-all' : 'normal',
+              whiteSpace: cellAppearance?.wrap ? 'normal' : 'nowrap',
               justifyContent: cellAppearance?.align,
               textAlign: cellAppearance?.align,
               ...getPinnedColumnStyle(theme, cell.column, bgColor || rowAppearance.background),
