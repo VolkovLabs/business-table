@@ -9,7 +9,7 @@ import { EditorProps, NestedObjectOperationConfig } from '@/types';
 /**
  * Properties
  */
-interface Props extends EditorProps<NestedObjectOperationConfig> {}
+type Props = EditorProps<NestedObjectOperationConfig>;
 
 /**
  * Test Ids
