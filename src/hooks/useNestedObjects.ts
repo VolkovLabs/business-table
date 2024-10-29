@@ -1,10 +1,9 @@
 import { InterpolateFunction } from '@grafana/data';
+import { useDatasourceRequest } from '@volkovlabs/components';
 import { useCallback, useMemo, useState } from 'react';
 
 import { ColumnConfig, NestedObjectConfig } from '@/types';
 import { prepareFrameForNestedObject } from '@/utils';
-
-import { useDatasourceRequest } from './useDatasourceRequest';
 
 /**
  * Use Nested Objects

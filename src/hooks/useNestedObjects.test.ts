@@ -1,18 +1,11 @@
 import { toDataFrame } from '@grafana/data';
 import { act, renderHook } from '@testing-library/react';
+import { useDatasourceRequest } from '@volkovlabs/components';
 
 import { CellType } from '@/types';
 import { createColumnConfig, createNestedObjectConfig, createNestedObjectEditorConfig } from '@/utils';
 
-import { useDatasourceRequest } from './useDatasourceRequest';
 import { useNestedObjects } from './useNestedObjects';
-
-/**
- * Mock useDatasourceRequest
- */
-jest.mock('./useDatasourceRequest', () => ({
-  useDatasourceRequest: jest.fn(),
-}));
 
 describe('useNestedObjects', () => {
   const replaceVariables = jest.fn();

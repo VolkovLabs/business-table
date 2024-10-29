@@ -1,12 +1,12 @@
 import { LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { useDashboardRefresh } from '@volkovlabs/components';
+import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { tablePanelContext, useDatasourceRequest } from '@/hooks';
+import { tablePanelContext } from '@/hooks';
 import { NestedObjectCardsDisplay, NestedObjectControlOptions, NestedObjectType } from '@/types';
 import { createNestedObjectEditorConfig, createNestedObjectOperationOptions, NestedObjectCardMapper } from '@/utils';
 
@@ -29,14 +29,6 @@ const inTestIds = {
 };
 
 /**
- * Mock @volkovlabs/components
- */
-jest.mock('@volkovlabs/components', () => ({
-  ...jest.requireActual('@volkovlabs/components'),
-  useDashboardRefresh: jest.fn(),
-}));
-
-/**
  * Mock NestedObjectCardsItem
  */
 jest.mock('./components/NestedObjectCardsItem', () => ({
@@ -48,13 +40,6 @@ jest.mock('./components/NestedObjectCardsItem', () => ({
  */
 jest.mock('./components/NestedObjectCardsAdd', () => ({
   NestedObjectCardsAdd: jest.fn(),
-}));
-
-/**
- * Mock useDatasourceRequest
- */
-jest.mock('@/hooks/useDatasourceRequest', () => ({
-  useDatasourceRequest: jest.fn(),
 }));
 
 describe('NestedObjectCardsControl', () => {
