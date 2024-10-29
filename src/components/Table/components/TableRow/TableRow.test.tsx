@@ -14,7 +14,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { CellType, ColumnEditorType } from '@/types';
+import { CellAggregation, CellType, ColumnEditorType } from '@/types';
 import {
   createColumnAccessorFn,
   createColumnAppearanceConfig,
@@ -303,6 +303,176 @@ describe('TableRow', () => {
     expect(selectors.bodyCell(false, '0_name')).toHaveStyle({
       'background-color': theme.visualization.getColorByName('orange'),
     });
+  });
+
+  it('Should set cell background for aggregated cell', async () => {
+    const data = [
+      { value: 20, name: 'device1' },
+      { value: 60, name: 'device1' },
+      { value: 10, name: 'device1' },
+    ];
+    const columns = [
+      {
+        id: 'name',
+        accessorFn: createColumnAccessorFn('name'),
+        meta: createColumnMeta({
+          config: createColumnConfig({
+            type: CellType.COLORED_BACKGROUND,
+            aggregation: CellAggregation.SUM,
+          }),
+          field: createField({
+            name: 'name',
+            values: [20],
+            config: {
+              thresholds: {
+                mode: ThresholdsMode.Absolute,
+                steps: [
+                  {
+                    value: 0,
+                    color: 'green',
+                  },
+                  {
+                    value: 20,
+                    color: 'orange',
+                  },
+                ],
+              },
+            },
+          }),
+        }),
+      },
+      {
+        id: 'value',
+        accessorFn: createColumnAccessorFn('value'),
+        meta: createColumnMeta({
+          config: createColumnConfig({
+            type: CellType.COLORED_BACKGROUND,
+            aggregation: CellAggregation.SUM,
+          }),
+          field: createField({
+            name: 'value',
+            values: [20],
+            config: {
+              thresholds: {
+                mode: ThresholdsMode.Absolute,
+                steps: [
+                  {
+                    value: 0,
+                    color: 'green',
+                  },
+                  {
+                    value: 20,
+                    color: 'orange',
+                  },
+                ],
+              },
+            },
+          }),
+        }),
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          grouping: ['name'],
+        })
+      )
+    );
+
+    const theme = createTheme();
+
+    expect(selectors.bodyRow(false, 'name:device1')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, 'name:device1_value')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, 'name:device1_value')).toHaveStyle({
+      'background-color': theme.visualization.getColorByName('orange'),
+    });
+  });
+
+  it('Should not set cell background for aggregated cell if not acceptable type', async () => {
+    const data = [
+      { value: 20, name: 'device1' },
+      { value: 60, name: 'device1' },
+      { value: 10, name: 'device1' },
+    ];
+    const columns = [
+      {
+        id: 'name',
+        accessorFn: createColumnAccessorFn('name'),
+        meta: createColumnMeta({
+          config: createColumnConfig({
+            type: CellType.COLORED_BACKGROUND,
+            aggregation: CellAggregation.EXTENT,
+          }),
+          field: createField({
+            name: 'name',
+            values: [20],
+            config: {
+              thresholds: {
+                mode: ThresholdsMode.Absolute,
+                steps: [
+                  {
+                    value: 0,
+                    color: 'green',
+                  },
+                  {
+                    value: 20,
+                    color: 'orange',
+                  },
+                ],
+              },
+            },
+          }),
+        }),
+      },
+      {
+        id: 'value',
+        accessorFn: createColumnAccessorFn('value'),
+        meta: createColumnMeta({
+          config: createColumnConfig({
+            type: CellType.COLORED_BACKGROUND,
+            aggregation: CellAggregation.EXTENT,
+          }),
+          field: createField({
+            name: 'value',
+            values: [20],
+            config: {
+              thresholds: {
+                mode: ThresholdsMode.Absolute,
+                steps: [
+                  {
+                    value: 0,
+                    color: 'green',
+                  },
+                  {
+                    value: 20,
+                    color: 'orange',
+                  },
+                ],
+              },
+            },
+          }),
+        }),
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          grouping: ['name'],
+        })
+      )
+    );
+
+    expect(selectors.bodyRow(false, 'name:device1')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, 'name:device1_value')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, 'name:device1_value').style.color).toBe('');
   });
 
   it('Should set row background if enabled', async () => {
