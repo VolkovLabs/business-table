@@ -16,7 +16,7 @@ import { getStyles } from './NestedObjectsEditor.styles';
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<NestedObjectConfig[], null, PanelOptions> {}
+type Props = StandardEditorProps<NestedObjectConfig[], null, PanelOptions>;
 
 /**
  * Test Ids

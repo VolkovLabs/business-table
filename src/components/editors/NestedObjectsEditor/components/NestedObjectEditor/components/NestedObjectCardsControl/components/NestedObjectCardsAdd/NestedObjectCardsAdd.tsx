@@ -72,7 +72,7 @@ export const NestedObjectCardsAdd: React.FC<Props> = ({ mapper, onAdd, replaceVa
             await onAdd(payload);
             setNewItem(null);
             setIsLoading(false);
-          } catch (e) {
+          } catch {
             setIsLoading(false);
           }
         }}

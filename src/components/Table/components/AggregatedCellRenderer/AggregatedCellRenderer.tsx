@@ -8,7 +8,7 @@ import { CellAggregation } from '@/types';
 /**
  * Properties
  */
-interface Props extends CellContext<unknown, unknown> {}
+type Props = CellContext<unknown, unknown>;
 
 /**
  * Aggregation Type acceptable for display processor

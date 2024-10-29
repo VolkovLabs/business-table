@@ -21,7 +21,7 @@ import { getStyles } from './TablePanel.styles';
 /**
  * Properties
  */
-interface Props extends PanelProps<PanelOptions> {}
+type Props = PanelProps<PanelOptions>;
 
 /**
  * Table Panel

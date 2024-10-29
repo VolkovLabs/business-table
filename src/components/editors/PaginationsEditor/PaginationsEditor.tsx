@@ -14,7 +14,7 @@ import { getStyles } from './PaginationsEditor.styles';
 /**
  * Properties
  */
-interface Props extends StandardEditorProps<TableConfig[], null, PanelOptions> {}
+type Props = StandardEditorProps<TableConfig[], null, PanelOptions>;
 
 /**
  * Test Ids
