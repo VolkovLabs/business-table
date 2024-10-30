@@ -20,6 +20,7 @@ import {
   ColumnEditorType,
   ColumnFilterConfig,
   ColumnFilterMode,
+  ColumnHeaderFontSize,
   ColumnMeta,
   ColumnPinDirection,
   ColumnSortConfig,
@@ -49,6 +50,9 @@ export const createColumnAppearanceConfig = (appearance: Partial<ColumnAppearanc
   },
   wrap: false,
   alignment: ColumnAlignment.START,
+  header: {
+    fontSize: ColumnHeaderFontSize.MD,
+  },
   background: {
     applyToRow: false,
   },

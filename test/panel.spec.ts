@@ -3,12 +3,6 @@ import { test, expect } from '@grafana/plugin-e2e';
 import { PanelHelper } from './utils';
 
 test.describe('Business Table Panel', () => {
-  /**
-   * Disable scenes for tests with panel edit
-   */
-  const sceneDisabledParams = new URLSearchParams();
-  sceneDisabledParams.set('scenes', 'false');
-
   test('Check grafana version', async ({ grafanaVersion }) => {
     console.log('Grafana version: ', grafanaVersion);
     expect(grafanaVersion).toEqual(grafanaVersion);
@@ -417,7 +411,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Disable scene due until refresh panel data issue is resolved
        */
-      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
       /**
        * Get Table panel
@@ -482,7 +476,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Disable scene due until refresh panel data issue is resolved
        */
-      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid, queryParams: sceneDisabledParams });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
 
       /**
        * Get Table panel

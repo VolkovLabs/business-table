@@ -60,6 +60,16 @@ export enum ColumnAlignment {
 }
 
 /**
+ * Column Header Font Size
+ */
+export enum ColumnHeaderFontSize {
+  LG = 'lg',
+  MD = 'md',
+  SM = 'sm',
+  XS = 'xs',
+}
+
+/**
  * Column Filter Value
  */
 export type ColumnFilterValue =

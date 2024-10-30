@@ -1,7 +1,14 @@
 import { selectors } from '@grafana/e2e-selectors';
 import { createSelector } from '@volkovlabs/jest-selectors';
 
-import { CellAggregation, ColumnAlignment, ColumnEditConfig, ColumnEditorType, PermissionMode } from '@/types';
+import {
+  CellAggregation,
+  ColumnAlignment,
+  ColumnEditConfig,
+  ColumnEditorType,
+  ColumnHeaderFontSize,
+  PermissionMode,
+} from '@/types';
 
 /**
  * Default Column Appearance
@@ -14,6 +21,10 @@ export const DEFAULT_COLUMN_APPEARANCE = {
     min: 20,
     value: 100,
   },
+  header: {
+    fontSize: ColumnHeaderFontSize.MD,
+  },
+  colors: {},
   background: {
     applyToRow: false,
   },
@@ -92,10 +103,14 @@ export const TEST_IDS = {
     fieldAppearanceWidthMin: createSelector('data-testid column-editor field-appearance-width-min'),
     fieldAppearanceWidthMax: createSelector('data-testid column-editor field-appearance-width-max'),
     fieldAppearanceWidthValue: createSelector('data-testid column-editor field-appearance-width-value'),
+    fieldHeaderBackgroundColor: createSelector('data-testid column-editor field-header-background-color'),
+    fieldHeaderFontColor: createSelector('data-testid column-editor field-header-font-color'),
+    fieldHeaderFontSize: createSelector('data-testid column-editor field-font-size'),
+    fieldHeaderFontSizeOption: createSelector((name: unknown) => `column-editor field-font-size-${name}`),
     fieldAppearanceWrap: createSelector('data-testid column-editor field-appearance-wrap'),
     fieldAppearanceAlignment: createSelector('data-testid column-editor field-appearance-alignment'),
     fieldAppearanceAlignmentOption: createSelector(
-      (name: unknown) => `wcolumn-editor field-appearance-alignment-option-${name}`
+      (name: unknown) => `column-editor field-appearance-alignment-option-${name}`
     ),
   },
   defaultCellRenderer: {
@@ -301,6 +316,10 @@ export const TEST_IDS = {
       'data-testid table-editor field-pagination-query-offset-variable'
     ),
     fieldPaginationQueryTotalCount: createSelector('data-testid table-editor field-pagination-query-total-count'),
+  },
+  colorEditor: {
+    fieldValue: createSelector('data-testid color-editor field-value'),
+    buttonClear: createSelector('data-testid color-editor button-clear'),
   },
 };
 

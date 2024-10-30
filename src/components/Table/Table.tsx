@@ -1,3 +1,4 @@
+import { cx } from '@emotion/css';
 import { EventBus, GrafanaTheme2 } from '@grafana/data';
 import { Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
@@ -22,7 +23,7 @@ import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffe
 
 import { ButtonSelect } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
+import { ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { TableHeaderCell, TableRow } from './components';
 import { useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
@@ -349,23 +350,34 @@ export const Table = <TData,>({
         <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
-              {headerGroup.headers.map((header) => (
-                <th
-                  key={header.id}
-                  className={styles.headerCell}
-                  style={{
-                    maxWidth: header.column.columnDef.maxSize,
-                    minWidth: header.column.columnDef.minSize,
-                    width: header.getSize(),
-                    textAlign: header.column.columnDef.meta?.config.appearance.alignment,
-                    justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
-                    ...getPinnedHeaderColumnStyle(theme, header.column),
-                  }}
-                  {...TEST_IDS.table.headerCell.apply(header.id)}
-                >
-                  <TableHeaderCell header={header} />
-                </th>
-              ))}
+              {headerGroup.headers.map((header) => {
+                const bgColor = header.column.columnDef.meta?.config.appearance.header?.backgroundColor;
+                const fontSize =
+                  header.column.columnDef.meta?.config.appearance.header.fontSize || ColumnHeaderFontSize.MD;
+                return (
+                  <th
+                    key={header.id}
+                    className={cx(styles.headerCell, {
+                      [styles.sizeLg]: fontSize === ColumnHeaderFontSize.LG,
+                      [styles.sizeMd]: fontSize === ColumnHeaderFontSize.MD,
+                      [styles.sizeSm]: fontSize === ColumnHeaderFontSize.SM,
+                      [styles.sizeXs]: fontSize === ColumnHeaderFontSize.XS,
+                    })}
+                    style={{
+                      maxWidth: header.column.columnDef.maxSize,
+                      minWidth: header.column.columnDef.minSize,
+                      background: bgColor,
+                      width: header.getSize(),
+                      textAlign: header.column.columnDef.meta?.config.appearance.alignment,
+                      justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
+                      ...getPinnedHeaderColumnStyle(theme, header.column),
+                    }}
+                    {...TEST_IDS.table.headerCell.apply(header.id)}
+                  >
+                    <TableHeaderCell header={header} size={fontSize} />
+                  </th>
+                );
+              })}
             </tr>
           ))}
         </thead>
