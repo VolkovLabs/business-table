@@ -285,7 +285,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
         <InlineFieldRow>
           <InlineField label="Font">
             <ColorEditor
-              value={value.appearance.header?.fontColor}
+              value={value.appearance.header.fontColor}
               onChange={(color) => {
                 onChange({
                   ...value,
@@ -303,7 +303,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           </InlineField>
           <InlineField label="Background">
             <ColorEditor
-              value={value.appearance.header?.backgroundColor}
+              value={value.appearance.header.backgroundColor}
               onChange={(color) => {
                 onChange({
                   ...value,

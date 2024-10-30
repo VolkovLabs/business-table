@@ -316,7 +316,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.5.0",
       "targets": [
         {
           "datasource": {
@@ -726,7 +725,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.5.0",
       "targets": [
         {
           "datasource": {
@@ -1138,7 +1136,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.5.0",
       "targets": [
         {
           "datasource": {
@@ -1352,7 +1349,6 @@
           "export": false
         }
       },
-      "pluginVersion": "1.5.0",
       "targets": [
         {
           "datasource": {

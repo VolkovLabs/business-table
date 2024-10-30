@@ -351,9 +351,9 @@ export const Table = <TData,>({
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
               {headerGroup.headers.map((header) => {
-                const bgColor = header.column.columnDef.meta?.config.appearance.header?.backgroundColor;
+                const bgColor = header.column.columnDef.meta?.config.appearance.header.backgroundColor;
                 const fontSize =
-                  header.column.columnDef.meta?.config.appearance.header?.fontSize || ColumnHeaderFontSize.MD;
+                  header.column.columnDef.meta?.config.appearance.header.fontSize || ColumnHeaderFontSize.MD;
                 return (
                   <th
                     key={header.id}
