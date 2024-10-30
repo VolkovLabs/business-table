@@ -353,7 +353,7 @@ export const Table = <TData,>({
               {headerGroup.headers.map((header) => {
                 const bgColor = header.column.columnDef.meta?.config.appearance.header?.backgroundColor;
                 const fontSize =
-                  header.column.columnDef.meta?.config.appearance.header.fontSize || ColumnHeaderFontSize.MD;
+                  header.column.columnDef.meta?.config.appearance.header?.fontSize || ColumnHeaderFontSize.MD;
                 return (
                   <th
                     key={header.id}

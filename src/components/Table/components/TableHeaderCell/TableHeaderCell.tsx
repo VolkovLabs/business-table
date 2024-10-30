@@ -35,7 +35,7 @@ export const TableHeaderCell = <TData,>({ header, size }: Props<TData>) => {
    */
   const styles = useStyles2(getStyles);
   const sort = header.column.getIsSorted();
-  const fontColor = header.column.columnDef.meta?.config.appearance.header.fontColor || 'inherit';
+  const fontColor = header.column.columnDef.meta?.config.appearance.header?.fontColor || 'inherit';
 
   /**
    * Actions Header
