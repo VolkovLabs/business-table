@@ -11,6 +11,7 @@
 - Updated to Grafana 11.3. and dependencies (#137)
 - Added colored Text and colored Background for aggregated rows (#136)
 - Added Handling Data Source Request Errors (#140)
+- Added customization for column header (#141)
 
 ## 1.5.0 (2024-10-08)
 

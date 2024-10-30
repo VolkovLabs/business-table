@@ -3,6 +3,7 @@ import { Header } from '@tanstack/react-table';
 import React, { useCallback, useRef, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
+import { ColumnHeaderFontSize } from '@/types';
 
 import { FilterPopup } from '../FilterPopup';
 import { getStyles } from './TableHeaderCellFilter.styles';
@@ -15,12 +16,19 @@ interface Props<TData> {
    * Header
    */
   header: Header<TData, unknown>;
+
+  /**
+   * Size
+   *
+   * @type {ColumnHeaderFontSize}
+   */
+  size: ColumnHeaderFontSize;
 }
 
 /**
  * Table Header Cell Filter
  */
-export const TableHeaderCellFilter = <TData,>({ header }: Props<TData>) => {
+export const TableHeaderCellFilter = <TData,>({ header, size }: Props<TData>) => {
   /**
    * Styles
    */
@@ -58,6 +66,7 @@ export const TableHeaderCellFilter = <TData,>({ header }: Props<TData>) => {
       >
         <Icon
           name="filter"
+          size={size}
           style={{
             color: header.column.getIsFiltered() ? theme.colors.primary.text : theme.colors.secondary.text,
           }}

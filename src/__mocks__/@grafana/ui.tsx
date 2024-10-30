@@ -255,6 +255,25 @@ const ConfirmModalMock = ({ onConfirm, onDismiss, isOpen = true, ...restProps }:
 
 const ConfirmModal = jest.fn(ConfirmModalMock);
 
+/**
+ * Mock ColorPickerInput component
+ */
+const ColorPickerMock = ({ onChange, value, ...restProps }: any) => {
+  return (
+    <input
+      data-testid={restProps['data-testid']}
+      value={value}
+      onChange={(event) => {
+        if (onChange) {
+          onChange(event.target.value);
+        }
+      }}
+    />
+  );
+};
+
+const ColorPicker = jest.fn(ColorPickerMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -268,6 +287,7 @@ beforeEach(() => {
   DataLinksContextMenu.mockImplementation(DataLinksContextMenuMock);
   StatsPicker.mockImplementation(StatsPickerMock);
   ConfirmModal.mockImplementation(ConfirmModalMock);
+  ColorPicker.mockImplementation(ColorPickerMock);
 });
 
 module.exports = {
@@ -284,4 +304,5 @@ module.exports = {
   DataLinksContextMenu,
   StatsPicker,
   ConfirmModal,
+  ColorPicker,
 };

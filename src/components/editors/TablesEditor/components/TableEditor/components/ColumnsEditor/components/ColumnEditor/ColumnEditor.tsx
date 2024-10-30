@@ -13,10 +13,18 @@ import {
   ColumnAlignment,
   ColumnConfig,
   ColumnFilterMode,
+  ColumnHeaderFontSize,
   ColumnPinDirection,
   EditorProps,
 } from '@/types';
-import { getColumnConfigWithNewType, getFieldBySource, getSupportedFilterTypesForVariable } from '@/utils';
+import {
+  cleanPayloadObject,
+  getColumnConfigWithNewType,
+  getFieldBySource,
+  getSupportedFilterTypesForVariable,
+} from '@/utils';
+
+import { ColorEditor } from '../ColorEditor';
 
 /**
  * Properties
@@ -211,19 +219,6 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
 
   return (
     <>
-      <InlineField label="Label" grow={true}>
-        <Input
-          value={value.label}
-          placeholder={field?.config.displayName ?? field?.name}
-          onChange={(event) =>
-            onChange({
-              ...value,
-              label: event.currentTarget.value,
-            })
-          }
-          {...TEST_IDS.columnEditor.fieldLabel.apply()}
-        />
-      </InlineField>
       <FieldsGroup label="Format">
         <InlineField label="Type" grow={true}>
           <Select
@@ -273,9 +268,101 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           </InlineField>
         )}
       </FieldsGroup>
-      <FieldsGroup label="Size">
+      <FieldsGroup label="Header">
+        <InlineField label="Label" grow={true}>
+          <Input
+            value={value.label}
+            placeholder={field?.config.displayName ?? field?.name}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                label: event.currentTarget.value,
+              })
+            }
+            {...TEST_IDS.columnEditor.fieldLabel.apply()}
+          />
+        </InlineField>
         <InlineFieldRow>
-          <InlineField label="Auto Width">
+          <InlineField label="Font">
+            <ColorEditor
+              value={value.appearance.header?.fontColor}
+              onChange={(color) => {
+                onChange({
+                  ...value,
+                  appearance: {
+                    ...value.appearance,
+                    header: cleanPayloadObject({
+                      ...value.appearance.header,
+                      fontColor: color,
+                    }),
+                  },
+                });
+              }}
+              {...TEST_IDS.columnEditor.fieldHeaderFontColor.apply()}
+            />
+          </InlineField>
+          <InlineField label="Background">
+            <ColorEditor
+              value={value.appearance.header?.backgroundColor}
+              onChange={(color) => {
+                onChange({
+                  ...value,
+                  appearance: {
+                    ...value.appearance,
+                    header: cleanPayloadObject({
+                      ...value.appearance.header,
+                      backgroundColor: color,
+                    }),
+                  },
+                });
+              }}
+              {...TEST_IDS.columnEditor.fieldHeaderBackgroundColor.apply()}
+            />
+          </InlineField>
+          <InlineField label="Size" {...TEST_IDS.columnEditor.fieldHeaderFontSize.apply()}>
+            <RadioButtonGroup
+              value={value.appearance.header.fontSize}
+              onChange={(event) =>
+                onChange({
+                  ...value,
+                  appearance: {
+                    ...value.appearance,
+                    header: {
+                      ...value.appearance.header,
+                      fontSize: event,
+                    },
+                  },
+                })
+              }
+              options={[
+                {
+                  value: ColumnHeaderFontSize.LG,
+                  label: 'lg',
+                  ariaLabel: TEST_IDS.columnEditor.fieldHeaderFontSizeOption.selector(ColumnHeaderFontSize.LG),
+                },
+                {
+                  value: ColumnHeaderFontSize.MD,
+                  label: 'md',
+                  ariaLabel: TEST_IDS.columnEditor.fieldHeaderFontSizeOption.selector(ColumnHeaderFontSize.MD),
+                },
+                {
+                  value: ColumnHeaderFontSize.SM,
+                  label: 'sm',
+                  ariaLabel: TEST_IDS.columnEditor.fieldHeaderFontSizeOption.selector(ColumnHeaderFontSize.SM),
+                },
+                {
+                  value: ColumnHeaderFontSize.XS,
+                  label: 'xs',
+                  ariaLabel: TEST_IDS.columnEditor.fieldHeaderFontSizeOption.selector(ColumnHeaderFontSize.XS),
+                },
+              ]}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      </FieldsGroup>
+      <FieldsGroup label="Width">
+        <InlineFieldRow>
+          <InlineField label="Auto">
             <InlineSwitch
               value={value.appearance.width.auto}
               onChange={(event) =>
@@ -334,7 +421,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               </InlineField>
             </>
           ) : (
-            <InlineField label="Width">
+            <InlineField label="Size">
               <NumberInput
                 value={value.appearance.width.value}
                 placeholder="Auto"
@@ -356,6 +443,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           )}
         </InlineFieldRow>
       </FieldsGroup>
+
       {value.type !== CellType.NESTED_OBJECTS && (
         <FieldsGroup label="Text">
           <InlineFieldRow>

@@ -43,6 +43,24 @@ export const getStyles = (theme: GrafanaTheme2) => {
         border-right: 1px solid ${borderColor};
       }
     `,
+    sizeLg: css`
+      font-size: ${theme.typography.pxToRem(18)};
+      min-height: ${theme.spacing(4)};
+      padding: ${theme.spacing(1)};
+    `,
+    sizeMd: css`
+      font-size: ${theme.typography.pxToRem(14)};
+      min-height: ${theme.spacing(3.5)};
+      padding: ${theme.spacing(0.75)};
+    `,
+    sizeSm: css`
+      font-size: ${theme.typography.pxToRem(12)};
+      min-height: ${theme.spacing(3)};
+    `,
+    sizeXs: css`
+      font-size: ${theme.typography.pxToRem(10)};
+      min-height: ${theme.spacing(2.5)};
+    `,
     body: css`
       display: grid;
       position: relative; //needed for absolute positioning of rows
