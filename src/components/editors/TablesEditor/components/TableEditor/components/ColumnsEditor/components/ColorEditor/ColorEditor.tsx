@@ -25,7 +25,7 @@ interface Props extends EditorProps<string | undefined> {
 export const testIds = TEST_IDS.colorEditor;
 
 /**
- * Editable Data Editor
+ * Color Editor
  */
 export const ColorEditor: React.FC<Props> = ({ onChange, value, ...restProps }) => {
   /**

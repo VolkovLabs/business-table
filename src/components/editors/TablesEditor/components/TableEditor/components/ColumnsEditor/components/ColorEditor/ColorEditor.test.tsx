@@ -6,7 +6,7 @@ import { ColorEditor, testIds } from './ColorEditor';
 
 type Props = React.ComponentProps<typeof ColorEditor>;
 
-describe('ColumnEditor', () => {
+describe('ColorEditor', () => {
   /**
    * Selectors
    */
