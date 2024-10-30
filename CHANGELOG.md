@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.6.0 (IN PROGRESS)
+## 1.6.0 (2024-10-29)
 
 ### Features / Enhancements
 
@@ -12,6 +12,7 @@
 - Added colored Text and colored Background for aggregated rows (#136)
 - Added Handling Data Source Request Errors (#140)
 - Added customization for column header (#141)
+- Updated text wrap (#143)
 
 ## 1.5.0 (2024-10-08)
 
