@@ -62,6 +62,14 @@ const cellTypeOptions = [
     label: 'Colored text',
   },
   {
+    value: CellType.HTML,
+    label: 'HTML',
+  },
+  {
+    value: CellType.MARKDOWN,
+    label: 'Markdown',
+  },
+  {
     value: CellType.NESTED_OBJECTS,
     label: 'Nested objects',
     description: 'Column value should be an array of object ids.',
