@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.7.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added Sanitized HTML and Markdown column type (#154)
+
 ## 1.6.0 (2024-10-29)
 
 ### Features / Enhancements
