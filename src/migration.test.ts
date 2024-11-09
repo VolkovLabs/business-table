@@ -1,23 +1,67 @@
+import { getBackendSrv } from '@grafana/runtime';
+
 import { getMigratedOptions } from '@/migration';
 import { ColumnFilterMode, ColumnPinDirection } from '@/types';
-import { createColumnConfig, createNestedObjectConfig, createPanelOptions, createTableConfig } from '@/utils';
+import {
+  createColumnConfig,
+  createNestedObjectConfig,
+  createPanelOptions,
+  createTableConfig,
+  createTableRequestConfig,
+} from '@/utils';
+
+/**
+ * Mock @grafana/runtime
+ */
+jest.mock('@grafana/runtime', () => ({
+  getBackendSrv: jest.fn(),
+}));
 
 describe('migration', () => {
-  it('Should return panel options', () => {
+  beforeEach(() => {
+    jest.mocked(getBackendSrv).mockImplementation(
+      () =>
+        ({
+          get: jest.fn(() => [
+            {
+              name: 'Datasource 1',
+              uid: 'ds1',
+            },
+            {
+              name: 'Datasource 2',
+              uid: 'ds2',
+            },
+            {
+              name: 'Datasource 3',
+              uid: 'ds3',
+            },
+            {
+              name: 'Datasource 4',
+              uid: 'ds4',
+            },
+            {
+              name: 'Datasource 5',
+              uid: 'ds5',
+            },
+          ]),
+        }) as any
+    );
+  });
+  it('Should return panel options', async () => {
     const options = {
       someField: 'abc',
     };
 
     expect(
-      getMigratedOptions({
+      await getMigratedOptions({
         options: options as any,
       } as any)
     ).toEqual(expect.objectContaining(options));
   });
 
   describe('1.1.0', () => {
-    it('Should normalize filter parameters for groups', () => {
-      const normalizedOptions = getMigratedOptions({
+    it('Should normalize filter parameters for groups', async () => {
+      const normalizedOptions = await getMigratedOptions({
         options: createPanelOptions({
           groups: [
             {
@@ -66,18 +110,18 @@ describe('migration', () => {
       });
     });
 
-    it('Should normalize tabsSorting', () => {
-      expect(getMigratedOptions({ options: {} } as any)).toEqual(
+    it('Should normalize tabsSorting', async () => {
+      expect(await getMigratedOptions({ options: {} } as any)).toEqual(
         expect.objectContaining({
           tabsSorting: false,
         })
       );
-      expect(getMigratedOptions({ options: { tabsSorting: false } } as any)).toEqual(
+      expect(await getMigratedOptions({ options: { tabsSorting: false } } as any)).toEqual(
         expect.objectContaining({
           tabsSorting: false,
         })
       );
-      expect(getMigratedOptions({ options: { tabsSorting: true } } as any)).toEqual(
+      expect(await getMigratedOptions({ options: { tabsSorting: true } } as any)).toEqual(
         expect.objectContaining({
           tabsSorting: true,
         })
@@ -86,9 +130,9 @@ describe('migration', () => {
   });
 
   describe('1.3.0', () => {
-    it('Should normalize column pin', () => {
+    it('Should normalize column pin', async () => {
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: {
             tables: [
               createTableConfig({
@@ -118,9 +162,9 @@ describe('migration', () => {
       );
     });
 
-    it('Should normalize descFirst option for sort', () => {
+    it('Should normalize descFirst option for sort', async () => {
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: {
             tables: [
               createTableConfig({
@@ -163,17 +207,94 @@ describe('migration', () => {
   });
 
   describe('1.4.0', () => {
-    it('Should normalize nested objects', () => {
-      expect(getMigratedOptions({ options: {} } as any)).toEqual(
+    it('Should normalize nested objects', async () => {
+      expect(await getMigratedOptions({ options: {} } as any)).toEqual(
         expect.objectContaining({
           nestedObjects: [],
         })
       );
 
       const nestedObject = createNestedObjectConfig({ name: '123' });
-      expect(getMigratedOptions({ options: createPanelOptions({ nestedObjects: [nestedObject] }) } as any)).toEqual(
+      expect(
+        await getMigratedOptions({ options: createPanelOptions({ nestedObjects: [nestedObject] }) } as any)
+      ).toEqual(
         expect.objectContaining({
           nestedObjects: [nestedObject],
+        })
+      );
+    });
+  });
+
+  /**
+   * Normalize Datasource Option
+   */
+  describe('1.7.0', () => {
+    it('Should normalize datasource option from name to id ', async () => {
+      expect(
+        await getMigratedOptions({
+          pluginVersion: '1.5.0',
+          options: {
+            tables: [
+              createTableConfig({
+                items: [
+                  createColumnConfig({
+                    sort: {
+                      enabled: false,
+                    } as any,
+                  }),
+                ],
+                update: createTableRequestConfig({
+                  datasource: 'Datasource 1',
+                }),
+              }),
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              update: {
+                datasource: 'ds1',
+                payload: {},
+              },
+            }),
+          ],
+        })
+      );
+    });
+
+    it('Should normalize datasource option from name to id and return empty string if unknown DS', async () => {
+      expect(
+        await getMigratedOptions({
+          pluginVersion: '1.5.0',
+          options: {
+            tables: [
+              createTableConfig({
+                items: [
+                  createColumnConfig({
+                    sort: {
+                      enabled: false,
+                    } as any,
+                  }),
+                ],
+                update: createTableRequestConfig({
+                  datasource: 'Datasource 13',
+                }),
+              }),
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              update: {
+                datasource: '',
+                payload: {},
+              },
+            }),
+          ],
         })
       );
     });

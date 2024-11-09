@@ -1,4 +1,6 @@
-import { PanelModel } from '@grafana/data';
+import { DataSourceApi, PanelModel } from '@grafana/data';
+import { getBackendSrv } from '@grafana/runtime';
+import semver from 'semver';
 
 import { getColumnEditorConfig } from '@/utils';
 
@@ -137,10 +139,29 @@ interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups' | 'tabsSortin
 }
 
 /**
+ * Fetch datasources
+ */
+const fetchData = async () => {
+  return await getBackendSrv().get('/api/datasources');
+};
+
+/**
+ * Normalize datasource option
+ *
+ * @param obj
+ * @param name
+ *
+ */
+const normalizeDatasourceOptions = (ds: DataSourceApi[], name?: string): string => {
+  const currentDs = ds.find((element) => element.name === name);
+  return currentDs?.uid || '';
+};
+
+/**
  * Get Migrated Options
  * @param panel
  */
-export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): PanelOptions => {
+export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>): Promise<PanelOptions> => {
   const { ...options } = panel.options;
 
   /**
@@ -148,6 +169,7 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
    */
   if (options.groups || options.tables) {
     const items = options.groups || options.tables;
+    const dataSources: DataSourceApi[] = await fetchData();
     options.tables = items.map((group) => {
       const columns = group.items.map((columnConfig) => {
         const normalized = columnConfig as ColumnConfig;
@@ -261,6 +283,12 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
         };
       }
 
+      if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.7.0') && !!normalizedGroup.update.datasource) {
+        normalizedGroup.update = {
+          ...normalizedGroup.update,
+          datasource: normalizeDatasourceOptions(dataSources, normalizedGroup.update.datasource),
+        };
+      }
       /**
        * Normalize Pagination
        */

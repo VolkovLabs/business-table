@@ -43,7 +43,7 @@ export const RequestEditor: React.FC<Props> = ({ value, onChange, queryEditorDes
                 payload: payload as Record<string, unknown>,
               });
             }}
-            datasourceName={value.datasource}
+            datasourceUid={value.datasource}
           />
         </Field>
       )}
