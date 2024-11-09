@@ -178,4 +178,27 @@ describe('migration', () => {
       );
     });
   });
+
+  it('Should normalize showHeader', () => {
+    expect(
+      getMigratedOptions({
+        options: {
+          tables: [
+            createTableConfig({
+              items: [],
+            }),
+          ],
+        },
+      } as any)
+    ).toEqual(
+      expect.objectContaining({
+        tables: [
+          expect.objectContaining({
+            showHeader: true,
+            items: [],
+          }),
+        ],
+      })
+    );
+  });
 });

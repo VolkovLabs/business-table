@@ -216,6 +216,7 @@ export const TablePanel: React.FC<Props> = ({
             onUpdateRow={onUpdateRow}
             bottomOffset={tableBottomOffset}
             paginationRef={paginationRef}
+            showHeader={currentTable?.showHeader ?? true}
             width={width}
             pagination={pagination}
             tableInstance={tableInstance as never}

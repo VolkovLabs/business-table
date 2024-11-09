@@ -96,7 +96,7 @@ describe('ColumnEditor', () => {
   });
 
   it('Should allow to change label', () => {
-    render(getComponent({ value: createColumnConfig({ label: '123' }) }));
+    render(getComponent({ showTableHeader: true, value: createColumnConfig({ label: '123' }) }));
 
     expect(selectors.fieldLabel()).toBeInTheDocument();
     expect(selectors.fieldLabel()).toHaveValue('123');
@@ -111,7 +111,7 @@ describe('ColumnEditor', () => {
   });
 
   it('Should allow to change type', () => {
-    render(getComponent({ value: createColumnConfig({ type: CellType.COLORED_TEXT }) }));
+    render(getComponent({ showTableHeader: true, value: createColumnConfig({ type: CellType.COLORED_TEXT }) }));
 
     expect(selectors.fieldType()).toBeInTheDocument();
     expect(selectors.fieldType()).toHaveValue(CellType.COLORED_TEXT);
@@ -176,6 +176,7 @@ describe('ColumnEditor', () => {
     it('Should allow to enable filtering', () => {
       render(
         getComponent({
+          showTableHeader: true,
           value: createColumnConfig({ filter: { enabled: false, mode: ColumnFilterMode.CLIENT, variable: '' } }),
         })
       );
@@ -197,6 +198,7 @@ describe('ColumnEditor', () => {
     it('Should hide filter fields if disabled', () => {
       render(
         getComponent({
+          showTableHeader: true,
           value: createColumnConfig({ filter: { enabled: false, mode: ColumnFilterMode.CLIENT, variable: '' } }),
         })
       );
@@ -209,6 +211,7 @@ describe('ColumnEditor', () => {
     it('Should allow to change filter mode', () => {
       render(
         getComponent({
+          showTableHeader: true,
           value: createColumnConfig({ filter: { enabled: true, mode: ColumnFilterMode.CLIENT, variable: '' } }),
         })
       );
@@ -237,6 +240,7 @@ describe('ColumnEditor', () => {
 
       render(
         getComponent({
+          showTableHeader: true,
           value: createColumnConfig({ filter: { enabled: true, mode: ColumnFilterMode.QUERY, variable: '' } }),
         })
       );
@@ -265,6 +269,7 @@ describe('ColumnEditor', () => {
 
       render(
         getComponent({
+          showTableHeader: true,
           value: createColumnConfig({ filter: { enabled: true, mode: ColumnFilterMode.QUERY, variable: '' } }),
         })
       );
@@ -282,6 +287,7 @@ describe('ColumnEditor', () => {
     it('Should allow to enable sorting', () => {
       render(
         getComponent({
+          showTableHeader: true,
           value: createColumnConfig({ sort: { enabled: false, descFirst: false } }),
         })
       );
@@ -538,6 +544,7 @@ describe('ColumnEditor', () => {
       it('Should allow to change font color', () => {
         render(
           getComponent({
+            showTableHeader: true,
             value: createColumnConfig({
               appearance: createColumnAppearanceConfig({
                 header: {
@@ -567,6 +574,7 @@ describe('ColumnEditor', () => {
       it('Should allow to change background color', () => {
         render(
           getComponent({
+            showTableHeader: true,
             value: createColumnConfig({
               appearance: createColumnAppearanceConfig({
                 header: {
@@ -596,6 +604,7 @@ describe('ColumnEditor', () => {
       it('Should allow to change font size', () => {
         render(
           getComponent({
+            showTableHeader: true,
             value: createColumnConfig({
               appearance: createColumnAppearanceConfig({
                 header: {
@@ -663,6 +672,7 @@ describe('ColumnEditor', () => {
   it('Should allow to set sort direction', () => {
     render(
       getComponent({
+        showTableHeader: true,
         value: createColumnConfig({
           sort: {
             enabled: true,
