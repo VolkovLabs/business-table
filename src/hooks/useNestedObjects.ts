@@ -1,4 +1,5 @@
-import { InterpolateFunction } from '@grafana/data';
+import { AlertErrorPayload, AppEvents, InterpolateFunction } from '@grafana/data';
+import { getAppEvents } from '@grafana/runtime';
 import { useDatasourceRequest } from '@volkovlabs/components';
 import { useCallback, useMemo, useState } from 'react';
 
@@ -28,14 +29,30 @@ export const useNestedObjects = ({
   >({});
   const [nestedObjectsLoading, setNestedObjectsLoading] = useState<Record<string, boolean>>({});
 
+  const appEvents = getAppEvents();
+
+  const notifyError = useCallback(
+    (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload }),
+    [appEvents]
+  );
+
   /**
    * Load
    */
   const onLoad = useCallback(
     async (column: ColumnConfig, tableData: Array<Record<string, unknown>>) => {
       const object = objects.find((object) => object.id === column.objectId);
+      const ids = tableData.reduce((acc, row) => {
+        const value = row[column.field.name];
 
-      if (!object) {
+        if (Array.isArray(value)) {
+          return acc.concat(...value);
+        }
+
+        return acc.concat(value as never);
+      }, []);
+
+      if (!object || !ids.length) {
         return;
       }
 
@@ -46,29 +63,26 @@ export const useNestedObjects = ({
         [objectKey]: true,
       }));
 
-      const result = await datasourceRequest({
-        query: object.get.payload,
-        datasource: object.get.datasource,
-        payload: {
-          rows: tableData,
-          ids: tableData.reduce((acc, row) => {
-            const value = row[column.field.name];
+      try {
+        const result = await datasourceRequest({
+          query: object.get.payload,
+          datasource: object.get.datasource,
+          payload: {
+            rows: tableData,
+            ids: ids,
+          },
+          replaceVariables,
+        });
 
-            if (Array.isArray(value)) {
-              return acc.concat(...value);
-            }
-
-            return acc.concat(value as never);
-          }, []),
-        },
-        replaceVariables,
-      });
-
-      if (result.data && result.data[0]) {
-        setNestedObjectsData((value) => ({
-          ...value,
-          [objectKey]: prepareFrameForNestedObject(object, result.data[0]),
-        }));
+        if (result.data && result.data[0]) {
+          setNestedObjectsData((value) => ({
+            ...value,
+            [objectKey]: prepareFrameForNestedObject(object, result.data[0]),
+          }));
+        }
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown Error';
+        notifyError(['Error', errorMessage]);
       }
 
       setNestedObjectsLoading((current) => ({
@@ -76,7 +90,7 @@ export const useNestedObjects = ({
         [objectKey]: false,
       }));
     },
-    [datasourceRequest, objects, replaceVariables]
+    [datasourceRequest, notifyError, objects, replaceVariables]
   );
 
   /**
