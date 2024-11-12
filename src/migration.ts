@@ -164,12 +164,12 @@ const normalizeDatasourceOptions = (ds: DataSourceApi[], name?: string): string 
 export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>): Promise<PanelOptions> => {
   const { ...options } = panel.options;
 
+  const dataSources: DataSourceApi[] = await fetchData();
   /**
    * Normalize groups
    */
   if (options.groups || options.tables) {
     const items = options.groups || options.tables;
-    const dataSources: DataSourceApi[] = await fetchData();
     options.tables = items.map((group) => {
       const columns = group.items.map((columnConfig) => {
         const normalized = columnConfig as ColumnConfig;
@@ -330,5 +330,40 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
     options.nestedObjects = [];
   }
 
+  if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.7.0') && !!options.nestedObjects.length) {
+    const nestedObjectsUpdated = options.nestedObjects.map((nestedObject) => {
+      const object = { ...nestedObject };
+      if (nestedObject.add && nestedObject.add?.request.datasource) {
+        object.add = {
+          ...nestedObject.add,
+          request: {
+            ...nestedObject.add?.request,
+            datasource: normalizeDatasourceOptions(dataSources, nestedObject.add?.request.datasource),
+          },
+        };
+      }
+
+      if (nestedObject.delete && nestedObject.delete?.request.datasource) {
+        object.delete = {
+          ...nestedObject.delete,
+          request: {
+            ...nestedObject.delete?.request,
+            datasource: normalizeDatasourceOptions(dataSources, nestedObject.delete?.request.datasource),
+          },
+        };
+      }
+
+      if (nestedObject.get) {
+        object.get = {
+          ...nestedObject.get,
+          datasource: normalizeDatasourceOptions(dataSources, nestedObject.get.datasource),
+        };
+      }
+
+      return object;
+    });
+
+    options.nestedObjects = nestedObjectsUpdated;
+  }
   return options as PanelOptions;
 };

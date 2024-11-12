@@ -1,7 +1,7 @@
 import { getBackendSrv } from '@grafana/runtime';
 
 import { getMigratedOptions } from '@/migration';
-import { ColumnFilterMode, ColumnPinDirection } from '@/types';
+import { ColumnFilterMode, ColumnPinDirection, PermissionMode } from '@/types';
 import {
   createColumnConfig,
   createNestedObjectConfig,
@@ -297,6 +297,118 @@ describe('migration', () => {
           ],
         })
       );
+    });
+
+    it('Should normalize datasource options for nested operations', async () => {
+      const nestedObject = createNestedObjectConfig({
+        name: 'nested1',
+        add: {
+          enabled: true,
+          permission: { mode: PermissionMode.ALLOWED, userRole: [] },
+          request: createTableRequestConfig({
+            datasource: 'Datasource 1',
+          }),
+        },
+        get: createTableRequestConfig({
+          datasource: 'Datasource 5',
+        }),
+        delete: {
+          enabled: true,
+          permission: { mode: PermissionMode.ALLOWED, userRole: [] },
+          request: createTableRequestConfig({
+            datasource: 'Datasource 3',
+          }),
+        },
+      });
+
+      const nestedObjectSecond = createNestedObjectConfig({
+        name: 'nested2',
+        add: {
+          enabled: true,
+          permission: { mode: PermissionMode.ALLOWED, userRole: [] },
+          request: createTableRequestConfig({
+            datasource: 'Datasource 2',
+          }),
+        },
+        get: createTableRequestConfig({
+          datasource: 'Datasource 3',
+        }),
+        delete: {
+          enabled: true,
+          permission: { mode: PermissionMode.ALLOWED, userRole: [] },
+          request: createTableRequestConfig({
+            datasource: '',
+          }),
+        },
+      });
+
+      const result = await getMigratedOptions({
+        pluginVersion: '1.5.0',
+        options: {
+          nestedObjects: [nestedObject, nestedObjectSecond],
+          tables: [
+            createTableConfig({
+              items: [
+                createColumnConfig({
+                  sort: {
+                    enabled: false,
+                  } as any,
+                }),
+              ],
+              update: createTableRequestConfig({
+                datasource: 'Datasource 1',
+              }),
+            }),
+          ],
+        },
+      } as any);
+
+      const nestedResultFirst = result.nestedObjects[0];
+      const nestedResultSecond = result.nestedObjects[1];
+
+      expect(nestedResultFirst).toEqual({
+        id: '',
+        name: 'nested1',
+        type: 'cards',
+        add: expect.objectContaining({
+          request: expect.objectContaining({
+            datasource: 'ds1',
+            payload: {},
+          }),
+        }),
+        delete: expect.objectContaining({
+          request: expect.objectContaining({
+            datasource: 'ds3',
+            payload: {},
+          }),
+        }),
+        get: expect.objectContaining({
+          datasource: 'ds5',
+        }),
+        editor: expect.any(Object),
+      });
+
+      expect(nestedResultSecond).toEqual({
+        id: '',
+        name: 'nested2',
+        type: 'cards',
+        add: expect.objectContaining({
+          request: expect.objectContaining({
+            datasource: 'ds2',
+            payload: {},
+          }),
+        }),
+        delete: expect.objectContaining({
+          request: expect.objectContaining({
+            datasource: '',
+            payload: {},
+          }),
+        }),
+        get: expect.objectContaining({
+          datasource: 'ds3',
+        }),
+        editor: expect.any(Object),
+      });
     });
   });
 });
