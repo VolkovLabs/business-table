@@ -1,4 +1,5 @@
 import { toDataFrame } from '@grafana/data';
+import { getAppEvents } from '@grafana/runtime';
 import { act, renderHook } from '@testing-library/react';
 import { useDatasourceRequest } from '@volkovlabs/components';
 
@@ -101,6 +102,134 @@ describe('useNestedObjects', () => {
     expect(result.current.getValuesForColumn(column.objectId)).toBeUndefined();
 
     await act(async () => result.current.onLoad(column, []));
+
+    expect(result.current.getValuesForColumn(column.objectId)).toBeUndefined();
+  });
+
+  it('Should notify error with error message if request invalid', async () => {
+    const object = createNestedObjectConfig({
+      id: '123',
+      editor: createNestedObjectEditorConfig({
+        id: 'myId',
+      }),
+    });
+
+    const column = createColumnConfig({
+      field: {
+        name: 'comments',
+        source: '',
+      },
+      type: CellType.NESTED_OBJECTS,
+      objectId: object.id,
+    });
+
+    const data = [
+      {
+        [column.field.name]: [1, 2],
+      },
+    ];
+
+    /**
+     * Mock objects result
+     */
+    datasourceRequestMock.mockRejectedValue(new Error('response error'));
+
+    const { result } = renderHook(() =>
+      useNestedObjects({
+        replaceVariables,
+        objects: [object],
+      })
+    );
+
+    await act(async () => result.current.onLoad(column, data));
+
+    expect(getAppEvents().publish).toHaveBeenCalledWith({
+      payload: ['Error', 'response error'],
+      type: 'alert-error',
+    });
+  });
+
+  it('Should notify error with "Unknown Error" text if request invalid', async () => {
+    const object = createNestedObjectConfig({
+      id: '123',
+      editor: createNestedObjectEditorConfig({
+        id: 'myId',
+      }),
+    });
+
+    const column = createColumnConfig({
+      field: {
+        name: 'comments',
+        source: '',
+      },
+      type: CellType.NESTED_OBJECTS,
+      objectId: object.id,
+    });
+
+    const data = [
+      {
+        [column.field.name]: [1, 2],
+      },
+    ];
+
+    /**
+     * Mock objects result
+     */
+    datasourceRequestMock.mockRejectedValue('response error');
+
+    const { result } = renderHook(() =>
+      useNestedObjects({
+        replaceVariables,
+        objects: [object],
+      })
+    );
+
+    await act(async () => result.current.onLoad(column, data));
+
+    expect(getAppEvents().publish).toHaveBeenCalledWith({
+      payload: ['Error', 'Unknown Error'],
+      type: 'alert-error',
+    });
+  });
+
+  it('Should work if Ids is empty', async () => {
+    const object = createNestedObjectConfig({
+      id: '123',
+      editor: createNestedObjectEditorConfig({
+        id: 'myId',
+      }),
+    });
+
+    const column = createColumnConfig({
+      field: {
+        name: 'comments',
+        source: '',
+      },
+      type: CellType.NESTED_OBJECTS,
+      objectId: object.id,
+    });
+
+    const data = [
+      {
+        [column.field.name]: [],
+      },
+    ];
+
+    /**
+     * Mock objects result
+     */
+    datasourceRequestMock.mockRejectedValue('response error');
+
+    const { result } = renderHook(() =>
+      useNestedObjects({
+        replaceVariables,
+        objects: [object],
+      })
+    );
+
+    expect(result.current.getValuesForColumn(column.objectId)).toBeUndefined();
+
+    await act(async () => result.current.onLoad(column, data));
 
     expect(result.current.getValuesForColumn(column.objectId)).toBeUndefined();
   });
