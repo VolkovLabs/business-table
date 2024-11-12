@@ -248,7 +248,7 @@ export const createTableRequestConfig = (item: Partial<TableRequestConfig>): Tab
  */
 export const createTableConfig = (table: Partial<TableConfig>): TableConfig => ({
   name: '',
-  showHeader: true,
+  showHeader: false,
   items: [],
   update: createTableRequestConfig({}),
   pagination: createTablePaginationConfig({}),

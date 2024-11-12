@@ -184,9 +184,10 @@ describe('migration', () => {
       getMigratedOptions({
         options: {
           tables: [
-            createTableConfig({
+            {
+              name: '',
               items: [],
-            }),
+            },
           ],
         },
       } as any)
