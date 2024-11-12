@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.7.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Updated useNestedObjects hook to display request errors and empty values (#158)
+
 ## 1.6.0 (2024-10-29)
 
 ### Features / Enhancements
