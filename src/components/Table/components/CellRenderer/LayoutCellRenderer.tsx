@@ -35,7 +35,7 @@ export const LayoutCellRenderer: React.FC<Props> = ({ value, row }) => {
    */
   const scopedVars = {
     row: {
-      value: row,
+      value: row.original,
     },
   };
 
