@@ -37,7 +37,7 @@ describe('LayoutCellRenderer', () => {
   });
 
   it('Should render value', () => {
-    render(getComponent({ value: '<p>text</p>' }));
+    render(getComponent({ value: '<p>text</p>', row: { original: { id: '4' } } as any }));
 
     expect(selectors.root()).toBeInTheDocument();
     expect(selectors.root()).toHaveTextContent('text');
