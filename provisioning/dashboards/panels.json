@@ -331,7 +331,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.6.0",
       "targets": [
         {
           "datasource": {
@@ -759,7 +758,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.6.0",
       "targets": [
         {
           "datasource": {
@@ -1189,7 +1187,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.6.0",
       "targets": [
         {
           "datasource": {
@@ -1458,7 +1455,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.6.0",
       "targets": [
         {
           "datasource": {
@@ -1675,7 +1671,6 @@
           "export": false
         }
       },
-      "pluginVersion": "1.6.0",
       "targets": [
         {
           "datasource": {
