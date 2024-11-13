@@ -21,7 +21,7 @@ interface Props extends CellContext<unknown, unknown> {
 /**
  * Cell Renderer
  */
-export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor }) => {
+export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, row }) => {
   /**
    * No meta
    */
@@ -42,7 +42,7 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor }) 
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;
     }
     case CellType.RICH_TEXT: {
-      return <LayoutCellRenderer value={String(rawValue)} />;
+      return <LayoutCellRenderer value={String(rawValue)} row={row} />;
     }
     default: {
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;

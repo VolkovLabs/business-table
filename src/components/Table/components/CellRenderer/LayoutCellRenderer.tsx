@@ -1,4 +1,5 @@
 import { textUtil } from '@grafana/data';
+import { Row } from '@tanstack/react-table';
 import MarkdownIt from 'markdown-it';
 import React from 'react';
 
@@ -15,13 +16,29 @@ interface Props {
    * @type {string }
    */
   value: string;
+
+  /**
+   * Row
+   *
+   * @type {string }
+   */
+  row: Row<unknown>;
 }
 
 /**
  * Layout Cell Renderer
  * @param value
  */
-export const LayoutCellRenderer: React.FC<Props> = ({ value }) => {
+export const LayoutCellRenderer: React.FC<Props> = ({ value, row }) => {
+  /**
+   * Scoped Vars
+   */
+  const scopedVars = {
+    row: {
+      value: row,
+    },
+  };
+
   /**
    * Markdown it
    */
@@ -38,7 +55,7 @@ export const LayoutCellRenderer: React.FC<Props> = ({ value }) => {
   return (
     <div
       {...TEST_IDS.layoutCellRenderer.root.apply()}
-      dangerouslySetInnerHTML={{ __html: textUtil.sanitize(md.render(replaceVariables(value))) }}
+      dangerouslySetInnerHTML={{ __html: textUtil.sanitize(md.render(replaceVariables(value, scopedVars))) }}
     />
   );
 };
