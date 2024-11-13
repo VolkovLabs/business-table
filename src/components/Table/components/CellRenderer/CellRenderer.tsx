@@ -41,8 +41,7 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor }) 
     case CellType.COLORED_BACKGROUND: {
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;
     }
-    case CellType.HTML:
-    case CellType.MARKDOWN: {
+    case CellType.RICH_TEXT: {
       return <LayoutCellRenderer value={String(rawValue)} />;
     }
     default: {

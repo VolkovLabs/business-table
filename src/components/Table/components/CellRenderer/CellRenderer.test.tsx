@@ -86,15 +86,9 @@ describe('CellRenderer', () => {
 
   it('Should render layout cell renderer if HTML selected', () => {
     render(
-      getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.HTML as any }) }) })
-    );
-
-    expect(LayoutCellRenderer).toHaveBeenCalled();
-  });
-
-  it('Should render layout cell renderer if Markdown selected', () => {
-    render(
-      getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.MARKDOWN as any }) }) })
+      getComponent({
+        column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.RICH_TEXT as any }) }),
+      })
     );
 
     expect(LayoutCellRenderer).toHaveBeenCalled();

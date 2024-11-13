@@ -1387,7 +1387,7 @@
                   "descFirst": false,
                   "enabled": false
                 },
-                "type": "html"
+                "type": "rich_text"
               },
               {
                 "aggregation": "none",
@@ -1436,7 +1436,7 @@
                   "descFirst": false,
                   "enabled": false
                 },
-                "type": "markdown"
+                "type": "rich_text"
               }
             ],
             "name": "Main",

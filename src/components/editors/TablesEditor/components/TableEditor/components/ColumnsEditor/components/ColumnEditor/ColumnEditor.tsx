@@ -62,12 +62,9 @@ const cellTypeOptions = [
     label: 'Colored text',
   },
   {
-    value: CellType.HTML,
-    label: 'HTML',
-  },
-  {
-    value: CellType.MARKDOWN,
-    label: 'Markdown',
+    value: CellType.RICH_TEXT,
+    label: 'Rich text',
+    description: 'HTML / Markdown',
   },
   {
     value: CellType.NESTED_OBJECTS,
