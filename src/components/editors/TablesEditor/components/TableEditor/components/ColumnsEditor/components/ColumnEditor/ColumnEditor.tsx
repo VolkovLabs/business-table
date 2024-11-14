@@ -69,6 +69,11 @@ const cellTypeOptions = [
     label: 'Colored text',
   },
   {
+    value: CellType.RICH_TEXT,
+    label: 'Rich text',
+    description: 'HTML / Markdown',
+  },
+  {
     value: CellType.NESTED_OBJECTS,
     label: 'Nested objects',
     description: 'Column value should be an array of object ids.',

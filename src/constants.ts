@@ -116,6 +116,9 @@ export const TEST_IDS = {
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
   },
+  layoutCellRenderer: {
+    root: createSelector('data-testid layout-cell-renderer'),
+  },
   aggregatedCellRenderer: {
     root: createSelector('data-testid aggregated-cell-renderer'),
   },

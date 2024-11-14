@@ -316,6 +316,7 @@ export const Table = <TData,>({
   const rowVirtualizer = useVirtualizer({
     getScrollElement: useCallback(() => scrollableContainerRef.current, [scrollableContainerRef]),
     count: rows.length,
+    getItemKey: useCallback((index: number) => rows[index].id, [rows]),
     estimateSize: useCallback(() => 36, []),
     measureElement: useCallback((el: HTMLElement | HTMLTableRowElement) => el.offsetHeight, []),
     overscan: 10,

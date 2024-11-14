@@ -1,4 +1,6 @@
-import { PanelModel } from '@grafana/data';
+import { DataSourceApi, PanelModel } from '@grafana/data';
+import { getBackendSrv } from '@grafana/runtime';
+import semver from 'semver';
 
 import { getColumnEditorConfig } from '@/utils';
 
@@ -137,12 +139,32 @@ interface OutdatedPanelOptions extends Omit<PanelOptions, 'groups' | 'tabsSortin
 }
 
 /**
+ * Fetch datasources
+ */
+const fetchData = async () => {
+  return await getBackendSrv().get('/api/datasources');
+};
+
+/**
+ * Normalize datasource option
+ *
+ * @param obj
+ * @param name
+ *
+ */
+const normalizeDatasourceOptions = (ds: DataSourceApi[], name?: string): string => {
+  const currentDs = ds.find((element) => element.name === name);
+  return currentDs?.uid || '';
+};
+
+/**
  * Get Migrated Options
  * @param panel
  */
-export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): PanelOptions => {
+export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>): Promise<PanelOptions> => {
   const { ...options } = panel.options;
 
+  const dataSources: DataSourceApi[] = await fetchData();
   /**
    * Normalize groups
    */
@@ -265,6 +287,12 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
         };
       }
 
+      if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.7.0') && !!normalizedGroup.update.datasource) {
+        normalizedGroup.update = {
+          ...normalizedGroup.update,
+          datasource: normalizeDatasourceOptions(dataSources, normalizedGroup.update.datasource),
+        };
+      }
       /**
        * Normalize Pagination
        */
@@ -306,5 +334,40 @@ export const getMigratedOptions = (panel: PanelModel<OutdatedPanelOptions>): Pan
     options.nestedObjects = [];
   }
 
+  if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.7.0') && !!options.nestedObjects.length) {
+    const nestedObjectsUpdated = options.nestedObjects.map((nestedObject) => {
+      const object = { ...nestedObject };
+      if (nestedObject.add && nestedObject.add?.request.datasource) {
+        object.add = {
+          ...nestedObject.add,
+          request: {
+            ...nestedObject.add?.request,
+            datasource: normalizeDatasourceOptions(dataSources, nestedObject.add?.request.datasource),
+          },
+        };
+      }
+
+      if (nestedObject.delete && nestedObject.delete?.request.datasource) {
+        object.delete = {
+          ...nestedObject.delete,
+          request: {
+            ...nestedObject.delete?.request,
+            datasource: normalizeDatasourceOptions(dataSources, nestedObject.delete?.request.datasource),
+          },
+        };
+      }
+
+      if (nestedObject.get) {
+        object.get = {
+          ...nestedObject.get,
+          datasource: normalizeDatasourceOptions(dataSources, nestedObject.get.datasource),
+        };
+      }
+
+      return object;
+    });
+
+    options.nestedObjects = nestedObjectsUpdated;
+  }
   return options as PanelOptions;
 };

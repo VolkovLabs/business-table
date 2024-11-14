@@ -57,7 +57,8 @@ describe('DatasourcePayloadEditor', () => {
   it('Should show error message', async () => {
     const dataSourceSrv = {
       get: jest.fn(() => ({
-        name: 'postgres',
+        name: 'postgresName',
+        uid: 'postgres',
         components: {},
       })),
     };
@@ -66,7 +67,7 @@ describe('DatasourcePayloadEditor', () => {
     await act(async () =>
       render(
         getComponent({
-          datasourceName: 'postgres',
+          datasourceUid: 'postgres',
         })
       )
     );
@@ -80,7 +81,8 @@ describe('DatasourcePayloadEditor', () => {
      */
     const dataSourceSrv = {
       get: jest.fn(() => ({
-        name: 'postgres',
+        name: 'postgresName',
+        uid: 'postgres',
         components: {
           QueryEditor: jest.fn(({ onChange, query }) => (
             <input
@@ -106,7 +108,7 @@ describe('DatasourcePayloadEditor', () => {
     await act(async () =>
       render(
         getComponent({
-          datasourceName: 'postgres',
+          datasourceUid: 'postgres',
           onChange,
           value: {
             name: 'bye',
@@ -147,7 +149,8 @@ describe('DatasourcePayloadEditor', () => {
      */
     const dataSourceSrv = {
       get: jest.fn(() => ({
-        name: 'postgres',
+        name: 'postgresName',
+        uid: 'postgres',
         components: {
           QueryEditor: jest.fn(({ onChange, query }) => (
             <input
@@ -173,7 +176,7 @@ describe('DatasourcePayloadEditor', () => {
     const { rerender } = await act(async () =>
       render(
         getComponent({
-          datasourceName: 'postgres',
+          datasourceUid: 'postgres',
           onChange,
           value: {
             name: 'hello',
@@ -194,7 +197,8 @@ describe('DatasourcePayloadEditor', () => {
      */
     jest.mocked(getDataSourceSrv).mockReturnValue({
       get: jest.fn(() => ({
-        name: 'postgres1',
+        name: 'postgresName',
+        uid: 'postgres1',
         components: {
           QueryEditor: jest.fn(({ onChange, query }) => (
             <input
@@ -217,7 +221,7 @@ describe('DatasourcePayloadEditor', () => {
     await act(async () =>
       rerender(
         getComponent({
-          datasourceName: 'postgres1',
+          datasourceUid: 'postgres1',
           onChange,
           value: {
             name: 'hello',
@@ -254,7 +258,7 @@ describe('DatasourcePayloadEditor', () => {
     await act(async () =>
       render(
         getComponent({
-          datasourceName: 'postgres',
+          datasourceUid: 'postgres',
         })
       )
     );

@@ -4,6 +4,7 @@ import React from 'react';
 import { CellType } from '@/types';
 
 import { DefaultCellRenderer } from './DefaultCellRenderer';
+import { LayoutCellRenderer } from './LayoutCellRenderer';
 
 /**
  * Properties
@@ -20,7 +21,7 @@ interface Props extends CellContext<unknown, unknown> {
 /**
  * Cell Renderer
  */
-export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor }) => {
+export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, row }) => {
   /**
    * No meta
    */
@@ -39,6 +40,9 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor }) 
     case CellType.COLORED_TEXT:
     case CellType.COLORED_BACKGROUND: {
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;
+    }
+    case CellType.RICH_TEXT: {
+      return <LayoutCellRenderer value={String(rawValue)} row={row} />;
     }
     default: {
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;

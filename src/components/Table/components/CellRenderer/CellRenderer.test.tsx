@@ -7,6 +7,7 @@ import { createColumnConfig } from '@/utils';
 
 import { CellRenderer } from './CellRenderer';
 import { DefaultCellRenderer } from './DefaultCellRenderer';
+import { LayoutCellRenderer } from './LayoutCellRenderer';
 
 type Props = React.ComponentProps<typeof CellRenderer>;
 
@@ -15,6 +16,13 @@ type Props = React.ComponentProps<typeof CellRenderer>;
  */
 jest.mock('./DefaultCellRenderer', () => ({
   DefaultCellRenderer: jest.fn(() => null),
+}));
+
+/**
+ * Mock Layout Cell Renderer
+ */
+jest.mock('./LayoutCellRenderer', () => ({
+  LayoutCellRenderer: jest.fn(() => null),
 }));
 
 describe('CellRenderer', () => {
@@ -37,6 +45,7 @@ describe('CellRenderer', () => {
 
   beforeEach(() => {
     jest.mocked(DefaultCellRenderer).mockClear();
+    jest.mocked(LayoutCellRenderer).mockClear();
   });
 
   it('Should work if no meta', () => {
@@ -73,6 +82,16 @@ describe('CellRenderer', () => {
     render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: '' as any }) }) }));
 
     expect(DefaultCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render layout cell renderer if HTML selected', () => {
+    render(
+      getComponent({
+        column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.RICH_TEXT as any }) }),
+      })
+    );
+
+    expect(LayoutCellRenderer).toHaveBeenCalled();
   });
 
   it('Should render default cell renderer by default', () => {
