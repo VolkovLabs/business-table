@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -70,7 +70,7 @@
                 "appearance": {
                   "alignment": "end",
                   "background": {
-                    "applyToRow": false
+                    "applyToRow": true
                   },
                   "header": {
                     "fontSize": "md"
@@ -114,7 +114,7 @@
                   "descFirst": false,
                   "enabled": true
                 },
-                "type": "auto"
+                "type": "coloredBackground"
               },
               {
                 "appearance": {
@@ -331,6 +331,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -758,6 +759,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1055,7 +1057,7 @@
                   "descFirst": false,
                   "enabled": false
                 },
-                "type": "auto"
+                "type": "rich_text"
               }
             ],
             "name": "Test",
@@ -1074,6 +1076,7 @@
           "export": false
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "frame": {
@@ -1481,6 +1484,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1547,6 +1551,272 @@
     },
     {
       "datasource": {
+        "default": true,
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 13,
+      "options": {
+        "columnMode": "auto",
+        "columns": [],
+        "nestedObjects": [],
+        "tables": [
+          {
+            "items": [
+              {
+                "appearance": {
+                  "alignment": "end",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 50,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "pin": "left",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": true
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "HTML",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "rich_text"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "Markdown",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "rich_text"
+              }
+            ],
+            "name": "Main",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "export": true
+        }
+      },
+      "pluginVersion": "1.7.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "number",
+                "values": [1, 2, 3, 4]
+              },
+              {
+                "config": {},
+                "name": "HTML",
+                "type": "string",
+                "values": [
+                  "<h3>Features/ 1</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>Features/ 2</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>Features/ 3</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>$title</h3> - Updated behavior <br/> - Added All options<br/>"
+                ]
+              },
+              {
+                "config": {},
+                "name": "Markdown",
+                "type": "string",
+                "values": [
+                  "# Heading level 1",
+                  "This is the first line.   And this is the second line.",
+                  "I just use **bold text**.",
+                  "> To create a blockquote, add a > in front of a paragraph."
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "data"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "HTML, Markdown",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "id": "",
+              "name": "Name",
+              "value": "Value"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
@@ -1573,7 +1843,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 36
+        "y": 49
       },
       "id": 8,
       "options": {
@@ -1700,6 +1970,7 @@
           "export": false
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1775,13 +2046,13 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-1y",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 9,
+  "version": 1,
   "weekStart": ""
 }
