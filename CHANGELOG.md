@@ -10,6 +10,7 @@
 - Updated filter options to match exactly (#160)
 - Added Sanitized HTML and Markdown column type (#154)
 - Updated data source name to id (#156)
+- Added option to hide table header (#157)
 
 ## 1.6.0 (2024-10-29)
 
