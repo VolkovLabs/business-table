@@ -72,6 +72,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "max": 50,
@@ -118,6 +121,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -166,6 +172,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "min": 100,
@@ -212,6 +221,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -260,6 +272,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": false,
@@ -428,6 +443,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "value": 100
@@ -472,6 +490,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -520,6 +541,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "value": 100
@@ -564,6 +588,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": true
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -622,6 +649,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "value": 100
@@ -668,6 +698,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -808,6 +841,300 @@
                 "value": null
               },
               {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 12,
+      "options": {
+        "nestedObjects": [],
+        "tables": [
+          {
+            "items": [
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "labels",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "title",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "start_date",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "description",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              }
+            ],
+            "name": "Test",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "export": false
+        }
+      },
+      "targets": [
+        {
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "labels",
+                "type": "string",
+                "values": []
+              },
+              {
+                "config": {},
+                "name": "title",
+                "type": "string",
+                "values": []
+              },
+              {
+                "config": {},
+                "name": "start_date",
+                "type": "string",
+                "values": []
+              },
+              {
+                "config": {},
+                "name": "description",
+                "type": "string",
+                "values": []
+              }
+            ],
+            "meta": {
+              "custom": {
+                "customCode": "const createArray = (length, fillCell) => new Array(length).fill(fillCell)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'labels') {\n      return ({\n        ...field,\n        values: [createArray(4, 'Grafana 11.4'), createArray(4, 'Grafana 11.3'), createArray(4, 'Grafana 11.2'), createArray(4, 'Grafana 11.0'), createArray(4, 'Grafana 10.4'), createArray(4, 'Grafana 10.3'), createArray(4, 'Grafana 10.2'), createArray(4, 'Grafana 10.1'), createArray(4, 'Grafana 10.0')].flat()\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: createArray(36, 'Title').map((item, index) => `${item} - ${index}`)\n      })\n    }\n    if (field.name === 'start_date') {\n      return ({\n        ...field,\n        values: createArray(36, '20-10-2024 10:00:30')\n      })\n    }\n    if (field.name === 'description') {\n      return ({\n        ...field,\n        values: createArray(36, '<h3>Features/ 1</h3> - Updated behavior <br/> - Added All options<br/> - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <br/> - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.')\n      })\n    }\n    return ({\n      ...field,\n      values: []\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "valuesEditor": "custom"
+              }
+            }
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Expanded rows - height",
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
                 "color": "yellow",
                 "value": 10
               },
@@ -825,7 +1152,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 23
       },
       "id": 11,
       "options": {
@@ -838,6 +1165,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -883,6 +1213,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -931,6 +1264,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "value": 100
@@ -975,6 +1311,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": true
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1033,6 +1372,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "value": 100
@@ -1079,6 +1421,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1228,7 +1573,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 36
       },
       "id": 8,
       "options": {
@@ -1244,6 +1589,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1291,6 +1639,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1431,6 +1782,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 3,
+  "version": 9,
   "weekStart": ""
 }
