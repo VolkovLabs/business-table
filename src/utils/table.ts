@@ -134,6 +134,16 @@ const timestampFilter = <TData>(
 };
 
 /**
+ * Apply Faceted Filter
+ * @param row
+ * @param columnId
+ * @param filterValue
+ */
+const facetedFilter = <TData>(row: Row<TData>, columnId: string, filterValue: unknown[]) => {
+  return filterValue.some((val) => row.getValue<unknown[]>(columnId) === val);
+};
+
+/**
  * Column Filter
  */
 export const columnFilter = <TData>(
@@ -156,7 +166,7 @@ export const columnFilter = <TData>(
       return numberFilter(row, columnId, filter.value, filter.operator);
     }
     case ColumnFilterType.FACETED: {
-      return filterFns.arrIncludesSome(row, columnId, filter.value, addMeta);
+      return facetedFilter(row, columnId, filter.value);
     }
     case ColumnFilterType.TIMESTAMP: {
       /**
