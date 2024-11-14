@@ -601,6 +601,26 @@ describe('Table utils', () => {
           }),
           included: false,
         },
+        {
+          name: 'Should include value if one of options match',
+          value: 'labels1',
+          columnId: 'label',
+          filter: createColumnFilter({
+            type: ColumnFilterType.FACETED,
+            value: ['labels1', 'labels11'],
+          }),
+          included: true,
+        },
+        {
+          name: 'Should exclude value if no one options match',
+          value: 'labels1',
+          columnId: 'label',
+          filter: createColumnFilter({
+            type: ColumnFilterType.FACETED,
+            value: ['labels11', 'labels111'],
+          }),
+          included: false,
+        },
       ];
 
       it.each(tests)('$name', runColumnFilterTest);
