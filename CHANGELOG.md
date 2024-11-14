@@ -5,6 +5,7 @@
 ### Features / Enhancements
 
 - Updated useNestedObjects hook to display request errors and empty values (#158)
+- Updated rows heights when group collapse (#159)
 
 ## 1.6.0 (2024-10-29)
 
