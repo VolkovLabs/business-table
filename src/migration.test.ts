@@ -225,33 +225,34 @@ describe('migration', () => {
     });
   });
 
-  it('Should normalize showHeader', () => {
-    expect(
-      getMigratedOptions({
-        options: {
-          tables: [
-            {
-              name: '',
-              items: [],
-            },
-          ],
-        },
-      } as any)
-    ).toEqual(
-      expect.objectContaining({
-        tables: [
-          expect.objectContaining({
-            showHeader: true,
-            items: [],
-          }),
-        ],
-      })
-    );
-
-    /**
+  /**
    * Normalize Datasource Option
    */
   describe('1.7.0', () => {
+    it('Should normalize showHeader', () => {
+      expect(
+        getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              showHeader: true,
+              items: [],
+            }),
+          ],
+        })
+      );
+    });
+
     it('Should normalize datasource option from name to id ', async () => {
       expect(
         await getMigratedOptions({
