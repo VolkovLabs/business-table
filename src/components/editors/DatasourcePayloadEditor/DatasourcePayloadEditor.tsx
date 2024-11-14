@@ -17,13 +17,13 @@ interface Props extends EditorProps<unknown> {
    *
    * @type {string}
    */
-  datasourceName: string;
+  datasourceUid: string;
 }
 
 /**
  * Payload Editor
  */
-export const DatasourcePayloadEditor: React.FC<Props> = ({ value, onChange, datasourceName }) => {
+export const DatasourcePayloadEditor: React.FC<Props> = ({ value, onChange, datasourceUid }) => {
   /**
    * Data Source Service
    */
@@ -70,7 +70,7 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ value, onChange, data
     const getDataSource = async () => {
       setIsLoading(true);
 
-      const ds = await dataSourceService.get(datasourceName);
+      const ds = await dataSourceService.get(datasourceUid);
 
       setDatasource(ds);
       setIsLoading(false);
@@ -79,17 +79,17 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ value, onChange, data
     /**
      * Reset query if new datasource
      */
-    if (datasource && datasource.name !== datasourceName) {
+    if (datasource && datasource.uid !== datasourceUid) {
       onChangeQuery({});
     }
 
     /**
      * Load data source
      */
-    if (datasourceName && (!datasource || datasource.name !== datasourceName)) {
+    if (datasourceUid && (!datasource || datasource.uid !== datasourceUid)) {
       getDataSource();
     }
-  }, [datasourceName, dataSourceService, datasource, onChangeQuery]);
+  }, [datasourceUid, dataSourceService, datasource, onChangeQuery]);
 
   /**
    * Auto Save Timer
