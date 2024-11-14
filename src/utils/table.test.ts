@@ -601,6 +601,16 @@ describe('Table utils', () => {
           }),
           included: false,
         },
+        {
+          name: 'Should include value if one of options',
+          value: 'labels',
+          columnId: 'message',
+          filter: createColumnFilter({
+            type: ColumnFilterType.FACETED,
+            value: ['labels_01', 'labels_02'],
+          }),
+          included: false,
+        },
       ];
 
       it.each(tests)('$name', runColumnFilterTest);
