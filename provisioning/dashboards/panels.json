@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -331,6 +331,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -758,6 +759,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1055,7 +1057,7 @@
                   "descFirst": false,
                   "enabled": false
                 },
-                "type": "auto"
+                "type": "rich_text"
               }
             ],
             "name": "Test",
@@ -1074,6 +1076,7 @@
           "export": false
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "frame": {
@@ -1481,6 +1484,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1574,9 +1578,9 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 36
       },
-      "id": 12,
+      "id": 13,
       "options": {
         "columnMode": "auto",
         "columns": [],
@@ -1749,6 +1753,7 @@
           "export": true
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1838,7 +1843,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 49
       },
       "id": 8,
       "options": {
@@ -1965,6 +1970,7 @@
           "export": false
         }
       },
+      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -2047,6 +2053,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 15,
+  "version": 1,
   "weekStart": ""
 }
