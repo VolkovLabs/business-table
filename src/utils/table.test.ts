@@ -602,14 +602,14 @@ describe('Table utils', () => {
           included: false,
         },
         {
-          name: 'Should include value if one of options',
-          value: 'labels',
-          columnId: 'message',
+          name: 'Should include value if one of options match',
+          value: 'labels1',
+          columnId: 'label',
           filter: createColumnFilter({
             type: ColumnFilterType.FACETED,
-            value: ['labels_01', 'labels_02'],
+            value: ['labels1', 'labels11'],
           }),
-          included: false,
+          included: true,
         },
       ];
 
