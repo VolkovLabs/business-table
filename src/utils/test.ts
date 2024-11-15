@@ -251,6 +251,7 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   items: [],
   update: createTableRequestConfig({}),
   pagination: createTablePaginationConfig({}),
+  expanded: false,
   ...table,
 });
 

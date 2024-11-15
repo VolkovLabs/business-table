@@ -71,4 +71,45 @@ describe('TableEditor', () => {
       })
     );
   });
+
+  it('Should allow to change table expand state', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          expanded: false,
+          items: [createColumnConfig({})],
+        }),
+      })
+    );
+
+    expect(selectors.fieldExpanded()).toBeInTheDocument();
+    fireEvent.click(selectors.fieldExpanded());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        expanded: true,
+        items: [createColumnConfig({})],
+      })
+    );
+  });
+
+  it('Should allow to change table expand state if "expanded" not present in options', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          items: [createColumnConfig({})],
+        }),
+      })
+    );
+
+    expect(selectors.fieldExpanded()).toBeInTheDocument();
+    fireEvent.click(selectors.fieldExpanded());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        expanded: true,
+        items: [createColumnConfig({})],
+      })
+    );
+  });
 });

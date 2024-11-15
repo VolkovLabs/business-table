@@ -385,6 +385,13 @@ export interface TableConfig {
    * @type {TablePaginationConfig}
    */
   pagination: TablePaginationConfig;
+
+  /**
+   * Expanded by default
+   *
+   * @type {boolean}
+   */
+  expanded: boolean;
 }
 
 /**
