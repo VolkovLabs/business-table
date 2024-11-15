@@ -411,4 +411,30 @@ describe('migration', () => {
       });
     });
   });
+
+  describe('1.8.0', () => {
+    it('Should normalize expanded', async () => {
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              expanded: false,
+              items: [],
+            }),
+          ],
+        })
+      );
+    });
+  });
 });

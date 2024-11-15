@@ -283,6 +283,10 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
         };
       }
 
+      if (!normalizedGroup.hasOwnProperty('expanded')) {
+        normalizedGroup.expanded = false;
+      }
+
       if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.7.0') && !!normalizedGroup.update.datasource) {
         normalizedGroup.update = {
           ...normalizedGroup.update,
