@@ -32,11 +32,7 @@ export const useSortState = <TData>({ columns }: { columns: Array<ColumnDef<TDat
       /**
        * Change if sort direction for column is changed
        */
-      if (
-        firstSortableColumn &&
-        firstSortableColumn.id === column?.id &&
-        firstSortableColumn.sortDescFirst !== column?.sortDescFirst
-      ) {
+      if (firstSortableColumn.id === column?.id && firstSortableColumn.sortDescFirst !== column?.sortDescFirst) {
         setSorting([{ id: firstSortableColumn.id!, desc: firstSortableColumn.sortDescFirst! }]);
         setColumnId(firstSortableColumn);
       }
