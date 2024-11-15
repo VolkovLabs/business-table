@@ -229,9 +229,9 @@ describe('migration', () => {
    * Normalize Datasource Option
    */
   describe('1.7.0', () => {
-    it('Should normalize showHeader', () => {
+    it('Should normalize showHeader', async () => {
       expect(
-        getMigratedOptions({
+        await getMigratedOptions({
           options: {
             tables: [
               {
