@@ -71,4 +71,25 @@ describe('TableEditor', () => {
       })
     );
   });
+
+  it('Should allow to change header visibility', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          showHeader: true,
+          items: [createColumnConfig({})],
+        }),
+      })
+    );
+
+    expect(selectors.fieldShowHeader()).toBeInTheDocument();
+    fireEvent.click(selectors.fieldShowHeader());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        showHeader: false,
+        items: [createColumnConfig({})],
+      })
+    );
+  });
 });

@@ -100,6 +100,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
       items.concat([
         {
           name: newItemName,
+          showHeader: true,
           items: [],
           update: { datasource: '', payload: {} },
           pagination: { enabled: false, mode: PaginationMode.CLIENT },

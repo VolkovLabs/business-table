@@ -205,6 +205,7 @@ export const TEST_IDS = {
     buttonSave: createSelector('data-testid table-actions-cell button-save'),
   },
   tableEditor: {
+    fieldShowHeader: createSelector('data-testid table-editor field-show-header'),
     updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-editor update-section-content'),
   },
