@@ -331,7 +331,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -759,7 +758,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1076,7 +1074,6 @@
           "export": false
         }
       },
-      "pluginVersion": "1.7.0",
       "targets": [
         {
           "frame": {
@@ -1484,7 +1481,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1753,7 +1749,6 @@
           "export": true
         }
       },
-      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
@@ -1970,7 +1965,6 @@
           "export": false
         }
       },
-      "pluginVersion": "1.7.0",
       "targets": [
         {
           "datasource": {
