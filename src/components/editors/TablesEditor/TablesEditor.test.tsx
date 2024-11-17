@@ -145,8 +145,8 @@ describe('TablesEditor', () => {
     await act(() => fireEvent.click(selectors.buttonAddNew()));
 
     expect(onChange).toHaveBeenCalledWith([
-      createTableConfig({ name: 'group1', items: [] }),
-      createTableConfig({ name: 'group2', items: [] }),
+      createTableConfig({ name: 'group1', items: [], showHeader: false }),
+      createTableConfig({ name: 'group2', items: [], showHeader: true }),
     ]);
   });
 

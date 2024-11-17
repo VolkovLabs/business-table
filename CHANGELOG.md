@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.7.0 (IN PROGRESS)
+## 1.7.0 (2024-11-16)
 
 ### Features / Enhancements
 
@@ -8,8 +8,8 @@
 - Added Sanitized HTML and Markdown column type (#154)
 - Updated rows heights when group collapse (#159)
 - Updated filter options to match exactly (#160)
-- Added Sanitized HTML and Markdown column type (#154)
 - Updated data source name to id (#156)
+- Added option to hide table header (#157)
 
 ## 1.6.0 (2024-10-29)
 

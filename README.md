@@ -25,8 +25,10 @@ You can install the Business Table panel plugin from the [Grafana Plugins catalo
 For the latter, please use the following command:
 
 ```bash
-grafana-cli plugins install volkovlabs-table-panel
+grafana cli plugins install volkovlabs-table-panel
 ```
+
+[![Install Business Suite plugins in Cloud, OSS, Enterprise | Open source community plugins](https://raw.githubusercontent.com/volkovlabs/.github/main/started.png)](https://youtu.be/1qYzHfPXJF8)
 
 ## Highlights
 

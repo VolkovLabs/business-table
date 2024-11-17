@@ -273,6 +273,10 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
         items: columns,
       } as TableConfig;
 
+      if (!normalizedGroup.hasOwnProperty('showHeader')) {
+        normalizedGroup.showHeader = true;
+      }
+
       /**
        * Normalize update request
        */
