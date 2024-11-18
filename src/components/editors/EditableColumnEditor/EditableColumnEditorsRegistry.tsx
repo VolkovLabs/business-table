@@ -183,6 +183,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
 
       const controlOptions = {
         type: config.type,
+        customValues: config.customValues ?? false,
         options: [],
       };
 
@@ -201,7 +202,6 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
 
       return {
         ...controlOptions,
-        customValues: config.customValues,
         options: valueField.values.map((value, index) => ({
           value,
           label: labelValues[index] as string,

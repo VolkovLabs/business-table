@@ -420,6 +420,7 @@ describe('editableColumnEditorsRegistry', () => {
           })
         ).toEqual({
           type: ColumnEditorType.SELECT,
+          customValues: false,
           options: [],
         });
       });
@@ -441,6 +442,30 @@ describe('editableColumnEditorsRegistry', () => {
           })
         ).toEqual({
           type: ColumnEditorType.SELECT,
+          customValues: false,
+          options: [],
+        });
+      });
+
+      it('Should work with customValues', () => {
+        expect(
+          getControlOptions({
+            config: createColumnEditConfig({
+              editor: {
+                type: ColumnEditorType.SELECT,
+                customValues: true,
+                queryOptions: {
+                  source: 'abc',
+                  value: '123',
+                  label: '',
+                },
+              },
+            }).editor as never,
+            data,
+          })
+        ).toEqual({
+          type: ColumnEditorType.SELECT,
+          customValues: true,
           options: [],
         });
       });
@@ -462,6 +487,7 @@ describe('editableColumnEditorsRegistry', () => {
           })
         ).toEqual({
           type: ColumnEditorType.SELECT,
+          customValues: false,
           options: [
             { label: 'Active', value: 'active' },
             { label: 'Pending', value: 'pending' },
