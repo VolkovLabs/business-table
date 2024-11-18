@@ -348,15 +348,8 @@ describe('editableColumnEditorsRegistry', () => {
         })
       );
 
-      // const editor = getJestSelectors(TEST_IDS.queryOptionsEditor)(screen).fieldValue();
-      // expect(editor).toBeInTheDocument();
-
-      // fireEvent.change(editor, { target: { value: 'A:value' } });
-
       expect(editorSelectors.fieldCustomValues()).toBeInTheDocument();
       expect(editorSelectors.fieldCustomValues()).not.toBeChecked();
-
-      // fireEvent.change(editorSelectors.fieldNumberMax(), { target: { value: '' } });
 
       fireEvent.click(editorSelectors.fieldCustomValues());
 
