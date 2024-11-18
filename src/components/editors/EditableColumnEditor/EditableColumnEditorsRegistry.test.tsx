@@ -340,6 +340,32 @@ describe('editableColumnEditorsRegistry', () => {
       });
     });
 
+    it('Should allow to set customValues option', () => {
+      render(
+        getEditorComponent({
+          value: createColumnEditConfig({ editor: { type: ColumnEditorType.SELECT } }).editor,
+          data: [toDataFrame({ refId: 'A', fields: [{ name: 'value', values: [] }] })],
+        })
+      );
+
+      // const editor = getJestSelectors(TEST_IDS.queryOptionsEditor)(screen).fieldValue();
+      // expect(editor).toBeInTheDocument();
+
+      // fireEvent.change(editor, { target: { value: 'A:value' } });
+
+      expect(editorSelectors.fieldCustomValues()).toBeInTheDocument();
+      expect(editorSelectors.fieldCustomValues()).not.toBeChecked();
+
+      // fireEvent.change(editorSelectors.fieldNumberMax(), { target: { value: '' } });
+
+      fireEvent.click(editorSelectors.fieldCustomValues());
+
+      expect(onChangeConfig).toHaveBeenCalledWith({
+        type: ColumnEditorType.SELECT,
+        customValues: true,
+      });
+    });
+
     it('Should render control', () => {
       render(
         getControlComponent({
