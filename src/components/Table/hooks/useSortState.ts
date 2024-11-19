@@ -9,6 +9,7 @@ export const useSortState = <TData>({ columns }: { columns: Array<ColumnDef<TDat
    * State
    */
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [column, setColumnId] = useState<ColumnDef<TData>>();
 
   /**
    * Update Sorting State
@@ -19,8 +20,32 @@ export const useSortState = <TData>({ columns }: { columns: Array<ColumnDef<TDat
      */
     const firstSortableColumn = columns.find((column) => column.enableSorting);
 
-    setSorting(firstSortableColumn ? [{ id: firstSortableColumn.id!, desc: firstSortableColumn.sortDescFirst! }] : []);
-  }, [columns]);
+    if (firstSortableColumn) {
+      /**
+       * Change if new column
+       */
+      if (firstSortableColumn.id !== column?.id) {
+        setSorting([{ id: firstSortableColumn.id!, desc: firstSortableColumn.sortDescFirst! }]);
+        setColumnId(firstSortableColumn);
+      }
+
+      /**
+       * Change if sort direction for column is changed
+       */
+      if (firstSortableColumn.id === column?.id && firstSortableColumn.sortDescFirst !== column?.sortDescFirst) {
+        setSorting([{ id: firstSortableColumn.id!, desc: firstSortableColumn.sortDescFirst! }]);
+        setColumnId(firstSortableColumn);
+      }
+    }
+
+    /**
+     * Reset state
+     */
+    if (!firstSortableColumn && !!sorting.length) {
+      setSorting([]);
+      setColumnId(undefined);
+    }
+  }, [column, columns, sorting]);
 
   /**
    * Change state via table handler
