@@ -18,6 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -65,7 +66,7 @@
                 "userRole": []
               },
               "request": {
-                "datasource": "Timescale",
+                "datasource": "timescale",
                 "payload": {
                   "editorMode": "code",
                   "format": "table",
@@ -99,7 +100,7 @@
                 "userRole": []
               },
               "request": {
-                "datasource": "Timescale",
+                "datasource": "timescale",
                 "payload": {
                   "editorMode": "code",
                   "format": "table",
@@ -137,7 +138,7 @@
               "type": "cards"
             },
             "get": {
-              "datasource": "Timescale",
+              "datasource": "timescale",
               "payload": {
                 "editorMode": "code",
                 "format": "table",
@@ -173,7 +174,7 @@
                 "userRole": []
               },
               "request": {
-                "datasource": "Timescale",
+                "datasource": "timescale",
                 "payload": {
                   "editorMode": "code",
                   "format": "table",
@@ -212,7 +213,7 @@
               "type": "cards"
             },
             "get": {
-              "datasource": "Timescale",
+              "datasource": "timescale",
               "payload": {
                 "editorMode": "code",
                 "format": "table",
@@ -253,6 +254,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": false,
                     "min": 20,
@@ -274,6 +278,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -300,6 +305,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "max": 150,
@@ -323,12 +331,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "country",
                   "source": "A"
@@ -355,6 +361,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "max": 150,
@@ -378,12 +387,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "state",
                   "source": "A"
@@ -410,6 +417,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "max": 150,
@@ -433,12 +443,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "city",
                   "source": "A"
@@ -465,6 +473,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "min": 100,
@@ -483,12 +494,10 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -515,6 +524,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": false,
                     "min": 20,
@@ -532,6 +544,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "comments",
                   "source": "A"
@@ -559,6 +572,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "min": 20,
@@ -576,6 +592,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "small_comments",
                   "source": "A"
@@ -602,13 +619,14 @@
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
-              "datasource": "Timescale",
+              "datasource": "${DS}",
               "payload": {
                 "editorMode": "code",
                 "format": "table",
                 "rawQuery": true,
-                "rawSql": "UPDATE devices\nSET name = ${payload.name:sqlstring}\nWHERE id = ${payload.id};",
+                "rawSql": "UPDATE\n  devices\nSET\n  name = ${payload.name:sqlstring}\nWHERE\n  id = ${payload.id};",
                 "refId": "A",
                 "sql": {
                   "columns": [
@@ -639,6 +657,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "min": 20,
@@ -660,6 +681,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "country",
                   "source": "A"
@@ -686,6 +708,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "min": 20,
@@ -707,6 +732,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "state",
                   "source": "A"
@@ -733,6 +759,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "min": 20,
@@ -754,6 +783,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "city",
                   "source": "A"
@@ -780,6 +810,9 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
                     "min": 20,
@@ -801,6 +834,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -826,6 +860,7 @@
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
               "datasource": "",
               "payload": {}
@@ -841,7 +876,7 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "timescale"
+            "uid": "${DS}"
           },
           "editorMode": "code",
           "format": "table",
@@ -964,9 +999,7 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": [
-                  "true"
-                ]
+                "values": ["true"]
               }
             ],
             "meta": {},
@@ -998,10 +1031,30 @@
       "type": "volkovlabs-table-panel"
     }
   ],
-  "schemaVersion": 39,
+  "refresh": "",
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Timescale",
+          "value": "timescale"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "DS",
+        "multi": false,
+        "name": "DS",
+        "options": [],
+        "query": "grafana-postgresql-datasource",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -1011,6 +1064,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
