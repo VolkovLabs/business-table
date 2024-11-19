@@ -5,7 +5,8 @@
 ### Features / Enhancements
 
 - Updated sort state on dashboard refresh (#163)
-- Support variables in data sources for editable and nested objects (#167)
+- Added support variables in data sources for editable and nested objects (#167)
+- Added custom value to editable select field (#165)
 
 ## 1.7.0 (2024-11-16)
 
