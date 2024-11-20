@@ -11,6 +11,7 @@ export enum ColumnEditorType {
   SELECT = 'select',
   DATETIME = 'datetime',
   TEXTAREA = 'textarea',
+  BOOLEAN = 'boolean',
 }
 
 /**
@@ -92,6 +93,7 @@ interface EditorDatetimeOptions {
 export type ColumnEditorConfig =
   | { type: ColumnEditorType.STRING }
   | { type: ColumnEditorType.TEXTAREA }
+  | { type: ColumnEditorType.BOOLEAN }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.SELECT } & EditorSelectOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions);
@@ -102,6 +104,9 @@ export type ColumnEditorConfig =
 export type ColumnEditorControlOptions =
   | {
       type: ColumnEditorType.STRING;
+    }
+  | {
+      type: ColumnEditorType.BOOLEAN;
     }
   | { type: ColumnEditorType.TEXTAREA }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)

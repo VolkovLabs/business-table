@@ -61,6 +61,10 @@ const cellTypeOptions = [
     label: 'Auto',
   },
   {
+    value: CellType.BOOLEAN,
+    label: 'Boolean',
+  },
+  {
     value: CellType.COLORED_BACKGROUND,
     label: 'Colored background',
   },

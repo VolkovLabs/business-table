@@ -1,5 +1,5 @@
 import { dateTime } from '@grafana/data';
-import { DateTimePicker, InlineField, InlineFieldRow, Input, Select, TextArea } from '@grafana/ui';
+import { DateTimePicker, InlineField, InlineFieldRow, InlineSwitch, Input, Select, TextArea } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
@@ -32,6 +32,23 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         {...TEST_IDS.editableCell.fieldString.apply()}
       />
     ),
+    getControlOptions: (params) => params.config,
+  }),
+  createEditableColumnEditorRegistryItem({
+    id: ColumnEditorType.BOOLEAN,
+    editor: () => null,
+    control: ({ value, onChange, isSaving }) => {
+      return (
+        <InlineSwitch
+          onChange={(event) => {
+            onChange(event.currentTarget.checked);
+          }}
+          disabled={isSaving}
+          value={value as boolean}
+          {...TEST_IDS.editableCell.fieldBoolean.apply()}
+        />
+      );
+    },
     getControlOptions: (params) => params.config,
   }),
   createEditableColumnEditorRegistryItem({
