@@ -482,6 +482,22 @@ describe('editableColumnEditorsRegistry', () => {
       expect(onChange).toHaveBeenCalledWith('line updated');
     });
 
+    it('Should render control with a non-string type ', () => {
+      render(
+        getControlComponent({
+          value: null,
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXTAREA } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldTextarea()).toBeInTheDocument();
+      expect(controlSelectors.fieldTextarea()).toHaveValue('null');
+
+      fireEvent.change(controlSelectors.fieldTextarea(), { target: { value: 'line updated' } });
+
+      expect(onChange).toHaveBeenCalledWith('line updated');
+    });
+
     it('Should render control with replaced lines and replace line onChange correctly', () => {
       render(
         getControlComponent({
