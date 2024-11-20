@@ -1034,7 +1034,7 @@
                 },
                 "edit": {
                   "editor": {
-                    "type": "string"
+                    "type": "boolean"
                   },
                   "enabled": true,
                   "permission": {
