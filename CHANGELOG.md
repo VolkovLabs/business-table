@@ -1,5 +1,12 @@
 # Change Log
 
+## 1.8.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Updated sort state on dashboard refresh (#163)
+- Support variables in data sources for editable and nested objects (#167)
+
 ## 1.7.0 (2024-11-16)
 
 ### Features / Enhancements
