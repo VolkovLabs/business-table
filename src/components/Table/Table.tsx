@@ -125,6 +125,13 @@ interface Props<TData> {
    * @type {boolean}
    */
   expandedByDefault: boolean;
+
+  /**
+   * Show Header
+   *
+   * @type {boolean}
+   */
+  showHeader: boolean;
 }
 
 /**
@@ -195,6 +202,7 @@ export const Table = <TData,>({
   pagination,
   tableInstance,
   expandedByDefault,
+  showHeader,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -359,40 +367,42 @@ export const Table = <TData,>({
         }}
         {...TEST_IDS.table.root.apply()}
       >
-        <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
-              {headerGroup.headers.map((header) => {
-                const bgColor = header.column.columnDef.meta?.config.appearance.header.backgroundColor;
-                const fontSize =
-                  header.column.columnDef.meta?.config.appearance.header.fontSize || ColumnHeaderFontSize.MD;
-                return (
-                  <th
-                    key={header.id}
-                    className={cx(styles.headerCell, {
-                      [styles.sizeLg]: fontSize === ColumnHeaderFontSize.LG,
-                      [styles.sizeMd]: fontSize === ColumnHeaderFontSize.MD,
-                      [styles.sizeSm]: fontSize === ColumnHeaderFontSize.SM,
-                      [styles.sizeXs]: fontSize === ColumnHeaderFontSize.XS,
-                    })}
-                    style={{
-                      maxWidth: header.column.columnDef.maxSize,
-                      minWidth: header.column.columnDef.minSize,
-                      background: bgColor,
-                      width: header.getSize(),
-                      textAlign: header.column.columnDef.meta?.config.appearance.alignment,
-                      justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
-                      ...getPinnedHeaderColumnStyle(theme, header.column),
-                    }}
-                    {...TEST_IDS.table.headerCell.apply(header.id)}
-                  >
-                    <TableHeaderCell header={header} size={fontSize} />
-                  </th>
-                );
-              })}
-            </tr>
-          ))}
-        </thead>
+        {showHeader && (
+          <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
+                {headerGroup.headers.map((header) => {
+                  const bgColor = header.column.columnDef.meta?.config.appearance.header.backgroundColor;
+                  const fontSize =
+                    header.column.columnDef.meta?.config.appearance.header.fontSize || ColumnHeaderFontSize.MD;
+                  return (
+                    <th
+                      key={header.id}
+                      className={cx(styles.headerCell, {
+                        [styles.sizeLg]: fontSize === ColumnHeaderFontSize.LG,
+                        [styles.sizeMd]: fontSize === ColumnHeaderFontSize.MD,
+                        [styles.sizeSm]: fontSize === ColumnHeaderFontSize.SM,
+                        [styles.sizeXs]: fontSize === ColumnHeaderFontSize.XS,
+                      })}
+                      style={{
+                        maxWidth: header.column.columnDef.maxSize,
+                        minWidth: header.column.columnDef.minSize,
+                        background: bgColor,
+                        width: header.getSize(),
+                        textAlign: header.column.columnDef.meta?.config.appearance.alignment,
+                        justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
+                        ...getPinnedHeaderColumnStyle(theme, header.column),
+                      }}
+                      {...TEST_IDS.table.headerCell.apply(header.id)}
+                    >
+                      <TableHeaderCell header={header} size={fontSize} />
+                    </th>
+                  );
+                })}
+              </tr>
+            ))}
+          </thead>
+        )}
         <tbody
           style={{
             height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is

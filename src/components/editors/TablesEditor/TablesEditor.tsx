@@ -101,6 +101,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
         {
           expanded: false,
           name: newItemName,
+          showHeader: true,
           items: [],
           update: { datasource: '', payload: {} },
           pagination: { enabled: false, mode: PaginationMode.CLIENT },

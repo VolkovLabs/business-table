@@ -366,6 +366,13 @@ export interface TableConfig {
   name: string;
 
   /**
+   * Show Header
+   *
+   * @type {boolean}
+   */
+  showHeader: boolean;
+
+  /**
    * Items
    *
    * @type {ColumnConfig[]}

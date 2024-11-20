@@ -45,6 +45,13 @@ interface Props extends EditorProps<ColumnConfig[]> {
    * Data
    */
   data: DataFrame[];
+
+  /**
+   * Show header
+   *
+   * @type {boolean}
+   */
+  showTableHeader: boolean;
 }
 
 /**
@@ -55,7 +62,7 @@ const testIds = TEST_IDS.columnsEditor;
 /**
  * Columns Editor
  */
-export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, data }) => {
+export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, data, showTableHeader }) => {
   /**
    * Styles and Theme
    */
@@ -225,6 +232,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
                         }
                       >
                         <ColumnEditor
+                          showTableHeader={showTableHeader}
                           value={item}
                           onChange={(item) => {
                             onChangeItems(

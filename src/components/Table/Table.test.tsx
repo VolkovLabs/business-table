@@ -90,6 +90,7 @@ describe('Table', () => {
     await act(async () =>
       render(
         getComponent({
+          showHeader: true,
           columns: [
             {
               id: 'device',
@@ -136,6 +137,7 @@ describe('Table', () => {
     await act(async () =>
       render(
         getComponent({
+          showHeader: true,
           columns: [
             {
               id: 'device',
@@ -181,6 +183,7 @@ describe('Table', () => {
     await act(async () =>
       render(
         getComponent({
+          showHeader: true,
           columns: [
             {
               id: 'device',
@@ -218,6 +221,7 @@ describe('Table', () => {
     await act(async () =>
       render(
         getComponent({
+          showHeader: true,
           columns: [
             {
               id: 'device',
@@ -280,6 +284,65 @@ describe('Table', () => {
     expect(selectors.headerCell(false, 'value2')).toHaveStyle({ position: 'sticky', right: 0 });
     expect(selectors.footerCell(false, 'value2')).toBeInTheDocument();
     expect(selectors.footerCell(false, 'value2')).toHaveStyle({ position: 'sticky', right: 0 });
+  });
+
+  it('Should not show header if disabled', async () => {
+    await act(async () =>
+      render(
+        getComponent({
+          showHeader: false,
+          columns: [
+            {
+              id: 'device',
+              accessorFn: createColumnAccessorFn('device'),
+              enablePinning: false,
+            },
+            {
+              id: 'value',
+              accessorFn: createColumnAccessorFn('value'),
+              enablePinning: true,
+              meta: createColumnMeta({
+                config: createColumnConfig({
+                  pin: ColumnPinDirection.LEFT,
+                }),
+                footerEnabled: true,
+              }),
+              footer: () => '123',
+            },
+            {
+              id: 'value2',
+              accessorFn: createColumnAccessorFn('value2'),
+              enablePinning: true,
+              meta: createColumnMeta({
+                config: createColumnConfig({
+                  pin: ColumnPinDirection.RIGHT,
+                }),
+                footerEnabled: true,
+              }),
+              footer: () => '111',
+            },
+          ],
+          data: [
+            {
+              device: 'device1',
+              value: 10,
+              value2: 11,
+            },
+            {
+              device: 'device2',
+              value: 20,
+              value2: 21,
+            },
+          ],
+        })
+      )
+    );
+
+    /**
+     * Header cell
+     */
+    expect(selectors.headerCell(true, 'value')).not.toBeInTheDocument();
+    expect(selectors.headerCell(true, 'value2')).not.toBeInTheDocument();
   });
 
   it('Should show pagination', async () => {

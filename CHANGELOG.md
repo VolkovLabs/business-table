@@ -1,6 +1,13 @@
 # Change Log
 
-## 1.7.0 (IN PROGRESS)
+## 1.8.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Updated sort state on dashboard refresh (#163)
+- Support variables in data sources for editable and nested objects (#167)
+
+## 1.7.0 (2024-11-16)
 
 ### Features / Enhancements
 
@@ -8,8 +15,8 @@
 - Added Sanitized HTML and Markdown column type (#154)
 - Updated rows heights when group collapse (#159)
 - Updated filter options to match exactly (#160)
-- Added Sanitized HTML and Markdown column type (#154)
 - Updated data source name to id (#156)
+- Added option to hide table header (#157)
 
 ## 1.6.0 (2024-10-29)
 

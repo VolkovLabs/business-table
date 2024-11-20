@@ -35,7 +35,20 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
           {...TEST_IDS.tableEditor.fieldExpanded.apply()}
         />
       </InlineField>
+      <InlineField label="Show header">
+        <InlineSwitch
+          value={value.showHeader}
+          onChange={(event) =>
+            onChange({
+              ...value,
+              showHeader: event.currentTarget.checked,
+            })
+          }
+          {...TEST_IDS.tableEditor.fieldShowHeader.apply()}
+        />
+      </InlineField>
       <ColumnsEditor
+        showTableHeader={value.showHeader}
         name={value.name}
         value={value.items}
         data={data}
