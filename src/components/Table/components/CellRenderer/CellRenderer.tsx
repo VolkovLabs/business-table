@@ -46,7 +46,7 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
       return <LayoutCellRenderer value={String(rawValue)} row={row} />;
     }
     case CellType.BOOLEAN: {
-      return <BooleanCellRenderer value={renderValue() as boolean} />;
+      return <BooleanCellRenderer value={renderValue() as boolean} bgColor={bgColor} />;
     }
     default: {
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;
