@@ -23,7 +23,7 @@ interface Props extends EditorProps<TableConfig> {
 export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
   return (
     <>
-      <InlineField label="Auto expand" tooltip="Expand all collapsed rows on load" grow={true}>
+      <InlineField label="Expanded by Default" tooltip="Makes all rows expanded or collapsed by default" grow={true}>
         <InlineSwitch
           value={value.expanded}
           onChange={(event) =>
