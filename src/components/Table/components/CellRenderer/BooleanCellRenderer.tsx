@@ -36,7 +36,7 @@ export const BooleanCellRenderer: React.FC<Props> = ({ value, bgColor }) => {
 
   return (
     <Icon
-      {...TEST_IDS.booleanCellRenderer.icon.apply(value ? 'check-circle' : 'circle')}
+      {...TEST_IDS.booleanCellRenderer.root.apply()}
       name={value ? 'check-circle' : 'circle'}
       size="lg"
       style={{

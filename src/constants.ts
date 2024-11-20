@@ -120,7 +120,7 @@ export const TEST_IDS = {
     root: createSelector('data-testid layout-cell-renderer'),
   },
   booleanCellRenderer: {
-    icon: createSelector((name: unknown) => String(name), 'data-testid'),
+    root: createSelector('data-testid boolean-cell-renderer'),
   },
   aggregatedCellRenderer: {
     root: createSelector('data-testid aggregated-cell-renderer'),
