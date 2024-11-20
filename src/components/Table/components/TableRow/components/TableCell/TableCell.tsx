@@ -148,7 +148,7 @@ export const TableCell = <TData,>({ row, cell, rendererProps }: Props<TData>) =>
 
   return (
     <>
-      {cell.getIsGrouped() && (
+      {cell.getIsGrouped() && row.getCanExpand() && (
         <IconButton
           name={row.getIsExpanded() ? 'angle-down' : 'angle-right'}
           aria-label={TEST_IDS.table.buttonExpandCell.selector(cell.id)}

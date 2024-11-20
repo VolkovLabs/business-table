@@ -22,8 +22,8 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ButtonSelect } from '@/components';
-import { TEST_IDS } from '@/constants';
-import { ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
+import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { CellType, ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { TableHeaderCell, TableRow } from './components';
 import { useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
@@ -208,6 +208,15 @@ export const Table = <TData,>({
   }, [columns]);
 
   /**
+   * Column types
+   */
+  const isActionsColumnExist = useMemo(() => columns.some((column) => column.id === ACTIONS_COLUMN_ID), [columns]);
+  const isNestedColumnsExist = useMemo(
+    () => columns.some((column) => column.meta?.config.type === CellType.NESTED_OBJECTS),
+    [columns]
+  );
+
+  /**
    * Column Pinning
    */
   const columnPinning = useMemo((): ColumnPinningState => {
@@ -269,6 +278,17 @@ export const Table = <TData,>({
     enableExpanding: true,
     enableGrouping: true,
     onExpandedChange: setExpanded,
+    getRowCanExpand: (row) => {
+      if (isActionsColumnExist || isNestedColumnsExist) {
+        return true;
+      }
+
+      if (row.depth + 1 >= columns.length) {
+        return false;
+      }
+
+      return true;
+    },
 
     /**
      * Filtering
