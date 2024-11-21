@@ -206,6 +206,7 @@ export const TablePanel: React.FC<Props> = ({
           )}
           <Table
             key={currentTable?.name}
+            expandedByDefault={currentTable?.expanded ?? false}
             data={tableData}
             columns={columns}
             tableRef={tableRef}

@@ -265,6 +265,21 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
           normalized.enabled = true;
         }
 
+        if (
+          panel.pluginVersion &&
+          semver.lt(panel.pluginVersion, '1.8.0') &&
+          normalized.edit?.editor?.type === ColumnEditorType.SELECT &&
+          !normalized.edit.editor.hasOwnProperty('customValues')
+        ) {
+          normalized.edit = {
+            ...normalized.edit,
+            editor: {
+              ...normalized.edit.editor,
+              customValues: false,
+            },
+          };
+        }
+
         return normalized;
       });
 
@@ -285,6 +300,10 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
           datasource: '',
           payload: {},
         };
+      }
+
+      if (!normalizedGroup.hasOwnProperty('expanded')) {
+        normalizedGroup.expanded = false;
       }
 
       if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.7.0') && !!normalizedGroup.update.datasource) {

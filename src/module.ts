@@ -18,6 +18,12 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         description: 'Allow to download table data.',
         defaultValue: false,
       })
+      .addBooleanSwitch({
+        path: 'tabsSorting',
+        name: 'Tabs Sorting',
+        description: 'Show selected tab first',
+        showIf: (config) => config.tables?.length > 1,
+      })
       .addCustomEditor({
         id: 'tables',
         path: 'tables',
@@ -26,13 +32,6 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         category: ['Layout'],
         defaultValue: [],
         aliasIds: ['nestedObjects'],
-      })
-      .addBooleanSwitch({
-        path: 'tabsSorting',
-        name: 'Tabs Sorting',
-        description: 'Show selected tab at the first',
-        showIf: (config) => config.tables?.length > 1,
-        category: ['Layout'],
       })
       .addCustomEditor({
         id: 'editableData',

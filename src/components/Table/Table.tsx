@@ -114,8 +114,17 @@ interface Props<TData> {
 
   /**
    * Table Instance
+   *
+   * @type {MutableRefObject<TableInstance<TData>>}
    */
   tableInstance: MutableRefObject<TableInstance<TData>>;
+
+  /**
+   * Expanded By default
+   *
+   * @type {boolean}
+   */
+  expandedByDefault: boolean;
 
   /**
    * Show Header
@@ -192,6 +201,7 @@ export const Table = <TData,>({
   width,
   pagination,
   tableInstance,
+  expandedByDefault,
   showHeader,
 }: Props<TData>) => {
   /**
@@ -238,7 +248,7 @@ export const Table = <TData,>({
   /**
    * Expanded
    */
-  const [expanded, setExpanded] = useState<ExpandedState>({});
+  const [expanded, setExpanded] = useState<ExpandedState>(expandedByDefault ? true : {});
 
   /**
    * Filtering
@@ -289,6 +299,7 @@ export const Table = <TData,>({
 
       return true;
     },
+    autoResetExpanded: false,
 
     /**
      * Filtering
