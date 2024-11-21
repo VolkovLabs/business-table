@@ -179,6 +179,32 @@ describe('Table', () => {
     expect(selectors.bodyCell(false, 'device:device1_value')).toBeInTheDocument();
   });
 
+  it('Should not allow to expand grouped cell if row can`t be expand', async () => {
+    await act(async () =>
+      render(
+        getComponent({
+          showHeader: true,
+          columns: [
+            {
+              id: 'device',
+              accessorFn: createColumnAccessorFn('device'),
+              enableGrouping: true,
+            },
+          ],
+          data: [
+            {
+              device: 'device1',
+              value: 10,
+            },
+          ],
+        })
+      )
+    );
+
+    expect(selectors.bodyCell(false, 'device:device1_device')).toBeInTheDocument();
+    expect(selectors.buttonExpandCell(true, 'device:device1_device')).not.toBeInTheDocument();
+  });
+
   it('Should show footer cell', async () => {
     await act(async () =>
       render(
