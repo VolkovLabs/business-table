@@ -1,9 +1,10 @@
 import { getBackendSrv } from '@grafana/runtime';
 
 import { getMigratedOptions } from '@/migration';
-import { ColumnFilterMode, ColumnPinDirection, PermissionMode } from '@/types';
+import { ColumnEditorType, ColumnFilterMode, ColumnPinDirection, PermissionMode } from '@/types';
 import {
   createColumnConfig,
+  createColumnEditConfig,
   createNestedObjectConfig,
   createPanelOptions,
   createTableConfig,
@@ -437,6 +438,67 @@ describe('migration', () => {
   });
 
   describe('1.8.0', () => {
+    it('Should normalize select editor option', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '1.5.0',
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                createColumnConfig({
+                  pin: true as never,
+                  edit: createColumnEditConfig({
+                    enabled: true,
+                    editor: {
+                      type: ColumnEditorType.STRING,
+                    },
+                  }),
+                }),
+                createColumnConfig({
+                  pin: true as never,
+                }),
+                createColumnConfig({
+                  pin: false as never,
+                  edit: createColumnEditConfig({
+                    enabled: true,
+                    editor: {
+                      type: ColumnEditorType.SELECT,
+                    },
+                  }),
+                }),
+                createColumnConfig({
+                  pin: false as never,
+                  edit: createColumnEditConfig({
+                    enabled: true,
+                    editor: {
+                      customValues: true,
+                      type: ColumnEditorType.SELECT,
+                    },
+                  }),
+                }),
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0].edit.editor).toEqual({
+        type: ColumnEditorType.STRING,
+      });
+      expect(normalizedOptions.tables[0].items[1].edit.editor).toEqual({
+        type: ColumnEditorType.STRING,
+      });
+      expect(normalizedOptions.tables[0].items[2].edit.editor).toEqual({
+        type: ColumnEditorType.SELECT,
+        customValues: false,
+      });
+      expect(normalizedOptions.tables[0].items[3].edit.editor).toEqual({
+        type: ColumnEditorType.SELECT,
+        customValues: true,
+      });
+
+    });
+
     it('Should normalize expanded', async () => {
       expect(
         await getMigratedOptions({

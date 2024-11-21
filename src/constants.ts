@@ -182,6 +182,7 @@ export const TEST_IDS = {
     fieldNumberMax: createSelector('data-testid column-editor field-number-max'),
     fieldDatetimeMin: createSelector('data-testid column-editor field-datetime-min'),
     fieldDatetimeMax: createSelector('data-testid column-editor field-datetime-max'),
+    fieldCustomValues: createSelector('data-testid column-editor field-custom-values'),
   },
   dateEditor: {
     field: createSelector('data-testid date-editor field'),
