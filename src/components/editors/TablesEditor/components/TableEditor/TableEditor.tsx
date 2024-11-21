@@ -1,5 +1,5 @@
 import { DataFrame } from '@grafana/data';
-import { InlineField, InlineSwitch } from '@grafana/ui';
+import { InlineField, InlineFieldRow, InlineSwitch } from '@grafana/ui';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -23,18 +23,7 @@ interface Props extends EditorProps<TableConfig> {
 export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
   return (
     <>
-      <InlineField label="Expanded by Default" tooltip="Makes all rows expanded or collapsed by default" grow={true}>
-        <InlineSwitch
-          value={value.expanded}
-          onChange={(event) =>
-            onChange({
-              ...value,
-              expanded: event.currentTarget.checked,
-            })
-          }
-          {...TEST_IDS.tableEditor.fieldExpanded.apply()}
-        />
-      </InlineField>
+    <InlineFieldRow>
       <InlineField label="Show header">
         <InlineSwitch
           value={value.showHeader}
@@ -47,6 +36,19 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
           {...TEST_IDS.tableEditor.fieldShowHeader.apply()}
         />
       </InlineField>
+      <InlineField label="Expanded by default" tooltip="Makes all rows expanded or collapsed by default" grow={true}>
+        <InlineSwitch
+          value={value.expanded}
+          onChange={(event) =>
+            onChange({
+              ...value,
+              expanded: event.currentTarget.checked,
+            })
+          }
+          {...TEST_IDS.tableEditor.fieldExpanded.apply()}
+        />
+      </InlineField>
+    </InlineFieldRow>
       <ColumnsEditor
         showTableHeader={value.showHeader}
         name={value.name}
