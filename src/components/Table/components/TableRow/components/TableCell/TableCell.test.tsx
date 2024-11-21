@@ -46,6 +46,12 @@ describe('TableCell', () => {
   const selectors = getSelectors(screen);
 
   /**
+   * Table Selectors
+   */
+  const getTableSelectors = getJestSelectors(TEST_IDS.table);
+  const tableSelectors = getTableSelectors(screen);
+
+  /**
    * Fallbacks
    */
   const defaultGrouping: GroupingState = [];
@@ -69,6 +75,7 @@ describe('TableCell', () => {
     grouping = defaultGrouping,
     expanded = defaultExpanded,
     columnPinning = defaultColumnPinning,
+    isRowsExpand = true,
   }: {
     data: unknown[];
     columns: Array<ColumnDef<any>>;
@@ -77,6 +84,7 @@ describe('TableCell', () => {
     expanded?: ExpandedState;
     editingRowIndex?: number;
     columnPinning?: ColumnPinningState;
+    isRowsExpand?: boolean;
   }) => {
     const table = useReactTable({
       data,
@@ -86,6 +94,13 @@ describe('TableCell', () => {
       enableGrouping: true,
       enableExpanding: true,
       getExpandedRowModel: getExpandedRowModel(),
+      getRowCanExpand: () => {
+        if (isRowsExpand) {
+          return true;
+        }
+
+        return false;
+      },
       state: {
         grouping,
         expanded,
@@ -130,6 +145,7 @@ describe('TableCell', () => {
     expanded?: ExpandedState;
     editingRowIndex?: number;
     columnPinning?: ColumnPinningState;
+    isRowsExpand?: boolean;
   }) => {
     return <Wrapper {...props} />;
   };
@@ -173,6 +189,65 @@ describe('TableCell', () => {
       )
     );
     expect(selectors.tableLink(false, 'test-url')).toBeInTheDocument();
+  });
+
+  it('Should render one cell with icon', async () => {
+    const data = [
+      {
+        name: 'Device',
+      },
+    ];
+    const columns = [
+      {
+        id: 'name',
+        header: 'Name',
+        accessorFn: createColumnAccessorFn('name'),
+        enableGrouping: true,
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          grouping: ['name'],
+        })
+      )
+    );
+
+    expect(tableSelectors.buttonExpandCell(false, 'name:Device_name')).toBeInTheDocument();
+  });
+
+  it('Should render one cell without icon if row can`t be expand', async () => {
+    const data = [
+      {
+        name: 'Device',
+      },
+    ];
+    const columns = [
+      {
+        id: 'name',
+        header: 'Name',
+        accessorFn: createColumnAccessorFn('name'),
+        enableGrouping: true,
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          grouping: ['name'],
+          isRowsExpand: false,
+        })
+      )
+    );
+
+    expect(tableSelectors.buttonExpandCell(true, 'name:Device_name')).not.toBeInTheDocument();
   });
 
   it('Should call stopPropagation on click', async () => {
