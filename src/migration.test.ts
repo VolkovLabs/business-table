@@ -496,6 +496,31 @@ describe('migration', () => {
         type: ColumnEditorType.SELECT,
         customValues: true,
       });
+
+    });
+
+    it('Should normalize expanded', async () => {
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              expanded: false,
+              items: [],
+            }),
+          ],
+        })
+      );
     });
   });
 });

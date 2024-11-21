@@ -6,6 +6,7 @@
 
 - Updated sort state on dashboard refresh (#163)
 - Added support variables in data sources for editable and nested objects (#167)
+- Updated group expand and collapse behavior (#161)
 - Added custom value to editable select field (#165)
 
 ## 1.7.0 (2024-11-16)
