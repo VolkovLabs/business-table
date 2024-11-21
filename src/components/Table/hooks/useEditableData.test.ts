@@ -1,9 +1,10 @@
 import { Row } from '@tanstack/react-table';
 import { act, renderHook } from '@testing-library/react';
 
-import { useEditableData } from './useEditableData';
-import { createColumnAccessorFn, createColumnMeta } from '@/utils';
 import { ColumnEditorType } from '@/types';
+import { createColumnAccessorFn, createColumnMeta } from '@/utils';
+
+import { useEditableData } from './useEditableData';
 
 /**
  * Mock @tanstack/react-table
