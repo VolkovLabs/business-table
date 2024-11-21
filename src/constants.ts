@@ -185,6 +185,7 @@ export const TEST_IDS = {
     fieldNumberMax: createSelector('data-testid column-editor field-number-max'),
     fieldDatetimeMin: createSelector('data-testid column-editor field-datetime-min'),
     fieldDatetimeMax: createSelector('data-testid column-editor field-datetime-max'),
+    fieldCustomValues: createSelector('data-testid column-editor field-custom-values'),
   },
   dateEditor: {
     field: createSelector('data-testid date-editor field'),
@@ -212,6 +213,7 @@ export const TEST_IDS = {
     fieldShowHeader: createSelector('data-testid table-editor field-show-header'),
     updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-editor update-section-content'),
+    fieldExpanded: createSelector('data-testid table-editor field-expanded'),
   },
   fieldPicker: {
     root: createSelector('data-testid field-picker'),

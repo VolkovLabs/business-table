@@ -69,6 +69,13 @@ interface EditorSelectOptions {
    * @type {QueryOptionsMapper}
    */
   queryOptions?: QueryOptionsMapper;
+
+  /**
+   * Custom values
+   *
+   * @type {boolean}
+   */
+  customValues?: boolean;
 }
 
 interface EditorDatetimeOptions {
@@ -111,7 +118,7 @@ export type ColumnEditorControlOptions =
   | { type: ColumnEditorType.TEXTAREA }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
-  | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[] });
+  | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[]; customValues: boolean });
 
 /**
  * Editable Column Editor Registry Item

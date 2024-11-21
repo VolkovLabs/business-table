@@ -99,6 +99,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
     onChangeItems(
       items.concat([
         {
+          expanded: false,
           name: newItemName,
           showHeader: true,
           items: [],
