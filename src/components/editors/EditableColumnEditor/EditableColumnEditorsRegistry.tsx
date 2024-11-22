@@ -35,6 +35,23 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
     getControlOptions: (params) => params.config,
   }),
   createEditableColumnEditorRegistryItem({
+    id: ColumnEditorType.BOOLEAN,
+    editor: () => null,
+    control: ({ value, onChange, isSaving }) => {
+      return (
+        <InlineSwitch
+          onChange={(event) => {
+            onChange(event.currentTarget.checked);
+          }}
+          disabled={isSaving}
+          value={value as boolean}
+          {...TEST_IDS.editableCell.fieldBoolean.apply()}
+        />
+      );
+    },
+    getControlOptions: (params) => params.config,
+  }),
+  createEditableColumnEditorRegistryItem({
     id: ColumnEditorType.TEXTAREA,
     editor: () => null,
     control: ({ value, onChange, isSaving }) => (
