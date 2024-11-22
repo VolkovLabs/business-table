@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.8.0 (IN PROGRESS)
+## 1.8.0 (2024-11-21)
 
 ### Features / Enhancements
 
