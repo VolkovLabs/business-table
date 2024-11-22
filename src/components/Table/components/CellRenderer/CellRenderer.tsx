@@ -3,9 +3,7 @@ import React from 'react';
 
 import { CellType } from '@/types';
 
-import { BooleanCellRenderer } from './BooleanCellRenderer';
-import { DefaultCellRenderer } from './DefaultCellRenderer';
-import { LayoutCellRenderer } from './LayoutCellRenderer';
+import { BooleanCellRenderer, DefaultCellRenderer, LayoutCellRenderer } from './components';
 
 /**
  * Properties
