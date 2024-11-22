@@ -830,6 +830,457 @@
     },
     {
       "datasource": {
+        "default": true,
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 14,
+      "options": {
+        "columnMode": "auto",
+        "columns": [],
+        "nestedObjects": [],
+        "tables": [
+          {
+            "items": [
+              {
+                "appearance": {
+                  "alignment": "end",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 50,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "pin": "left",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": true
+                },
+                "type": "coloredBackground"
+              },
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 200,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": true,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": true,
+                  "enabled": true
+                },
+                "type": "auto"
+              },
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 100,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": true,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": ["mean"],
+                "group": false,
+                "label": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "boolean"
+                  },
+                  "enabled": true,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "enable",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "boolean"
+              },
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 200,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "json",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": false,
+                    "min": 100,
+                    "value": 150
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "comment.info.name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "right",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              }
+            ],
+            "name": "Main",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "timescale",
+              "payload": {
+                "editorMode": "code",
+                "format": "table",
+                "rawQuery": true,
+                "rawSql": "UPDATE\n  devices2\nSET\n  enable = ${payload.enable}\nWHERE\n  id = ${payload.id}",
+                "refId": "A",
+                "sql": {
+                  "columns": [
+                    {
+                      "parameters": [],
+                      "type": "function"
+                    }
+                  ],
+                  "groupBy": [
+                    {
+                      "property": {
+                        "type": "string"
+                      },
+                      "type": "groupBy"
+                    }
+                  ],
+                  "limit": 50
+                }
+              }
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "export": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "number",
+                "values": [1, 2, 3]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3"]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [10, 15, 20]
+              },
+              {
+                "config": {},
+                "name": "json",
+                "type": "string",
+                "values": ["{ \"name\": \"Device1\" }", "{ \"name\": \"Device2\" }", "{ \"name\": \"Device3\" }"]
+              },
+              {
+                "config": {},
+                "name": "comment.info.name",
+                "type": "string",
+                "values": ["Some comment", "Some notes", ""]
+              },
+              {
+                "config": {},
+                "name": "enable",
+                "type": "boolean",
+                "values": [null, null, null]
+              }
+            ],
+            "meta": {
+              "custom": {
+                "customCode": "const result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n\n    if (field.name === 'id') {\n      return ({\n        ...field,\n        values: [1, 2, 3]\n      })\n    }\n\n    if (field.name === 'name') {\n      return ({\n        ...field,\n        values: ['Name - 1', 'Name - 2', 'Name - 3']\n      })\n    }\n\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: [10, 15, 20]\n      })\n    }\n\n    if (field.name === 'json') {\n      return ({\n        ...field,\n        values: ['{ \"name\": \"Device1\" }', '{ \"name\": \"Device2\" }', '{ \"name\": \"Device3\" }']\n      })\n    }\n\n    if (field.name === 'enable') {\n      return ({\n        ...field,\n        values: [true, false, false]\n      })\n    }\n\n    return ({\n      ...field,\n      values: []\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "valuesEditor": "custom"
+              }
+            },
+            "name": "data"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Table with boolean",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "id": "",
+              "name": "Name",
+              "value": "Value"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
@@ -859,7 +1310,7 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 13
+        "y": 27
       },
       "id": 12,
       "options": {
@@ -1160,7 +1611,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 37
       },
       "id": 11,
       "options": {
@@ -1570,8 +2021,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1586,7 +2036,7 @@
         "h": 13,
         "w": 24,
         "x": 0,
-        "y": 36
+        "y": 50
       },
       "id": 13,
       "options": {
@@ -2254,8 +2704,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2270,7 +2719,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 59
+        "y": 63
       },
       "id": 8,
       "options": {

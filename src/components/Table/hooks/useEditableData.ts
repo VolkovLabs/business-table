@@ -1,5 +1,7 @@
-import { createRow, Row, Table } from '@tanstack/react-table';
+import { CoreRow, createRow, Row, Table } from '@tanstack/react-table';
 import { useCallback, useMemo, useState } from 'react';
+
+import { ColumnEditorType } from '@/types';
 
 /**
  * Use Editable Data
@@ -24,9 +26,43 @@ export const useEditableData = <TData>({
   /**
    * Start Edit
    */
-  const onStartEdit = useCallback((row: Row<TData>) => {
-    setRow(row);
-  }, []);
+  const onStartEdit = useCallback(
+    (row: Row<TData>) => {
+      /**
+       * Columns
+       */
+      const columns = table.getAllColumns();
+
+      /**
+       * Update original row and replace initial value for text area editors
+       */
+      const updatedOriginalRow = Object.entries(row.original as CoreRow<TData>).reduce<{ [key: string]: unknown }>(
+        (acc, [key, value]) => {
+          const foundColumn = columns.find((obj) => obj.id === key);
+
+          /**
+           * Update text area value
+           */
+          if (
+            foundColumn?.columnDef.meta?.editable &&
+            foundColumn?.columnDef.meta?.editor?.type === ColumnEditorType.TEXTAREA
+          ) {
+            acc[key] = value.replaceAll('\n', '\\n');
+          } else {
+            acc[key] = value;
+          }
+          return acc;
+        },
+        {}
+      );
+
+      /**
+       * Set row with updated original row option
+       */
+      setRow(createRow(table, row.id, updatedOriginalRow as TData, row.index, row.depth));
+    },
+    [table]
+  );
 
   /**
    * Cancel Edit

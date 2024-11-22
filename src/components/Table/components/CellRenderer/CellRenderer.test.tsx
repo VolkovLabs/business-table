@@ -5,6 +5,7 @@ import React from 'react';
 import { CellType, ColumnMeta } from '@/types';
 import { createColumnConfig } from '@/utils';
 
+import { BooleanCellRenderer } from './BooleanCellRenderer';
 import { CellRenderer } from './CellRenderer';
 import { DefaultCellRenderer } from './DefaultCellRenderer';
 import { ImageCellRenderer } from './ImageCellRenderer';
@@ -17,6 +18,13 @@ type Props = React.ComponentProps<typeof CellRenderer>;
  */
 jest.mock('./DefaultCellRenderer', () => ({
   DefaultCellRenderer: jest.fn(() => null),
+}));
+
+/**
+ * Mock Boolean Cell Renderer
+ */
+jest.mock('./BooleanCellRenderer', () => ({
+  BooleanCellRenderer: jest.fn(() => null),
 }));
 
 /**
@@ -117,5 +125,11 @@ describe('CellRenderer', () => {
     render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: 'abc' as any }) }) }));
 
     expect(DefaultCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render boolean cell', () => {
+    render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.BOOLEAN }) }) }));
+
+    expect(BooleanCellRenderer).toHaveBeenCalled();
   });
 });

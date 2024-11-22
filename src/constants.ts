@@ -121,6 +121,9 @@ export const TEST_IDS = {
   layoutCellRenderer: {
     root: createSelector('data-testid layout-cell-renderer'),
   },
+  booleanCellRenderer: {
+    root: createSelector('data-testid boolean-cell-renderer'),
+  },
   aggregatedCellRenderer: {
     root: createSelector('data-testid aggregated-cell-renderer'),
   },
@@ -204,6 +207,7 @@ export const TEST_IDS = {
     fieldDatetime: createSelector('data-testid editableCell field-datetime'),
     fieldSelect: createSelector('data-testid editableCell field-select'),
     fieldTextarea: createSelector('data-testid editableCell field-textarea'),
+    fieldBoolean: createSelector('data-testid editableCell field-boolean'),
   },
   tableActionsCell: {
     buttonStartEdit: createSelector('data-testid table-actions-cell button-start-edit'),
