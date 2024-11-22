@@ -11,6 +11,7 @@ export enum ColumnEditorType {
   SELECT = 'select',
   DATETIME = 'datetime',
   TEXTAREA = 'textarea',
+  BOOLEAN = 'boolean',
 }
 
 /**
@@ -68,6 +69,13 @@ interface EditorSelectOptions {
    * @type {QueryOptionsMapper}
    */
   queryOptions?: QueryOptionsMapper;
+
+  /**
+   * Custom values
+   *
+   * @type {boolean}
+   */
+  customValues?: boolean;
 }
 
 interface EditorDatetimeOptions {
@@ -92,6 +100,7 @@ interface EditorDatetimeOptions {
 export type ColumnEditorConfig =
   | { type: ColumnEditorType.STRING }
   | { type: ColumnEditorType.TEXTAREA }
+  | { type: ColumnEditorType.BOOLEAN }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.SELECT } & EditorSelectOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions);
@@ -103,10 +112,13 @@ export type ColumnEditorControlOptions =
   | {
       type: ColumnEditorType.STRING;
     }
+  | {
+      type: ColumnEditorType.BOOLEAN;
+    }
   | { type: ColumnEditorType.TEXTAREA }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
-  | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[] });
+  | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[]; customValues: boolean });
 
 /**
  * Editable Column Editor Registry Item

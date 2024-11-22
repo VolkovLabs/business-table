@@ -340,6 +340,25 @@ describe('editableColumnEditorsRegistry', () => {
       });
     });
 
+    it('Should allow to set customValues option', () => {
+      render(
+        getEditorComponent({
+          value: createColumnEditConfig({ editor: { type: ColumnEditorType.SELECT } }).editor,
+          data: [toDataFrame({ refId: 'A', fields: [{ name: 'value', values: [] }] })],
+        })
+      );
+
+      expect(editorSelectors.fieldCustomValues()).toBeInTheDocument();
+      expect(editorSelectors.fieldCustomValues()).not.toBeChecked();
+
+      fireEvent.click(editorSelectors.fieldCustomValues());
+
+      expect(onChangeConfig).toHaveBeenCalledWith({
+        type: ColumnEditorType.SELECT,
+        customValues: true,
+      });
+    });
+
     it('Should render control', () => {
       render(
         getControlComponent({
@@ -401,6 +420,7 @@ describe('editableColumnEditorsRegistry', () => {
           })
         ).toEqual({
           type: ColumnEditorType.SELECT,
+          customValues: false,
           options: [],
         });
       });
@@ -422,6 +442,30 @@ describe('editableColumnEditorsRegistry', () => {
           })
         ).toEqual({
           type: ColumnEditorType.SELECT,
+          customValues: false,
+          options: [],
+        });
+      });
+
+      it('Should work with customValues', () => {
+        expect(
+          getControlOptions({
+            config: createColumnEditConfig({
+              editor: {
+                type: ColumnEditorType.SELECT,
+                customValues: true,
+                queryOptions: {
+                  source: 'abc',
+                  value: '123',
+                  label: '',
+                },
+              },
+            }).editor as never,
+            data,
+          })
+        ).toEqual({
+          type: ColumnEditorType.SELECT,
+          customValues: true,
           options: [],
         });
       });
@@ -443,6 +487,7 @@ describe('editableColumnEditorsRegistry', () => {
           })
         ).toEqual({
           type: ColumnEditorType.SELECT,
+          customValues: false,
           options: [
             { label: 'Active', value: 'active' },
             { label: 'Pending', value: 'pending' },
@@ -512,6 +557,35 @@ describe('editableColumnEditorsRegistry', () => {
       fireEvent.change(controlSelectors.fieldTextarea(), { target: { value: 'line\nline-2\nline-3' } });
 
       expect(onChange).toHaveBeenCalledWith('line\\nline-2\\nline-3');
+    });
+  });
+
+  describe('Boolean', () => {
+    it('Should render editor', () => {
+      render(
+        getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.BOOLEAN } }).editor })
+      );
+
+      /**
+       * Boolean doesn't have editor yet
+       */
+      expect(true).toBeTruthy();
+    });
+
+    it('Should render control', () => {
+      render(
+        getControlComponent({
+          value: false,
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.BOOLEAN } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldBoolean()).toBeInTheDocument();
+      expect(controlSelectors.fieldBoolean()).not.toBeChecked();
+
+      fireEvent.click(controlSelectors.fieldBoolean());
+
+      expect(onChange).toHaveBeenCalledWith(true);
     });
   });
 });

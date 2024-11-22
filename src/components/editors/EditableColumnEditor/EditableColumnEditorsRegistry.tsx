@@ -1,5 +1,5 @@
 import { dateTime } from '@grafana/data';
-import { DateTimePicker, InlineField, InlineFieldRow, Input, Select, TextArea } from '@grafana/ui';
+import { DateTimePicker, InlineField, InlineFieldRow, InlineSwitch, Input, Select, TextArea } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
@@ -32,6 +32,23 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         {...TEST_IDS.editableCell.fieldString.apply()}
       />
     ),
+    getControlOptions: (params) => params.config,
+  }),
+  createEditableColumnEditorRegistryItem({
+    id: ColumnEditorType.BOOLEAN,
+    editor: () => null,
+    control: ({ value, onChange, isSaving }) => {
+      return (
+        <InlineSwitch
+          onChange={(event) => {
+            onChange(event.currentTarget.checked);
+          }}
+          disabled={isSaving}
+          value={value as boolean}
+          {...TEST_IDS.editableCell.fieldBoolean.apply()}
+        />
+      );
+    },
     getControlOptions: (params) => params.config,
   }),
   createEditableColumnEditorRegistryItem({
@@ -136,32 +153,54 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
   createEditableColumnEditorRegistryItem({
     id: ColumnEditorType.SELECT,
     editor: ({ value, onChange, data }) => (
-      <QueryOptionsEditor
-        value={value.queryOptions}
-        onChange={(queryOptions) => {
-          onChange(
-            cleanPayloadObject({
-              ...value,
-              queryOptions,
-            })
-          );
-        }}
-        data={data}
-      />
+      <>
+        <QueryOptionsEditor
+          value={value.queryOptions}
+          onChange={(queryOptions) => {
+            onChange(
+              cleanPayloadObject({
+                ...value,
+                queryOptions,
+              })
+            );
+          }}
+          data={data}
+        />
+        <InlineFieldRow>
+          <InlineField label="Allow custom values" grow={true}>
+            <InlineSwitch
+              value={value.customValues}
+              onChange={(event) =>
+                onChange(
+                  cleanPayloadObject({
+                    ...value,
+                    customValues: event.currentTarget.checked,
+                  })
+                )
+              }
+              {...TEST_IDS.editableColumnEditor.fieldCustomValues.apply()}
+            />
+          </InlineField>
+        </InlineFieldRow>
+      </>
     ),
-    control: ({ value, onChange, config }) => (
-      <Select
-        value={value}
-        onChange={(event) => onChange(event.value)}
-        options={config.options}
-        {...TEST_IDS.editableCell.fieldSelect.apply()}
-      />
-    ),
+    control: ({ value, onChange, config }) => {
+      return (
+        <Select
+          value={value}
+          onChange={(event) => onChange(event.value)}
+          options={config.options}
+          allowCustomValue={config.customValues}
+          {...TEST_IDS.editableCell.fieldSelect.apply()}
+        />
+      );
+    },
     getControlOptions: ({ config, data }) => {
       const queryOptions = config.queryOptions;
 
       const controlOptions = {
         type: config.type,
+        customValues: config.customValues ?? false,
         options: [],
       };
 
