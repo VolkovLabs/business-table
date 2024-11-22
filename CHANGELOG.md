@@ -10,6 +10,7 @@
 - Added custom value to editable select field (#165)
 - Updated group expanding for empty cells (#169)
 - Added type check for text area (#172)
+- Updated behavior for edit process (error with TextArea initial value) (#176)
 
 ## 1.7.0 (2024-11-16)
 
