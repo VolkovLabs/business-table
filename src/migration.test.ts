@@ -1,7 +1,7 @@
 import { getBackendSrv } from '@grafana/runtime';
 
 import { getMigratedOptions } from '@/migration';
-import { ColumnEditorType, ColumnFilterMode, ColumnPinDirection, ImageScale, PermissionMode } from '@/types';
+import { CellType, ColumnEditorType, ColumnFilterMode, ColumnPinDirection, ImageScale, PermissionMode } from '@/types';
 import {
   createColumnConfig,
   createColumnEditConfig,
@@ -531,9 +531,10 @@ describe('migration', () => {
           tables: [
             createTableConfig({
               items: [
-                createColumnConfig({
-                  pin: true as never,
-                }),
+                {
+                  type: CellType.AUTO,
+                  filter: undefined,
+                } as any,
                 createColumnConfig({
                   pin: true as never,
                   scale: ImageScale.AUTO,
