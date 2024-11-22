@@ -527,6 +527,22 @@ describe('editableColumnEditorsRegistry', () => {
       expect(onChange).toHaveBeenCalledWith('line updated');
     });
 
+    it('Should render control with a non-string type ', () => {
+      render(
+        getControlComponent({
+          value: null,
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.TEXTAREA } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldTextarea()).toBeInTheDocument();
+      expect(controlSelectors.fieldTextarea()).toHaveValue('null');
+
+      fireEvent.change(controlSelectors.fieldTextarea(), { target: { value: 'line updated' } });
+
+      expect(onChange).toHaveBeenCalledWith('line updated');
+    });
+
     it('Should render control with replaced lines and replace line onChange correctly', () => {
       render(
         getControlComponent({
@@ -541,6 +557,35 @@ describe('editableColumnEditorsRegistry', () => {
       fireEvent.change(controlSelectors.fieldTextarea(), { target: { value: 'line\nline-2\nline-3' } });
 
       expect(onChange).toHaveBeenCalledWith('line\\nline-2\\nline-3');
+    });
+  });
+
+  describe('Boolean', () => {
+    it('Should render editor', () => {
+      render(
+        getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.BOOLEAN } }).editor })
+      );
+
+      /**
+       * Boolean doesn't have editor yet
+       */
+      expect(true).toBeTruthy();
+    });
+
+    it('Should render control', () => {
+      render(
+        getControlComponent({
+          value: false,
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.BOOLEAN } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldBoolean()).toBeInTheDocument();
+      expect(controlSelectors.fieldBoolean()).not.toBeChecked();
+
+      fireEvent.click(controlSelectors.fieldBoolean());
+
+      expect(onChange).toHaveBeenCalledWith(true);
     });
   });
 });

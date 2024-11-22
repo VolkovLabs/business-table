@@ -10,6 +10,7 @@ export enum CellType {
   COLORED_BACKGROUND = 'coloredBackground',
   RICH_TEXT = 'rich_text',
   NESTED_OBJECTS = 'nested_objects',
+  BOOLEAN = 'boolean',
 }
 
 /**
