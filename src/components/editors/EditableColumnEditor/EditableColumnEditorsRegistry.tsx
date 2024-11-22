@@ -56,7 +56,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
     editor: () => null,
     control: ({ value, onChange, isSaving }) => (
       <TextArea
-        value={(value as string).replaceAll('\\n', '\n')}
+        value={typeof value === 'string' ? (value as string).replaceAll('\\n', '\n') : String(value)}
         onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
           onChange(event.target.value.replaceAll('\n', '\\n'));
         }}
