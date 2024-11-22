@@ -7,6 +7,7 @@ import { createColumnConfig } from '@/utils';
 
 import { CellRenderer } from './CellRenderer';
 import { DefaultCellRenderer } from './DefaultCellRenderer';
+import { ImageCellRenderer } from './ImageCellRenderer';
 import { LayoutCellRenderer } from './LayoutCellRenderer';
 
 type Props = React.ComponentProps<typeof CellRenderer>;
@@ -25,6 +26,13 @@ jest.mock('./LayoutCellRenderer', () => ({
   LayoutCellRenderer: jest.fn(() => null),
 }));
 
+/**
+ * Mock Image Cell Renderer
+ */
+jest.mock('./ImageCellRenderer', () => ({
+  ImageCellRenderer: jest.fn(() => null),
+}));
+
 describe('CellRenderer', () => {
   /**
    * Get component
@@ -38,6 +46,7 @@ describe('CellRenderer', () => {
    */
   const createColumnWithMeta = (meta: Partial<ColumnMeta>): Column<any> =>
     ({
+      getSize: () => 100,
       columnDef: {
         meta,
       },
@@ -92,6 +101,16 @@ describe('CellRenderer', () => {
     );
 
     expect(LayoutCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render image cell', () => {
+    render(
+      getComponent({
+        column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.IMAGE as any }) }),
+      })
+    );
+
+    expect(ImageCellRenderer).toHaveBeenCalled();
   });
 
   it('Should render default cell renderer by default', () => {

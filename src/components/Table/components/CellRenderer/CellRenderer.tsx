@@ -4,6 +4,7 @@ import React from 'react';
 import { CellType } from '@/types';
 
 import { DefaultCellRenderer } from './DefaultCellRenderer';
+import { ImageCellRenderer } from './ImageCellRenderer';
 import { LayoutCellRenderer } from './LayoutCellRenderer';
 
 /**
@@ -43,6 +44,9 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
     }
     case CellType.RICH_TEXT: {
       return <LayoutCellRenderer value={String(rawValue)} row={row} />;
+    }
+    case CellType.IMAGE: {
+      return <ImageCellRenderer value={String(rawValue)} column={column} />;
     }
     default: {
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;

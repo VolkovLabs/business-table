@@ -16,6 +16,7 @@ import {
   ColumnHeaderFontSize,
   ColumnPinDirection,
   EditorProps,
+  ImageScale,
 } from '@/types';
 import {
   cleanPayloadObject,
@@ -67,6 +68,10 @@ const cellTypeOptions = [
   {
     value: CellType.COLORED_TEXT,
     label: 'Colored text',
+  },
+  {
+    value: CellType.IMAGE,
+    label: 'Image',
   },
   {
     value: CellType.RICH_TEXT,
@@ -186,6 +191,25 @@ const sortDirectionOptions = [
 ];
 
 /**
+ * Image Scale Options
+ */
+const imageScaleOptions = [
+  { value: ImageScale.AUTO, label: 'Auto' },
+  {
+    value: ImageScale.CRISP_EDGES,
+    label: 'Crisp Edges',
+    description:
+      'The image is scaled with an algorithm that preserves contrast and edges in the image. Generally intended for images such as pixel art or line drawings, no blurring or color smoothing occurs.',
+  },
+  {
+    value: ImageScale.PIXELATED,
+    label: 'Pixelated',
+    description:
+      'The image is scaled with the "nearest neighbor" or similar algorithm, preserving a "pixelated" look as the image changes in size.',
+  },
+];
+
+/**
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable, showTableHeader }) => {
@@ -276,6 +300,21 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               isClearable={true}
               isSearchable={true}
               {...TEST_IDS.columnEditor.fieldObjectId.apply()}
+            />
+          </InlineField>
+        )}
+        {value.type === CellType.IMAGE && (
+          <InlineField label="Scale Algorithm" grow={true}>
+            <Select
+              options={imageScaleOptions}
+              value={value.scale}
+              onChange={(event) => {
+                onChange({
+                  ...value,
+                  scale: event.value!,
+                });
+              }}
+              {...TEST_IDS.columnEditor.fieldScale.apply()}
             />
           </InlineField>
         )}
