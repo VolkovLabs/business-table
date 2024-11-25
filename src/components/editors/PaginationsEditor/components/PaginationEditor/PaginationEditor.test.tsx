@@ -4,7 +4,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '@/constants';
+import { PAGE_SIZES, TEST_IDS } from '@/constants';
 import { ColumnFilterMode, PaginationMode } from '@/types';
 import { createColumnConfig, createColumnFilterConfig, createTableConfig, createTablePaginationConfig } from '@/utils';
 
@@ -114,6 +114,32 @@ describe('PaginationEditor', () => {
           query: expect.objectContaining({
             pageIndexVariable: 'pageIndex',
           }),
+        }),
+      })
+    );
+  });
+
+  it('Should allow to change default page size', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          pagination: createTablePaginationConfig({
+            enabled: true,
+            mode: PaginationMode.CLIENT,
+            defaultPageSize: PAGE_SIZES[0],
+          }),
+        }),
+      })
+    );
+
+    expect(selectors.fieldPaginationDefaultPageSize()).toBeInTheDocument();
+
+    fireEvent.change(selectors.fieldPaginationDefaultPageSize(), { target: { value: PAGE_SIZES[3] } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        pagination: expect.objectContaining({
+          defaultPageSize: PAGE_SIZES[3],
         }),
       })
     );

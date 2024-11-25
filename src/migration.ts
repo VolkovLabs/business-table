@@ -4,6 +4,7 @@ import semver from 'semver';
 
 import { getColumnEditorConfig } from '@/utils';
 
+import { PAGE_SIZES } from './constants';
 import {
   ColumnAlignment,
   ColumnAppearanceConfig,
@@ -312,6 +313,7 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
           datasource: normalizeDatasourceOptions(dataSources, normalizedGroup.update.datasource),
         };
       }
+
       /**
        * Normalize Pagination
        */
@@ -319,6 +321,22 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
         normalizedGroup.pagination = {
           enabled: false,
           mode: PaginationMode.CLIENT,
+          defaultPageSize: PAGE_SIZES[0],
+        };
+      }
+
+      /**
+       * Normalize Pagination defaultPageSize
+       */
+      if (
+        panel.pluginVersion &&
+        semver.lt(panel.pluginVersion, '1.9.0') &&
+        normalizedGroup.pagination &&
+        !normalizedGroup.pagination.defaultPageSize
+      ) {
+        normalizedGroup.pagination = {
+          ...normalizedGroup.pagination,
+          defaultPageSize: PAGE_SIZES[0],
         };
       }
 
@@ -388,5 +406,6 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
 
     options.nestedObjects = nestedObjectsUpdated;
   }
+
   return options as PanelOptions;
 };

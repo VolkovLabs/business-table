@@ -321,6 +321,13 @@ export interface TablePaginationConfig {
   mode: PaginationMode;
 
   /**
+   * Default page size
+   *
+   * @type {number}
+   */
+  defaultPageSize: number;
+
+  /**
    * Options for Query Mode
    */
   query?: {

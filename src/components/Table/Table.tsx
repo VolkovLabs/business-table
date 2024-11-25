@@ -22,7 +22,7 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ButtonSelect } from '@/components';
-import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { ACTIONS_COLUMN_ID, PAGE_SIZE_OPTIONS, TEST_IDS } from '@/constants';
 import { CellType, ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { TableHeaderCell, TableRow } from './components';
@@ -133,14 +133,6 @@ interface Props<TData> {
    */
   showHeader: boolean;
 }
-
-/**
- * Page Size Options
- */
-const pageSizeOptions = [10, 20, 50, 100, 1000].map((value) => ({
-  value,
-  label: value.toString(),
-}));
 
 /**
  * Get Pinned Header Column Style
@@ -497,7 +489,7 @@ export const Table = <TData,>({
             data-testid={TEST_IDS.table.fieldPageNumber.selector()}
           />
           <ButtonSelect
-            options={pageSizeOptions}
+            options={PAGE_SIZE_OPTIONS}
             value={{ value: pagination.value.pageSize }}
             onChange={(event) => {
               pagination.onChange({

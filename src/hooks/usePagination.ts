@@ -20,7 +20,7 @@ export const usePagination = ({
   eventBus: EventBus;
 }): Pagination => {
   const [value, setValue] = useState<PaginationState>({
-    pageSize: 10,
+    pageSize: paginationConfig?.defaultPageSize || 10,
     pageIndex: 0,
   });
   const { getVariable } = useRuntimeVariables(eventBus, '');
