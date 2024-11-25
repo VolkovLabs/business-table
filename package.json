@@ -11,7 +11,7 @@
     "@react-aria/focus": "^3.18.4",
     "@tanstack/react-table": "^8.20.5",
     "@tanstack/react-virtual": "^3.10.8",
-    "@volkovlabs/components": "^3.5.0",
+    "@volkovlabs/components": "^3.5.1",
     "@volkovlabs/grafana-utils": "^1.4.4",
     "file-saver": "^2.0.5",
     "markdown-it": "^14.1.0",
