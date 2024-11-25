@@ -32,7 +32,6 @@ export const ImageCellRenderer: React.FC<Props> = ({ value, column }) => {
   /**
    * Source
    */
-
   let source = value;
 
   if (value && Base64.isValid(value)) {
