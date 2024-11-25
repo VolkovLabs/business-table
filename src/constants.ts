@@ -99,6 +99,7 @@ export const TEST_IDS = {
     fieldAppearanceBackgroundApplyToRow: createSelector(
       'data-testid column-editor field-appearance-background-apply-to-row'
     ),
+    fieldPreformattedStyles: createSelector('data-testid column-editor field-preformatted-styles'),
     fieldAppearanceWidthAuto: createSelector('data-testid column-editor field-appearance-width-auto'),
     fieldAppearanceWidthMin: createSelector('data-testid column-editor field-appearance-width-min'),
     fieldAppearanceWidthMax: createSelector('data-testid column-editor field-appearance-width-max'),
@@ -115,6 +116,9 @@ export const TEST_IDS = {
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
+  },
+  preformattedCellRenderer: {
+    root: createSelector('data-testid preformatted-cell-renderer'),
   },
   layoutCellRenderer: {
     root: createSelector('data-testid layout-cell-renderer'),

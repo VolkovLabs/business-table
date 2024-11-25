@@ -11,6 +11,7 @@ export enum CellType {
   RICH_TEXT = 'rich_text',
   NESTED_OBJECTS = 'nested_objects',
   BOOLEAN = 'boolean',
+  PREFORMATTED = 'preformatted',
 }
 
 /**

@@ -273,6 +273,13 @@ export interface ColumnConfig {
    * @type {ColumnPinDirection}
    */
   pin: ColumnPinDirection;
+
+  /**
+   * Keep preformatted style
+   *
+   * @type {boolean}
+   */
+  preformattedStyle: boolean;
 }
 
 /**

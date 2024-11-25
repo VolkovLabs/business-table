@@ -73,14 +73,18 @@ const cellTypeOptions = [
     label: 'Colored text',
   },
   {
-    value: CellType.RICH_TEXT,
-    label: 'Rich text',
-    description: 'HTML / Markdown',
+    value: CellType.PREFORMATTED,
+    label: 'Preformatted',
   },
   {
     value: CellType.NESTED_OBJECTS,
     label: 'Nested objects',
     description: 'Column value should be an array of object ids.',
+  },
+  {
+    value: CellType.RICH_TEXT,
+    label: 'Rich text',
+    description: 'HTML / Markdown',
   },
 ];
 
@@ -280,6 +284,20 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               isClearable={true}
               isSearchable={true}
               {...TEST_IDS.columnEditor.fieldObjectId.apply()}
+            />
+          </InlineField>
+        )}
+        {value.type === CellType.PREFORMATTED && (
+          <InlineField label="Keep preformatted style" grow={true}>
+            <InlineSwitch
+              value={value.preformattedStyle}
+              onChange={(event) =>
+                onChange({
+                  ...value,
+                  preformattedStyle: event.currentTarget.checked,
+                })
+              }
+              {...TEST_IDS.columnEditor.fieldPreformattedStyles.apply()}
             />
           </InlineField>
         )}

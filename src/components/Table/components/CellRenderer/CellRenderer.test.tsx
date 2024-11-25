@@ -6,7 +6,7 @@ import { CellType, ColumnMeta } from '@/types';
 import { createColumnConfig } from '@/utils';
 
 import { CellRenderer } from './CellRenderer';
-import { BooleanCellRenderer, DefaultCellRenderer, LayoutCellRenderer } from './components';
+import { BooleanCellRenderer, DefaultCellRenderer, LayoutCellRenderer, PreformattedCellRenderer } from './components';
 
 type Props = React.ComponentProps<typeof CellRenderer>;
 
@@ -17,6 +17,7 @@ jest.mock('./components', () => ({
   DefaultCellRenderer: jest.fn(() => null),
   BooleanCellRenderer: jest.fn(() => null),
   LayoutCellRenderer: jest.fn(() => null),
+  PreformattedCellRenderer: jest.fn(() => null),
 }));
 
 describe('CellRenderer', () => {
@@ -98,5 +99,13 @@ describe('CellRenderer', () => {
     render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.BOOLEAN }) }) }));
 
     expect(BooleanCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render preformatted cell', () => {
+    render(
+      getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.PREFORMATTED }) }) })
+    );
+
+    expect(PreformattedCellRenderer).toHaveBeenCalled();
   });
 });

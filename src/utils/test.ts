@@ -111,6 +111,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   label: '',
   type: CellType.AUTO,
   group: false,
+  preformattedStyle: false,
   aggregation: CellAggregation.NONE,
   filter: createColumnFilterConfig({}),
   sort: createColumnSortConfig({}),

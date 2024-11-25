@@ -496,7 +496,6 @@ describe('migration', () => {
         type: ColumnEditorType.SELECT,
         customValues: true,
       });
-
     });
 
     it('Should normalize expanded', async () => {
@@ -519,6 +518,31 @@ describe('migration', () => {
               items: [],
             }),
           ],
+        })
+      );
+    });
+  });
+
+  describe('1.9.0', () => {
+    it('Should normalize preformatted option for items', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '1.8.0',
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                createColumnConfig({
+                  pin: true as never,
+                }),
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0]).toEqual(
+        expect.objectContaining({
+          preformattedStyle: false,
         })
       );
     });

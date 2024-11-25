@@ -3,7 +3,7 @@ import React from 'react';
 
 import { CellType } from '@/types';
 
-import { BooleanCellRenderer, DefaultCellRenderer, LayoutCellRenderer } from './components';
+import { BooleanCellRenderer, DefaultCellRenderer, LayoutCellRenderer, PreformattedCellRenderer } from './components';
 
 /**
  * Properties
@@ -45,6 +45,9 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
     }
     case CellType.BOOLEAN: {
       return <BooleanCellRenderer value={renderValue() as boolean} bgColor={bgColor} />;
+    }
+    case CellType.PREFORMATTED: {
+      return <PreformattedCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;
     }
     default: {
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;

@@ -280,6 +280,17 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
           };
         }
 
+        /**
+         * Normalize preformatted styles fot items
+         */
+        if (
+          panel.pluginVersion &&
+          semver.lt(panel.pluginVersion, '1.9.0') &&
+          !normalized.hasOwnProperty('preformattedStyle')
+        ) {
+          normalized.preformattedStyle = false;
+        }
+
         return normalized;
       });
 
