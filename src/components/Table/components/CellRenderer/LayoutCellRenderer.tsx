@@ -28,6 +28,7 @@ interface Props {
 /**
  * Layout Cell Renderer
  * @param value
+ * @param row
  */
 export const LayoutCellRenderer: React.FC<Props> = ({ value, row }) => {
   /**
