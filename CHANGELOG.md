@@ -5,6 +5,8 @@
 ### Features / Enhancements
 
 - Added Image cell type (#177)
+- Updated Autosize Code Editor (#179)
+- Added default pagination size (#181)
 
 ## 1.8.0 (2024-11-21)
 

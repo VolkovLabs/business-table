@@ -5,7 +5,7 @@ import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDr
 import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
-import { TEST_IDS } from '@/constants';
+import { PAGE_SIZES, TEST_IDS } from '@/constants';
 import { tablesEditorContext } from '@/hooks';
 import { PaginationMode, PanelOptions, TableConfig } from '@/types';
 import { reorder } from '@/utils';
@@ -104,7 +104,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
           showHeader: true,
           items: [],
           update: { datasource: '', payload: {} },
-          pagination: { enabled: false, mode: PaginationMode.CLIENT },
+          pagination: { enabled: false, mode: PaginationMode.CLIENT, defaultPageSize: PAGE_SIZES[0] },
         },
       ])
     );

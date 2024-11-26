@@ -10,6 +10,7 @@ import {
 } from '@grafana/data';
 import { ColumnDef } from '@tanstack/react-table';
 
+import { PAGE_SIZES } from '@/constants';
 import {
   CellAggregation,
   CellType,
@@ -233,6 +234,7 @@ export class FooterContext {
  */
 export const createTablePaginationConfig = (pagination: Partial<TablePaginationConfig>): TablePaginationConfig => ({
   enabled: false,
+  defaultPageSize: PAGE_SIZES[0],
   mode: PaginationMode.CLIENT,
   ...pagination,
 });

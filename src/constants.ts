@@ -321,6 +321,7 @@ export const TEST_IDS = {
   },
   paginationEditor: {
     fieldPaginationMode: createSelector('data-testid table-editor field-pagination-mode'),
+    fieldPaginationDefaultPageSize: createSelector('data-testid table-editor field-pagination-default-page-size'),
     fieldPaginationQueryPageIndexVariable: createSelector(
       'data-testid table-editor field-pagination-query-page-index-variable'
     ),
@@ -358,6 +359,19 @@ export const AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR = [
   CellAggregation.MEDIAN,
   CellAggregation.SUM,
 ];
+
+/**
+ * Page Sizes
+ */
+export const PAGE_SIZES = [10, 20, 50, 100, 1000];
+
+/**
+ * Page Size Options
+ */
+export const PAGE_SIZE_OPTIONS = PAGE_SIZES.map((value) => ({
+  value,
+  label: value.toString(),
+}));
 
 /**
  * Base64 image header reg.
