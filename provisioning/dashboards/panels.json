@@ -65,6 +65,7 @@
         "nestedObjects": [],
         "tables": [
           {
+            "expanded": false,
             "items": [
               {
                 "appearance": {
@@ -437,6 +438,7 @@
         "nestedObjects": [],
         "tables": [
           {
+            "expanded": false,
             "items": [
               {
                 "appearance": {
@@ -644,6 +646,7 @@
             }
           },
           {
+            "expanded": false,
             "items": [
               {
                 "appearance": {
@@ -863,6 +866,7 @@
         "nestedObjects": [],
         "tables": [
           {
+            "expanded": false,
             "items": [
               {
                 "appearance": {
@@ -1314,6 +1318,7 @@
         "nestedObjects": [],
         "tables": [
           {
+            "expanded": false,
             "items": [
               {
                 "aggregation": "none",
@@ -1614,6 +1619,7 @@
         "nestedObjects": [],
         "tables": [
           {
+            "expanded": false,
             "items": [
               {
                 "appearance": {
@@ -1821,6 +1827,7 @@
             }
           },
           {
+            "expanded": false,
             "items": [
               {
                 "appearance": {
@@ -2004,270 +2011,6 @@
     },
     {
       "datasource": {
-        "default": true,
-        "type": "marcusolsson-static-datasource",
-        "uid": "P1D2C73DC01F2359B"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 13,
-        "w": 24,
-        "x": 0,
-        "y": 50
-      },
-      "id": 13,
-      "options": {
-        "columnMode": "auto",
-        "columns": [],
-        "nestedObjects": [],
-        "tables": [
-          {
-            "items": [
-              {
-                "appearance": {
-                  "alignment": "end",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "max": 50,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "field": {
-                      "name": "",
-                      "source": ""
-                    },
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "id",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "group": false,
-                "label": "",
-                "pin": "left",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": true
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "HTML",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "group": false,
-                "label": "",
-                "objectId": "",
-                "pin": "",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "rich_text"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "Markdown",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "group": false,
-                "label": "",
-                "objectId": "",
-                "pin": "",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "rich_text"
-              }
-            ],
-            "name": "Main",
-            "pagination": {
-              "enabled": false,
-              "mode": "client"
-            },
-            "update": {
-              "datasource": "",
-              "payload": {}
-            }
-          }
-        ],
-        "tabsSorting": false,
-        "toolbar": {
-          "export": true
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "marcusolsson-static-datasource",
-            "uid": "P1D2C73DC01F2359B"
-          },
-          "frame": {
-            "fields": [
-              {
-                "config": {},
-                "name": "id",
-                "type": "number",
-                "values": [1, 2, 3, 4]
-              },
-              {
-                "config": {},
-                "name": "HTML",
-                "type": "string",
-                "values": [
-                  "<h3>Features/ 1</h3> - Updated behavior <br/> - Added All options<br/>",
-                  "<h3>Features/ 2</h3> - Updated behavior <br/> - Added All options<br/>",
-                  "<h3>Features/ 3</h3> - Updated behavior <br/> - Added All options<br/>",
-                  "<h3>$title</h3> - Updated behavior <br/> - Added All options<br/>"
-                ]
-              },
-              {
-                "config": {},
-                "name": "Markdown",
-                "type": "string",
-                "values": [
-                  "# Heading level 1",
-                  "This is the first line.   And this is the second line.",
-                  "I just use **bold text**.",
-                  "> To create a blockquote, add a > in front of a paragraph."
-                ]
-              }
-            ],
-            "meta": {},
-            "name": "data"
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "HTML, Markdown",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "id": "",
-              "name": "Name",
-              "value": "Value"
-            }
-          }
-        }
-      ],
-      "type": "volkovlabs-table-panel"
-    },
-    {
-      "datasource": {
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
@@ -2297,9 +2040,9 @@
         "h": 10,
         "w": 24,
         "x": 0,
-        "y": 49
+        "y": 50
       },
-      "id": 14,
+      "id": 15,
       "options": {
         "nestedObjects": [],
         "tables": [
@@ -2508,6 +2251,7 @@
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
               "datasource": "",
               "payload": {}
@@ -2563,6 +2307,7 @@
     },
     {
       "datasource": {
+        "default": true,
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
@@ -2573,7 +2318,548 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 60
+      },
+      "id": 13,
+      "options": {
+        "columnMode": "auto",
+        "columns": [],
+        "nestedObjects": [],
+        "tables": [
+          {
+            "expanded": false,
+            "items": [
+              {
+                "appearance": {
+                  "alignment": "end",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 50,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "pin": "left",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": true
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "PreformattedOne",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": true,
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "preformatted"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "PreformattedSecond",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "preformatted"
+              }
+            ],
+            "name": "Main",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "export": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "number",
+                "values": [1, 2, 3, 4]
+              },
+              {
+                "config": {},
+                "name": "PreformattedOne",
+                "type": "string",
+                "values": [
+                  "<h3>Features/ 1</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>Features/ 2</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>Features/ 3</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>$title</h3> - Updated behavior <br/> - Added All options<br/>"
+                ]
+              },
+              {
+                "config": {},
+                "name": "PreformattedSecond",
+                "type": "string",
+                "values": [
+                  "# Heading level 1",
+                  "This is the first line.   And this is the second line.",
+                  "I just use **bold text**.",
+                  "> To create a blockquote, add a > in front of a paragraph."
+                ]
+              }
+            ],
+            "meta": {
+              "custom": {
+                "customCode": "const result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n\n    if (field.name === 'id') {\n      return ({\n        ...field,\n        values: [1, 2, 3]\n      })\n    }\n\n    if (field.name === 'PreformattedOne') {\n      return ({\n        ...field,\n        values: ['line', 'line1 \\nline2',\n          `Preformatted \\n\\n\n1. Line 1.   2. Line 2.   3. Line 3. \\n\\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `]\n      })\n    }\n\n    if (field.name === 'PreformattedSecond') {\n      return ({\n        ...field,\n        values: ['line', 'line1 \\nline2',\n          `Preformatted \\n\\n 1. Line 1.   2. Line 2.   3. Line 3. \\n\\n Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. `]\n      })\n    }\n\n    return ({\n      ...field,\n      values: []\n    })\n  }\n  )\n}\n\nreturn Promise.resolve(result);",
+                "valuesEditor": "custom"
+              }
+            },
+            "name": "data"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Preformatted table",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "id": "",
+              "name": "Name",
+              "value": "Value"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 73
+      },
+      "id": 16,
+      "options": {
+        "columnMode": "auto",
+        "columns": [],
+        "nestedObjects": [],
+        "tables": [
+          {
+            "expanded": false,
+            "items": [
+              {
+                "appearance": {
+                  "alignment": "end",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 50,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "pin": "left",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": true
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "HTML",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "rich_text"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "Markdown",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "objectId": "",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "rich_text"
+              }
+            ],
+            "name": "Main",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "export": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "number",
+                "values": [1, 2, 3, 4]
+              },
+              {
+                "config": {},
+                "name": "HTML",
+                "type": "string",
+                "values": [
+                  "<h3>Features/ 1</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>Features/ 2</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>Features/ 3</h3> - Updated behavior <br/> - Added All options<br/>",
+                  "<h3>$title</h3> - Updated behavior <br/> - Added All options<br/>"
+                ]
+              },
+              {
+                "config": {},
+                "name": "Markdown",
+                "type": "string",
+                "values": [
+                  "# Heading level 1",
+                  "This is the first line.   And this is the second line.",
+                  "I just use **bold text**.",
+                  "> To create a blockquote, add a > in front of a paragraph."
+                ]
+              }
+            ],
+            "meta": {},
+            "name": "data"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "HTML, Markdown",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "id": "",
+              "name": "Name",
+              "value": "Value"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -2588,7 +2874,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 63
+        "y": 86
       },
       "id": 8,
       "options": {
@@ -2705,6 +2991,7 @@
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
               "datasource": "",
               "payload": {}
@@ -2798,6 +3085,6 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 6,
+  "version": 28,
   "weekStart": ""
 }
