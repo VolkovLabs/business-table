@@ -2,6 +2,7 @@ import { DataFrame, EventBus } from '@grafana/data';
 import { PaginationState } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { PAGE_SIZES } from '@/constants';
 import { Pagination, PaginationMode, TablePaginationConfig, ValueOrUpdater } from '@/types';
 import { getFieldBySource, getVariableKeyForLocation, getVariableNumberValue, setVariablesValue } from '@/utils';
 
@@ -20,7 +21,7 @@ export const usePagination = ({
   eventBus: EventBus;
 }): Pagination => {
   const [value, setValue] = useState<PaginationState>({
-    pageSize: paginationConfig?.defaultPageSize || 10,
+    pageSize: paginationConfig?.defaultPageSize || PAGE_SIZES[0],
     pageIndex: 0,
   });
   const { getVariable } = useRuntimeVariables(eventBus, '');
