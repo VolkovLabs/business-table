@@ -50,9 +50,9 @@ export const ImageCellRenderer: React.FC<Props> = ({ value, column }) => {
       src={source}
       alt=""
       style={{
-        maxWidth: column.columnDef.maxSize,
+        maxWidth: '100%',
         minWidth: column.columnDef.minSize,
-        width: column.getSize(),
+        width: 'auto',
         imageRendering: column.columnDef.meta?.scale,
       }}
       {...TEST_IDS.imageCellRenderer.root.apply()}
