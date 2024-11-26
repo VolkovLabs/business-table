@@ -24,6 +24,7 @@ import {
   ColumnMeta,
   ColumnPinDirection,
   ColumnSortConfig,
+  ImageScale,
   NestedObjectCardsDisplay,
   NestedObjectConfig,
   NestedObjectControlOperationOptions,
@@ -116,6 +117,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   sort: createColumnSortConfig({}),
   appearance: createColumnAppearanceConfig({}),
   footer: [],
+  scale: ImageScale.AUTO,
   edit: createColumnEditConfig({}),
   pin: ColumnPinDirection.NONE,
   objectId: '',
@@ -188,6 +190,7 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   config: createColumnConfig(),
   field: {} as never,
   footerEnabled: false,
+  scale: ImageScale.AUTO,
   editable: false,
   ...meta,
 });

@@ -1,5 +1,11 @@
 # Change Log
 
+## 1.9.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added Image cell type (#177)
+
 ## 1.8.0 (2024-11-21)
 
 ### Features / Enhancements

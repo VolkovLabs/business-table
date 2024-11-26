@@ -8,6 +8,7 @@ import {
   ColumnEditorType,
   ColumnHeaderFontSize,
   PermissionMode,
+  SupportedBase64ImageType,
 } from '@/types';
 
 /**
@@ -112,6 +113,7 @@ export const TEST_IDS = {
     fieldAppearanceAlignmentOption: createSelector(
       (name: unknown) => `column-editor field-appearance-alignment-option-${name}`
     ),
+    fieldScale: createSelector('data-testid column-editor field-scale'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -124,6 +126,9 @@ export const TEST_IDS = {
   },
   aggregatedCellRenderer: {
     root: createSelector('data-testid aggregated-cell-renderer'),
+  },
+  imageCellRenderer: {
+    root: createSelector('data-testid image-cell-renderer'),
   },
   table: {
     root: createSelector('data-testid table'),
@@ -353,3 +358,18 @@ export const AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR = [
   CellAggregation.MEDIAN,
   CellAggregation.SUM,
 ];
+
+/**
+ * Base64 image header reg.
+ */
+export const BASE64_IMAGE_HEADER_REGEX = /^data:image\/\w+/;
+
+/**
+ * Base64 symbols for Image Types
+ */
+export const IMAGE_TYPES_SYMBOLS: { [id: string]: string } = {
+  '/': SupportedBase64ImageType.JPEG,
+  R: SupportedBase64ImageType.GIF,
+  i: SupportedBase64ImageType.PNG,
+  A: SupportedBase64ImageType.HEIC,
+};
