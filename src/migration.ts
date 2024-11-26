@@ -16,6 +16,7 @@ import {
   ColumnHeaderFontSize,
   ColumnPinDirection,
   ColumnSortConfig,
+  ImageScale,
   NestedObjectConfig,
   PaginationMode,
   PanelOptions,
@@ -279,6 +280,13 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
               customValues: false,
             },
           };
+        }
+
+        /**
+         * Normalize scale fot items
+         */
+        if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.9.0') && !normalized.hasOwnProperty('scale')) {
+          normalized.scale = ImageScale.AUTO;
         }
 
         return normalized;

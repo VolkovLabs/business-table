@@ -362,6 +362,7 @@ export const useTable = ({
           filterVariableName: column.config.filter.variable,
           config: column.config,
           field: column.field,
+          scale: column.config.scale,
           footerEnabled: column.config.footer.length > 0,
           editable: isEditAllowed,
           editor: isEditAllowed ? getEditorControlOptions(column.config.edit.editor) : undefined,

@@ -11,6 +11,7 @@ import {
   ColumnFilterMode,
   ColumnFilterType,
   ColumnHeaderFontSize,
+  ImageScale,
 } from './table';
 
 /**
@@ -273,6 +274,13 @@ export interface ColumnConfig {
    * @type {ColumnPinDirection}
    */
   pin: ColumnPinDirection;
+
+  /**
+   * Scale algorithm
+   *
+   * @type {ImageScale}
+   */
+  scale: ImageScale;
 }
 
 /**
@@ -530,4 +538,11 @@ export interface ColumnMeta {
    * @type {NestedObjectControlOptions}
    */
   nestedObjectOptions?: NestedObjectControlOptions;
+
+  /**
+   * Scale algorithm
+   *
+   * @type {ImageScale}
+   */
+  scale: ImageScale;
 }

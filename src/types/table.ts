@@ -10,6 +10,7 @@ export enum CellType {
   COLORED_BACKGROUND = 'coloredBackground',
   RICH_TEXT = 'rich_text',
   NESTED_OBJECTS = 'nested_objects',
+  IMAGE = 'image',
   BOOLEAN = 'boolean',
 }
 
@@ -151,4 +152,23 @@ export interface Pagination {
    * @type {number}
    */
   total: number;
+}
+
+/**
+ * Supported Image Type
+ */
+export enum SupportedBase64ImageType {
+  JPEG = 'image/jpeg',
+  GIF = 'image/gif',
+  PNG = 'image/png',
+  HEIC = 'image/heic',
+}
+
+/**
+ * Image Scale
+ */
+export enum ImageScale {
+  AUTO = 'auto',
+  CRISP_EDGES = 'crisp-edges',
+  PIXELATED = 'pixelated',
 }
