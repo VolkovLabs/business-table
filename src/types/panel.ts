@@ -276,6 +276,13 @@ export interface ColumnConfig {
   pin: ColumnPinDirection;
 
   /**
+   * Preformatted style
+   *
+   * @type {boolean}
+   */
+  preformattedStyle: boolean;
+
+  /**
    * Scale algorithm
    *
    * @type {ImageScale}

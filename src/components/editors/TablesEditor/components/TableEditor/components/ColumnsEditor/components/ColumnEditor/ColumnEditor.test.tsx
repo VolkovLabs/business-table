@@ -173,6 +173,26 @@ describe('ColumnEditor', () => {
     expect(selectors.fieldAggregation(true)).not.toBeInTheDocument();
   });
 
+  it('Should allow to change preformatted styles', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({
+          type: CellType.PREFORMATTED,
+        }),
+      })
+    );
+
+    expect(selectors.fieldPreformattedStyles()).toBeInTheDocument();
+
+    fireEvent.click(selectors.fieldPreformattedStyles());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        preformattedStyle: true,
+      })
+    );
+  });
+
   it('Should allow to change aggregation', () => {
     render(
       getComponent({
