@@ -343,13 +343,38 @@ export const useTable = ({
 
       const header = replaceVariables(column.config.label) || column.field.config?.displayName || column.field.name;
 
+      /**
+       * Check for columns with grouping enabled that are last and may not have sub rows
+       */
+      const isGroupingEnable = () => {
+        /**
+         * All columns excluded nested type
+         */
+        const filteredColumns = enabledColumns.filter((column) => column.config.type !== CellType.NESTED_OBJECTS);
+
+        /**
+         * Check is nested columns is existed
+         */
+        const isNestedColumnsExist = enabledColumns.some((column) => column.config.type === CellType.NESTED_OBJECTS);
+
+        const columnIndex = filteredColumns.findIndex((columnItem) => columnItem.field.name === column.field.name);
+
+        /**
+         * If the column is the last and grouping is enabled
+         */
+        if (column.config.group && columnIndex + 1 === filteredColumns.length && !isNestedColumnsExist) {
+          return false;
+        }
+        return column.config.group;
+      };
+
       columns.push({
         id: column.field.name,
         accessorFn: createColumnAccessorFn(column.field.name),
         header,
         cell: CellRenderer,
         aggregatedCell: AggregatedCellRenderer,
-        enableGrouping: column.config.group,
+        enableGrouping: isGroupingEnable(),
         aggregationFn: column.config.aggregation === CellAggregation.NONE ? () => null : column.config.aggregation,
         enableColumnFilter: column.config.filter.enabled && availableFilterTypes.length > 0,
         filterFn: column.config.filter.mode === ColumnFilterMode.CLIENT ? columnFilter : () => true,

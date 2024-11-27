@@ -1176,4 +1176,119 @@ describe('useTable', () => {
       );
     });
   });
+
+  describe('Grouping, collapse/expand', () => {
+    it('Should disable grouping for last column if group option is enable', () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        group: true,
+        aggregation: CellAggregation.UNIQUE_COUNT,
+      });
+      const valueColumn = createColumnConfig({
+        field: {
+          source: refId,
+          name: 'value',
+        },
+        group: true,
+        aggregation: CellAggregation.NONE,
+      });
+      const disabledColumn = createColumnConfig({
+        enabled: true,
+        group: true,
+        field: {
+          source: refId,
+          name: 'other',
+        },
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn, valueColumn, disabledColumn],
+          objects: [],
+          replaceVariables,
+        })
+      );
+
+      expect(result.current.columns).toEqual([
+        expect.objectContaining({
+          enableGrouping: true,
+        }),
+        expect.objectContaining({
+          enableGrouping: true,
+        }),
+        expect.objectContaining({
+          enableGrouping: false,
+        }),
+      ]);
+    });
+
+    it('Should enable grouping for last column if group option is enable and nested columns are exist', () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        group: true,
+        aggregation: CellAggregation.UNIQUE_COUNT,
+      });
+      const valueColumn = createColumnConfig({
+        field: {
+          source: refId,
+          name: 'value',
+        },
+        group: true,
+        aggregation: CellAggregation.NONE,
+      });
+      const disabledColumn = createColumnConfig({
+        enabled: true,
+        group: true,
+        field: {
+          source: refId,
+          name: 'other',
+        },
+      });
+      const nestedColumn = createColumnConfig({
+        type: CellType.NESTED_OBJECTS,
+        enabled: true,
+        field: {
+          source: refId,
+          name: 'other',
+        },
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn, valueColumn, disabledColumn, nestedColumn],
+          objects: [],
+          replaceVariables,
+        })
+      );
+
+      expect(result.current.columns).toEqual([
+        expect.objectContaining({
+          enableGrouping: true,
+        }),
+        expect.objectContaining({
+          enableGrouping: true,
+        }),
+        expect.objectContaining({
+          enableGrouping: true,
+        }),
+        expect.objectContaining({
+          enableGrouping: false,
+        }),
+      ]);
+    });
+  });
 });
