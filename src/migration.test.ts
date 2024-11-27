@@ -1,7 +1,15 @@
 import { getBackendSrv } from '@grafana/runtime';
 
 import { getMigratedOptions } from '@/migration';
-import { CellType, ColumnEditorType, ColumnFilterMode, ColumnPinDirection, ImageScale, PaginationMode, PermissionMode } from '@/types';
+import {
+  CellType,
+  ColumnEditorType,
+  ColumnFilterMode,
+  ColumnPinDirection,
+  ImageScale,
+  PaginationMode,
+  PermissionMode,
+} from '@/types';
 import {
   createColumnConfig,
   createColumnEditConfig,
@@ -526,6 +534,30 @@ describe('migration', () => {
   });
 
   describe('1.9.0', () => {
+    it('Should normalize preformatted option for items', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '1.8.0',
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                {
+                  type: CellType.AUTO,
+                  filter: undefined,
+                } as any,
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0]).toEqual(
+        expect.objectContaining({
+          preformattedStyle: false,
+        })
+      );
+    });
+
     it('Should normalize select editor option', async () => {
       const normalizedOptions = await getMigratedOptions({
         pluginVersion: '1.8.0',

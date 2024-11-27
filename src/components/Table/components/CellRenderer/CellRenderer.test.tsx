@@ -5,40 +5,26 @@ import React from 'react';
 import { CellType, ColumnMeta } from '@/types';
 import { createColumnConfig } from '@/utils';
 
-import { BooleanCellRenderer } from './BooleanCellRenderer';
 import { CellRenderer } from './CellRenderer';
-import { DefaultCellRenderer } from './DefaultCellRenderer';
-import { ImageCellRenderer } from './ImageCellRenderer';
-import { LayoutCellRenderer } from './LayoutCellRenderer';
+import {
+  BooleanCellRenderer,
+  DefaultCellRenderer,
+  ImageCellRenderer,
+  LayoutCellRenderer,
+  PreformattedCellRenderer,
+} from './components';
 
 type Props = React.ComponentProps<typeof CellRenderer>;
 
 /**
- * Mock Default Cell Renderer
+ * Mock cells
  */
-jest.mock('./DefaultCellRenderer', () => ({
+jest.mock('./components', () => ({
   DefaultCellRenderer: jest.fn(() => null),
-}));
-
-/**
- * Mock Boolean Cell Renderer
- */
-jest.mock('./BooleanCellRenderer', () => ({
   BooleanCellRenderer: jest.fn(() => null),
-}));
-
-/**
- * Mock Layout Cell Renderer
- */
-jest.mock('./LayoutCellRenderer', () => ({
-  LayoutCellRenderer: jest.fn(() => null),
-}));
-
-/**
- * Mock Image Cell Renderer
- */
-jest.mock('./ImageCellRenderer', () => ({
   ImageCellRenderer: jest.fn(() => null),
+  LayoutCellRenderer: jest.fn(() => null),
+  PreformattedCellRenderer: jest.fn(() => null),
 }));
 
 describe('CellRenderer', () => {
@@ -131,5 +117,13 @@ describe('CellRenderer', () => {
     render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.BOOLEAN }) }) }));
 
     expect(BooleanCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render preformatted cell', () => {
+    render(
+      getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.PREFORMATTED }) }) })
+    );
+
+    expect(PreformattedCellRenderer).toHaveBeenCalled();
   });
 });

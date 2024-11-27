@@ -119,6 +119,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
           label: '',
           type: CellType.AUTO,
           group: false,
+          preformattedStyle: false,
           scale: ImageScale.AUTO,
           aggregation: CellAggregation.NONE,
           filter: {

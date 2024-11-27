@@ -12,6 +12,7 @@ export enum CellType {
   NESTED_OBJECTS = 'nested_objects',
   IMAGE = 'image',
   BOOLEAN = 'boolean',
+  PREFORMATTED = 'preformatted',
 }
 
 /**
