@@ -6,7 +6,13 @@ import { CellType, ColumnMeta } from '@/types';
 import { createColumnConfig } from '@/utils';
 
 import { CellRenderer } from './CellRenderer';
-import { BooleanCellRenderer, DefaultCellRenderer, LayoutCellRenderer, PreformattedCellRenderer } from './components';
+import {
+  BooleanCellRenderer,
+  DefaultCellRenderer,
+  ImageCellRenderer,
+  LayoutCellRenderer,
+  PreformattedCellRenderer,
+} from './components';
 
 type Props = React.ComponentProps<typeof CellRenderer>;
 
@@ -16,6 +22,7 @@ type Props = React.ComponentProps<typeof CellRenderer>;
 jest.mock('./components', () => ({
   DefaultCellRenderer: jest.fn(() => null),
   BooleanCellRenderer: jest.fn(() => null),
+  ImageCellRenderer: jest.fn(() => null),
   LayoutCellRenderer: jest.fn(() => null),
   PreformattedCellRenderer: jest.fn(() => null),
 }));
@@ -33,6 +40,7 @@ describe('CellRenderer', () => {
    */
   const createColumnWithMeta = (meta: Partial<ColumnMeta>): Column<any> =>
     ({
+      getSize: () => 100,
       columnDef: {
         meta,
       },
@@ -87,6 +95,16 @@ describe('CellRenderer', () => {
     );
 
     expect(LayoutCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render image cell', () => {
+    render(
+      getComponent({
+        column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.IMAGE as any }) }),
+      })
+    );
+
+    expect(ImageCellRenderer).toHaveBeenCalled();
   });
 
   it('Should render default cell renderer by default', () => {

@@ -14,6 +14,7 @@ import {
   ColumnFilterMode,
   ColumnHeaderFontSize,
   ColumnPinDirection,
+  ImageScale,
 } from '@/types';
 import {
   createColumnAppearanceConfig,
@@ -121,6 +122,26 @@ describe('ColumnEditor', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         type: CellType.AUTO,
+      })
+    );
+  });
+
+  it('Should allow to change scale', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({
+          type: CellType.IMAGE,
+        }),
+      })
+    );
+
+    expect(selectors.fieldScale()).toBeInTheDocument();
+
+    fireEvent.change(selectors.fieldScale(), { target: { value: ImageScale.CRISP_EDGES } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        scale: ImageScale.CRISP_EDGES,
       })
     );
   });

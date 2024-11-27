@@ -11,6 +11,7 @@ import {
   ColumnFilterMode,
   ColumnFilterType,
   ColumnHeaderFontSize,
+  ImageScale,
 } from './table';
 
 /**
@@ -280,6 +281,13 @@ export interface ColumnConfig {
    * @type {boolean}
    */
   preformattedStyle: boolean;
+
+  /**
+   * Scale algorithm
+   *
+   * @type {ImageScale}
+   */
+  scale: ImageScale;
 }
 
 /**
@@ -326,6 +334,13 @@ export interface TablePaginationConfig {
    * @type {PaginationMode}
    */
   mode: PaginationMode;
+
+  /**
+   * Default page size
+   *
+   * @type {number}
+   */
+  defaultPageSize: number;
 
   /**
    * Options for Query Mode
@@ -530,4 +545,11 @@ export interface ColumnMeta {
    * @type {NestedObjectControlOptions}
    */
   nestedObjectOptions?: NestedObjectControlOptions;
+
+  /**
+   * Scale algorithm
+   *
+   * @type {ImageScale}
+   */
+  scale: ImageScale;
 }

@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.9.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added Image cell type (#177)
+- Updated Autosize Code Editor (#179)
+- Added default pagination size (#181)
+
 ## 1.8.0 (2024-11-21)
 
 ### Features / Enhancements

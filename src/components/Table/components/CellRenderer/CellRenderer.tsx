@@ -3,7 +3,13 @@ import React from 'react';
 
 import { CellType } from '@/types';
 
-import { BooleanCellRenderer, DefaultCellRenderer, LayoutCellRenderer, PreformattedCellRenderer } from './components';
+import {
+  BooleanCellRenderer,
+  DefaultCellRenderer,
+  ImageCellRenderer,
+  LayoutCellRenderer,
+  PreformattedCellRenderer,
+} from './components';
 
 /**
  * Properties
@@ -42,6 +48,9 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
     }
     case CellType.RICH_TEXT: {
       return <LayoutCellRenderer value={String(rawValue)} row={row} />;
+    }
+    case CellType.IMAGE: {
+      return <ImageCellRenderer value={String(rawValue)} column={column} />;
     }
     case CellType.BOOLEAN: {
       return <BooleanCellRenderer value={renderValue() as boolean} bgColor={bgColor} />;

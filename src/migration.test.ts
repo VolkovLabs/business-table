@@ -1,7 +1,15 @@
 import { getBackendSrv } from '@grafana/runtime';
 
 import { getMigratedOptions } from '@/migration';
-import { CellType, ColumnEditorType, ColumnFilterMode, ColumnPinDirection, PermissionMode } from '@/types';
+import {
+  CellType,
+  ColumnEditorType,
+  ColumnFilterMode,
+  ColumnPinDirection,
+  ImageScale,
+  PaginationMode,
+  PermissionMode,
+} from '@/types';
 import {
   createColumnConfig,
   createColumnEditConfig,
@@ -10,6 +18,8 @@ import {
   createTableConfig,
   createTableRequestConfig,
 } from '@/utils';
+
+import { PAGE_SIZES } from './constants';
 
 /**
  * Mock @grafana/runtime
@@ -544,6 +554,84 @@ describe('migration', () => {
       expect(normalizedOptions.tables[0].items[0]).toEqual(
         expect.objectContaining({
           preformattedStyle: false,
+        })
+      );
+    });
+
+    it('Should normalize select editor option', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '1.8.0',
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                {
+                  type: CellType.AUTO,
+                  filter: undefined,
+                } as any,
+                createColumnConfig({
+                  pin: true as never,
+                  scale: ImageScale.AUTO,
+                }),
+                createColumnConfig({
+                  pin: false as never,
+                  scale: ImageScale.CRISP_EDGES,
+                }),
+                createColumnConfig({
+                  pin: false as never,
+                  scale: ImageScale.PIXELATED,
+                }),
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0]).toEqual(
+        expect.objectContaining({
+          scale: ImageScale.AUTO,
+        })
+      );
+      expect(normalizedOptions.tables[0].items[1]).toEqual(
+        expect.objectContaining({
+          scale: ImageScale.AUTO,
+        })
+      );
+      expect(normalizedOptions.tables[0].items[2]).toEqual(
+        expect.objectContaining({
+          scale: ImageScale.CRISP_EDGES,
+        })
+      );
+      expect(normalizedOptions.tables[0].items[3]).toEqual(
+        expect.objectContaining({
+          scale: ImageScale.PIXELATED,
+        })
+      );
+    });
+
+    it('Should normalize default page size', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '1.8.0',
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                createColumnConfig({
+                  pin: true as never,
+                }),
+              ],
+              pagination: {
+                enabled: false,
+                mode: PaginationMode.CLIENT,
+              } as any,
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].pagination).toEqual(
+        expect.objectContaining({
+          defaultPageSize: PAGE_SIZES[0],
         })
       );
     });

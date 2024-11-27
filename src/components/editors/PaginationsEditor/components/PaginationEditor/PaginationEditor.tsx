@@ -4,7 +4,7 @@ import { Field, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { FieldPicker } from '@/components';
-import { TEST_IDS } from '@/constants';
+import { PAGE_SIZE_OPTIONS, TEST_IDS } from '@/constants';
 import { EditorProps, PaginationMode, TableConfig } from '@/types';
 import { cleanPayloadObject, hasTablePaginationError, hasTablePaginationQueryDisabled } from '@/utils';
 
@@ -94,6 +94,24 @@ export const PaginationEditor: React.FC<Props> = ({ value, onChange, data }) => 
               return option;
             })}
             {...testIds.fieldPaginationMode.apply()}
+          />
+        </Field>
+      )}
+      {value.pagination.enabled && (
+        <Field label="Default page size">
+          <Select
+            value={value.pagination.defaultPageSize}
+            onChange={(event) => {
+              onChange({
+                ...value,
+                pagination: {
+                  ...value.pagination,
+                  defaultPageSize: event.value!,
+                },
+              });
+            }}
+            options={PAGE_SIZE_OPTIONS}
+            {...testIds.fieldPaginationDefaultPageSize.apply()}
           />
         </Field>
       )}

@@ -10,6 +10,7 @@ import {
 } from '@grafana/data';
 import { ColumnDef } from '@tanstack/react-table';
 
+import { PAGE_SIZES } from '@/constants';
 import {
   CellAggregation,
   CellType,
@@ -24,6 +25,7 @@ import {
   ColumnMeta,
   ColumnPinDirection,
   ColumnSortConfig,
+  ImageScale,
   NestedObjectCardsDisplay,
   NestedObjectConfig,
   NestedObjectControlOperationOptions,
@@ -117,6 +119,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   sort: createColumnSortConfig({}),
   appearance: createColumnAppearanceConfig({}),
   footer: [],
+  scale: ImageScale.AUTO,
   edit: createColumnEditConfig({}),
   pin: ColumnPinDirection.NONE,
   objectId: '',
@@ -189,6 +192,7 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   config: createColumnConfig(),
   field: {} as never,
   footerEnabled: false,
+  scale: ImageScale.AUTO,
   editable: false,
   ...meta,
 });
@@ -231,6 +235,7 @@ export class FooterContext {
  */
 export const createTablePaginationConfig = (pagination: Partial<TablePaginationConfig>): TablePaginationConfig => ({
   enabled: false,
+  defaultPageSize: PAGE_SIZES[0],
   mode: PaginationMode.CLIENT,
   ...pagination,
 });

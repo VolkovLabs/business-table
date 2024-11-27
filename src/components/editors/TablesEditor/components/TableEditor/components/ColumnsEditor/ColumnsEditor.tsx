@@ -14,6 +14,7 @@ import {
   ColumnPinDirection,
   EditorProps,
   FieldSource,
+  ImageScale,
 } from '@/types';
 import { getFieldKey, reorder } from '@/utils';
 
@@ -119,6 +120,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
           type: CellType.AUTO,
           group: false,
           preformattedStyle: false,
+          scale: ImageScale.AUTO,
           aggregation: CellAggregation.NONE,
           filter: {
             enabled: false,

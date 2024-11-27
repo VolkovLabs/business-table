@@ -154,14 +154,14 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
               {isEditing ? (
                 <Field>
                   <AutosizeCodeEditor
-                    value={itemPayload.body.replaceAll('\\n', '\n')}
+                    value={itemPayload.body}
                     onChange={(body) => {
                       /**
                        * itemPayload is cached here somehow so use value from callback
                        */
                       setLocalValue((current) => ({
                         ...current,
-                        body: body.replaceAll('\n', '\\n'),
+                        body: body,
                       }));
                     }}
                     language="markdown"

@@ -8,6 +8,7 @@ import {
   ColumnEditorType,
   ColumnHeaderFontSize,
   PermissionMode,
+  SupportedBase64ImageType,
 } from '@/types';
 
 /**
@@ -113,6 +114,7 @@ export const TEST_IDS = {
     fieldAppearanceAlignmentOption: createSelector(
       (name: unknown) => `column-editor field-appearance-alignment-option-${name}`
     ),
+    fieldScale: createSelector('data-testid column-editor field-scale'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -128,6 +130,9 @@ export const TEST_IDS = {
   },
   aggregatedCellRenderer: {
     root: createSelector('data-testid aggregated-cell-renderer'),
+  },
+  imageCellRenderer: {
+    root: createSelector('data-testid image-cell-renderer'),
   },
   table: {
     root: createSelector('data-testid table'),
@@ -320,6 +325,7 @@ export const TEST_IDS = {
   },
   paginationEditor: {
     fieldPaginationMode: createSelector('data-testid table-editor field-pagination-mode'),
+    fieldPaginationDefaultPageSize: createSelector('data-testid table-editor field-pagination-default-page-size'),
     fieldPaginationQueryPageIndexVariable: createSelector(
       'data-testid table-editor field-pagination-query-page-index-variable'
     ),
@@ -357,3 +363,31 @@ export const AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR = [
   CellAggregation.MEDIAN,
   CellAggregation.SUM,
 ];
+
+/**
+ * Page Sizes
+ */
+export const PAGE_SIZES = [10, 20, 50, 100, 1000];
+
+/**
+ * Page Size Options
+ */
+export const PAGE_SIZE_OPTIONS = PAGE_SIZES.map((value) => ({
+  value,
+  label: value.toString(),
+}));
+
+/**
+ * Base64 image header reg.
+ */
+export const BASE64_IMAGE_HEADER_REGEX = /^data:image\/\w+/;
+
+/**
+ * Base64 symbols for Image Types
+ */
+export const IMAGE_TYPES_SYMBOLS: { [id: string]: string } = {
+  '/': SupportedBase64ImageType.JPEG,
+  R: SupportedBase64ImageType.GIF,
+  i: SupportedBase64ImageType.PNG,
+  A: SupportedBase64ImageType.HEIC,
+};
