@@ -68,28 +68,27 @@ const cellTypeOptions = [
   {
     value: CellType.COLORED_BACKGROUND,
     label: 'Colored background',
+    description: 'Uses defined thresholds',
   },
   {
     value: CellType.COLORED_TEXT,
     label: 'Colored text',
-  },
-  {
-    value: CellType.PREFORMATTED,
-    label: 'Preformatted',
+    description: 'Uses defined thresholds',
   },
   {
     value: CellType.IMAGE,
     label: 'Image',
-  },
-  {
-    value: CellType.RICH_TEXT,
-    label: 'Rich text',
-    description: 'HTML / Markdown',
+    description: 'Base64 encoded data and URL',
   },
   {
     value: CellType.NESTED_OBJECTS,
     label: 'Nested objects',
-    description: 'Column value should be an array of object ids.',
+    description: 'Column value should be an array of object ids',
+  },
+  {
+    value: CellType.PREFORMATTED,
+    label: 'Preformatted',
+    description: 'Text preserves both spaces and line breaks'
   },
   {
     value: CellType.RICH_TEXT,
@@ -317,7 +316,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           </InlineField>
         )}
         {value.type === CellType.PREFORMATTED && (
-          <InlineField label="Keep preformatted style" grow={true}>
+          <InlineField label="Preformatted style" grow={true}>
             <InlineSwitch
               value={value.preformattedStyle}
               onChange={(event) =>

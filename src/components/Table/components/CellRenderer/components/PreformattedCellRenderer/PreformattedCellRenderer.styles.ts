@@ -15,6 +15,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
     `,
     preformatted: css`
       width: 100%;
+      border: none;
     `,
   };
 };

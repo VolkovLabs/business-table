@@ -276,7 +276,7 @@ export interface ColumnConfig {
   pin: ColumnPinDirection;
 
   /**
-   * Keep preformatted style
+   * Preformatted style
    *
    * @type {boolean}
    */
