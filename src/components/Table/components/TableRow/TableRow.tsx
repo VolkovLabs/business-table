@@ -138,11 +138,7 @@ export const TableRow = <TData,>({
       /**
        * Set background color
        */
-      if (
-        field.display &&
-        config.type === CellType.COLORED_BACKGROUND &&
-        (!row.getIsGrouped() || (row.getIsGrouped() && !row.getCanExpand()))
-      ) {
+      if (field.display && config.type === CellType.COLORED_BACKGROUND && !row.getIsGrouped()) {
         const displayValue = field.display(value);
 
         if (displayValue.color) {
