@@ -575,4 +575,42 @@ test.describe('Business Table Panel', () => {
       await countryUsaNewYorkRow.checkIfNotPresence();
     });
   });
+
+  test.describe('Visual', () => {
+    test('Should display table with expected styles for cells', async ({
+      gotoDashboardPage,
+      readProvisionedDashboard,
+    }) => {
+      /**
+       * Go To Panels dashboard simple.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'simple.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+
+      const panel = new PanelHelper(dashboardPage, 'Simple Table');
+
+      const table = panel.getTable();
+
+      await table.compareScreenshot('simple-table.png');
+    });
+
+    test('Should display collapsed table with expected styles for cells', async ({
+      gotoDashboardPage,
+      readProvisionedDashboard,
+    }) => {
+      /**
+       * Go To Panels dashboard simple.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'simple.json' });
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+
+      const panel = new PanelHelper(dashboardPage, 'Simple Collapsed Table');
+
+      const table = panel.getTable();
+
+      await table.compareScreenshot('simple-collapsed-table.png');
+    });
+  });
 });

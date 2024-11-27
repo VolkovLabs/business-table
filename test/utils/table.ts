@@ -332,6 +332,12 @@ class TableHelper {
 
     expect(rows, this.getMsg('Check Body Rows Count')).toHaveLength(count);
   }
+
+  public async compareScreenshot(name: string) {
+    return expect(this.selectors.root(), this.getMsg(`Check ${name} Screenshot`)).toHaveScreenshot(name, {
+      maxDiffPixelRatio: 0.1,
+    });
+  }
 }
 
 /**
