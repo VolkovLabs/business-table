@@ -62,7 +62,6 @@ export const useAddData = <TData>({
         [column.id]: value,
       };
     }, {});
-    console.log(rowPayload);
 
     /**
      * Set row with updated original row option
