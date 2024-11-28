@@ -145,6 +145,25 @@ export interface ColumnAppearanceConfig {
 }
 
 /**
+ * Column New Row Edit Config
+ */
+export interface ColumnNewRowEditConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
+   * Editor
+   *
+   * @type {ColumnEditorConfig}
+   */
+  editor: ColumnEditorConfig;
+}
+
+/**
  * Column Edit Config
  */
 export interface ColumnEditConfig {
@@ -262,6 +281,13 @@ export interface ColumnConfig {
   footer: string[];
 
   /**
+   * New Row Edit
+   *
+   * @type {ColumnNewRowEditConfig}
+   */
+  newRowEdit: ColumnNewRowEditConfig;
+
+  /**
    * Edit
    *
    * @type {ColumnEditorConfig}
@@ -377,6 +403,32 @@ export interface TablePaginationConfig {
 }
 
 /**
+ * Table Add Row Config
+ */
+export interface TableAddRowConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
+   * Request
+   *
+   * @type {TableRequestConfig}
+   */
+  request: TableRequestConfig;
+
+  /**
+   * Permission
+   *
+   * @type {PermissionConfig}
+   */
+  permission: PermissionConfig;
+}
+
+/**
  * Table Config
  */
 export interface TableConfig {
@@ -421,6 +473,13 @@ export interface TableConfig {
    * @type {boolean}
    */
   expanded: boolean;
+
+  /**
+   * Add Row
+   *
+   * @type {TableAddRowConfig}
+   */
+  addRow: TableAddRowConfig;
 }
 
 /**
@@ -538,6 +597,20 @@ export interface ColumnMeta {
    * @type {ColumnEditorControlOptions}
    */
   editor?: ColumnEditorControlOptions;
+
+  /**
+   * Add Row Editable
+   *
+   * @type {boolean}
+   */
+  addRowEditable: boolean;
+
+  /**
+   * Add Row Editor
+   *
+   * @type {ColumnEditorControlOptions}
+   */
+  addRowEditor?: ColumnEditorControlOptions;
 
   /**
    * Nested Object Options

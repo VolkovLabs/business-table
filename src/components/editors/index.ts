@@ -1,3 +1,4 @@
+export * from './AddDataEditor';
 export * from './DatasourceEditor';
 export * from './DatasourcePayloadEditor';
 export * from './EditableColumnEditor';

@@ -18,12 +18,19 @@ interface Props<TData> extends CellContext<TData, unknown> {
    * @type {boolean}
    */
   isSaving: boolean;
+
+  /**
+   * Is New Row
+   *
+   * @type {boolean}
+   */
+  isNewRow?: boolean;
 }
 
 /**
  * Table Editable Cell
  */
-export const TableEditableCell = <TData,>({ onChange, row, column, isSaving }: Props<TData>) => {
+export const TableEditableCell = <TData,>({ onChange, row, column, isSaving, isNewRow }: Props<TData>) => {
   /**
    * Change Value
    */
@@ -40,7 +47,7 @@ export const TableEditableCell = <TData,>({ onChange, row, column, isSaving }: P
   /**
    * Editor
    */
-  const editor = column.columnDef.meta?.editor;
+  const editor = isNewRow ? column.columnDef.meta?.addRowEditor : column.columnDef.meta?.editor;
   const ControlComponent = editor ? editableColumnEditorsRegistry.get(editor.type)?.control : undefined;
 
   if (!editor || !ControlComponent) {

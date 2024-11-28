@@ -18,6 +18,7 @@ import {
   createColumnAppearanceConfig,
   createColumnConfig,
   createColumnEditConfig,
+  createColumnNewRowEditConfig,
   createNestedObjectConfig,
   createNestedObjectOperationConfig,
   createPermissionConfig,
@@ -652,7 +653,7 @@ describe('useTable', () => {
   });
 
   describe('editable', () => {
-    it('Should enable editor', () => {
+    it('Should enable editor if edit enabled', () => {
       const deviceColumn = createColumnConfig({
         label: 'Device',
         field: {
@@ -687,6 +688,48 @@ describe('useTable', () => {
         expect.objectContaining({
           editable: true,
           editor: {
+            type: ColumnEditorType.STRING,
+          },
+        })
+      );
+
+      /**
+       * Check actions column presence
+       */
+      expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
+    });
+
+    it('Should enable add row editor if add enabled', () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        edit: createColumnEditConfig({
+          enabled: false,
+        }),
+        newRowEdit: createColumnNewRowEditConfig({
+          enabled: true,
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          isAddRowEnabled: true,
+          columns: [deviceColumn],
+          objects: [],
+          replaceVariables,
+        })
+      );
+
+      expect(result.current.columns[0].meta).toEqual(
+        expect.objectContaining({
+          addRowEditable: true,
+          addRowEditor: {
             type: ColumnEditorType.STRING,
           },
         })

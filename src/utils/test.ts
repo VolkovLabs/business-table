@@ -23,6 +23,7 @@ import {
   ColumnFilterMode,
   ColumnHeaderFontSize,
   ColumnMeta,
+  ColumnNewRowEditConfig,
   ColumnPinDirection,
   ColumnSortConfig,
   ImageScale,
@@ -36,6 +37,7 @@ import {
   PanelOptions,
   PermissionConfig,
   PermissionMode,
+  TableAddRowConfig,
   TableConfig,
   TablePaginationConfig,
   TableRequestConfig,
@@ -102,6 +104,17 @@ export const createColumnSortConfig = (item: Partial<ColumnSortConfig>): ColumnS
 });
 
 /**
+ * Create Column New Row Edit Config
+ */
+export const createColumnNewRowEditConfig = (item: Partial<ColumnNewRowEditConfig>): ColumnNewRowEditConfig => ({
+  enabled: false,
+  editor: {
+    type: ColumnEditorType.STRING,
+  },
+  ...item,
+});
+
+/**
  * Create Column Config
  */
 export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConfig => ({
@@ -121,6 +134,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   footer: [],
   scale: ImageScale.AUTO,
   edit: createColumnEditConfig({}),
+  newRowEdit: createColumnNewRowEditConfig({}),
   pin: ColumnPinDirection.NONE,
   objectId: '',
   ...item,
@@ -250,6 +264,16 @@ export const createTableRequestConfig = (item: Partial<TableRequestConfig>): Tab
 });
 
 /**
+ * Create Table Add Row Config
+ */
+export const createTableAddRowConfig = (item: Partial<TableAddRowConfig>): TableAddRowConfig => ({
+  enabled: false,
+  request: createTableRequestConfig({}),
+  permission: createPermissionConfig({}),
+  ...item,
+});
+
+/**
  * Create Table Config
  */
 export const createTableConfig = (table: Partial<TableConfig>): TableConfig => ({
@@ -257,6 +281,7 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   showHeader: false,
   items: [],
   update: createTableRequestConfig({}),
+  addRow: createTableAddRowConfig({}),
   pagination: createTablePaginationConfig({}),
   expanded: false,
   ...table,

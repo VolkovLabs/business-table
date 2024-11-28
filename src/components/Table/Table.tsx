@@ -26,7 +26,7 @@ import { PAGE_SIZE_OPTIONS, TEST_IDS } from '@/constants';
 import { ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { TableHeaderCell, TableRow } from './components';
-import { useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
+import { useAddData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
 import { getStyles } from './Table.styles';
 
 /**
@@ -132,6 +132,18 @@ interface Props<TData> {
    * @type {boolean}
    */
   showHeader: boolean;
+
+  /**
+   * Add Row
+   */
+  onAddRow: (row: TData) => Promise<void>;
+
+  /**
+   * Is Add Row Enabled
+   *
+   * @type {boolean}
+   */
+  isAddRowEnabled: boolean;
 }
 
 /**
@@ -195,6 +207,8 @@ export const Table = <TData,>({
   tableInstance,
   expandedByDefault,
   showHeader,
+  onAddRow,
+  isAddRowEnabled,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -338,6 +352,11 @@ export const Table = <TData,>({
   }, [columns]);
 
   /**
+   * Add Data
+   */
+  const addData = useAddData({ table, onAddRow });
+
+  /**
    * Editable Data
    */
   const editableData = useEditableData({ table, onUpdateRow });
@@ -387,13 +406,32 @@ export const Table = <TData,>({
                       }}
                       {...TEST_IDS.table.headerCell.apply(header.id)}
                     >
-                      <TableHeaderCell header={header} size={fontSize} />
+                      <TableHeaderCell
+                        header={header}
+                        size={fontSize}
+                        isAddRowEnabled={isAddRowEnabled}
+                        onAddRow={addData.onStart}
+                      />
                     </th>
                   );
                 })}
               </tr>
             ))}
           </thead>
+        )}
+        {!!addData.row && (
+          <tbody>
+            <TableRow
+              row={addData.row}
+              editingRow={addData.row}
+              onStartEdit={addData.onStart}
+              onCancelEdit={addData.onCancel}
+              onChange={addData.onChange}
+              onSave={addData.onSave}
+              isSaving={addData.isSaving}
+              isNewRow={true}
+            />
+          </tbody>
         )}
         <tbody
           style={{

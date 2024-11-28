@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -246,6 +246,41 @@
         ],
         "tables": [
           {
+            "addRow": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "${DS}",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "insert into devices values (nextval('seq_devices'), '${payload.name}', '${payload.city}', '${payload.state}', '${payload.country}')",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
+            "expanded": false,
             "items": [
               {
                 "aggregation": "none",
@@ -291,6 +326,12 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -331,7 +372,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": ["Editor", "Admin"]
+                    "userRole": [
+                      "Editor",
+                      "Admin"
+                    ]
                   }
                 },
                 "enabled": true,
@@ -347,6 +391,16 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "Countries",
+                      "value": "country"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -387,7 +441,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": ["Editor", "Admin"]
+                    "userRole": [
+                      "Editor",
+                      "Admin"
+                    ]
                   }
                 },
                 "enabled": true,
@@ -403,6 +460,16 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "States",
+                      "value": "state"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -443,7 +510,10 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": ["Editor", "Admin"]
+                    "userRole": [
+                      "Editor",
+                      "Admin"
+                    ]
                   }
                 },
                 "enabled": true,
@@ -459,6 +529,16 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "Cities",
+                      "value": "city"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -494,7 +574,10 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": ["Editor", "Admin"]
+                    "userRole": [
+                      "Editor",
+                      "Admin"
+                    ]
                   }
                 },
                 "enabled": true,
@@ -510,6 +593,12 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": true
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -557,6 +646,12 @@
                 "footer": [],
                 "group": false,
                 "label": "Comments",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "objectId": "86a57480-78e4-428d-b04e-0fdaf14550cf",
                 "pin": "",
                 "sort": {
@@ -605,6 +700,12 @@
                 "footer": [],
                 "group": false,
                 "label": "Small Comments",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "objectId": "fdfb236a-45e7-4f3b-9369-8a47cdcfae42",
                 "pin": "",
                 "sort": {
@@ -649,6 +750,18 @@
             }
           },
           {
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
             "items": [
               {
                 "aggregation": "none",
@@ -694,6 +807,12 @@
                 "footer": [],
                 "group": true,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -745,6 +864,12 @@
                 "footer": [],
                 "group": true,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -796,6 +921,12 @@
                 "footer": [],
                 "group": true,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -847,6 +978,12 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
                   "descFirst": false,
@@ -999,7 +1136,9 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": ["true"]
+                "values": [
+                  "true"
+                ]
               }
             ],
             "meta": {},
@@ -1031,6 +1170,7 @@
       "type": "volkovlabs-table-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
   "schemaVersion": 40,
   "tags": [],
@@ -1038,20 +1178,16 @@
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "Timescale",
           "value": "timescale"
         },
-        "hide": 0,
         "includeAll": false,
         "label": "DS",
-        "multi": false,
         "name": "DS",
         "options": [],
         "query": "grafana-postgresql-datasource",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
         "type": "datasource"
       }
     ]
@@ -1064,6 +1200,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 6,
+  "version": 3,
   "weekStart": ""
 }

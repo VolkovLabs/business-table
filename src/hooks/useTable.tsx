@@ -41,11 +41,13 @@ import { useNestedObjects } from './useNestedObjects';
  */
 export const useTable = ({
   data,
+  isAddRowEnabled = false,
   columns: columnsConfig,
   objects,
   replaceVariables,
 }: {
   data: PanelData;
+  isAddRowEnabled?: boolean;
   columns?: ColumnConfig[];
   objects: NestedObjectConfig[];
   replaceVariables: InterpolateFunction;
@@ -269,6 +271,13 @@ export const useTable = ({
      */
     let isActionsEnabled = false;
 
+    /**
+     * Check If Add Row Enabled
+     */
+    if (isAddRowEnabled) {
+      isActionsEnabled = true;
+    }
+
     const columns: Array<ColumnDef<unknown>> = [];
 
     /**
@@ -328,6 +337,8 @@ export const useTable = ({
         series: data.series,
         user: config.bootData.user,
       });
+
+      const isColumnAddRowEditable = isAddRowEnabled ? column.config.newRowEdit.enabled : false;
 
       /**
        * Edit Allowed
@@ -394,6 +405,8 @@ export const useTable = ({
           nestedObjectOptions: nestedObjectConfig
             ? getNestedObjectControlOptions(nestedObjectConfig, header)
             : undefined,
+          addRowEditable: isColumnAddRowEditable,
+          addRowEditor: isColumnAddRowEditable ? getEditorControlOptions(column.config.newRowEdit.editor) : undefined,
         },
         footer: (context) => getFooterCell({ context, config: column.config, field: column.field, theme }),
         ...sizeParams,
@@ -417,6 +430,7 @@ export const useTable = ({
 
     return columns;
   }, [
+    isAddRowEnabled,
     columnsData.frame,
     columnsData.items,
     data.series,

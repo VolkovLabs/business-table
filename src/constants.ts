@@ -7,6 +7,7 @@ import {
   ColumnEditConfig,
   ColumnEditorType,
   ColumnHeaderFontSize,
+  PermissionConfig,
   PermissionMode,
   SupportedBase64ImageType,
 } from '@/types';
@@ -32,14 +33,19 @@ export const DEFAULT_COLUMN_APPEARANCE = {
 };
 
 /**
+ * Default Permission Config
+ */
+export const DEFAULT_PERMISSION_CONFIG: PermissionConfig = {
+  mode: PermissionMode.ALLOWED,
+  userRole: [],
+};
+
+/**
  * Default Column Edit
  */
 export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
   enabled: false,
-  permission: {
-    mode: PermissionMode.ALLOWED,
-    userRole: [],
-  },
+  permission: DEFAULT_PERMISSION_CONFIG,
   editor: {
     type: ColumnEditorType.STRING,
   },
@@ -237,6 +243,16 @@ export const TEST_IDS = {
     ),
     noColumnsMessage: createSelector('data-testid table-update-editor no-columns-message'),
   },
+  tableAddRowEditor: {
+    requestSectionHeader: createSelector('data-testid table-add-row-editor update-section-header'),
+    requestSectionContent: createSelector('data-testid table-add-row-editor update-section-content'),
+    columnHeader: createSelector((name: unknown) => `data-testid table-add-row-editor column-header-${name}`),
+    columnContent: createSelector((name: unknown) => `data-testid table-add-row-editor column-content-${name}`),
+    fieldEditQuickEnabled: createSelector(
+      (name: unknown) => `data-testid table-add-row-editor field-edit-quick-enabled-${name}`
+    ),
+    noColumnsMessage: createSelector('data-testid table-add-row-editor no-columns-message'),
+  },
   buttonSelect: {
     root: createSelector('button-select root'),
     dropdown: createSelector('button-select dropdown'),
@@ -245,6 +261,10 @@ export const TEST_IDS = {
   editableDataEditor: {
     itemHeader: createSelector((name: unknown) => `data-testid editable-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid editable-data-editor item-content-${name}`),
+  },
+  addDataEditor: {
+    itemHeader: createSelector((name: unknown) => `data-testid add-data-editor item-header-${name}`),
+    itemContent: createSelector((name: unknown) => `data-testid add-data-editor item-content-${name}`),
   },
   nestedObjectEditor: {
     fieldType: createSelector('data-testid nested-object-editor field-type'),
