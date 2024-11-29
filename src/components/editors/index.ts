@@ -1,6 +1,7 @@
 export * from './AddDataEditor';
 export * from './DatasourceEditor';
 export * from './DatasourcePayloadEditor';
+export * from './DeleteDataEditor';
 export * from './EditableColumnEditor';
 export * from './EditableDataEditor';
 export * from './FieldPicker';
@@ -9,4 +10,3 @@ export * from './PaginationsEditor';
 export * from './PermissionEditor';
 export * from './RequestEditor';
 export * from './TablesEditor';
-export * from './DeleteDataEditor';

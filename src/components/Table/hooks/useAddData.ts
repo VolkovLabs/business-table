@@ -1,7 +1,7 @@
-import { ACTIONS_COLUMN_ID } from '@/constants';
 import { createRow, Row, Table } from '@tanstack/react-table';
 import { useCallback, useMemo, useState } from 'react';
 
+import { ACTIONS_COLUMN_ID } from '@/constants';
 import { ColumnEditorType } from '@/types';
 
 /**
