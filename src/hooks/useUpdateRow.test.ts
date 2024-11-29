@@ -27,6 +27,7 @@ describe('useUpdateRow', () => {
         currentTable: createTableConfig({
           update: undefined,
         }),
+        operation: 'update',
       })
     );
 
@@ -51,6 +52,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        operation: 'update',
       })
     );
 
@@ -89,6 +91,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        operation: 'update',
       })
     );
 
@@ -122,6 +125,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        operation: 'update',
       })
     );
 
@@ -155,6 +159,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        operation: 'update',
       })
     );
 

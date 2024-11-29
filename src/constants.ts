@@ -7,6 +7,7 @@ import {
   ColumnEditConfig,
   ColumnEditorType,
   ColumnHeaderFontSize,
+  ColumnNewRowEditConfig,
   PermissionConfig,
   PermissionMode,
   SupportedBase64ImageType,
@@ -50,11 +51,21 @@ export const DEFAULT_PERMISSION_CONFIG: PermissionConfig = {
 };
 
 /**
- * Default Column Edit
+ * Default Column Edit Config
  */
-export const DEFAULT_COLUMN_EDIT: ColumnEditConfig = {
+export const DEFAULT_COLUMN_EDIT_CONFIG: ColumnEditConfig = {
   enabled: false,
   permission: DEFAULT_PERMISSION_CONFIG,
+  editor: {
+    type: ColumnEditorType.STRING,
+  },
+};
+
+/**
+ * Default Column New Row Edit Config
+ */
+export const DEFAULT_COLUMN_NEW_ROW_EDIT_CONFIG: ColumnNewRowEditConfig = {
+  enabled: false,
   editor: {
     type: ColumnEditorType.STRING,
   },

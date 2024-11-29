@@ -18,6 +18,7 @@ describe('TableActionsCell', () => {
   const onStartEdit = jest.fn();
   const onCancelEdit = jest.fn();
   const onSaveEdit = jest.fn();
+  const onDelete = jest.fn();
 
   /**
    * Selectors
@@ -30,13 +31,29 @@ describe('TableActionsCell', () => {
    */
   const getComponent = (props: Partial<Props>) => {
     return (
-      <TableActionsCell onStartEdit={onStartEdit} onCancelEdit={onCancelEdit} onSave={onSaveEdit} {...(props as any)} />
+      <TableActionsCell
+        onStartEdit={onStartEdit}
+        onCancelEdit={onCancelEdit}
+        onSave={onSaveEdit}
+        onDelete={onDelete}
+        cell={{} as never}
+        column={{} as never}
+        getValue={jest.fn() as never}
+        renderValue={jest.fn() as never}
+        row={{} as never}
+        table={{} as never}
+        isEditing={false}
+        isSaving={false}
+        isDeleteRowEnabled={false}
+        isEditRowEnabled={false}
+        {...props}
+      />
     );
   };
 
   it('Should allow to start edit', () => {
     const row = { id: '123' };
-    render(getComponent({ row: row as any }));
+    render(getComponent({ row: row as any, isEditRowEnabled: true }));
 
     expect(selectors.buttonStartEdit()).toBeInTheDocument();
 
