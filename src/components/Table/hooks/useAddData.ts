@@ -34,7 +34,7 @@ export const useAddData = <TData>({
     const columns = table.getAllColumns();
 
     const rowPayload = columns.reduce((acc, column) => {
-      if (column.id === ACTIONS_COLUMN_ID || !column.getIsVisible()) {
+      if (column.id === ACTIONS_COLUMN_ID) {
         return acc;
       }
 
