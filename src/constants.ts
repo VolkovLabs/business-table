@@ -165,6 +165,8 @@ export const TEST_IDS = {
     headerRow: createSelector((name: unknown) => `data-testid table header-row-${name}`),
     headerCell: createSelector((name: unknown) => `data-testid table header-cell-${name}`),
     footerCell: createSelector((name: unknown) => `data-testid table footer-cell-${name}`),
+    newRowContainer: createSelector('data-testid table new-row-container'),
+    body: createSelector('data-testid table body'),
     bodyRow: createSelector((name: unknown) => `data-testid table body-row-${name}`),
     bodyCell: createSelector((name: unknown) => `data-testid table body-cell-${name}`),
     buttonExpandCell: createSelector((name: unknown) => `table button-expand-cell-${name}`),
@@ -241,6 +243,7 @@ export const TEST_IDS = {
   },
   tableActionsCell: {
     buttonStartEdit: createSelector('data-testid table-actions-cell button-start-edit'),
+    buttonDelete: createSelector('data-testid table-actions-cell button-delete'),
     buttonCancel: createSelector('data-testid table-actions-cell button-cancel'),
     buttonSave: createSelector('data-testid table-actions-cell button-save'),
   },

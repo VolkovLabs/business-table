@@ -58,6 +58,11 @@ interface Props extends CellContext<unknown, unknown> {
 }
 
 /**
+ * Test Ids
+ */
+export const testIds = TEST_IDS.tableActionsCell;
+
+/**
  * Table Actions Cell
  */
 export const TableActionsCell: React.FC<Props> = ({
@@ -81,7 +86,7 @@ export const TableActionsCell: React.FC<Props> = ({
           name={isSaving ? 'spinner' : 'save'}
           tooltip="Save"
           variant="primary"
-          {...TEST_IDS.tableActionsCell.buttonSave.apply()}
+          {...testIds.buttonSave.apply()}
         />
         <IconButton
           variant="secondary"
@@ -90,7 +95,7 @@ export const TableActionsCell: React.FC<Props> = ({
           disabled={isSaving}
           tooltip="Cancel"
           name={'times'}
-          {...TEST_IDS.tableActionsCell.buttonCancel.apply()}
+          {...testIds.buttonCancel.apply()}
         />
       </Stack>
     );
@@ -106,11 +111,17 @@ export const TableActionsCell: React.FC<Props> = ({
             onClick={() => onStartEdit?.(row)}
             disabled={isSaving}
             tooltip="Edit row"
-            {...TEST_IDS.tableActionsCell.buttonStartEdit.apply()}
+            {...testIds.buttonStartEdit.apply()}
           />
         )}
         {isDeleteRowEnabled && (
-          <IconButton name="trash-alt" aria-label="Delete" tooltip="Delete row" onClick={() => onDelete?.(row)} />
+          <IconButton
+            name="trash-alt"
+            aria-label="Delete"
+            tooltip="Delete row"
+            onClick={() => onDelete?.(row)}
+            {...testIds.buttonDelete.apply()}
+          />
         )}
       </Stack>
     );

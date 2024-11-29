@@ -2,9 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { TEST_IDS } from '@/constants';
-
-import { TableActionsCell } from './TableActionsCell';
+import { TableActionsCell, testIds } from './TableActionsCell';
 
 /**
  * Props
@@ -23,7 +21,7 @@ describe('TableActionsCell', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(TEST_IDS.tableActionsCell);
+  const getSelectors = getJestSelectors(testIds);
   const selectors = getSelectors(screen);
 
   /**
@@ -60,6 +58,24 @@ describe('TableActionsCell', () => {
     fireEvent.click(selectors.buttonStartEdit());
 
     expect(onStartEdit).toHaveBeenCalledWith(row);
+  });
+
+  it('Should not allow to start edit if disabled', () => {
+    const row = { id: '123' };
+    render(getComponent({ row: row as any, isEditRowEnabled: false }));
+
+    expect(selectors.buttonStartEdit(true)).not.toBeInTheDocument();
+  });
+
+  it('Should allow to delete', () => {
+    const row = { id: '123' };
+    render(getComponent({ row: row as any, isDeleteRowEnabled: true }));
+
+    expect(selectors.buttonDelete()).toBeInTheDocument();
+
+    fireEvent.click(selectors.buttonDelete());
+
+    expect(onDelete).toHaveBeenCalledWith(row);
   });
 
   it('Should allow to cancel edit', () => {

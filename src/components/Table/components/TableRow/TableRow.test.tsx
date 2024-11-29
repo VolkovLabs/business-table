@@ -23,13 +23,13 @@ import {
   createField,
 } from '@/utils';
 
-import { TableRow } from './TableRow';
+import { TableRow, testIds } from './TableRow';
 
 describe('TableRow', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(TEST_IDS.table);
+  const getSelectors = getJestSelectors(testIds);
   const selectors = getSelectors(screen);
 
   /**
@@ -53,6 +53,7 @@ describe('TableRow', () => {
     expanded = defaultExpanded,
     editingRowIndex,
     columnPinning = defaultColumnPinning,
+    isNewRow,
   }: {
     data: unknown[];
     columns: Array<ColumnDef<any>>;
@@ -61,6 +62,7 @@ describe('TableRow', () => {
     expanded?: ExpandedState;
     editingRowIndex?: number;
     columnPinning?: ColumnPinningState;
+    isNewRow?: boolean;
   }) => {
     const table = useReactTable({
       data,
@@ -93,8 +95,7 @@ describe('TableRow', () => {
             onSave={jest.fn()}
             isSaving={false}
             isEditRowEnabled={false}
-            isDeleteRowEnabled={false}
-            isNewRow={false}
+            isNewRow={isNewRow}
             onDelete={jest.fn()}
           />
         </tbody>
@@ -113,6 +114,7 @@ describe('TableRow', () => {
     expanded?: ExpandedState;
     editingRowIndex?: number;
     columnPinning?: ColumnPinningState;
+    isNewRow?: boolean;
   }) => {
     return <Wrapper {...props} />;
   };
@@ -565,6 +567,40 @@ describe('TableRow', () => {
           columns,
           rowIndex: 0,
           editingRowIndex: 0,
+        })
+      )
+    );
+
+    expect(getJestSelectors(TEST_IDS.editableCell)(screen).fieldString()).toBeInTheDocument();
+  });
+
+  it('Should render editing new row', async () => {
+    const data = [{ value: 'abc', name: 'device1' }];
+    const columns = [
+      {
+        id: 'name',
+        accessorFn: createColumnAccessorFn('name'),
+        meta: createColumnMeta({
+          addRowEditable: true,
+          addRowEditor: {
+            type: ColumnEditorType.STRING,
+          },
+        }),
+      },
+      {
+        id: 'value',
+        accessorFn: createColumnAccessorFn('value'),
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          editingRowIndex: 0,
+          isNewRow: true,
         })
       )
     );

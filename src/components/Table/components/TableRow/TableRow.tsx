@@ -117,6 +117,11 @@ const getPinnedColumnStyle = <TData,>(
 };
 
 /**
+ * Test Ids
+ */
+export const testIds = TEST_IDS.table;
+
+/**
  * Table Row
  */
 export const TableRow = <TData,>({
@@ -255,7 +260,7 @@ export const TableRow = <TData,>({
         transform: `translateY(${virtualRow?.start}px)`,
         backgroundColor: rowAppearance.background,
       }}
-      {...TEST_IDS.table.bodyRow.apply(row.id)}
+      {...testIds.bodyRow.apply(row.id)}
     >
       {visibleCells.map((cell, index) => {
         const cellAppearance = rowAppearance.cells[index];
@@ -297,7 +302,7 @@ export const TableRow = <TData,>({
               ...getPinnedColumnStyle(theme, cell.column, bgColor || rowAppearance.background),
             }}
             onClick={row.getToggleExpandedHandler()}
-            {...TEST_IDS.table.bodyCell.apply(cell.id)}
+            {...testIds.bodyCell.apply(cell.id)}
           >
             {renderCell(cell, rendererProps)}
           </td>

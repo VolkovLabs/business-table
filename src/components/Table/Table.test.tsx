@@ -1,14 +1,15 @@
 import { EventBusSrv } from '@grafana/data';
-import { Table as TableInstance } from '@tanstack/react-table';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { createRow, Table as TableInstance } from '@tanstack/react-table';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
 
-import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
-import { ColumnPinDirection, Pagination } from '@/types';
+import { ACTIONS_COLUMN_ID } from '@/constants';
+import { ColumnEditorType, ColumnPinDirection, Pagination } from '@/types';
 import { createColumnAccessorFn, createColumnConfig, createColumnMeta } from '@/utils';
 
-import { Table } from './Table';
+import { useAddData } from './hooks';
+import { Table, testIds } from './Table';
 
 type Props = React.ComponentProps<typeof Table>;
 
@@ -17,11 +18,18 @@ type Props = React.ComponentProps<typeof Table>;
  */
 jest.mock('../ui/ButtonSelect');
 
+/**
+ * Mock Use Add Data
+ */
+jest.mock('./hooks/useAddData', () => ({
+  useAddData: jest.fn(),
+}));
+
 describe('Table', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(TEST_IDS.table);
+  const getSelectors = getJestSelectors(testIds);
   const selectors = getSelectors(screen);
 
   /**
@@ -71,13 +79,15 @@ describe('Table', () => {
     y: 0,
   });
 
-  /**
-   * Fix useVirtualizer
-   */
   beforeEach(() => {
+    /**
+     * Fix useVirtualizer
+     */
     Element.prototype.getBoundingClientRect = jest.fn(function () {
       return getDomRect(500, 500) as any;
     });
+
+    jest.mocked(useAddData).mockReturnValue({} as never);
   });
 
   it('Should render', async () => {
@@ -402,6 +412,58 @@ describe('Table', () => {
     expect(onChange).toHaveBeenCalledWith({
       pageIndex: 0,
       pageSize: 100,
+    });
+  });
+
+  describe('Add row', () => {
+    it('Should render new row', async () => {
+      jest.mocked(useAddData).mockImplementation(
+        ({ table }) =>
+          ({
+            row: createRow(table, '0', { device: '' }, 0, 0),
+          }) as never
+      );
+
+      await act(async () =>
+        render(
+          getComponent({
+            showHeader: true,
+            columns: [
+              {
+                id: 'device',
+                accessorFn: createColumnAccessorFn('device'),
+                meta: createColumnMeta({
+                  addRowEditor: {
+                    type: ColumnEditorType.STRING,
+                  },
+                  addRowEditable: true,
+                }),
+              },
+              {
+                id: ACTIONS_COLUMN_ID,
+              },
+            ],
+            data: [
+              {
+                device: 'device1',
+              },
+            ],
+            isAddRowEnabled: true,
+          })
+        )
+      );
+
+      expect(selectors.root());
+      expect(selectors.headerCell(false, 'device')).toBeInTheDocument();
+      expect(selectors.headerCell(false, ACTIONS_COLUMN_ID)).toBeInTheDocument();
+
+      expect(selectors.newRowContainer()).toBeInTheDocument();
+      const newRowSelectors = getSelectors(within(selectors.newRowContainer()));
+      expect(newRowSelectors.bodyCell(false, '0_device')).toBeInTheDocument();
+
+      const bodySelectors = getSelectors(within(selectors.body()));
+      expect(bodySelectors.bodyCell(false, '0_device')).toBeInTheDocument();
+      expect(bodySelectors.bodyCell(false, '0_device')).toHaveTextContent('device1');
     });
   });
 });

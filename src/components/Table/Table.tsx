@@ -201,6 +201,11 @@ const getPinnedFooterColumnStyle = <TData,>(theme: GrafanaTheme2, column: Column
 };
 
 /**
+ * Test Ids
+ */
+export const testIds = TEST_IDS.table;
+
+/**
  * Table
  */
 export const Table = <TData,>({
@@ -402,12 +407,12 @@ export const Table = <TData,>({
         style={{
           width: table.getCenterTotalSize(),
         }}
-        {...TEST_IDS.table.root.apply()}
+        {...testIds.root.apply()}
       >
         {showHeader && (
           <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
+              <tr key={headerGroup.id} className={styles.headerRow} {...testIds.headerRow.apply(headerGroup.id)}>
                 {headerGroup.headers.map((header) => {
                   const bgColor = header.column.columnDef.meta?.config.appearance.header.backgroundColor;
                   const fontSize =
@@ -430,7 +435,7 @@ export const Table = <TData,>({
                         justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
                         ...getPinnedHeaderColumnStyle(theme, header.column),
                       }}
-                      {...TEST_IDS.table.headerCell.apply(header.id)}
+                      {...testIds.headerCell.apply(header.id)}
                     >
                       <TableHeaderCell
                         header={header}
@@ -446,7 +451,7 @@ export const Table = <TData,>({
           </thead>
         )}
         {!!addData.row && (
-          <tbody>
+          <tbody {...testIds.newRowContainer.apply()}>
             <TableRow
               row={addData.row}
               editingRow={addData.row}
@@ -465,6 +470,7 @@ export const Table = <TData,>({
             height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
           }}
           className={styles.body}
+          {...testIds.body.apply()}
         >
           {virtualRows.map((virtualRow) => {
             const row = rows[virtualRow.index];
@@ -504,7 +510,7 @@ export const Table = <TData,>({
                       justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
                       ...getPinnedFooterColumnStyle(theme, header.column),
                     }}
-                    {...TEST_IDS.table.footerCell.apply(header.id)}
+                    {...testIds.footerCell.apply(header.id)}
                   >
                     {flexRender(header.column.columnDef.footer, header.getContext())}
                   </th>
@@ -519,7 +525,7 @@ export const Table = <TData,>({
           className={styles.paginationRow}
           ref={paginationRef}
           style={{ width: table.getCenterTotalSize() }}
-          {...TEST_IDS.table.pagination.apply()}
+          {...testIds.pagination.apply()}
         >
           <Pagination
             currentPage={pagination.value.pageIndex + 1}
@@ -534,7 +540,7 @@ export const Table = <TData,>({
             }}
             className={styles.pagination}
             showSmallVersion={width <= 200}
-            data-testid={TEST_IDS.table.fieldPageNumber.selector()}
+            {...testIds.fieldPageNumber.apply()}
           />
           <ButtonSelect
             options={PAGE_SIZE_OPTIONS}
@@ -545,7 +551,7 @@ export const Table = <TData,>({
                 pageSize: event.value!,
               });
             }}
-            data-testid={TEST_IDS.table.fieldPageSize.selector()}
+            {...testIds.fieldPageSize.apply()}
           />
         </div>
       )}
