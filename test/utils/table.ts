@@ -92,6 +92,14 @@ class TableHeaderCellHelper {
   public getFilter() {
     return new TableFilterHelper(this.locator);
   }
+
+  public async canAddRow() {
+    return expect(this.nestedSelectors.buttonAddRow()).toBeVisible();
+  }
+
+  public async addRow() {
+    return this.nestedSelectors.buttonAddRow().click();
+  }
 }
 
 /**
@@ -186,6 +194,18 @@ class TableActionsCellHelper {
     await expect(this.nestedSelectors.buttonStartEdit(), this.getMsg('Button Start Edit Presence')).toBeVisible();
   }
 
+  public async checkIfEditing() {
+    return expect(this.nestedSelectors.buttonSave()).toBeVisible();
+  }
+
+  public async canDelete() {
+    return expect(this.nestedSelectors.buttonDelete()).toBeVisible();
+  }
+
+  public async delete() {
+    return this.nestedSelectors.buttonDelete().click();
+  }
+
   public async startEdit() {
     return this.nestedSelectors.buttonStartEdit().click();
   }
@@ -241,6 +261,10 @@ class TableRowHelper {
     await this.getActionsCell().checkPresence();
   }
 
+  public async checkIfEditing() {
+    await this.getActionsCell().checkIfEditing();
+  }
+
   public async startEdit() {
     const actionsCell = this.getActionsCell();
 
@@ -271,6 +295,14 @@ class TableRowHelper {
     const index = await this.locator.getAttribute('data-index');
     return expect(Number(index), this.getMsg('Check Order')).toEqual(order);
   }
+
+  public async canBeDeleted() {
+    return this.getActionsCell().canDelete();
+  }
+
+  public async delete() {
+    return this.getActionsCell().delete();
+  }
 }
 
 class TableHeaderRowHelper {
@@ -288,6 +320,18 @@ class TableHeaderRowHelper {
   public getHeaderCell(id: unknown): TableHeaderCellHelper {
     return new TableHeaderCellHelper(this.id, id, this.selectors);
   }
+
+  public canAddRow() {
+    const actionsCell = new TableHeaderCellHelper(this.id, ACTIONS_COLUMN_ID, this.selectors);
+
+    return actionsCell.canAddRow();
+  }
+
+  public addRow() {
+    const actionsCell = new TableHeaderCellHelper(this.id, ACTIONS_COLUMN_ID, this.selectors);
+
+    return actionsCell.addRow();
+  }
 }
 
 /**
@@ -296,7 +340,10 @@ class TableHeaderRowHelper {
 class TableHelper {
   public selectors: LocatorSelectors<typeof TEST_IDS.table>;
 
-  constructor(public readonly locator: Locator) {
+  constructor(
+    public readonly locator: Locator,
+    private readonly panel: Panel
+  ) {
     this.selectors = this.getSelectors(locator);
   }
 
@@ -327,6 +374,11 @@ class TableHelper {
     return new TableHeaderRowHelper(rowIndex, this.selectors);
   }
 
+  public getNewRow(): TableRowHelper {
+    const newRowContainer = this.selectors.newRowContainer();
+    return new TableRowHelper(newRowContainer, 0);
+  }
+
   public async checkBodyRowsCount(count: number) {
     const rows = await this.locator.locator('tbody').locator('tr').all();
 
@@ -337,6 +389,18 @@ class TableHelper {
     return expect(this.selectors.root(), this.getMsg(`Check ${name} Screenshot`)).toHaveScreenshot(name, {
       maxDiffPixelRatio: 0.1,
     });
+  }
+
+  public async deleteRow(rowId: number) {
+    const row = this.getRow(rowId);
+
+    await row.checkPresence();
+    await row.canBeDeleted();
+    await row.delete();
+
+    const confirmDeleteButton = this.panel.getByGrafanaSelector(this.panel.ctx.selectors.pages.ConfirmModal.delete);
+    await expect(confirmDeleteButton).toBeVisible();
+    return confirmDeleteButton.click();
   }
 }
 
@@ -434,7 +498,7 @@ export class PanelHelper {
   }
 
   public getTable() {
-    return new TableHelper(this.locator);
+    return new TableHelper(this.locator, this.panel);
   }
 
   public getPanelEditor(locator: Locator, editPage: PanelEditPage) {
