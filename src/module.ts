@@ -2,6 +2,7 @@ import { PanelPlugin } from '@grafana/data';
 
 import {
   AddDataEditor,
+  DeleteDataEditor,
   EditableDataEditor,
   NestedObjectsEditor,
   PaginationsEditor,
@@ -55,6 +56,15 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         name: '',
         editor: EditableDataEditor,
         category: ['Editable Data'],
+        defaultValue: [],
+        showIf: (config) => config.tables.length > 0,
+      })
+      .addCustomEditor({
+        id: 'deleteData',
+        path: 'tables',
+        name: '',
+        editor: DeleteDataEditor,
+        category: ['Delete Data'],
         defaultValue: [],
         showIf: (config) => config.tables.length > 0,
       })

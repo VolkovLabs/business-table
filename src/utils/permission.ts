@@ -5,7 +5,7 @@ import {
   NestedObjectOperationConfig,
   PermissionConfig,
   PermissionMode,
-  TableAddRowConfig,
+  TableOperationConfig,
 } from '@/types';
 
 import { getFieldBySource } from './group';
@@ -44,7 +44,7 @@ export const checkEditPermissionByQueryField = (permission: PermissionConfig, se
  * Check If Operation Enabled
  */
 export const checkIfOperationEnabled = (
-  config: ColumnEditConfig | NestedObjectOperationConfig | TableAddRowConfig,
+  config: ColumnEditConfig | NestedObjectOperationConfig | TableOperationConfig,
   { series, user }: { series: DataFrame[]; user: CurrentUserDTO }
 ): boolean => {
   /**

@@ -43,13 +43,24 @@ export const useUpdateRow = ({
   return useCallback(
     async (row: unknown) => {
       let request;
+      let successMessage = '';
 
-      if (operation === 'add') {
-        request = currentTable?.addRow.request;
-      }
-
-      if (operation === 'update') {
-        request = currentTable?.update;
+      switch (operation) {
+        case 'add': {
+          request = currentTable?.addRow.request;
+          successMessage = 'Row added successfully.';
+          break;
+        }
+        case 'update': {
+          request = currentTable?.update;
+          successMessage = 'Values updated successfully.';
+          break;
+        }
+        case 'delete': {
+          request = currentTable?.deleteRow.request;
+          successMessage = 'Row deleted successfully.';
+          break;
+        }
       }
 
       /**
@@ -74,9 +85,7 @@ export const useUpdateRow = ({
           throw response.errors;
         }
 
-        const message = operation === 'add' ? 'Row added successfully.' : 'Values updated successfully.';
-
-        notifySuccess(['Success', message]);
+        notifySuccess(['Success', successMessage]);
         refreshDashboard();
       } catch (e: unknown) {
         const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
@@ -86,6 +95,7 @@ export const useUpdateRow = ({
     },
     [
       currentTable?.addRow.request,
+      currentTable?.deleteRow.request,
       currentTable?.update,
       datasourceRequest,
       notifyError,

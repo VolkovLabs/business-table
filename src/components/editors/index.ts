@@ -9,3 +9,4 @@ export * from './PaginationsEditor';
 export * from './PermissionEditor';
 export * from './RequestEditor';
 export * from './TablesEditor';
+export * from './DeleteDataEditor';

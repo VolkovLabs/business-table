@@ -10,6 +10,7 @@ import {
   PermissionConfig,
   PermissionMode,
   SupportedBase64ImageType,
+  TableRequestConfig,
 } from '@/types';
 
 /**
@@ -30,6 +31,14 @@ export const DEFAULT_COLUMN_APPEARANCE = {
   background: {
     applyToRow: false,
   },
+};
+
+/**
+ * Default Request Config
+ */
+export const DEFAULT_REQUEST_CONFIG: TableRequestConfig = {
+  datasource: '',
+  payload: {},
 };
 
 /**
@@ -265,6 +274,10 @@ export const TEST_IDS = {
   addDataEditor: {
     itemHeader: createSelector((name: unknown) => `data-testid add-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid add-data-editor item-content-${name}`),
+  },
+  deleteDataEditor: {
+    itemHeader: createSelector((name: unknown) => `data-testid delete-data-editor item-header-${name}`),
+    itemContent: createSelector((name: unknown) => `data-testid delete-data-editor item-content-${name}`),
   },
   nestedObjectEditor: {
     fieldType: createSelector('data-testid nested-object-editor field-type'),

@@ -76,12 +76,27 @@ export const TablePanel: React.FC<Props> = ({
   }, [currentTable, data.series]);
 
   /**
+   * Is Delete Row Enabled
+   */
+  const isDeleteRowEnabled = useMemo(() => {
+    if (!currentTable) {
+      return false;
+    }
+
+    return checkIfOperationEnabled(currentTable.deleteRow, {
+      series: data.series,
+      user: config.bootData.user,
+    });
+  }, [currentTable, data.series]);
+
+  /**
    * Table
    */
   const { tableData, columns } = useTable({
     data,
     columns: currentTable?.items,
-    isAddRowEnabled: isAddRowEnabled,
+    isAddRowEnabled,
+    isDeleteRowEnabled,
     replaceVariables,
     objects: options.nestedObjects,
   });
@@ -159,6 +174,11 @@ export const TablePanel: React.FC<Props> = ({
    * Update Row
    */
   const onUpdateRow = useUpdateRow({ replaceVariables, currentTable, operation: 'update' });
+
+  /**
+   * Delete Row
+   */
+  const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete' });
 
   /**
    * Export
@@ -245,6 +265,8 @@ export const TablePanel: React.FC<Props> = ({
             tableInstance={tableInstance as never}
             onAddRow={onAddRow}
             isAddRowEnabled={isAddRowEnabled}
+            onDeleteRow={onDeleteRow}
+            isDeleteRowEnabled={isDeleteRowEnabled}
           />
         </div>
       </div>

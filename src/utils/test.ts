@@ -37,8 +37,8 @@ import {
   PanelOptions,
   PermissionConfig,
   PermissionMode,
-  TableAddRowConfig,
   TableConfig,
+  TableOperationConfig,
   TablePaginationConfig,
   TableRequestConfig,
   ToolbarOptions,
@@ -208,6 +208,7 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   footerEnabled: false,
   scale: ImageScale.AUTO,
   editable: false,
+  addRowEditable: false,
   ...meta,
 });
 
@@ -264,9 +265,9 @@ export const createTableRequestConfig = (item: Partial<TableRequestConfig>): Tab
 });
 
 /**
- * Create Table Add Row Config
+ * Create Table Operation Config
  */
-export const createTableAddRowConfig = (item: Partial<TableAddRowConfig>): TableAddRowConfig => ({
+export const createTableOperationConfig = (item: Partial<TableOperationConfig>): TableOperationConfig => ({
   enabled: false,
   request: createTableRequestConfig({}),
   permission: createPermissionConfig({}),
@@ -281,7 +282,8 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   showHeader: false,
   items: [],
   update: createTableRequestConfig({}),
-  addRow: createTableAddRowConfig({}),
+  addRow: createTableOperationConfig({}),
+  deleteRow: createTableOperationConfig({}),
   pagination: createTablePaginationConfig({}),
   expanded: false,
   ...table,

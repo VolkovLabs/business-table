@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css';
 import { EventBus, GrafanaTheme2 } from '@grafana/data';
-import { Pagination, useStyles2, useTheme2 } from '@grafana/ui';
+import { ConfirmModal, Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
   Column,
   ColumnDef,
@@ -26,7 +26,7 @@ import { PAGE_SIZE_OPTIONS, TEST_IDS } from '@/constants';
 import { ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { TableHeaderCell, TableRow } from './components';
-import { useAddData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
+import { useAddData, useDeleteData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
 import { getStyles } from './Table.styles';
 
 /**
@@ -144,6 +144,18 @@ interface Props<TData> {
    * @type {boolean}
    */
   isAddRowEnabled: boolean;
+
+  /**
+   * Delete Row
+   */
+  onDeleteRow: (row: TData) => Promise<void>;
+
+  /**
+   * Is Add Row Enabled
+   *
+   * @type {boolean}
+   */
+  isDeleteRowEnabled: boolean;
 }
 
 /**
@@ -209,6 +221,8 @@ export const Table = <TData,>({
   showHeader,
   onAddRow,
   isAddRowEnabled,
+  isDeleteRowEnabled,
+  onDeleteRow,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -240,6 +254,13 @@ export const Table = <TData,>({
       },
       { left: [], right: [] } as ColumnPinningState
     );
+  }, [columns]);
+
+  /**
+   * Is Edit Row Enabled
+   */
+  const isEditRowEnabled = useMemo((): boolean => {
+    return columns.some((column) => column.meta?.editable);
   }, [columns]);
 
   /**
@@ -362,6 +383,11 @@ export const Table = <TData,>({
   const editableData = useEditableData({ table, onUpdateRow });
 
   /**
+   * Delete Data
+   */
+  const deleteData = useDeleteData({ onDeleteRow });
+
+  /**
    * Set table instance
    */
   useEffect(() => {
@@ -430,6 +456,7 @@ export const Table = <TData,>({
               onSave={addData.onSave}
               isSaving={addData.isSaving}
               isNewRow={true}
+              onDelete={deleteData.onStart}
             />
           </tbody>
         )}
@@ -454,6 +481,9 @@ export const Table = <TData,>({
                 onChange={editableData.onChange}
                 onSave={editableData.onSave}
                 isSaving={editableData.isSaving}
+                isEditRowEnabled={isEditRowEnabled}
+                isDeleteRowEnabled={isDeleteRowEnabled}
+                onDelete={deleteData.onStart}
               />
             );
           })}
@@ -518,6 +548,17 @@ export const Table = <TData,>({
             data-testid={TEST_IDS.table.fieldPageSize.selector()}
           />
         </div>
+      )}
+      {!!deleteData.row && (
+        <ConfirmModal
+          isOpen={true}
+          title="Delete Row"
+          body="Please confirm to delete row"
+          confirmText="Confirm"
+          onConfirm={deleteData.onSave}
+          onDismiss={deleteData.onCancel}
+          disabled={deleteData.isSaving}
+        />
       )}
     </>
   );

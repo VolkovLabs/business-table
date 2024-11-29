@@ -741,6 +741,49 @@ describe('useTable', () => {
       expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
     });
 
+    it('Should enable delete row if delete enabled', () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        edit: createColumnEditConfig({
+          enabled: false,
+        }),
+        newRowEdit: createColumnNewRowEditConfig({
+          enabled: false,
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          isAddRowEnabled: false,
+          isDeleteRowEnabled: true,
+          columns: [deviceColumn],
+          objects: [],
+          replaceVariables,
+        })
+      );
+
+      expect(result.current.columns[0].meta).toEqual(
+        expect.objectContaining({
+          editable: false,
+          editor: undefined,
+          addRowEditable: false,
+          addRowEditor: undefined,
+        })
+      );
+
+      /**
+       * Check actions column presence
+       */
+      expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
+    });
+
     it('Should make editor column pinned if right pinned columns present', () => {
       const deviceColumn = createColumnConfig({
         label: 'Device',

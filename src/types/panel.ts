@@ -403,9 +403,9 @@ export interface TablePaginationConfig {
 }
 
 /**
- * Table Add Row Config
+ * Table Operation Config
  */
-export interface TableAddRowConfig {
+export interface TableOperationConfig {
   /**
    * Enabled
    *
@@ -477,9 +477,16 @@ export interface TableConfig {
   /**
    * Add Row
    *
-   * @type {TableAddRowConfig}
+   * @type {TableOperationConfig}
    */
-  addRow: TableAddRowConfig;
+  addRow: TableOperationConfig;
+
+  /**
+   * Delete Row
+   *
+   * @type {TableOperationConfig}
+   */
+  deleteRow: TableOperationConfig;
 }
 
 /**

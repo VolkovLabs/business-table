@@ -4,7 +4,7 @@ import semver from 'semver';
 
 import { getColumnEditorConfig } from '@/utils';
 
-import { DEFAULT_PERMISSION_CONFIG, PAGE_SIZES } from './constants';
+import { DEFAULT_PERMISSION_CONFIG, DEFAULT_REQUEST_CONFIG, PAGE_SIZES } from './constants';
 import {
   ColumnAlignment,
   ColumnAppearanceConfig,
@@ -21,8 +21,8 @@ import {
   NestedObjectConfig,
   PaginationMode,
   PanelOptions,
-  TableAddRowConfig,
   TableConfig,
+  TableOperationConfig,
   TablePaginationConfig,
   TableRequestConfig,
 } from './types';
@@ -85,7 +85,7 @@ interface OutdatedColumnConfig
 /**
  * Outdated Group
  */
-interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'pagination' | 'addRow'> {
+interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'pagination' | 'addRow' | 'deleteRow'> {
   items: OutdatedColumnConfig[];
 
   /**
@@ -107,7 +107,14 @@ interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'paginati
    *
    * Introduced in 1.9.0
    */
-  addRow?: TableAddRowConfig;
+  addRow?: TableOperationConfig;
+
+  /**
+   * Delete Row
+   *
+   * Introduced in 1.9.0
+   */
+  deleteRow?: TableOperationConfig;
 }
 
 /**
@@ -383,10 +390,18 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
       if (!normalizedGroup.addRow) {
         normalizedGroup.addRow = {
           enabled: false,
-          request: {
-            datasource: '',
-            payload: {},
-          },
+          request: DEFAULT_REQUEST_CONFIG,
+          permission: DEFAULT_PERMISSION_CONFIG,
+        };
+      }
+
+      /**
+       * Normalize Delete Row
+       */
+      if (!normalizedGroup.deleteRow) {
+        normalizedGroup.deleteRow = {
+          enabled: false,
+          request: DEFAULT_REQUEST_CONFIG,
           permission: DEFAULT_PERMISSION_CONFIG,
         };
       }

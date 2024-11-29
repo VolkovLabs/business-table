@@ -70,6 +70,25 @@ interface Props<TData> {
    * @type {boolean}
    */
   isNewRow?: boolean;
+
+  /**
+   * Is Edit Row Enabled
+   *
+   * @type {boolean}
+   */
+  isEditRowEnabled?: boolean;
+
+  /**
+   * Is Delete Row Enabled
+   *
+   * @type {boolean}
+   */
+  isDeleteRowEnabled?: boolean;
+
+  /**
+   * Delete Row
+   */
+  onDelete: (row: Row<TData>) => void;
 }
 
 /**
@@ -111,6 +130,9 @@ export const TableRow = <TData,>({
   onSave,
   isSaving,
   isNewRow = false,
+  isEditRowEnabled,
+  isDeleteRowEnabled = false,
+  onDelete,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -247,6 +269,9 @@ export const TableRow = <TData,>({
           onCancelEdit,
           onSave,
           isSaving,
+          isEditRowEnabled,
+          isDeleteRowEnabled,
+          onDelete,
         };
 
         if (!!editingRow) {

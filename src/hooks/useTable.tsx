@@ -42,12 +42,14 @@ import { useNestedObjects } from './useNestedObjects';
 export const useTable = ({
   data,
   isAddRowEnabled = false,
+  isDeleteRowEnabled = false,
   columns: columnsConfig,
   objects,
   replaceVariables,
 }: {
   data: PanelData;
   isAddRowEnabled?: boolean;
+  isDeleteRowEnabled?: boolean;
   columns?: ColumnConfig[];
   objects: NestedObjectConfig[];
   replaceVariables: InterpolateFunction;
@@ -278,6 +280,13 @@ export const useTable = ({
       isActionsEnabled = true;
     }
 
+    /**
+     * Check If Delete Row Enabled
+     */
+    if (isDeleteRowEnabled) {
+      isActionsEnabled = true;
+    }
+
     const columns: Array<ColumnDef<unknown>> = [];
 
     /**
@@ -430,14 +439,15 @@ export const useTable = ({
 
     return columns;
   }, [
-    isAddRowEnabled,
     columnsData.frame,
     columnsData.items,
+    isAddRowEnabled,
+    isDeleteRowEnabled,
     data.series,
-    getEditorControlOptions,
-    getNestedObjectControlOptions,
     objects,
     replaceVariables,
+    getEditorControlOptions,
+    getNestedObjectControlOptions,
     templateService,
     theme,
   ]);
