@@ -288,10 +288,12 @@ export const TEST_IDS = {
   addDataEditor: {
     itemHeader: createSelector((name: unknown) => `data-testid add-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid add-data-editor item-content-${name}`),
+    fieldItemEnabled: createSelector((name: unknown) => `data-testid add-data-editor field-item-enabled-${name}`),
   },
   deleteDataEditor: {
     itemHeader: createSelector((name: unknown) => `data-testid delete-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid delete-data-editor item-content-${name}`),
+    fieldItemEnabled: createSelector((name: unknown) => `data-testid delete-data-editor field-item-enabled-${name}`),
   },
   nestedObjectEditor: {
     fieldType: createSelector('data-testid nested-object-editor field-type'),

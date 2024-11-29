@@ -18,7 +18,7 @@ type Props = StandardEditorProps<TableConfig[], null, PanelOptions>;
 /**
  * Test Ids
  */
-const testIds = TEST_IDS.addDataEditor;
+export const testIds = TEST_IDS.addDataEditor;
 
 /**
  * Add Data Editor
@@ -89,7 +89,8 @@ export const AddDataEditor: React.FC<Props> = ({ context: { data }, onChange, va
                       [item.name]: event.currentTarget.checked,
                     });
                   }}
-                ></InlineSwitch>
+                  {...testIds.fieldItemEnabled.apply(item.name)}
+                />
               </CollapseTitle>
             }
             headerTestId={testIds.itemHeader.selector(item.name)}

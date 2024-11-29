@@ -42,7 +42,7 @@ interface Props {
 /**
  * Test Ids
  */
-const testIds = TEST_IDS.tableAddRowEditor;
+export const testIds = TEST_IDS.tableAddRowEditor;
 
 /**
  * Table Add Row Editor
