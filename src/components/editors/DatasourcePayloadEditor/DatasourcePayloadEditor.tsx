@@ -1,5 +1,5 @@
 import { DataSourceApi } from '@grafana/data';
-import { getDataSourceSrv } from '@grafana/runtime';
+import { getDataSourceSrv, getTemplateSrv } from '@grafana/runtime';
 import { DataQuery } from '@grafana/schema';
 import { Alert, LoadingPlaceholder } from '@grafana/ui';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -28,6 +28,11 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ value, onChange, data
    * Data Source Service
    */
   const dataSourceService = getDataSourceSrv();
+
+  /**
+   * Template Service
+   */
+  const templateService = getTemplateSrv();
 
   /**
    * Data Source
@@ -67,29 +72,43 @@ export const DatasourcePayloadEditor: React.FC<Props> = ({ value, onChange, data
    * Load Query Editor
    */
   useEffect(() => {
-    const getDataSource = async () => {
+    const getDataSource = async (datasourceUid: string) => {
       setIsLoading(true);
 
       const ds = await dataSourceService.get(datasourceUid);
 
-      setDatasource(ds);
       setIsLoading(false);
+
+      return ds;
     };
 
-    /**
-     * Reset query if new datasource
-     */
-    if (datasource && datasource.uid !== datasourceUid) {
-      onChangeQuery({});
-    }
+    const checkDatasourceType = async () => {
+      const loadedDatasource = datasource;
+      const replacedDatasourceUid = templateService.replace(datasourceUid);
 
-    /**
-     * Load data source
-     */
-    if (datasourceUid && (!datasource || datasource.uid !== datasourceUid)) {
-      getDataSource();
-    }
-  }, [datasourceUid, dataSourceService, datasource, onChangeQuery]);
+      /**
+       * Reset query if new datasource type
+       */
+      if (loadedDatasource && loadedDatasource.uid !== replacedDatasourceUid) {
+        const currentDatasource = await getDataSource(replacedDatasourceUid);
+
+        if (loadedDatasource.type !== currentDatasource.type) {
+          onChangeQuery({});
+        }
+
+        setDatasource(currentDatasource);
+      }
+
+      /**
+       * Load data source
+       */
+      if (replacedDatasourceUid && !datasource) {
+        setDatasource(await getDataSource(replacedDatasourceUid));
+      }
+    };
+
+    checkDatasourceType();
+  }, [datasourceUid, dataSourceService, datasource, onChangeQuery, templateService]);
 
   /**
    * Auto Save Timer
