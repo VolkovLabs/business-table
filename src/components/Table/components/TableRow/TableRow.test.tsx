@@ -92,6 +92,10 @@ describe('TableRow', () => {
             onChange={jest.fn()}
             onSave={jest.fn()}
             isSaving={false}
+            isEditRowEnabled={false}
+            isDeleteRowEnabled={false}
+            isNewRow={false}
+            onDelete={jest.fn()}
           />
         </tbody>
       </table>

@@ -54,7 +54,7 @@ interface Props extends CellContext<unknown, unknown> {
   /**
    * Delete Row
    */
-  onDelete: (row: Row<unknown>) => void;
+  onDelete?: (row: Row<unknown>) => void;
 }
 
 /**
@@ -110,7 +110,7 @@ export const TableActionsCell: React.FC<Props> = ({
           />
         )}
         {isDeleteRowEnabled && (
-          <IconButton name="trash-alt" aria-label="Delete" tooltip="Delete row" onClick={() => onDelete(row)} />
+          <IconButton name="trash-alt" aria-label="Delete" tooltip="Delete row" onClick={() => onDelete?.(row)} />
         )}
       </Stack>
     );
