@@ -1,1 +1,1 @@
-export * from './AddDataEditor';
+export { AddDataEditor } from './AddDataEditor';

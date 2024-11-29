@@ -1,1 +1,1 @@
-export * from './TableDeleteRowEditor';
+export { TableDeleteRowEditor } from './TableDeleteRowEditor';
