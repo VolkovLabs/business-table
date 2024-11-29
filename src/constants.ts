@@ -276,6 +276,7 @@ export const TEST_IDS = {
       (name: unknown) => `data-testid table-add-row-editor field-edit-quick-enabled-${name}`
     ),
     noColumnsMessage: createSelector('data-testid table-add-row-editor no-columns-message'),
+    disabledHeaderMessage: createSelector('data-testid table-add-row-editor disabled-header-message'),
   },
   buttonSelect: {
     root: createSelector('button-select root'),

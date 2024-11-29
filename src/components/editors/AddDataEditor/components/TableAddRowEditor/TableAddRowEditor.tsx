@@ -75,6 +75,11 @@ export const TableAddRowEditor: React.FC<Props> = ({ value, onChange, data }) =>
 
   return (
     <>
+      {!value.showHeader && (
+        <Alert severity="info" title="Unavailable with hidden table header" {...testIds.disabledHeaderMessage.apply()}>
+          Please enable header to allow to add rows.
+        </Alert>
+      )}
       <Label>Columns</Label>
       <>
         {value.items.length > 0 ? (

@@ -73,6 +73,12 @@ describe('TableAddRowEditor', () => {
     expect(selectors.noColumnsMessage()).toBeInTheDocument();
   });
 
+  it('Should show disabled header message if hidden header', () => {
+    render(getComponent({ value: createTableConfig({ showHeader: false }) }));
+
+    expect(selectors.disabledHeaderMessage()).toBeInTheDocument();
+  });
+
   it('Should not show message if items present', () => {
     render(getComponent({ value: createTableConfig({ items: [createColumnConfig({})] }) }));
 
