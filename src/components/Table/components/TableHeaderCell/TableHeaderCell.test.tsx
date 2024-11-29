@@ -1,10 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
-import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
+import { ACTIONS_COLUMN_ID } from '@/constants';
 
-import { TableHeaderCell } from './TableHeaderCell';
+import { TableHeaderCell, testIds } from './TableHeaderCell';
 
 /**
  * Props
@@ -15,7 +15,7 @@ describe('TableHeaderCell', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(TEST_IDS.tableHeaderCell, ['sortIcon']);
+  const getSelectors = getJestSelectors(testIds, ['sortIcon']);
   const selectors = getSelectors(screen);
 
   /**
@@ -67,6 +67,7 @@ describe('TableHeaderCell', () => {
             },
           } as any,
         } as any,
+        isAddRowEnabled: false,
       })
     );
 
@@ -119,5 +120,36 @@ describe('TableHeaderCell', () => {
 
     expect(selectors.root()).toBeInTheDocument();
     expect(selectors.sortIcon(false, 'arrow-down')).toBeInTheDocument();
+  });
+
+  it('Should allow to add row', () => {
+    const onAddRow = jest.fn();
+
+    render(
+      getComponent({
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            id: ACTIONS_COLUMN_ID,
+            getIsSorted: jest.fn(),
+            getCanSort: jest.fn(),
+            getToggleSortingHandler: jest.fn(),
+            columnDef: {
+              header: ({ label }: any) => label,
+            },
+          } as any,
+        } as any,
+        isAddRowEnabled: true,
+        onAddRow,
+      })
+    );
+
+    expect(selectors.buttonAddRow()).toBeInTheDocument();
+    fireEvent.click(selectors.buttonAddRow());
+
+    expect(onAddRow).toHaveBeenCalled();
   });
 });

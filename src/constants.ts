@@ -176,6 +176,7 @@ export const TEST_IDS = {
   },
   tableHeaderCell: {
     root: createSelector('data-testid table-header-cell'),
+    buttonAddRow: createSelector('data-testid table-header-cell button-add-row'),
     sortIcon: createSelector((iconName: unknown) => String(iconName), 'data-testid'),
   },
   tableCell: {

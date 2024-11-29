@@ -39,6 +39,11 @@ interface Props<TData> {
 }
 
 /**
+ * Test Ids
+ */
+export const testIds = TEST_IDS.tableHeaderCell;
+
+/**
  * Table Header Cell
  */
 export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRow }: Props<TData>) => {
@@ -54,7 +59,7 @@ export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRo
    */
   if (header.column.id === ACTIONS_COLUMN_ID) {
     if (isAddRowEnabled) {
-      return <IconButton name="plus" aria-label="Add Row" onClick={onAddRow} />;
+      return <IconButton name="plus" aria-label="Add Row" onClick={onAddRow} {...testIds.buttonAddRow.apply()} />;
     }
 
     return null;
@@ -70,14 +75,14 @@ export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRo
         style={{
           color: fontColor,
         }}
-        {...TEST_IDS.tableHeaderCell.root.apply()}
+        {...testIds.root.apply()}
       >
         {flexRender(header.column.columnDef.header, header.getContext())}
         {!!sort && (
           <Icon
             name={sort === 'asc' ? 'arrow-up' : 'arrow-down'}
             size={size}
-            {...TEST_IDS.tableHeaderCell.sortIcon.apply(sort === 'asc' ? 'arrow-up' : 'arrow-down')}
+            {...testIds.sortIcon.apply(sort === 'asc' ? 'arrow-up' : 'arrow-down')}
           />
         )}
       </div>
