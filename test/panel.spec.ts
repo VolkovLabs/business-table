@@ -401,6 +401,72 @@ test.describe('Business Table Panel', () => {
     });
   });
 
+  test.describe('Add/Delete row', () => {
+    test('Should allow to add and delete new row', async ({ readProvisionedDashboard, gotoDashboardPage }) => {
+      /**
+       * Go To Panels dashboard devices.json
+       * return dashboardPage
+       */
+      const dashboard = await readProvisionedDashboard({ fileName: 'devices.json' });
+      /**
+       * Disable scene due until refresh panel data issue is resolved
+       */
+      const dashboardPage = await gotoDashboardPage({ uid: dashboard.uid });
+
+      /**
+       * Get Table panel
+       */
+      const panel = new PanelHelper(dashboardPage, 'Devices');
+
+      const table = panel.getTable();
+      const headerRow = table.getHeaderRow();
+
+      /**
+       * Check if add row enabled
+       */
+      await headerRow.canAddRow();
+
+      /**
+       * Add row
+       */
+      await headerRow.addRow();
+
+      /**
+       * Check if row added
+       */
+      const newRow = table.getNewRow();
+      await newRow.checkPresence();
+      await newRow.checkIfEditing();
+
+      /**
+       * Fill name
+       */
+      const nameCell = newRow.getCell('name');
+      await nameCell.checkPresence();
+      await nameCell.changeValue('Added Device 1');
+
+      /**
+       * Check if saved
+       */
+      await newRow.saveEdit();
+      await newRow.checkIfNotPresence();
+      const addedRow = table.getRow(16);
+      await addedRow.checkPresence();
+      await addedRow.getCell('name').checkText('Added Device 1');
+
+      /**
+       * Check if row can be deleted
+       */
+      await addedRow.canBeDeleted();
+
+      /**
+       * Delete row
+       */
+      await table.deleteRow(16);
+      await addedRow.checkIfNotPresence();
+    });
+  });
+
   test.describe('Edit cells', () => {
     test('Should allow to change string value', async ({ readProvisionedDashboard, gotoDashboardPage }) => {
       /**

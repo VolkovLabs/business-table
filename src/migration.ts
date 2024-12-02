@@ -4,7 +4,7 @@ import semver from 'semver';
 
 import { getColumnEditorConfig } from '@/utils';
 
-import { PAGE_SIZES } from './constants';
+import { DEFAULT_PERMISSION_CONFIG, DEFAULT_REQUEST_CONFIG, PAGE_SIZES } from './constants';
 import {
   ColumnAlignment,
   ColumnAppearanceConfig,
@@ -14,14 +14,15 @@ import {
   ColumnFilterConfig,
   ColumnFilterMode,
   ColumnHeaderFontSize,
+  ColumnNewRowEditConfig,
   ColumnPinDirection,
   ColumnSortConfig,
   ImageScale,
   NestedObjectConfig,
   PaginationMode,
   PanelOptions,
-  PermissionMode,
   TableConfig,
+  TableOperationConfig,
   TablePaginationConfig,
   TableRequestConfig,
 } from './types';
@@ -30,7 +31,7 @@ import {
  * Outdated Column Config
  */
 interface OutdatedColumnConfig
-  extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance' | 'edit' | 'pin' | 'enabled'> {
+  extends Omit<ColumnConfig, 'filter' | 'sort' | 'appearance' | 'edit' | 'pin' | 'enabled' | 'newRowEdit'> {
   /**
    * Filter
    *
@@ -72,12 +73,19 @@ interface OutdatedColumnConfig
    * Introduced in 1.4.0
    */
   enabled?: boolean;
+
+  /**
+   * New Row Edit
+   *
+   * Introduced in 1.9.0
+   */
+  newRowEdit?: ColumnNewRowEditConfig;
 }
 
 /**
  * Outdated Group
  */
-interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'pagination'> {
+interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'pagination' | 'addRow' | 'deleteRow'> {
   items: OutdatedColumnConfig[];
 
   /**
@@ -93,6 +101,20 @@ interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'paginati
    * Introduced in 1.3.0
    */
   pagination?: TablePaginationConfig;
+
+  /**
+   * Add Row
+   *
+   * Introduced in 1.9.0
+   */
+  addRow?: TableOperationConfig;
+
+  /**
+   * Delete Row
+   *
+   * Introduced in 1.9.0
+   */
+  deleteRow?: TableOperationConfig;
 }
 
 /**
@@ -150,7 +172,7 @@ const fetchData = async () => {
 /**
  * Normalize datasource option
  *
- * @param obj
+ * @param ds
  * @param name
  *
  */
@@ -239,14 +261,17 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
         if (!normalized.edit) {
           normalized.edit = {
             enabled: false,
-            permission: {
-              mode: PermissionMode.ALLOWED,
-              field: {
-                source: '',
-                name: '',
-              },
-              userRole: [],
-            },
+            permission: DEFAULT_PERMISSION_CONFIG,
+            editor: getColumnEditorConfig(ColumnEditorType.STRING),
+          };
+        }
+
+        /**
+         * Normalize new row edit
+         */
+        if (!normalized.newRowEdit) {
+          normalized.newRowEdit = {
+            enabled: false,
             editor: getColumnEditorConfig(ColumnEditorType.STRING),
           };
         }
@@ -356,6 +381,28 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
         normalizedGroup.pagination = {
           ...normalizedGroup.pagination,
           defaultPageSize: PAGE_SIZES[0],
+        };
+      }
+
+      /**
+       * Normalize Add Row
+       */
+      if (!normalizedGroup.addRow) {
+        normalizedGroup.addRow = {
+          enabled: false,
+          request: DEFAULT_REQUEST_CONFIG,
+          permission: DEFAULT_PERMISSION_CONFIG,
+        };
+      }
+
+      /**
+       * Normalize Delete Row
+       */
+      if (!normalizedGroup.deleteRow) {
+        normalizedGroup.deleteRow = {
+          enabled: false,
+          request: DEFAULT_REQUEST_CONFIG,
+          permission: DEFAULT_PERMISSION_CONFIG,
         };
       }
 

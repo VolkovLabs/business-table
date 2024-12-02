@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css';
 import { EventBus, GrafanaTheme2 } from '@grafana/data';
-import { Pagination, useStyles2, useTheme2 } from '@grafana/ui';
+import { ConfirmModal, Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
   Column,
   ColumnDef,
@@ -26,7 +26,7 @@ import { PAGE_SIZE_OPTIONS, TEST_IDS } from '@/constants';
 import { ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
 
 import { TableHeaderCell, TableRow } from './components';
-import { useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
+import { useAddData, useDeleteData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
 import { getStyles } from './Table.styles';
 
 /**
@@ -132,6 +132,30 @@ interface Props<TData> {
    * @type {boolean}
    */
   showHeader: boolean;
+
+  /**
+   * Add Row
+   */
+  onAddRow: (row: TData) => Promise<void>;
+
+  /**
+   * Is Add Row Enabled
+   *
+   * @type {boolean}
+   */
+  isAddRowEnabled: boolean;
+
+  /**
+   * Delete Row
+   */
+  onDeleteRow: (row: TData) => Promise<void>;
+
+  /**
+   * Is Add Row Enabled
+   *
+   * @type {boolean}
+   */
+  isDeleteRowEnabled: boolean;
 }
 
 /**
@@ -177,6 +201,11 @@ const getPinnedFooterColumnStyle = <TData,>(theme: GrafanaTheme2, column: Column
 };
 
 /**
+ * Test Ids
+ */
+export const testIds = TEST_IDS.table;
+
+/**
  * Table
  */
 export const Table = <TData,>({
@@ -195,6 +224,10 @@ export const Table = <TData,>({
   tableInstance,
   expandedByDefault,
   showHeader,
+  onAddRow,
+  isAddRowEnabled,
+  isDeleteRowEnabled,
+  onDeleteRow,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -226,6 +259,13 @@ export const Table = <TData,>({
       },
       { left: [], right: [] } as ColumnPinningState
     );
+  }, [columns]);
+
+  /**
+   * Is Edit Row Enabled
+   */
+  const isEditRowEnabled = useMemo((): boolean => {
+    return columns.some((column) => column.meta?.editable);
   }, [columns]);
 
   /**
@@ -338,9 +378,19 @@ export const Table = <TData,>({
   }, [columns]);
 
   /**
+   * Add Data
+   */
+  const addData = useAddData({ table, onAddRow });
+
+  /**
    * Editable Data
    */
   const editableData = useEditableData({ table, onUpdateRow });
+
+  /**
+   * Delete Data
+   */
+  const deleteData = useDeleteData({ onDeleteRow });
 
   /**
    * Set table instance
@@ -357,12 +407,12 @@ export const Table = <TData,>({
         style={{
           width: table.getCenterTotalSize(),
         }}
-        {...TEST_IDS.table.root.apply()}
+        {...testIds.root.apply()}
       >
         {showHeader && (
           <thead className={styles.header} ref={tableHeaderRef} style={{ top: topOffset }}>
             {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className={styles.headerRow} {...TEST_IDS.table.headerRow.apply(headerGroup.id)}>
+              <tr key={headerGroup.id} className={styles.headerRow} {...testIds.headerRow.apply(headerGroup.id)}>
                 {headerGroup.headers.map((header) => {
                   const bgColor = header.column.columnDef.meta?.config.appearance.header.backgroundColor;
                   const fontSize =
@@ -385,9 +435,14 @@ export const Table = <TData,>({
                         justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
                         ...getPinnedHeaderColumnStyle(theme, header.column),
                       }}
-                      {...TEST_IDS.table.headerCell.apply(header.id)}
+                      {...testIds.headerCell.apply(header.id)}
                     >
-                      <TableHeaderCell header={header} size={fontSize} />
+                      <TableHeaderCell
+                        header={header}
+                        size={fontSize}
+                        isAddRowEnabled={isAddRowEnabled}
+                        onAddRow={addData.onStart}
+                      />
                     </th>
                   );
                 })}
@@ -395,11 +450,27 @@ export const Table = <TData,>({
             ))}
           </thead>
         )}
+        {!!addData.row && (
+          <tbody {...testIds.newRowContainer.apply()}>
+            <TableRow
+              row={addData.row}
+              editingRow={addData.row}
+              onStartEdit={addData.onStart}
+              onCancelEdit={addData.onCancel}
+              onChange={addData.onChange}
+              onSave={addData.onSave}
+              isSaving={addData.isSaving}
+              isNewRow={true}
+              onDelete={deleteData.onStart}
+            />
+          </tbody>
+        )}
         <tbody
           style={{
             height: `${rowVirtualizer.getTotalSize()}px`, //tells scrollbar how big the table is
           }}
           className={styles.body}
+          {...testIds.body.apply()}
         >
           {virtualRows.map((virtualRow) => {
             const row = rows[virtualRow.index];
@@ -416,6 +487,9 @@ export const Table = <TData,>({
                 onChange={editableData.onChange}
                 onSave={editableData.onSave}
                 isSaving={editableData.isSaving}
+                isEditRowEnabled={isEditRowEnabled}
+                isDeleteRowEnabled={isDeleteRowEnabled}
+                onDelete={deleteData.onStart}
               />
             );
           })}
@@ -436,7 +510,7 @@ export const Table = <TData,>({
                       justifyContent: header.column.columnDef.meta?.config.appearance.alignment,
                       ...getPinnedFooterColumnStyle(theme, header.column),
                     }}
-                    {...TEST_IDS.table.footerCell.apply(header.id)}
+                    {...testIds.footerCell.apply(header.id)}
                   >
                     {flexRender(header.column.columnDef.footer, header.getContext())}
                   </th>
@@ -451,7 +525,7 @@ export const Table = <TData,>({
           className={styles.paginationRow}
           ref={paginationRef}
           style={{ width: table.getCenterTotalSize() }}
-          {...TEST_IDS.table.pagination.apply()}
+          {...testIds.pagination.apply()}
         >
           <Pagination
             currentPage={pagination.value.pageIndex + 1}
@@ -466,7 +540,7 @@ export const Table = <TData,>({
             }}
             className={styles.pagination}
             showSmallVersion={width <= 200}
-            data-testid={TEST_IDS.table.fieldPageNumber.selector()}
+            {...testIds.fieldPageNumber.apply()}
           />
           <ButtonSelect
             options={PAGE_SIZE_OPTIONS}
@@ -477,9 +551,20 @@ export const Table = <TData,>({
                 pageSize: event.value!,
               });
             }}
-            data-testid={TEST_IDS.table.fieldPageSize.selector()}
+            {...testIds.fieldPageSize.apply()}
           />
         </div>
+      )}
+      {!!deleteData.row && (
+        <ConfirmModal
+          isOpen={true}
+          title="Delete Row"
+          body="Please confirm to delete row"
+          confirmText="Confirm"
+          onConfirm={deleteData.onSave}
+          onDismiss={deleteData.onCancel}
+          disabled={deleteData.isSaving}
+        />
       )}
     </>
   );

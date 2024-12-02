@@ -25,12 +25,12 @@ interface Props<TData> {
    *
    * @type {VirtualItem}
    */
-  virtualRow: VirtualItem;
+  virtualRow?: VirtualItem;
 
   /**
    * Measure Element
    */
-  rowVirtualizer: Virtualizer<HTMLDivElement, HTMLElement>;
+  rowVirtualizer?: Virtualizer<HTMLDivElement, HTMLElement>;
 
   /**
    * Editing Row
@@ -63,6 +63,32 @@ interface Props<TData> {
    * @type {boolean}
    */
   isSaving: boolean;
+
+  /**
+   * Is New Row
+   *
+   * @type {boolean}
+   */
+  isNewRow?: boolean;
+
+  /**
+   * Is Edit Row Enabled
+   *
+   * @type {boolean}
+   */
+  isEditRowEnabled?: boolean;
+
+  /**
+   * Is Delete Row Enabled
+   *
+   * @type {boolean}
+   */
+  isDeleteRowEnabled?: boolean;
+
+  /**
+   * Delete Row
+   */
+  onDelete: (row: Row<TData>) => void;
 }
 
 /**
@@ -91,6 +117,11 @@ const getPinnedColumnStyle = <TData,>(
 };
 
 /**
+ * Test Ids
+ */
+export const testIds = TEST_IDS.table;
+
+/**
  * Table Row
  */
 export const TableRow = <TData,>({
@@ -103,6 +134,10 @@ export const TableRow = <TData,>({
   onChange,
   onSave,
   isSaving,
+  isNewRow = false,
+  isEditRowEnabled,
+  isDeleteRowEnabled = false,
+  onDelete,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -191,11 +226,22 @@ export const TableRow = <TData,>({
      * Edit Active
      */
     if (!!editingRow) {
-      /**
-       * Editable Cell With Data
-       */
-      if (cell.column.id !== ACTIONS_COLUMN_ID && cell.column.columnDef.meta?.editable) {
-        return <TableEditableCell {...cell.getContext()} row={editingRow} onChange={onChange} isSaving={isSaving} />;
+      if (cell.column.id !== ACTIONS_COLUMN_ID) {
+        if (isNewRow) {
+          if (cell.column.columnDef.meta?.addRowEditable) {
+            return (
+              <TableEditableCell
+                {...cell.getContext()}
+                row={editingRow}
+                isNewRow={true}
+                onChange={onChange}
+                isSaving={isSaving}
+              />
+            );
+          }
+        } else if (cell.column.columnDef.meta?.editable) {
+          return <TableEditableCell {...cell.getContext()} row={editingRow} onChange={onChange} isSaving={isSaving} />;
+        }
       }
     }
 
@@ -204,15 +250,17 @@ export const TableRow = <TData,>({
 
   return (
     <tr
-      data-index={virtualRow.index}
+      data-index={virtualRow?.index}
       key={row.id}
-      className={styles.row}
-      ref={rowVirtualizer.measureElement}
+      className={cx(styles.row, {
+        [styles.newRow]: isNewRow,
+      })}
+      ref={rowVirtualizer?.measureElement}
       style={{
-        transform: `translateY(${virtualRow.start}px)`,
+        transform: `translateY(${virtualRow?.start}px)`,
         backgroundColor: rowAppearance.background,
       }}
-      {...TEST_IDS.table.bodyRow.apply(row.id)}
+      {...testIds.bodyRow.apply(row.id)}
     >
       {visibleCells.map((cell, index) => {
         const cellAppearance = rowAppearance.cells[index];
@@ -226,6 +274,9 @@ export const TableRow = <TData,>({
           onCancelEdit,
           onSave,
           isSaving,
+          isEditRowEnabled,
+          isDeleteRowEnabled,
+          onDelete,
         };
 
         if (!!editingRow) {
@@ -251,7 +302,7 @@ export const TableRow = <TData,>({
               ...getPinnedColumnStyle(theme, cell.column, bgColor || rowAppearance.background),
             }}
             onClick={row.getToggleExpandedHandler()}
-            {...TEST_IDS.table.bodyCell.apply(cell.id)}
+            {...testIds.bodyCell.apply(cell.id)}
           >
             {renderCell(cell, rendererProps)}
           </td>

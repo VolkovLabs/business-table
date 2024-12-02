@@ -1,6 +1,14 @@
 import { PanelPlugin } from '@grafana/data';
 
-import { EditableDataEditor, NestedObjectsEditor, PaginationsEditor, TablePanel, TablesEditor } from './components';
+import {
+  AddDataEditor,
+  DeleteDataEditor,
+  EditableDataEditor,
+  NestedObjectsEditor,
+  PaginationsEditor,
+  TablePanel,
+  TablesEditor,
+} from './components';
 import { getMigratedOptions } from './migration';
 import { PanelOptions } from './types';
 
@@ -34,11 +42,29 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         aliasIds: ['nestedObjects'],
       })
       .addCustomEditor({
+        id: 'addData',
+        path: 'tables',
+        name: '',
+        editor: AddDataEditor,
+        category: ['Add Data'],
+        defaultValue: [],
+        showIf: (config) => config.tables.length > 0,
+      })
+      .addCustomEditor({
         id: 'editableData',
         path: 'tables',
         name: '',
         editor: EditableDataEditor,
         category: ['Editable Data'],
+        defaultValue: [],
+        showIf: (config) => config.tables.length > 0,
+      })
+      .addCustomEditor({
+        id: 'deleteData',
+        path: 'tables',
+        name: '',
+        editor: DeleteDataEditor,
+        category: ['Delete Data'],
         defaultValue: [],
         showIf: (config) => config.tables.length > 0,
       })

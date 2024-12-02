@@ -1,5 +1,7 @@
+export * from './AddDataEditor';
 export * from './DatasourceEditor';
 export * from './DatasourcePayloadEditor';
+export * from './DeleteDataEditor';
 export * from './EditableColumnEditor';
 export * from './EditableDataEditor';
 export * from './FieldPicker';

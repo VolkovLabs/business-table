@@ -3,7 +3,7 @@ import { getAppEvents } from '@grafana/runtime';
 import { renderHook } from '@testing-library/react';
 import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 
-import { createTableConfig } from '@/utils';
+import { createTableConfig, createTableOperationConfig, createTableRequestConfig } from '@/utils';
 
 import { useUpdateRow } from './useUpdateRow';
 
@@ -27,6 +27,7 @@ describe('useUpdateRow', () => {
         currentTable: createTableConfig({
           update: undefined,
         }),
+        operation: 'update',
       })
     );
 
@@ -35,7 +36,7 @@ describe('useUpdateRow', () => {
     expect(datasourceRequest).not.toHaveBeenCalled();
   });
 
-  it('Should run datasource request', async () => {
+  it('Should run datasource update request', async () => {
     const currentTable = createTableConfig({
       update: {
         datasource: 'postgres',
@@ -51,6 +52,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        operation: 'update',
       })
     );
 
@@ -63,6 +65,88 @@ describe('useUpdateRow', () => {
         payload: row,
         query: currentTable.update.payload,
         datasource: currentTable.update.datasource,
+      })
+    );
+
+    /**
+     * Should run refresh
+     */
+    expect(refresh).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should run datasource add request', async () => {
+    const currentTable = createTableConfig({
+      addRow: createTableOperationConfig({
+        enabled: true,
+        request: createTableRequestConfig({
+          datasource: 'postgres',
+          payload: { name: 'hello' },
+        }),
+      }),
+    });
+
+    datasourceRequest.mockResolvedValue({
+      state: LoadingState.Done,
+    });
+
+    const { result } = renderHook(() =>
+      useUpdateRow({
+        replaceVariables,
+        currentTable,
+        operation: 'add',
+      })
+    );
+
+    const row = { id: 1 };
+
+    await result.current(row);
+
+    expect(datasourceRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payload: row,
+        query: currentTable.addRow.request.payload,
+        datasource: currentTable.addRow.request.datasource,
+      })
+    );
+
+    /**
+     * Should run refresh
+     */
+    expect(refresh).toHaveBeenCalledTimes(1);
+  });
+
+  it('Should run datasource delete request', async () => {
+    const currentTable = createTableConfig({
+      deleteRow: createTableOperationConfig({
+        enabled: true,
+        request: createTableRequestConfig({
+          datasource: 'postgres',
+          payload: { name: 'hello' },
+        }),
+      }),
+    });
+
+    datasourceRequest.mockResolvedValue({
+      state: LoadingState.Done,
+    });
+
+    const { result } = renderHook(() =>
+      useUpdateRow({
+        replaceVariables,
+        currentTable,
+        operation: 'delete',
+      })
+    );
+
+    const row = { id: 1 };
+
+    await result.current(row);
+
+    expect(datasourceRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payload: row,
+        query: currentTable.deleteRow.request.payload,
+        datasource: currentTable.deleteRow.request.datasource,
       })
     );
 
@@ -89,6 +173,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        operation: 'update',
       })
     );
 
@@ -122,6 +207,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        operation: 'update',
       })
     );
 
@@ -155,6 +241,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        operation: 'update',
       })
     );
 

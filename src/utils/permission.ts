@@ -1,6 +1,12 @@
 import { CurrentUserDTO, DataFrame } from '@grafana/data';
 
-import { ColumnEditConfig, NestedObjectOperationConfig, PermissionConfig, PermissionMode } from '@/types';
+import {
+  ColumnEditConfig,
+  NestedObjectOperationConfig,
+  PermissionConfig,
+  PermissionMode,
+  TableOperationConfig,
+} from '@/types';
 
 import { getFieldBySource } from './group';
 
@@ -38,7 +44,7 @@ export const checkEditPermissionByQueryField = (permission: PermissionConfig, se
  * Check If Operation Enabled
  */
 export const checkIfOperationEnabled = (
-  config: ColumnEditConfig | NestedObjectOperationConfig,
+  config: ColumnEditConfig | NestedObjectOperationConfig | TableOperationConfig,
   { series, user }: { series: DataFrame[]; user: CurrentUserDTO }
 ): boolean => {
   /**

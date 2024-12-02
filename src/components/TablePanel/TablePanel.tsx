@@ -1,4 +1,5 @@
 import { PanelProps } from '@grafana/data';
+import { config } from '@grafana/runtime';
 import { Button, ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import { Table as TableInstance } from '@tanstack/react-table';
 import React, { useEffect, useMemo, useRef } from 'react';
@@ -14,6 +15,7 @@ import {
   useUpdateRow,
 } from '@/hooks';
 import { PanelOptions } from '@/types';
+import { checkIfOperationEnabled } from '@/utils';
 
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
@@ -60,11 +62,41 @@ export const TablePanel: React.FC<Props> = ({
   }, [options.tables, currentGroup]);
 
   /**
+   * Is Add Row Enabled
+   */
+  const isAddRowEnabled = useMemo(() => {
+    if (!currentTable) {
+      return false;
+    }
+
+    return checkIfOperationEnabled(currentTable.addRow, {
+      series: data.series,
+      user: config.bootData.user,
+    });
+  }, [currentTable, data.series]);
+
+  /**
+   * Is Delete Row Enabled
+   */
+  const isDeleteRowEnabled = useMemo(() => {
+    if (!currentTable) {
+      return false;
+    }
+
+    return checkIfOperationEnabled(currentTable.deleteRow, {
+      series: data.series,
+      user: config.bootData.user,
+    });
+  }, [currentTable, data.series]);
+
+  /**
    * Table
    */
   const { tableData, columns } = useTable({
     data,
     columns: currentTable?.items,
+    isAddRowEnabled,
+    isDeleteRowEnabled,
     replaceVariables,
     objects: options.nestedObjects,
   });
@@ -134,9 +166,19 @@ export const TablePanel: React.FC<Props> = ({
   } = useContentSizes({ width, height, options, tableData });
 
   /**
+   * Add Row
+   */
+  const onAddRow = useUpdateRow({ replaceVariables, currentTable, operation: 'add' });
+
+  /**
    * Update Row
    */
-  const onUpdateRow = useUpdateRow({ replaceVariables, currentTable });
+  const onUpdateRow = useUpdateRow({ replaceVariables, currentTable, operation: 'update' });
+
+  /**
+   * Delete Row
+   */
+  const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete' });
 
   /**
    * Export
@@ -221,6 +263,10 @@ export const TablePanel: React.FC<Props> = ({
             width={width}
             pagination={pagination}
             tableInstance={tableInstance as never}
+            onAddRow={onAddRow}
+            isAddRowEnabled={isAddRowEnabled}
+            onDeleteRow={onDeleteRow}
+            isDeleteRowEnabled={isDeleteRowEnabled}
           />
         </div>
       </div>

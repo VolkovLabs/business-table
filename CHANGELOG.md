@@ -1,6 +1,6 @@
 # Change Log
 
-## 1.9.0 (IN PROGRESS)
+## 1.9.0 (2024-12-01)
 
 ### Features / Enhancements
 
@@ -9,6 +9,7 @@
 - Added default pagination size (#181)
 - Added preformatted cell type (#180)
 - Updated table cells border (#183)
+- Added functionality to add and delete row (#184)
 
 ## 1.8.0 (2024-11-21)
 

@@ -17,6 +17,11 @@ export const getStyles = (theme: GrafanaTheme2) => {
         border-bottom: 1px solid ${borderColor};
       }
     `,
+    newRow: css`
+      position: relative;
+      border-bottom: 1px solid ${borderColor};
+      background-color: ${theme.colors.background.canvas};
+    `,
     cell: css`
       display: flex;
       min-height: ${theme.spacing(4.5)};

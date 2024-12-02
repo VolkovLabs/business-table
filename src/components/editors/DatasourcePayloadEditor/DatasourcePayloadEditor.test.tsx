@@ -1,4 +1,4 @@
-import { getDataSourceSrv } from '@grafana/runtime';
+import { getDataSourceSrv, getTemplateSrv } from '@grafana/runtime';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
@@ -22,6 +22,7 @@ jest.useFakeTimers();
  */
 jest.mock('@grafana/runtime', () => ({
   getDataSourceSrv: jest.fn(),
+  getTemplateSrv: jest.fn(),
 }));
 
 /**
@@ -47,6 +48,12 @@ describe('DatasourcePayloadEditor', () => {
   const getComponent = (props: Partial<Props>) => {
     return <DatasourcePayloadEditor {...(props as any)} />;
   };
+
+  beforeEach(() => {
+    jest.mocked(getTemplateSrv).mockReturnValue({
+      replace: jest.fn((str) => str),
+    } as never);
+  });
 
   it('Should show loading message', async () => {
     await act(async () => render(getComponent({})));
@@ -143,12 +150,14 @@ describe('DatasourcePayloadEditor', () => {
     });
   });
 
-  it('Should clear query if different data source', async () => {
+  it('Should clear query if different data source type', async () => {
     /**
      * Data Source Mock
      */
+
     const dataSourceSrv = {
       get: jest.fn(() => ({
+        type: 'grafana-postgres',
         name: 'postgresName',
         uid: 'postgres',
         components: {
@@ -197,6 +206,7 @@ describe('DatasourcePayloadEditor', () => {
      */
     jest.mocked(getDataSourceSrv).mockReturnValue({
       get: jest.fn(() => ({
+        type: 'business-input',
         name: 'postgresName',
         uid: 'postgres1',
         components: {
@@ -244,6 +254,112 @@ describe('DatasourcePayloadEditor', () => {
      * Check if saved
      */
     expect(onChange).toHaveBeenCalledWith({});
+  });
+
+  it('Should keep query if same data source type', async () => {
+    /**
+     * Data Source Mock
+     */
+
+    const dataSourceSrv = {
+      get: jest.fn(() => ({
+        type: 'grafana-postgres',
+        name: 'postgresName',
+        uid: 'postgres',
+        components: {
+          QueryEditor: jest.fn(({ onChange, query }) => (
+            <input
+              {...inTestIds.queryEditor.apply()}
+              value={query?.name || ''}
+              onChange={(event) =>
+                onChange({
+                  name: event.target.value,
+                })
+              }
+            />
+          )),
+        },
+      })),
+    };
+    jest.mocked(getDataSourceSrv).mockReturnValue(dataSourceSrv as any);
+
+    /**
+     * On Change
+     */
+    const onChange = jest.fn();
+
+    const { rerender } = await act(async () =>
+      render(
+        getComponent({
+          datasourceUid: 'postgres',
+          onChange,
+          value: {
+            name: 'hello',
+          },
+        })
+      )
+    );
+
+    expect(selectors.queryEditor()).toBeInTheDocument();
+
+    /**
+     * Check if value reset
+     */
+    expect(selectors.queryEditor()).toHaveValue('hello');
+
+    /**
+     * Data Source Mock
+     */
+    jest.mocked(getDataSourceSrv).mockReturnValue({
+      get: jest.fn(() => ({
+        type: 'grafana-postgres',
+        name: 'postgresName',
+        uid: 'postgres1',
+        components: {
+          QueryEditor: jest.fn(({ onChange, query }) => (
+            <input
+              {...inTestIds.queryEditor.apply()}
+              value={query?.name || ''}
+              onChange={(event) =>
+                onChange({
+                  name: event.target.value,
+                })
+              }
+            />
+          )),
+        },
+      })),
+    } as any);
+
+    /**
+     * Rerender with new datasource
+     */
+    await act(async () =>
+      rerender(
+        getComponent({
+          datasourceUid: 'postgres1',
+          onChange,
+          value: {
+            name: 'hello',
+          },
+        })
+      )
+    );
+
+    /**
+     * Check if value reset
+     */
+    expect(selectors.queryEditor()).toHaveValue('hello');
+
+    /**
+     * Run auto save timer
+     */
+    await act(async () => jest.runOnlyPendingTimersAsync());
+
+    /**
+     * Check if saved
+     */
+    expect(onChange).not.toHaveBeenCalled();
   });
 
   it('Should show error if unable to get datasource', async () => {

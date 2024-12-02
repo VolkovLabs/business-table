@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { Icon, useStyles2 } from '@grafana/ui';
+import { Icon, IconButton, useStyles2 } from '@grafana/ui';
 import { flexRender, Header } from '@tanstack/react-table';
 import React from 'react';
 
@@ -24,12 +24,29 @@ interface Props<TData> {
    * @type {ColumnHeaderFontSize}
    */
   size: ColumnHeaderFontSize;
+
+  /**
+   * Is Add Row Enabled
+   *
+   * @type {boolean}
+   */
+  isAddRowEnabled: boolean;
+
+  /**
+   * Add Row
+   */
+  onAddRow: () => void;
 }
+
+/**
+ * Test Ids
+ */
+export const testIds = TEST_IDS.tableHeaderCell;
 
 /**
  * Table Header Cell
  */
-export const TableHeaderCell = <TData,>({ header, size }: Props<TData>) => {
+export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRow }: Props<TData>) => {
   /**
    * Styles
    */
@@ -41,6 +58,10 @@ export const TableHeaderCell = <TData,>({ header, size }: Props<TData>) => {
    * Actions Header
    */
   if (header.column.id === ACTIONS_COLUMN_ID) {
+    if (isAddRowEnabled) {
+      return <IconButton name="plus" aria-label="Add Row" onClick={onAddRow} {...testIds.buttonAddRow.apply()} />;
+    }
+
     return null;
   }
 
@@ -54,14 +75,14 @@ export const TableHeaderCell = <TData,>({ header, size }: Props<TData>) => {
         style={{
           color: fontColor,
         }}
-        {...TEST_IDS.tableHeaderCell.root.apply()}
+        {...testIds.root.apply()}
       >
         {flexRender(header.column.columnDef.header, header.getContext())}
         {!!sort && (
           <Icon
             name={sort === 'asc' ? 'arrow-up' : 'arrow-down'}
             size={size}
-            {...TEST_IDS.tableHeaderCell.sortIcon.apply(sort === 'asc' ? 'arrow-up' : 'arrow-down')}
+            {...testIds.sortIcon.apply(sort === 'asc' ? 'arrow-up' : 'arrow-down')}
           />
         )}
       </div>

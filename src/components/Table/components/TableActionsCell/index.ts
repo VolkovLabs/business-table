@@ -1,1 +1,1 @@
-export * from './TableActionsCell';
+export { TableActionsCell } from './TableActionsCell';

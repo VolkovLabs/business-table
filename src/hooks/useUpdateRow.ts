@@ -8,9 +8,11 @@ import { TableConfig } from '@/types';
 export const useUpdateRow = ({
   replaceVariables,
   currentTable,
+  operation,
 }: {
   replaceVariables: InterpolateFunction;
   currentTable?: TableConfig;
+  operation: 'add' | 'update' | 'delete';
 }) => {
   /**
    * App Events
@@ -40,19 +42,38 @@ export const useUpdateRow = ({
    */
   return useCallback(
     async (row: unknown) => {
-      const updateRequest = currentTable?.update;
+      let request;
+      let successMessage = '';
+
+      switch (operation) {
+        case 'add': {
+          request = currentTable?.addRow.request;
+          successMessage = 'Row added successfully.';
+          break;
+        }
+        case 'update': {
+          request = currentTable?.update;
+          successMessage = 'Values updated successfully.';
+          break;
+        }
+        case 'delete': {
+          request = currentTable?.deleteRow.request;
+          successMessage = 'Row deleted successfully.';
+          break;
+        }
+      }
 
       /**
-       * No update request
+       * No request
        */
-      if (!updateRequest) {
+      if (!request) {
         return;
       }
 
       try {
         const response = await datasourceRequest({
-          query: updateRequest.payload,
-          datasource: updateRequest.datasource,
+          query: request.payload,
+          datasource: request.datasource,
           replaceVariables,
           payload: row,
         });
@@ -64,7 +85,7 @@ export const useUpdateRow = ({
           throw response.errors;
         }
 
-        notifySuccess(['Success', 'Values updated successfully.']);
+        notifySuccess(['Success', successMessage]);
         refreshDashboard();
       } catch (e: unknown) {
         const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
@@ -72,6 +93,16 @@ export const useUpdateRow = ({
         throw e;
       }
     },
-    [currentTable?.update, datasourceRequest, notifyError, notifySuccess, refreshDashboard, replaceVariables]
+    [
+      currentTable?.addRow.request,
+      currentTable?.deleteRow.request,
+      currentTable?.update,
+      datasourceRequest,
+      notifyError,
+      notifySuccess,
+      operation,
+      refreshDashboard,
+      replaceVariables,
+    ]
   );
 };

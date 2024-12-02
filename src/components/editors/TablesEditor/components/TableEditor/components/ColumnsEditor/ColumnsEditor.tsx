@@ -5,7 +5,12 @@ import { Collapse } from '@volkovlabs/components';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { CollapseTitle, FieldPicker } from '@/components';
-import { DEFAULT_COLUMN_APPEARANCE, DEFAULT_COLUMN_EDIT, TEST_IDS } from '@/constants';
+import {
+  DEFAULT_COLUMN_APPEARANCE,
+  DEFAULT_COLUMN_EDIT_CONFIG,
+  DEFAULT_COLUMN_NEW_ROW_EDIT_CONFIG,
+  TEST_IDS,
+} from '@/constants';
 import {
   CellAggregation,
   CellType,
@@ -133,7 +138,8 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
           },
           appearance: DEFAULT_COLUMN_APPEARANCE,
           footer: [],
-          edit: DEFAULT_COLUMN_EDIT,
+          edit: DEFAULT_COLUMN_EDIT_CONFIG,
+          newRowEdit: DEFAULT_COLUMN_NEW_ROW_EDIT_CONFIG,
           pin: ColumnPinDirection.NONE,
           objectId: '',
         },
