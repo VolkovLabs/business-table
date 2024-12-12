@@ -295,7 +295,7 @@ export const TableRow = <TData,>({
               minWidth: cell.column.columnDef.minSize,
               width: cell.column.getSize(),
               backgroundColor: bgColor,
-              wordBreak: cellAppearance?.wrap ? 'break-all' : 'normal',
+              wordBreak: cellAppearance?.wrap ? 'break-word' : 'normal',
               whiteSpace: cellAppearance?.wrap ? 'normal' : 'nowrap',
               justifyContent: cellAppearance?.align,
               textAlign: cellAppearance?.align,
