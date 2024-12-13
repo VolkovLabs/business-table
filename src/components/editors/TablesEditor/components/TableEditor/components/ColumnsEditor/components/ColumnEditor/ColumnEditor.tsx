@@ -88,7 +88,7 @@ const cellTypeOptions = [
   {
     value: CellType.PREFORMATTED,
     label: 'Preformatted',
-    description: 'Text preserves both spaces and line breaks'
+    description: 'Text preserves both spaces and line breaks',
   },
   {
     value: CellType.RICH_TEXT,
@@ -656,6 +656,21 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 });
               }}
               {...TEST_IDS.columnEditor.fieldAggregation.apply()}
+            />
+          </InlineField>
+        )}
+
+        {value.group && (
+          <InlineField label="Sub rows" grow={true} tooltip={'Show total sub rows per group'}>
+            <InlineSwitch
+              value={value.showSubRowsTotal}
+              onChange={(event) =>
+                onChange({
+                  ...value,
+                  showSubRowsTotal: event.currentTarget.checked,
+                })
+              }
+              {...TEST_IDS.columnEditor.fieldSortEnabled.apply()}
             />
           </InlineField>
         )}

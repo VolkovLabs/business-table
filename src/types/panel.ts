@@ -314,6 +314,13 @@ export interface ColumnConfig {
    * @type {ImageScale}
    */
   scale: ImageScale;
+
+  /**
+   * Show total sub rows per group
+   *
+   * @type {boolean}
+   */
+  showSubRowsTotal: boolean;
 }
 
 /**
@@ -632,4 +639,11 @@ export interface ColumnMeta {
    * @type {ImageScale}
    */
   scale: ImageScale;
+
+  /**
+   * Show sub rows total
+   *
+   * @type {boolean}
+   */
+  showSubRowsTotal: boolean;
 }

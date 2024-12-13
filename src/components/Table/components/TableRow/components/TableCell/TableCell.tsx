@@ -156,6 +156,11 @@ export const TableCell = <TData,>({ row, cell, rendererProps }: Props<TData>) =>
         />
       )}
       {renderCell()}
+      {cell.getIsGrouped() && cell.column.columnDef.meta?.config.showSubRowsTotal && (
+        <span className={styles.subRowsTotal} {...TEST_IDS.tableCell.totalSubRows.apply()}>
+          (Rows: {row.subRows.length})
+        </span>
+      )}
     </>
   );
 };

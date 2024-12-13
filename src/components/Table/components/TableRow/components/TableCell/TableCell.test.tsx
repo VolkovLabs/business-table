@@ -334,4 +334,50 @@ describe('TableCell', () => {
       expect.anything()
     );
   });
+
+  it('Should render totalSubRows', async () => {
+    const data = [
+      {
+        device: 'device1',
+        value: 10,
+      },
+      {
+        device: 'device2',
+        value: 20,
+      },
+    ];
+
+    const columns = [
+      {
+        id: 'device',
+        accessorFn: createColumnAccessorFn('device'),
+        enableGrouping: true,
+        meta: createColumnMeta({
+          showSubRowsTotal: true,
+          config: createColumnConfig({
+            showSubRowsTotal: true,
+          }),
+        }),
+      },
+      {
+        id: 'value',
+        accessorFn: createColumnAccessorFn('value'),
+        aggregationFn: () => null,
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          grouping: ['device'],
+        })
+      )
+    );
+
+    expect(selectors.totalSubRows()).toBeInTheDocument();
+    expect(selectors.totalSubRows()).toHaveTextContent('(Rows: 1)');
+  });
 });

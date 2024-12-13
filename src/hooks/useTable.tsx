@@ -416,6 +416,7 @@ export const useTable = ({
             : undefined,
           addRowEditable: isColumnAddRowEditable,
           addRowEditor: isColumnAddRowEditable ? getEditorControlOptions(column.config.newRowEdit.editor) : undefined,
+          showSubRowsTotal: column.config.showSubRowsTotal,
         },
         footer: (context) => getFooterCell({ context, config: column.config, field: column.field, theme }),
         ...sizeParams,

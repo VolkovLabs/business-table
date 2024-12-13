@@ -141,6 +141,7 @@ export const TEST_IDS = {
       (name: unknown) => `column-editor field-appearance-alignment-option-${name}`
     ),
     fieldScale: createSelector('data-testid column-editor field-scale'),
+    fieldTotalSubRows: createSelector('data-testid column-editor field-total-sub-rows'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -182,6 +183,7 @@ export const TEST_IDS = {
   tableCell: {
     tableLink: createSelector((name: unknown) => `table link-${name}`),
     tableLinkMenu: createSelector('table link-menu'),
+    totalSubRows: createSelector('data-testid table total-sub-rows'),
   },
   filterFacetedList: {
     root: createSelector('data-testid filter-faceted-list'),
