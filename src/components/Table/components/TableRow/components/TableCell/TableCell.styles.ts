@@ -39,10 +39,5 @@ export const getStyles = (theme: GrafanaTheme2) => {
         }
       }
     `,
-    subRowsTotal: css`
-      margin-left: ${theme.spacing(1)};
-      font-size: ${theme.spacing(1.25)};
-      color: ${theme.colors.text.disabled};
-    `,
   };
 };
