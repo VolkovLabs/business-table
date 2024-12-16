@@ -182,6 +182,7 @@ export const TEST_IDS = {
   tableCell: {
     tableLink: createSelector((name: unknown) => `table link-${name}`),
     tableLinkMenu: createSelector('table link-menu'),
+    totalSubRows: createSelector('data-testid table total-sub-rows'),
   },
   filterFacetedList: {
     root: createSelector('data-testid filter-faceted-list'),
