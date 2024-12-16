@@ -478,3 +478,39 @@ export const convertTableToDataFrame = <TData>(table: TableInstance<TData>): Dat
  */
 export const createColumnAccessorFn = (accessorKey: string) => (row: unknown) =>
   (row as Record<string, unknown>)[accessorKey];
+
+/**
+ * Convert available string value to boolean
+ */
+export const convertStringValueToBoolean = (value: string): boolean => {
+  switch (value) {
+    case 'true':
+    case 'yes':
+    case '1': {
+      return true;
+    }
+    case 'false':
+    case 'no':
+    case '1': {
+      return false;
+    }
+    default: {
+      return false;
+    }
+  }
+};
+
+/**
+ * normalize Boolean Cell Value
+ */
+export const normalizeBooleanCellValue = (value: unknown): boolean => {
+  if (typeof value === 'boolean') {
+    return value;
+  }
+
+  if (typeof value === 'string') {
+    return convertStringValueToBoolean(value);
+  }
+
+  return false;
+};

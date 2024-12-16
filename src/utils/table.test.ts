@@ -12,6 +12,7 @@ import {
 
 import {
   columnFilter,
+  convertStringValueToBoolean,
   convertTableToDataFrame,
   createColumnAccessorFn,
   getFilterWithNewType,
@@ -19,6 +20,7 @@ import {
   getSupportedFilterTypesForVariable,
   getVariableColumnFilters,
   mergeColumnFilters,
+  normalizeBooleanCellValue,
 } from './table';
 import {
   createColumnConfig,
@@ -1233,6 +1235,41 @@ describe('Table utils', () => {
     it('Should take data by key', () => {
       expect(createColumnAccessorFn('name')({ name: 'device1' })).toEqual('device1');
       expect(createColumnAccessorFn('comment.info.name')({ 'comment.info.name': 'hello' })).toEqual('hello');
+    });
+  });
+
+  /**
+   * convertStringValueToBoolean
+   */
+  describe('convertStringValueToBoolean', () => {
+    it.each([
+      ['true', true],
+      ['yes', true],
+      ['1', true],
+      ['false', false],
+      ['no', false],
+      ['random', false],
+      ['', false],
+      ['0', false],
+    ])('Should return value as boolean', (input, expected) => {
+      expect(convertStringValueToBoolean(input)).toBe(expected);
+    });
+  });
+
+  /**
+   * normalizeBooleanCellValue
+   */
+  describe('normalizeBooleanCellValue', () => {
+    it.each([
+      [true, true],
+      [false, false],
+      ['true', true],
+      ['false', false],
+      ['random', false],
+      [null, false],
+      ['fals', false],
+    ])('Should convert value to boolean', (value, expected) => {
+      expect(normalizeBooleanCellValue(value)).toBe(expected);
     });
   });
 });
