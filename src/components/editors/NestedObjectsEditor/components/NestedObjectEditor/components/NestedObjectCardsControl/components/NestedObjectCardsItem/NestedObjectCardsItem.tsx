@@ -154,6 +154,7 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
               {isEditing ? (
                 <Field>
                   <AutosizeCodeEditor
+                    isEscaping={true}
                     value={itemPayload.body}
                     onChange={(body) => {
                       /**
