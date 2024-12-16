@@ -137,7 +137,6 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   newRowEdit: createColumnNewRowEditConfig({}),
   pin: ColumnPinDirection.NONE,
   objectId: '',
-  showSubRowsTotal: false,
   ...item,
 });
 
@@ -210,7 +209,6 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   scale: ImageScale.AUTO,
   editable: false,
   addRowEditable: false,
-  showSubRowsTotal: false,
   ...meta,
 });
 
