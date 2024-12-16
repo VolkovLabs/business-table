@@ -4,6 +4,7 @@
 
 ### Features / Enhancements
 
+- Updated wrap column text by word (#195)
 - Updated packages for Code Editor (#194)
 
 ## 1.9.0 (2024-12-01)
