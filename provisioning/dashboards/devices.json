@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": 3,
   "links": [],
   "panels": [
     {
@@ -809,7 +809,7 @@
             "expanded": false,
             "items": [
               {
-                "aggregation": "none",
+                "aggregation": "count",
                 "appearance": {
                   "alignment": "start",
                   "background": {
@@ -1245,6 +1245,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 5,
+  "version": 1,
   "weekStart": ""
 }

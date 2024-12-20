@@ -161,10 +161,48 @@ describe('ColumnEditor', () => {
     );
   });
 
-  it('Should hide aggregation if group', () => {
+  it('Should allow to change group and reset aggregation', () => {
+    render(getComponent({ value: createColumnConfig({ group: false, aggregation: CellAggregation.MAX }) }));
+
+    expect(selectors.fieldGroup()).toBeInTheDocument();
+    expect(selectors.fieldGroup()).not.toBeChecked();
+
+    fireEvent.click(selectors.fieldGroup());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        group: true,
+        aggregation: CellAggregation.NONE,
+      })
+    );
+  });
+
+  it('Should allow to change group and keep aggregation', () => {
+    render(getComponent({ value: createColumnConfig({ group: true, aggregation: CellAggregation.COUNT }) }));
+
+    expect(selectors.fieldGroup()).toBeInTheDocument();
+    expect(selectors.fieldGroup()).toBeChecked();
+
+    fireEvent.click(selectors.fieldGroup());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        group: false,
+        aggregation: CellAggregation.COUNT,
+      })
+    );
+  });
+
+  it('Should show aggregation if group', () => {
     render(getComponent({ value: createColumnConfig({ group: true }) }));
 
     expect(selectors.fieldAggregation(true)).not.toBeInTheDocument();
+  });
+
+  it('Should show aggregation if available', () => {
+    render(getComponent({ value: createColumnConfig({ group: false }), isAggregationAvailable: true }));
+
+    expect(selectors.fieldAggregation(true)).toBeInTheDocument();
   });
 
   it('Should hide aggregation if not available', () => {
@@ -209,6 +247,26 @@ describe('ColumnEditor', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         aggregation: CellAggregation.MAX,
+      })
+    );
+  });
+
+  it('Should allow to change aggregation for group', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({ group: true, aggregation: CellAggregation.NONE }),
+        isAggregationAvailable: true,
+      })
+    );
+
+    expect(selectors.fieldAggregation()).toBeInTheDocument();
+    expect(selectors.fieldAggregation()).toHaveValue(CellAggregation.NONE);
+
+    fireEvent.change(selectors.fieldAggregation(), { target: { value: CellAggregation.COUNT } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        aggregation: CellAggregation.COUNT,
       })
     );
   });
