@@ -88,7 +88,7 @@ const cellTypeOptions = [
   {
     value: CellType.PREFORMATTED,
     label: 'Preformatted',
-    description: 'Text preserves both spaces and line breaks'
+    description: 'Text preserves both spaces and line breaks',
   },
   {
     value: CellType.RICH_TEXT,
@@ -140,6 +140,21 @@ const aggregationOptions = [
   {
     value: CellAggregation.UNIQUE_COUNT,
     label: 'Unique Count',
+  },
+];
+
+/**
+ * Aggregation Options for group
+ */
+const aggregationOptionsForGroup = [
+  {
+    value: CellAggregation.COUNT,
+    label: 'Count',
+    description: 'Show sub rows total',
+  },
+  {
+    value: CellAggregation.NONE,
+    label: 'None',
   },
 ];
 
@@ -598,12 +613,18 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
             <InlineField label="Group" grow={true}>
               <InlineSwitch
                 value={value.group}
-                onChange={(event) =>
+                onChange={(event) => {
+                  /**
+                   * Reset aggregation if group was disabled
+                   */
+                  const updatedAggregation =
+                    !value.group && value.aggregation ? CellAggregation.NONE : value.aggregation;
                   onChange({
                     ...value,
                     group: event.currentTarget.checked,
-                  })
-                }
+                    aggregation: updatedAggregation,
+                  });
+                }}
                 {...TEST_IDS.columnEditor.fieldGroup.apply()}
               />
             </InlineField>
@@ -644,11 +665,11 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           )}
         </InlineFieldRow>
 
-        {!value.group && isAggregationAvailable && (
+        {isAggregationAvailable && (
           <InlineField label="Aggregation" grow={true}>
             <Select
               value={value.aggregation}
-              options={aggregationOptions}
+              options={value.group ? aggregationOptionsForGroup : aggregationOptions}
               onChange={(event) => {
                 onChange({
                   ...value,

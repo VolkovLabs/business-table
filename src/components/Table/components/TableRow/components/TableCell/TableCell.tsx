@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 
 import { nestedObjectEditorsRegistry } from '@/components';
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
-import { CellType } from '@/types';
+import { CellAggregation, CellType } from '@/types';
 
 import { getStyles } from './TableCell.styles';
 
@@ -156,6 +156,11 @@ export const TableCell = <TData,>({ row, cell, rendererProps }: Props<TData>) =>
         />
       )}
       {renderCell()}
+      {cell.getIsGrouped() && cell.column.columnDef.meta?.config.aggregation === CellAggregation.COUNT && (
+        <span className={styles.subRowsTotal} {...TEST_IDS.tableCell.totalSubRows.apply()}>
+          ({row.subRows.length})
+        </span>
+      )}
     </>
   );
 };

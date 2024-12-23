@@ -14,7 +14,7 @@ import React, { act } from 'react';
 
 import { nestedObjectEditorsRegistry } from '@/components';
 import { TEST_IDS } from '@/constants';
-import { CellType, NestedObjectType } from '@/types';
+import { CellAggregation, CellType, NestedObjectType } from '@/types';
 import {
   createColumnAccessorFn,
   createColumnConfig,
@@ -333,5 +333,50 @@ describe('TableCell', () => {
       }),
       expect.anything()
     );
+  });
+
+  it('Should render totalSubRows', async () => {
+    const data = [
+      {
+        device: 'device1',
+        value: 10,
+      },
+      {
+        device: 'device2',
+        value: 20,
+      },
+    ];
+
+    const columns = [
+      {
+        id: 'device',
+        accessorFn: createColumnAccessorFn('device'),
+        enableGrouping: true,
+        meta: createColumnMeta({
+          config: createColumnConfig({
+            aggregation: CellAggregation.COUNT,
+          }),
+        }),
+      },
+      {
+        id: 'value',
+        accessorFn: createColumnAccessorFn('value'),
+        aggregationFn: () => null,
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          grouping: ['device'],
+        })
+      )
+    );
+
+    expect(selectors.totalSubRows()).toBeInTheDocument();
+    expect(selectors.totalSubRows()).toHaveTextContent('(1)');
   });
 });

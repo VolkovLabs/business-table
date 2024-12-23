@@ -7,6 +7,7 @@
 - Updated wrap column text by word (#195)
 - Updated packages for Code Editor (#194)
 - Added normalize for boolean type (#198)
+- Added number of rows inside group (#199)
 
 ## 1.9.0 (2024-12-01)
 
