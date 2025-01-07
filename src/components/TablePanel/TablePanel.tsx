@@ -215,13 +215,9 @@ export const TablePanel: React.FC<Props> = ({
             height,
           }}
         >
-          <AlertWithDetails
-            error={error}
-            variant="error"
-            title="Request error"
-            display={!!error}
-            onRemove={() => setError('')}
-          />
+          {error && (
+            <AlertWithDetails details={error} variant="error" title="Request error" onRemove={() => setError('')} />
+          )}
           {isToolbarVisible && (
             <div ref={headerRef} className={styles.header}>
               <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>

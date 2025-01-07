@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -406,10 +406,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -475,10 +472,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -544,10 +538,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -608,10 +599,7 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -1181,9 +1169,7 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": [
-                  "true"
-                ]
+                "values": ["true"]
               }
             ],
             "meta": {},
@@ -1194,6 +1180,1185 @@
         }
       ],
       "title": "Devices",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "other",
+                "targetField": "comments"
+              },
+              {
+                "destinationType": "other",
+                "targetField": "small_comments"
+              }
+            ],
+            "fields": {}
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "datasource",
+        "uid": "-- Mixed --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
+      "id": 2,
+      "options": {
+        "nestedObjects": [
+          {
+            "add": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "INSERT INTO\n  comments (id, device_id, title, body, user_id)\nVALUES\n  (\n    nextval('seq_comments'),\n    ${payload.row.id},\n    ${payload.item.title:sqlstring},\n    ${payload.item.body:sqlstring},\n    ${payload.item.none:sqlstring},\n    test\n    ${__user.id}\n  )",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
+            "delete": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "DELETE FROM comments WHERE id=${payload.item.id}",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
+            "editor": {
+              "author": "user_id",
+              "body": "body",
+              "display": "last",
+              "displayCount": 2,
+              "id": "id",
+              "time": "created_date",
+              "title": "title",
+              "type": "cards"
+            },
+            "get": {
+              "datasource": "timescale",
+              "payload": {
+                "editorMode": "code",
+                "format": "table",
+                "rawQuery": true,
+                "rawSql": "select * from comments WHERE id IN (${payload.ids:csv});",
+                "refId": "A",
+                "sql": {
+                  "columns": [
+                    {
+                      "parameters": [],
+                      "type": "function"
+                    }
+                  ],
+                  "groupBy": [
+                    {
+                      "property": {
+                        "type": "string"
+                      },
+                      "type": "groupBy"
+                    }
+                  ],
+                  "limit": 50
+                }
+              }
+            },
+            "id": "86a57480-78e4-428d-b04e-0fdaf14550cf",
+            "name": "Comments",
+            "type": "cards",
+            "update": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "timescale",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "UPDATE comments\nSET title = ${payload.item.title:sqlstring}, body = ${payload.item.body:sqlstring}\nWHERE id = ${payload.item.id};",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            }
+          },
+          {
+            "editor": {
+              "author": "",
+              "body": "",
+              "display": "",
+              "id": "id",
+              "time": "",
+              "title": "title",
+              "type": "cards"
+            },
+            "get": {
+              "datasource": "timescale",
+              "payload": {
+                "editorMode": "code",
+                "format": "table",
+                "rawQuery": true,
+                "rawSql": "select id, title from comments WHERE id IN (${payload.ids:csv});",
+                "refId": "A",
+                "sql": {
+                  "columns": [
+                    {
+                      "parameters": [],
+                      "type": "function"
+                    }
+                  ],
+                  "groupBy": [
+                    {
+                      "property": {
+                        "type": "string"
+                      },
+                      "type": "groupBy"
+                    }
+                  ],
+                  "limit": 50
+                }
+              }
+            },
+            "id": "fdfb236a-45e7-4f3b-9369-8a47cdcfae42",
+            "name": "Small Comments",
+            "type": "cards"
+          }
+        ],
+        "tables": [
+          {
+            "addRow": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "${DS}",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "insert into devices values (nextval('seq_devices'), '${payload.name}', '${payload.city}', '${payload.state}', '${payload.country}')",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
+            "deleteRow": {
+              "enabled": true,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "${DS}",
+                "payload": {
+                  "editorMode": "code",
+                  "format": "table",
+                  "rawQuery": true,
+                  "rawSql": "DELETE FROM devices WHERE id=${payload.id}",
+                  "refId": "A",
+                  "sql": {
+                    "columns": [
+                      {
+                        "parameters": [],
+                        "type": "function"
+                      }
+                    ],
+                    "groupBy": [
+                      {
+                        "property": {
+                          "type": "string"
+                        },
+                        "type": "groupBy"
+                      }
+                    ],
+                    "limit": 50
+                  }
+                }
+              }
+            },
+            "expanded": false,
+            "items": [
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "end",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": false,
+                    "min": 20,
+                    "value": 50
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 150,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "Countries",
+                      "value": "country"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "userRole",
+                    "userRole": ["Editor", "Admin"]
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "country",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "Countries",
+                      "value": "country"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 150,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "States",
+                      "value": "state"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "userRole",
+                    "userRole": ["Editor", "Admin"]
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "state",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "States",
+                      "value": "state"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "max": 150,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "Cities",
+                      "value": "city"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "userRole",
+                    "userRole": ["Editor", "Admin"]
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "city",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "queryOptions": {
+                      "source": "Cities",
+                      "value": "city"
+                    },
+                    "type": "select"
+                  },
+                  "enabled": true
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 100,
+                    "value": 200
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": true,
+                  "permission": {
+                    "field": {
+                      "name": "edit",
+                      "source": "Permission"
+                    },
+                    "mode": "query",
+                    "userRole": ["Editor", "Admin"]
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": true
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": false,
+                    "min": 20,
+                    "value": 300
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "comments",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "Comments",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "86a57480-78e4-428d-b04e-0fdaf14550cf",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "nested_objects"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "small_comments",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "Small Comments",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "fdfb236a-45e7-4f3b-9369-8a47cdcfae42",
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "nested_objects"
+              }
+            ],
+            "name": "List",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "${DS}",
+              "payload": {
+                "editorMode": "code",
+                "format": "table",
+                "rawQuery": true,
+                "rawSql": "UPDATE\n  devices\nSET\n  name = ${payload.name:sqlstring}\n  test = test\nWHERE\n  id = ${payload.id};",
+                "refId": "A",
+                "sql": {
+                  "columns": [
+                    {
+                      "parameters": [],
+                      "type": "function"
+                    }
+                  ],
+                  "groupBy": [
+                    {
+                      "property": {
+                        "type": "string"
+                      },
+                      "type": "groupBy"
+                    }
+                  ],
+                  "limit": 50
+                }
+              }
+            }
+          },
+          {
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
+            "items": [
+              {
+                "aggregation": "count",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "country",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "state",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "city",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              }
+            ],
+            "name": "Grouped",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "export": false
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "${DS}"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "select\n*,\narray_to_json(array(\n\tselect id\n\tfrom comments comments\n\twhere comments.device_id = devices.id\n)) as comments,\narray_to_json(array(\n\tselect id\n\tfrom comments comments\n\twhere comments.device_id = devices.id\n)) as small_comments\nfrom devices\norder by id;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "timescale"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select distinct country from devices;",
+          "refId": "Countries",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "timescale"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select distinct state from devices;",
+          "refId": "States",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "timescale"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "hide": false,
+          "rawQuery": true,
+          "rawSql": "select distinct city from devices;",
+          "refId": "Cities",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "edit",
+                "type": "boolean",
+                "values": ["true"]
+              }
+            ],
+            "meta": {},
+            "name": ""
+          },
+          "hide": false,
+          "refId": "Permission"
+        }
+      ],
+      "title": "Devices with errors",
       "transformations": [
         {
           "id": "convertFieldType",
@@ -1245,6 +2410,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 1,
+  "version": 3,
   "weekStart": ""
 }
