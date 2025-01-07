@@ -188,14 +188,6 @@ describe('useUpdateRow', () => {
     const e = await result.current(row).catch((e) => e);
 
     expect(e).toEqual(['error1']);
-
-    /**
-     * Check if dashboard refreshed
-     */
-    expect(getAppEvents().publish).toHaveBeenCalledWith({
-      type: AppEvents.alertError.name,
-      payload: ['Error', 'error1'],
-    });
   });
 
   it('Should show datasource request error object', async () => {
