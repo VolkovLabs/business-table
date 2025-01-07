@@ -1,5 +1,4 @@
-import { AppEvents, LoadingState } from '@grafana/data';
-import { getAppEvents } from '@grafana/runtime';
+import { LoadingState } from '@grafana/data';
 import { renderHook } from '@testing-library/react';
 import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 

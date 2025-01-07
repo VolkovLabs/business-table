@@ -1,5 +1,4 @@
 import { LoadingState } from '@grafana/data';
-import { getAppEvents } from '@grafana/runtime';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
