@@ -1,5 +1,4 @@
-import { AppEvents, LoadingState } from '@grafana/data';
-import { getAppEvents } from '@grafana/runtime';
+import { LoadingState } from '@grafana/data';
 import { renderHook } from '@testing-library/react';
 import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 
@@ -14,6 +13,7 @@ describe('useUpdateRow', () => {
   const replaceVariables = jest.fn();
   const datasourceRequest = jest.fn();
   const refresh = jest.fn();
+  const setError = jest.fn();
 
   beforeEach(() => {
     jest.mocked(useDatasourceRequest).mockReturnValue(datasourceRequest);
@@ -24,6 +24,7 @@ describe('useUpdateRow', () => {
     const { result } = renderHook(() =>
       useUpdateRow({
         replaceVariables,
+        setError,
         currentTable: createTableConfig({
           update: undefined,
         }),
@@ -52,6 +53,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        setError,
         operation: 'update',
       })
     );
@@ -93,6 +95,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        setError,
         operation: 'add',
       })
     );
@@ -134,6 +137,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        setError,
         operation: 'delete',
       })
     );
@@ -173,6 +177,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        setError,
         operation: 'update',
       })
     );
@@ -182,14 +187,6 @@ describe('useUpdateRow', () => {
     const e = await result.current(row).catch((e) => e);
 
     expect(e).toEqual(['error1']);
-
-    /**
-     * Check if dashboard refreshed
-     */
-    expect(getAppEvents().publish).toHaveBeenCalledWith({
-      type: AppEvents.alertError.name,
-      payload: ['Error', 'error1'],
-    });
   });
 
   it('Should show datasource request error object', async () => {
@@ -207,6 +204,7 @@ describe('useUpdateRow', () => {
       useUpdateRow({
         replaceVariables,
         currentTable,
+        setError,
         operation: 'update',
       })
     );
@@ -216,14 +214,6 @@ describe('useUpdateRow', () => {
     const e = await result.current(row).catch((e) => e);
 
     expect(e).toEqual(error);
-
-    /**
-     * Check if dashboard refreshed
-     */
-    expect(getAppEvents().publish).toHaveBeenCalledWith({
-      type: AppEvents.alertError.name,
-      payload: ['Error', error],
-    });
   });
 
   it('Should show unknown error', async () => {
@@ -237,10 +227,13 @@ describe('useUpdateRow', () => {
     const error = '123';
     datasourceRequest.mockRejectedValue(error);
 
+    const setError = jest.fn();
+
     const { result } = renderHook(() =>
       useUpdateRow({
         replaceVariables,
         currentTable,
+        setError,
         operation: 'update',
       })
     );
@@ -250,13 +243,5 @@ describe('useUpdateRow', () => {
     const e = await result.current(row).catch((e) => e);
 
     expect(e).toEqual(error);
-
-    /**
-     * Check if dashboard refreshed
-     */
-    expect(getAppEvents().publish).toHaveBeenCalledWith({
-      type: AppEvents.alertError.name,
-      payload: ['Error', 'Unknown Error'],
-    });
   });
 });

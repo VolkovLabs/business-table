@@ -16,6 +16,11 @@ describe('LayoutCellRenderer', () => {
   const replaceVariables = jest.fn();
 
   /**
+   * setError
+   */
+  const setError = jest.fn();
+
+  /**
    * Selectors
    */
   const getSelectors = getJestSelectors(TEST_IDS.layoutCellRenderer);
@@ -26,7 +31,7 @@ describe('LayoutCellRenderer', () => {
    */
   const getComponent = (props: Partial<Props>) => {
     return (
-      <tablePanelContext.Provider value={{ replaceVariables }}>
+      <tablePanelContext.Provider value={{ replaceVariables, setError }}>
         <LayoutCellRenderer value={jest.fn()} {...(props as any)} />;
       </tablePanelContext.Provider>
     );

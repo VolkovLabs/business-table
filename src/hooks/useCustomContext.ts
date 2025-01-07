@@ -40,4 +40,5 @@ export const nestedObjectsEditorContext = createCustomContext<{
  */
 export const tablePanelContext = createCustomContext<{
   replaceVariables: InterpolateFunction;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 }>();

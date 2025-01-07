@@ -2,7 +2,8 @@ import { PanelProps } from '@grafana/data';
 import { config } from '@grafana/runtime';
 import { Button, ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import { Table as TableInstance } from '@tanstack/react-table';
-import React, { useEffect, useMemo, useRef } from 'react';
+import { AlertWithDetails } from '@volkovlabs/components';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import {
@@ -42,6 +43,8 @@ export const TablePanel: React.FC<Props> = ({
    * Styles
    */
   const styles = useStyles2(getStyles);
+
+  const [error, setError] = useState('');
 
   /**
    * Current group
@@ -168,17 +171,17 @@ export const TablePanel: React.FC<Props> = ({
   /**
    * Add Row
    */
-  const onAddRow = useUpdateRow({ replaceVariables, currentTable, operation: 'add' });
+  const onAddRow = useUpdateRow({ replaceVariables, currentTable, operation: 'add', setError });
 
   /**
    * Update Row
    */
-  const onUpdateRow = useUpdateRow({ replaceVariables, currentTable, operation: 'update' });
+  const onUpdateRow = useUpdateRow({ replaceVariables, currentTable, operation: 'update', setError });
 
   /**
    * Delete Row
    */
-  const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete' });
+  const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete', setError });
 
   /**
    * Export
@@ -195,7 +198,7 @@ export const TablePanel: React.FC<Props> = ({
    * Return
    */
   return (
-    <tablePanelContext.Provider value={{ replaceVariables }}>
+    <tablePanelContext.Provider value={{ replaceVariables, setError }}>
       <div
         {...TEST_IDS.panel.root.apply()}
         className={styles.root}
@@ -212,6 +215,9 @@ export const TablePanel: React.FC<Props> = ({
             height,
           }}
         >
+          {!!error && (
+            <AlertWithDetails details={error} variant="error" title="Request error" onRemove={() => setError('')} />
+          )}
           {isToolbarVisible && (
             <div ref={headerRef} className={styles.header}>
               <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>

@@ -1,4 +1,4 @@
-import { AlertErrorPayload, AlertPayload, AppEvents, InterpolateFunction, LoadingState } from '@grafana/data';
+import { AlertPayload, AppEvents, InterpolateFunction, LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import { useCallback } from 'react';
@@ -9,10 +9,12 @@ export const useUpdateRow = ({
   replaceVariables,
   currentTable,
   operation,
+  setError,
 }: {
   replaceVariables: InterpolateFunction;
   currentTable?: TableConfig;
   operation: 'add' | 'update' | 'delete';
+  setError: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   /**
    * App Events
@@ -20,10 +22,6 @@ export const useUpdateRow = ({
   const appEvents = getAppEvents();
   const notifySuccess = useCallback(
     (payload: AlertPayload) => appEvents.publish({ type: AppEvents.alertSuccess.name, payload }),
-    [appEvents]
-  );
-  const notifyError = useCallback(
-    (payload: AlertErrorPayload) => appEvents.publish({ type: AppEvents.alertError.name, payload }),
     [appEvents]
   );
 
@@ -44,6 +42,7 @@ export const useUpdateRow = ({
     async (row: unknown) => {
       let request;
       let successMessage = '';
+      setError('');
 
       switch (operation) {
         case 'add': {
@@ -88,8 +87,9 @@ export const useUpdateRow = ({
         notifySuccess(['Success', successMessage]);
         refreshDashboard();
       } catch (e: unknown) {
-        const errorMessage = e instanceof Error ? e : Array.isArray(e) ? e[0] : 'Unknown Error';
-        notifyError(['Error', errorMessage]);
+        const errorMessage = `${operation} Error: ${e instanceof Error && e.message ? e.message : Array.isArray(e) ? e[0] : JSON.stringify(e)}`;
+        setError(errorMessage);
+
         throw e;
       }
     },
@@ -98,11 +98,11 @@ export const useUpdateRow = ({
       currentTable?.deleteRow.request,
       currentTable?.update,
       datasourceRequest,
-      notifyError,
       notifySuccess,
       operation,
       refreshDashboard,
       replaceVariables,
+      setError,
     ]
   );
 };
