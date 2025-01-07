@@ -215,7 +215,7 @@ export const TablePanel: React.FC<Props> = ({
             height,
           }}
         >
-          {error && (
+          {!!error && (
             <AlertWithDetails details={error} variant="error" title="Request error" onRemove={() => setError('')} />
           )}
           {isToolbarVisible && (
