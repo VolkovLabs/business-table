@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.0.0 (IN PROGRESS)
+## 2.0.0 (2025-01-07)
 
 ### Features / Enhancements
 
@@ -8,6 +8,8 @@
 - Updated packages for Code Editor (#194)
 - Added normalize for boolean type (#198)
 - Added number of rows inside group (#199)
+- Added error message for data source requests (#213)
+- Updated to Grafana 11.4 and dependencies (#214)
 
 ## 1.9.0 (2024-12-01)
 

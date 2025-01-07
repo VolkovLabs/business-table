@@ -2,7 +2,7 @@
 
 ![Table](https://github.com/VolkovLabs/business-table/raw/main/src/img/dashboard.png)
 
-![Grafana](https://img.shields.io/badge/Grafana-11.3-orange)
+![Grafana](https://img.shields.io/badge/Grafana-11.4-orange)
 ![CI](https://github.com/volkovlabs/business-table/workflows/CI/badge.svg)
 ![E2E](https://github.com/volkovlabs/business-table/workflows/E2E/badge.svg)
 [![codecov](https://codecov.io/gh/VolkovLabs/business-table/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/business-table)
@@ -16,7 +16,7 @@ The Business Table panel is a Grafana plugin that allows to simplify data visual
 
 ## Requirements
 
-- Business Table panel 1.X requires **Grafana 10.3** or **Grafana 11**.
+- Business Table panel 1.X, 2.X requires **Grafana 10.3** or **Grafana 11**.
 
 ## Getting Started
 
