@@ -47,6 +47,7 @@ describe('NestedObjectCardsControl', () => {
    * Defaults
    */
   const replaceVariables = jest.fn();
+  const setError = jest.fn();
   const mapper = new NestedObjectCardMapper(
     createNestedObjectEditorConfig({
       type: NestedObjectType.CARDS,
@@ -83,7 +84,7 @@ describe('NestedObjectCardsControl', () => {
    */
   const getComponent = (props: Partial<Props>) => {
     return (
-      <tablePanelContext.Provider value={{ replaceVariables }}>
+      <tablePanelContext.Provider value={{ replaceVariables, setError }}>
         <NestedObjectCardsControl options={createOptions({})} value={[]} row={{}} {...props} />
       </tablePanelContext.Provider>
     );
@@ -394,17 +395,15 @@ describe('NestedObjectCardsControl', () => {
         })
       );
 
-      datasourceRequestMock.mockRejectedValue(new Error('response error'));
+      datasourceRequestMock.mockRejectedValue(new Error('test error'));
 
       openDrawer();
 
       expect(selectors.buttonAddItem()).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonAddItem()));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', new Error('response error')],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Add Item: test error');
     });
 
     it('Should show response errors', async () => {
@@ -440,10 +439,8 @@ describe('NestedObjectCardsControl', () => {
       expect(selectors.buttonAddItem()).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonAddItem()));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', new Error('response_error')],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Add Item: Error: response_error');
     });
 
     it('Should show unknown error', async () => {
@@ -476,10 +473,8 @@ describe('NestedObjectCardsControl', () => {
       expect(selectors.buttonAddItem()).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonAddItem()));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', 'Unknown Error'],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Add Item: {}');
     });
   });
 
@@ -587,10 +582,8 @@ describe('NestedObjectCardsControl', () => {
       expect(selectors.buttonEditItem(false, payload.id)).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonEditItem(false, payload.id)));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', new Error('response error')],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Update Item: response error');
     });
 
     it('Should show response errors', async () => {
@@ -632,10 +625,8 @@ describe('NestedObjectCardsControl', () => {
       expect(selectors.buttonEditItem(false, payload.id)).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonEditItem(false, payload.id)));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', new Error('response_error')],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Update Item: Error: response_error');
     });
 
     it('Should show unknown error', async () => {
@@ -674,10 +665,8 @@ describe('NestedObjectCardsControl', () => {
       expect(selectors.buttonEditItem(false, payload.id)).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonEditItem(false, payload.id)));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', 'Unknown Error'],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Update Item: {}');
     });
 
     it('Should not save if no payload', async () => {
@@ -872,10 +861,8 @@ describe('NestedObjectCardsControl', () => {
       expect(selectors.buttonDeleteItem(false, payload.id)).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonDeleteItem(false, payload.id)));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', new Error('response error')],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Delete Item: response error');
     });
 
     it('Should show response errors', async () => {
@@ -917,10 +904,8 @@ describe('NestedObjectCardsControl', () => {
       expect(selectors.buttonDeleteItem(false, payload.id)).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonDeleteItem(false, payload.id)));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', new Error('response_error')],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Delete Item: Error: response_error');
     });
 
     it('Should show unknown error', async () => {
@@ -959,10 +944,8 @@ describe('NestedObjectCardsControl', () => {
       expect(selectors.buttonDeleteItem(false, payload.id)).toBeInTheDocument();
       await act(async () => fireEvent.click(selectors.buttonDeleteItem(false, payload.id)));
 
-      expect(getAppEvents().publish).toHaveBeenCalledWith({
-        payload: ['Error', 'Unknown Error'],
-        type: 'alert-error',
-      });
+      expect(setError).toHaveBeenCalled();
+      expect(setError).toHaveBeenCalledWith('Delete Item: {}');
     });
 
     it('Should not save if disabled', async () => {
