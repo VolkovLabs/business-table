@@ -2,7 +2,7 @@ import { PanelProps } from '@grafana/data';
 import { config } from '@grafana/runtime';
 import { Button, ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import { Table as TableInstance } from '@tanstack/react-table';
-import { AlertBox } from '@volkovlabs/components';
+import { AlertWithDetails } from '@volkovlabs/components';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -215,7 +215,13 @@ export const TablePanel: React.FC<Props> = ({
             height,
           }}
         >
-          <AlertBox error={error} variant="error" title="Request error" onRemove={() => setError('')} />
+          <AlertWithDetails
+            error={error}
+            variant="error"
+            title="Request error"
+            display={!!error}
+            onRemove={() => setError('')}
+          />
           {isToolbarVisible && (
             <div ref={headerRef} className={styles.header}>
               <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>
