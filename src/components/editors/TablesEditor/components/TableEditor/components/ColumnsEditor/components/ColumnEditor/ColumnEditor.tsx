@@ -1,8 +1,8 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select, StatsPicker } from '@grafana/ui';
-import { NumberInput } from '@volkovlabs/components';
-import React, { useMemo } from 'react';
+import { NumberInput, Slider } from '@volkovlabs/components';
+import React, { useMemo, useState } from 'react';
 
 import { FieldsGroup } from '@/components';
 import { TEST_IDS } from '@/constants';
@@ -79,6 +79,10 @@ const cellTypeOptions = [
     value: CellType.IMAGE,
     label: 'Image',
     description: 'Base64 encoded data and URL',
+  },
+  {
+    value: CellType.JSON,
+    label: 'JSON',
   },
   {
     value: CellType.NESTED_OBJECTS,
@@ -247,6 +251,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
     return getFieldBySource(data, value.field);
   }, [data, value.field]);
 
+  const [showingRows, setShowingRows] = useState(value.showingRows);
   /**
    * Variable Options
    */
@@ -293,6 +298,38 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
             {...TEST_IDS.columnEditor.fieldType.apply()}
           />
         </InlineField>
+        {value.type === CellType.JSON && (
+          <InlineField
+            label="Show rows"
+            grow={true}
+            tooltip="Number of rows displayed in the cell. The rest will be hidden."
+          >
+            <Slider
+              value={showingRows}
+              min={0}
+              max={100}
+              step={1}
+              included={true}
+              marks={{
+                0: '0',
+                25: '25',
+                50: '50',
+                75: '75',
+                100: '100',
+              }}
+              onChange={(rows) => {
+                setShowingRows(rows);
+              }}
+              onAfterChange={(rows) => {
+                onChange({
+                  ...value,
+                  showingRows: rows!,
+                });
+              }}
+              {...TEST_IDS.columnEditor.fieldShowingRows.apply()}
+            />
+          </InlineField>
+        )}
         {value.type === CellType.COLORED_BACKGROUND && (
           <InlineField label="Apply to Row" grow={true}>
             <InlineSwitch
