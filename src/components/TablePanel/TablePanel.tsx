@@ -39,7 +39,6 @@ export const TablePanel: React.FC<Props> = ({
   replaceVariables,
   title,
 }) => {
-  console.log('console. _> options', options);
   /**
    * Styles
    */

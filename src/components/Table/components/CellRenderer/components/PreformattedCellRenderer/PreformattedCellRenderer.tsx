@@ -63,7 +63,7 @@ export const PreformattedCellRenderer: React.FC<Props> = ({ field, value, config
 
     formattedValue = <FormattedValueDisplay value={displayValue} />;
   }
-  console.log('console >>> bgColor >> ', bgColor);
+
   return (
     <pre className={config.preformattedStyle ? styles.preformatted : styles.default}>
       <span
