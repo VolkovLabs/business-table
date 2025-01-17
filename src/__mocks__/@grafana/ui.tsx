@@ -274,6 +274,20 @@ const ColorPickerMock = ({ onChange, value, ...restProps }: any) => {
 
 const ColorPicker = jest.fn(ColorPickerMock);
 
+/**
+ * Tooltip
+ */
+const TooltipMock = ({ content, children, ...restProps }: any) => {
+  return (
+    <div data-testid={restProps['data-testid']}>
+      <p>{content}</p>
+      {children}
+    </div>
+  );
+};
+
+const Tooltip = jest.fn(TooltipMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -288,6 +302,7 @@ beforeEach(() => {
   StatsPicker.mockImplementation(StatsPickerMock);
   ConfirmModal.mockImplementation(ConfirmModalMock);
   ColorPicker.mockImplementation(ColorPickerMock);
+  Tooltip.mockImplementation(TooltipMock);
 });
 
 module.exports = {
@@ -305,4 +320,5 @@ module.exports = {
   StatsPicker,
   ConfirmModal,
   ColorPicker,
+  Tooltip,
 };

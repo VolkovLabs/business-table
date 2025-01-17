@@ -187,7 +187,6 @@ const normalizeDatasourceOptions = (ds: DataSourceApi[], name?: string): string 
  */
 export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>): Promise<PanelOptions> => {
   const { ...options } = panel.options;
-
   const dataSources: DataSourceApi[] = await fetchData();
   /**
    * Normalize groups
@@ -323,6 +322,17 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
          */
         if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.9.0') && !normalized.hasOwnProperty('scale')) {
           normalized.scale = ImageScale.AUTO;
+        }
+
+        /**
+         * Normalize showingRows fot items
+         */
+        if (
+          panel.pluginVersion &&
+          semver.lt(panel.pluginVersion, '2.1.0') &&
+          !normalized.hasOwnProperty('showingRows')
+        ) {
+          normalized.showingRows = 20;
         }
 
         return normalized;
