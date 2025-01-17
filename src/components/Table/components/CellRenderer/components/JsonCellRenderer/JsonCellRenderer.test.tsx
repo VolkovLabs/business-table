@@ -111,27 +111,4 @@ describe('PreformattedCellRenderer', () => {
     expect(selectors.codeEditor()).toBeInTheDocument();
     expect(selectors.codeEditor()).toHaveValue(`test`);
   });
-
-  // it('Should format value by display', () => {
-  //   render(getComponent({ config: createColumnConfig(), field: createField({ config: { unit: 'abc' } }), value: 123 }));
-
-  //   expect(selectors.root()).toBeInTheDocument();
-  //   expect(selectors.root()).toHaveTextContent('123 abc');
-  // });
-
-  // it('Should apply styles depend on bgColor', () => {
-  //   render(
-  //     getComponent({
-  //       config: createColumnConfig({ preformattedStyle: true }),
-  //       field: createField({ display: undefined }),
-  //       value: 123,
-  //       bgColor: '#000000',
-  //     })
-  //   );
-
-  //   expect(selectors.root()).toBeInTheDocument();
-  //   expect(selectors.root()).toHaveTextContent('123');
-  //   expect(selectors.root()).toHaveStyle('color: rgb(255, 255, 255)');
-  //   expect(selectors.root()).toHaveStyle('background: inherit');
-  // });
 });
