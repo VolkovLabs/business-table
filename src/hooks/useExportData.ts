@@ -10,8 +10,8 @@ import {
 import { useCallback } from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
-import { TableConfig } from '@/types';
-import { convertTableToDataFrame, downloadCsv } from '@/utils';
+import { ExportFormatType, TableConfig } from '@/types';
+import { convertTableToDataFrame, convertToXlsxFormat, downloadCsv, downloadXlsx } from '@/utils';
 
 /**
  * Use Export Data
@@ -21,12 +21,14 @@ export const useExportData = <TData>({
   columns,
   tableConfig,
   panelTitle,
+  exportFormat,
   replaceVariables,
 }: {
   data: TData[];
   columns: Array<ColumnDef<TData>>;
   tableConfig?: TableConfig;
   panelTitle: string;
+  exportFormat: ExportFormatType;
   replaceVariables: InterpolateFunction;
 }) => {
   return useCallback(
@@ -61,18 +63,6 @@ export const useExportData = <TData>({
       });
 
       /**
-       * Data Frame For Export
-       */
-      const dataFrame = convertTableToDataFrame(tableForExport);
-
-      /**
-       * CSV text
-       */
-      const content = toCSV([dataFrame], {
-        useExcelHeader: false,
-      });
-
-      /**
        * Filename Prefix
        */
       let prefix = '';
@@ -92,10 +82,34 @@ export const useExportData = <TData>({
       }
 
       /**
+       * Data Frame For Export
+       */
+      const dataFrame = convertTableToDataFrame(tableForExport);
+
+      /**
+       * CSV text
+       */
+      const content = toCSV([dataFrame], {
+        useExcelHeader: false,
+      });
+
+      /**
+       * Download CSV File
+       */
+      if (exportFormat === ExportFormatType.XLSX) {
+        const xlsxContent = convertToXlsxFormat(columns, data);
+        return downloadXlsx(xlsxContent, `${prefix}${dateTimeFormat(new Date())}`);
+      }
+
+      /**
+       * Download CSV File
+       */
+      return downloadCsv(content, `${prefix}${dateTimeFormat(new Date())}`);
+
+      /**
        * Download File
        */
-      downloadCsv(content, `${prefix}${dateTimeFormat(new Date())}`);
     },
-    [columns, data, panelTitle, replaceVariables, tableConfig?.name]
+    [columns, data, exportFormat, panelTitle, replaceVariables, tableConfig?.name]
   );
 };

@@ -499,6 +499,13 @@ export interface ToolbarOptions {
    * @type {boolean}
    */
   export: boolean;
+
+  /**
+   * Toolbar buttons alignment
+   *
+   * @type {string}
+   */
+  alignment?: 'left' | 'right';
 }
 
 /**
@@ -632,4 +639,20 @@ export interface ColumnMeta {
    * @type {ImageScale}
    */
   scale: ImageScale;
+}
+
+/**
+ * Export format type
+ */
+export enum ExportFormatType {
+  CSV = 'csv',
+  XLSX = 'xlsx',
+}
+
+/**
+ * Toolbar buttons Alignment
+ */
+export enum ToolbarButtonsAlignment {
+  LEFT = 'left',
+  RIGHT = 'right',
 }

@@ -3,12 +3,15 @@ import { ColumnDef, createTable, getCoreRowModel, getFilteredRowModel } from '@t
 import { renderHook } from '@testing-library/react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
+import { ExportFormatType } from '@/types';
 import {
+  convertToXlsxFormat,
   createColumnAccessorFn,
   createColumnMeta,
   createTableConfig,
   dataFrameToObjectArray,
   downloadCsv,
+  downloadXlsx,
 } from '@/utils';
 
 import { useExportData } from './useExportData';
@@ -18,6 +21,8 @@ import { useExportData } from './useExportData';
  */
 jest.mock('../utils/file', () => ({
   downloadCsv: jest.fn(),
+  convertToXlsxFormat: jest.fn(),
+  downloadXlsx: jest.fn(),
 }));
 
 describe('useExportData', () => {
@@ -63,6 +68,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
@@ -99,6 +105,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
@@ -165,6 +172,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
@@ -198,5 +206,67 @@ describe('useExportData', () => {
       ]),
       expect.any(String)
     );
+  });
+
+  it('Should download data as xlsx', () => {
+    const mockedXlsxContent = [
+      ['name', 'value'],
+      ['device1', 10],
+      ['device2', 20],
+    ];
+    jest.mocked(convertToXlsxFormat).mockReturnValueOnce(mockedXlsxContent);
+    const columns: Array<ColumnDef<unknown>> = [
+      {
+        id: 'name',
+        accessorFn: createColumnAccessorFn('name'),
+        meta: createColumnMeta({
+          field: nameField,
+        }),
+      },
+      {
+        id: 'value',
+        accessorFn: createColumnAccessorFn('value'),
+        meta: createColumnMeta({
+          field: valueField,
+        }),
+      },
+    ];
+
+    const { result } = renderHook(() =>
+      useExportData({
+        data,
+        columns,
+        panelTitle: 'Tables',
+        tableConfig: createTableConfig({
+          name: 'hello',
+        }),
+        exportFormat: ExportFormatType.XLSX,
+        replaceVariables,
+      })
+    );
+
+    const table = createTable({
+      data,
+      columns,
+      getCoreRowModel: getCoreRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      enableFilters: true,
+      enableSorting: true,
+      onStateChange: () => null,
+      renderFallbackValue: () => null,
+      state: {
+        columnPinning: {
+          left: [],
+          right: [],
+        },
+        columnFilters: [],
+        sorting: [],
+      },
+    });
+
+    result.current({ table });
+
+    expect(replaceVariables).toHaveBeenCalled();
+    expect(downloadXlsx).toHaveBeenCalledWith(mockedXlsxContent, expect.any(String));
   });
 });
