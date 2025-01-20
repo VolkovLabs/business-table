@@ -133,7 +133,7 @@ describe('convertToXlsxFormat', () => {
     /**
      * Check that the result has the correct number of rows
      */
-    expect(result.length).toBe(4);
+    expect(result.length).toEqual(4);
 
     /**
      * Check table headers

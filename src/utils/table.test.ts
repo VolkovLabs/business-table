@@ -1252,7 +1252,7 @@ describe('Table utils', () => {
       ['', false],
       ['0', false],
     ])('Should return value as boolean', (input, expected) => {
-      expect(convertStringValueToBoolean(input)).toBe(expected);
+      expect(convertStringValueToBoolean(input)).toEqual(expected);
     });
   });
 
@@ -1269,7 +1269,7 @@ describe('Table utils', () => {
       [null, false],
       ['fals', false],
     ])('Should convert value to boolean', (value, expected) => {
-      expect(normalizeBooleanCellValue(value)).toBe(expected);
+      expect(normalizeBooleanCellValue(value)).toEqual(expected);
     });
   });
 });
