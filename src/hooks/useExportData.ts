@@ -11,7 +11,7 @@ import { useCallback } from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import { ExportFormatType, TableConfig } from '@/types';
-import { convertTableToDataFrame, convertToXlsxFormat, downloadCsv, downloadXlsx } from '@/utils';
+import { convertTableToDataFrame, downloadFile } from '@/utils';
 
 /**
  * Use Export Data
@@ -94,21 +94,9 @@ export const useExportData = <TData>({
       });
 
       /**
-       * Download CSV File
-       */
-      if (exportFormat === ExportFormatType.XLSX) {
-        const xlsxContent = convertToXlsxFormat(columns, data);
-        return downloadXlsx(xlsxContent, `${prefix}${dateTimeFormat(new Date())}`);
-      }
-
-      /**
-       * Download CSV File
-       */
-      return downloadCsv(content, `${prefix}${dateTimeFormat(new Date())}`);
-
-      /**
        * Download File
        */
+      return downloadFile(content, `${prefix}${dateTimeFormat(new Date())}`, exportFormat === ExportFormatType.XLSX);
     },
     [columns, data, exportFormat, panelTitle, replaceVariables, tableConfig?.name]
   );
