@@ -63,6 +63,18 @@ export const useExportData = <TData>({
       });
 
       /**
+       * Data Frame For Export
+       */
+      const dataFrame = convertTableToDataFrame(tableForExport);
+
+      /**
+       * CSV text
+       */
+      const content = toCSV([dataFrame], {
+        useExcelHeader: false,
+      });
+
+      /**
        * Filename Prefix
        */
       let prefix = '';
@@ -80,18 +92,6 @@ export const useExportData = <TData>({
       if (tableConfig?.name) {
         prefix += `${tableConfig.name}-`;
       }
-
-      /**
-       * Data Frame For Export
-       */
-      const dataFrame = convertTableToDataFrame(tableForExport);
-
-      /**
-       * CSV text
-       */
-      const content = toCSV([dataFrame], {
-        useExcelHeader: false,
-      });
 
       /**
        * Download File

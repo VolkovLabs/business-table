@@ -27,4 +27,14 @@ describe('downloadFile', () => {
 
     expect(saveAs).toHaveBeenCalledWith(expect.any(Blob), 'download.csv');
   });
+
+  it('Should create a xlsx file with the correct name and content', () => {
+    const content = 'id,name\n1,Device1\n2,Device2';
+    const fileName = 'devices';
+
+    downloadFile(content, fileName, true);
+
+    expect(saveAs).toHaveBeenCalledTimes(1);
+    expect(saveAs).toHaveBeenCalledWith(expect.any(Blob), `${fileName}.xlsx`);
+  });
 });

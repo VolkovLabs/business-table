@@ -201,7 +201,8 @@ describe('useExportData', () => {
           fields: [nameField, valueField],
         }),
       ]),
-      expect.any(String)
+      expect.any(String),
+      false
     );
   });
 });

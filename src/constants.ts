@@ -449,7 +449,7 @@ export const IMAGE_TYPES_SYMBOLS: { [id: string]: string } = {
 };
 
 /**
- * Format options
+ * Buttons Alignment options
  */
 export const TOOLBAR_BUTTONS_ALIGNMENT = [
   {
