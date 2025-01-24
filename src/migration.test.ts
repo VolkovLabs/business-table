@@ -661,5 +661,26 @@ describe('migration', () => {
         })
       );
     });
+
+    it('Should normalize toolbar alignment', async () => {
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          toolbar: expect.objectContaining({
+            alignment: 'left',
+          }),
+        })
+      );
+    });
   });
 });

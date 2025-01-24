@@ -220,7 +220,7 @@ const MenuItemMock = ({ onClick, children, currentPage, numberOfPages, ...restPr
         onClick();
       }}
       aria-label={restProps['aria-label']}
-      data-testid={restProps['aria-label']}
+      data-testid={restProps['data-testid']}
     >
       {restProps.label}
     </button>
@@ -286,7 +286,21 @@ const TooltipMock = ({ content, children, ...restProps }: any) => {
   );
 };
 
+/**
+ * Mock Dropdown component
+ */
+const DropdownMock = ({ children, overlay, ...restProps }: any) => {
+  const [openMenu, setOpenMenu] = useState(false);
+  return (
+    <div data-testid={restProps['data-testid']} onClick={() => setOpenMenu((prevState) => !prevState)}>
+      {openMenu && <div>{overlay}</div>}
+      {children}
+    </div>
+  );
+};
+
 const Tooltip = jest.fn(TooltipMock);
+const Dropdown = jest.fn(DropdownMock);
 
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
@@ -303,6 +317,7 @@ beforeEach(() => {
   ConfirmModal.mockImplementation(ConfirmModalMock);
   ColorPicker.mockImplementation(ColorPickerMock);
   Tooltip.mockImplementation(TooltipMock);
+  Dropdown.mockImplementation(DropdownMock);
 });
 
 module.exports = {
@@ -321,4 +336,5 @@ module.exports = {
   ConfirmModal,
   ColorPicker,
   Tooltip,
+  Dropdown,
 };

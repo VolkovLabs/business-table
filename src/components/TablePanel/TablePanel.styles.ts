@@ -42,5 +42,15 @@ export const getStyles = (theme: GrafanaTheme2) => {
         text-overflow: ellipsis;
       }
     `,
+    downloadButtons: css`
+      flex-direction: row !important;
+    `,
+    menuItem: css`
+      background: ${theme.colors.background.primary};
+      &:hover {
+        z-index: ${theme.zIndex.dropdown};
+        background: ${theme.colors.background.secondary};
+      }
+    `,
   };
 };

@@ -85,5 +85,44 @@ describe('plugin', () => {
 
       expect(shownOptionsPaths).toEqual(expect.arrayContaining(['tables', 'tables', 'tables', 'nestedObjects']));
     });
+
+    it('Should show alignment options', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addRadio.mockImplementation(
+        addInputImplementation(
+          {
+            toolbar: {
+              export: true,
+            },
+          },
+          shownOptionsPaths
+        )
+      );
+
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['toolbar.alignment']));
+    });
+
+    it('Should show tabsSorting options', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addBooleanSwitch.mockImplementation(
+        addInputImplementation(
+          {
+            tables: [
+              createTableConfig({ name: 'group1', items: [] }),
+              createTableConfig({ name: 'group2', items: [] }),
+            ],
+          },
+          shownOptionsPaths
+        )
+      );
+
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['toolbar.export', 'tabsSorting']));
+    });
   });
 });

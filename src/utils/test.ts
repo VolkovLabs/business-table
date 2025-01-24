@@ -41,6 +41,7 @@ import {
   TableOperationConfig,
   TablePaginationConfig,
   TableRequestConfig,
+  ToolbarButtonsAlignment,
   ToolbarOptions,
 } from '@/types';
 
@@ -183,6 +184,7 @@ export const createVariable = (
  */
 export const createToolbarOptions = (toolbar: Partial<ToolbarOptions>): ToolbarOptions => ({
   export: false,
+  alignment: ToolbarButtonsAlignment.LEFT,
   ...toolbar,
 });
 

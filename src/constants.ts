@@ -12,6 +12,7 @@ import {
   PermissionMode,
   SupportedBase64ImageType,
   TableRequestConfig,
+  ToolbarButtonsAlignment,
 } from '@/types';
 
 /**
@@ -84,6 +85,9 @@ export const TEST_IDS = {
     root: createSelector('data-testid panel'),
     tab: createSelector((name: unknown) => `data-testid panel tab-${name}`),
     buttonDownload: createSelector('data-testid panel button-download'),
+    buttonFormat: createSelector('data-testid panel button-format'),
+    dropdown: createSelector('data-testid panel dropdown'),
+    buttonSetFormat: createSelector((name: unknown) => `data-testid panel button-set-format-${name}`),
   },
   tablesEditor: {
     buttonAddNew: createSelector('data-testid tables-editor button-add-new'),
@@ -451,3 +455,17 @@ export const IMAGE_TYPES_SYMBOLS: { [id: string]: string } = {
   i: SupportedBase64ImageType.PNG,
   A: SupportedBase64ImageType.HEIC,
 };
+
+/**
+ * Buttons Alignment options
+ */
+export const TOOLBAR_BUTTONS_ALIGNMENT = [
+  {
+    value: ToolbarButtonsAlignment.LEFT,
+    label: 'Left',
+  },
+  {
+    value: ToolbarButtonsAlignment.RIGHT,
+    label: 'Right',
+  },
+];
