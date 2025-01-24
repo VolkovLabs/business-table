@@ -338,6 +338,20 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
       }
 
       /**
+       * Normalize actions column config
+       */
+      if (!normalizedGroup.hasOwnProperty('actionsColumnConfig')) {
+        normalizedGroup.actionsColumnConfig = {
+          label: '',
+          width: {
+            auto: false,
+            value: 100,
+          },
+          alignment: ColumnAlignment.START,
+          fontSize: ColumnHeaderFontSize.SM,
+        };
+      }
+      /**
        * Normalize update request
        */
       if (!normalizedGroup.update) {
