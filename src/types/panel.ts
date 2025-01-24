@@ -314,6 +314,13 @@ export interface ColumnConfig {
    * @type {ImageScale}
    */
   scale: ImageScale;
+
+  /**
+   * Number of rows for JSON cell type
+   *
+   * @type {number}
+   */
+  showingRows: number;
 }
 
 /**
