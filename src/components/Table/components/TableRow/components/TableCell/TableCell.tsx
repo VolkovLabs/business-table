@@ -112,10 +112,7 @@ export const TableCell = <TData,>({ row, cell, rendererProps }: Props<TData>) =>
     return links.length === 1 ? (
       <a
         href={links[0].href}
-        onClick={(event) => {
-          event.stopPropagation();
-          links[0].onClick?.(event);
-        }}
+        onClick={links[0].onClick}
         target={links[0].target}
         title={links[0].title}
         className={styles.link}

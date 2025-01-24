@@ -24,27 +24,23 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
+  "id": 1,
   "links": [],
-  "liveNow": false,
   "panels": [
     {
       "datasource": {
-        "default": true,
         "type": "marcusolsson-static-datasource",
         "uid": "P1D2C73DC01F2359B"
       },
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "links": [
             {
-              "targetBlank": true,
-              "title": "From field (open in new tab)",
-              "url": "${__data.fields.url}"
-            },
-            {
-              "targetBlank": false,
-              "title": "volkovlabs (open in current tab)",
-              "url": "https://volkovlabs.io/plugins/business-table/"
+              "title": "",
+              "url": "/d/${__dashboard.uid}?${__url_time_range}&var-Test=${__data.fields.device}"
             }
           ],
           "mappings": [],
@@ -65,200 +61,40 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 16,
+        "h": 8,
         "w": 12,
         "x": 0,
         "y": 0
       },
-      "id": 6,
+      "id": 20,
       "options": {
-        "columnMode": "auto",
-        "columns": [],
+        "nestedObjects": [],
         "tables": [
           {
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
             "items": [
-              {
-                "appearance": {
-                  "alignment": "end",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "width": {
-                    "auto": true,
-                    "max": 50,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "field": {
-                      "name": "",
-                      "source": ""
-                    },
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "field": {
-                  "name": "id",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "group": false,
-                "label": "",
-                "pin": "left",
-                "sort": {
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 200,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "field": {
-                      "name": "",
-                      "source": ""
-                    },
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "field": {
-                  "name": "name",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": true,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "group": false,
-                "label": "",
-                "pin": "",
-                "sort": {
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 100,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "field": {
-                      "name": "",
-                      "source": ""
-                    },
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "field": {
-                  "name": "value",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": true,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [
-                  "mean"
-                ],
-                "group": false,
-                "label": "",
-                "pin": "",
-                "sort": {
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 200,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "field": {
-                      "name": "",
-                      "source": ""
-                    },
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "field": {
-                  "name": "json",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "group": false,
-                "label": "",
-                "pin": "",
-                "sort": {
-                  "enabled": false
-                },
-                "type": "auto"
-              },
               {
                 "aggregation": "none",
                 "appearance": {
@@ -266,9 +102,13 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
-                    "min": 100,
+                    "min": 20,
                     "value": 100
                   },
                   "wrap": true
@@ -283,8 +123,9 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
-                  "name": "comment",
+                  "name": "device",
                   "source": "A"
                 },
                 "filter": {
@@ -295,18 +136,30 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
                 "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
               }
             ],
-            "name": "Main",
+            "name": "List",
             "pagination": {
+              "defaultPageSize": 10,
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
               "datasource": "",
               "payload": {}
@@ -315,106 +168,31 @@
         ],
         "tabsSorting": false,
         "toolbar": {
-          "export": true
+          "alignment": "left",
+          "export": false
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
-          "datasource": {
-            "type": "marcusolsson-static-datasource",
-            "uid": "P1D2C73DC01F2359B"
-          },
           "frame": {
             "fields": [
               {
                 "config": {},
-                "name": "id",
-                "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3,
-                  4
-                ]
-              },
-              {
-                "config": {},
-                "name": "name",
+                "name": "device",
                 "type": "string",
                 "values": [
-                  "DeviceWithVeryLongTitle",
-                  "Device 2",
-                  "Device 3",
-                  "Device 4"
-                ]
-              },
-              {
-                "config": {},
-                "name": "value",
-                "type": "number",
-                "values": [
-                  10,
-                  15,
-                  20,
-                  30
-                ]
-              },
-              {
-                "config": {},
-                "name": "json",
-                "type": "string",
-                "values": [
-                  "{ \"name\": \"Device1\" }",
-                  "{ \"name\": \"Device2\" }",
-                  "{ \"name\": \"Device3\" }",
-                  "{ \"name\": \"Device4\" }"
-                ]
-              },
-              {
-                "config": {},
-                "name": "comment",
-                "type": "string",
-                "values": [
-                  "",
-                  "",
-                  "",
-                  ""
-                ]
-              },
-              {
-                "config": {},
-                "name": "url",
-                "type": "string",
-                "values": [
-                  "https://volkovlabs.io/plugins/business-table/",
-                  "",
-                  "https://volkovlabs.io/plugins/business-table/",
-                  ""
+                  "device1",
+                  "device2"
                 ]
               }
             ],
-            "meta": {},
-            "name": "data"
+            "meta": {}
           },
           "refId": "A"
         }
       ],
-      "title": "Simple Links",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": {},
-            "includeByName": {},
-            "indexByName": {},
-            "renameByName": {
-              "id": "",
-              "name": "Name",
-              "value": "Value"
-            }
-          }
-        }
-      ],
+      "title": "Update Variables",
       "type": "volkovlabs-table-panel"
     },
     {
@@ -458,14 +236,41 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
+        "nestedObjects": [],
         "tables": [
           {
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
             "items": [
               {
                 "appearance": {
                   "alignment": "end",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -488,6 +293,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -500,8 +306,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "left",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -511,6 +324,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -533,6 +349,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -545,8 +362,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -556,6 +380,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -578,6 +405,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -592,8 +420,15 @@
                 ],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -603,6 +438,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -625,6 +463,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "json",
                   "source": "A"
@@ -637,8 +476,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -649,6 +495,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -667,6 +516,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "comment",
                   "source": "A"
@@ -679,8 +529,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -691,6 +548,7 @@
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
               "datasource": "",
               "payload": {}
@@ -699,9 +557,11 @@
         ],
         "tabsSorting": false,
         "toolbar": {
+          "alignment": "left",
           "export": true
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -812,18 +672,13 @@
           "links": [
             {
               "targetBlank": true,
-              "title": "From field",
+              "title": "From field (open in new tab)",
               "url": "${__data.fields.url}"
             },
             {
-              "targetBlank": true,
-              "title": "${Test}",
+              "targetBlank": false,
+              "title": "volkovlabs (open in current tab)",
               "url": "https://volkovlabs.io/plugins/business-table/"
-            },
-            {
-              "targetBlank": true,
-              "title": "Test variable in URL",
-              "url": "${Test}"
             }
           ],
           "mappings": [],
@@ -847,20 +702,47 @@
         "h": 16,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 8
       },
-      "id": 16,
+      "id": 6,
       "options": {
         "columnMode": "auto",
         "columns": [],
+        "nestedObjects": [],
         "tables": [
           {
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
             "items": [
               {
                 "appearance": {
                   "alignment": "end",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -883,6 +765,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -895,9 +778,16 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "left",
                 "sort": {
-                  "enabled": true
+                  "descFirst": false,
+                  "enabled": false
                 },
                 "type": "auto"
               },
@@ -906,6 +796,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -928,6 +821,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -940,8 +834,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -951,6 +852,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -973,6 +877,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -987,8 +892,15 @@
                 ],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -998,6 +910,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1020,6 +935,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "json",
                   "source": "A"
@@ -1032,8 +948,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -1044,6 +967,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1062,6 +988,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "comment",
                   "source": "A"
@@ -1074,8 +1001,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -1086,6 +1020,7 @@
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
               "datasource": "",
               "payload": {}
@@ -1094,9 +1029,11 @@
         ],
         "tabsSorting": false,
         "toolbar": {
+          "alignment": "left",
           "export": true
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1165,9 +1102,9 @@
                 "name": "url",
                 "type": "string",
                 "values": [
-                  "1.com",
-                  "2.com",
-                  "3.com",
+                  "https://volkovlabs.io/plugins/business-table/",
+                  "",
+                  "https://volkovlabs.io/plugins/business-table/",
                   ""
                 ]
               }
@@ -1178,7 +1115,7 @@
           "refId": "A"
         }
       ],
-      "title": "Variable using",
+      "title": "Simple Links",
       "transformations": [
         {
           "id": "organize",
@@ -1238,14 +1175,41 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
+        "nestedObjects": [],
         "tables": [
           {
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
             "items": [
               {
                 "appearance": {
                   "alignment": "end",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1268,6 +1232,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "id",
                   "source": "A"
@@ -1280,8 +1245,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "left",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -1291,6 +1263,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1313,6 +1288,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "name",
                   "source": "A"
@@ -1325,8 +1301,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -1336,6 +1319,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1358,6 +1344,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
@@ -1372,8 +1359,15 @@
                 ],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -1383,6 +1377,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1405,6 +1402,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "json",
                   "source": "A"
@@ -1417,8 +1415,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -1429,6 +1434,9 @@
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
@@ -1447,6 +1455,7 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "comment",
                   "source": "A"
@@ -1459,8 +1468,15 @@
                 "footer": [],
                 "group": false,
                 "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
@@ -1471,6 +1487,7 @@
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
               "datasource": "",
               "payload": {}
@@ -1479,9 +1496,11 @@
         ],
         "tabsSorting": false,
         "toolbar": {
+          "alignment": "left",
           "export": true
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1589,14 +1608,21 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
           "links": [
             {
               "targetBlank": true,
-              "title": "From field (open in new tab)",
+              "title": "From field",
               "url": "${__data.fields.url}"
+            },
+            {
+              "targetBlank": true,
+              "title": "${Test}",
+              "url": "https://volkovlabs.io/plugins/business-table/"
+            },
+            {
+              "targetBlank": true,
+              "title": "Test variable in URL",
+              "url": "${Test}"
             }
           ],
           "mappings": [],
@@ -1604,16 +1630,11 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "yellow",
-                "value": 10
+                "color": "green"
               },
               {
                 "color": "red",
-                "value": 15
+                "value": 80
               }
             ]
           }
@@ -1621,24 +1642,54 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 13,
+        "h": 16,
         "w": 12,
         "x": 0,
-        "y": 32
+        "y": 24
       },
-      "id": 10,
+      "id": 16,
       "options": {
+        "columnMode": "auto",
+        "columns": [],
+        "nestedObjects": [],
         "tables": [
           {
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
             "items": [
               {
                 "appearance": {
-                  "alignment": "start",
+                  "alignment": "end",
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
+                    "max": 50,
                     "value": 100
                   },
                   "wrap": true
@@ -1647,7 +1698,7 @@
                   "editor": {
                     "type": "string"
                   },
-                  "enabled": true,
+                  "enabled": false,
                   "permission": {
                     "field": {
                       "name": "",
@@ -1657,8 +1708,9 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
-                  "name": "country",
+                  "name": "id",
                   "source": "A"
                 },
                 "filter": {
@@ -1667,10 +1719,18 @@
                   "variable": ""
                 },
                 "footer": [],
-                "group": true,
-                "pin": "",
-                "sort": {
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
                   "enabled": false
+                },
+                "pin": "left",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": true
                 },
                 "type": "auto"
               },
@@ -1680,8 +1740,12 @@
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
+                    "min": 200,
                     "value": 100
                   },
                   "wrap": true
@@ -1700,78 +1764,44 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
-                  "name": "city",
+                  "name": "name",
                   "source": "A"
                 },
                 "filter": {
-                  "enabled": false,
+                  "enabled": true,
                   "mode": "client",
                   "variable": ""
                 },
                 "footer": [],
-                "group": true,
-                "label": "City",
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
               },
               {
-                "aggregation": "count",
                 "appearance": {
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
-                  "width": {
-                    "auto": true,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": true,
-                  "permission": {
-                    "field": {
-                      "name": "",
-                      "source": ""
-                    },
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "field": {
-                  "name": "device",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [
-                  "distinctCount"
-                ],
-                "pin": "",
-                "sort": {
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "sum",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": true
+                  "header": {
+                    "fontSize": "md"
                   },
                   "width": {
                     "auto": true,
+                    "min": 100,
                     "value": 100
                   },
                   "wrap": true
@@ -1790,90 +1820,46 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
                   "name": "value",
                   "source": "A"
                 },
                 "filter": {
-                  "enabled": false,
+                  "enabled": true,
                   "mode": "client",
                   "variable": ""
                 },
                 "footer": [
-                  "sum"
+                  "mean"
                 ],
-                "pin": "",
-                "sort": {
-                  "enabled": false
-                },
-                "type": "coloredBackground"
-              }
-            ],
-            "name": "Country",
-            "pagination": {
-              "enabled": false,
-              "mode": "client"
-            },
-            "update": {
-              "datasource": "",
-              "payload": {}
-            }
-          },
-          {
-            "items": [
-              {
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "width": {
-                    "auto": true,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
+                "group": false,
+                "label": "",
+                "newRowEdit": {
                   "editor": {
                     "type": "string"
                   },
-                  "enabled": false,
-                  "permission": {
-                    "field": {
-                      "name": "",
-                      "source": ""
-                    },
-                    "mode": "",
-                    "userRole": []
-                  }
+                  "enabled": false
                 },
-                "field": {
-                  "name": "device",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "group": true,
-                "label": "",
                 "pin": "",
                 "sort": {
+                  "descFirst": false,
                   "enabled": false
                 },
                 "type": "auto"
               },
               {
-                "aggregation": "max",
                 "appearance": {
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
+                  "header": {
+                    "fontSize": "md"
+                  },
                   "width": {
                     "auto": true,
+                    "min": 200,
                     "value": 100
                   },
                   "wrap": true
@@ -1892,8 +1878,9 @@
                     "userRole": []
                   }
                 },
+                "enabled": true,
                 "field": {
-                  "name": "value",
+                  "name": "json",
                   "source": "A"
                 },
                 "filter": {
@@ -1902,19 +1889,81 @@
                   "variable": ""
                 },
                 "footer": [],
+                "group": false,
                 "label": "",
-                "pin": "",
-                "sort": {
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
                   "enabled": false
                 },
-                "type": "coloredBackground"
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 100,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "comment",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
               }
             ],
-            "name": "Value",
+            "name": "Main",
             "pagination": {
               "enabled": false,
               "mode": "client"
             },
+            "showHeader": true,
             "update": {
               "datasource": "",
               "payload": {}
@@ -1923,9 +1972,11 @@
         ],
         "tabsSorting": false,
         "toolbar": {
+          "alignment": "left",
           "export": true
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1936,50 +1987,24 @@
             "fields": [
               {
                 "config": {},
-                "name": "country",
-                "type": "string",
+                "name": "id",
+                "type": "number",
                 "values": [
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "Japan",
-                  "Japan",
-                  "Japan",
-                  "Japan"
+                  1,
+                  2,
+                  3,
+                  4
                 ]
               },
               {
                 "config": {},
-                "name": "city",
+                "name": "name",
                 "type": "string",
                 "values": [
-                  "New York",
-                  "New York",
-                  "New York",
-                  "Tampa",
-                  "Tampa",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo"
-                ]
-              },
-              {
-                "config": {},
-                "name": "device",
-                "type": "string",
-                "values": [
-                  "device 1",
-                  "device 2",
-                  "device 2",
-                  "device 3",
-                  "device 3",
-                  "device 4",
-                  "device 4",
-                  "device 5",
-                  "device 5"
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
                 ]
               },
               {
@@ -1989,13 +2014,30 @@
                 "values": [
                   10,
                   15,
-                  2,
-                  13,
-                  8,
-                  17,
-                  4,
-                  13,
-                  8
+                  20,
+                  30
+                ]
+              },
+              {
+                "config": {},
+                "name": "json",
+                "type": "string",
+                "values": [
+                  "{ \"name\": \"Device1\" }",
+                  "{ \"name\": \"Device2\" }",
+                  "{ \"name\": \"Device3\" }",
+                  "{ \"name\": \"Device4\" }"
+                ]
+              },
+              {
+                "config": {},
+                "name": "comment",
+                "type": "string",
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
                 ]
               },
               {
@@ -2003,24 +2045,20 @@
                 "name": "url",
                 "type": "string",
                 "values": [
-                  "https://www.youtube.com/watch?v=K1NHBV5e6VE",
-                  "test",
-                  "",
-                  "",
-                  "",
-                  "",
-                  "",
-                  "https://www.youtube.com/watch?v=K1NHBV5e6VE",
+                  "1.com",
+                  "2.com",
+                  "3.com",
                   ""
                 ]
               }
             ],
-            "meta": {}
+            "meta": {},
+            "name": "data"
           },
           "refId": "A"
         }
       ],
-      "title": "Groups with links",
+      "title": "Variable using",
       "transformations": [
         {
           "id": "organize",
@@ -2029,7 +2067,9 @@
             "includeByName": {},
             "indexByName": {},
             "renameByName": {
-              "country": "Country"
+              "id": "",
+              "name": "Name",
+              "value": "Value"
             }
           }
         }
@@ -2064,8 +2104,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -2510,7 +2549,7 @@
           "links": [
             {
               "targetBlank": true,
-              "title": "From field",
+              "title": "From field (open in new tab)",
               "url": "${__data.fields.url}"
             }
           ],
@@ -2519,8 +2558,15 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "transparent",
-                "value": null
+                "color": "green"
+              },
+              {
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 15
               }
             ]
           }
@@ -2531,7 +2577,453 @@
         "h": 13,
         "w": 12,
         "x": 0,
-        "y": 45
+        "y": 40
+      },
+      "id": 10,
+      "options": {
+        "tables": [
+          {
+            "items": [
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": true,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "country",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "pin": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "city",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "City",
+                "pin": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "count",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": true,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "device",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [
+                  "distinctCount"
+                ],
+                "pin": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "sum",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": true
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [
+                  "sum"
+                ],
+                "pin": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "coloredBackground"
+              }
+            ],
+            "name": "Country",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          },
+          {
+            "items": [
+              {
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "device",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "pin": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "max",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "width": {
+                    "auto": true,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "label": "",
+                "pin": "",
+                "sort": {
+                  "enabled": false
+                },
+                "type": "coloredBackground"
+              }
+            ],
+            "name": "Value",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "export": true
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "country",
+                "type": "string",
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
+              },
+              {
+                "config": {},
+                "name": "city",
+                "type": "string",
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
+              },
+              {
+                "config": {},
+                "name": "device",
+                "type": "string",
+                "values": [
+                  "device 1",
+                  "device 2",
+                  "device 2",
+                  "device 3",
+                  "device 3",
+                  "device 4",
+                  "device 4",
+                  "device 5",
+                  "device 5"
+                ]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
+              },
+              {
+                "config": {},
+                "name": "url",
+                "type": "string",
+                "values": [
+                  "https://www.youtube.com/watch?v=K1NHBV5e6VE",
+                  "test",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "",
+                  "https://www.youtube.com/watch?v=K1NHBV5e6VE",
+                  ""
+                ]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Groups with links",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "country": "Country"
+            }
+          }
+        }
+      ],
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "From field",
+              "url": "${__data.fields.url}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 0,
+        "y": 53
       },
       "id": 14,
       "options": {
@@ -2959,20 +3451,19 @@
       "type": "volkovlabs-table-panel"
     }
   ],
+  "preload": false,
   "refresh": "",
-  "schemaVersion": 39,
+  "schemaVersion": 40,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
-          "selected": false,
           "text": "Test variable",
           "value": "Test variable"
         },
         "hide": 1,
         "includeAll": false,
-        "multi": false,
         "name": "Test",
         "options": [
           {
@@ -2982,7 +3473,6 @@
           }
         ],
         "query": "Test variable",
-        "skipUrlSync": false,
         "type": "custom"
       }
     ]
@@ -2995,6 +3485,6 @@
   "timezone": "",
   "title": "Data links",
   "uid": "ddyd0vor9qebke",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
