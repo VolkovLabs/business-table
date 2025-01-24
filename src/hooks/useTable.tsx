@@ -1,7 +1,7 @@
 import { DataFrame, Field, FieldType, InterpolateFunction, PanelData } from '@grafana/data';
 import { config, getTemplateSrv } from '@grafana/runtime';
 import { useTheme2 } from '@grafana/ui';
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnDef, ColumnMeta } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo } from 'react';
 
 import {
@@ -13,6 +13,7 @@ import {
 } from '@/components';
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import {
+  ActionsColumnConfig,
   CellAggregation,
   CellType,
   ColumnConfig,
@@ -20,6 +21,7 @@ import {
   ColumnEditorControlOptions,
   ColumnFilterMode,
   ColumnFilterType,
+  ColumnHeaderFontSize,
   ColumnPinDirection,
   NestedObjectConfig,
   NestedObjectControlOptions,
@@ -44,6 +46,7 @@ export const useTable = ({
   isAddRowEnabled = false,
   isDeleteRowEnabled = false,
   columns: columnsConfig,
+  actionsColumnConfig,
   objects,
   replaceVariables,
 }: {
@@ -51,6 +54,7 @@ export const useTable = ({
   isAddRowEnabled?: boolean;
   isDeleteRowEnabled?: boolean;
   columns?: ColumnConfig[];
+  actionsColumnConfig?: ActionsColumnConfig;
   objects: NestedObjectConfig[];
   replaceVariables: InterpolateFunction;
 }) => {
@@ -426,14 +430,41 @@ export const useTable = ({
      * Add Actions Column If Enabled
      */
     if (isActionsEnabled) {
+      const actionColumnSize: Partial<Pick<ColumnDef<unknown>, 'size' | 'minSize' | 'maxSize'>> = {};
+
+      /**
+       * Set column size
+       */
+      if (actionsColumnConfig?.width.auto) {
+        actionColumnSize.minSize = actionsColumnConfig?.width.min;
+        actionColumnSize.maxSize = actionsColumnConfig?.width.max;
+      } else {
+        actionColumnSize.size = actionsColumnConfig?.width.value;
+        actionColumnSize.maxSize = actionsColumnConfig?.width.value;
+      }
+
+      const header = actionsColumnConfig?.label ? replaceVariables(actionsColumnConfig?.label) : '';
+
+      const currentMeta = {
+        config: {
+          appearance: {
+            header: {
+              fontSize: actionsColumnConfig?.fontSize ?? ColumnHeaderFontSize.LG,
+            },
+            alignment: actionsColumnConfig?.alignment,
+          },
+        },
+      } as ColumnMeta<unknown, unknown>;
+
       columns.push({
         id: ACTIONS_COLUMN_ID,
+        header: header,
         cell: TableActionsCell,
-        size: 120,
-        maxSize: 120,
+        meta: currentMeta,
         enablePinning: columns.some(
           (column) => column.enablePinning && column.meta?.config.pin === ColumnPinDirection.RIGHT
         ),
+        ...actionColumnSize,
       });
     }
 
@@ -450,6 +481,13 @@ export const useTable = ({
     getNestedObjectControlOptions,
     templateService,
     theme,
+    actionsColumnConfig?.width.auto,
+    actionsColumnConfig?.width.min,
+    actionsColumnConfig?.width.max,
+    actionsColumnConfig?.width.value,
+    actionsColumnConfig?.label,
+    actionsColumnConfig?.fontSize,
+    actionsColumnConfig?.alignment,
   ]);
 
   return useMemo(

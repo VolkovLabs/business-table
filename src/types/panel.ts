@@ -429,6 +429,65 @@ export interface TableOperationConfig {
 }
 
 /**
+ * Actions Column Config
+ */
+export interface ActionsColumnConfig {
+  /**
+   * Label
+   *
+   * @type {string}
+   */
+  label: string;
+
+  /**
+   * Width
+   */
+  width: {
+    /**
+     * Auto
+     *
+     * @type {boolean}
+     */
+    auto: boolean;
+
+    /**
+     * Min
+     *
+     * @type {number}
+     */
+    min?: number;
+
+    /**
+     * Max
+     *
+     * @type {number}
+     */
+    max?: number;
+
+    /**
+     * Value
+     *
+     * @type {number}
+     */
+    value: number;
+  };
+
+  /**
+   * Alignment
+   *
+   * @type {ColumnAlignment}
+   */
+  alignment: ColumnAlignment;
+
+  /**
+   * Font size
+   *
+   * @type {ColumnHeaderFontSize}
+   */
+  fontSize: ColumnHeaderFontSize;
+}
+
+/**
  * Table Config
  */
 export interface TableConfig {
@@ -487,6 +546,13 @@ export interface TableConfig {
    * @type {TableOperationConfig}
    */
   deleteRow: TableOperationConfig;
+
+  /**
+   * Actions Column Config
+   *
+   * @type {ActionsColumnConfig}
+   */
+  actionsColumnConfig: ActionsColumnConfig;
 }
 
 /**
