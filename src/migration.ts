@@ -127,6 +127,14 @@ interface OutdatedToolbarOptions {
    * Introduced in 1.3.0
    */
   export?: boolean;
+
+  /**
+   * Toolbar buttons alignment
+   *
+   * Introduced in 2.1.0
+   * @type {string}
+   */
+  alignment?: 'left' | 'right';
 }
 
 /**
@@ -428,6 +436,10 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
 
   if (options.toolbar.export === undefined) {
     options.toolbar.export = false;
+  }
+
+  if (options.toolbar.alignment === undefined) {
+    options.toolbar.alignment = 'left';
   }
 
   /**

@@ -10,8 +10,8 @@ import {
 import { useCallback } from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
-import { TableConfig } from '@/types';
-import { convertTableToDataFrame, downloadCsv } from '@/utils';
+import { ExportFormatType, TableConfig } from '@/types';
+import { convertTableToDataFrame, downloadFile } from '@/utils';
 
 /**
  * Use Export Data
@@ -21,12 +21,14 @@ export const useExportData = <TData>({
   columns,
   tableConfig,
   panelTitle,
+  exportFormat,
   replaceVariables,
 }: {
   data: TData[];
   columns: Array<ColumnDef<TData>>;
   tableConfig?: TableConfig;
   panelTitle: string;
+  exportFormat: ExportFormatType;
   replaceVariables: InterpolateFunction;
 }) => {
   return useCallback(
@@ -94,8 +96,8 @@ export const useExportData = <TData>({
       /**
        * Download File
        */
-      downloadCsv(content, `${prefix}${dateTimeFormat(new Date())}`);
+      return downloadFile(content, `${prefix}${dateTimeFormat(new Date())}`, exportFormat === ExportFormatType.XLSX);
     },
-    [columns, data, panelTitle, replaceVariables, tableConfig?.name]
+    [columns, data, exportFormat, panelTitle, replaceVariables, tableConfig?.name]
   );
 };

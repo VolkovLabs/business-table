@@ -234,4 +234,49 @@ describe('TablePanel', () => {
 
     expect(onExportMock).toHaveBeenCalled();
   });
+
+  it('Should allow to change download format data', async () => {
+    const tables = [createTableConfig({})];
+
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            tables,
+            toolbar: createToolbarOptions({
+              export: true,
+            }),
+          }),
+        })
+      )
+    );
+
+    expect(selectors.dropdown()).toBeInTheDocument();
+    expect(selectors.buttonFormat()).toBeInTheDocument();
+    expect(selectors.buttonFormat()).toHaveTextContent('csv');
+
+    expect(selectors.buttonSetFormat(true, 'csv')).not.toBeInTheDocument();
+    expect(selectors.buttonSetFormat(true, 'xlsx')).not.toBeInTheDocument();
+
+    /**
+     * Open Dropdown menu
+     */
+    fireEvent.click(selectors.dropdown());
+
+    expect(selectors.buttonSetFormat(true, 'csv')).toBeInTheDocument();
+    expect(selectors.buttonSetFormat(true, 'xlsx')).toBeInTheDocument();
+
+    /**
+     * Change format
+     */
+    await act(() => fireEvent.click(selectors.buttonSetFormat(false, 'xlsx')));
+    expect(selectors.buttonFormat()).toHaveTextContent('xlsx');
+
+    /**
+     * Change format
+     */
+    fireEvent.click(selectors.dropdown());
+    await act(() => fireEvent.click(selectors.buttonSetFormat(false, 'csv')));
+    expect(selectors.buttonFormat()).toHaveTextContent('csv');
+  });
 });

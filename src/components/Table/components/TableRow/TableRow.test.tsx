@@ -478,7 +478,7 @@ describe('TableRow', () => {
 
     expect(selectors.bodyRow(false, 'name:device1')).toBeInTheDocument();
     expect(selectors.bodyCell(false, 'name:device1_value')).toBeInTheDocument();
-    expect(selectors.bodyCell(false, 'name:device1_value').style.color).toBe('');
+    expect(selectors.bodyCell(false, 'name:device1_value').style.color).toEqual('');
   });
 
   it('Should set row background if enabled', async () => {
