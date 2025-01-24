@@ -98,7 +98,7 @@ export const useExportData = <TData>({
        */
       if (exportFormat === ExportFormatType.XLSX) {
         const xlsxContent = convertToXlsxFormat(columns, data);
-        return downloadXlsx(xlsxContent, `${prefix}${dateTimeFormat(new Date())}`);
+        return downloadXlsx(xlsxContent, `${prefix}${dateTimeFormat(new Date())}`, tableConfig?.name);
       }
 
       /**

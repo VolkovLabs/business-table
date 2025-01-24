@@ -18,10 +18,14 @@ export const downloadCsv = (content: string, fileName = 'download') => {
  * @param content
  * @param fileName
  */
-export const downloadXlsx = (content: unknown[][], fileName = 'download') => {
+export const downloadXlsx = (content: unknown[][], fileName = 'download', tableName?: string) => {
   const ws = utils.aoa_to_sheet(content);
   const wb = utils.book_new();
-  utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  /**
+   * tableName use for sheet name
+   */
+  utils.book_append_sheet(wb, ws, tableName ?? 'Sheet1');
 
   const blob = write(wb, { bookType: 'xlsx', type: 'array' });
 

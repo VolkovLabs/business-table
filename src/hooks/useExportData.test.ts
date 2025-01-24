@@ -267,6 +267,6 @@ describe('useExportData', () => {
     result.current({ table });
 
     expect(replaceVariables).toHaveBeenCalled();
-    expect(downloadXlsx).toHaveBeenCalledWith(mockedXlsxContent, expect.any(String));
+    expect(downloadXlsx).toHaveBeenCalledWith(mockedXlsxContent, expect.any(String), 'hello');
   });
 });
