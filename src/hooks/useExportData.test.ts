@@ -3,12 +3,13 @@ import { ColumnDef, createTable, getCoreRowModel, getFilteredRowModel } from '@t
 import { renderHook } from '@testing-library/react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
+import { ExportFormatType } from '@/types';
 import {
   createColumnAccessorFn,
   createColumnMeta,
   createTableConfig,
   dataFrameToObjectArray,
-  downloadCsv,
+  downloadFile,
 } from '@/utils';
 
 import { useExportData } from './useExportData';
@@ -17,7 +18,7 @@ import { useExportData } from './useExportData';
  * Mock file utils
  */
 jest.mock('../utils/file', () => ({
-  downloadCsv: jest.fn(),
+  downloadFile: jest.fn(),
 }));
 
 describe('useExportData', () => {
@@ -63,13 +64,14 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
 
     result.current({ table: null });
 
-    expect(downloadCsv).not.toHaveBeenCalled();
+    expect(downloadFile).not.toHaveBeenCalled();
     expect(replaceVariables).not.toHaveBeenCalled();
   });
 
@@ -99,6 +101,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
@@ -125,13 +128,14 @@ describe('useExportData', () => {
     result.current({ table });
 
     expect(replaceVariables).toHaveBeenCalled();
-    expect(downloadCsv).toHaveBeenCalledWith(
+    expect(downloadFile).toHaveBeenCalledWith(
       toCSV([
         toDataFrame({
           fields: [nameField, valueField],
         }),
       ]),
-      expect.any(String)
+      expect.any(String),
+      false
     );
   });
 
@@ -165,6 +169,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
@@ -190,13 +195,14 @@ describe('useExportData', () => {
 
     result.current({ table });
 
-    expect(downloadCsv).toHaveBeenCalledWith(
+    expect(downloadFile).toHaveBeenCalledWith(
       toCSV([
         toDataFrame({
           fields: [nameField, valueField],
         }),
       ]),
-      expect.any(String)
+      expect.any(String),
+      false
     );
   });
 });

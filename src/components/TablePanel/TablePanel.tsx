@@ -1,6 +1,6 @@
 import { PanelProps } from '@grafana/data';
 import { config } from '@grafana/runtime';
-import { Button, ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
+import { Button, ButtonGroup, Dropdown, MenuItem, ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
 import { Table as TableInstance } from '@tanstack/react-table';
 import { AlertWithDetails } from '@volkovlabs/components';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
@@ -15,7 +15,7 @@ import {
   useTable,
   useUpdateRow,
 } from '@/hooks';
-import { PanelOptions } from '@/types';
+import { ExportFormatType, PanelOptions } from '@/types';
 import { checkIfOperationEnabled } from '@/utils';
 
 import { Table } from '../Table';
@@ -45,6 +45,7 @@ export const TablePanel: React.FC<Props> = ({
   const styles = useStyles2(getStyles);
 
   const [error, setError] = useState('');
+  const [downloadFormat, setDownloadFormat] = useState(ExportFormatType.CSV);
 
   /**
    * Current group
@@ -192,8 +193,31 @@ export const TablePanel: React.FC<Props> = ({
     columns,
     tableConfig: currentTable,
     panelTitle: title,
+    exportFormat: downloadFormat,
     replaceVariables,
   });
+
+  const menu = useMemo(
+    () => (
+      <>
+        <MenuItem
+          label=".csv"
+          onClick={() => setDownloadFormat(ExportFormatType.CSV)}
+          className={styles.menuItem}
+          ariaLabel={'Set csv format'}
+          {...TEST_IDS.panel.buttonSetFormat.apply('csv')}
+        />
+        <MenuItem
+          label=".xlsx"
+          onClick={() => setDownloadFormat(ExportFormatType.XLSX)}
+          className={styles.menuItem}
+          ariaLabel={'Set xlsx format'}
+          {...TEST_IDS.panel.buttonSetFormat.apply('xlsx')}
+        />
+      </>
+    ),
+    [styles.menuItem]
+  );
 
   /**
    * Return
@@ -221,7 +245,7 @@ export const TablePanel: React.FC<Props> = ({
           )}
           {isToolbarVisible && (
             <div ref={headerRef} className={styles.header}>
-              <ToolbarButtonRow alignment="left" key={currentGroup} className={styles.tabs}>
+              <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
                 {sortedGroups.length > 1 &&
                   sortedGroups.map((group, index) => (
                     <ToolbarButton
@@ -240,15 +264,22 @@ export const TablePanel: React.FC<Props> = ({
                     </ToolbarButton>
                   ))}
                 {options.toolbar.export && (
-                  <Button
-                    icon="download-alt"
-                    onClick={() => onExport({ table: tableInstance.current as never })}
-                    variant="secondary"
-                    size="sm"
-                    {...TEST_IDS.panel.buttonDownload.apply()}
-                  >
-                    Download
-                  </Button>
+                  <ButtonGroup className={styles.downloadButtons}>
+                    <Button
+                      icon="download-alt"
+                      onClick={() => onExport({ table: tableInstance.current as never })}
+                      variant="secondary"
+                      size="sm"
+                      {...TEST_IDS.panel.buttonDownload.apply()}
+                    >
+                      Download
+                    </Button>
+                    <Dropdown overlay={menu} {...TEST_IDS.panel.dropdown.apply()}>
+                      <Button variant="secondary" size="sm" icon="angle-down" {...TEST_IDS.panel.buttonFormat.apply()}>
+                        {downloadFormat}
+                      </Button>
+                    </Dropdown>
+                  </ButtonGroup>
                 )}
               </ToolbarButtonRow>
             </div>

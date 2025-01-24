@@ -9,8 +9,9 @@ import {
   TablePanel,
   TablesEditor,
 } from './components';
+import { TOOLBAR_BUTTONS_ALIGNMENT } from './constants';
 import { getMigratedOptions } from './migration';
-import { PanelOptions } from './types';
+import { PanelOptions, ToolbarButtonsAlignment } from './types';
 
 /**
  * Panel Plugin
@@ -26,6 +27,16 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         description: 'Allow to download table data.',
         defaultValue: false,
       })
+      .addRadio({
+        path: 'toolbar.alignment',
+        name: 'Toolbar buttons alignment',
+        settings: {
+          options: TOOLBAR_BUTTONS_ALIGNMENT,
+        },
+        showIf: (config) => config.tables?.length > 1 || config.toolbar.export,
+        defaultValue: ToolbarButtonsAlignment.LEFT,
+      });
+    builder
       .addBooleanSwitch({
         path: 'tabsSorting',
         name: 'Tabs Sorting',

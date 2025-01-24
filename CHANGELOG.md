@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.1.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added download settings (#227)
+
 ## 2.0.0 (2025-01-07)
 
 ### Features / Enhancements
