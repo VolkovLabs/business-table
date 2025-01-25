@@ -4,7 +4,7 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { createColumnConfig, createTableConfig } from '@/utils';
+import { createColumnConfig, createTableConfig, createTableOperationConfig } from '@/utils';
 
 import { TableEditor } from './TableEditor';
 
@@ -18,6 +18,7 @@ type Props = React.ComponentProps<typeof TableEditor>;
  */
 const inTestIds = {
   columnsEditor: createSelector('data-testid columns-editor'),
+  actionsColumnEditor: createSelector('data-testid actions-column-editor'),
 };
 
 /**
@@ -26,6 +27,9 @@ const inTestIds = {
 jest.mock('./components', () => ({
   ColumnsEditor: ({ value, onChange }: any) => (
     <input {...inTestIds.columnsEditor.apply()} onChange={() => onChange(value)} />
+  ),
+  ActionsColumnEditor: ({ value, onChange }: any) => (
+    <input {...inTestIds.actionsColumnEditor.apply()} onChange={() => onChange(value)} />
   ),
 }));
 
@@ -129,6 +133,28 @@ describe('TableEditor', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         showHeader: false,
+        items: [createColumnConfig({})],
+      })
+    );
+  });
+
+  it('Should display actions column editor', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          showHeader: true,
+          items: [createColumnConfig({})],
+          addRow: createTableOperationConfig({ enabled: true }),
+        }),
+      })
+    );
+
+    expect(selectors.actionsColumnEditor()).toBeInTheDocument();
+
+    fireEvent.change(selectors.actionsColumnEditor(), { target: { value: '123' } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
         items: [createColumnConfig({})],
       })
     );

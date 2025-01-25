@@ -152,4 +152,33 @@ describe('TableHeaderCell', () => {
 
     expect(onAddRow).toHaveBeenCalled();
   });
+
+  it('Should display text in action header', () => {
+    const onAddRow = jest.fn();
+
+    render(
+      getComponent({
+        header: {
+          getContext: () =>
+            ({
+              label: 'action header',
+            }) as any,
+          column: {
+            id: ACTIONS_COLUMN_ID,
+            getIsSorted: jest.fn(),
+            getCanSort: jest.fn(),
+            getToggleSortingHandler: jest.fn(),
+            columnDef: {
+              header: ({ label }: any) => label,
+            },
+          } as any,
+        } as any,
+        isAddRowEnabled: true,
+        onAddRow,
+      })
+    );
+
+    expect(selectors.actionHeaderText()).toBeInTheDocument();
+    expect(selectors.actionHeaderText()).toHaveTextContent('action header');
+  });
 });

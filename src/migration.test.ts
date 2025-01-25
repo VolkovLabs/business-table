@@ -3,8 +3,10 @@ import { getBackendSrv } from '@grafana/runtime';
 import { getMigratedOptions } from '@/migration';
 import {
   CellType,
+  ColumnAlignment,
   ColumnEditorType,
   ColumnFilterMode,
+  ColumnHeaderFontSize,
   ColumnPinDirection,
   ImageScale,
   PaginationMode,
@@ -657,6 +659,29 @@ describe('migration', () => {
           }),
         })
       );
+    });
+
+    it('Should normalize actions column config', async () => {
+      const result = await getMigratedOptions({
+        options: {
+          tables: [
+            {
+              name: '',
+              items: [],
+            },
+          ],
+        },
+      } as any);
+
+      expect(result.tables[0].actionsColumnConfig).toEqual({
+        label: '',
+        width: {
+          auto: false,
+          value: 100,
+        },
+        alignment: ColumnAlignment.START,
+        fontSize: ColumnHeaderFontSize.SM,
+      });
     });
   });
 });
