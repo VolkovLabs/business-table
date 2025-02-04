@@ -1,5 +1,6 @@
 import { DataSourceApi, PanelModel } from '@grafana/data';
 import { getBackendSrv } from '@grafana/runtime';
+import { BarGaugeDisplayMode, BarGaugeValueMode } from '@grafana/schema';
 import semver from 'semver';
 
 import { getColumnEditorConfig } from '@/utils';
@@ -331,6 +332,17 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
          */
         if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.9.0') && !normalized.hasOwnProperty('scale')) {
           normalized.scale = ImageScale.AUTO;
+        }
+
+        /**
+         * Normalize gauge for items
+         */
+        if (!normalized.hasOwnProperty('gauge')) {
+          normalized.gauge = {
+            mode: BarGaugeDisplayMode.Basic,
+            valueDisplayMode: BarGaugeValueMode.Text,
+            valueSize: 14,
+          };
         }
 
         return normalized;

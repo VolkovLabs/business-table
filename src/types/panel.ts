@@ -1,4 +1,5 @@
 import { Field } from '@grafana/data';
+import { BarGaugeDisplayMode, BarGaugeValueMode } from '@grafana/schema';
 
 import { ColumnEditorConfig, ColumnEditorControlOptions } from './column-editor';
 import { FieldSource } from './frame';
@@ -199,6 +200,32 @@ export enum ColumnPinDirection {
 }
 
 /**
+ * Gauge cell type config
+ */
+export interface GaugeConfig {
+  /**
+   * Display mode
+   *
+   * @type {BarGaugeDisplayMode}
+   */
+  mode: BarGaugeDisplayMode;
+
+  /**
+   * Value Display Mode
+   *
+   * @type {BarGaugeDisplayMode}
+   */
+  valueDisplayMode: BarGaugeValueMode;
+
+  /**
+   * Value text size
+   *
+   * @type {number}
+   */
+  valueSize: number;
+}
+
+/**
  * Column Config
  */
 export interface ColumnConfig {
@@ -314,6 +341,13 @@ export interface ColumnConfig {
    * @type {ImageScale}
    */
   scale: ImageScale;
+
+  /**
+   * Gauge cell type config algorithm
+   *
+   * @type {GaugeConfig}
+   */
+  gauge: GaugeConfig;
 }
 
 /**

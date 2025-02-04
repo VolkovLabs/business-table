@@ -6,6 +6,7 @@ import { CellType } from '@/types';
 import {
   BooleanCellRenderer,
   DefaultCellRenderer,
+  GaugeCellRenderer,
   ImageCellRenderer,
   LayoutCellRenderer,
   PreformattedCellRenderer,
@@ -54,6 +55,9 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
     }
     case CellType.BOOLEAN: {
       return <BooleanCellRenderer value={renderValue() as boolean} bgColor={bgColor} />;
+    }
+    case CellType.GAUGE: {
+      return <GaugeCellRenderer value={renderValue() as number} bgColor={bgColor} field={field} config={config} />;
     }
     case CellType.PREFORMATTED: {
       return <PreformattedCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;

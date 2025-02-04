@@ -289,6 +289,33 @@ const DropdownMock = ({ children, overlay, ...restProps }: any) => {
 
 const Dropdown = jest.fn(DropdownMock);
 
+/**
+ * BarGauge
+ */
+const BarGaugeMock = ({ value, ...restProps }: any) => {
+  return (
+    <div data-testid={restProps['data-testid']} className={restProps['className']}>
+      {value.text}
+    </div>
+  );
+};
+
+const BarGauge = jest.fn(BarGaugeMock);
+
+/**
+ * Tooltip
+ */
+const TooltipMock = ({ content, children, ...restProps }: any) => {
+  return (
+    <div data-testid={restProps['data-testid']}>
+      <p>{content}</p>
+      {children}
+    </div>
+  );
+};
+
+const Tooltip = jest.fn(TooltipMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -304,12 +331,15 @@ beforeEach(() => {
   ConfirmModal.mockImplementation(ConfirmModalMock);
   ColorPicker.mockImplementation(ColorPickerMock);
   Dropdown.mockImplementation(DropdownMock);
+  Tooltip.mockImplementation(TooltipMock);
+  BarGauge.mockImplementation(BarGaugeMock);
 });
 
 module.exports = {
   ...actual,
   Select,
   Button,
+  BarGauge,
   ToolbarButtonRow,
   ButtonSelect,
   TimeRangeInput,
@@ -321,5 +351,6 @@ module.exports = {
   StatsPicker,
   ConfirmModal,
   ColorPicker,
+  Tooltip,
   Dropdown,
 };

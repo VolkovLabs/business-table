@@ -1,8 +1,9 @@
 import { DataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
+import { BarGaugeDisplayMode, BarGaugeValueMode } from '@grafana/schema';
 import { InlineField, InlineFieldRow, InlineSwitch, Input, RadioButtonGroup, Select, StatsPicker } from '@grafana/ui';
-import { NumberInput } from '@volkovlabs/components';
-import React, { useMemo } from 'react';
+import { NumberInput, Slider } from '@volkovlabs/components';
+import React, { useMemo, useState } from 'react';
 
 import { FieldsGroup } from '@/components';
 import { TEST_IDS } from '@/constants';
@@ -79,6 +80,10 @@ const cellTypeOptions = [
     value: CellType.IMAGE,
     label: 'Image',
     description: 'Base64 encoded data and URL',
+  },
+  {
+    value: CellType.GAUGE,
+    label: 'Gauge',
   },
   {
     value: CellType.NESTED_OBJECTS,
@@ -241,6 +246,11 @@ const imageScaleOptions = [
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable, showTableHeader }) => {
   /**
+   * State
+   */
+  const [gaugeValueSize, setGaugeValueSize] = useState(value.gauge.valueSize);
+
+  /**
    * Current field
    */
   const field = useMemo(() => {
@@ -312,6 +322,95 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               {...TEST_IDS.columnEditor.fieldAppearanceBackgroundApplyToRow.apply()}
             />
           </InlineField>
+        )}
+        {value.type === CellType.GAUGE && (
+          <FieldsGroup label="Gauge settings">
+            <InlineField label="Display mode" {...TEST_IDS.columnEditor.fieldGaugeDisplayMode.apply()}>
+              <RadioButtonGroup
+                value={value.gauge.mode}
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    gauge: {
+                      ...value.gauge,
+                      mode: event,
+                    },
+                  })
+                }
+                options={[
+                  {
+                    value: BarGaugeDisplayMode.Basic,
+                    label: 'Basic',
+                    ariaLabel: TEST_IDS.columnEditor.fieldGaugeDisplayModeOption.selector(BarGaugeDisplayMode.Basic),
+                  },
+                  {
+                    value: BarGaugeDisplayMode.Gradient,
+                    label: 'Gradient',
+                    ariaLabel: TEST_IDS.columnEditor.fieldGaugeDisplayModeOption.selector(BarGaugeDisplayMode.Gradient),
+                  },
+                  {
+                    value: BarGaugeDisplayMode.Lcd,
+                    label: 'LCD',
+                    ariaLabel: TEST_IDS.columnEditor.fieldGaugeDisplayModeOption.selector(BarGaugeDisplayMode.Lcd),
+                  },
+                ]}
+              />
+            </InlineField>
+            <InlineField label="Value display" {...TEST_IDS.columnEditor.fieldGaugeValueDisplay.apply()}>
+              <RadioButtonGroup
+                value={value.gauge.valueDisplayMode}
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    gauge: {
+                      ...value.gauge,
+                      valueDisplayMode: event,
+                    },
+                  })
+                }
+                options={[
+                  {
+                    value: BarGaugeValueMode.Color,
+                    label: 'Color',
+                    ariaLabel: TEST_IDS.columnEditor.fieldGaugeValueDisplayOption.selector(BarGaugeValueMode.Color),
+                  },
+                  {
+                    value: BarGaugeValueMode.Hidden,
+                    label: 'Hidden',
+                    ariaLabel: TEST_IDS.columnEditor.fieldGaugeValueDisplayOption.selector(BarGaugeValueMode.Hidden),
+                  },
+                  {
+                    value: BarGaugeValueMode.Text,
+                    label: 'Text',
+                    ariaLabel: TEST_IDS.columnEditor.fieldGaugeValueDisplayOption.selector(BarGaugeValueMode.Text),
+                  },
+                ]}
+              />
+            </InlineField>
+            {value.gauge?.valueDisplayMode !== BarGaugeValueMode.Hidden && (
+              <InlineField label="Value size" grow={true}>
+                <Slider
+                  value={gaugeValueSize}
+                  min={8}
+                  max={20}
+                  step={1}
+                  onChange={(size) => {
+                    setGaugeValueSize(size);
+                  }}
+                  onAfterChange={(size) => {
+                    onChange({
+                      ...value,
+                      gauge: {
+                        ...value.gauge,
+                        valueSize: size!,
+                      },
+                    });
+                  }}
+                  {...TEST_IDS.columnEditor.fieldGaugeValueTextSize.apply()}
+                />
+              </InlineField>
+            )}
+          </FieldsGroup>
         )}
         {value.type === CellType.NESTED_OBJECTS && (
           <InlineField label="Object" grow={true}>

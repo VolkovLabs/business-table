@@ -9,6 +9,7 @@ import { CellRenderer } from './CellRenderer';
 import {
   BooleanCellRenderer,
   DefaultCellRenderer,
+  GaugeCellRenderer,
   ImageCellRenderer,
   LayoutCellRenderer,
   PreformattedCellRenderer,
@@ -23,6 +24,7 @@ jest.mock('./components', () => ({
   DefaultCellRenderer: jest.fn(() => null),
   BooleanCellRenderer: jest.fn(() => null),
   ImageCellRenderer: jest.fn(() => null),
+  GaugeCellRenderer: jest.fn(() => null),
   LayoutCellRenderer: jest.fn(() => null),
   PreformattedCellRenderer: jest.fn(() => null),
 }));
@@ -125,5 +127,11 @@ describe('CellRenderer', () => {
     );
 
     expect(PreformattedCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render Gauge type cell', () => {
+    render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.GAUGE }) }) }));
+
+    expect(GaugeCellRenderer).toHaveBeenCalled();
   });
 });

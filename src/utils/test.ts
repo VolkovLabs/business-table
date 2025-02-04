@@ -8,6 +8,7 @@ import {
   toDataFrame,
   TypedVariableModel,
 } from '@grafana/data';
+import { BarGaugeDisplayMode, BarGaugeValueMode } from '@grafana/schema';
 import { ColumnDef } from '@tanstack/react-table';
 
 import { PAGE_SIZES } from '@/constants';
@@ -26,6 +27,7 @@ import {
   ColumnNewRowEditConfig,
   ColumnPinDirection,
   ColumnSortConfig,
+  GaugeConfig,
   ImageScale,
   NestedObjectCardsDisplay,
   NestedObjectConfig,
@@ -116,6 +118,16 @@ export const createColumnNewRowEditConfig = (item: Partial<ColumnNewRowEditConfi
 });
 
 /**
+ * Create gauge config
+ */
+export const createGaugeConfig = (item: Partial<GaugeConfig>): GaugeConfig => ({
+  mode: BarGaugeDisplayMode.Basic,
+  valueDisplayMode: BarGaugeValueMode.Text,
+  valueSize: 14,
+  ...item,
+});
+
+/**
  * Create Column Config
  */
 export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConfig => ({
@@ -138,6 +150,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   newRowEdit: createColumnNewRowEditConfig({}),
   pin: ColumnPinDirection.NONE,
   objectId: '',
+  gauge: createGaugeConfig({}),
   ...item,
 });
 
