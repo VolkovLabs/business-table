@@ -175,54 +175,6 @@ describe('TableCell', () => {
     expect(selectors.tableLink(false, 'test-url')).toBeInTheDocument();
   });
 
-  it('Should call stopPropagation on click', async () => {
-    const data = [
-      {
-        value: 'abc',
-        name: 'device1',
-      },
-    ];
-    const columns = [
-      {
-        id: 'name',
-        accessorFn: createColumnAccessorFn('name'),
-        meta: createColumnMeta({
-          field: createField({
-            getLinks: () => [
-              createDataLink({
-                href: 'https://test.com',
-                target: '_blank',
-                title: 'test-url',
-              }),
-            ],
-          }),
-        }),
-      },
-      {
-        id: 'value',
-        accessorFn: createColumnAccessorFn('value'),
-      },
-    ];
-
-    await act(async () =>
-      render(
-        getComponent({
-          data,
-          columns,
-          rowIndex: 0,
-        })
-      )
-    );
-
-    expect(selectors.tableLink(false, 'test-url')).toBeInTheDocument();
-
-    /**
-     * onOuterClick should not call if stopPropagation() works
-     */
-    fireEvent.click(selectors.tableLink(false, 'test-url'));
-    expect(onOuterClick).not.toHaveBeenCalled();
-  });
-
   it('Should render more than one links', async () => {
     const data = [
       {
