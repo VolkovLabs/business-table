@@ -343,7 +343,7 @@ export interface ColumnConfig {
   scale: ImageScale;
 
   /**
-   * Gauge cell type config algorithm
+   * Gauge cell type config
    *
    * @type {GaugeConfig}
    */
