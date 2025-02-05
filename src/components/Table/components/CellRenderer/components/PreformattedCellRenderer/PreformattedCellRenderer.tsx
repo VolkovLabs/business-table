@@ -1,3 +1,4 @@
+import { css, cx } from '@emotion/css';
 import { Field } from '@grafana/data';
 import { FormattedValueDisplay, useTheme2 } from '@grafana/ui';
 import React, { ReactElement } from 'react';
@@ -65,7 +66,14 @@ export const PreformattedCellRenderer: React.FC<Props> = ({ field, value, config
   }
 
   return (
-    <pre className={config.preformattedStyle ? styles.preformatted : styles.default}>
+    <pre
+      className={cx(
+        config.preformattedStyle ? styles.preformatted : styles.default,
+        css`
+          background: ${bgColor ? 'inherit' : theme.colors.background.primary};
+        `
+      )}
+    >
       <span
         {...TEST_IDS.preformattedCellRenderer.root.apply()}
         style={{
