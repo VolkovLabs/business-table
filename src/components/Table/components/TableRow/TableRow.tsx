@@ -173,7 +173,12 @@ export const TableRow = <TData,>({
       /**
        * Set background color
        */
-      if (field.display && config.type === CellType.COLORED_BACKGROUND && !row.getIsGrouped()) {
+      if (
+        !cell.id.includes(ACTIONS_COLUMN_ID) &&
+        field.display &&
+        config.type === CellType.COLORED_BACKGROUND &&
+        !row.getIsGrouped()
+      ) {
         const displayValue = field.display(value);
 
         if (displayValue.color) {
@@ -192,6 +197,7 @@ export const TableRow = <TData,>({
        * Apply Display Processor to Aggregated Row
        */
       if (
+        !cell.id.includes(ACTIONS_COLUMN_ID) &&
         field.display &&
         config.type === CellType.COLORED_BACKGROUND &&
         cell.getIsAggregated() &&

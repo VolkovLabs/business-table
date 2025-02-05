@@ -99,6 +99,7 @@ export const TablePanel: React.FC<Props> = ({
   const { tableData, columns } = useTable({
     data,
     columns: currentTable?.items,
+    actionsColumnConfig: currentTable?.actionsColumnConfig,
     isAddRowEnabled,
     isDeleteRowEnabled,
     replaceVariables,

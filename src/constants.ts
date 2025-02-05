@@ -103,6 +103,22 @@ export const TEST_IDS = {
     newItemName: createSelector('data-testid tables-editor new-item-name'),
     noItemsMessage: createSelector('data-testid tables-editor no-items-message'),
   },
+  actionColumnsEditor: {
+    root: createSelector('data-testid action-columns-editor'),
+    fieldLabel: createSelector('data-testid action-columns-editor field-label'),
+    fieldHeaderFontSize: createSelector('data-testid action-columns-editor field-font-size'),
+    fieldHeaderFontSizeOption: createSelector((name: unknown) => `action-columns-editor field-font-size-${name}`),
+    fieldAppearanceWidthAuto: createSelector('data-testid action-columns-editor field-appearance-width-auto'),
+    fieldAppearanceWidthMin: createSelector('data-testid action-columns-editor field-appearance-width-min'),
+    fieldAppearanceWidthMax: createSelector('data-testid action-columns-editor field-appearance-width-max'),
+    fieldAppearanceWidthValue: createSelector('data-testid action-columns-editor field-appearance-width-value'),
+    fieldAppearanceAlignment: createSelector('data-testid action-columns-editor field-appearance-alignment'),
+    fieldAppearanceAlignmentOption: createSelector(
+      (name: unknown) => `action-columns-editor field-appearance-alignment-option-${name}`
+    ),
+    itemHeader: createSelector(`data-testid action-columns-editor item-header`),
+    itemContent: createSelector(`data-testid action-columns-editor item-content`),
+  },
   columnsEditor: {
     buttonAddNew: createSelector('data-testid columns-editor button-add-new'),
     buttonRemove: createSelector('data-testid columns-editor button-remove'),
@@ -189,6 +205,7 @@ export const TEST_IDS = {
   tableHeaderCell: {
     root: createSelector('data-testid table-header-cell'),
     buttonAddRow: createSelector('data-testid table-header-cell button-add-row'),
+    actionHeaderText: createSelector('data-testid table-header-cell action-header-text'),
     sortIcon: createSelector((iconName: unknown) => String(iconName), 'data-testid'),
   },
   tableCell: {
