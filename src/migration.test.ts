@@ -640,6 +640,30 @@ describe('migration', () => {
   });
 
   describe('2.1.0', () => {
+    it('Should normalize showingRows option for items', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '2.0.0',
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                {
+                  type: CellType.AUTO,
+                  filter: undefined,
+                } as any,
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0]).toEqual(
+        expect.objectContaining({
+          showingRows: 20,
+        })
+      );
+    });
+
     it('Should normalize toolbar alignment', async () => {
       expect(
         await getMigratedOptions({

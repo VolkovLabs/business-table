@@ -5,6 +5,8 @@
 ### Features / Enhancements
 
 - Added download settings (#227)
+- Updated data links to prevent reloading dashboard page (#232)
+- Added JSON cell type with inspector (#224)
 
 ## 2.0.0 (2025-01-07)
 

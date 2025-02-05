@@ -146,6 +146,7 @@ export const TEST_IDS = {
     fieldAppearanceBackgroundApplyToRow: createSelector(
       'data-testid column-editor field-appearance-background-apply-to-row'
     ),
+    fieldShowingRows: createSelector('data-testid column-editor field-showing-rows'),
     fieldPreformattedStyles: createSelector('data-testid column-editor field-preformatted-styles'),
     fieldAppearanceWidthAuto: createSelector('data-testid column-editor field-appearance-width-auto'),
     fieldAppearanceWidthMin: createSelector('data-testid column-editor field-appearance-width-min'),
@@ -179,6 +180,13 @@ export const TEST_IDS = {
   },
   imageCellRenderer: {
     root: createSelector('data-testid image-cell-renderer'),
+  },
+  jsonCellRenderer: {
+    formattedText: createSelector('data-testid json-cell-renderer formatted-text'),
+    buttonOpenDrawer: createSelector('data-testid json-cell-renderer button-open-drawer'),
+    error: createSelector('data-testid json-cell-renderer error'),
+    buttonCloseDrawer: createSelector(selectors.components.Drawer.General.close),
+    codeEditor: createSelector('json-cell-renderer code-editor'),
   },
   table: {
     root: createSelector('data-testid table'),

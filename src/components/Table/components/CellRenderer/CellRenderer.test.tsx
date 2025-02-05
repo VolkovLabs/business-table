@@ -10,6 +10,7 @@ import {
   BooleanCellRenderer,
   DefaultCellRenderer,
   ImageCellRenderer,
+  JsonCellRenderer,
   LayoutCellRenderer,
   PreformattedCellRenderer,
 } from './components';
@@ -25,6 +26,7 @@ jest.mock('./components', () => ({
   ImageCellRenderer: jest.fn(() => null),
   LayoutCellRenderer: jest.fn(() => null),
   PreformattedCellRenderer: jest.fn(() => null),
+  JsonCellRenderer: jest.fn(() => null),
 }));
 
 describe('CellRenderer', () => {
@@ -125,5 +127,11 @@ describe('CellRenderer', () => {
     );
 
     expect(PreformattedCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render JSON type cell', () => {
+    render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.JSON }) }) }));
+
+    expect(JsonCellRenderer).toHaveBeenCalled();
   });
 });
