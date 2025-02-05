@@ -15,6 +15,7 @@ import {
 import {
   createColumnConfig,
   createColumnEditConfig,
+  createGaugeConfig,
   createNestedObjectConfig,
   createPanelOptions,
   createTableConfig,
@@ -681,6 +682,29 @@ describe('migration', () => {
           toolbar: expect.objectContaining({
             alignment: 'left',
           }),
+        })
+      );
+    });
+
+    it('Should normalize gauge option for items', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                {
+                  type: CellType.AUTO,
+                  filter: undefined,
+                } as any,
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0]).toEqual(
+        expect.objectContaining({
+          gauge: createGaugeConfig({}),
         })
       );
     });

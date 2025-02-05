@@ -13,6 +13,7 @@ import {
   createColumnEditConfig,
   createColumnFilterConfig,
   createColumnSortConfig,
+  createGaugeConfig,
 } from '@/utils';
 
 import { ColumnsEditor } from './ColumnsEditor';
@@ -281,6 +282,11 @@ describe('ColumnsEditor', () => {
       createColumnConfig({
         field: { name: 'field1', source: 'A' },
         group: true,
+
+        /**
+         * Add check gauge config
+         */
+        gauge: createGaugeConfig({}),
       }),
       createColumnConfig({
         field: { name: 'field2', source: 'A' },

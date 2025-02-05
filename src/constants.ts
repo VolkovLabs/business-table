@@ -162,6 +162,11 @@ export const TEST_IDS = {
       (name: unknown) => `column-editor field-appearance-alignment-option-${name}`
     ),
     fieldScale: createSelector('data-testid column-editor field-scale'),
+    fieldGaugeDisplayMode: createSelector('data-testid column-editor field-gauge-display-mode'),
+    fieldGaugeDisplayModeOption: createSelector((name: unknown) => `column-editor field-gauge-display-mode-${name}`),
+    fieldGaugeValueDisplay: createSelector('data-testid column-editor field-gauge-value-display'),
+    fieldGaugeValueDisplayOption: createSelector((name: unknown) => `column-editor field-gauge-value-mode-${name}`),
+    fieldGaugeValueTextSize: createSelector('data-testid column-editor field-gauge-value'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -180,6 +185,11 @@ export const TEST_IDS = {
   },
   imageCellRenderer: {
     root: createSelector('data-testid image-cell-renderer'),
+  },
+  gaugeCellRenderer: {
+    root: createSelector('data-testid gauge-cell-renderer root'),
+    gauge: createSelector('data-testid gauge-cell-renderer gauge'),
+    error: createSelector('data-testid gauge-cell-renderer error'),
   },
   jsonCellRenderer: {
     formattedText: createSelector('data-testid json-cell-renderer formatted-text'),

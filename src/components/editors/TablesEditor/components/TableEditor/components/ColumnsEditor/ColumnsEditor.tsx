@@ -1,4 +1,5 @@
 import { DataFrame } from '@grafana/data';
+import { BarGaugeDisplayMode, BarGaugeValueMode } from '@grafana/schema';
 import { Button, Icon, IconButton, InlineField, InlineFieldRow, Tag, useTheme2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { Collapse } from '@volkovlabs/components';
@@ -143,6 +144,11 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
           newRowEdit: DEFAULT_COLUMN_NEW_ROW_EDIT_CONFIG,
           pin: ColumnPinDirection.NONE,
           objectId: '',
+          gauge: {
+            mode: BarGaugeDisplayMode.Basic,
+            valueDisplayMode: BarGaugeValueMode.Text,
+            valueSize: 14,
+          },
         },
       ]);
       setNewItem(null);

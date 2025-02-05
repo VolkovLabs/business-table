@@ -1,5 +1,6 @@
 import { toDataFrame } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
+import { BarGaugeDisplayMode, BarGaugeValueMode } from '@grafana/schema';
 import { Select, StatsPicker } from '@grafana/ui';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
@@ -21,6 +22,7 @@ import {
   createColumnConfig,
   createColumnFilterConfig,
   createColumnSortConfig,
+  createGaugeConfig,
   createNestedObjectConfig,
   createVariable,
 } from '@/utils';
@@ -911,6 +913,93 @@ describe('ColumnEditor', () => {
       expect(selectors.fieldFilterEnabled(true)).not.toBeInTheDocument();
       expect(selectors.fieldGroup(true)).not.toBeInTheDocument();
       expect(selectors.fieldAppearanceWrap(true)).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Gauge', () => {
+    it('Should allow to change gauge text size', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.GAUGE,
+            gauge: createGaugeConfig({}),
+          }),
+        })
+      );
+
+      expect(selectors.fieldGaugeValueTextSize()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldGaugeValueTextSize(), { target: { value: 16 } });
+      fireEvent.blur(selectors.fieldGaugeValueTextSize(), { target: { value: 16 } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          gauge: expect.objectContaining({
+            valueSize: 16,
+          }),
+        })
+      );
+    });
+
+    it('Should not show text size editor if text hidden ', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.GAUGE,
+            gauge: createGaugeConfig({
+              valueDisplayMode: BarGaugeValueMode.Hidden,
+            }),
+          }),
+        })
+      );
+
+      expect(selectors.fieldGaugeValueTextSize(true)).not.toBeInTheDocument();
+    });
+
+    it('Should allow to change gauge display mode', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.GAUGE,
+          }),
+        })
+      );
+
+      expect(selectors.fieldGaugeDisplayMode()).toBeInTheDocument();
+
+      fireEvent.click(selectors.fieldGaugeDisplayModeOption(false, BarGaugeDisplayMode.Lcd));
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          gauge: createGaugeConfig({
+            mode: BarGaugeDisplayMode.Lcd,
+            valueDisplayMode: BarGaugeValueMode.Text,
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change gauge value display mode', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.GAUGE,
+          }),
+        })
+      );
+
+      expect(selectors.fieldGaugeValueDisplay()).toBeInTheDocument();
+
+      fireEvent.click(selectors.fieldGaugeValueDisplayOption(false, BarGaugeValueMode.Color));
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          gauge: createGaugeConfig({
+            mode: BarGaugeDisplayMode.Basic,
+            valueDisplayMode: BarGaugeValueMode.Color,
+          }),
+        })
+      );
     });
   });
 });
