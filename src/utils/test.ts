@@ -124,6 +124,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
     name: 'field',
     source: 'A',
   },
+  showingRows: 20,
   label: '',
   type: CellType.AUTO,
   group: false,
