@@ -11,6 +11,7 @@ import {
   DefaultCellRenderer,
   GaugeCellRenderer,
   ImageCellRenderer,
+  JsonCellRenderer,
   LayoutCellRenderer,
   PreformattedCellRenderer,
 } from './components';
@@ -27,6 +28,7 @@ jest.mock('./components', () => ({
   GaugeCellRenderer: jest.fn(() => null),
   LayoutCellRenderer: jest.fn(() => null),
   PreformattedCellRenderer: jest.fn(() => null),
+  JsonCellRenderer: jest.fn(() => null),
 }));
 
 describe('CellRenderer', () => {
@@ -133,5 +135,11 @@ describe('CellRenderer', () => {
     render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.GAUGE }) }) }));
 
     expect(GaugeCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render JSON type cell', () => {
+    render(getComponent({ column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.JSON }) }) }));
+
+    expect(JsonCellRenderer).toHaveBeenCalled();
   });
 });

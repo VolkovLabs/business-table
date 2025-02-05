@@ -86,6 +86,10 @@ const cellTypeOptions = [
     label: 'Gauge',
   },
   {
+    value: CellType.JSON,
+    label: 'JSON',
+  },
+  {
     value: CellType.NESTED_OBJECTS,
     label: 'Nested objects',
     description: 'Column value should be an array of object ids',
@@ -257,6 +261,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
     return getFieldBySource(data, value.field);
   }, [data, value.field]);
 
+  const [showingRows, setShowingRows] = useState(value.showingRows);
   /**
    * Variable Options
    */
@@ -303,6 +308,38 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
             {...TEST_IDS.columnEditor.fieldType.apply()}
           />
         </InlineField>
+        {value.type === CellType.JSON && (
+          <InlineField
+            label="Show rows"
+            grow={true}
+            tooltip="Number of rows displayed in the cell. The rest will be hidden."
+          >
+            <Slider
+              value={showingRows}
+              min={0}
+              max={100}
+              step={1}
+              included={true}
+              marks={{
+                0: '0',
+                25: '25',
+                50: '50',
+                75: '75',
+                100: '100',
+              }}
+              onChange={(rows) => {
+                setShowingRows(rows);
+              }}
+              onAfterChange={(rows) => {
+                onChange({
+                  ...value,
+                  showingRows: rows!,
+                });
+              }}
+              {...TEST_IDS.columnEditor.fieldShowingRows.apply()}
+            />
+          </InlineField>
+        )}
         {value.type === CellType.COLORED_BACKGROUND && (
           <InlineField label="Apply to Row" grow={true}>
             <InlineSwitch

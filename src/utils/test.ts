@@ -13,6 +13,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { PAGE_SIZES } from '@/constants';
 import {
+  ActionsColumnConfig,
   CellAggregation,
   CellType,
   ColumnAlignment,
@@ -136,6 +137,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
     name: 'field',
     source: 'A',
   },
+  showingRows: 20,
   label: '',
   type: CellType.AUTO,
   group: false,
@@ -151,6 +153,20 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   pin: ColumnPinDirection.NONE,
   objectId: '',
   gauge: createGaugeConfig({}),
+  ...item,
+});
+
+/**
+ * Create Actions Column Config
+ */
+export const createActionsColumnConfig = (item: Partial<ActionsColumnConfig> = {}): ActionsColumnConfig => ({
+  label: '',
+  width: {
+    auto: false,
+    value: 100,
+  },
+  alignment: ColumnAlignment.START,
+  fontSize: ColumnHeaderFontSize.MD,
   ...item,
 });
 
@@ -271,6 +287,20 @@ export const createTablePaginationConfig = (pagination: Partial<TablePaginationC
 });
 
 /**
+ * Create Table Actions Column Config
+ */
+export const createTableActionsColumnConfig = (item: Partial<ActionsColumnConfig>): ActionsColumnConfig => ({
+  label: '',
+  width: {
+    auto: false,
+    value: 100,
+  },
+  alignment: ColumnAlignment.START,
+  fontSize: ColumnHeaderFontSize.MD,
+  ...item,
+});
+
+/**
  * Create Table Request Config
  */
 export const createTableRequestConfig = (item: Partial<TableRequestConfig>): TableRequestConfig => ({
@@ -300,6 +330,7 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   addRow: createTableOperationConfig({}),
   deleteRow: createTableOperationConfig({}),
   pagination: createTablePaginationConfig({}),
+  actionsColumnConfig: createTableActionsColumnConfig({}),
   expanded: false,
   ...table,
 });

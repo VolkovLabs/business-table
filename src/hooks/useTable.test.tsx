@@ -15,6 +15,7 @@ import {
 } from '@/types';
 import {
   columnFilter,
+  createActionsColumnConfig,
   createColumnAppearanceConfig,
   createColumnConfig,
   createColumnEditConfig,
@@ -97,6 +98,8 @@ describe('useTable', () => {
     loadingState: {},
   };
 
+  const actionsColumnConfigDefault = createActionsColumnConfig({});
+
   beforeEach(() => {
     jest.mocked(useNestedObjects).mockReturnValue(nestedObjectsMock);
   });
@@ -133,6 +136,7 @@ describe('useTable', () => {
         ],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -177,6 +181,7 @@ describe('useTable', () => {
         ],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -214,6 +219,7 @@ describe('useTable', () => {
         ],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -229,6 +235,7 @@ describe('useTable', () => {
         columns: [],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -244,6 +251,7 @@ describe('useTable', () => {
         columns: undefined,
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -290,6 +298,7 @@ describe('useTable', () => {
         columns: [deviceColumn, valueColumn, nestedColumn, disabledColumn],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: createActionsColumnConfig(),
       })
     );
 
@@ -385,6 +394,7 @@ describe('useTable', () => {
         columns: [deviceColumn, valueColumn, createdColumn, otherColumn],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -470,6 +480,7 @@ describe('useTable', () => {
         columns: [deviceColumn],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -523,6 +534,7 @@ describe('useTable', () => {
         columns: [deviceColumn, valueColumn],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -576,6 +588,7 @@ describe('useTable', () => {
         columns: [deviceColumn, valueColumn],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -616,6 +629,7 @@ describe('useTable', () => {
         columns: [deviceColumn, valueColumn],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -681,6 +695,7 @@ describe('useTable', () => {
           columns: [deviceColumn],
           objects: [],
           replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
         })
       );
 
@@ -697,6 +712,71 @@ describe('useTable', () => {
        * Check actions column presence
        */
       expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
+    });
+
+    it('Should enable editor if edit enabled with column', () => {
+      const deviceColumn = createColumnConfig({
+        label: 'Device',
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        edit: createColumnEditConfig({
+          enabled: true,
+          permission: {
+            mode: PermissionMode.ALLOWED,
+            userRole: [],
+            field: { source: '', name: '' },
+          },
+          editor: {
+            type: ColumnEditorType.STRING,
+          },
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn],
+          objects: [],
+          replaceVariables,
+          actionsColumnConfig: createActionsColumnConfig({
+            width: {
+              auto: true,
+              min: 100,
+              max: 250,
+              value: 0,
+            },
+            label: 'Actions',
+            fontSize: undefined,
+          }),
+        })
+      );
+
+      expect(result.current.columns[0].meta).toEqual(
+        expect.objectContaining({
+          editable: true,
+          editor: {
+            type: ColumnEditorType.STRING,
+          },
+        })
+      );
+
+      /**
+       * Check actions column presence
+       */
+      expect(result.current.columns[1].id).toEqual(ACTIONS_COLUMN_ID);
+
+      /**
+       * Check meta Config
+       */
+      expect(result.current.columns[1].meta?.config).toEqual(
+        expect.objectContaining({
+          appearance: { alignment: 'start', header: { fontSize: 'lg' } },
+        })
+      );
     });
 
     it('Should enable add row editor if add enabled', () => {
@@ -723,6 +803,7 @@ describe('useTable', () => {
           columns: [deviceColumn],
           objects: [],
           replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
         })
       );
 
@@ -766,6 +847,7 @@ describe('useTable', () => {
           columns: [deviceColumn],
           objects: [],
           replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
         })
       );
 
@@ -813,6 +895,7 @@ describe('useTable', () => {
           columns: [deviceColumn],
           objects: [],
           replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
         })
       );
 
@@ -860,6 +943,7 @@ describe('useTable', () => {
           columns: [deviceColumn],
           objects: [],
           replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
         })
       );
 
@@ -901,6 +985,7 @@ describe('useTable', () => {
           columns: [columnForAdminEdit],
           objects: [],
           replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
         })
       );
 
@@ -942,6 +1027,7 @@ describe('useTable', () => {
         columns: [deviceColumn, valueColumn],
         objects: [],
         replaceVariables,
+        actionsColumnConfig: actionsColumnConfigDefault,
       })
     );
 
@@ -1000,6 +1086,7 @@ describe('useTable', () => {
             columns: [deviceColumn, commentsColumn],
             objects: [nestedObject],
             replaceVariables,
+            actionsColumnConfig: actionsColumnConfigDefault,
           })
         )
       );
@@ -1073,6 +1160,7 @@ describe('useTable', () => {
             columns: [deviceColumn, commentsColumn],
             objects: [nestedObject],
             replaceVariables,
+            actionsColumnConfig: actionsColumnConfigDefault,
           })
         )
       );
@@ -1173,6 +1261,7 @@ describe('useTable', () => {
             columns: [deviceColumn, commentsColumn, readonlyCommentsColumn],
             objects: [commentsObject, readonlyObject],
             replaceVariables,
+            actionsColumnConfig: actionsColumnConfigDefault,
           })
         )
       );
@@ -1248,6 +1337,7 @@ describe('useTable', () => {
             columns: [commentsColumn],
             objects: [commentsObject],
             replaceVariables,
+            actionsColumnConfig: actionsColumnConfigDefault,
           })
         )
       );
@@ -1299,6 +1389,7 @@ describe('useTable', () => {
           columns: [deviceColumn, valueColumn, disabledColumn],
           objects: [],
           replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
         })
       );
 
@@ -1358,6 +1449,7 @@ describe('useTable', () => {
           columns: [deviceColumn, valueColumn, disabledColumn, nestedColumn],
           objects: [],
           replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
         })
       );
 

@@ -58,11 +58,22 @@ export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRo
    * Actions Header
    */
   if (header.column.id === ACTIONS_COLUMN_ID) {
-    if (isAddRowEnabled) {
-      return <IconButton name="plus" aria-label="Add Row" onClick={onAddRow} {...testIds.buttonAddRow.apply()} />;
-    }
-
-    return null;
+    return (
+      <div className={styles.actions}>
+        {isAddRowEnabled && (
+          <IconButton
+            name="plus"
+            size={size}
+            aria-label="Add Row"
+            onClick={onAddRow}
+            {...testIds.buttonAddRow.apply()}
+          />
+        )}
+        <p {...testIds.actionHeaderText.apply()} className={styles.actionHeader}>
+          {flexRender(header.column.columnDef.header, header.getContext())}
+        </p>
+      </div>
+    );
   }
 
   return (

@@ -3,8 +3,10 @@ import { getBackendSrv } from '@grafana/runtime';
 import { getMigratedOptions } from '@/migration';
 import {
   CellType,
+  ColumnAlignment,
   ColumnEditorType,
   ColumnFilterMode,
+  ColumnHeaderFontSize,
   ColumnPinDirection,
   ImageScale,
   PaginationMode,
@@ -639,6 +641,30 @@ describe('migration', () => {
   });
 
   describe('2.1.0', () => {
+    it('Should normalize showingRows option for items', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '2.0.0',
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                {
+                  type: CellType.AUTO,
+                  filter: undefined,
+                } as any,
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0]).toEqual(
+        expect.objectContaining({
+          showingRows: 20,
+        })
+      );
+    });
+
     it('Should normalize toolbar alignment', async () => {
       expect(
         await getMigratedOptions({
@@ -681,6 +707,29 @@ describe('migration', () => {
           gauge: createGaugeConfig({}),
         })
       );
+    });
+
+    it('Should normalize actions column config', async () => {
+      const result = await getMigratedOptions({
+        options: {
+          tables: [
+            {
+              name: '',
+              items: [],
+            },
+          ],
+        },
+      } as any);
+
+      expect(result.tables[0].actionsColumnConfig).toEqual({
+        label: '',
+        width: {
+          auto: false,
+          value: 100,
+        },
+        alignment: ColumnAlignment.START,
+        fontSize: ColumnHeaderFontSize.SM,
+      });
     });
   });
 });

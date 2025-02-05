@@ -128,6 +128,27 @@ describe('ColumnEditor', () => {
     );
   });
 
+  it('Should allow to change number of rows for JSON type', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({
+          type: CellType.JSON,
+        }),
+      })
+    );
+
+    expect(selectors.fieldShowingRows()).toBeInTheDocument();
+
+    fireEvent.change(selectors.fieldShowingRows(), { target: { value: 5 } });
+    fireEvent.blur(selectors.fieldShowingRows(), { target: { value: 5 } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        showingRows: 5,
+      })
+    );
+  });
+
   it('Should allow to change scale', () => {
     render(
       getComponent({

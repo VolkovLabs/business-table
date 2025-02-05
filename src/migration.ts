@@ -196,7 +196,6 @@ const normalizeDatasourceOptions = (ds: DataSourceApi[], name?: string): string 
  */
 export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>): Promise<PanelOptions> => {
   const { ...options } = panel.options;
-
   const dataSources: DataSourceApi[] = await fetchData();
   /**
    * Normalize groups
@@ -345,6 +344,17 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
           };
         }
 
+        /**
+         * Normalize showingRows fot items
+         */
+        if (
+          panel.pluginVersion &&
+          semver.lt(panel.pluginVersion, '2.1.0') &&
+          !normalized.hasOwnProperty('showingRows')
+        ) {
+          normalized.showingRows = 20;
+        }
+
         return normalized;
       });
 
@@ -357,6 +367,20 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
         normalizedGroup.showHeader = true;
       }
 
+      /**
+       * Normalize actions column config
+       */
+      if (!normalizedGroup.hasOwnProperty('actionsColumnConfig')) {
+        normalizedGroup.actionsColumnConfig = {
+          label: '',
+          width: {
+            auto: false,
+            value: 100,
+          },
+          alignment: ColumnAlignment.START,
+          fontSize: ColumnHeaderFontSize.SM,
+        };
+      }
       /**
        * Normalize update request
        */

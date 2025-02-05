@@ -81,19 +81,17 @@ describe('TablesEditor', () => {
       getComponent({
         context: {
           data: [dataFrameA],
-          options: {
-            tables: [
-              {
-                name: 'group1',
-                items: [],
-              },
-              {
-                name: 'group2',
-                items: [],
-              },
-            ],
-          } as any,
         } as any,
+        value: [
+          {
+            name: 'group1',
+            items: [],
+          },
+          {
+            name: 'group2',
+            items: [],
+          },
+        ] as any,
       })
     );
 
@@ -110,6 +108,7 @@ describe('TablesEditor', () => {
           data: [dataFrameA],
           options: {} as any,
         } as any,
+        value: [],
       })
     );
 
@@ -124,16 +123,15 @@ describe('TablesEditor', () => {
       getComponent({
         context: {
           data: [dataFrameA, dataFrameB],
-          options: {
-            tables: [
-              createTableConfig({
-                name: 'group1',
-                items: [],
-              }),
-            ],
-          } as any,
+          options: {} as any,
         } as any,
         onChange,
+        value: [
+          createTableConfig({
+            name: 'group1',
+            items: [],
+          }),
+        ],
       })
     );
 
@@ -157,20 +155,19 @@ describe('TablesEditor', () => {
       getComponent({
         context: {
           data: [dataFrameA, dataFrameB],
-          options: {
-            tables: [
-              {
-                name: 'group1',
-                items: [],
-              },
-              {
-                name: 'group2',
-                items: [],
-              },
-            ],
-          } as any,
+          options: {},
         } as any,
         onChange,
+        value: [
+          {
+            name: 'group1',
+            items: [],
+          },
+          {
+            name: 'group2',
+            items: [],
+          },
+        ] as any,
       })
     );
 
@@ -198,20 +195,19 @@ describe('TablesEditor', () => {
         getComponent({
           context: {
             data: [dataFrameA, dataFrameB],
-            options: {
-              tables: [
-                {
-                  name: 'group1',
-                  items: [],
-                },
-                {
-                  name: 'group2',
-                  items: [],
-                },
-              ],
-            } as any,
+            options: {},
           } as any,
           onChange,
+          value: [
+            {
+              name: 'group1',
+              items: [],
+            },
+            {
+              name: 'group2',
+              items: [],
+            },
+          ] as any,
         })
       );
 
@@ -269,20 +265,19 @@ describe('TablesEditor', () => {
         getComponent({
           context: {
             data: [dataFrameA, dataFrameB],
-            options: {
-              tables: [
-                {
-                  name: 'group1',
-                  items: [],
-                },
-                {
-                  name: 'group2',
-                  items: [],
-                },
-              ],
-            } as any,
+            options: {},
           } as any,
           onChange,
+          value: [
+            {
+              name: 'group1',
+              items: [],
+            },
+            {
+              name: 'group2',
+              items: [],
+            },
+          ] as any,
         })
       );
 
@@ -333,20 +328,19 @@ describe('TablesEditor', () => {
         getComponent({
           context: {
             data: [dataFrameA, dataFrameB],
-            options: {
-              tables: [
-                {
-                  name: 'group1',
-                  items: [],
-                },
-                {
-                  name: 'group2',
-                  items: [],
-                },
-              ],
-            } as any,
+            options: {},
           } as any,
           onChange,
+          value: [
+            {
+              name: 'group1',
+              items: [],
+            },
+            {
+              name: 'group2',
+              items: [],
+            },
+          ] as any,
         })
       );
 
@@ -396,20 +390,19 @@ describe('TablesEditor', () => {
         getComponent({
           context: {
             data: [dataFrameA, dataFrameB],
-            options: {
-              tables: [
-                {
-                  name: 'group1',
-                  items: [],
-                },
-                {
-                  name: 'group2',
-                  items: [],
-                },
-              ],
-            } as any,
+            options: {},
           } as any,
           onChange,
+          value: [
+            {
+              name: 'group1',
+              items: [],
+            },
+            {
+              name: 'group2',
+              items: [],
+            },
+          ] as any,
         })
       );
 
@@ -457,20 +450,19 @@ describe('TablesEditor', () => {
         getComponent({
           context: {
             data: [dataFrameA, dataFrameB],
-            options: {
-              tables: [
-                {
-                  name: 'group1',
-                  items: [],
-                },
-                {
-                  name: 'group2',
-                  items: [],
-                },
-              ],
-            } as any,
+            options: {},
           } as any,
           onChange,
+          value: [
+            {
+              name: 'group1',
+              items: [],
+            },
+            {
+              name: 'group2',
+              items: [],
+            },
+          ] as any,
         })
       );
 
@@ -514,27 +506,27 @@ describe('TablesEditor', () => {
     });
 
     it('Should keep toggled state after save', async () => {
-      let options = {
-        tables: [
-          createTableConfig({
-            name: 'group1',
-            items: [],
-          }),
-          createTableConfig({
-            name: 'group2',
-            items: [],
-          }),
-        ],
-      };
-      const onChange = jest.fn((updated) => (options = updated));
+      let value = [
+        createTableConfig({
+          name: 'group1',
+          items: [],
+        }),
+        createTableConfig({
+          name: 'group2',
+          items: [],
+        }),
+      ];
+
+      const onChange = jest.fn((updated) => (value = updated));
 
       const { rerender } = render(
         getComponent({
           context: {
             data: [dataFrameA, dataFrameB],
-            options,
+            options: {},
           } as any,
           onChange,
+          value,
         })
       );
 
@@ -596,8 +588,9 @@ describe('TablesEditor', () => {
       rerender(
         getComponent({
           context: {
-            options: options as any,
+            options: {},
           } as any,
+          value,
         })
       );
 
@@ -615,20 +608,19 @@ describe('TablesEditor', () => {
       getComponent({
         context: {
           data: [dataFrameA, dataFrameB],
-          options: {
-            tables: [
-              createTableConfig({
-                name: 'group1',
-                items: [],
-              }),
-              createTableConfig({
-                name: 'group2',
-                items: [],
-              }),
-            ],
-          } as any,
-        } as any,
+          options: {} as any,
+        },
         onChange,
+        value: [
+          createTableConfig({
+            name: 'group1',
+            items: [],
+          }),
+          createTableConfig({
+            name: 'group2',
+            items: [],
+          }),
+        ],
       })
     );
 
@@ -665,40 +657,39 @@ describe('TablesEditor', () => {
       getComponent({
         context: {
           data: [dataFrameA, dataFrameB],
-          options: createPanelOptions({
-            tables: [
-              createTableConfig({
-                name: 'group1',
-                items: [
-                  createColumnConfig({
-                    field: {
-                      source: 0,
-                      name: 'field 2',
-                    },
-                  }),
-                  createColumnConfig({
-                    field: {
-                      source: 0,
-                      name: 'field1',
-                    },
-                  }),
-                ],
+          options: createPanelOptions({}),
+        } as any,
+        onChange,
+        value: [
+          createTableConfig({
+            name: 'group1',
+            items: [
+              createColumnConfig({
+                field: {
+                  source: 0,
+                  name: 'field 2',
+                },
               }),
-              createTableConfig({
-                name: 'group2',
-                items: [
-                  createColumnConfig({
-                    field: {
-                      source: 0,
-                      name: 'field1',
-                    },
-                  }),
-                ],
+              createColumnConfig({
+                field: {
+                  source: 0,
+                  name: 'field1',
+                },
               }),
             ],
           }),
-        } as any,
-        onChange,
+          createTableConfig({
+            name: 'group2',
+            items: [
+              createColumnConfig({
+                field: {
+                  source: 0,
+                  name: 'field1',
+                },
+              }),
+            ],
+          }),
+        ],
       })
     );
 
@@ -744,31 +735,30 @@ describe('TablesEditor', () => {
       getComponent({
         context: {
           data: [dataFrameA, dataFrameB],
-          options: {
-            tables: [
-              {
-                name: 'group1',
-                items: [
-                  {
-                    name: 'field 2',
-                  },
-                  {
-                    name: 'field1',
-                  },
-                ],
-              },
-              {
-                name: 'group2',
-                items: [
-                  {
-                    name: 'field1',
-                  },
-                ],
-              },
-            ],
-          } as any,
+          options: {} as any,
         } as any,
         onChange,
+        value: [
+          {
+            name: 'group1',
+            items: [
+              {
+                name: 'field 2',
+              },
+              {
+                name: 'field1',
+              },
+            ],
+          },
+          {
+            name: 'group2',
+            items: [
+              {
+                name: 'field1',
+              },
+            ],
+          },
+        ] as any,
       })
     );
 
@@ -810,31 +800,30 @@ describe('TablesEditor', () => {
       getComponent({
         context: {
           data: [dataFrameA, dataFrameB],
-          options: {
-            tables: [
-              {
-                name: 'group1',
-                items: [
-                  {
-                    name: 'field 2',
-                  },
-                  {
-                    name: 'field1',
-                  },
-                ],
-              },
-              {
-                name: 'group2',
-                items: [
-                  {
-                    name: 'field1',
-                  },
-                ],
-              },
-            ],
-          } as any,
+          options: {} as any,
         } as any,
         onChange,
+        value: [
+          {
+            name: 'group1',
+            items: [
+              {
+                name: 'field 2',
+              },
+              {
+                name: 'field1',
+              },
+            ],
+          },
+          {
+            name: 'group2',
+            items: [
+              {
+                name: 'field1',
+              },
+            ],
+          },
+        ] as any,
       })
     );
 

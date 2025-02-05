@@ -8,6 +8,7 @@ import {
   DefaultCellRenderer,
   GaugeCellRenderer,
   ImageCellRenderer,
+  JsonCellRenderer,
   LayoutCellRenderer,
   PreformattedCellRenderer,
 } from './components';
@@ -52,6 +53,9 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
     }
     case CellType.IMAGE: {
       return <ImageCellRenderer value={String(rawValue)} column={column} />;
+    }
+    case CellType.JSON: {
+      return <JsonCellRenderer value={rawValue as string} config={config} bgColor={bgColor} />;
     }
     case CellType.BOOLEAN: {
       return <BooleanCellRenderer value={renderValue() as boolean} bgColor={bgColor} />;

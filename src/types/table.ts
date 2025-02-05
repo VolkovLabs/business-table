@@ -14,6 +14,7 @@ export enum CellType {
   IMAGE = 'image',
   BOOLEAN = 'boolean',
   PREFORMATTED = 'preformatted',
+  JSON = 'json',
 }
 
 /**

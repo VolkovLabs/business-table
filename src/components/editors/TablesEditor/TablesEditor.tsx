@@ -7,7 +7,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { DEFAULT_PERMISSION_CONFIG, DEFAULT_REQUEST_CONFIG, PAGE_SIZES, TEST_IDS } from '@/constants';
 import { tablesEditorContext } from '@/hooks';
-import { PaginationMode, PanelOptions, TableConfig } from '@/types';
+import { ColumnAlignment, ColumnHeaderFontSize, PaginationMode, PanelOptions, TableConfig } from '@/types';
 import { reorder } from '@/utils';
 
 import { TableEditor } from './components';
@@ -36,7 +36,7 @@ const testIds = TEST_IDS.tablesEditor;
 /**
  * Tables Editor
  */
-export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onChange }) => {
+export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onChange, value }) => {
   /**
    * Styles and Theme
    */
@@ -46,7 +46,6 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
   /**
    * States
    */
-  const [items, setItems] = useState<TableConfig[]>(options?.tables || []);
   const [newItemName, setNewItemName] = useState('');
   const [collapseState, setCollapseState] = useState<Record<string, boolean>>({});
   const [editItem, setEditItem] = useState('');
@@ -58,7 +57,6 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
    */
   const onChangeItems = useCallback(
     (items: TableConfig[]) => {
-      setItems(items);
       onChange(items);
     },
     [onChange]
@@ -76,9 +74,9 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
         return;
       }
 
-      onChangeItems(reorder(items, result.source.index, result.destination.index));
+      onChangeItems(reorder(value, result.source.index, result.destination.index));
     },
-    [items, onChangeItems]
+    [value, onChangeItems]
   );
 
   /**
@@ -97,7 +95,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
   const onAddNewItem = useCallback(() => {
     setNewItemName('');
     onChangeItems(
-      items.concat([
+      value.concat([
         {
           expanded: false,
           name: newItemName,
@@ -115,28 +113,37 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
             request: DEFAULT_REQUEST_CONFIG,
             permission: DEFAULT_PERMISSION_CONFIG,
           },
+          actionsColumnConfig: {
+            label: '',
+            width: {
+              auto: false,
+              value: 100,
+            },
+            alignment: ColumnAlignment.START,
+            fontSize: ColumnHeaderFontSize.MD,
+          },
         },
       ])
     );
     onToggleItemExpandedState(newItemName);
-  }, [items, newItemName, onChangeItems, onToggleItemExpandedState]);
+  }, [value, newItemName, onChangeItems, onToggleItemExpandedState]);
 
   /**
    * Change Item
    */
   const onChangeItem = useCallback(
     (updatedItem: TableConfig) => {
-      onChangeItems(items.map((item) => (item.name === updatedItem.name ? updatedItem : item)));
+      onChangeItems(value.map((item) => (item.name === updatedItem.name ? updatedItem : item)));
     },
-    [items, onChangeItems]
+    [value, onChangeItems]
   );
 
   /**
    * Is Name Exists error
    */
   const isNameExistsError = useMemo(() => {
-    return items.some((item) => item.name === newItemName);
-  }, [items, newItemName]);
+    return value.some((item) => item.name === newItemName);
+  }, [value, newItemName]);
 
   /**
    * On Cancel Edit
@@ -160,17 +167,17 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
     }
 
     if (editItem !== editName) {
-      return !items.some((item) => item.name === editName);
+      return !value.some((item) => item.name === editName);
     }
     return true;
-  }, [editItem, editName, items]);
+  }, [editItem, editName, value]);
 
   /**
    * On Save Name
    */
   const onSaveName = useCallback(() => {
     onChangeItems(
-      items.map((item) =>
+      value.map((item) =>
         item.name === editItem
           ? {
               ...item,
@@ -180,16 +187,16 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
       )
     );
     onCancelEdit();
-  }, [items, onChangeItems, onCancelEdit, editItem, editName]);
+  }, [value, onChangeItems, onCancelEdit, editItem, editName]);
 
   return (
     <tablesEditorContext.Provider value={{ nestedObjects: options?.nestedObjects || [] }}>
-      {items.length > 0 ? (
+      {value.length > 0 ? (
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="tables-editor">
             {(provided) => (
               <div {...provided.droppableProps} ref={provided.innerRef}>
-                {items.map((item, index) => (
+                {value.map((item, index) => (
                   <Draggable key={item.name} draggableId={item.name} index={index}>
                     {(provided, snapshot) => (
                       <div
@@ -284,7 +291,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
                                   /**
                                    * Remove Item
                                    */
-                                  onChangeItems(items.filter((column) => column.name !== item.name));
+                                  onChangeItems(value.filter((column) => column.name !== item.name));
                                 }}
                                 {...testIds.buttonRemove.apply()}
                               />

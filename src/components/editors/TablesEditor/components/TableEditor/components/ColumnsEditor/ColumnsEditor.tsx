@@ -137,6 +137,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
             descFirst: false,
             enabled: false,
           },
+          showingRows: 20,
           appearance: DEFAULT_COLUMN_APPEARANCE,
           footer: [],
           edit: DEFAULT_COLUMN_EDIT_CONFIG,

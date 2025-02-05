@@ -103,6 +103,22 @@ export const TEST_IDS = {
     newItemName: createSelector('data-testid tables-editor new-item-name'),
     noItemsMessage: createSelector('data-testid tables-editor no-items-message'),
   },
+  actionColumnsEditor: {
+    root: createSelector('data-testid action-columns-editor'),
+    fieldLabel: createSelector('data-testid action-columns-editor field-label'),
+    fieldHeaderFontSize: createSelector('data-testid action-columns-editor field-font-size'),
+    fieldHeaderFontSizeOption: createSelector((name: unknown) => `action-columns-editor field-font-size-${name}`),
+    fieldAppearanceWidthAuto: createSelector('data-testid action-columns-editor field-appearance-width-auto'),
+    fieldAppearanceWidthMin: createSelector('data-testid action-columns-editor field-appearance-width-min'),
+    fieldAppearanceWidthMax: createSelector('data-testid action-columns-editor field-appearance-width-max'),
+    fieldAppearanceWidthValue: createSelector('data-testid action-columns-editor field-appearance-width-value'),
+    fieldAppearanceAlignment: createSelector('data-testid action-columns-editor field-appearance-alignment'),
+    fieldAppearanceAlignmentOption: createSelector(
+      (name: unknown) => `action-columns-editor field-appearance-alignment-option-${name}`
+    ),
+    itemHeader: createSelector(`data-testid action-columns-editor item-header`),
+    itemContent: createSelector(`data-testid action-columns-editor item-content`),
+  },
   columnsEditor: {
     buttonAddNew: createSelector('data-testid columns-editor button-add-new'),
     buttonRemove: createSelector('data-testid columns-editor button-remove'),
@@ -130,6 +146,7 @@ export const TEST_IDS = {
     fieldAppearanceBackgroundApplyToRow: createSelector(
       'data-testid column-editor field-appearance-background-apply-to-row'
     ),
+    fieldShowingRows: createSelector('data-testid column-editor field-showing-rows'),
     fieldPreformattedStyles: createSelector('data-testid column-editor field-preformatted-styles'),
     fieldAppearanceWidthAuto: createSelector('data-testid column-editor field-appearance-width-auto'),
     fieldAppearanceWidthMin: createSelector('data-testid column-editor field-appearance-width-min'),
@@ -174,6 +191,13 @@ export const TEST_IDS = {
     gauge: createSelector('data-testid gauge-cell-renderer gauge'),
     error: createSelector('data-testid gauge-cell-renderer error'),
   },
+  jsonCellRenderer: {
+    formattedText: createSelector('data-testid json-cell-renderer formatted-text'),
+    buttonOpenDrawer: createSelector('data-testid json-cell-renderer button-open-drawer'),
+    error: createSelector('data-testid json-cell-renderer error'),
+    buttonCloseDrawer: createSelector(selectors.components.Drawer.General.close),
+    codeEditor: createSelector('json-cell-renderer code-editor'),
+  },
   table: {
     root: createSelector('data-testid table'),
     headerRow: createSelector((name: unknown) => `data-testid table header-row-${name}`),
@@ -191,6 +215,7 @@ export const TEST_IDS = {
   tableHeaderCell: {
     root: createSelector('data-testid table-header-cell'),
     buttonAddRow: createSelector('data-testid table-header-cell button-add-row'),
+    actionHeaderText: createSelector('data-testid table-header-cell action-header-text'),
     sortIcon: createSelector((iconName: unknown) => String(iconName), 'data-testid'),
   },
   tableCell: {
