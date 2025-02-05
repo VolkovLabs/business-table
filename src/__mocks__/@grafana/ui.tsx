@@ -315,20 +315,6 @@ const BarGaugeMock = ({ value, ...restProps }: any) => {
 
 const BarGauge = jest.fn(BarGaugeMock);
 
-/**
- * Tooltip
- */
-const TooltipMock = ({ content, children, ...restProps }: any) => {
-  return (
-    <div data-testid={restProps['data-testid']}>
-      <p>{content}</p>
-      {children}
-    </div>
-  );
-};
-
-const Tooltip = jest.fn(TooltipMock);
-
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
