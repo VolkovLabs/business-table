@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.1.0 (IN PROGRESS)
+## 2.1.0 (2025-02-04)
 
 ### Features / Enhancements
 
@@ -8,6 +8,7 @@
 - Updated data links to prevent reloading dashboard page (#232)
 - Added JSON cell type with inspector (#224)
 - Added column configuration for actions (#231)
+- Added Gauge cell type (#238)
 
 ## 2.0.0 (2025-01-07)
 
