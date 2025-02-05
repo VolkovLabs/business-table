@@ -5,11 +5,13 @@ import { renderHook } from '@testing-library/react';
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import { ExportFormatType } from '@/types';
 import {
+  convertToXlsxFormat,
   createColumnAccessorFn,
   createColumnMeta,
   createTableConfig,
   dataFrameToObjectArray,
-  downloadFile,
+  downloadCsv,
+  downloadXlsx,
 } from '@/utils';
 
 import { useExportData } from './useExportData';
@@ -18,7 +20,9 @@ import { useExportData } from './useExportData';
  * Mock file utils
  */
 jest.mock('../utils/file', () => ({
-  downloadFile: jest.fn(),
+  downloadCsv: jest.fn(),
+  convertToXlsxFormat: jest.fn(),
+  downloadXlsx: jest.fn(),
 }));
 
 describe('useExportData', () => {
@@ -71,7 +75,7 @@ describe('useExportData', () => {
 
     result.current({ table: null });
 
-    expect(downloadFile).not.toHaveBeenCalled();
+    expect(downloadCsv).not.toHaveBeenCalled();
     expect(replaceVariables).not.toHaveBeenCalled();
   });
 
@@ -128,14 +132,13 @@ describe('useExportData', () => {
     result.current({ table });
 
     expect(replaceVariables).toHaveBeenCalled();
-    expect(downloadFile).toHaveBeenCalledWith(
+    expect(downloadCsv).toHaveBeenCalledWith(
       toCSV([
         toDataFrame({
           fields: [nameField, valueField],
         }),
       ]),
-      expect.any(String),
-      false
+      expect.any(String)
     );
   });
 
@@ -195,14 +198,75 @@ describe('useExportData', () => {
 
     result.current({ table });
 
-    expect(downloadFile).toHaveBeenCalledWith(
+    expect(downloadCsv).toHaveBeenCalledWith(
       toCSV([
         toDataFrame({
           fields: [nameField, valueField],
         }),
       ]),
-      expect.any(String),
-      false
+      expect.any(String)
     );
+  });
+
+  it('Should download data as xlsx', () => {
+    const mockedXlsxContent = [
+      ['name', 'value'],
+      ['device1', 10],
+      ['device2', 20],
+    ];
+    jest.mocked(convertToXlsxFormat).mockReturnValueOnce(mockedXlsxContent);
+    const columns: Array<ColumnDef<unknown>> = [
+      {
+        id: 'name',
+        accessorFn: createColumnAccessorFn('name'),
+        meta: createColumnMeta({
+          field: nameField,
+        }),
+      },
+      {
+        id: 'value',
+        accessorFn: createColumnAccessorFn('value'),
+        meta: createColumnMeta({
+          field: valueField,
+        }),
+      },
+    ];
+
+    const { result } = renderHook(() =>
+      useExportData({
+        data,
+        columns,
+        panelTitle: 'Tables',
+        tableConfig: createTableConfig({
+          name: 'hello',
+        }),
+        exportFormat: ExportFormatType.XLSX,
+        replaceVariables,
+      })
+    );
+
+    const table = createTable({
+      data,
+      columns,
+      getCoreRowModel: getCoreRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      enableFilters: true,
+      enableSorting: true,
+      onStateChange: () => null,
+      renderFallbackValue: () => null,
+      state: {
+        columnPinning: {
+          left: [],
+          right: [],
+        },
+        columnFilters: [],
+        sorting: [],
+      },
+    });
+
+    result.current({ table });
+
+    expect(replaceVariables).toHaveBeenCalled();
+    expect(downloadXlsx).toHaveBeenCalledWith(mockedXlsxContent, expect.any(String), 'hello');
   });
 });
