@@ -496,3 +496,13 @@ export const TOOLBAR_BUTTONS_ALIGNMENT = [
     label: 'Right',
   },
 ];
+
+/**
+ * Gauge default value size
+ */
+export const GAUGE_DEFAULT_VALUE_SIZE = 14;
+
+/**
+ * Default showing rows
+ */
+export const DEFAULT_SHOWING_ROWS = 20;

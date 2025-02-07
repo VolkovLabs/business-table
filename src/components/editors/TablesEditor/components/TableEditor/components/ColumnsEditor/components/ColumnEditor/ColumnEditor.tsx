@@ -6,7 +6,7 @@ import { NumberInput, Slider } from '@volkovlabs/components';
 import React, { useMemo, useState } from 'react';
 
 import { FieldsGroup } from '@/components';
-import { TEST_IDS } from '@/constants';
+import { DEFAULT_SHOWING_ROWS, GAUGE_DEFAULT_VALUE_SIZE, TEST_IDS } from '@/constants';
 import { tablesEditorContext } from '@/hooks';
 import {
   CellAggregation,
@@ -252,7 +252,8 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
   /**
    * State
    */
-  const [gaugeValueSize, setGaugeValueSize] = useState(value.gauge.valueSize);
+  const [gaugeValueSize, setGaugeValueSize] = useState(value.gauge?.valueSize ?? GAUGE_DEFAULT_VALUE_SIZE);
+  const [showingRows, setShowingRows] = useState(value.showingRows ?? DEFAULT_SHOWING_ROWS);
 
   /**
    * Current field
@@ -261,7 +262,6 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
     return getFieldBySource(data, value.field);
   }, [data, value.field]);
 
-  const [showingRows, setShowingRows] = useState(value.showingRows);
   /**
    * Variable Options
    */
