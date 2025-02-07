@@ -88,24 +88,8 @@ export const GaugeCellRenderer: React.FC<Props> = ({ value, field, bgColor, conf
       };
     }
 
-    /**
-     * Custom configuration for gauge
-     */
-    if (!currentConfig.custom) {
-      currentConfig = {
-        ...currentConfig,
-        custom: {
-          align: 'auto',
-          cellOptions: {
-            mode: config.gauge.mode,
-            type: 'gauge',
-          },
-          inspect: false,
-        },
-      };
-    }
     return currentConfig;
-  }, [config.gauge.mode, field]);
+  }, [field]);
 
   const displayValue = useMemo(() => {
     /**
