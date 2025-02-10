@@ -307,7 +307,13 @@ const Dropdown = jest.fn(DropdownMock);
  */
 const BarGaugeMock = ({ value, ...restProps }: any) => {
   return (
-    <div data-testid={restProps['data-testid']} className={restProps['className']}>
+    <div
+      data-testid={restProps['data-testid']}
+      className={restProps['className']}
+      style={{
+        width: restProps.width,
+      }}
+    >
       {value.text}
     </div>
   );

@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.2.0 (2025-02-10)
+
+### Features / Enhancements
+
+- Update gauge values in Grafana 10.3.0 (#241)
+- Update unexpected error in "Data links" dashboard (#241)
+
 ## 2.1.0 (2025-02-04)
 
 ### Features / Enhancements

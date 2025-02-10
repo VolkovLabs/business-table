@@ -172,7 +172,6 @@
           "export": false
         }
       },
-      "pluginVersion": "2.1.0",
       "targets": [
         {
           "frame": {
@@ -181,10 +180,7 @@
                 "config": {},
                 "name": "device",
                 "type": "string",
-                "values": [
-                  "device1",
-                  "device2"
-                ]
+                "values": ["device1", "device2"]
               }
             ],
             "meta": {}
@@ -415,9 +411,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "mean"
-                ],
+                "footer": ["mean"],
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -561,7 +555,6 @@
           "export": true
         }
       },
-      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -574,34 +567,19 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3,
-                  4
-                ]
+                "values": [1, 2, 3, 4]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": [
-                  "DeviceWithVeryLongTitle",
-                  "Device 2",
-                  "Device 3",
-                  "Device 4"
-                ]
+                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  20,
-                  30
-                ]
+                "values": [10, 15, 20, 30]
               },
               {
                 "config": {},
@@ -618,12 +596,7 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": [
-                  "",
-                  "",
-                  "",
-                  ""
-                ]
+                "values": ["", "", "", ""]
               },
               {
                 "config": {},
@@ -887,9 +860,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "mean"
-                ],
+                "footer": ["mean"],
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1033,7 +1004,6 @@
           "export": true
         }
       },
-      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1046,34 +1016,19 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3,
-                  4
-                ]
+                "values": [1, 2, 3, 4]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": [
-                  "DeviceWithVeryLongTitle",
-                  "Device 2",
-                  "Device 3",
-                  "Device 4"
-                ]
+                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  20,
-                  30
-                ]
+                "values": [10, 15, 20, 30]
               },
               {
                 "config": {},
@@ -1090,12 +1045,7 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": [
-                  "",
-                  "",
-                  "",
-                  ""
-                ]
+                "values": ["", "", "", ""]
               },
               {
                 "config": {},
@@ -1354,9 +1304,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "mean"
-                ],
+                "footer": ["mean"],
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1500,7 +1448,6 @@
           "export": true
         }
       },
-      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1513,34 +1460,19 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3,
-                  4
-                ]
+                "values": [1, 2, 3, 4]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": [
-                  "DeviceWithVeryLongTitle",
-                  "Device 2",
-                  "Device 3",
-                  "Device 4"
-                ]
+                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  20,
-                  30
-                ]
+                "values": [10, 15, 20, 30]
               },
               {
                 "config": {},
@@ -1557,12 +1489,7 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": [
-                  "",
-                  "",
-                  "",
-                  ""
-                ]
+                "values": ["", "", "", ""]
               },
               {
                 "config": {},
@@ -1830,9 +1757,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "mean"
-                ],
+                "footer": ["mean"],
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1976,7 +1901,6 @@
           "export": true
         }
       },
-      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1989,34 +1913,19 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [
-                  1,
-                  2,
-                  3,
-                  4
-                ]
+                "values": [1, 2, 3, 4]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": [
-                  "DeviceWithVeryLongTitle",
-                  "Device 2",
-                  "Device 3",
-                  "Device 4"
-                ]
+                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  20,
-                  30
-                ]
+                "values": [10, 15, 20, 30]
               },
               {
                 "config": {},
@@ -2033,23 +1942,13 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": [
-                  "",
-                  "",
-                  "",
-                  ""
-                ]
+                "values": ["", "", "", ""]
               },
               {
                 "config": {},
                 "name": "url",
                 "type": "string",
-                "values": [
-                  "1.com",
-                  "2.com",
-                  "3.com",
-                  ""
-                ]
+                "values": ["1.com", "2.com", "3.com", ""]
               }
             ],
             "meta": {},
@@ -2253,9 +2152,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "distinctCount"
-                ],
+                "footer": ["distinctCount"],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2298,9 +2195,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "sum"
-                ],
+                "footer": ["sum"],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2437,33 +2332,13 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": [
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "Japan",
-                  "Japan",
-                  "Japan",
-                  "Japan"
-                ]
+                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": [
-                  "New York",
-                  "New York",
-                  "New York",
-                  "Tampa",
-                  "Tampa",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo"
-                ]
+                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
               },
               {
                 "config": {},
@@ -2485,17 +2360,7 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  2,
-                  13,
-                  8,
-                  17,
-                  4,
-                  13,
-                  8
-                ]
+                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
               },
               {
                 "config": {},
@@ -2707,9 +2572,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "distinctCount"
-                ],
+                "footer": ["distinctCount"],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2752,9 +2615,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "sum"
-                ],
+                "footer": ["sum"],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2891,33 +2752,13 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": [
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "USA",
-                  "Japan",
-                  "Japan",
-                  "Japan",
-                  "Japan"
-                ]
+                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": [
-                  "New York",
-                  "New York",
-                  "New York",
-                  "Tampa",
-                  "Tampa",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo",
-                  "Tokyo"
-                ]
+                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
               },
               {
                 "config": {},
@@ -2939,17 +2780,7 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  2,
-                  13,
-                  8,
-                  17,
-                  4,
-                  13,
-                  8
-                ]
+                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
               },
               {
                 "config": {},
@@ -3153,9 +2984,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "distinctCount"
-                ],
+                "footer": ["distinctCount"],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -3198,9 +3027,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [
-                  "sum"
-                ],
+                "footer": ["sum"],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -3394,20 +3221,7 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [
-                  10,
-                  15,
-                  2,
-                  13,
-                  8,
-                  17,
-                  4,
-                  13,
-                  8,
-                  8,
-                  8,
-                  8
-                ]
+                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8, 8, 8, 8]
               },
               {
                 "config": {},

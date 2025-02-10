@@ -1,6 +1,6 @@
 import { Field, getFieldConfigWithMinMax, ThresholdsConfig, ThresholdsMode, VizOrientation } from '@grafana/data';
 import { BarGauge, Icon, Tooltip, useTheme2 } from '@grafana/ui';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { ColumnConfig } from '@/types';
@@ -59,9 +59,11 @@ const defaultScale: ThresholdsConfig = {
 };
 
 /**
- * Boolean Cell Renderer
+ * Gauge Cell Renderer
  * @param value
  * @param bgColor
+ * @param field
+ * @param config
  * @constructor
  */
 export const GaugeCellRenderer: React.FC<Props> = ({ value, field, bgColor, config }) => {
@@ -71,6 +73,12 @@ export const GaugeCellRenderer: React.FC<Props> = ({ value, field, bgColor, conf
   const theme = useTheme2();
   const styles = getStyles(theme);
 
+  /**
+   * elementRef use for 'auto' width
+   */
+  const elementRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(config.appearance.width.value);
+
   const configField = useMemo(() => {
     let currentConfig = getFieldConfigWithMinMax(field, false);
     if (!currentConfig.thresholds) {
@@ -79,6 +87,7 @@ export const GaugeCellRenderer: React.FC<Props> = ({ value, field, bgColor, conf
         thresholds: defaultScale,
       };
     }
+
     return currentConfig;
   }, [field]);
 
@@ -96,8 +105,19 @@ export const GaugeCellRenderer: React.FC<Props> = ({ value, field, bgColor, conf
     return null;
   }, [field, value]);
 
+  useEffect(() => {
+    if (config.appearance.width.auto) {
+      if (elementRef.current) {
+        setWidth(elementRef.current.offsetWidth);
+      }
+    }
+    if (!config.appearance.width.auto) {
+      setWidth(config.appearance.width.value);
+    }
+  }, [config.appearance.width]);
+
   return (
-    <div {...TEST_IDS.gaugeCellRenderer.root.apply()}>
+    <div {...TEST_IDS.gaugeCellRenderer.root.apply()} ref={elementRef} className={styles.root}>
       {!displayValue ? (
         <Tooltip
           content="Display Processor error. The field does`t have the 'display' property."
@@ -107,15 +127,15 @@ export const GaugeCellRenderer: React.FC<Props> = ({ value, field, bgColor, conf
         </Tooltip>
       ) : (
         <BarGauge
-          width={config.appearance.width.value}
-          height={20}
+          width={width}
+          height={22}
           field={configField}
           display={field.display}
           text={{ valueSize: config.gauge.valueSize }}
           value={displayValue}
           orientation={VizOrientation.Horizontal}
           theme={theme}
-          className={bgColor ? styles.default : ''}
+          className={bgColor ? styles.border : ''}
           itemSpacing={1}
           lcdCellWidth={8}
           displayMode={config.gauge.mode}
