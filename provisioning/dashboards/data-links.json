@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 4,
   "links": [],
   "panels": [
     {
@@ -71,6 +71,15 @@
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -134,6 +143,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -159,6 +173,13 @@
               "enabled": false,
               "mode": "client"
             },
+            "rowHighlight": {
+              "backgroundColor": "#e6e6e6",
+              "columnId": "A:device",
+              "enabled": true,
+              "scrollTo": "start",
+              "variable": "Test"
+            },
             "showHeader": true,
             "update": {
               "datasource": "",
@@ -172,6 +193,7 @@
           "export": false
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
           "frame": {
@@ -180,7 +202,20 @@
                 "config": {},
                 "name": "device",
                 "type": "string",
-                "values": ["device1", "device2"]
+                "values": [
+                  "device1",
+                  "device2",
+                  "device3",
+                  "device4",
+                  "device5",
+                  "device6",
+                  "device7",
+                  "device8",
+                  "device9",
+                  "device10",
+                  "device11",
+                  "device12"
+                ]
               }
             ],
             "meta": {}
@@ -235,6 +270,15 @@
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -300,6 +344,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -356,6 +405,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -411,7 +465,14 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -468,6 +529,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -521,6 +587,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -542,6 +613,13 @@
               "enabled": false,
               "mode": "client"
             },
+            "rowHighlight": {
+              "backgroundColor": "transparent",
+              "columnId": "",
+              "enabled": false,
+              "scrollTo": "",
+              "variable": ""
+            },
             "showHeader": true,
             "update": {
               "datasource": "",
@@ -555,6 +633,7 @@
           "export": true
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -567,19 +646,34 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3, 4]
+                "values": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20, 30]
+                "values": [
+                  10,
+                  15,
+                  20,
+                  30
+                ]
               },
               {
                 "config": {},
@@ -596,7 +690,12 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": ["", "", "", ""]
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
               },
               {
                 "config": {},
@@ -684,6 +783,15 @@
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -749,6 +857,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -805,6 +918,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -860,7 +978,14 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -917,6 +1042,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -970,6 +1100,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -991,6 +1126,13 @@
               "enabled": false,
               "mode": "client"
             },
+            "rowHighlight": {
+              "backgroundColor": "transparent",
+              "columnId": "",
+              "enabled": false,
+              "scrollTo": "",
+              "variable": ""
+            },
             "showHeader": true,
             "update": {
               "datasource": "",
@@ -1004,6 +1146,7 @@
           "export": true
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1016,19 +1159,34 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3, 4]
+                "values": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20, 30]
+                "values": [
+                  10,
+                  15,
+                  20,
+                  30
+                ]
               },
               {
                 "config": {},
@@ -1045,7 +1203,12 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": ["", "", "", ""]
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
               },
               {
                 "config": {},
@@ -1128,6 +1291,15 @@
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -1193,6 +1365,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1249,6 +1426,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1304,7 +1486,14 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1361,6 +1550,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1414,6 +1608,11 @@
                   "variable": ""
                 },
                 "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1435,6 +1634,13 @@
               "enabled": false,
               "mode": "client"
             },
+            "rowHighlight": {
+              "backgroundColor": "transparent",
+              "columnId": "",
+              "enabled": false,
+              "scrollTo": "",
+              "variable": ""
+            },
             "showHeader": true,
             "update": {
               "datasource": "",
@@ -1448,6 +1654,7 @@
           "export": true
         }
       },
+      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1460,19 +1667,34 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3, 4]
+                "values": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20, 30]
+                "values": [
+                  10,
+                  15,
+                  20,
+                  30
+                ]
               },
               {
                 "config": {},
@@ -1489,7 +1711,12 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": ["", "", "", ""]
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
               },
               {
                 "config": {},
@@ -1757,7 +1984,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [
+                  "mean"
+                ],
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1913,19 +2142,34 @@
                 "config": {},
                 "name": "id",
                 "type": "number",
-                "values": [1, 2, 3, 4]
+                "values": [
+                  1,
+                  2,
+                  3,
+                  4
+                ]
               },
               {
                 "config": {},
                 "name": "name",
                 "type": "string",
-                "values": ["DeviceWithVeryLongTitle", "Device 2", "Device 3", "Device 4"]
+                "values": [
+                  "DeviceWithVeryLongTitle",
+                  "Device 2",
+                  "Device 3",
+                  "Device 4"
+                ]
               },
               {
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 20, 30]
+                "values": [
+                  10,
+                  15,
+                  20,
+                  30
+                ]
               },
               {
                 "config": {},
@@ -1942,13 +2186,23 @@
                 "config": {},
                 "name": "comment",
                 "type": "string",
-                "values": ["", "", "", ""]
+                "values": [
+                  "",
+                  "",
+                  "",
+                  ""
+                ]
               },
               {
                 "config": {},
                 "name": "url",
                 "type": "string",
-                "values": ["1.com", "2.com", "3.com", ""]
+                "values": [
+                  "1.com",
+                  "2.com",
+                  "3.com",
+                  ""
+                ]
               }
             ],
             "meta": {},
@@ -2152,7 +2406,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["distinctCount"],
+                "footer": [
+                  "distinctCount"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2195,7 +2451,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["sum"],
+                "footer": [
+                  "sum"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2332,13 +2590,33 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -2360,7 +2638,17 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
               },
               {
                 "config": {},
@@ -2572,7 +2860,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["distinctCount"],
+                "footer": [
+                  "distinctCount"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2615,7 +2905,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["sum"],
+                "footer": [
+                  "sum"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -2752,13 +3044,33 @@
                 "config": {},
                 "name": "country",
                 "type": "string",
-                "values": ["USA", "USA", "USA", "USA", "USA", "Japan", "Japan", "Japan", "Japan"]
+                "values": [
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "USA",
+                  "Japan",
+                  "Japan",
+                  "Japan",
+                  "Japan"
+                ]
               },
               {
                 "config": {},
                 "name": "city",
                 "type": "string",
-                "values": ["New York", "New York", "New York", "Tampa", "Tampa", "Tokyo", "Tokyo", "Tokyo", "Tokyo"]
+                "values": [
+                  "New York",
+                  "New York",
+                  "New York",
+                  "Tampa",
+                  "Tampa",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo",
+                  "Tokyo"
+                ]
               },
               {
                 "config": {},
@@ -2780,7 +3092,17 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8
+                ]
               },
               {
                 "config": {},
@@ -2984,7 +3306,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["distinctCount"],
+                "footer": [
+                  "distinctCount"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -3027,7 +3351,9 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["sum"],
+                "footer": [
+                  "sum"
+                ],
                 "pin": "",
                 "sort": {
                   "enabled": false
@@ -3221,7 +3547,20 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 2, 13, 8, 17, 4, 13, 8, 8, 8, 8]
+                "values": [
+                  10,
+                  15,
+                  2,
+                  13,
+                  8,
+                  17,
+                  4,
+                  13,
+                  8,
+                  8,
+                  8,
+                  8
+                ]
               },
               {
                 "config": {},
@@ -3273,8 +3612,8 @@
     "list": [
       {
         "current": {
-          "text": "Test variable",
-          "value": "Test variable"
+          "text": "device6",
+          "value": "device6"
         },
         "hide": 1,
         "includeAll": false,
@@ -3282,11 +3621,11 @@
         "options": [
           {
             "selected": true,
-            "text": "Test variable",
-            "value": "Test variable"
+            "text": "device6",
+            "value": "device6"
           }
         ],
-        "query": "Test variable",
+        "query": "device6",
         "type": "custom"
       }
     ]
@@ -3299,6 +3638,6 @@
   "timezone": "",
   "title": "Data links",
   "uid": "ddyd0vor9qebke",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
