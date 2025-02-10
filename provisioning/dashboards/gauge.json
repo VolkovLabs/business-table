@@ -18,8 +18,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 13,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -36,14 +36,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
                 "value": 80
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -58,6 +60,15 @@
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -338,14 +349,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
                 "value": 80
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -355,11 +368,20 @@
         "x": 8,
         "y": 0
       },
-      "id": 2,
+      "id": 13,
       "options": {
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -548,7 +570,7 @@
                 },
                 "footer": [],
                 "gauge": {
-                  "mode": "lcd",
+                  "mode": "basic",
                   "valueDisplayMode": "text",
                   "valueSize": 14
                 },
@@ -614,7 +636,7 @@
                 "config": {},
                 "name": "value",
                 "type": "number",
-                "values": [10, 15, 25, 30, 35]
+                "values": [10, 2687, 15999, 75298, 125000]
               }
             ],
             "meta": {}
@@ -622,7 +644,7 @@
           "refId": "A"
         }
       ],
-      "title": "LCD Gauge",
+      "title": "Basic Gauge Big Range",
       "type": "volkovlabs-table-panel"
     },
     {
@@ -640,14 +662,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
                 "value": 80
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -657,11 +681,20 @@
         "x": 16,
         "y": 0
       },
-      "id": 3,
+      "id": 12,
       "options": {
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -716,130 +749,6 @@
                 },
                 "enabled": true,
                 "field": {
-                  "name": "id",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "name",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
                   "name": "value",
                   "source": "A"
                 },
@@ -850,7 +759,7 @@
                 },
                 "footer": [],
                 "gauge": {
-                  "mode": "gradient",
+                  "mode": "basic",
                   "valueDisplayMode": "text",
                   "valueSize": 14
                 },
@@ -924,7 +833,7 @@
           "refId": "A"
         }
       ],
-      "title": "Gradient Gauge",
+      "title": "Basic Gauge One column",
       "type": "volkovlabs-table-panel"
     },
     {
@@ -942,7 +851,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "orange",
@@ -957,7 +867,8 @@
                 "value": 35
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -972,6 +883,15 @@
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -1252,22 +1172,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              },
-              {
-                "color": "orange",
-                "value": 15
-              },
-              {
-                "color": "#EAB839",
-                "value": 25
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
-                "value": 35
+                "value": 80
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1277,11 +1191,20 @@
         "x": 8,
         "y": 8
       },
-      "id": 5,
+      "id": 2,
       "options": {
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -1544,7 +1467,7 @@
           "refId": "A"
         }
       ],
-      "title": "LCD Thresholds Gauge",
+      "title": "LCD Gauge",
       "type": "volkovlabs-table-panel"
     },
     {
@@ -1562,22 +1485,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
-              },
-              {
-                "color": "orange",
-                "value": 15
-              },
-              {
-                "color": "#EAB839",
-                "value": 25
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
-                "value": 35
+                "value": 80
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1587,11 +1504,20 @@
         "x": 16,
         "y": 8
       },
-      "id": 4,
+      "id": 3,
       "options": {
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -1854,7 +1780,7 @@
           "refId": "A"
         }
       ],
-      "title": "Gradient Thresholds Gauge",
+      "title": "Gradient Gauge",
       "type": "volkovlabs-table-panel"
     },
     {
@@ -1872,7 +1798,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "orange",
@@ -1887,7 +1814,8 @@
                 "value": 35
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1902,6 +1830,15 @@
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -2182,7 +2119,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "orange",
@@ -2197,21 +2135,1636 @@
                 "value": 35
               }
             ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 16
+      },
+      "id": 8,
+      "options": {
+        "nestedObjects": [],
+        "tables": [
+          {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
+            "items": [
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "lcd",
+                  "valueDisplayMode": "color",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "gauge"
+              }
+            ],
+            "name": "Table",
+            "pagination": {
+              "defaultPageSize": 10,
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
           }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "alignment": "left",
+          "export": false
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["1", "2", "3", "4", "5"]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [10, 15, 25, 30, 35]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "LCD Thresholds Gauge Color Text",
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 15
+              },
+              {
+                "color": "#EAB839",
+                "value": 25
+              },
+              {
+                "color": "red",
+                "value": 35
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 16
+      },
+      "id": 4,
+      "options": {
+        "nestedObjects": [],
+        "tables": [
+          {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
+            "items": [
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "gradient",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "gauge"
+              }
+            ],
+            "name": "Table",
+            "pagination": {
+              "defaultPageSize": 10,
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "alignment": "left",
+          "export": false
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["1", "2", "3", "4", "5"]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [10, 15, 25, 30, 35]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Gradient Thresholds Gauge",
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 15
+              },
+              {
+                "color": "#EAB839",
+                "value": 25
+              },
+              {
+                "color": "red",
+                "value": 35
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 24
+      },
+      "id": 10,
+      "options": {
+        "nestedObjects": [],
+        "tables": [
+          {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
+            "items": [
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": true
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "coloredBackground"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "color",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "gauge"
+              }
+            ],
+            "name": "Table",
+            "pagination": {
+              "defaultPageSize": 10,
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "alignment": "left",
+          "export": false
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["1", "2", "3", "4", "5"]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [10, 15, 25, 30, 35]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Basic Thresholds Gauge in Box",
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 15
+              },
+              {
+                "color": "#EAB839",
+                "value": 25
+              },
+              {
+                "color": "red",
+                "value": 35
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 8,
+        "y": 24
+      },
+      "id": 9,
+      "options": {
+        "nestedObjects": [],
+        "tables": [
+          {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
+            "items": [
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "hidden",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "gauge"
+              }
+            ],
+            "name": "Table",
+            "pagination": {
+              "defaultPageSize": 10,
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "alignment": "left",
+          "export": false
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["1", "2", "3", "4", "5"]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [10, 15, 25, 30, 35]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Thresholds Gauge Hidden Text",
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 15
+              },
+              {
+                "color": "#EAB839",
+                "value": 25
+              },
+              {
+                "color": "red",
+                "value": 35
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 24
+      },
+      "id": 5,
+      "options": {
+        "nestedObjects": [],
+        "tables": [
+          {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
+            "items": [
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "id",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "basic",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "colors": {},
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "value",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "gauge": {
+                  "mode": "lcd",
+                  "valueDisplayMode": "text",
+                  "valueSize": 14
+                },
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "objectId": "",
+                "pin": "",
+                "preformattedStyle": false,
+                "scale": "auto",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "gauge"
+              }
+            ],
+            "name": "Table",
+            "pagination": {
+              "defaultPageSize": 10,
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
+          }
+        ],
+        "tabsSorting": false,
+        "toolbar": {
+          "alignment": "left",
+          "export": false
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "frame": {
+            "fields": [
+              {
+                "config": {},
+                "name": "id",
+                "type": "string",
+                "values": ["1", "2", "3", "4", "5"]
+              },
+              {
+                "config": {},
+                "name": "name",
+                "type": "string",
+                "values": ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
+              },
+              {
+                "config": {},
+                "name": "value",
+                "type": "number",
+                "values": [10, 15, 25, 30, 35]
+              }
+            ],
+            "meta": {}
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "LCD Thresholds Gauge",
+      "type": "volkovlabs-table-panel"
+    },
+    {
+      "datasource": {
+        "type": "marcusolsson-static-datasource",
+        "uid": "P1D2C73DC01F2359B"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 15
+              },
+              {
+                "color": "#EAB839",
+                "value": 25
+              },
+              {
+                "color": "red",
+                "value": 35
+              }
+            ]
+          },
+          "unitScale": true
         },
         "overrides": []
       },
       "gridPos": {
         "h": 16,
         "w": 16,
-        "x": 8,
-        "y": 16
+        "x": 0,
+        "y": 32
       },
       "id": 11,
       "options": {
         "nestedObjects": [],
         "tables": [
           {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "sm",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -2556,940 +4109,10 @@
       ],
       "title": "Gradient Thresholds Gauge in Box",
       "type": "volkovlabs-table-panel"
-    },
-    {
-      "datasource": {
-        "type": "marcusolsson-static-datasource",
-        "uid": "P1D2C73DC01F2359B"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "orange",
-                "value": 15
-              },
-              {
-                "color": "#EAB839",
-                "value": 25
-              },
-              {
-                "color": "red",
-                "value": 35
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 24
-      },
-      "id": 10,
-      "options": {
-        "nestedObjects": [],
-        "tables": [
-          {
-            "addRow": {
-              "enabled": false,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "",
-                "payload": {}
-              }
-            },
-            "deleteRow": {
-              "enabled": false,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "",
-                "payload": {}
-              }
-            },
-            "expanded": false,
-            "items": [
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": true
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "id",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "coloredBackground"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "name",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "value",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "color",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "gauge"
-              }
-            ],
-            "name": "Table",
-            "pagination": {
-              "defaultPageSize": 10,
-              "enabled": false,
-              "mode": "client"
-            },
-            "showHeader": true,
-            "update": {
-              "datasource": "",
-              "payload": {}
-            }
-          }
-        ],
-        "tabsSorting": false,
-        "toolbar": {
-          "alignment": "left",
-          "export": false
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "marcusolsson-static-datasource",
-            "uid": "P1D2C73DC01F2359B"
-          },
-          "frame": {
-            "fields": [
-              {
-                "config": {},
-                "name": "id",
-                "type": "string",
-                "values": ["1", "2", "3", "4", "5"]
-              },
-              {
-                "config": {},
-                "name": "name",
-                "type": "string",
-                "values": ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
-              },
-              {
-                "config": {},
-                "name": "value",
-                "type": "number",
-                "values": [10, 15, 25, 30, 35]
-              }
-            ],
-            "meta": {}
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "Basic Thresholds Gauge in Box",
-      "type": "volkovlabs-table-panel"
-    },
-    {
-      "datasource": {
-        "type": "marcusolsson-static-datasource",
-        "uid": "P1D2C73DC01F2359B"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "orange",
-                "value": 15
-              },
-              {
-                "color": "#EAB839",
-                "value": 25
-              },
-              {
-                "color": "red",
-                "value": 35
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 0,
-        "y": 32
-      },
-      "id": 8,
-      "options": {
-        "nestedObjects": [],
-        "tables": [
-          {
-            "addRow": {
-              "enabled": false,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "",
-                "payload": {}
-              }
-            },
-            "deleteRow": {
-              "enabled": false,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "",
-                "payload": {}
-              }
-            },
-            "expanded": false,
-            "items": [
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "id",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "name",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "value",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "lcd",
-                  "valueDisplayMode": "color",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "gauge"
-              }
-            ],
-            "name": "Table",
-            "pagination": {
-              "defaultPageSize": 10,
-              "enabled": false,
-              "mode": "client"
-            },
-            "showHeader": true,
-            "update": {
-              "datasource": "",
-              "payload": {}
-            }
-          }
-        ],
-        "tabsSorting": false,
-        "toolbar": {
-          "alignment": "left",
-          "export": false
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "marcusolsson-static-datasource",
-            "uid": "P1D2C73DC01F2359B"
-          },
-          "frame": {
-            "fields": [
-              {
-                "config": {},
-                "name": "id",
-                "type": "string",
-                "values": ["1", "2", "3", "4", "5"]
-              },
-              {
-                "config": {},
-                "name": "name",
-                "type": "string",
-                "values": ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
-              },
-              {
-                "config": {},
-                "name": "value",
-                "type": "number",
-                "values": [10, 15, 25, 30, 35]
-              }
-            ],
-            "meta": {}
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "LCD Thresholds Gauge Color Text",
-      "type": "volkovlabs-table-panel"
-    },
-    {
-      "datasource": {
-        "type": "marcusolsson-static-datasource",
-        "uid": "P1D2C73DC01F2359B"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green"
-              },
-              {
-                "color": "orange",
-                "value": 15
-              },
-              {
-                "color": "#EAB839",
-                "value": 25
-              },
-              {
-                "color": "red",
-                "value": 35
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 32
-      },
-      "id": 9,
-      "options": {
-        "nestedObjects": [],
-        "tables": [
-          {
-            "addRow": {
-              "enabled": false,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "",
-                "payload": {}
-              }
-            },
-            "deleteRow": {
-              "enabled": false,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "",
-                "payload": {}
-              }
-            },
-            "expanded": false,
-            "items": [
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "id",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "name",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "auto"
-              },
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "value",
-                  "source": "A"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "hidden",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "gauge"
-              }
-            ],
-            "name": "Table",
-            "pagination": {
-              "defaultPageSize": 10,
-              "enabled": false,
-              "mode": "client"
-            },
-            "showHeader": true,
-            "update": {
-              "datasource": "",
-              "payload": {}
-            }
-          }
-        ],
-        "tabsSorting": false,
-        "toolbar": {
-          "alignment": "left",
-          "export": false
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "marcusolsson-static-datasource",
-            "uid": "P1D2C73DC01F2359B"
-          },
-          "frame": {
-            "fields": [
-              {
-                "config": {},
-                "name": "id",
-                "type": "string",
-                "values": ["1", "2", "3", "4", "5"]
-              },
-              {
-                "config": {},
-                "name": "name",
-                "type": "string",
-                "values": ["Test 1", "Test 2", "Test 3", "Test 4", "Test 5"]
-              },
-              {
-                "config": {},
-                "name": "value",
-                "type": "number",
-                "values": [10, 15, 25, 30, 35]
-              }
-            ],
-            "meta": {}
-          },
-          "refId": "A"
-        }
-      ],
-      "title": "Thresholds Gauge Hidden Text",
-      "type": "volkovlabs-table-panel"
     }
   ],
-  "preload": false,
-  "schemaVersion": 40,
+  "refresh": "",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": []
@@ -3502,6 +4125,6 @@
   "timezone": "browser",
   "title": "Gauge Dashboard",
   "uid": "eec18oq7r2f40f",
-  "version": 19,
+  "version": 1,
   "weekStart": ""
 }

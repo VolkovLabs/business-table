@@ -132,12 +132,37 @@ describe('ColumnEditor', () => {
     render(
       getComponent({
         value: createColumnConfig({
+          showingRows: 10,
           type: CellType.JSON,
         }),
       })
     );
 
     expect(selectors.fieldShowingRows()).toBeInTheDocument();
+    expect(selectors.fieldShowingRows()).toHaveValue('10');
+
+    fireEvent.change(selectors.fieldShowingRows(), { target: { value: 5 } });
+    fireEvent.blur(selectors.fieldShowingRows(), { target: { value: 5 } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        showingRows: 5,
+      })
+    );
+  });
+
+  it('Should apply default  number of rows for JSON type if not specified', () => {
+    render(
+      getComponent({
+        value: createColumnConfig({
+          type: CellType.JSON,
+          showingRows: undefined,
+        }),
+      })
+    );
+
+    expect(selectors.fieldShowingRows()).toBeInTheDocument();
+    expect(selectors.fieldShowingRows()).toHaveValue('20');
 
     fireEvent.change(selectors.fieldShowingRows(), { target: { value: 5 } });
     fireEvent.blur(selectors.fieldShowingRows(), { target: { value: 5 } });
@@ -928,6 +953,33 @@ describe('ColumnEditor', () => {
       );
 
       expect(selectors.fieldGaugeValueTextSize()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldGaugeValueTextSize(), { target: { value: 16 } });
+      fireEvent.blur(selectors.fieldGaugeValueTextSize(), { target: { value: 16 } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          gauge: expect.objectContaining({
+            valueSize: 16,
+          }),
+        })
+      );
+    });
+
+    it('Should apply default gauge value size if not specified', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.GAUGE,
+            gauge: createGaugeConfig({
+              valueSize: undefined,
+            }),
+          }),
+        })
+      );
+
+      expect(selectors.fieldGaugeValueTextSize()).toBeInTheDocument();
+      expect(selectors.fieldGaugeValueTextSize()).toHaveValue('14');
 
       fireEvent.change(selectors.fieldGaugeValueTextSize(), { target: { value: 16 } });
       fireEvent.blur(selectors.fieldGaugeValueTextSize(), { target: { value: 16 } });

@@ -3,7 +3,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { createColumnConfig, createField } from '@/utils';
+import { createColumnAppearanceConfig, createColumnConfig, createField } from '@/utils';
 
 import { GaugeCellRenderer } from './GaugeCellRenderer';
 
@@ -50,6 +50,11 @@ describe('GaugeCellRenderer', () => {
     expect(selectors.gauge()).toHaveTextContent('123');
 
     expect(selectors.gauge()).not.toHaveStyle({ padding: '4px' });
+
+    /**
+     * Apply width from config value
+     */
+    expect(selectors.gauge()).toHaveStyle({ width: '100px' });
   });
 
   it('Should render gauge in box if bgColor applied', () => {
@@ -67,5 +72,32 @@ describe('GaugeCellRenderer', () => {
     expect(selectors.gauge()).toHaveTextContent('123');
 
     expect(selectors.gauge()).toHaveStyle({ padding: '4px' });
+  });
+
+  it('Should apply cell width if column width auto', () => {
+    render(
+      getComponent({
+        config: createColumnConfig({
+          appearance: createColumnAppearanceConfig({
+            width: {
+              auto: true,
+              value: 15,
+            },
+          }),
+        }),
+        field: createField({}),
+        value: 123,
+        bgColor: '#000000',
+      })
+    );
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.gauge()).toBeInTheDocument();
+
+    /**
+     * Apply width from parent div
+     * in test elementRef.current.offsetWidth equal 0px
+     * check useEffect condition only
+     */
+    expect(selectors.gauge()).toHaveStyle({ width: '0px' });
   });
 });
