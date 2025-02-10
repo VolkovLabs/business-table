@@ -123,7 +123,7 @@ interface OutdatedGroup
   /**
    * Row Highlight
    *
-   * Introduced in 2.1.0
+   * Introduced in 2.2.0
    */
   rowHighlight?: RowHighlightConfig;
 }
