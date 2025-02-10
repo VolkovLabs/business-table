@@ -6,6 +6,7 @@ import { NumberInput, Slider } from '@volkovlabs/components';
 import React, { useMemo, useState } from 'react';
 
 import { FieldsGroup } from '@/components';
+import { ColorEditor } from '@/components/editors';
 import { TEST_IDS } from '@/constants';
 import { tablesEditorContext } from '@/hooks';
 import {
@@ -25,8 +26,6 @@ import {
   getFieldBySource,
   getSupportedFilterTypesForVariable,
 } from '@/utils';
-
-import { ColorEditor } from '../ColorEditor';
 
 /**
  * Properties

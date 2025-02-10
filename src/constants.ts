@@ -78,6 +78,11 @@ export const DEFAULT_COLUMN_NEW_ROW_EDIT_CONFIG: ColumnNewRowEditConfig = {
 export const ACTIONS_COLUMN_ID = '__actions';
 
 /**
+ * Row Highlight State Key
+ */
+export const ROW_HIGHLIGHT_STATE_KEY = '__rowHighlightStateKey';
+
+/**
  * Test Identifiers
  */
 export const TEST_IDS = {
@@ -332,6 +337,11 @@ export const TEST_IDS = {
     itemContent: createSelector((name: unknown) => `data-testid add-data-editor item-content-${name}`),
     fieldItemEnabled: createSelector((name: unknown) => `data-testid add-data-editor field-item-enabled-${name}`),
   },
+  highlightDataEditor: {
+    itemHeader: createSelector((name: unknown) => `data-testid highlight-data-editor item-header-${name}`),
+    itemContent: createSelector((name: unknown) => `data-testid highlight-data-editor item-content-${name}`),
+    fieldItemEnabled: createSelector((name: unknown) => `data-testid highlight-data-editor field-item-enabled-${name}`),
+  },
   deleteDataEditor: {
     itemHeader: createSelector((name: unknown) => `data-testid delete-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid delete-data-editor item-content-${name}`),
@@ -431,6 +441,13 @@ export const TEST_IDS = {
   colorEditor: {
     fieldValue: createSelector('data-testid color-editor field-value'),
     buttonClear: createSelector('data-testid color-editor button-clear'),
+  },
+  rowHighlightEditor: {
+    fieldColumn: createSelector('data-testid row-highlight-editor field-column'),
+    fieldVariable: createSelector('data-testid row-highlight-editor field-variable'),
+    fieldBackgroundColor: createSelector('data-testid row-highlight-editor field-background-color'),
+    fieldScrollTo: createSelector('data-testid row-highlight-editor field-scroll-to'),
+    scrollToOption: createSelector((name: unknown) => `row-highlight-editor scroll-to-option-${name}`),
   },
 };
 

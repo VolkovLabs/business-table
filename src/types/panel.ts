@@ -529,6 +529,56 @@ export interface ActionsColumnConfig {
 }
 
 /**
+ * Scroll To Row Position
+ */
+export enum ScrollToRowPosition {
+  NONE = '',
+  START = 'start',
+  CENTER = 'center',
+  END = 'end',
+}
+
+/**
+ * Row Highlight Config
+ */
+export interface RowHighlightConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
+   * Column Id
+   *
+   * @type {string}
+   */
+  columnId: string;
+
+  /**
+   * Variable to get highlighted state
+   *
+   * @type {string}
+   */
+  variable: string;
+
+  /**
+   * Background Color
+   *
+   * @type {string}
+   */
+  backgroundColor?: string;
+
+  /**
+   * Scroll To
+   *
+   * @type {ScrollToRowPosition}
+   */
+  scrollTo: ScrollToRowPosition;
+}
+
+/**
  * Table Config
  */
 export interface TableConfig {
@@ -594,6 +644,13 @@ export interface TableConfig {
    * @type {ActionsColumnConfig}
    */
   actionsColumnConfig: ActionsColumnConfig;
+
+  /**
+   * Row Highlight
+   *
+   * @type {RowHighlightConfig}
+   */
+  rowHighlight: RowHighlightConfig;
 }
 
 /**

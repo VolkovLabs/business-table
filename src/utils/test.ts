@@ -40,6 +40,8 @@ import {
   PanelOptions,
   PermissionConfig,
   PermissionMode,
+  RowHighlightConfig,
+  ScrollToRowPosition,
   TableConfig,
   TableOperationConfig,
   TablePaginationConfig,
@@ -320,6 +322,18 @@ export const createTableOperationConfig = (item: Partial<TableOperationConfig>):
 });
 
 /**
+ * Create Row Highlight Config
+ */
+export const createRowHighlightConfig = (item: Partial<RowHighlightConfig>): RowHighlightConfig => ({
+  enabled: false,
+  variable: '',
+  columnId: '',
+  backgroundColor: 'transparent',
+  scrollTo: ScrollToRowPosition.NONE,
+  ...item,
+});
+
+/**
  * Create Table Config
  */
 export const createTableConfig = (table: Partial<TableConfig>): TableConfig => ({
@@ -332,6 +346,7 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   pagination: createTablePaginationConfig({}),
   actionsColumnConfig: createTableActionsColumnConfig({}),
   expanded: false,
+  rowHighlight: createRowHighlightConfig({}),
   ...table,
 });
 

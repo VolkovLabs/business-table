@@ -21,6 +21,9 @@ interface Props extends EditorProps<TableConfig> {
  * Table Editor
  */
 export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
+  /**
+   * Is Table Editable
+   */
   const isTableEditable = useMemo(() => {
     const isAddEnable = value.addRow.enabled;
     const isDeleteEnabled = value.deleteRow.enabled;

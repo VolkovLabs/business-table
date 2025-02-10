@@ -1,9 +1,18 @@
 import { PanelProps } from '@grafana/data';
 import { config } from '@grafana/runtime';
-import { Button, ButtonGroup, Dropdown, MenuItem, ToolbarButton, ToolbarButtonRow, useStyles2 } from '@grafana/ui';
+import {
+  Button,
+  ButtonGroup,
+  ClickOutsideWrapper,
+  Dropdown,
+  MenuItem,
+  ToolbarButton,
+  ToolbarButtonRow,
+  useStyles2,
+} from '@grafana/ui';
 import { Table as TableInstance } from '@tanstack/react-table';
 import { AlertWithDetails } from '@volkovlabs/components';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import {
@@ -43,6 +52,16 @@ export const TablePanel: React.FC<Props> = ({
    * Styles
    */
   const styles = useStyles2(getStyles);
+
+  /**
+   * Is Panel Focused
+   */
+  const isFocused = useRef<boolean>(false);
+
+  /**
+   * Should scroll
+   */
+  const shouldScroll = useRef<boolean>(false);
 
   const [error, setError] = useState('');
   const [downloadFormat, setDownloadFormat] = useState(ExportFormatType.CSV);
@@ -100,10 +119,12 @@ export const TablePanel: React.FC<Props> = ({
     data,
     columns: currentTable?.items,
     actionsColumnConfig: currentTable?.actionsColumnConfig,
+    rowHighlightConfig: currentTable?.rowHighlight,
     isAddRowEnabled,
     isDeleteRowEnabled,
     replaceVariables,
     objects: options.nestedObjects,
+    eventBus,
   });
 
   /**
@@ -220,94 +241,123 @@ export const TablePanel: React.FC<Props> = ({
   );
 
   /**
+   * On after scroll
+   */
+  const onAfterScroll = useCallback(() => {
+    shouldScroll.current = false;
+  }, []);
+
+  /**
    * Return
    */
   return (
-    <tablePanelContext.Provider value={{ replaceVariables, setError }}>
-      <div
-        {...TEST_IDS.panel.root.apply()}
-        className={styles.root}
-        style={{
-          width,
-          height,
-        }}
-      >
+    <ClickOutsideWrapper
+      onClick={() => {
+        if (isFocused.current) {
+          isFocused.current = false;
+        }
+      }}
+      useCapture={true}
+    >
+      <tablePanelContext.Provider value={{ replaceVariables, setError }}>
         <div
-          ref={scrollableContainerRef}
-          className={styles.content}
+          {...TEST_IDS.panel.root.apply()}
+          className={styles.root}
           style={{
             width,
             height,
           }}
+          onMouseDown={() => {
+            isFocused.current = true;
+          }}
         >
-          {!!error && (
-            <AlertWithDetails details={error} variant="error" title="Request error" onRemove={() => setError('')} />
-          )}
-          {isToolbarVisible && (
-            <div ref={headerRef} className={styles.header}>
-              <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
-                {sortedGroups.length > 1 &&
-                  sortedGroups.map((group, index) => (
-                    <ToolbarButton
-                      key={group.name}
-                      variant={currentGroup === group.name ? 'active' : 'default'}
-                      onClick={() => {
-                        setCurrentGroup(group.name);
-                      }}
-                      className={styles.tabButton}
-                      style={{
-                        maxWidth: index === 0 ? width - 60 : undefined,
-                      }}
-                      {...TEST_IDS.panel.tab.apply(group.name)}
-                    >
-                      {group.name}
-                    </ToolbarButton>
-                  ))}
-                {options.toolbar.export && (
-                  <ButtonGroup className={styles.downloadButtons}>
-                    <Button
-                      icon="download-alt"
-                      onClick={() => onExport({ table: tableInstance.current as never })}
-                      variant="secondary"
-                      size="sm"
-                      {...TEST_IDS.panel.buttonDownload.apply()}
-                    >
-                      Download
-                    </Button>
-                    <Dropdown overlay={menu} {...TEST_IDS.panel.dropdown.apply()}>
-                      <Button variant="secondary" size="sm" icon="angle-down" {...TEST_IDS.panel.buttonFormat.apply()}>
-                        {downloadFormat}
+          <div
+            ref={scrollableContainerRef}
+            className={styles.content}
+            style={{
+              width,
+              height,
+            }}
+          >
+            {!!error && (
+              <AlertWithDetails details={error} variant="error" title="Request error" onRemove={() => setError('')} />
+            )}
+            {isToolbarVisible && (
+              <div ref={headerRef} className={styles.header}>
+                <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
+                  {sortedGroups.length > 1 &&
+                    sortedGroups.map((group, index) => (
+                      <ToolbarButton
+                        key={group.name}
+                        variant={currentGroup === group.name ? 'active' : 'default'}
+                        onClick={() => {
+                          setCurrentGroup(group.name);
+                          shouldScroll.current = true;
+                        }}
+                        className={styles.tabButton}
+                        style={{
+                          maxWidth: index === 0 ? width - 60 : undefined,
+                        }}
+                        {...TEST_IDS.panel.tab.apply(group.name)}
+                      >
+                        {group.name}
+                      </ToolbarButton>
+                    ))}
+                  {options.toolbar.export && (
+                    <ButtonGroup className={styles.downloadButtons}>
+                      <Button
+                        icon="download-alt"
+                        onClick={() => onExport({ table: tableInstance.current as never })}
+                        variant="secondary"
+                        size="sm"
+                        {...TEST_IDS.panel.buttonDownload.apply()}
+                      >
+                        Download
                       </Button>
-                    </Dropdown>
-                  </ButtonGroup>
-                )}
-              </ToolbarButtonRow>
-            </div>
-          )}
-          <Table
-            key={currentTable?.name}
-            expandedByDefault={currentTable?.expanded ?? false}
-            data={tableData}
-            columns={columns}
-            tableRef={tableRef}
-            tableHeaderRef={tableHeaderRef}
-            topOffset={tableTopOffset}
-            scrollableContainerRef={scrollableContainerRef}
-            eventBus={eventBus}
-            onUpdateRow={onUpdateRow}
-            bottomOffset={tableBottomOffset}
-            paginationRef={paginationRef}
-            showHeader={currentTable?.showHeader ?? true}
-            width={width}
-            pagination={pagination}
-            tableInstance={tableInstance as never}
-            onAddRow={onAddRow}
-            isAddRowEnabled={isAddRowEnabled}
-            onDeleteRow={onDeleteRow}
-            isDeleteRowEnabled={isDeleteRowEnabled}
-          />
+                      <Dropdown overlay={menu} {...TEST_IDS.panel.dropdown.apply()}>
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          icon="angle-down"
+                          {...TEST_IDS.panel.buttonFormat.apply()}
+                        >
+                          {downloadFormat}
+                        </Button>
+                      </Dropdown>
+                    </ButtonGroup>
+                  )}
+                </ToolbarButtonRow>
+              </div>
+            )}
+            <Table
+              key={currentTable?.name}
+              expandedByDefault={currentTable?.expanded ?? false}
+              data={tableData}
+              columns={columns}
+              tableRef={tableRef}
+              tableHeaderRef={tableHeaderRef}
+              topOffset={tableTopOffset}
+              scrollableContainerRef={scrollableContainerRef}
+              eventBus={eventBus}
+              onUpdateRow={onUpdateRow}
+              bottomOffset={tableBottomOffset}
+              paginationRef={paginationRef}
+              showHeader={currentTable?.showHeader ?? true}
+              width={width}
+              pagination={pagination}
+              tableInstance={tableInstance as never}
+              onAddRow={onAddRow}
+              isAddRowEnabled={isAddRowEnabled}
+              onDeleteRow={onDeleteRow}
+              isDeleteRowEnabled={isDeleteRowEnabled}
+              rowHighlightConfig={currentTable?.rowHighlight}
+              isFocused={isFocused}
+              shouldScroll={shouldScroll}
+              onAfterScroll={onAfterScroll}
+            />
+          </div>
         </div>
-      </div>
-    </tablePanelContext.Provider>
+      </tablePanelContext.Provider>
+    </ClickOutsideWrapper>
   );
 };
