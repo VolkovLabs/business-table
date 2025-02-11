@@ -4,6 +4,7 @@ import {
   AddDataEditor,
   DeleteDataEditor,
   EditableDataEditor,
+  HighlightDataEditor,
   NestedObjectsEditor,
   PaginationsEditor,
   TablePanel,
@@ -76,6 +77,15 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         name: '',
         editor: DeleteDataEditor,
         category: ['Delete Data'],
+        defaultValue: [],
+        showIf: (config) => config.tables.length > 0,
+      })
+      .addCustomEditor({
+        id: 'highlightData',
+        path: 'tables',
+        name: '',
+        editor: HighlightDataEditor,
+        category: ['Highlight Row'],
         defaultValue: [],
         showIf: (config) => config.tables.length > 0,
       })

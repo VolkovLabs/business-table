@@ -22,7 +22,9 @@ import {
   Row,
   Table as TableInstance,
 } from '@tanstack/react-table';
+import { get } from 'lodash';
 
+import { ROW_HIGHLIGHT_STATE_KEY } from '@/constants';
 import { ColumnConfig, ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
 
 /**
@@ -513,4 +515,31 @@ export const normalizeBooleanCellValue = (value: unknown): boolean => {
   }
 
   return false;
+};
+
+/**
+ * Get First Highlighted Row Index
+ * Rows are only visible items
+ * @param rows
+ */
+export const getFirstHighlightedRowIndex = <TData>(rows: Array<Row<TData>>): number => {
+  for (let rowIndex = 0; rowIndex < rows.length; rowIndex += 1) {
+    const row = rows[rowIndex];
+
+    /**
+     * Row is a group, so skip
+     */
+    if (row.originalSubRows) {
+      continue;
+    }
+
+    /**
+     * Highlighted row found
+     */
+    if (get(row.original, ROW_HIGHLIGHT_STATE_KEY)) {
+      return rowIndex;
+    }
+  }
+
+  return -1;
 };

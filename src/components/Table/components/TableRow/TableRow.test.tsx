@@ -97,6 +97,7 @@ describe('TableRow', () => {
             isEditRowEnabled={false}
             isNewRow={isNewRow}
             onDelete={jest.fn()}
+            isHighlighted={false}
           />
         </tbody>
       </table>

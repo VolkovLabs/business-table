@@ -7,7 +7,14 @@ import React, { useCallback, useMemo, useState } from 'react';
 
 import { DEFAULT_PERMISSION_CONFIG, DEFAULT_REQUEST_CONFIG, PAGE_SIZES, TEST_IDS } from '@/constants';
 import { tablesEditorContext } from '@/hooks';
-import { ColumnAlignment, ColumnHeaderFontSize, PaginationMode, PanelOptions, TableConfig } from '@/types';
+import {
+  ColumnAlignment,
+  ColumnHeaderFontSize,
+  PaginationMode,
+  PanelOptions,
+  ScrollToRowPosition,
+  TableConfig,
+} from '@/types';
 import { reorder } from '@/utils';
 
 import { TableEditor } from './components';
@@ -121,6 +128,13 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
             },
             alignment: ColumnAlignment.START,
             fontSize: ColumnHeaderFontSize.MD,
+          },
+          rowHighlight: {
+            enabled: false,
+            columnId: '',
+            variable: '',
+            backgroundColor: 'transparent',
+            scrollTo: ScrollToRowPosition.NONE,
           },
         },
       ])

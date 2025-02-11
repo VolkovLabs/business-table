@@ -22,6 +22,8 @@ import {
   NestedObjectConfig,
   PaginationMode,
   PanelOptions,
+  RowHighlightConfig,
+  ScrollToRowPosition,
   TableConfig,
   TableOperationConfig,
   TablePaginationConfig,
@@ -86,7 +88,8 @@ interface OutdatedColumnConfig
 /**
  * Outdated Group
  */
-interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'pagination' | 'addRow' | 'deleteRow'> {
+interface OutdatedGroup
+  extends Omit<TableConfig, 'items' | 'update' | 'pagination' | 'addRow' | 'deleteRow' | 'rowHighlight'> {
   items: OutdatedColumnConfig[];
 
   /**
@@ -116,6 +119,13 @@ interface OutdatedGroup extends Omit<TableConfig, 'items' | 'update' | 'paginati
    * Introduced in 1.9.0
    */
   deleteRow?: TableOperationConfig;
+
+  /**
+   * Row Highlight
+   *
+   * Introduced in 2.2.0
+   */
+  rowHighlight?: RowHighlightConfig;
 }
 
 /**
@@ -447,6 +457,19 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
           enabled: false,
           request: DEFAULT_REQUEST_CONFIG,
           permission: DEFAULT_PERMISSION_CONFIG,
+        };
+      }
+
+      /**
+       * Normalize Row Highlight
+       */
+      if (!normalizedGroup.rowHighlight) {
+        normalizedGroup.rowHighlight = {
+          enabled: false,
+          columnId: '',
+          variable: '',
+          backgroundColor: 'transparent',
+          scrollTo: ScrollToRowPosition.NONE,
         };
       }
 

@@ -1,8 +1,7 @@
-import { FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
-import { getTemplateSrv } from '@grafana/runtime';
+import { EventBusSrv, FieldType, OrgRole, ReducerID, toDataFrame } from '@grafana/data';
 import { act, renderHook } from '@testing-library/react';
 
-import { ACTIONS_COLUMN_ID } from '@/constants';
+import { ACTIONS_COLUMN_ID, ROW_HIGHLIGHT_STATE_KEY } from '@/constants';
 import {
   CellAggregation,
   CellType,
@@ -23,6 +22,7 @@ import {
   createNestedObjectConfig,
   createNestedObjectOperationConfig,
   createPermissionConfig,
+  createRowHighlightConfig,
   createTableRequestConfig,
   createVariable,
   FooterContext,
@@ -30,6 +30,7 @@ import {
 } from '@/utils';
 
 import { useNestedObjects } from './useNestedObjects';
+import { useRuntimeVariables } from './useRuntimeVariables';
 import { useTable } from './useTable';
 
 /**
@@ -43,10 +44,21 @@ jest.mock('./useNestedObjects', () => ({
   })),
 }));
 
+/**
+ * Mock useRuntimeVariables
+ */
+const runtimeVariablesMock = {
+  getVariable: jest.fn(),
+};
+jest.mock('./useRuntimeVariables', () => ({
+  useRuntimeVariables: jest.fn(() => runtimeVariablesMock),
+}));
+
 describe('useTable', () => {
   /**
-   * Replace Variables
+   * Defaults
    */
+  const eventBus = new EventBusSrv();
   const replaceVariables = (str: string) => str;
 
   /**
@@ -102,6 +114,7 @@ describe('useTable', () => {
 
   beforeEach(() => {
     jest.mocked(useNestedObjects).mockReturnValue(nestedObjectsMock);
+    jest.mocked(useRuntimeVariables).mockReturnValue(runtimeVariablesMock as never);
   });
 
   it('Should return table data for configured columns', () => {
@@ -137,6 +150,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -182,6 +196,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -220,6 +235,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -236,6 +252,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -252,6 +269,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -299,6 +317,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: createActionsColumnConfig(),
+        eventBus,
       })
     );
 
@@ -395,6 +414,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -464,13 +484,13 @@ describe('useTable', () => {
     /**
      * Mock variables
      */
-    jest.mocked(getTemplateSrv().getVariables).mockReturnValue([
+    jest.mocked(runtimeVariablesMock.getVariable).mockReturnValue(
       createVariable({
         name: deviceColumn.filter.variable,
         type: 'query',
         multi: true,
-      } as never),
-    ]);
+      } as never)
+    );
 
     const { result } = renderHook(() =>
       useTable({
@@ -481,6 +501,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -535,6 +556,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -589,6 +611,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -630,6 +653,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -696,6 +720,7 @@ describe('useTable', () => {
           objects: [],
           replaceVariables,
           actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
         })
       );
 
@@ -752,6 +777,7 @@ describe('useTable', () => {
             label: 'Actions',
             fontSize: undefined,
           }),
+          eventBus,
         })
       );
 
@@ -804,6 +830,7 @@ describe('useTable', () => {
           objects: [],
           replaceVariables,
           actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
         })
       );
 
@@ -848,6 +875,7 @@ describe('useTable', () => {
           objects: [],
           replaceVariables,
           actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
         })
       );
 
@@ -896,6 +924,7 @@ describe('useTable', () => {
           objects: [],
           replaceVariables,
           actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
         })
       );
 
@@ -944,6 +973,7 @@ describe('useTable', () => {
           objects: [],
           replaceVariables,
           actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
         })
       );
 
@@ -986,6 +1016,7 @@ describe('useTable', () => {
           objects: [],
           replaceVariables,
           actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
         })
       );
 
@@ -1028,6 +1059,7 @@ describe('useTable', () => {
         objects: [],
         replaceVariables,
         actionsColumnConfig: actionsColumnConfigDefault,
+        eventBus,
       })
     );
 
@@ -1087,6 +1119,7 @@ describe('useTable', () => {
             objects: [nestedObject],
             replaceVariables,
             actionsColumnConfig: actionsColumnConfigDefault,
+            eventBus,
           })
         )
       );
@@ -1161,6 +1194,7 @@ describe('useTable', () => {
             objects: [nestedObject],
             replaceVariables,
             actionsColumnConfig: actionsColumnConfigDefault,
+            eventBus,
           })
         )
       );
@@ -1262,6 +1296,7 @@ describe('useTable', () => {
             objects: [commentsObject, readonlyObject],
             replaceVariables,
             actionsColumnConfig: actionsColumnConfigDefault,
+            eventBus,
           })
         )
       );
@@ -1338,6 +1373,7 @@ describe('useTable', () => {
             objects: [commentsObject],
             replaceVariables,
             actionsColumnConfig: actionsColumnConfigDefault,
+            eventBus,
           })
         )
       );
@@ -1390,6 +1426,7 @@ describe('useTable', () => {
           objects: [],
           replaceVariables,
           actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
         })
       );
 
@@ -1450,6 +1487,7 @@ describe('useTable', () => {
           objects: [],
           replaceVariables,
           actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
         })
       );
 
@@ -1466,6 +1504,180 @@ describe('useTable', () => {
         expect.objectContaining({
           enableGrouping: false,
         }),
+      ]);
+    });
+  });
+
+  describe('Row Highlight', () => {
+    it('Should add row highlight state for single variable', () => {
+      /**
+       * Mock variables
+       */
+      jest.mocked(runtimeVariablesMock.getVariable).mockReturnValue(
+        createVariable({
+          name: 'device',
+          type: 'custom',
+          current: {
+            value: 'device2',
+          },
+        })
+      );
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [
+            createColumnConfig({
+              field: {
+                source: refId,
+                name: 'device',
+              },
+            }),
+            createColumnConfig({
+              field: {
+                source: refId,
+                name: 'value',
+              },
+            }),
+          ],
+          objects: [],
+          replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
+          rowHighlightConfig: createRowHighlightConfig({
+            enabled: true,
+            columnId: `${refId}:device`,
+            variable: 'device',
+          }),
+          eventBus,
+        })
+      );
+
+      expect(result.current.tableData).toEqual([
+        {
+          device: frame.fields[0].values[0],
+          value: frame.fields[1].values[0],
+          [ROW_HIGHLIGHT_STATE_KEY]: false,
+        },
+        {
+          device: frame.fields[0].values[1],
+          value: frame.fields[1].values[1],
+          [ROW_HIGHLIGHT_STATE_KEY]: true,
+        },
+      ]);
+    });
+
+    it('Should add row highlight state for multi variable', () => {
+      /**
+       * Mock variables
+       */
+      jest.mocked(runtimeVariablesMock.getVariable).mockReturnValue(
+        createVariable({
+          name: 'device',
+          type: 'custom',
+          current: {
+            value: ['device1', 'device2'],
+          },
+        })
+      );
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [
+            createColumnConfig({
+              field: {
+                source: refId,
+                name: 'device',
+              },
+            }),
+            createColumnConfig({
+              field: {
+                source: refId,
+                name: 'value',
+              },
+            }),
+          ],
+          objects: [],
+          replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
+          rowHighlightConfig: createRowHighlightConfig({
+            enabled: true,
+            columnId: `${refId}:device`,
+            variable: 'device',
+          }),
+          eventBus,
+        })
+      );
+
+      expect(result.current.tableData).toEqual([
+        {
+          device: frame.fields[0].values[0],
+          value: frame.fields[1].values[0],
+          [ROW_HIGHLIGHT_STATE_KEY]: true,
+        },
+        {
+          device: frame.fields[0].values[1],
+          value: frame.fields[1].values[1],
+          [ROW_HIGHLIGHT_STATE_KEY]: true,
+        },
+      ]);
+    });
+
+    it('Should add row highlight state fallback if unable to get value', () => {
+      /**
+       * Mock variables
+       */
+      jest.mocked(runtimeVariablesMock.getVariable).mockReturnValue(null);
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [
+            createColumnConfig({
+              field: {
+                source: refId,
+                name: 'device',
+              },
+            }),
+            createColumnConfig({
+              field: {
+                source: refId,
+                name: 'value',
+              },
+            }),
+          ],
+          objects: [],
+          replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
+          rowHighlightConfig: createRowHighlightConfig({
+            enabled: true,
+            columnId: `${refId}:device`,
+            /**
+             * Unknown variable
+             */
+            variable: 'device123',
+          }),
+          eventBus,
+        })
+      );
+
+      expect(result.current.tableData).toEqual([
+        {
+          device: frame.fields[0].values[0],
+          value: frame.fields[1].values[0],
+          [ROW_HIGHLIGHT_STATE_KEY]: false,
+        },
+        {
+          device: frame.fields[0].values[1],
+          value: frame.fields[1].values[1],
+          [ROW_HIGHLIGHT_STATE_KEY]: false,
+        },
       ]);
     });
   });

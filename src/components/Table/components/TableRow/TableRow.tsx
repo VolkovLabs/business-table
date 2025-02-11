@@ -6,7 +6,7 @@ import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
 import React, { CSSProperties } from 'react';
 
 import { ACTIONS_COLUMN_ID, AGGREGATION_TYPES_WITH_DISPLAY_PROCESSOR, TEST_IDS } from '@/constants';
-import { CellType, ColumnAlignment } from '@/types';
+import { CellType, ColumnAlignment, RowHighlightConfig } from '@/types';
 
 import { TableCell, TableEditableCell } from './components';
 import { getStyles } from './TableRow.styles';
@@ -89,6 +89,20 @@ interface Props<TData> {
    * Delete Row
    */
   onDelete: (row: Row<TData>) => void;
+
+  /**
+   * Is Highlighted
+   *
+   * @type {boolean}
+   */
+  isHighlighted: boolean;
+
+  /**
+   * Row Highlight Config
+   *
+   * @type {RowHighlightConfig}
+   */
+  rowHighlightConfig?: RowHighlightConfig;
 }
 
 /**
@@ -138,6 +152,8 @@ export const TableRow = <TData,>({
   isEditRowEnabled,
   isDeleteRowEnabled = false,
   onDelete,
+  rowHighlightConfig,
+  isHighlighted,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -208,6 +224,13 @@ export const TableRow = <TData,>({
         if (displayValue.color) {
           cellAppearance.background = displayValue.color;
         }
+      }
+
+      /**
+       * Set Row Highlight Color
+       */
+      if (isHighlighted && rowHighlightConfig && rowHighlightConfig.backgroundColor !== 'transparent') {
+        acc.background = rowHighlightConfig.backgroundColor;
       }
 
       return {

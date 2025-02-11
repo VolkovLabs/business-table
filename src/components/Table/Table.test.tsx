@@ -4,9 +4,9 @@ import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useRef } from 'react';
 
-import { ACTIONS_COLUMN_ID } from '@/constants';
-import { ColumnEditorType, ColumnPinDirection, Pagination } from '@/types';
-import { createColumnAccessorFn, createColumnConfig, createColumnMeta } from '@/utils';
+import { ACTIONS_COLUMN_ID, ROW_HIGHLIGHT_STATE_KEY } from '@/constants';
+import { ColumnEditorType, ColumnPinDirection, Pagination, ScrollToRowPosition } from '@/types';
+import { createColumnAccessorFn, createColumnConfig, createColumnMeta, createRowHighlightConfig } from '@/utils';
 
 import { useAddData } from './hooks';
 import { Table, testIds } from './Table';
@@ -62,10 +62,25 @@ describe('Table', () => {
   const pagination = createPagination({});
 
   /**
+   * On After Scroll
+   */
+  const onAfterScroll = jest.fn();
+
+  /**
    * Get component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <Wrapper columns={[]} data={[]} eventBus={new EventBusSrv()} pagination={pagination} {...(props as any)} />;
+    return (
+      <Wrapper
+        columns={[]}
+        data={[]}
+        eventBus={new EventBusSrv()}
+        pagination={pagination}
+        onAfterScroll={onAfterScroll}
+        shouldScroll={{ current: false }}
+        {...(props as any)}
+      />
+    );
   };
 
   const getDomRect = (width: number, height: number) => ({
@@ -464,6 +479,86 @@ describe('Table', () => {
       const bodySelectors = getSelectors(within(selectors.body()));
       expect(bodySelectors.bodyCell(false, '0_device')).toBeInTheDocument();
       expect(bodySelectors.bodyCell(false, '0_device')).toHaveTextContent('device1');
+    });
+  });
+
+  describe('Row Highlight', () => {
+    it('Should apply background to highlighted row', async () => {
+      await act(async () =>
+        render(
+          getComponent({
+            columns: [
+              {
+                id: 'device',
+                accessorFn: createColumnAccessorFn('device'),
+                meta: createColumnMeta({}),
+              },
+            ],
+            data: [
+              {
+                device: 'device1',
+                [ROW_HIGHLIGHT_STATE_KEY]: true,
+              },
+              {
+                device: 'device2',
+                [ROW_HIGHLIGHT_STATE_KEY]: false,
+              },
+            ],
+            rowHighlightConfig: createRowHighlightConfig({
+              enabled: true,
+              backgroundColor: 'red',
+            }),
+          })
+        )
+      );
+
+      expect(selectors.root());
+      expect(selectors.bodyCell(false, '0_device')).toBeInTheDocument();
+      expect(selectors.bodyCell(false, '0_device')).toHaveTextContent('device1');
+      expect(selectors.bodyRow(false, '0')).toHaveStyle({
+        backgroundColor: 'red',
+      });
+
+      expect(selectors.bodyCell(false, '1_device')).toBeInTheDocument();
+      expect(selectors.bodyCell(false, '1_device')).toHaveTextContent('device2');
+      expect(selectors.bodyRow(false, '1')).not.toHaveStyle({
+        backgroundColor: 'red',
+      });
+    });
+
+    it('Should scroll to first highlighted row', async () => {
+      await act(async () =>
+        render(
+          getComponent({
+            columns: [
+              {
+                id: 'device',
+                accessorFn: createColumnAccessorFn('device'),
+                meta: createColumnMeta({}),
+              },
+            ],
+            data: [
+              {
+                device: 'device1',
+                [ROW_HIGHLIGHT_STATE_KEY]: false,
+              },
+              {
+                device: 'device2',
+                [ROW_HIGHLIGHT_STATE_KEY]: true,
+              },
+            ],
+            rowHighlightConfig: createRowHighlightConfig({
+              enabled: true,
+              scrollTo: ScrollToRowPosition.START,
+            }),
+            isFocused: {
+              current: false,
+            },
+          })
+        )
+      );
+
+      expect(onAfterScroll).toHaveBeenCalled();
     });
   });
 });

@@ -19,11 +19,19 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { get } from 'lodash';
 import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ButtonSelect } from '@/components';
-import { PAGE_SIZE_OPTIONS, TEST_IDS } from '@/constants';
-import { ColumnHeaderFontSize, ColumnPinDirection, Pagination as PaginationOptions } from '@/types';
+import { PAGE_SIZE_OPTIONS, ROW_HIGHLIGHT_STATE_KEY, TEST_IDS } from '@/constants';
+import {
+  ColumnHeaderFontSize,
+  ColumnPinDirection,
+  Pagination as PaginationOptions,
+  RowHighlightConfig,
+  ScrollToRowPosition,
+} from '@/types';
+import { getFirstHighlightedRowIndex } from '@/utils';
 
 import { TableHeaderCell, TableRow } from './components';
 import { useAddData, useDeleteData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
@@ -156,6 +164,28 @@ interface Props<TData> {
    * @type {boolean}
    */
   isDeleteRowEnabled: boolean;
+
+  /**
+   * Row Highlight Config
+   *
+   * @type {RowHighlightConfig}
+   */
+  rowHighlightConfig?: RowHighlightConfig;
+
+  /**
+   * Is Panel Focused
+   */
+  isFocused: RefObject<boolean>;
+
+  /**
+   * Should scroll
+   */
+  shouldScroll: RefObject<boolean>;
+
+  /**
+   * Function to call after auto scroll
+   */
+  onAfterScroll: () => void;
 }
 
 /**
@@ -228,6 +258,10 @@ export const Table = <TData,>({
   isAddRowEnabled,
   isDeleteRowEnabled,
   onDeleteRow,
+  rowHighlightConfig,
+  shouldScroll,
+  isFocused,
+  onAfterScroll,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -360,7 +394,7 @@ export const Table = <TData,>({
     getScrollElement: useCallback(() => scrollableContainerRef.current, [scrollableContainerRef]),
     count: rows.length,
     getItemKey: useCallback((index: number) => rows[index].id, [rows]),
-    estimateSize: useCallback(() => 36, []),
+    estimateSize: useCallback(() => 37, []),
     measureElement: useCallback((el: HTMLElement | HTMLTableRowElement) => el.offsetHeight, []),
     overscan: 10,
   });
@@ -398,6 +432,32 @@ export const Table = <TData,>({
   useEffect(() => {
     tableInstance.current = table;
   }, [table, tableInstance]);
+
+  /**
+   * Get first visible highlighted row index from only visible rows
+   */
+  const firstHighlightedRowIndex = useMemo(() => getFirstHighlightedRowIndex(rows), [rows]);
+
+  /**
+   * Scroll To Highlighted Row
+   */
+  const scrollTo = rowHighlightConfig?.enabled ? rowHighlightConfig.scrollTo : ScrollToRowPosition.NONE;
+
+  /**
+   * Auto scroll
+   * https://tanstack.com/virtual/v3/docs/api/virtualizer#scrolltoindex
+   */
+  useEffect(() => {
+    if (
+      scrollTo !== ScrollToRowPosition.NONE &&
+      data &&
+      (!isFocused.current || shouldScroll.current) &&
+      firstHighlightedRowIndex >= 0
+    ) {
+      rowVirtualizer.scrollToIndex(firstHighlightedRowIndex, { align: scrollTo });
+      onAfterScroll();
+    }
+  }, [scrollTo, firstHighlightedRowIndex, data, rowVirtualizer, rows, isFocused, shouldScroll, onAfterScroll]);
 
   return (
     <>
@@ -462,6 +522,7 @@ export const Table = <TData,>({
               isSaving={addData.isSaving}
               isNewRow={true}
               onDelete={deleteData.onStart}
+              isHighlighted={false}
             />
           </tbody>
         )}
@@ -474,6 +535,8 @@ export const Table = <TData,>({
         >
           {virtualRows.map((virtualRow) => {
             const row = rows[virtualRow.index];
+            const isHighlighted =
+              rowHighlightConfig?.enabled === true && get(row.original, ROW_HIGHLIGHT_STATE_KEY) === true;
 
             return (
               <TableRow
@@ -490,6 +553,8 @@ export const Table = <TData,>({
                 isEditRowEnabled={isEditRowEnabled}
                 isDeleteRowEnabled={isDeleteRowEnabled}
                 onDelete={deleteData.onStart}
+                rowHighlightConfig={rowHighlightConfig}
+                isHighlighted={editableData.row?.id !== row.id && isHighlighted}
               />
             );
           })}

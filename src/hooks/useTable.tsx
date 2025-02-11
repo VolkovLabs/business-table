@@ -1,5 +1,5 @@
-import { DataFrame, Field, FieldType, InterpolateFunction, PanelData } from '@grafana/data';
-import { config, getTemplateSrv } from '@grafana/runtime';
+import { DataFrame, EventBus, Field, FieldType, InterpolateFunction, PanelData } from '@grafana/data';
+import { config } from '@grafana/runtime';
 import { useTheme2 } from '@grafana/ui';
 import { ColumnDef, ColumnMeta } from '@tanstack/react-table';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -11,7 +11,7 @@ import {
   nestedObjectEditorsRegistry,
   TableActionsCell,
 } from '@/components';
-import { ACTIONS_COLUMN_ID } from '@/constants';
+import { ACTIONS_COLUMN_ID, ROW_HIGHLIGHT_STATE_KEY } from '@/constants';
 import {
   ActionsColumnConfig,
   CellAggregation,
@@ -25,18 +25,21 @@ import {
   ColumnPinDirection,
   NestedObjectConfig,
   NestedObjectControlOptions,
+  RowHighlightConfig,
 } from '@/types';
 import {
   checkIfOperationEnabled,
   columnFilter,
   createColumnAccessorFn,
   filterFieldBySource,
+  getFieldKey,
   getFooterCell,
   getFrameBySource,
   getSupportedFilterTypesForVariable,
 } from '@/utils';
 
 import { useNestedObjects } from './useNestedObjects';
+import { useRuntimeVariables } from './useRuntimeVariables';
 
 /**
  * Use Table
@@ -49,6 +52,8 @@ export const useTable = ({
   actionsColumnConfig,
   objects,
   replaceVariables,
+  rowHighlightConfig,
+  eventBus,
 }: {
   data: PanelData;
   isAddRowEnabled?: boolean;
@@ -57,6 +62,8 @@ export const useTable = ({
   actionsColumnConfig?: ActionsColumnConfig;
   objects: NestedObjectConfig[];
   replaceVariables: InterpolateFunction;
+  rowHighlightConfig?: RowHighlightConfig;
+  eventBus: EventBus;
 }) => {
   /**
    * Theme
@@ -64,9 +71,9 @@ export const useTable = ({
   const theme = useTheme2();
 
   /**
-   * Template Service
+   * Variables
    */
-  const templateService = getTemplateSrv();
+  const { getVariable } = useRuntimeVariables(eventBus, '');
 
   /**
    * Columns Data
@@ -166,7 +173,7 @@ export const useTable = ({
   }, [columnsWithNestedObjects, onLoadNestedData, tableRawData]);
 
   /**
-   * Table Data With Nested Objects
+   * Table Data With Nested Objects and Highlight State
    */
   const tableData = useMemo(() => {
     const nestedObjectsForRow =
@@ -177,9 +184,45 @@ export const useTable = ({
         };
       }, {}) || {};
 
-    return tableRawData.map((row) => {
+    const rowsHighlightState: boolean[] = [];
+
+    /**
+     * Calculate Rows Highlight State
+     */
+    if (rowHighlightConfig && rowHighlightConfig.enabled) {
+      const item = columnsData.items.find((item) => getFieldKey(item.config.field) === rowHighlightConfig.columnId);
+      const variable = getVariable(rowHighlightConfig.variable);
+
+      if (item && variable && 'current' in variable) {
+        const variableValueMap = Array.isArray(variable.current.value)
+          ? variable.current.value.reduce(
+              (acc, value) => ({
+                ...acc,
+                [value]: true,
+              }),
+              {} as Record<string, boolean>
+            )
+          : { [variable.current.value as string]: true };
+
+        item.field.values.forEach((value) => {
+          rowsHighlightState.push(variableValueMap[value] ?? false);
+        });
+      }
+    }
+
+    return tableRawData.map((row, rowIndex) => {
+      const additionRowInfo: Record<string, unknown> = {};
+
+      /**
+       * Add Row Highlight State
+       */
+      if (rowHighlightConfig?.enabled) {
+        additionRowInfo[ROW_HIGHLIGHT_STATE_KEY] = rowsHighlightState[rowIndex] ?? false;
+      }
+
       return {
         ...row,
+        ...additionRowInfo,
         ...Object.entries(nestedObjectsForRow).reduce((acc, [key, nestedData]) => {
           const ids = row[key as keyof typeof row] as unknown;
 
@@ -194,7 +237,7 @@ export const useTable = ({
         }, {}),
       };
     });
-  }, [columnsWithNestedObjects, getNestedData, tableRawData]);
+  }, [columnsWithNestedObjects, rowHighlightConfig, tableRawData, getNestedData, columnsData.items, getVariable]);
 
   /**
    * Get Editor Control Options
@@ -326,7 +369,7 @@ export const useTable = ({
         /**
          * Calc available filter types for query side filter
          */
-        const variable = templateService.getVariables().find((item) => item.name === column.config.filter.variable);
+        const variable = getVariable(column.config.filter.variable);
 
         if (variable) {
           availableFilterTypes.push(...getSupportedFilterTypesForVariable(variable));
@@ -479,7 +522,7 @@ export const useTable = ({
     replaceVariables,
     getEditorControlOptions,
     getNestedObjectControlOptions,
-    templateService,
+    getVariable,
     theme,
     actionsColumnConfig?.width.auto,
     actionsColumnConfig?.width.min,
