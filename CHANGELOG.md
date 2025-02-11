@@ -6,6 +6,7 @@
 
 - Update gauge values in Grafana 10.3.0 (#241)
 - Update unexpected error in "Data links" dashboard (#241)
+- Add row highlight with background and auto scroll (#243)
 
 ## 2.1.0 (2025-02-04)
 

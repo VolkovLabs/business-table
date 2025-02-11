@@ -1,6 +1,6 @@
 import { SelectableValue } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, RadioButtonGroup, Select } from '@grafana/ui';
+import { InlineField, InlineFieldRow, RadioButtonGroup, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { FieldsGroup } from '@/components';
@@ -79,37 +79,51 @@ export const RowHighlightEditor: React.FC<Props> = ({ value, onChange, columns }
 
   return (
     <>
-      <FieldsGroup label="Get State">
-        <InlineField label="Column">
-          <Select
-            onChange={(event) => {
-              onChange({
-                ...value,
-                columnId: event?.value ?? '',
-              });
-            }}
-            value={value.columnId}
-            options={columnOptions}
-            isClearable={true}
-            {...testIds.fieldColumn.apply()}
-          />
-        </InlineField>
-        <InlineField label="Compare with Variable">
-          <Select
-            onChange={(event) => {
-              onChange({
-                ...value,
-                variable: event?.value ?? '',
-              });
-            }}
-            value={value.variable}
-            options={variableOptions}
-            isClearable={true}
-            {...testIds.fieldVariable.apply()}
-          />
-        </InlineField>
+      <FieldsGroup label="State">
+        <InlineFieldRow>
+          <InlineField label="Column">
+            <Select
+              onChange={(event) => {
+                onChange({
+                  ...value,
+                  columnId: event?.value ?? '',
+                });
+              }}
+              value={value.columnId}
+              options={columnOptions}
+              isClearable={true}
+              {...testIds.fieldColumn.apply()}
+            />
+          </InlineField>
+          <InlineField label="Variable">
+            <Select
+              onChange={(event) => {
+                onChange({
+                  ...value,
+                  variable: event?.value ?? '',
+                });
+              }}
+              value={value.variable}
+              options={variableOptions}
+              isClearable={true}
+              {...testIds.fieldVariable.apply()}
+            />
+          </InlineField>
+        </InlineFieldRow>
       </FieldsGroup>
-      <FieldsGroup label="Row Appearance">
+      <FieldsGroup label="Appearance">
+        <InlineField label="Auto scroll to" {...testIds.fieldScrollTo.apply()}>
+          <RadioButtonGroup
+            options={scrollToOptions}
+            value={value.scrollTo}
+            onChange={(scrollTo) => {
+              onChange({
+                ...value,
+                scrollTo,
+              });
+            }}
+          />
+        </InlineField>
         <InlineField label="Background">
           <ColorEditor
             value={value.backgroundColor}
@@ -120,18 +134,6 @@ export const RowHighlightEditor: React.FC<Props> = ({ value, onChange, columns }
               });
             }}
             {...testIds.fieldBackgroundColor.apply()}
-          />
-        </InlineField>
-        <InlineField label="Auto Scroll To" {...testIds.fieldScrollTo.apply()}>
-          <RadioButtonGroup
-            options={scrollToOptions}
-            value={value.scrollTo}
-            onChange={(scrollTo) => {
-              onChange({
-                ...value,
-                scrollTo,
-              });
-            }}
           />
         </InlineField>
       </FieldsGroup>
