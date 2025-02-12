@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -246,15 +246,6 @@
         ],
         "tables": [
           {
-            "actionsColumnConfig": {
-              "alignment": "start",
-              "fontSize": "sm",
-              "label": "",
-              "width": {
-                "auto": false,
-                "value": 100
-              }
-            },
             "addRow": {
               "enabled": true,
               "permission": {
@@ -367,11 +358,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -420,10 +406,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -437,11 +420,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -494,10 +472,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -511,11 +486,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -568,10 +538,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -585,11 +552,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -637,10 +599,7 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -654,11 +613,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -712,11 +666,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "Comments",
                 "newRowEdit": {
@@ -771,11 +720,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "Small Comments",
                 "newRowEdit": {
@@ -828,15 +772,6 @@
             }
           },
           {
-            "actionsColumnConfig": {
-              "alignment": "start",
-              "fontSize": "md",
-              "label": "",
-              "width": {
-                "auto": false,
-                "value": 100
-              }
-            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -862,13 +797,12 @@
             "expanded": false,
             "items": [
               {
-                "aggregation": "none",
+                "aggregation": "count",
                 "appearance": {
                   "alignment": "start",
                   "background": {
                     "applyToRow": false
                   },
-                  "colors": {},
                   "header": {
                     "fontSize": "md"
                   },
@@ -881,20 +815,22 @@
                 },
                 "edit": {
                   "editor": {
-                    "limit": 100,
-                    "maxSize": 1000,
-                    "type": "file"
+                    "type": "string"
                   },
-                  "enabled": true,
+                  "enabled": false,
                   "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
                     "mode": "",
                     "userRole": []
                   }
                 },
                 "enabled": true,
                 "field": {
-                  "name": "image_url",
-                  "source": "Permission"
+                  "name": "country",
+                  "source": "A"
                 },
                 "filter": {
                   "enabled": false,
@@ -902,11 +838,177 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
                 },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "state",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "city",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -915,54 +1017,31 @@
                   },
                   "enabled": false
                 },
-                "objectId": "",
                 "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "showingRows": 20,
                 "sort": {
                   "descFirst": false,
                   "enabled": false
                 },
-                "type": "image"
+                "type": "auto"
               }
             ],
-            "name": "Image",
+            "name": "Grouped",
             "pagination": {
-              "defaultPageSize": 10,
               "enabled": false,
               "mode": "client"
             },
             "showHeader": true,
             "update": {
-              "datasource": "decvdkzhqton4f",
-              "payload": {
-                "columns": [],
-                "filters": [],
-                "format": "table",
-                "global_query_id": "",
-                "refId": "",
-                "root_selector": "",
-                "source": "url",
-                "type": "json",
-                "url": "http://192.168.1.90:10197/api/admin/images",
-                "url_options": {
-                  "body_content_type": "application/json",
-                  "body_type": "raw",
-                  "data": "{\r\n  \"payload\":${payload.image_url}\r\n}",
-                  "method": "POST"
-                }
-              }
+              "datasource": "",
+              "payload": {}
             }
           }
         ],
         "tabsSorting": false,
         "toolbar": {
-          "alignment": "left",
           "export": false
         }
       },
-      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -1090,17 +1169,7 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": [
-                  "true"
-                ]
-              },
-              {
-                "config": {},
-                "name": "image_url",
-                "type": "string",
-                "values": [
-                  "https://picsum.photos/200/300"
-                ]
+                "values": ["true"]
               }
             ],
             "meta": {},
@@ -1147,7 +1216,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               },
               {
                 "color": "red",
@@ -1515,10 +1585,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -1584,10 +1651,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -1653,10 +1717,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -1717,10 +1778,7 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -2290,9 +2348,7 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": [
-                  "true"
-                ]
+                "values": ["true"]
               }
             ],
             "meta": {},
@@ -2354,6 +2410,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 4,
+  "version": 3,
   "weekStart": ""
 }

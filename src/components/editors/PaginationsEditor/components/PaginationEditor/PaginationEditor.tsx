@@ -53,7 +53,6 @@ export const PaginationEditor: React.FC<Props> = ({ value, onChange, data }) => 
 
     const variables = getTemplateSrv().getVariables();
 
-
     return variables.map((variable) => {
       return {
         label: variable.label || variable.name,
