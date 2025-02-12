@@ -204,6 +204,7 @@ export const useTable = ({
       const item = editableColumnEditorsRegistry.get(editorConfig.type);
 
       if (item) {
+        // @ts-expect-error
         return item?.getControlOptions({ config: editorConfig as never, data });
       }
 

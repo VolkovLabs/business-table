@@ -57,6 +57,7 @@ const config = async (env): Promise<Configuration> => {
       '@grafana/runtime',
       '@grafana/data',
 
+
       // Mark legacy SDK imports as external if their name starts with the "grafana/" prefix
       ({ request }, callback) => {
         const prefix = 'grafana/';

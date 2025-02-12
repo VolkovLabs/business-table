@@ -264,6 +264,9 @@ export const TEST_IDS = {
     fieldDatetimeMin: createSelector('data-testid column-editor field-datetime-min'),
     fieldDatetimeMax: createSelector('data-testid column-editor field-datetime-max'),
     fieldCustomValues: createSelector('data-testid column-editor field-custom-values'),
+    fieldFileMimeTypes: createSelector('data-testid column-editor field-file-mime-types'),
+    fieldFileMaxSize: createSelector('data-testid column-editor field-file-max-size'),
+    fieldFileLimit: createSelector('data-testid column-editor field-file-limit'),
   },
   dateEditor: {
     field: createSelector('data-testid date-editor field'),
@@ -281,6 +284,7 @@ export const TEST_IDS = {
     fieldSelect: createSelector('data-testid editableCell field-select'),
     fieldTextarea: createSelector('data-testid editableCell field-textarea'),
     fieldBoolean: createSelector('data-testid editableCell field-boolean'),
+    fieldFile:createSelector('data-testid editableCell field-file'),
   },
   tableActionsCell: {
     buttonStartEdit: createSelector('data-testid table-actions-cell button-start-edit'),

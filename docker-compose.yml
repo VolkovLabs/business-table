@@ -2,8 +2,9 @@ services:
   grafana:
     image: ghcr.io/volkovlabs/app:latest
     ports:
-      - 3000:3000/tcp
+      - "0.0.0.0:3000:3000/tcp"
     environment:
+      - GF_SERVER_HTTP_ADDR=0.0.0.0
       - GF_DEFAULT_APP_MODE=development
       - GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH=/etc/grafana/provisioning/dashboards/panels.json
       - GF_INSTALL_PLUGINS=marcusolsson-static-datasource,volkovlabs-variable-panel
@@ -16,8 +17,9 @@ services:
   grafana-main:
     image: grafana/grafana:main
     ports:
-      - 3000:3000/tcp
+      - "0.0.0.0:3000:3000/tcp"
     environment:
+      - GF_SERVER_HTTP_ADDR=0.0.0.0
       - GF_DEFAULT_APP_MODE=development
       - GF_USERS_DEFAULT_THEME=light
       - GF_INSTALL_PLUGINS=marcusolsson-static-datasource,volkovlabs-variable-panel
@@ -28,10 +30,11 @@ services:
       - main
 
   grafana-dep:
-    image: grafana/grafana:10.3.0
+    image: grafana/grafana:latest
     ports:
-      - 3000:3000/tcp
+       - "0.0.0.0:3000:3000/tcp"
     environment:
+      - GF_SERVER_HTTP_ADDR=0.0.0.0
       - GF_DEFAULT_APP_MODE=development
       - GF_USERS_DEFAULT_THEME=light
       - GF_INSTALL_PLUGINS=marcusolsson-static-datasource,volkovlabs-variable-panel
