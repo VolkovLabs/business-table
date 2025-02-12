@@ -1,10 +1,10 @@
 import { dateTime } from '@grafana/data';
-import { DateTimePicker, InlineField, InlineFieldRow, InlineSwitch, Input, Select, TextArea } from '@grafana/ui';
+import { DateTimePicker,FileDropzone, InlineField, InlineFieldRow, InlineSwitch, Input, Select, TextArea } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { ColumnEditorType } from '@/types';
+import { ColumnEditorType, EditorFileOptions } from '@/types';
 import {
   cleanPayloadObject,
   createEditableColumnEditorRegistryItem,
@@ -226,4 +226,185 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
       };
     },
   }),
+  createEditableColumnEditorRegistryItem({
+    id: ColumnEditorType.FILE,
+    editor: ({ value, onChange }) => (
+      <InlineFieldRow>
+        <InlineField label="Allowed MIME Types" tooltip="Comma-separated list of allowed MIME types">
+          <Input
+            value={(value as EditorFileOptions)?.mimeType?.join(', ') || ''}
+            onChange={(event) => {
+              const mimeType = event.currentTarget.value.split(',').map((s) => s.trim());
+              onChange(cleanPayloadObject({ ...value, mimeType }));
+            }}
+            placeholder="e.g., image/jpeg, application/pdf"
+          />
+        </InlineField>
+        <InlineField label="Max File Size (MB)">
+          <Input
+            type="number"
+            value={(value as EditorFileOptions)?.maxSize || ''}
+            onChange={(event) => {
+              const maxSize = Number(event.currentTarget.value);
+              onChange(cleanPayloadObject({ ...value, maxSize }));
+            }}
+            placeholder="Maximum size in megabytes"
+          />
+        </InlineField>
+        <InlineField label="Max Files">
+          <Input
+            type="number"
+            value={(value as EditorFileOptions)?.limit || ''}
+            onChange={(event) => {
+              const limit = Number(event.currentTarget.value);
+              onChange(cleanPayloadObject({ ...value, limit }));
+            }}
+            placeholder="Maximum number of files"
+          />
+        </InlineField>
+      </InlineFieldRow>
+    ),
+    // Use a proper component name so we can call React hooks inside without lint errors
+    control: function FileControl({ value, onChange, config, isSaving }) {
+      const [error, setError] = React.useState<string | null>(null);
+
+      const parsedValue = React.useMemo(() => {
+        try {
+          // Decode the URI-encoded JSON string if it's a string
+          const decodedValue = typeof value === 'string' ? decodeURIComponent(value) : value;
+
+          // Parse the JSON string into an array of file objects
+          const parsedFiles = typeof decodedValue === 'string' ? JSON.parse(decodedValue) : decodedValue;
+
+          // Ensure the parsed value is an array
+          return Array.isArray(parsedFiles) ? parsedFiles : [];
+        } catch (err) {
+          console.error('Error parsing file data:', err);
+          return [];
+        }
+      }, [value]);
+
+      // Called when files are dropped/selected
+      const handleDrop = (files: File[]) => {
+        setError(null);
+
+        // Check file count first
+        if (config.limit && files.length > config.limit) {
+          setError(`Maximum ${config.limit} file(s) allowed`);
+          return;
+        }
+
+        // Validate file type & size
+        for (const file of files) {
+          if (config.mimeType?.length && !config.mimeType.includes(file.type)) {
+            setError(`Invalid file type: ${file.type}`);
+            return;
+          }
+          if (config.maxSize && file.size > config.maxSize * 1024 * 1024) {
+            setError(`File too large: ${file.name} (max ${config.maxSize}MB)`);
+            return;
+          }
+        }
+
+        // Convert each file to base64 asynchronously
+        const promises = files.map(
+          (file) =>
+            new Promise<{
+              content: string | ArrayBuffer | null;
+              type: string;
+              name: string;
+              size: number;
+            }>((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = () => {
+                resolve({
+                  content: reader.result,
+                  type: file.type,
+                  name: file.name,
+                  size: file.size,
+                });
+              };
+              reader.onerror = () => reject(reader.error);
+              reader.readAsDataURL(file); // Reads file as base64 data URL
+            })
+        );
+
+        Promise.all(promises)
+          .then((fileInfos) => {
+            // Pass array of { content, type, name, size } to onChange
+
+            const sanitizedFiles = fileInfos.map(file => ({
+              ...file,
+              content: file.content
+                ?.toString()
+                .replace(/\\/g, '\\\\')  // Escape backslashes
+                .replace(/"/g, '\\"')    // Escape double quotes
+            }));
+            onChange(encodeURIComponent(JSON.stringify(sanitizedFiles)));
+            // onChange("See me")
+          })
+          .catch((err) => {
+            setError(`Error adding file(s): ${err}`);
+          });
+      };
+
+
+      // Called when a single file is removed
+      const handleRemove = (removedItem: { file: File }) => {
+        try {
+          const currentFiles = Array.isArray(parsedValue) ? parsedValue : [];
+          const newFiles = currentFiles.filter((f) => f.name !== removedItem.file.name);
+
+          // Sanitize for JSON transmission while keeping data URI intact
+          const sanitizedFiles = newFiles.map(file => ({
+            ...file,
+            content: file.content
+              ?.toString()
+              .replace(/\\/g, '\\\\')  // Escape backslashes
+              .replace(/"/g, '\\"')    // Escape double quotes
+          }));
+
+          // Double-encode for safe JSON embedding
+          onChange(encodeURIComponent(JSON.stringify(sanitizedFiles)));
+        } catch (err) {
+          setError(`Error removing file(s): ${err}`);
+        }
+      };
+
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column' ,width: '100%'}}>
+          {/*
+            InlineField only allows one direct child.
+            So we wrap the FileDropzone in InlineField, then show the error outside.
+          */}
+          <InlineField label="File Upload" disabled={isSaving} grow>
+            <FileDropzone
+              options={{
+                accept: config.mimeType?.join(',') || undefined,
+                multiple: !!config.limit && config.limit > 1,
+                onDrop: handleDrop,
+              }}
+              onFileRemove={handleRemove}
+              // This prop is for your testing or data ID usage
+              data-testid={TEST_IDS.editableCell.fieldFile.selector()}
+            />
+          </InlineField>
+
+          {error && (
+            <div style={{ color: 'red', marginTop: '8px' }}>
+              {error}
+            </div>
+          )}
+        </div>
+      );
+    },
+    getControlOptions: ({ config }) => ({
+      type: ColumnEditorType.FILE,
+      mimeType: config.mimeType ?? [],
+      maxSize: config.maxSize ?? 100, // default to 100 MB
+      limit: config.limit ?? 1,
+    }),
+  })
+
+
 ]);
