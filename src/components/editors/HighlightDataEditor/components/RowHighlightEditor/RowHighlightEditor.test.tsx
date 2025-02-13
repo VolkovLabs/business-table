@@ -154,7 +154,7 @@ describe('RowHighlightEditor', () => {
 
     expect(selectors.fieldScrollTo()).toBeInTheDocument();
 
-    fireEvent.click(selectors.scrollToOption(false, ScrollToRowPosition.CENTER));
+    fireEvent.change(selectors.fieldScrollTo(), { target: { value: ScrollToRowPosition.CENTER } });
 
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
