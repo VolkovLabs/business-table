@@ -128,7 +128,7 @@ export const GaugeCellRenderer: React.FC<Props> = ({ value, field, bgColor, conf
       ) : (
         <BarGauge
           width={width}
-          height={22}
+          height={15}
           field={configField}
           display={field.display}
           text={{ valueSize: config.gauge.valueSize }}
