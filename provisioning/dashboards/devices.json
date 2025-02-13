@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 2,
   "links": [],
   "panels": [
     {
@@ -246,15 +246,6 @@
         ],
         "tables": [
           {
-            "actionsColumnConfig": {
-              "alignment": "start",
-              "fontSize": "sm",
-              "label": "",
-              "width": {
-                "auto": false,
-                "value": 100
-              }
-            },
             "addRow": {
               "enabled": true,
               "permission": {
@@ -367,11 +358,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -420,10 +406,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -437,11 +420,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -494,10 +472,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -511,11 +486,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -568,10 +538,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -585,11 +552,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -637,10 +599,7 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -654,11 +613,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -712,11 +666,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "Comments",
                 "newRowEdit": {
@@ -771,11 +720,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "Small Comments",
                 "newRowEdit": {
@@ -826,15 +770,278 @@
                 }
               }
             }
+          },
+          {
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
+            "items": [
+              {
+                "aggregation": "count",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "country",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "state",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "city",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": true,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              },
+              {
+                "aggregation": "none",
+                "appearance": {
+                  "alignment": "start",
+                  "background": {
+                    "applyToRow": false
+                  },
+                  "header": {
+                    "fontSize": "md"
+                  },
+                  "width": {
+                    "auto": true,
+                    "min": 20,
+                    "value": 100
+                  },
+                  "wrap": true
+                },
+                "edit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false,
+                  "permission": {
+                    "field": {
+                      "name": "",
+                      "source": ""
+                    },
+                    "mode": "",
+                    "userRole": []
+                  }
+                },
+                "enabled": true,
+                "field": {
+                  "name": "name",
+                  "source": "A"
+                },
+                "filter": {
+                  "enabled": false,
+                  "mode": "client",
+                  "variable": ""
+                },
+                "footer": [],
+                "group": false,
+                "label": "",
+                "newRowEdit": {
+                  "editor": {
+                    "type": "string"
+                  },
+                  "enabled": false
+                },
+                "pin": "",
+                "sort": {
+                  "descFirst": false,
+                  "enabled": false
+                },
+                "type": "auto"
+              }
+            ],
+            "name": "Grouped",
+            "pagination": {
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
           }
         ],
         "tabsSorting": false,
         "toolbar": {
-          "alignment": "left",
           "export": false
         }
       },
-      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -962,9 +1169,7 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": [
-                  "true"
-                ]
+                "values": ["true"]
               }
             ],
             "meta": {},
@@ -1028,411 +1233,6 @@
         "w": 24,
         "x": 0,
         "y": 18
-      },
-      "id": 3,
-      "options": {
-        "nestedObjects": [
-          {
-            "add": {
-              "enabled": true,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "timescale",
-                "payload": {
-                  "editorMode": "code",
-                  "format": "table",
-                  "rawQuery": true,
-                  "rawSql": "INSERT INTO comments (id, device_id, title, body, user_id)\nVALUES (nextval('seq_comments'), ${payload.row.id}, ${payload.item.title:sqlstring}, ${payload.item.body:sqlstring}, ${__user.id})",
-                  "refId": "A",
-                  "sql": {
-                    "columns": [
-                      {
-                        "parameters": [],
-                        "type": "function"
-                      }
-                    ],
-                    "groupBy": [
-                      {
-                        "property": {
-                          "type": "string"
-                        },
-                        "type": "groupBy"
-                      }
-                    ],
-                    "limit": 50
-                  }
-                }
-              }
-            },
-            "delete": {
-              "enabled": true,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "timescale",
-                "payload": {
-                  "editorMode": "code",
-                  "format": "table",
-                  "rawQuery": true,
-                  "rawSql": "DELETE FROM comments WHERE id=${payload.item.id}",
-                  "refId": "A",
-                  "sql": {
-                    "columns": [
-                      {
-                        "parameters": [],
-                        "type": "function"
-                      }
-                    ],
-                    "groupBy": [
-                      {
-                        "property": {
-                          "type": "string"
-                        },
-                        "type": "groupBy"
-                      }
-                    ],
-                    "limit": 50
-                  }
-                }
-              }
-            },
-            "editor": {
-              "author": "user_id",
-              "body": "body",
-              "display": "last",
-              "displayCount": 2,
-              "id": "id",
-              "time": "created_date",
-              "title": "title",
-              "type": "cards"
-            },
-            "get": {
-              "datasource": "timescale",
-              "payload": {
-                "editorMode": "code",
-                "format": "table",
-                "rawQuery": true,
-                "rawSql": "select * from comments WHERE id IN (${payload.ids:csv});",
-                "refId": "A",
-                "sql": {
-                  "columns": [
-                    {
-                      "parameters": [],
-                      "type": "function"
-                    }
-                  ],
-                  "groupBy": [
-                    {
-                      "property": {
-                        "type": "string"
-                      },
-                      "type": "groupBy"
-                    }
-                  ],
-                  "limit": 50
-                }
-              }
-            },
-            "id": "86a57480-78e4-428d-b04e-0fdaf14550cf",
-            "name": "Comments",
-            "type": "cards",
-            "update": {
-              "enabled": true,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "timescale",
-                "payload": {
-                  "editorMode": "code",
-                  "format": "table",
-                  "rawQuery": true,
-                  "rawSql": "UPDATE comments\nSET title = ${payload.item.title:sqlstring}, body = ${payload.item.body:sqlstring}\nWHERE id = ${payload.item.id};",
-                  "refId": "A",
-                  "sql": {
-                    "columns": [
-                      {
-                        "parameters": [],
-                        "type": "function"
-                      }
-                    ],
-                    "groupBy": [
-                      {
-                        "property": {
-                          "type": "string"
-                        },
-                        "type": "groupBy"
-                      }
-                    ],
-                    "limit": 50
-                  }
-                }
-              }
-            }
-          },
-          {
-            "editor": {
-              "author": "",
-              "body": "",
-              "display": "",
-              "id": "id",
-              "time": "",
-              "title": "title",
-              "type": "cards"
-            },
-            "get": {
-              "datasource": "timescale",
-              "payload": {
-                "editorMode": "code",
-                "format": "table",
-                "rawQuery": true,
-                "rawSql": "select id, title from comments WHERE id IN (${payload.ids:csv});",
-                "refId": "A",
-                "sql": {
-                  "columns": [
-                    {
-                      "parameters": [],
-                      "type": "function"
-                    }
-                  ],
-                  "groupBy": [
-                    {
-                      "property": {
-                        "type": "string"
-                      },
-                      "type": "groupBy"
-                    }
-                  ],
-                  "limit": 50
-                }
-              }
-            },
-            "id": "fdfb236a-45e7-4f3b-9369-8a47cdcfae42",
-            "name": "Small Comments",
-            "type": "cards"
-          }
-        ],
-        "tables": [
-          {
-            "actionsColumnConfig": {
-              "alignment": "start",
-              "fontSize": "md",
-              "label": "",
-              "width": {
-                "auto": false,
-                "value": 100
-              }
-            },
-            "addRow": {
-              "enabled": false,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "",
-                "payload": {}
-              }
-            },
-            "deleteRow": {
-              "enabled": false,
-              "permission": {
-                "mode": "",
-                "userRole": []
-              },
-              "request": {
-                "datasource": "",
-                "payload": {}
-              }
-            },
-            "expanded": false,
-            "items": [
-              {
-                "aggregation": "none",
-                "appearance": {
-                  "alignment": "start",
-                  "background": {
-                    "applyToRow": false
-                  },
-                  "colors": {},
-                  "header": {
-                    "fontSize": "md"
-                  },
-                  "width": {
-                    "auto": true,
-                    "min": 20,
-                    "value": 100
-                  },
-                  "wrap": true
-                },
-                "edit": {
-                  "editor": {
-                    "limit": 100,
-                    "maxSize": 1000,
-                    "type": "file"
-                  },
-                  "enabled": true,
-                  "permission": {
-                    "mode": "",
-                    "userRole": []
-                  }
-                },
-                "enabled": true,
-                "field": {
-                  "name": "image_url",
-                  "source": "Permission"
-                },
-                "filter": {
-                  "enabled": false,
-                  "mode": "client",
-                  "variable": ""
-                },
-                "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
-                "group": false,
-                "label": "",
-                "newRowEdit": {
-                  "editor": {
-                    "type": "string"
-                  },
-                  "enabled": false
-                },
-                "objectId": "",
-                "pin": "",
-                "preformattedStyle": false,
-                "scale": "auto",
-                "showingRows": 20,
-                "sort": {
-                  "descFirst": false,
-                  "enabled": false
-                },
-                "type": "image"
-              }
-            ],
-            "name": "Image",
-            "pagination": {
-              "defaultPageSize": 10,
-              "enabled": false,
-              "mode": "client"
-            },
-            "showHeader": true,
-            "update": {
-              "datasource": "decvdkzhqton4f",
-              "payload": {
-                "columns": [],
-                "filters": [],
-                "format": "table",
-                "global_query_id": "",
-                "refId": "",
-                "root_selector": "",
-                "source": "url",
-                "type": "json",
-                "url": "http://192.168.1.90:10197/api/admin/images",
-                "url_options": {
-                  "body_content_type": "application/json",
-                  "body_type": "raw",
-                  "data": "{\r\n  \"payload\":${payload.image_url}\r\n}",
-                  "method": "POST"
-                }
-              }
-            }
-          }
-        ],
-        "tabsSorting": false,
-        "toolbar": {
-          "alignment": "left",
-          "export": false
-        }
-      },
-      "pluginVersion": "2.1.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "marcusolsson-static-datasource",
-            "uid": "P1D2C73DC01F2359B"
-          },
-          "frame": {
-            "fields": [
-              {
-                "config": {},
-                "name": "image_url",
-                "type": "string",
-                "values": [
-                  "https://picsum.photos/200/300"
-                ]
-              }
-            ],
-            "meta": {},
-            "name": ""
-          },
-          "hide": false,
-          "refId": "Windmillcode Development"
-        }
-      ],
-      "title": "Windmillcode Development",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "other",
-                "targetField": "comments"
-              },
-              {
-                "destinationType": "other",
-                "targetField": "small_comments"
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
-      "type": "volkovlabs-table-panel"
-    },
-    {
-      "datasource": {
-        "default": false,
-        "type": "datasource",
-        "uid": "-- Mixed --"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 18,
-        "w": 24,
-        "x": 0,
-        "y": 36
       },
       "id": 2,
       "options": {
@@ -1625,15 +1425,6 @@
         ],
         "tables": [
           {
-            "actionsColumnConfig": {
-              "alignment": "start",
-              "fontSize": "sm",
-              "label": "",
-              "width": {
-                "auto": false,
-                "value": 100
-              }
-            },
             "addRow": {
               "enabled": true,
               "permission": {
@@ -1746,11 +1537,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1799,10 +1585,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -1816,11 +1599,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1873,10 +1651,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -1890,11 +1665,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -1947,10 +1717,7 @@
                       "source": ""
                     },
                     "mode": "userRole",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -1964,11 +1731,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -2016,10 +1778,7 @@
                       "source": "Permission"
                     },
                     "mode": "query",
-                    "userRole": [
-                      "Editor",
-                      "Admin"
-                    ]
+                    "userRole": ["Editor", "Admin"]
                   }
                 },
                 "enabled": true,
@@ -2033,11 +1792,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -2091,11 +1845,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "Comments",
                 "newRowEdit": {
@@ -2150,11 +1899,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "Small Comments",
                 "newRowEdit": {
@@ -2207,15 +1951,6 @@
             }
           },
           {
-            "actionsColumnConfig": {
-              "alignment": "start",
-              "fontSize": "sm",
-              "label": "",
-              "width": {
-                "auto": false,
-                "value": 100
-              }
-            },
             "addRow": {
               "enabled": false,
               "permission": {
@@ -2282,11 +2017,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": true,
                 "label": "",
                 "newRowEdit": {
@@ -2344,11 +2074,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": true,
                 "label": "",
                 "newRowEdit": {
@@ -2406,11 +2131,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": true,
                 "label": "",
                 "newRowEdit": {
@@ -2468,11 +2188,6 @@
                   "variable": ""
                 },
                 "footer": [],
-                "gauge": {
-                  "mode": "basic",
-                  "valueDisplayMode": "text",
-                  "valueSize": 14
-                },
                 "group": false,
                 "label": "",
                 "newRowEdit": {
@@ -2503,11 +2218,9 @@
         ],
         "tabsSorting": false,
         "toolbar": {
-          "alignment": "left",
           "export": false
         }
       },
-      "pluginVersion": "2.1.0",
       "targets": [
         {
           "datasource": {
@@ -2635,9 +2348,7 @@
                 "config": {},
                 "name": "edit",
                 "type": "boolean",
-                "values": [
-                  "true"
-                ]
+                "values": ["true"]
               }
             ],
             "meta": {},
@@ -2699,6 +2410,6 @@
   "timezone": "browser",
   "title": "Devices",
   "uid": "edxke3hyi04cgc",
-  "version": 7,
+  "version": 3,
   "weekStart": ""
 }

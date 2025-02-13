@@ -1,5 +1,5 @@
 import { dateTime } from '@grafana/data';
-import { DateTimePicker,FileDropzone, InlineField, InlineFieldRow, InlineSwitch, Input, Select, TextArea } from '@grafana/ui';
+import { DateTimePicker, FileDropzone, InlineField, InlineFieldRow, InlineSwitch, Input, Label, Select, TextArea } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 
@@ -13,6 +13,8 @@ import {
 } from '@/utils';
 
 import { DateEditor, QueryOptionsEditor } from './components';
+import { AppEvents } from '@grafana/data';
+import { getAppEvents } from '@grafana/runtime';
 
 /**
  * Editable Column Editors Registry
@@ -109,7 +111,8 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
   }),
   createEditableColumnEditorRegistryItem({
     id: ColumnEditorType.DATETIME,
-    editor: ({ value, onChange }) => (
+    editor: ({ value, onChange }) => {
+      return (
       <>
         <DateEditor
           label="Min"
@@ -137,19 +140,60 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
           value={value.max}
           data-testid={TEST_IDS.editableColumnEditor.fieldDatetimeMax.selector()}
         />
+        <Label>Allow Edit Via Keyboard</Label>
+        <InlineSwitch
+          onChange={(event) => {
+            onChange(
+              cleanPayloadObject({
+                ...value,
+                manualInputIsEnabled: event.currentTarget.checked,
+              })
+            );
+          }}
+          value={value.manualInputIsEnabled}
+        />
       </>
-    ),
-    control: ({ value, onChange, config }) => (
-      <DateTimePicker
-        date={dateTime(value ? (value as string) : undefined)}
-        onChange={(date) => onChange(date?.toISOString())}
-        minDate={config.min ? new Date(config.min) : undefined}
-        maxDate={config.max ? new Date(config.max) : undefined}
-        {...TEST_IDS.editableCell.fieldDatetime.apply()}
-      />
-    ),
-    getControlOptions: (params) => params.config,
+    )},
+    control: ({ value, onChange, config }) => {
+      const appEvents = getAppEvents();
+      return (
+      <div
+        onKeyDown={(e:any) => {
+          if (!config.manualInputIsEnabled && !['Tab', 'Shift', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+            e.preventDefault();
+            // code to show the toast
+            appEvents.publish({
+              type: AppEvents.alertWarning.name,
+              payload: ['Please click the calendar icon to use the date picker to modify the date']
+            });
+          }
+        }}
+        onClick={(e: any) => {
+          // If the user clicks on the input while typing is disabled, open the picker
+          if (!config.manualInputIsEnabled && e.target.tagName.toLowerCase() === 'input') {
+            // code to show the toast
+            appEvents.publish({
+              type: AppEvents.alertWarning.name,
+              payload: ['Please click the calendar icon to use the date picker to modify the date']
+            });
+          }
+        }}
+      >
+        <DateTimePicker
+          date={dateTime(value ? (value as string) : undefined)}
+          onChange={(date) => onChange(date?.toISOString())}
+          minDate={config.min ? new Date(config.min) : undefined}
+          maxDate={config.max ? new Date(config.max) : undefined}
+          {...TEST_IDS.editableCell.fieldDatetime.apply()}
+        />
+      </div>
+    )},
+    getControlOptions: ({ config }) => ({
+      ...config,
+      manualInputIsEnabled: config.manualInputIsEnabled ?? false,
+    }),
   }),
+
   createEditableColumnEditorRegistryItem({
     id: ColumnEditorType.SELECT,
     editor: ({ value, onChange, data }) => (
@@ -372,7 +416,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
       };
 
       return (
-        <div style={{ display: 'flex', flexDirection: 'column' ,width: '100%'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           {/*
             InlineField only allows one direct child.
             So we wrap the FileDropzone in InlineField, then show the error outside.

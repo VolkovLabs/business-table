@@ -93,6 +93,8 @@ interface EditorDatetimeOptions {
    * @type {string}
    */
   max?: string;
+
+  manualInputIsEnabled?: boolean
 }
 
 export interface EditorFileOptions {
