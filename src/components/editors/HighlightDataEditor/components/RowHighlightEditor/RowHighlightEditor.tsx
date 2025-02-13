@@ -33,22 +33,18 @@ const scrollToOptions: Array<SelectableValue<ScrollToRowPosition>> = [
   {
     label: 'Off',
     value: ScrollToRowPosition.NONE,
-    ariaLabel: testIds.scrollToOption.selector(ScrollToRowPosition.NONE),
   },
   {
     label: 'Start',
     value: ScrollToRowPosition.START,
-    ariaLabel: testIds.scrollToOption.selector(ScrollToRowPosition.START),
   },
   {
     label: 'Center',
     value: ScrollToRowPosition.CENTER,
-    ariaLabel: testIds.scrollToOption.selector(ScrollToRowPosition.CENTER),
   },
   {
     label: 'End',
     value: ScrollToRowPosition.END,
-    ariaLabel: testIds.scrollToOption.selector(ScrollToRowPosition.END),
   },
 ];
 
@@ -112,16 +108,18 @@ export const RowHighlightEditor: React.FC<Props> = ({ value, onChange, columns }
         </InlineFieldRow>
       </FieldsGroup>
       <FieldsGroup label="Appearance">
-        <InlineField label="Auto scroll to" {...testIds.fieldScrollTo.apply()}>
-          <RadioButtonGroup
-            options={scrollToOptions}
-            value={value.scrollTo}
-            onChange={(scrollTo) => {
+        <InlineField label="Auto scroll to">
+          <Select
+            onChange={(event) => {
               onChange({
                 ...value,
-                scrollTo,
+                scrollTo: event.value!,
               });
             }}
+            value={value.scrollTo}
+            options={scrollToOptions}
+            isClearable={false}
+            {...testIds.fieldScrollTo.apply()}
           />
         </InlineField>
         <InlineField label="Background">
