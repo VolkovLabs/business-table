@@ -1,6 +1,6 @@
 import { SelectableValue } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, InlineFieldRow, RadioButtonGroup, Select } from '@grafana/ui';
+import { InlineField, InlineFieldRow, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { FieldsGroup } from '@/components';

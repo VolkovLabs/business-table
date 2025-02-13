@@ -81,7 +81,7 @@ export const useContentSizes = ({
         if (tableFooterRef.current) {
           paddingEnd += tableFooterRef.current.clientHeight;
         }
-        console.log('paddingEnd', paddingEnd);
+
         setScrollPaddingEnd(paddingEnd);
       }
     }
