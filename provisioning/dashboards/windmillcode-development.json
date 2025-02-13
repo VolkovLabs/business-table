@@ -461,6 +461,52 @@
                 }
               }
             }
+          },
+          {
+            "actionsColumnConfig": {
+              "alignment": "start",
+              "fontSize": "md",
+              "label": "",
+              "width": {
+                "auto": false,
+                "value": 100
+              }
+            },
+            "addRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "deleteRow": {
+              "enabled": false,
+              "permission": {
+                "mode": "",
+                "userRole": []
+              },
+              "request": {
+                "datasource": "",
+                "payload": {}
+              }
+            },
+            "expanded": false,
+            "items": [],
+            "name": "SubTables",
+            "pagination": {
+              "defaultPageSize": 10,
+              "enabled": false,
+              "mode": "client"
+            },
+            "showHeader": true,
+            "update": {
+              "datasource": "",
+              "payload": {}
+            }
           }
         ],
         "tabsSorting": false,
@@ -499,7 +545,15 @@
             "name": ""
           },
           "hide": false,
-          "refId": "Windmillcode Development"
+          "refId": "datetime and file upload"
+        },
+        {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
+          "hide": false,
+          "refId": "Sub tables"
         }
       ],
       "title": "Windmillcode Development",
@@ -554,6 +608,6 @@
   "timezone": "browser",
   "title": "Windmillcode Development",
   "uid": "edxke3hyi04cgf",
-  "version": 6,
+  "version": 7,
   "weekStart": ""
 }

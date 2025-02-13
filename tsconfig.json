@@ -1,13 +1,8 @@
 {
   "extends": "./.config/tsconfig.json",
   "compilerOptions": {
-    "sourceMap": true,
-    "inlineSources": true,
     "paths": {
-      "@/*": ["*"],
-      "@volkovlabs/components": [
-        "node_modules/@volkovlabs/components/src/index.ts"
-      ]
+      "@/*": ["*"]
     }
   }
 }

@@ -76,8 +76,6 @@ export const useUpdateRow = ({
           replaceVariables,
           payload: row,
         });
-        console.log(response)
-        console.log(response.data[0].meta.executedQueryString)
 
         /**
          * Query Error
