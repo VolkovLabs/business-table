@@ -30,11 +30,14 @@ const columnEditorOptions = [
   { value: ColumnEditorType.SELECT, label: 'Select' },
   { value: ColumnEditorType.STRING, label: 'String' },
   { value: ColumnEditorType.TEXTAREA, label: 'Text Area' },
+  { value: ColumnEditorType.FILE, label: 'File Upload' },
 ];
 
 /**
  * Editable Column Editor
  */
+
+
 export const EditableColumnEditor: React.FC<Props> = ({ value, onChange, data }) => {
   const EditorConfig = editableColumnEditorsRegistry.get(value.type)?.editor;
 
@@ -50,6 +53,7 @@ export const EditableColumnEditor: React.FC<Props> = ({ value, onChange, data })
           {...TEST_IDS.editableColumnEditor.fieldType.apply()}
         />
       </InlineField>
+      { /** @ts-expect-error*/}
       {EditorConfig && <EditorConfig value={value as never} onChange={onChange} data={data} />}
     </>
   );

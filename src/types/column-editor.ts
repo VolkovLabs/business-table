@@ -12,6 +12,7 @@ export enum ColumnEditorType {
   DATETIME = 'datetime',
   TEXTAREA = 'textarea',
   BOOLEAN = 'boolean',
+  FILE = 'file'
 }
 
 /**
@@ -92,6 +93,14 @@ interface EditorDatetimeOptions {
    * @type {string}
    */
   max?: string;
+
+  manualInputIsEnabled?: boolean
+}
+
+export interface EditorFileOptions {
+  mimeType?: string[],
+  maxSize?: number,
+  limit?: number,
 }
 
 /**
@@ -103,7 +112,9 @@ export type ColumnEditorConfig =
   | { type: ColumnEditorType.BOOLEAN }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.SELECT } & EditorSelectOptions)
-  | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions);
+  | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
+  | ({ type: ColumnEditorType.FILE} & EditorFileOptions);
+  ;
 
 /**
  * Column Editor Control Options
@@ -118,7 +129,8 @@ export type ColumnEditorControlOptions =
   | { type: ColumnEditorType.TEXTAREA }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
-  | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[]; customValues: boolean });
+  | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[]; customValues: boolean })
+  | ({ type: ColumnEditorType.FILE} & EditorFileOptions);
 
 /**
  * Editable Column Editor Registry Item
