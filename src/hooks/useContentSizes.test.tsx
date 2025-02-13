@@ -1,12 +1,11 @@
-import { act, render, renderHook, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
-import React, { useRef } from 'react';
+import React from 'react';
 
 import { RowHighlightConfig, ScrollToRowPosition } from '@/types';
+import { createRowHighlightConfig, createToolbarOptions } from '@/utils';
 
 import { useContentSizes } from './useContentSizes';
-import { createRowHighlightConfig, createToolbarOptions } from '@/utils';
-import { css, cx } from '@emotion/css';
 /**
  * In Test Ids
  */
