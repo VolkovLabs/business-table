@@ -49,7 +49,7 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
       return <DefaultCellRenderer value={rawValue} field={field} config={config} bgColor={bgColor} />;
     }
     case CellType.RICH_TEXT: {
-      return <LayoutCellRenderer value={String(rawValue)} row={row} />;
+      return <LayoutCellRenderer value={String(rawValue)} row={row} bgColor={bgColor} />;
     }
     case CellType.IMAGE: {
       return <ImageCellRenderer value={String(rawValue)} column={column} />;
