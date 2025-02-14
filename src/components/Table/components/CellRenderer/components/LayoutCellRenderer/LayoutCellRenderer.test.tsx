@@ -47,4 +47,12 @@ describe('LayoutCellRenderer', () => {
     expect(selectors.root()).toBeInTheDocument();
     expect(selectors.root()).toHaveTextContent('text');
   });
+
+  it('Should render value and apply color', () => {
+    render(getComponent({ value: '<p>text</p>', row: { original: { id: '4' } } as any, bgColor: '#1F60C4' }));
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.root()).toHaveTextContent('text');
+    expect(selectors.root()).toHaveStyle({ color: 'rgb(255, 255, 255)' });
+  });
 });

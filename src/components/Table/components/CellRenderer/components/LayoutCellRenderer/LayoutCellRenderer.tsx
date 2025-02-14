@@ -1,4 +1,5 @@
 import { textUtil } from '@grafana/data';
+import { useTheme2 } from '@grafana/ui';
 import { Row } from '@tanstack/react-table';
 import MarkdownIt from 'markdown-it';
 import React from 'react';
@@ -23,6 +24,13 @@ interface Props {
    * @type {string }
    */
   row: Row<unknown>;
+
+  /**
+   * Bg Color
+   *
+   * @type {string}
+   */
+  bgColor?: string;
 }
 
 /**
@@ -30,7 +38,12 @@ interface Props {
  * @param value
  * @param row
  */
-export const LayoutCellRenderer: React.FC<Props> = ({ value, row }) => {
+export const LayoutCellRenderer: React.FC<Props> = ({ value, row, bgColor }) => {
+  /**
+   * Styles and Theme
+   */
+  const theme = useTheme2();
+
   /**
    * Scoped Vars
    */
@@ -55,6 +68,9 @@ export const LayoutCellRenderer: React.FC<Props> = ({ value, row }) => {
 
   return (
     <div
+      style={{
+        color: bgColor ? theme.colors.getContrastText(bgColor) : 'inherit',
+      }}
       {...TEST_IDS.layoutCellRenderer.root.apply()}
       dangerouslySetInnerHTML={{ __html: textUtil.sanitize(md.render(replaceVariables(value, scopedVars))) }}
     />
