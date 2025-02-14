@@ -327,7 +327,7 @@ const BarGauge = jest.fn(BarGaugeMock);
  * since grafana.ui version 11.5.1
  * ReferenceError: IntersectionObserver is not defined
  */
-const DrawerMock = ({ title, children, onClose, ...restProps }: any) => {
+const DrawerMock = ({ title, children, onClose }: any) => {
   return (
     <div>
       <button data-testid={selectors.components.Drawer.General.close} onClick={() => onClose()}>
