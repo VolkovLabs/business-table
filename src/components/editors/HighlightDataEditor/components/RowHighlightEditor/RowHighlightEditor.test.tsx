@@ -162,4 +162,29 @@ describe('RowHighlightEditor', () => {
       })
     );
   });
+
+  it('Should allow to change scroll behavior', () => {
+    render(
+      getComponent({
+        columns: [
+          createColumnConfig({
+            field: {
+              source: 'A',
+              name: 'device',
+            },
+          }),
+        ],
+      })
+    );
+
+    expect(selectors.fieldSmoothScroll()).toBeInTheDocument();
+
+    fireEvent.click(selectors.fieldSmoothScroll());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        smooth: true,
+      })
+    );
+  });
 });

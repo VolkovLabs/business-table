@@ -576,6 +576,13 @@ export interface RowHighlightConfig {
    * @type {ScrollToRowPosition}
    */
   scrollTo: ScrollToRowPosition;
+
+  /**
+   * Smooth scroll
+   *
+   * @type {boolean}
+   */
+  smooth: boolean;
 }
 
 /**

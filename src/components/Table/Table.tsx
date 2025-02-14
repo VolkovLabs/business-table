@@ -198,6 +198,11 @@ interface Props<TData> {
    * Function to call after auto scroll
    */
   onAfterScroll: () => void;
+
+  /**
+   * Scroll behavior
+   */
+  scrollBehavior: 'auto' | 'smooth';
 }
 
 /**
@@ -276,6 +281,7 @@ export const Table = <TData,>({
   shouldScroll,
   isFocused,
   onAfterScroll,
+  scrollBehavior,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -469,10 +475,23 @@ export const Table = <TData,>({
       (!isFocused.current || shouldScroll.current) &&
       firstHighlightedRowIndex >= 0
     ) {
-      rowVirtualizer.scrollToIndex(firstHighlightedRowIndex, { align: scrollTo });
+      rowVirtualizer.scrollToIndex(firstHighlightedRowIndex, {
+        align: scrollTo,
+        behavior: scrollBehavior,
+      });
       onAfterScroll();
     }
-  }, [scrollTo, firstHighlightedRowIndex, data, rowVirtualizer, rows, isFocused, shouldScroll, onAfterScroll]);
+  }, [
+    scrollTo,
+    firstHighlightedRowIndex,
+    data,
+    rowVirtualizer,
+    rows,
+    isFocused,
+    shouldScroll,
+    onAfterScroll,
+    scrollBehavior,
+  ]);
 
   return (
     <>

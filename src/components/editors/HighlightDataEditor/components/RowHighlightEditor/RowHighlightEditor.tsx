@@ -1,6 +1,6 @@
 import { SelectableValue } from '@grafana/data';
 import { getTemplateSrv } from '@grafana/runtime';
-import { InlineField, InlineFieldRow, Select } from '@grafana/ui';
+import { InlineField, InlineFieldRow, InlineSwitch, Select } from '@grafana/ui';
 import React, { useMemo } from 'react';
 
 import { FieldsGroup } from '@/components';
@@ -120,6 +120,18 @@ export const RowHighlightEditor: React.FC<Props> = ({ value, onChange, columns }
             options={scrollToOptions}
             isClearable={false}
             {...testIds.fieldScrollTo.apply()}
+          />
+        </InlineField>
+        <InlineField label="Smooth Scroll">
+          <InlineSwitch
+            value={value.smooth}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                smooth: event.currentTarget.checked,
+              })
+            }
+            {...testIds.fieldSmoothScroll.apply()}
           />
         </InlineField>
         <InlineField label="Background">

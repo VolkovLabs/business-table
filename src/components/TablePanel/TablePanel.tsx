@@ -357,6 +357,7 @@ export const TablePanel: React.FC<Props> = ({
               rowHighlightConfig={currentTable?.rowHighlight}
               isFocused={isFocused}
               shouldScroll={shouldScroll}
+              scrollBehavior={currentTable?.rowHighlight.smooth ? 'smooth' : 'auto'}
               onAfterScroll={onAfterScroll}
             />
           </div>
