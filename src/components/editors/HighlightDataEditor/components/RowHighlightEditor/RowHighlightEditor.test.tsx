@@ -154,11 +154,36 @@ describe('RowHighlightEditor', () => {
 
     expect(selectors.fieldScrollTo()).toBeInTheDocument();
 
-    fireEvent.click(selectors.scrollToOption(false, ScrollToRowPosition.CENTER));
+    fireEvent.change(selectors.fieldScrollTo(), { target: { value: ScrollToRowPosition.CENTER } });
 
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         scrollTo: ScrollToRowPosition.CENTER,
+      })
+    );
+  });
+
+  it('Should allow to change scroll behavior', () => {
+    render(
+      getComponent({
+        columns: [
+          createColumnConfig({
+            field: {
+              source: 'A',
+              name: 'device',
+            },
+          }),
+        ],
+      })
+    );
+
+    expect(selectors.fieldSmoothScroll()).toBeInTheDocument();
+
+    fireEvent.click(selectors.fieldSmoothScroll());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        smooth: true,
       })
     );
   });
