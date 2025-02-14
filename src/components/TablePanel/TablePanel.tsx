@@ -6,6 +6,7 @@ import {
   ClickOutsideWrapper,
   Dropdown,
   MenuItem,
+  ScrollContainer,
   ToolbarButton,
   ToolbarButtonRow,
   useStyles2,
@@ -13,6 +14,7 @@ import {
 import { Table as TableInstance } from '@tanstack/react-table';
 import { AlertWithDetails } from '@volkovlabs/components';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import semver from 'semver';
 
 import { TEST_IDS } from '@/constants';
 import {
@@ -248,6 +250,87 @@ export const TablePanel: React.FC<Props> = ({
   }, []);
 
   /**
+   * Table Panel content
+   */
+  const panelContent = () => {
+    return (
+      <>
+        {!!error && (
+          <AlertWithDetails details={error} variant="error" title="Request error" onRemove={() => setError('')} />
+        )}
+        {isToolbarVisible && (
+          <div ref={headerRef} className={styles.header}>
+            <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
+              {sortedGroups.length > 1 &&
+                sortedGroups.map((group, index) => (
+                  <ToolbarButton
+                    key={group.name}
+                    variant={currentGroup === group.name ? 'active' : 'default'}
+                    onClick={() => {
+                      setCurrentGroup(group.name);
+                      shouldScroll.current = true;
+                    }}
+                    className={styles.tabButton}
+                    style={{
+                      maxWidth: index === 0 ? width - 60 : undefined,
+                    }}
+                    {...TEST_IDS.panel.tab.apply(group.name)}
+                  >
+                    {group.name}
+                  </ToolbarButton>
+                ))}
+              {options.toolbar.export && (
+                <ButtonGroup className={styles.downloadButtons}>
+                  <Button
+                    icon="download-alt"
+                    onClick={() => onExport({ table: tableInstance.current as never })}
+                    variant="secondary"
+                    size="sm"
+                    {...TEST_IDS.panel.buttonDownload.apply()}
+                  >
+                    Download
+                  </Button>
+                  <Dropdown overlay={menu} {...TEST_IDS.panel.dropdown.apply()}>
+                    <Button variant="secondary" size="sm" icon="angle-down" {...TEST_IDS.panel.buttonFormat.apply()}>
+                      {downloadFormat}
+                    </Button>
+                  </Dropdown>
+                </ButtonGroup>
+              )}
+            </ToolbarButtonRow>
+          </div>
+        )}
+        <Table
+          key={currentTable?.name}
+          expandedByDefault={currentTable?.expanded ?? false}
+          data={tableData}
+          columns={columns}
+          tableRef={tableRef}
+          tableHeaderRef={tableHeaderRef}
+          topOffset={tableTopOffset}
+          scrollableContainerRef={scrollableContainerRef}
+          eventBus={eventBus}
+          onUpdateRow={onUpdateRow}
+          bottomOffset={tableBottomOffset}
+          paginationRef={paginationRef}
+          showHeader={currentTable?.showHeader ?? true}
+          width={width}
+          pagination={pagination}
+          tableInstance={tableInstance as never}
+          onAddRow={onAddRow}
+          isAddRowEnabled={isAddRowEnabled}
+          onDeleteRow={onDeleteRow}
+          isDeleteRowEnabled={isDeleteRowEnabled}
+          rowHighlightConfig={currentTable?.rowHighlight}
+          isFocused={isFocused}
+          shouldScroll={shouldScroll}
+          onAfterScroll={onAfterScroll}
+        />
+      </>
+    );
+  };
+
+  /**
    * Return
    */
   return (
@@ -271,91 +354,23 @@ export const TablePanel: React.FC<Props> = ({
             isFocused.current = true;
           }}
         >
-          <div
-            ref={scrollableContainerRef}
-            className={styles.content}
-            style={{
-              width,
-              height,
-            }}
-          >
-            {!!error && (
-              <AlertWithDetails details={error} variant="error" title="Request error" onRemove={() => setError('')} />
-            )}
-            {isToolbarVisible && (
-              <div ref={headerRef} className={styles.header}>
-                <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
-                  {sortedGroups.length > 1 &&
-                    sortedGroups.map((group, index) => (
-                      <ToolbarButton
-                        key={group.name}
-                        variant={currentGroup === group.name ? 'active' : 'default'}
-                        onClick={() => {
-                          setCurrentGroup(group.name);
-                          shouldScroll.current = true;
-                        }}
-                        className={styles.tabButton}
-                        style={{
-                          maxWidth: index === 0 ? width - 60 : undefined,
-                        }}
-                        {...TEST_IDS.panel.tab.apply(group.name)}
-                      >
-                        {group.name}
-                      </ToolbarButton>
-                    ))}
-                  {options.toolbar.export && (
-                    <ButtonGroup className={styles.downloadButtons}>
-                      <Button
-                        icon="download-alt"
-                        onClick={() => onExport({ table: tableInstance.current as never })}
-                        variant="secondary"
-                        size="sm"
-                        {...TEST_IDS.panel.buttonDownload.apply()}
-                      >
-                        Download
-                      </Button>
-                      <Dropdown overlay={menu} {...TEST_IDS.panel.dropdown.apply()}>
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          icon="angle-down"
-                          {...TEST_IDS.panel.buttonFormat.apply()}
-                        >
-                          {downloadFormat}
-                        </Button>
-                      </Dropdown>
-                    </ButtonGroup>
-                  )}
-                </ToolbarButtonRow>
-              </div>
-            )}
-            <Table
-              key={currentTable?.name}
-              expandedByDefault={currentTable?.expanded ?? false}
-              data={tableData}
-              columns={columns}
-              tableRef={tableRef}
-              tableHeaderRef={tableHeaderRef}
-              topOffset={tableTopOffset}
-              scrollableContainerRef={scrollableContainerRef}
-              eventBus={eventBus}
-              onUpdateRow={onUpdateRow}
-              bottomOffset={tableBottomOffset}
-              paginationRef={paginationRef}
-              showHeader={currentTable?.showHeader ?? true}
-              width={width}
-              pagination={pagination}
-              tableInstance={tableInstance as never}
-              onAddRow={onAddRow}
-              isAddRowEnabled={isAddRowEnabled}
-              onDeleteRow={onDeleteRow}
-              isDeleteRowEnabled={isDeleteRowEnabled}
-              rowHighlightConfig={currentTable?.rowHighlight}
-              isFocused={isFocused}
-              shouldScroll={shouldScroll}
-              onAfterScroll={onAfterScroll}
-            />
-          </div>
+          {semver.lt(config.buildInfo.version, '11.5.0') ? (
+            <div
+              ref={scrollableContainerRef}
+              className={styles.content}
+              style={{
+                width,
+                height,
+              }}
+              {...TEST_IDS.panel.defaultScrollContainer.apply()}
+            >
+              {panelContent()}
+            </div>
+          ) : (
+            <ScrollContainer height={height} ref={scrollableContainerRef} {...TEST_IDS.panel.scrollContainer.apply()}>
+              {panelContent()}
+            </ScrollContainer>
+          )}
         </div>
       </tablePanelContext.Provider>
     </ClickOutsideWrapper>

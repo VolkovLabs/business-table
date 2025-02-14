@@ -1,4 +1,5 @@
 import { dateTime, Field, LinkModel, SelectableValue } from '@grafana/data';
+import { selectors } from '@grafana/e2e-selectors';
 import React, { useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -321,9 +322,29 @@ const BarGaugeMock = ({ value, ...restProps }: any) => {
 
 const BarGauge = jest.fn(BarGaugeMock);
 
+/**
+ * Drawer Mock
+ * since grafana.ui version 11.5.1
+ * ReferenceError: IntersectionObserver is not defined
+ */
+const DrawerMock = ({ title, children, onClose, ...restProps }: any) => {
+  return (
+    <div>
+      <button data-testid={selectors.components.Drawer.General.close} onClick={() => onClose()}>
+        Close Drawer
+      </button>
+      {title}
+      {children}
+    </div>
+  );
+};
+
+const Drawer = jest.fn(DrawerMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
+  Drawer.mockImplementation(DrawerMock);
   ButtonSelect.mockImplementation(SelectMock);
   ToolbarButtonRow.mockImplementation(ToolbarButtonRowMock);
   TimeRangeInput.mockImplementation(TimeRangeInputMock);
@@ -359,4 +380,5 @@ module.exports = {
   ColorPicker,
   Tooltip,
   Dropdown,
+  Drawer,
 };
