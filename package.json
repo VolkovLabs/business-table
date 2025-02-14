@@ -6,7 +6,7 @@
     "@grafana/data": "^11.2.0",
     "@grafana/runtime": "^11.4.0",
     "@grafana/scenes": "^5.36.2",
-    "@grafana/ui": "^11.2.0",
+    "@grafana/ui": "^11.5.1",
     "@hello-pangea/dnd": "^17.0.0",
     "@react-aria/focus": "^3.19.0",
     "@tanstack/react-table": "^8.20.6",
