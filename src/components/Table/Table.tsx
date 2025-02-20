@@ -95,7 +95,7 @@ interface Props<TData> {
   bottomOffset?: number;
 
   /**
-   *Table scroll Padding End
+   * Table scroll Padding End
    *
    * @type {number}
    */

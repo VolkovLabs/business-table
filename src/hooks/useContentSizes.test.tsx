@@ -28,6 +28,7 @@ type Props = {
   options: any;
   data: unknown[];
 };
+
 describe('useContentSizes', () => {
   /**
    * Selectors
