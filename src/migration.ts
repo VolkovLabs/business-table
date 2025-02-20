@@ -470,6 +470,7 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
           variable: '',
           backgroundColor: 'transparent',
           scrollTo: ScrollToRowPosition.NONE,
+          smooth: false,
         };
       }
 

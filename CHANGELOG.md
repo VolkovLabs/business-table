@@ -1,5 +1,11 @@
 # Change Log
 
+## 2.3.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Update Highlighted row behavior (#250)
+
 ## 2.2.0 (2025-02-10)
 
 ### Features / Enhancements
