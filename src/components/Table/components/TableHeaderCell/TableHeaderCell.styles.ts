@@ -16,5 +16,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
     actions: css`
       display: flex;
     `,
+    tooltip: css`
+      margin-right: ${theme.spacing(0.5)};
+    `,
   };
 };

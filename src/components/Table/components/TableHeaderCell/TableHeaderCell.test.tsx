@@ -3,6 +3,7 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
+import { createColumnConfig, createColumnMeta } from '@/utils';
 
 import { TableHeaderCell, testIds } from './TableHeaderCell';
 
@@ -96,6 +97,90 @@ describe('TableHeaderCell', () => {
 
     expect(selectors.root()).toBeInTheDocument();
     expect(selectors.sortIcon(false, 'arrow-up')).toBeInTheDocument();
+  });
+
+  it('Should show tooltip', () => {
+    render(
+      getComponent({
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => 'asc'),
+            getCanSort: jest.fn(),
+            getToggleSortingHandler: jest.fn(),
+            columnDef: {
+              header: ({ label }: any) => label,
+              meta: createColumnMeta({
+                config: createColumnConfig({
+                  columnTooltip: 'Tooltip',
+                }),
+              }),
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.tooltip()).toBeInTheDocument();
+  });
+
+  it('Should not show tooltip if undefined', () => {
+    render(
+      getComponent({
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => 'asc'),
+            getCanSort: jest.fn(),
+            getToggleSortingHandler: jest.fn(),
+            columnDef: {
+              header: ({ label }: any) => label,
+              meta: createColumnMeta({
+                config: createColumnConfig({
+                  columnTooltip: undefined,
+                }),
+              }),
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.tooltip(true)).not.toBeInTheDocument();
+  });
+
+  it('Should not show tooltip if empty string in columnTooltip', () => {
+    render(
+      getComponent({
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => 'asc'),
+            getCanSort: jest.fn(),
+            getToggleSortingHandler: jest.fn(),
+            columnDef: {
+              header: ({ label }: any) => label,
+              meta: createColumnMeta({
+                config: createColumnConfig({
+                  columnTooltip: '',
+                }),
+              }),
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.tooltip(true)).not.toBeInTheDocument();
   });
 
   it('Should show desc sort icon', () => {

@@ -1,7 +1,7 @@
 import { cx } from '@emotion/css';
-import { Icon, IconButton, useStyles2 } from '@grafana/ui';
+import { Icon, IconButton, Tooltip, useStyles2 } from '@grafana/ui';
 import { flexRender, Header } from '@tanstack/react-table';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
 import { ColumnHeaderFontSize } from '@/types';
@@ -53,7 +53,10 @@ export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRo
   const styles = useStyles2(getStyles);
   const sort = header.column.getIsSorted();
   const fontColor = header.column.columnDef.meta?.config.appearance.header.fontColor || 'inherit';
-
+  const tooltip = useMemo(
+    () => header.column.columnDef.meta?.config.columnTooltip,
+    [header.column.columnDef.meta?.config.columnTooltip]
+  );
   /**
    * Actions Header
    */
@@ -88,6 +91,11 @@ export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRo
         }}
         {...testIds.root.apply()}
       >
+        {!!tooltip && (
+          <Tooltip content={tooltip} {...testIds.tooltip.apply()}>
+            <Icon name="exclamation-circle" size="xs" aria-label="JSON error" className={styles.tooltip} />
+          </Tooltip>
+        )}
         {flexRender(header.column.columnDef.header, header.getContext())}
         {!!sort && (
           <Icon

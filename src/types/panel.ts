@@ -244,6 +244,13 @@ export interface ColumnConfig {
   field: FieldSource;
 
   /**
+   * Tooltip for column
+   *
+   * @type {string}
+   */
+  columnTooltip: string;
+
+  /**
    * Label
    *
    * @type {string}

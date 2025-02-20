@@ -155,6 +155,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   pin: ColumnPinDirection.NONE,
   objectId: '',
   gauge: createGaugeConfig({}),
+  columnTooltip: '',
   ...item,
 });
 
