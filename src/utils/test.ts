@@ -331,6 +331,7 @@ export const createRowHighlightConfig = (item: Partial<RowHighlightConfig>): Row
   columnId: '',
   backgroundColor: 'transparent',
   scrollTo: ScrollToRowPosition.NONE,
+  smooth: false,
   ...item,
 });
 

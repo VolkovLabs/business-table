@@ -187,7 +187,7 @@ const columnPinDirectionOptions = [
   {
     value: ColumnPinDirection.LEFT,
     label: '',
-    icon: 'align-left',
+    icon: 'horizontal-align-left',
     description: 'Pinned to the left',
     ariaLabel: TEST_IDS.columnEditor.pinDirectionOption.selector(ColumnPinDirection.LEFT),
   },
@@ -199,7 +199,7 @@ const columnPinDirectionOptions = [
   {
     value: ColumnPinDirection.RIGHT,
     label: '',
-    icon: 'align-right',
+    icon: 'horizontal-align-right',
     description: 'Pinned to the right',
     ariaLabel: TEST_IDS.columnEditor.pinDirectionOption.selector(ColumnPinDirection.RIGHT),
   },
@@ -719,19 +719,19 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 options={[
                   {
                     value: ColumnAlignment.START,
-                    icon: 'align-left',
+                    icon: 'horizontal-align-left',
                     description: 'Start',
                     ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.START),
                   },
                   {
                     value: ColumnAlignment.CENTER,
-                    icon: 'bars',
+                    icon: 'horizontal-align-center',
                     description: 'Center',
                     ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.CENTER),
                   },
                   {
                     value: ColumnAlignment.END,
-                    icon: 'align-right',
+                    icon: 'horizontal-align-right',
                     description: 'End',
                     ariaLabel: TEST_IDS.columnEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.END),
                   },

@@ -449,7 +449,7 @@ export const TEST_IDS = {
     fieldVariable: createSelector('data-testid row-highlight-editor field-variable'),
     fieldBackgroundColor: createSelector('data-testid row-highlight-editor field-background-color'),
     fieldScrollTo: createSelector('data-testid row-highlight-editor field-scroll-to'),
-    scrollToOption: createSelector((name: unknown) => `row-highlight-editor scroll-to-option-${name}`),
+    fieldSmoothScroll: createSelector('data-testid row-highlight-editor field-smooth-scroll'),
   },
 };
 
