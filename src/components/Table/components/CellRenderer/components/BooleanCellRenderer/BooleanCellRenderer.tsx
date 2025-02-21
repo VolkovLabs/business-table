@@ -16,7 +16,7 @@ interface Props {
   value: boolean;
 
   /**
-   * Bg Color
+   * Background Color
    *
    * @type {string}
    */
