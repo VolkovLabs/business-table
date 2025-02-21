@@ -244,6 +244,13 @@ export interface ColumnConfig {
   field: FieldSource;
 
   /**
+   * Tooltip for column
+   *
+   * @type {string}
+   */
+  columnTooltip: string;
+
+  /**
    * Label
    *
    * @type {string}
@@ -576,6 +583,13 @@ export interface RowHighlightConfig {
    * @type {ScrollToRowPosition}
    */
   scrollTo: ScrollToRowPosition;
+
+  /**
+   * Smooth scroll
+   *
+   * @type {boolean}
+   */
+  smooth: boolean;
 }
 
 /**

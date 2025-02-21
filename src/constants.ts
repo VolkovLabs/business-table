@@ -172,6 +172,7 @@ export const TEST_IDS = {
     fieldGaugeValueDisplay: createSelector('data-testid column-editor field-gauge-value-display'),
     fieldGaugeValueDisplayOption: createSelector((name: unknown) => `column-editor field-gauge-value-mode-${name}`),
     fieldGaugeValueTextSize: createSelector('data-testid column-editor field-gauge-value'),
+    fieldColumnTooltip: createSelector('data-testid column-editor field-column-tooltip'),
   },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
@@ -222,6 +223,7 @@ export const TEST_IDS = {
     buttonAddRow: createSelector('data-testid table-header-cell button-add-row'),
     actionHeaderText: createSelector('data-testid table-header-cell action-header-text'),
     sortIcon: createSelector((iconName: unknown) => String(iconName), 'data-testid'),
+    tooltip: createSelector('data-testid table-header-cell tooltip'),
   },
   tableCell: {
     tableLink: createSelector((name: unknown) => `table link-${name}`),
@@ -447,7 +449,7 @@ export const TEST_IDS = {
     fieldVariable: createSelector('data-testid row-highlight-editor field-variable'),
     fieldBackgroundColor: createSelector('data-testid row-highlight-editor field-background-color'),
     fieldScrollTo: createSelector('data-testid row-highlight-editor field-scroll-to'),
-    scrollToOption: createSelector((name: unknown) => `row-highlight-editor scroll-to-option-${name}`),
+    fieldSmoothScroll: createSelector('data-testid row-highlight-editor field-smooth-scroll'),
   },
 };
 
