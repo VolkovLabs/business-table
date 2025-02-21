@@ -4,7 +4,9 @@
 
 ### Features / Enhancements
 
-- Update Highlighted row behavior (#250)
+- Updated Highlighted row behavior (#250)
+- Updated align icons in panel options (#261)
+- Added tooltip option for column (#260)
 
 ## 2.2.0 (2025-02-10)
 
