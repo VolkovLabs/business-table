@@ -48,6 +48,8 @@ export const TablePanel: React.FC<Props> = ({
   replaceVariables,
   title,
 }) => {
+
+
   /**
    * Styles
    */
