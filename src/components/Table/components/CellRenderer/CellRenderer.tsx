@@ -18,7 +18,7 @@ import {
  */
 interface Props extends CellContext<unknown, unknown> {
   /**
-   * Bg Color
+   * Background Color
    *
    * @type {string}
    */

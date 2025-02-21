@@ -27,7 +27,7 @@ interface Props {
   config: ColumnConfig;
 
   /**
-   * Bg Color
+   * Background Color
    *
    * @type {string}
    */

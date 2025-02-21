@@ -7,6 +7,7 @@
 - Updated Highlighted row behavior (#250)
 - Updated align icons in panel options (#261)
 - Added tooltip option for column (#260)
+- Added contrast color for cell text if cell have data links (#253)
 
 ## 2.2.0 (2025-02-10)
 

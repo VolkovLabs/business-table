@@ -26,7 +26,7 @@ interface Props {
   row: Row<unknown>;
 
   /**
-   * Bg Color
+   * Background Color
    *
    * @type {string}
    */

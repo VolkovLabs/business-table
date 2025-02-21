@@ -19,7 +19,7 @@ interface Props {
   value: number;
 
   /**
-   * Bg Color
+   * Background Color
    *
    * @type {string}
    */
