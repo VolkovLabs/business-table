@@ -191,7 +191,9 @@ export const TablePanel: React.FC<Props> = ({
     tableHeaderRef,
     paginationRef,
     tableBottomOffset,
-  } = useContentSizes({ width, height, options, tableData });
+    tableFooterRef,
+    scrollPaddingEnd,
+  } = useContentSizes({ width, height, options, tableData, rowHighlightConfig: currentTable?.rowHighlight });
 
   /**
    * Add Row
@@ -308,6 +310,8 @@ export const TablePanel: React.FC<Props> = ({
           tableRef={tableRef}
           tableHeaderRef={tableHeaderRef}
           topOffset={tableTopOffset}
+          tableFooterRef={tableFooterRef}
+          scrollPaddingEnd={scrollPaddingEnd}
           scrollableContainerRef={scrollableContainerRef}
           eventBus={eventBus}
           onUpdateRow={onUpdateRow}
@@ -324,6 +328,7 @@ export const TablePanel: React.FC<Props> = ({
           rowHighlightConfig={currentTable?.rowHighlight}
           isFocused={isFocused}
           shouldScroll={shouldScroll}
+          scrollBehavior={currentTable?.rowHighlight.smooth ? 'smooth' : 'auto'}
           onAfterScroll={onAfterScroll}
         />
       </>

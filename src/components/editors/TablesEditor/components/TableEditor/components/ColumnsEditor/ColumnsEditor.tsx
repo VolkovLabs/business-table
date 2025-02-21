@@ -144,6 +144,7 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
           newRowEdit: DEFAULT_COLUMN_NEW_ROW_EDIT_CONFIG,
           pin: ColumnPinDirection.NONE,
           objectId: '',
+          columnTooltip: '',
           gauge: {
             mode: BarGaugeDisplayMode.Basic,
             valueDisplayMode: BarGaugeValueMode.Text,

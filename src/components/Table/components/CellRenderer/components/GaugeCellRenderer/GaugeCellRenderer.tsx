@@ -19,7 +19,7 @@ interface Props {
   value: number;
 
   /**
-   * Bg Color
+   * Background Color
    *
    * @type {string}
    */
@@ -128,14 +128,14 @@ export const GaugeCellRenderer: React.FC<Props> = ({ value, field, bgColor, conf
       ) : (
         <BarGauge
           width={width}
-          height={22}
+          height={15}
           field={configField}
           display={field.display}
           text={{ valueSize: config.gauge.valueSize }}
           value={displayValue}
           orientation={VizOrientation.Horizontal}
           theme={theme}
-          className={bgColor ? styles.border : ''}
+          className={bgColor ? styles.border : styles.default}
           itemSpacing={1}
           lcdCellWidth={8}
           displayMode={config.gauge.mode}

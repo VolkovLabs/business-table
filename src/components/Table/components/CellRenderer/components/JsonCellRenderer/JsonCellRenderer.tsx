@@ -27,7 +27,7 @@ interface Props {
   config: ColumnConfig;
 
   /**
-   * Bg Color
+   * Background Color
    *
    * @type {string}
    */
@@ -112,7 +112,11 @@ export const JsonCellRenderer: React.FC<Props> = ({ value, config, bgColor }) =>
             onClick={() => setDrawerOpen(true)}
             {...TEST_IDS.jsonCellRenderer.buttonOpenDrawer.apply()}
           >
-            <Icon name="eye" aria-label="Open inspector" />
+            <Icon
+              name="eye"
+              aria-label="Open inspector"
+              style={{ color: bgColor ? color : theme.colors.primary.text }}
+            />
           </div>
         </div>
       </div>

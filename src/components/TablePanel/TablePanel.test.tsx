@@ -6,7 +6,13 @@ import React, { useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useExportData, usePagination, useSavedState, useTable } from '@/hooks';
-import { createColumnConfig, createPanelOptions, createTableConfig, createToolbarOptions } from '@/utils';
+import {
+  createColumnConfig,
+  createPanelOptions,
+  createRowHighlightConfig,
+  createTableConfig,
+  createToolbarOptions,
+} from '@/utils';
 
 import { TablePanel } from './TablePanel';
 
@@ -323,5 +329,49 @@ describe('TablePanel', () => {
 
     expect(selectors.defaultScrollContainer(true)).not.toBeInTheDocument();
     expect(selectors.scrollContainer()).toBeInTheDocument();
+  });
+
+  it('Should switch tables and apply different highlight options', async () => {
+    const tables = [
+      createTableConfig({
+        name: 'group1',
+        items: [createColumnConfig({ field: { name: 'group1Field', source: '' } })],
+        rowHighlight: createRowHighlightConfig({}),
+      }),
+      createTableConfig({
+        name: 'group2',
+        items: [createColumnConfig({ field: { name: 'group2Field', source: '' } })],
+        rowHighlight: createRowHighlightConfig({
+          enabled: true,
+          smooth: true,
+        }),
+      }),
+    ];
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            tables,
+          }),
+        })
+      )
+    );
+
+    /**
+     * Select group2
+     */
+    await act(async () => fireEvent.click(selectors.tab(false, 'group2')));
+
+    /**
+     * Check if group selected
+     */
+    expect(useTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        rowHighlightConfig: expect.objectContaining({
+          smooth: true,
+          enabled: true,
+        }),
+      })
+    );
   });
 });

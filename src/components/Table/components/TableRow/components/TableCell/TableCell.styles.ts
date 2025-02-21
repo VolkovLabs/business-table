@@ -15,10 +15,6 @@ export const getStyles = (theme: GrafanaTheme2) => {
       transition: color 0.3s ease;
       color: ${theme.colors.text.link};
 
-      & span {
-        color: ${theme.colors.text.link};
-      }
-
       &::after {
         content: '';
         position: absolute;
