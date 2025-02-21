@@ -63,17 +63,17 @@ interface Props<TData> {
   /**
    * Table Ref
    */
-  tableRef?: RefObject<HTMLTableElement>;
+  tableRef?: React.RefObject<HTMLTableElement | null>;
 
   /**
    * Table Header Ref
    */
-  tableHeaderRef: RefObject<HTMLTableSectionElement>;
+  tableHeaderRef: React.RefObject<HTMLTableSectionElement | null>;
 
   /**
    * Table Footer ref
    */
-  tableFooterRef: RefObject<HTMLTableSectionElement>;
+  tableFooterRef: RefObject<HTMLTableSectionElement | null>;
 
   /**
    * Top Offset
@@ -85,7 +85,7 @@ interface Props<TData> {
   /**
    * Table Header Ref
    */
-  paginationRef: RefObject<HTMLDivElement>;
+  paginationRef: RefObject<HTMLDivElement | null>;
 
   /**
    * Bottom Offset
@@ -104,7 +104,7 @@ interface Props<TData> {
   /**
    * Scrollable Container Ref
    */
-  scrollableContainerRef: RefObject<HTMLDivElement>;
+  scrollableContainerRef: RefObject<HTMLDivElement | null>;
 
   /**
    * Event Bus

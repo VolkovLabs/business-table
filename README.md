@@ -2,11 +2,11 @@
 
 ![Table](https://github.com/VolkovLabs/business-table/raw/main/src/img/dashboard.png)
 
-![Grafana](https://img.shields.io/badge/Grafana-11.4-orange)
+![Grafana](https://img.shields.io/badge/Grafana-11.5-orange)
 ![CI](https://github.com/volkovlabs/business-table/workflows/CI/badge.svg)
 ![E2E](https://github.com/volkovlabs/business-table/workflows/E2E/badge.svg)
 [![codecov](https://codecov.io/gh/VolkovLabs/business-table/branch/main/graph/badge.svg)](https://codecov.io/gh/VolkovLabs/business-table)
-[![CodeQL](https://github.com/VolkovLabs/business-table/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/VolkovLabs/business-table/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/VolkovLabs/business-table/actions/workflows/codeql.yml/badge.svg)](https://github.com/VolkovLabs/business-table/actions/workflows/codeql-analysis.yml)
 
 ## Introduction
 

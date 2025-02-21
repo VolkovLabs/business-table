@@ -8,6 +8,8 @@
 - Updated align icons in panel options (#261)
 - Added tooltip option for column (#260)
 - Added contrast color for cell text if cell have data links (#253)
+- Updated to Grafana 11.5 and dependencies (#262)
+- Updated release workflow to include attestation (#262)
 
 ## 2.2.0 (2025-02-10)
 
