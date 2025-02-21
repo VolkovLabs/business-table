@@ -177,7 +177,7 @@ export const ActionsColumnEditor: React.FC<Props> = ({ value, onChange }) => {
               options={[
                 {
                   value: ColumnAlignment.START,
-                  icon: 'align-left',
+                  icon: 'horizontal-align-left',
                   description: 'Start',
                   ariaLabel: TEST_IDS.actionColumnsEditor.fieldAppearanceAlignmentOption.selector(
                     ColumnAlignment.START
@@ -185,7 +185,7 @@ export const ActionsColumnEditor: React.FC<Props> = ({ value, onChange }) => {
                 },
                 {
                   value: ColumnAlignment.CENTER,
-                  icon: 'bars',
+                  icon: 'horizontal-align-center',
                   description: 'Center',
                   ariaLabel: TEST_IDS.actionColumnsEditor.fieldAppearanceAlignmentOption.selector(
                     ColumnAlignment.CENTER
@@ -193,7 +193,7 @@ export const ActionsColumnEditor: React.FC<Props> = ({ value, onChange }) => {
                 },
                 {
                   value: ColumnAlignment.END,
-                  icon: 'align-right',
+                  icon: 'horizontal-align-right',
                   description: 'End',
                   ariaLabel: TEST_IDS.actionColumnsEditor.fieldAppearanceAlignmentOption.selector(ColumnAlignment.END),
                 },
