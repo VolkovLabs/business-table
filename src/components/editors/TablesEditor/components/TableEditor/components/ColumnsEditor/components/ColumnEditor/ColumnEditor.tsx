@@ -510,6 +510,19 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               {...TEST_IDS.columnEditor.fieldLabel.apply()}
             />
           </InlineField>
+          <InlineField label="Tooltip" grow={true}>
+            <Input
+              value={value.columnTooltip}
+              placeholder="Tooltip in column header"
+              onChange={(event) =>
+                onChange({
+                  ...value,
+                  columnTooltip: event.currentTarget.value,
+                })
+              }
+              {...TEST_IDS.columnEditor.fieldColumnTooltip.apply()}
+            />
+          </InlineField>
           <InlineFieldRow>
             <InlineField label="Font">
               <ColorEditor

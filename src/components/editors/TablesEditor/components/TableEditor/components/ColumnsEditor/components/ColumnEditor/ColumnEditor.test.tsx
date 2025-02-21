@@ -319,6 +319,26 @@ describe('ColumnEditor', () => {
     );
   });
 
+  it('Should allow to change tooltip', () => {
+    render(
+      getComponent({
+        value: createColumnConfig(),
+        showTableHeader: true,
+      })
+    );
+
+    expect(selectors.fieldColumnTooltip()).toBeInTheDocument();
+    expect(selectors.fieldColumnTooltip()).toHaveValue('');
+
+    fireEvent.change(selectors.fieldColumnTooltip(), { target: { value: 'tooltip' } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        columnTooltip: 'tooltip',
+      })
+    );
+  });
+
   describe('filter', () => {
     it('Should allow to enable filtering', () => {
       render(
