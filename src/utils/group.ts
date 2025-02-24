@@ -1,5 +1,5 @@
 import { DataFrame, Field } from '@grafana/data';
-import { findField } from '@volkovlabs/grafana-utils';
+import { findField } from '@volkovlabs/components';
 
 import { FieldSource } from '@/types';
 
