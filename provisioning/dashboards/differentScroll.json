@@ -24,8 +24,8 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 17,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "datasource": {
@@ -72,7 +72,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -517,6 +518,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -572,7 +577,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -628,7 +633,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -891,9 +897,12 @@
           "export": false
         }
       },
-      "pluginVersion": "2.2.0",
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -949,7 +958,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -1005,7 +1014,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -1450,6 +1460,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -1505,7 +1519,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -1555,6 +1569,7 @@
       "options": {
         "alwaysVisibleFilter": false,
         "autoScroll": false,
+        "browserTabNamePattern": "",
         "collapsedByDefault": false,
         "customValue": false,
         "displayMode": "button",
@@ -1586,11 +1601,6 @@
         "tabsInOrder": true,
         "variable": "Test"
       },
-      "targets": [
-        {
-          "refId": "A"
-        }
-      ],
       "title": "Panel Title",
       "type": "volkovlabs-variable-panel"
     },
@@ -1639,7 +1649,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2084,6 +2095,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -2139,7 +2154,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -2195,7 +2210,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -2460,6 +2476,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -2515,7 +2535,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -2571,7 +2591,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -3016,6 +3037,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -3071,7 +3096,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -3127,7 +3152,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -3572,6 +3598,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -3627,7 +3657,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -3683,7 +3713,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -3948,6 +3979,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -4003,7 +4038,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -4059,7 +4094,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -4504,6 +4540,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -4559,7 +4599,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -4615,7 +4655,8 @@
                 "value": 120
               }
             ]
-          }
+          },
+          "unitScale": true
         },
         "overrides": []
       },
@@ -5060,6 +5101,10 @@
       },
       "targets": [
         {
+          "datasource": {
+            "type": "marcusolsson-static-datasource",
+            "uid": "P1D2C73DC01F2359B"
+          },
           "frame": {
             "fields": [
               {
@@ -5115,7 +5160,7 @@
             ],
             "meta": {
               "custom": {
-                "customCode": "const arraySize = Array.from(Array(200).keys())\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `device${element}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map(element => `Title -> ${element}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
+                "customCode": "const arraySize = new Array(100).fill(null)\n\nconst result = {\n  ...frame,\n  fields: frame.fields.map((field) => {\n    if (field.name === 'device') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `device${index}`)\n      })\n    }\n    if (field.name === 'title') {\n      return ({\n        ...field,\n        values: arraySize.map((element, index) => `Title -> ${index}`)\n      })\n    }\n    if (field.name === 'value') {\n      return ({\n        ...field,\n        values: arraySize.map(element => Math.floor(Math.random() * element * 3 + 15))\n      })\n    }\n    return ({\n      ...field,\n      values: arraySize\n    })\n  })\n}\n\nreturn Promise.resolve(result);",
                 "valuesEditor": "custom"
               }
             }
@@ -5127,18 +5172,25 @@
       "type": "volkovlabs-table-panel"
     }
   ],
-  "preload": false,
   "refresh": "",
-  "schemaVersion": 40,
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
       {
         "current": {
+          "selected": false,
           "text": "device69",
           "value": "device69"
         },
+        "datasource": {
+          "type": "marcusolsson-static-datasource",
+          "uid": "P1D2C73DC01F2359B"
+        },
         "definition": "",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
         "name": "Test",
         "options": [],
         "query": {
@@ -5161,6 +5213,8 @@
         },
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
         "type": "query"
       }
     ]
@@ -5173,6 +5227,6 @@
   "timezone": "",
   "title": "Different Scroll settings",
   "uid": "decwzgkmfcc8we",
-  "version": 78,
+  "version": 1,
   "weekStart": ""
 }
