@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.3.0 (IN PROGRESS)
+## 2.3.0 (2025-02-23)
 
 ### Features / Enhancements
 
@@ -10,6 +10,7 @@
 - Added contrast color for cell text if cell have data links (#253)
 - Updated to Grafana 11.5 and dependencies (#262)
 - Updated release workflow to include attestation (#262)
+- Added Custom Scrollbar from Grafana UI (#251)
 
 ## 2.2.0 (2025-02-10)
 
