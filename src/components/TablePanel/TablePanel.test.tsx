@@ -1,4 +1,5 @@
 import { EventBusSrv } from '@grafana/data';
+import { config } from '@grafana/runtime';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useMemo, useState } from 'react';
@@ -109,6 +110,13 @@ describe('TablePanel', () => {
   };
 
   beforeEach(() => {
+    /**
+     * Set default version
+     * by default config returns invalid version 1.0 cause error in test
+     */
+    Object.assign(config, {
+      buildInfo: { version: '11.3.0' },
+    });
     jest.mocked(useTable).mockImplementation(useTableMock);
     jest.mocked(usePagination).mockImplementation(usePaginationMock);
     // jest.mocked(useLocalStorage).mockImplementation(useLocalStorageMock);
@@ -284,6 +292,43 @@ describe('TablePanel', () => {
     fireEvent.click(selectors.dropdown());
     await act(() => fireEvent.click(selectors.buttonSetFormat(false, 'csv')));
     expect(selectors.buttonFormat()).toHaveTextContent('csv');
+  });
+
+  it('Should show ScrollContainer since grafana 11.5.0', async () => {
+    /**
+     * Set version 11.5.0
+     * by default config returns invalid version 1.0 cause error in test
+     */
+    Object.assign(config, {
+      buildInfo: { version: '11.5.0' },
+    });
+    const tables = [
+      createTableConfig({
+        name: 'group1',
+        items: [
+          createColumnConfig({
+            field: { name: 'group1Field', source: '' },
+          }),
+        ],
+      }),
+      createTableConfig({
+        name: 'group2',
+        items: [],
+      }),
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            tables,
+          }),
+        })
+      )
+    );
+
+    expect(selectors.defaultScrollContainer(true)).not.toBeInTheDocument();
+    expect(selectors.scrollContainer()).toBeInTheDocument();
   });
 
   it('Should switch tables and apply different highlight options', async () => {

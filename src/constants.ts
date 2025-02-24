@@ -88,6 +88,8 @@ export const ROW_HIGHLIGHT_STATE_KEY = '__rowHighlightStateKey';
 export const TEST_IDS = {
   panel: {
     root: createSelector('data-testid panel'),
+    defaultScrollContainer: createSelector('data-testid panel default-scroll-container'),
+    scrollContainer: createSelector('data-testid panel scroll-container'),
     tab: createSelector((name: unknown) => `data-testid panel tab-${name}`),
     buttonDownload: createSelector('data-testid panel button-download'),
     buttonFormat: createSelector('data-testid panel button-format'),
