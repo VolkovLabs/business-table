@@ -37,6 +37,11 @@ CREATE TABLE comments (
     FOREIGN KEY (device_id) REFERENCES devices(id)
 );
 
+CREATE TABLE files (
+    name text,
+    file text
+);
+
 CREATE SEQUENCE seq_comments START 1;
 
 insert into comments values (nextval('seq_comments'), 1, 'Comment 1', 'Some description here', 1);
