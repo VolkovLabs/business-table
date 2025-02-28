@@ -7,34 +7,61 @@ assignees: vitPinchuk
 projects: ['Volkovlabs/10']
 ---
 
-**Summary**
-A clear and concise description of what the bug is.
+<!-- Please use this template to submit bug reports. Filling out the sections below will help us investigate and resolve the issue faster. -->
 
-**To Reproduce**
-Steps to reproduce:
-**Hot Tip**: Record your screen or Screenshot and attach it here.
+## Summary
 
-1.
-2.
-3.
-4.
+A clear and concise description of the bug (e.g., "Dashboard crashes when selecting XYZ option").
 
-**Did this work before?**
-Yes/No
+## Steps to Reproduce
 
-If this worked before, what Grafana version and plugin version worked correctly?
+Provide detailed steps to replicate the issue:
 
-- Plugin Version [e.g. 2.5.0]
-- Grafana Version [e.5. 11.0.0]
+1. [e.g., Go to the Dashboards page]
+2. [e.g., Click the XYZ button]
+3. [e.g., Select option ABC]
+4. [e.g., Observe the error]  
+   **Tip:** Attach a screen recording, screenshot, or log file (use ``` for logs) to illustrate the issue.
 
-**Expected result**
-A clear and concise description of what you expected to happen.
+## Did This Work Before?
 
-**Actual result**
-Describing of unexpected results with detailed information and screenshots
+- [ ] Yes
+- [ ] No
 
-**Environment:**
+If yes, specify the versions where it worked:
 
-- Plugin Version [e.g. 2.5.0]
-- Grafana Version [e.5. 11.0.0]
-- Datasource(s)
+- **Plugin Version:** [e.g., 2.5.0]
+- **Grafana Version:** [e.g., 11.0.0]
+
+## Expected Result
+
+Describe what you expected to happen (e.g., "The dashboard should load without errors").
+
+## Actual Result
+
+Describe what actually happened, including:
+
+- Error messages (if any, use ``` for formatting).
+- Unexpected behavior.
+- Attach screenshots or logs if applicable.
+
+## Environment
+
+Details about your setup:
+
+- **Plugin Version:** [e.g., 2.5.0]
+- **Grafana Version:** [e.g., 11.0.0]
+- **Datasource(s):** [e.g., Prometheus, MySQL]
+- **Operating System:** [e.g., Ubuntu 20.04] (optional)
+- **Browser:** [e.g., Chrome 120] (optional)
+
+## Additional Context (Optional)
+
+Any extra details that might help, such as:
+
+- Recent changes (e.g., upgrades, config edits).
+- Frequency of the issue (e.g., always, intermittent).
+
+---
+
+Thank you for reporting this issue! We’ll look into it and respond as soon as possible.
