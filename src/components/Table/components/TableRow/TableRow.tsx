@@ -180,7 +180,7 @@ export const TableRow = <TData,>({
 
       const cellAppearance: { background?: string; wrap?: boolean; align?: ColumnAlignment } = {};
 
-      const { field, config } = cell.column.columnDef.meta;
+      const { field, config, backgroundRowField } = cell.column.columnDef.meta;
       const value = cell.getValue();
 
       cellAppearance.wrap = config.appearance.wrap;
@@ -199,13 +199,18 @@ export const TableRow = <TData,>({
 
         if (displayValue.color) {
           cellAppearance.background = displayValue.color;
+        }
+      }
 
-          /**
-           * Set latest cell background color to row
-           */
-          if (config.appearance.background.applyToRow) {
-            acc.background = displayValue.color;
-          }
+      /**
+       * Set background to row based on column with applyToRow option
+       */
+      if (backgroundRowField && backgroundRowField.display && !row.getIsGrouped()) {
+        const backgroundFieldValue = backgroundRowField.values[row.index];
+        const backgroundDisplayValue = backgroundRowField.display(backgroundFieldValue);
+
+        if (backgroundDisplayValue.color) {
+          acc.background = backgroundDisplayValue.color;
         }
       }
 
@@ -233,15 +238,9 @@ export const TableRow = <TData,>({
         acc.background = rowHighlightConfig.backgroundColor;
       }
 
-      return {
-        ...acc,
-        cells: acc.cells.concat(cellAppearance),
-      };
+      return { ...acc, cells: acc.cells.concat(cellAppearance) };
     },
-    {
-      background: undefined,
-      cells: [],
-    } as {
+    { background: undefined, cells: [] } as {
       background?: string;
       cells: Array<{ background?: string; wrap?: boolean; align?: ColumnAlignment }>;
     }
@@ -281,14 +280,9 @@ export const TableRow = <TData,>({
     <tr
       data-index={virtualRow?.index}
       key={row.id}
-      className={cx(styles.row, {
-        [styles.newRow]: isNewRow,
-      })}
+      className={cx(styles.row, { [styles.newRow]: isNewRow })}
       ref={rowVirtualizer?.measureElement}
-      style={{
-        transform: `translateY(${virtualRow?.start}px)`,
-        backgroundColor: rowAppearance.background,
-      }}
+      style={{ transform: `translateY(${virtualRow?.start}px)`, backgroundColor: rowAppearance.background }}
       {...testIds.bodyRow.apply(row.id)}
     >
       {visibleCells.map((cell, index) => {

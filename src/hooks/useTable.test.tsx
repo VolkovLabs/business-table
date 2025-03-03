@@ -1681,4 +1681,200 @@ describe('useTable', () => {
       ]);
     });
   });
+
+  describe('Background for the row', () => {
+    it('Should apply background Field', () => {
+      const deviceColumn = createColumnConfig({
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        appearance: createColumnAppearanceConfig({
+          background: {
+            applyToRow: true,
+          },
+          width: {
+            auto: true,
+            min: 0,
+            max: 150,
+            value: 0,
+          },
+        }),
+      });
+      const valueColumn = createColumnConfig({
+        field: {
+          source: refId,
+          name: 'value',
+        },
+        appearance: createColumnAppearanceConfig({
+          width: {
+            auto: false,
+            value: 999,
+          },
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn, valueColumn],
+          objects: [],
+          replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
+        })
+      );
+
+      expect(result.current.columns).toEqual([
+        expect.objectContaining({
+          id: deviceColumn.field.name,
+          minSize: deviceColumn.appearance.width.min,
+          maxSize: deviceColumn.appearance.width.max,
+          meta: expect.objectContaining({
+            backgroundRowField: expect.objectContaining({
+              name: 'device',
+            }),
+          }),
+        }),
+        expect.objectContaining({
+          id: valueColumn.field.name,
+          size: valueColumn.appearance.width.value,
+        }),
+      ]);
+    });
+
+    it('Should apply the last field for the background from the available columns', () => {
+      const deviceColumn = createColumnConfig({
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        appearance: createColumnAppearanceConfig({
+          background: {
+            applyToRow: true,
+          },
+          width: {
+            auto: true,
+            min: 0,
+            max: 150,
+            value: 0,
+          },
+        }),
+      });
+      const valueColumn = createColumnConfig({
+        field: {
+          source: refId,
+          name: 'value',
+        },
+        appearance: createColumnAppearanceConfig({
+          background: {
+            applyToRow: true,
+          },
+          width: {
+            auto: false,
+            value: 999,
+          },
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn, valueColumn],
+          objects: [],
+          replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
+        })
+      );
+
+      expect(result.current.columns).toEqual([
+        expect.objectContaining({
+          id: deviceColumn.field.name,
+          minSize: deviceColumn.appearance.width.min,
+          maxSize: deviceColumn.appearance.width.max,
+          meta: expect.objectContaining({
+            backgroundRowField: expect.objectContaining({
+              name: 'value',
+            }),
+          }),
+        }),
+        expect.objectContaining({
+          id: valueColumn.field.name,
+          size: valueColumn.appearance.width.value,
+          meta: expect.objectContaining({
+            backgroundRowField: expect.objectContaining({
+              name: 'value',
+            }),
+          }),
+        }),
+      ]);
+    });
+
+    it('Should apply the last field for the background from the available columns if field hidden', () => {
+      const deviceColumn = createColumnConfig({
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        appearance: createColumnAppearanceConfig({
+          background: {
+            applyToRow: true,
+          },
+          width: {
+            auto: true,
+            min: 0,
+            max: 150,
+            value: 0,
+          },
+        }),
+      });
+      const valueColumn = createColumnConfig({
+        field: {
+          source: refId,
+          name: 'value',
+        },
+        enabled: false,
+        appearance: createColumnAppearanceConfig({
+          background: {
+            applyToRow: true,
+          },
+          width: {
+            auto: false,
+            value: 999,
+          },
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn, valueColumn],
+          objects: [],
+          replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
+        })
+      );
+
+      expect(result.current.columns).toEqual([
+        expect.objectContaining({
+          id: deviceColumn.field.name,
+          minSize: deviceColumn.appearance.width.min,
+          maxSize: deviceColumn.appearance.width.max,
+          meta: expect.objectContaining({
+            backgroundRowField: expect.objectContaining({
+              name: 'value',
+            }),
+          }),
+        }),
+      ]);
+    });
+  });
 });

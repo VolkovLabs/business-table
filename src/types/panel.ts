@@ -817,6 +817,13 @@ export interface ColumnMeta {
    * @type {ImageScale}
    */
   scale: ImageScale;
+
+  /**
+   * Background Row Field
+   *
+   * @type {Field | null}
+   */
+  backgroundRowField: Field | null;
 }
 
 /**
