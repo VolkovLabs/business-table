@@ -10,6 +10,7 @@ export enum ColumnEditorType {
   NUMBER = 'number',
   SELECT = 'select',
   DATETIME = 'datetime',
+  DATE = 'date',
   TEXTAREA = 'textarea',
   BOOLEAN = 'boolean',
 }
@@ -94,6 +95,15 @@ interface EditorDatetimeOptions {
   max?: string;
 }
 
+interface EditorDateOptions {
+  /**
+   * Use local time
+   *
+   * @type {boolean}
+   */
+  isUseLocalTime?: boolean;
+}
+
 /**
  * Column Editor Config
  */
@@ -103,7 +113,8 @@ export type ColumnEditorConfig =
   | { type: ColumnEditorType.BOOLEAN }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.SELECT } & EditorSelectOptions)
-  | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions);
+  | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
+  | ({ type: ColumnEditorType.DATE } & EditorDateOptions);
 
 /**
  * Column Editor Control Options
@@ -118,7 +129,15 @@ export type ColumnEditorControlOptions =
   | { type: ColumnEditorType.TEXTAREA }
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
+  | ({ type: ColumnEditorType.DATE } & EditorDateOptions)
   | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[]; customValues: boolean });
+
+export type ColumnEditorConfigByType<TType extends ColumnEditorType> = Extract<ColumnEditorConfig, { type: TType }>;
+
+export type ColumnEditorControlOptionsByType<TType extends ColumnEditorType> = Extract<
+  ColumnEditorControlOptions,
+  { type: TType }
+>;
 
 /**
  * Editable Column Editor Registry Item
@@ -126,18 +145,18 @@ export type ColumnEditorControlOptions =
 export interface EditableColumnEditorRegistryItem<TType extends ColumnEditorType> {
   id: TType;
   editor: React.FC<{
-    value: ColumnEditorConfig & { type: TType };
-    onChange: (value: ColumnEditorConfig & { type: TType }) => void;
+    value: ColumnEditorConfigByType<TType>;
+    onChange: (value: ColumnEditorConfigByType<TType>) => void;
     data: DataFrame[];
   }>;
   control: React.FC<{
     value: unknown;
     onChange: (value: unknown) => void;
-    config: ColumnEditorControlOptions & { type: TType };
+    config: ColumnEditorControlOptionsByType<TType>;
     isSaving: boolean;
   }>;
   getControlOptions: (params: {
-    config: ColumnEditorConfig & { type: TType };
+    config: ColumnEditorConfigByType<TType>;
     data: PanelData;
-  }) => ColumnEditorControlOptions & { type: TType };
+  }) => ColumnEditorControlOptionsByType<TType>;
 }
