@@ -239,6 +239,7 @@ export const createColumnMeta = (meta: Partial<ColumnMeta>): ColumnMeta => ({
   filterMode: ColumnFilterMode.CLIENT,
   config: createColumnConfig(),
   field: {} as never,
+  backgroundRowField: {} as never,
   footerEnabled: false,
   scale: ImageScale.AUTO,
   editable: false,

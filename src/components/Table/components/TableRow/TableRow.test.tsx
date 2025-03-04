@@ -510,6 +510,25 @@ describe('TableRow', () => {
                 steps: [
                   {
                     value: 0,
+                    color: 'blue',
+                  },
+                  {
+                    value: 20,
+                    color: 'gray',
+                  },
+                ],
+              },
+            },
+          }),
+          backgroundRowField: createField({
+            name: 'name',
+            values: [20],
+            config: {
+              thresholds: {
+                mode: ThresholdsMode.Absolute,
+                steps: [
+                  {
+                    value: 0,
                     color: 'green',
                   },
                   {

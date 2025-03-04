@@ -337,6 +337,26 @@ export const useTable = ({
     const columns: Array<ColumnDef<unknown>> = [];
 
     /**
+     * Use to define background color to row
+     */
+    let backgroundRowField = null;
+
+    /**
+     * Take all the columns with the property applyToRow
+     */
+    const fieldsWithBackgroundToRows = columnsData.items.filter(
+      (column) => column.config.appearance.background.applyToRow
+    );
+
+    /**
+     * Take the last column with applyToRow
+     * whether it's hidden or not.
+     */
+    if (!!fieldsWithBackgroundToRows.length) {
+      backgroundRowField = fieldsWithBackgroundToRows[fieldsWithBackgroundToRows.length - 1].field;
+    }
+
+    /**
      * Use only visible columns
      */
     const enabledColumns = columnsData.items.filter((column) => column.config.enabled);
@@ -454,6 +474,7 @@ export const useTable = ({
           filterVariableName: column.config.filter.variable,
           config: column.config,
           field: column.field,
+          backgroundRowField: backgroundRowField,
           scale: column.config.scale,
           footerEnabled: column.config.footer.length > 0,
           editable: isEditAllowed,
