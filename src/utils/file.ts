@@ -57,3 +57,47 @@ export const convertToXlsxFormat = <TData>(columns: Array<ColumnDef<TData>>, dat
   });
   return currentData;
 };
+
+/**
+ * Apply Accepted Files
+ */
+export const applyAcceptedFiles = (acceptFiles?: string) => {
+  if (!acceptFiles) {
+    return undefined;
+  }
+
+  /**
+   * acceptFiles Convert to array
+   */
+  const filesArray = acceptFiles.split(',');
+
+  /**
+   * Convert to [key: string]: string[] view according to "Accept" type
+   */
+  return filesArray.reduce(
+    (acc, value) => {
+      const trimmedValue = value.trim();
+      const extension = trimmedValue.substring(1);
+
+      if (acc.hasOwnProperty(extension)) {
+        acc[extension] = [...acc[extension], trimmedValue];
+      } else {
+        acc[extension] = [trimmedValue];
+      }
+
+      return acc;
+    },
+    {} as Record<string, string[]>
+  );
+};
+
+/**
+ * File to toBase64
+ */
+export const toBase64 = (file: File) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });

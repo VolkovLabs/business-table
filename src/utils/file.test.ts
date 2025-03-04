@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { saveAs } from 'file-saver';
 
-import { convertToXlsxFormat, downloadCsv, downloadXlsx } from './file';
+import { applyAcceptedFiles, convertToXlsxFormat, downloadCsv, downloadXlsx } from './file';
 
 /**
  * file-saver mock
@@ -142,6 +142,47 @@ describe('downloadFile', () => {
       expect(result[1]).toEqual([1, 'DeviceWithVeryLongTitle', 10, '{ "name": "Device1" }', 'Some comment']);
       expect(result[2]).toEqual([2, 'Device 2', 15, '{ "name": "Device2" }', 'Some notes']);
       expect(result[3]).toEqual([3, 'Device 3', 20, '{ "name": "Device3" }', null]);
+    });
+  });
+
+  describe('applyAcceptedFiles', () => {
+    it('Should return undefined if acceptFiles is empty', () => {
+      const result = applyAcceptedFiles('');
+      expect(result).toBeUndefined();
+    });
+
+    it('Should convert acceptFiles string to an object with file extensions as keys and values as arrays', () => {
+      const acceptFiles = '.csv, .png, .txt, .json';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv'],
+        png: ['.png'],
+        txt: ['.txt'],
+        json: ['.json'],
+      });
+    });
+
+    it('Should handle leading/trailing spaces in acceptFiles string', () => {
+      const acceptFiles = '  .csv, .png ,  .txt ,.json  ';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv'],
+        png: ['.png'],
+        txt: ['.txt'],
+        json: ['.json'],
+      });
+    });
+
+    it('Should append trimmedValue to existing array when extension already exists', () => {
+      const acceptFiles = '.csv, .png, .csv';
+      const result = applyAcceptedFiles(acceptFiles);
+
+      expect(result).toEqual({
+        csv: ['.csv', '.csv'],
+        png: ['.png'],
+      });
     });
   });
 });
