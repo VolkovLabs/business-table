@@ -1,4 +1,4 @@
-import { dateTime } from '@grafana/data';
+import { dateTime, dateTimeFormat } from '@grafana/data';
 import { DateTimePicker, InlineField, InlineFieldRow, InlineSwitch, Input, Select, TextArea } from '@grafana/ui';
 import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
@@ -148,6 +148,45 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         {...TEST_IDS.editableCell.fieldDatetime.apply()}
       />
     ),
+    getControlOptions: (params) => params.config,
+  }),
+  createEditableColumnEditorRegistryItem({
+    id: ColumnEditorType.DATE,
+    editor: ({ value, onChange }) => (
+      <>
+        <InlineField label="Use local time" grow={true}>
+          <InlineSwitch
+            value={value.isUseLocalTime}
+            onChange={(event) =>
+              onChange(
+                cleanPayloadObject({
+                  ...value,
+                  isUseLocalTime: event.currentTarget.checked,
+                })
+              )
+            }
+            {...TEST_IDS.editableColumnEditor.fieldLocalTime.apply()}
+          />
+        </InlineField>
+      </>
+    ),
+    control: ({ value, onChange, config }) => (
+      <DateTimePicker
+        date={dateTime(value ? (value as string) : undefined)}
+        onChange={(date) => {
+          if (date) {
+            const currentValue: string = dateTimeFormat(date?.toISOString(), {
+              timeZone: config.isUseLocalTime ? '' : 'utc',
+              format: 'YYYY-MM-DD',
+            });
+            onChange(currentValue);
+          }
+        }}
+        showSeconds={false}
+        {...TEST_IDS.editableCell.fieldDatetime.apply()}
+      />
+    ),
+
     getControlOptions: (params) => params.config,
   }),
   createEditableColumnEditorRegistryItem({
