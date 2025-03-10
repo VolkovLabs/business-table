@@ -255,7 +255,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
       </InlineFieldRow>
     ),
     control: ({ onChange, config, isSaving }) => (
-      <InlineField label="File Upload" disabled={isSaving}>
+      <InlineField label="File Upload" disabled={isSaving} grow={true}>
         <FileDropzone
           options={{
             accept: applyAcceptedFiles(config.accept),
