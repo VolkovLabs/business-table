@@ -589,6 +589,44 @@ describe('editableColumnEditorsRegistry', () => {
     });
   });
 
+  describe('Date', () => {
+    it('Should render editor', () => {
+      render(getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.DATE } }).editor }));
+
+      expect(editorSelectors.fieldLocalTime()).toBeInTheDocument();
+    });
+
+    it('Should allow change local time option', () => {
+      render(getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.DATE } }).editor }));
+
+      expect(editorSelectors.fieldLocalTime()).toBeInTheDocument();
+
+      fireEvent.click(editorSelectors.fieldLocalTime());
+
+      expect(onChangeConfig).toHaveBeenCalledWith(
+        expect.objectContaining({
+          isUseLocalTime: true,
+        })
+      );
+    });
+
+    it('Should render control and change date in format', () => {
+      render(
+        getControlComponent({
+          value: new Date().toISOString(),
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.DATE } }).editor,
+        })
+      );
+
+      expect(controlSelectors.fieldDatetime()).toBeInTheDocument();
+
+      const newDateString = new Date('2025-03-04').toISOString();
+      fireEvent.change(controlSelectors.fieldDatetime(), { target: { value: newDateString } });
+
+      expect(onChange).toHaveBeenCalledWith('2025-03-04');
+    });
+  });
+
   describe('File type', () => {
     it('Should render editor', () => {
       render(getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.FILE } }).editor }));
