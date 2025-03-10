@@ -620,7 +620,7 @@ describe('editableColumnEditorsRegistry', () => {
 
       expect(controlSelectors.fieldDatetime()).toBeInTheDocument();
 
-      const newDateString = new Date().toISOString();
+      const newDateString = new Date('2025-03-04').toISOString();
       fireEvent.change(controlSelectors.fieldDatetime(), { target: { value: newDateString } });
 
       expect(onChange).toHaveBeenCalledWith('2025-03-04');
