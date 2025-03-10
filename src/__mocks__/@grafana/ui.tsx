@@ -341,6 +341,48 @@ const DrawerMock = ({ title, children, onClose }: any) => {
 
 const Drawer = jest.fn(DrawerMock);
 
+/**
+ * Mock FileDropzone
+ */
+const FileDropzoneMock = ({ onChange, options, onFileRemove, ...props }: any) => {
+  const { onDrop } = options;
+  const [files, setFiles] = useState<File[]>([]);
+
+  return (
+    <>
+      <input
+        type="file"
+        onChange={(event) => {
+          if (onDrop) {
+            setFiles(event.target.files as any);
+
+            /**
+             * await  base64, to check onChange call inside onDrop
+             * If you don't add this, the call onChange won't happen because onDrop will be completed
+             */
+            setTimeout(() => {
+              onDrop(event.target.files);
+            }, 100);
+          }
+        }}
+        data-testid={props['data-testid']}
+      />
+      {files.map((file) => (
+        <button
+          key={file.name}
+          aria-label="Remove File"
+          onClick={() => {
+            setFiles((files) => files.filter((item) => item.name !== file.name));
+            onFileRemove({ file });
+          }}
+        />
+      ))}
+    </>
+  );
+};
+
+const FileDropzone = jest.fn(FileDropzoneMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -360,6 +402,7 @@ beforeEach(() => {
   Dropdown.mockImplementation(DropdownMock);
   Tooltip.mockImplementation(TooltipMock);
   BarGauge.mockImplementation(BarGaugeMock);
+  FileDropzone.mockImplementation(FileDropzoneMock);
 });
 
 module.exports = {
@@ -381,4 +424,5 @@ module.exports = {
   Tooltip,
   Dropdown,
   Drawer,
+  FileDropzone,
 };
