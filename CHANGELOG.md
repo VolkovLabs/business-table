@@ -6,7 +6,7 @@
 
 - Added File upload editor (#270)
 
-## 2.3.0 (2025-02-23)
+## 2.3.0 (2025-02-26)
 
 ### Features / Enhancements
 
@@ -14,7 +14,7 @@
 - Updated align icons in panel options (#261)
 - Added tooltip option for column (#260)
 - Added contrast color for cell text if cell have data links (#253)
-- Updated to Grafana 11.5 and dependencies (#262)
+- Updated to Grafana 11.5 and dependencies (#262, #265)
 - Updated release workflow to include attestation (#262)
 - Added Custom Scrollbar from Grafana UI (#251)
 
