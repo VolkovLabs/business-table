@@ -127,7 +127,7 @@ export type ColumnEditorConfig =
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.SELECT } & EditorSelectOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
-  | ({ type: ColumnEditorType.DATE } & EditorDateOptions);
+  | ({ type: ColumnEditorType.DATE } & EditorDateOptions)
   | ({ type: ColumnEditorType.FILE } & EditorFileOptions);
 
 /**
