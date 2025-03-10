@@ -13,6 +13,7 @@ export enum ColumnEditorType {
   DATE = 'date',
   TEXTAREA = 'textarea',
   BOOLEAN = 'boolean',
+  FILE = 'file',
 }
 
 /**
@@ -105,6 +106,18 @@ interface EditorDateOptions {
 }
 
 /**
+ * File Editor Options
+ */
+interface EditorFileOptions {
+  /**
+   * Accept file types
+   *
+   * @type {string}
+   */
+  accept?: string;
+}
+
+/**
  * Column Editor Config
  */
 export type ColumnEditorConfig =
@@ -115,6 +128,7 @@ export type ColumnEditorConfig =
   | ({ type: ColumnEditorType.SELECT } & EditorSelectOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
   | ({ type: ColumnEditorType.DATE } & EditorDateOptions);
+  | ({ type: ColumnEditorType.FILE } & EditorFileOptions);
 
 /**
  * Column Editor Control Options
@@ -130,7 +144,8 @@ export type ColumnEditorControlOptions =
   | ({ type: ColumnEditorType.NUMBER } & EditorNumberOptions)
   | ({ type: ColumnEditorType.DATETIME } & EditorDatetimeOptions)
   | ({ type: ColumnEditorType.DATE } & EditorDateOptions)
-  | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[]; customValues: boolean });
+  | ({ type: ColumnEditorType.SELECT } & { options: SelectableValue[]; customValues: boolean })
+  | ({ type: ColumnEditorType.FILE } & EditorFileOptions);
 
 export type ColumnEditorConfigByType<TType extends ColumnEditorType> = Extract<ColumnEditorConfig, { type: TType }>;
 

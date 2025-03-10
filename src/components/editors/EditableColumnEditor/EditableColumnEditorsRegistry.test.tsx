@@ -1,11 +1,11 @@
 import { DataFrame, PanelData, toDataFrame } from '@grafana/data';
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { ColumnEditorConfig, ColumnEditorType } from '@/types';
-import { createColumnEditConfig } from '@/utils';
+import { createColumnEditConfig, toBase64 } from '@/utils';
 
 import { editableColumnEditorsRegistry } from './EditableColumnEditorsRegistry';
 
@@ -624,6 +624,54 @@ describe('editableColumnEditorsRegistry', () => {
       fireEvent.change(controlSelectors.fieldDatetime(), { target: { value: newDateString } });
 
       expect(onChange).toHaveBeenCalledWith('2025-03-04');
+    });
+  });
+
+  describe('File type', () => {
+    it('Should render editor', () => {
+      render(getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.FILE } }).editor }));
+      expect(editorSelectors.fieldFileAcceptTypes()).toBeInTheDocument();
+    });
+
+    it('Should change accept files', () => {
+      render(getEditorComponent({ value: createColumnEditConfig({ editor: { type: ColumnEditorType.FILE } }).editor }));
+      expect(editorSelectors.fieldFileAcceptTypes()).toBeInTheDocument();
+
+      fireEvent.change(editorSelectors.fieldFileAcceptTypes(), { target: { value: 'png' } });
+
+      expect(onChangeConfig).toHaveBeenCalledWith({
+        type: ColumnEditorType.FILE,
+        accept: 'png',
+      });
+    });
+
+    it('Should render control and add file', async () => {
+      render(
+        getControlComponent({
+          value: '',
+          config: createColumnEditConfig({ editor: { type: ColumnEditorType.FILE } }).editor,
+        })
+      );
+
+      const image = new File(['(⌐□_□)'], 'chucknorris.png', { type: 'image/png' });
+
+      expect(controlSelectors.fieldFile()).toBeInTheDocument();
+
+      await act(async () => {
+        fireEvent.change(controlSelectors.fieldFile(), {
+          target: { files: [image] },
+        });
+      });
+
+      /**
+       * onChange inside onDrop is async, need use waitFor
+       */
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1);
+      });
+
+      const expectedBase64 = await toBase64(image);
+      expect(onChange).toHaveBeenCalledWith(expectedBase64);
     });
   });
 });

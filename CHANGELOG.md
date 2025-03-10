@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.4.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added File upload editor (#270)
+- Added apply background from hidden field to row (#273)
+
 ## 2.3.0 (2025-02-26)
 
 ### Features / Enhancements

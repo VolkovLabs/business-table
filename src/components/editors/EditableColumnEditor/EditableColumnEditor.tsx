@@ -31,6 +31,7 @@ const columnEditorOptions = [
   { value: ColumnEditorType.SELECT, label: 'Select' },
   { value: ColumnEditorType.STRING, label: 'String' },
   { value: ColumnEditorType.TEXTAREA, label: 'Text Area' },
+  { value: ColumnEditorType.FILE, label: 'File Upload' },
 ];
 
 /**
