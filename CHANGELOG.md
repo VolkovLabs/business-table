@@ -6,6 +6,7 @@
 
 - Added File upload editor (#270)
 - Added apply background from hidden field to row (#273)
+- Added Date format Editor (#275)
 
 ## 2.3.0 (2025-02-26)
 
