@@ -24,14 +24,14 @@ interface Props extends EditorProps<ColumnEditorConfig> {
  * Column Editor Options
  */
 const columnEditorOptions = [
-  { value: ColumnEditorType.DATETIME, label: 'Date Time' },
   { value: ColumnEditorType.DATE, label: 'Date', description: 'Value in YYYY-MM-DD format' },
-  { value: ColumnEditorType.BOOLEAN, label: 'Switch' },
+  { value: ColumnEditorType.DATETIME, label: 'Date Time' },
+  { value: ColumnEditorType.FILE, label: 'File Upload' },
   { value: ColumnEditorType.NUMBER, label: 'Number' },
   { value: ColumnEditorType.SELECT, label: 'Select' },
   { value: ColumnEditorType.STRING, label: 'String' },
+  { value: ColumnEditorType.BOOLEAN, label: 'Switch' },
   { value: ColumnEditorType.TEXTAREA, label: 'Text Area' },
-  { value: ColumnEditorType.FILE, label: 'File Upload' },
 ];
 
 /**

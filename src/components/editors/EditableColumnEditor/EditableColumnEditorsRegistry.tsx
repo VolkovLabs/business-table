@@ -93,7 +93,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
             {...TEST_IDS.editableColumnEditor.fieldNumberMin.apply()}
           />
         </InlineField>
-        <InlineField label="Max">
+        <InlineField label="Max" grow={true}>
           <Input
             type="number"
             value={formatNumberValue(value.max)}
@@ -280,7 +280,11 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
     id: ColumnEditorType.FILE,
     editor: ({ value, onChange }) => (
       <InlineFieldRow>
-        <InlineField label="Accept" tooltip="Specify comma-separated file extensions or keep blank to allow any file">
+        <InlineField
+          label="Accept"
+          tooltip="Specify comma-separated file extensions or keep blank to allow any file"
+          grow={true}
+        >
           <Input
             value={value?.accept}
             onChange={(event) => {
