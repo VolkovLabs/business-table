@@ -19,5 +19,11 @@ export const getStyles = (theme: GrafanaTheme2) => {
     tooltip: css`
       margin-right: ${theme.spacing(0.5)};
     `,
+    filterButton: css`
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+      padding: 0;
+    `,
   };
 };

@@ -8,3 +8,4 @@ export * from './usePagination';
 export * from './useSavedState';
 export * from './useTable';
 export * from './useUpdateRow';
+export * from './useUserStorage';
