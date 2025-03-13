@@ -1,6 +1,6 @@
 import { cx } from '@emotion/css';
 import { EventBus, GrafanaTheme2 } from '@grafana/data';
-import { ConfirmModal, Pagination, useStyles2, useTheme2 } from '@grafana/ui';
+import { Button, ConfirmModal, Drawer, Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
   Column,
   ColumnDef,
@@ -25,15 +25,19 @@ import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffe
 import { ButtonSelect } from '@/components';
 import { PAGE_SIZE_OPTIONS, ROW_HIGHLIGHT_STATE_KEY, TEST_IDS } from '@/constants';
 import {
+  AdvancedSettings,
+  ColumnConfig,
   ColumnHeaderFontSize,
+  ColumnItem,
   ColumnPinDirection,
   Pagination as PaginationOptions,
   RowHighlightConfig,
   ScrollToRowPosition,
+  UserPreferences,
 } from '@/types';
-import { getFirstHighlightedRowIndex } from '@/utils';
+import { getFirstHighlightedRowIndex, returnFiltersWithPreferences } from '@/utils';
 
-import { TableHeaderCell, TableRow } from './components';
+import { DrawerColumnManager, TableHeaderCell, TableRow } from './components';
 import { useAddData, useDeleteData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
 import { getStyles } from './Table.styles';
 
@@ -203,6 +207,46 @@ interface Props<TData> {
    * Scroll behavior
    */
   scrollBehavior: 'auto' | 'smooth';
+
+  /**
+   * Drawer Open
+   */
+  isDrawerOpen: boolean;
+
+  /**
+   * Table Name
+   */
+  currentTableName?: string;
+
+  /**
+   * Mixed Columns for drawer
+   */
+  drawerColumns?: ColumnConfig[];
+
+  /**
+   * User Preferences
+   */
+  userPreferences: UserPreferences;
+
+  /**
+   * Open drawer set state
+   */
+  setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * Advanced options
+   */
+  advancedSettings: AdvancedSettings;
+
+  /**
+   * Update Tables Preferences
+   */
+  updateTablesPreferences: (tableName: string, updatedColumns: ColumnItem[]) => void;
+
+  /**
+   * Clear Preferences
+   */
+  clearPreferences: () => void;
 }
 
 /**
@@ -282,6 +326,14 @@ export const Table = <TData,>({
   isFocused,
   onAfterScroll,
   scrollBehavior,
+  isDrawerOpen,
+  currentTableName = '',
+  setDrawerOpen,
+  drawerColumns,
+  userPreferences,
+  clearPreferences,
+  updateTablesPreferences,
+  advancedSettings,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -327,10 +379,15 @@ export const Table = <TData,>({
    */
   const [expanded, setExpanded] = useState<ExpandedState>(expandedByDefault ? true : {});
 
+  const userFilterPreference = useMemo(
+    () => returnFiltersWithPreferences(userPreferences, currentTableName),
+    [currentTableName, userPreferences]
+  );
+
   /**
    * Filtering
    */
-  const [columnFilters, setColumnFilters] = useSyncedColumnFilters({ columns, eventBus });
+  const [columnFilters, setColumnFilters] = useSyncedColumnFilters({ columns, eventBus, userFilterPreference });
 
   /**
    * Sorting
@@ -532,6 +589,8 @@ export const Table = <TData,>({
                       {...testIds.headerCell.apply(header.id)}
                     >
                       <TableHeaderCell
+                        advancedSettings={advancedSettings}
+                        setDrawerOpen={setDrawerOpen}
                         header={header}
                         size={fontSize}
                         isAddRowEnabled={isAddRowEnabled}
@@ -668,6 +727,37 @@ export const Table = <TData,>({
           onDismiss={deleteData.onCancel}
           disabled={deleteData.isSaving}
         />
+      )}
+      {isDrawerOpen && (
+        <Drawer
+          title={
+            <div className={styles.drawerTitle}>
+              {`${currentTableName} Table`}
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  clearPreferences();
+                  setColumnFilters([]);
+                  setDrawerOpen(false);
+                }}
+                {...testIds.buttonClearAllPreferences.apply()}
+              >
+                Clear All
+              </Button>
+            </div>
+          }
+          onClose={() => setDrawerOpen(false)}
+        >
+          <DrawerColumnManager
+            currentTableName={currentTableName}
+            drawerColumns={drawerColumns}
+            userPreferences={userPreferences}
+            headers={table.getHeaderGroups()}
+            updateTablesPreferences={updateTablesPreferences}
+            advancedSettings={advancedSettings}
+          />
+        </Drawer>
       )}
     </>
   );

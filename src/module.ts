@@ -36,6 +36,26 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         },
         showIf: (config) => config.tables?.length > 1 || config.toolbar.export,
         defaultValue: ToolbarButtonsAlignment.LEFT,
+      })
+      .addBooleanSwitch({
+        path: 'isColumnMangerAvailable',
+        name: 'Column Manager',
+        description: 'Allowing column display management via a side panel.',
+        category: ['Advanced'],
+      })
+      .addBooleanSwitch({
+        path: 'showFiltersInColumnManager',
+        name: 'Show filters',
+        description: 'Allowing set filters for columns via a side panel.',
+        showIf: (config) => config.isColumnMangerAvailable,
+        category: ['Advanced'],
+      })
+      .addBooleanSwitch({
+        path: 'saveUserPreference',
+        name: 'Save Preferences',
+        description: 'Enable to save table settings to User Preferences, overriding current table configuration.',
+        showIf: (config) => config.isColumnMangerAvailable,
+        category: ['Advanced'],
       });
     builder
       .addBooleanSwitch({

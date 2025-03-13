@@ -488,6 +488,27 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
   }
 
   /**
+   * Normalize saveUserPreference
+   */
+  if (options.saveUserPreference === undefined) {
+    options.saveUserPreference = false;
+  }
+
+  /**
+   * Normalize showFiltersInColumnManager
+   */
+  if (options.showFiltersInColumnManager === undefined) {
+    options.showFiltersInColumnManager = false;
+  }
+
+  /**
+   * Normalize isColumnMangerAvailable
+   */
+  if (options.isColumnMangerAvailable === undefined) {
+    options.isColumnMangerAvailable = false;
+  }
+
+  /**
    * Normalize Toolbar
    */
   if (!options.toolbar) {

@@ -12,6 +12,25 @@ export const getStyles = (theme: GrafanaTheme2) => {
     content: css`
       overflow: auto;
     `,
+    item: css`
+      margin-bottom: ${theme.spacing(1)};
+    `,
+    dragHandle: css`
+      display: flex;
+      margin: ${theme.spacing(0, 0.5)};
+    `,
+    dragIcon: css`
+      cursor: grab;
+      color: ${theme.colors.text.disabled};
+      &:hover {
+        color: ${theme.colors.text};
+      }
+    `,
+    drawerColumnItem: css`
+      display: flex;
+      background: ${theme.colors.background.secondary};
+      padding: ${theme.spacing(1)};
+    `,
     toolbar: css`
       padding: ${theme.spacing(0.5)};
     `,
@@ -51,6 +70,9 @@ export const getStyles = (theme: GrafanaTheme2) => {
         z-index: ${theme.zIndex.dropdown};
         background: ${theme.colors.background.secondary};
       }
+    `,
+    drawerButton: css`
+      margin-left: ${theme.spacing(1)};
     `,
   };
 };

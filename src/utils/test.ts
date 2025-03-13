@@ -227,6 +227,9 @@ export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOp
   tabsSorting: false,
   toolbar: createToolbarOptions({}),
   nestedObjects: [],
+  isColumnMangerAvailable: false,
+  saveUserPreference: false,
+  showFiltersInColumnManager: false,
   ...options,
 });
 
