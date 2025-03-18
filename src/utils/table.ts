@@ -554,11 +554,11 @@ export const getFirstHighlightedRowIndex = <TData>(rows: Array<Row<TData>>): num
 };
 
 /**
- * Return mix current table and User Preferences
+ * Return mix current table from User Preferences
  * @param currentTable
  * @param userPreferences
  */
-export const returnTableWithPreference = (currentTable: TableConfig | undefined, userPreferences: UserPreferences) => {
+export const getTableWithPreferences = (currentTable: TableConfig | undefined, userPreferences: UserPreferences) => {
   /**
    * Get saved table
    */
@@ -637,12 +637,12 @@ export const returnTableWithPreference = (currentTable: TableConfig | undefined,
 };
 
 /**
- * Transform Column Configs to ColumnItem in Preferences
+ * Preferences Column Configs to ColumnItem in Preferences
  * @param columnConfigs
  * @param tableName
  * @param userPreferences
  */
-export const transformColumnConfigs = (
+export const prepareColumnConfigsForPreferences = (
   columnConfigs: ColumnConfig[],
   tableName: string,
   userPreferences: UserPreferences

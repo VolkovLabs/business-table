@@ -28,7 +28,7 @@ import {
   useUserStorage,
 } from '@/hooks';
 import { ExportFormatType, PanelOptions } from '@/types';
-import { checkIfOperationEnabled, returnTableWithPreference } from '@/utils';
+import { checkIfOperationEnabled, getTableWithPreferences } from '@/utils';
 
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
@@ -92,7 +92,7 @@ export const TablePanel: React.FC<Props> = ({
    * Current table wit user preferences
    */
   const tableWithPreferences = useMemo(
-    () => returnTableWithPreference(currentTable, userPreferences),
+    () => getTableWithPreferences(currentTable, userPreferences),
     [currentTable, userPreferences]
   );
 

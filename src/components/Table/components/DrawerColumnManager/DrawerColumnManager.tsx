@@ -12,7 +12,7 @@ import {
   ColumnPinDirection,
   UserPreferences,
 } from '@/types';
-import { getFieldKey, reorder, transformColumnConfigs } from '@/utils';
+import { getFieldKey, prepareColumnConfigsForPreferences, reorder } from '@/utils';
 
 import { FilterDrawer } from '../FilterDrawer';
 import { getStyles } from './DrawerColumnManager.styles';
@@ -100,7 +100,7 @@ export const DrawerColumnManager = <TData,>({
       /**
        * Transform columns to preferences
        */
-      const transformedColumns = transformColumnConfigs(reorderItems, currentTableName, userPreferences);
+      const transformedColumns = prepareColumnConfigsForPreferences(reorderItems, currentTableName, userPreferences);
 
       updateTablesPreferences(currentTableName, transformedColumns);
     },
@@ -123,7 +123,11 @@ export const DrawerColumnManager = <TData,>({
         /**
          * Transform columns to preferences
          */
-        const transformedColumns = transformColumnConfigs(drawerColumns!, currentTableName, userPreferences);
+        const transformedColumns = prepareColumnConfigsForPreferences(
+          drawerColumns!,
+          currentTableName,
+          userPreferences
+        );
 
         /**
          * Items with filters
@@ -194,7 +198,7 @@ export const DrawerColumnManager = <TData,>({
                                 /**
                                  * Transform columns to preferences
                                  */
-                                const transformedColumns = transformColumnConfigs(
+                                const transformedColumns = prepareColumnConfigsForPreferences(
                                   updatedColumns,
                                   currentTableName,
                                   userPreferences

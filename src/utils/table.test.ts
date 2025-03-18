@@ -20,12 +20,12 @@ import {
   getFooterCell,
   getSavedFilters,
   getSupportedFilterTypesForVariable,
+  getTableWithPreferences,
   getVariableColumnFilters,
   mergeColumnFilters,
   normalizeBooleanCellValue,
-  returnTableWithPreference,
+  prepareColumnConfigsForPreferences,
   saveWithCorrectFilters,
-  transformColumnConfigs,
 } from './table';
 import {
   createColumnConfig,
@@ -1447,7 +1447,7 @@ describe('Table utils', () => {
         ],
       };
 
-      expect(transformColumnConfigs(columnConfigs, 'testTable', userPreferences)).toEqual([
+      expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
         { name: 'column1', enabled: true, filter: 'filterValue1' },
         { name: 'column2', enabled: false, filter: 'filterValue2' },
       ]);
@@ -1468,7 +1468,7 @@ describe('Table utils', () => {
         ],
       };
 
-      expect(transformColumnConfigs(columnConfigs, 'testTable', userPreferences)).toEqual([
+      expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
         { name: 'column1', enabled: true, filter: 'filterValue1' },
         { name: 'column3', enabled: false, filter: null },
       ]);
@@ -1486,7 +1486,7 @@ describe('Table utils', () => {
         ],
       };
 
-      expect(transformColumnConfigs(columnConfigs, 'testTable', userPreferences)).toEqual([
+      expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
         { name: 'column1', enabled: true, filter: null },
       ]);
     });
@@ -1496,7 +1496,7 @@ describe('Table utils', () => {
 
       const userPreferences: UserPreferences = {};
 
-      expect(transformColumnConfigs(columnConfigs, 'testTable', userPreferences)).toEqual([
+      expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
         { name: 'column1', enabled: true, filter: null },
       ]);
     });
@@ -1517,7 +1517,7 @@ describe('Table utils', () => {
 
       const userPreferences = { tables: [] };
 
-      const result = returnTableWithPreference(currentTable, userPreferences);
+      const result = getTableWithPreferences(currentTable, userPreferences);
 
       expect(result).toEqual(currentTable);
     });
@@ -1543,7 +1543,7 @@ describe('Table utils', () => {
         ],
       };
 
-      const result = returnTableWithPreference(currentTable, userPreferences);
+      const result = getTableWithPreferences(currentTable, userPreferences);
 
       expect(result?.items).toEqual([
         { field: { name: 'field1' }, enabled: false },
@@ -1572,7 +1572,7 @@ describe('Table utils', () => {
         ],
       };
 
-      const result = returnTableWithPreference(currentTable, userPreferences);
+      const result = getTableWithPreferences(currentTable, userPreferences);
 
       expect(result?.items).toEqual([
         { field: { name: 'field2' }, enabled: true },
@@ -1581,10 +1581,10 @@ describe('Table utils', () => {
     });
 
     it('Should handle the case where currentTable or userPreferences is undefined', () => {
-      const result = returnTableWithPreference(undefined, { tables: [] });
+      const result = getTableWithPreferences(undefined, { tables: [] });
       expect(result).toBeUndefined();
 
-      const result2 = returnTableWithPreference({} as any, undefined as any);
+      const result2 = getTableWithPreferences({} as any, undefined as any);
       expect(result2).toEqual({});
     });
 
@@ -1606,7 +1606,7 @@ describe('Table utils', () => {
         ],
       };
 
-      const result = returnTableWithPreference(currentTable, userPreferences);
+      const result = getTableWithPreferences(currentTable, userPreferences);
 
       expect(result?.items).toEqual([
         { field: { name: 'field1' }, enabled: true },
@@ -1637,7 +1637,7 @@ describe('Table utils', () => {
         ],
       };
 
-      const result = returnTableWithPreference(currentTable, userPreferences);
+      const result = getTableWithPreferences(currentTable, userPreferences);
 
       expect(result?.items).toEqual([
         { field: { name: 'C' }, enabled: true },
