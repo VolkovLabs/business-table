@@ -18,11 +18,11 @@ import {
   createColumnAccessorFn,
   getFilterWithNewType,
   getFooterCell,
+  getSavedFilters,
   getSupportedFilterTypesForVariable,
   getVariableColumnFilters,
   mergeColumnFilters,
   normalizeBooleanCellValue,
-  returnFiltersWithPreferences,
   returnTableWithPreference,
   saveWithCorrectFilters,
   transformColumnConfigs,
@@ -1287,7 +1287,7 @@ describe('Table utils', () => {
         tables: [],
       };
 
-      const result = returnFiltersWithPreferences(userPreferences, 'nonexistentTable');
+      const result = getSavedFilters(userPreferences, 'nonexistentTable');
 
       expect(result).toEqual([]);
     });
@@ -1305,7 +1305,7 @@ describe('Table utils', () => {
         ],
       };
 
-      const result = returnFiltersWithPreferences(userPreferences, 'testTable');
+      const result = getSavedFilters(userPreferences, 'testTable');
 
       expect(result).toEqual([]);
     });
@@ -1323,7 +1323,7 @@ describe('Table utils', () => {
         ],
       };
 
-      const result = returnFiltersWithPreferences(userPreferences, 'testTable');
+      const result = getSavedFilters(userPreferences, 'testTable');
 
       expect(result).toEqual([
         { id: 'column1', value: 'value1' },
@@ -1341,7 +1341,7 @@ describe('Table utils', () => {
         ],
       };
 
-      const result = returnFiltersWithPreferences(userPreferences, 'testTable');
+      const result = getSavedFilters(userPreferences, 'testTable');
 
       expect(result).toEqual([{ id: 'column1', value: 'value1' }]);
     });

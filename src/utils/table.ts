@@ -502,7 +502,7 @@ export const convertStringValueToBoolean = (value: string): boolean => {
     }
     case 'false':
     case 'no':
-    case '1': {
+    case '0': {
       return false;
     }
     default: {
@@ -696,22 +696,21 @@ export const saveWithCorrectFilters = (filter: ColumnFilterValue) => {
 };
 
 /**
- * return with Filters from Preferences
+ * Get Saved Filters
  * @param userPreferences
  * @param tableName
  */
-export const returnFiltersWithPreferences = (userPreferences: UserPreferences, tableName: string) => {
+export const getSavedFilters = (userPreferences: UserPreferences, tableName: string) => {
   const currentGroup = userPreferences.tables?.find((table) => table.name === tableName);
 
   if (!currentGroup) {
     return [];
   }
-  const filters = currentGroup.columns
+
+  return currentGroup.columns
     .filter((groupItem) => !!groupItem.filter)
     .map((item) => ({
       id: item.name,
       value: item.filter,
     }));
-
-  return filters;
 };

@@ -5,7 +5,7 @@ import React, { useCallback, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { ColumnFilterMode, ColumnFilterValue } from '@/types';
-import { saveWithCorrectFilters } from '@/utils';
+import { getVariableKeyForLocation, saveWithCorrectFilters } from '@/utils';
 
 import { FilterSection } from '../FilterSection';
 import { getStyles } from './FilterDrawer.styles';
@@ -67,7 +67,7 @@ export const FilterDrawer = <TData,>({ header, updatePreferencesWithFilters }: P
 
         locationService.partial(
           {
-            [`var-${header?.column.columnDef.meta?.filterVariableName}`]: varValue,
+            [getVariableKeyForLocation(header?.column.columnDef.meta?.filterVariableName ?? '')]: varValue,
           },
           true
         );

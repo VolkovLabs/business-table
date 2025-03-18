@@ -35,7 +35,7 @@ import {
   ScrollToRowPosition,
   UserPreferences,
 } from '@/types';
-import { getFirstHighlightedRowIndex, returnFiltersWithPreferences } from '@/utils';
+import { getFirstHighlightedRowIndex, getSavedFilters } from '@/utils';
 
 import { DrawerColumnManager, TableHeaderCell, TableRow } from './components';
 import { useAddData, useDeleteData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
@@ -380,7 +380,7 @@ export const Table = <TData,>({
   const [expanded, setExpanded] = useState<ExpandedState>(expandedByDefault ? true : {});
 
   const userFilterPreference = useMemo(
-    () => returnFiltersWithPreferences(userPreferences, currentTableName),
+    () => getSavedFilters(userPreferences, currentTableName),
     [currentTableName, userPreferences]
   );
 
