@@ -1,3 +1,6 @@
+/**
+ * Plugin User Storage
+ */
 export interface PluginUserStorage {
   /**
    * Retrieves an item from the backend user storage or local storage if not enabled.
