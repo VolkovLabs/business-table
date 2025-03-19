@@ -714,3 +714,30 @@ export const getSavedFilters = (userPreferences: UserPreferences, tableName: str
       value: item.filter,
     }));
 };
+
+/**
+ * updateUserPreferenceTables
+ * @param tableName
+ * @param userPreferences
+ * @param updatedColumns
+ */
+export const updateUserPreferenceTables = (
+  tableName: string,
+  userPreferences: UserPreferences,
+  updatedColumns: TablePreferenceColumn[]
+) => {
+  const updatedTables = userPreferences.tables && !!userPreferences.tables.length ? [...userPreferences.tables] : [];
+
+  const tableIndex = updatedTables.findIndex((table) => table.name === tableName);
+
+  if (tableIndex === -1) {
+    updatedTables.push({ name: tableName, columns: updatedColumns });
+  } else {
+    updatedTables[tableIndex] = {
+      ...updatedTables[tableIndex],
+      columns: updatedColumns,
+    };
+  }
+
+  return updatedTables;
+};

@@ -23,12 +23,12 @@ import {
   useContentSizes,
   useExportData,
   usePagination,
+  useSavedState,
   useTable,
   useUpdateRow,
-  useUserStorage,
 } from '@/hooks';
-import { ExportFormatType, PanelOptions } from '@/types';
-import { checkIfOperationEnabled, getTableWithPreferences } from '@/utils';
+import { ExportFormatType, PanelOptions, TablePreferenceColumn, UserPreferences } from '@/types';
+import { checkIfOperationEnabled, getTableWithPreferences, updateUserPreferenceTables } from '@/utils';
 
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
@@ -73,9 +73,21 @@ export const TablePanel: React.FC<Props> = ({
   const [downloadFormat, setDownloadFormat] = useState(ExportFormatType.CSV);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
-  const { currentGroup, userPreferences, setCurrentGroup, clearPreferences, updateTablesPreferences } = useUserStorage({
-    id,
-    options,
+  /**
+   * Current group
+   */
+  const [currentGroup, setCurrentGroup] = useSavedState<string>({
+    key: `volkovlabs.table.panel.${id}`,
+    initialValue: options.tables?.[0]?.name || '',
+  });
+
+  /**
+   * User Preferences
+   */
+  const [userPreferences, setUserPreferences] = useSavedState<UserPreferences>({
+    key: `volkovlabs.table.panel.${id}.user.preferences`,
+    initialValue: {},
+    enabled: options.isColumnMangerAvailable && options.saveUserPreference,
   });
 
   /**
@@ -372,9 +384,16 @@ export const TablePanel: React.FC<Props> = ({
           currentTableName={currentTable?.name}
           setDrawerOpen={setDrawerOpen}
           drawerColumns={tableWithPreferences?.items}
-          userPreferences={userPreferences}
-          updateTablesPreferences={updateTablesPreferences}
-          clearPreferences={clearPreferences}
+          userPreferences={{}}
+          updateTablesPreferences={(tableName: string, updatedColumns: TablePreferenceColumn[]) => {
+            setUserPreferences({
+              ...userPreferences,
+              tables: updateUserPreferenceTables(tableName, userPreferences, updatedColumns),
+            });
+          }}
+          clearPreferences={() => {
+            setUserPreferences({});
+          }}
           advancedSettings={{
             isColumnMangerAvailable: options.isColumnMangerAvailable,
             showFiltersInColumnManager: options.showFiltersInColumnManager,

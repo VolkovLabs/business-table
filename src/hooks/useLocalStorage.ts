@@ -3,27 +3,30 @@ import { useCallback, useMemo } from 'react';
 /**
  * Local Storage Model
  */
-export const useLocalStorage = (key: string, version: number) => {
-  const get = useCallback(async () => {
-    const json = window.localStorage.getItem(key);
-    if (json) {
-      const parsed = JSON.parse(json);
+export const useLocalStorage = (version: number) => {
+  const get = useCallback(
+    async (key: string) => {
+      const json = window.localStorage.getItem(key);
+      if (json) {
+        const parsed = JSON.parse(json);
 
-      if (parsed?.version === version) {
-        return parsed.data;
+        if (parsed?.version === version) {
+          return parsed.data;
+        }
+
+        return undefined;
       }
 
       return undefined;
-    }
-
-    return undefined;
-  }, [key, version]);
+    },
+    [version]
+  );
 
   /**
    * Update
    */
   const update = useCallback(
-    async <T>(data: T) => {
+    async <T>(key: string, data: T) => {
       window.localStorage.setItem(
         key,
         JSON.stringify({
@@ -33,13 +36,13 @@ export const useLocalStorage = (key: string, version: number) => {
       );
       return data;
     },
-    [key, version]
+    [version]
   );
 
   return useMemo(
     () => ({
-      get,
-      update,
+      getItem: get,
+      setItem: update,
     }),
     [get, update]
   );

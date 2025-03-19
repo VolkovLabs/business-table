@@ -8,6 +8,7 @@ import {
   ColumnFilterValue,
   ColumnPinDirection,
   NumberFilterOperator,
+  TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
 
@@ -26,6 +27,7 @@ import {
   normalizeBooleanCellValue,
   prepareColumnConfigsForPreferences,
   saveWithCorrectFilters,
+  updateUserPreferenceTables,
 } from './table';
 import {
   createColumnConfig,
@@ -1645,6 +1647,46 @@ describe('Table utils', () => {
         { field: { name: 'B' }, enabled: true },
         { field: { name: 'D' }, enabled: true },
       ]);
+    });
+  });
+
+  /**
+   * updateUserPreferenceTables
+   */
+  describe('updateUserPreferenceTables', () => {
+    const tableName = 'testTable';
+    const updatedColumns: TablePreferenceColumn[] = [
+      { name: 'column1', enabled: true },
+      { name: 'column2', enabled: false },
+    ];
+
+    it('Should add a new table if not present', () => {
+      const userPreferences: UserPreferences = { tables: [] };
+      const updatedTables = updateUserPreferenceTables(tableName, userPreferences, updatedColumns);
+
+      expect(updatedTables).toHaveLength(1);
+      expect(updatedTables[0].name).toEqual(tableName);
+      expect(updatedTables[0].columns).toEqual(updatedColumns);
+    });
+
+    it('Should update columns of an existing table', () => {
+      const userPreferences: UserPreferences = {
+        tables: [{ name: tableName, columns: [{ name: 'oldColumn', enabled: true }] }],
+      };
+      const updatedTables = updateUserPreferenceTables(tableName, userPreferences, updatedColumns);
+
+      expect(updatedTables).toHaveLength(1);
+      expect(updatedTables[0].name).toEqual(tableName);
+      expect(updatedTables[0].columns).toEqual(updatedColumns);
+    });
+
+    it('Should handle undefined tables gracefully', () => {
+      const userPreferences: UserPreferences = {};
+      const updatedTables = updateUserPreferenceTables(tableName, userPreferences, updatedColumns);
+
+      expect(updatedTables).toHaveLength(1);
+      expect(updatedTables[0].name).toEqual(tableName);
+      expect(updatedTables[0].columns).toEqual(updatedColumns);
     });
   });
 });

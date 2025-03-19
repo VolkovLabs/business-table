@@ -3,7 +3,7 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
 import { RecursivePartial } from '@/types';
 
-import { useLocalStorage } from './useLocalStorage';
+import { useUserStorage } from './useUserStorage';
 
 /**
  * Get State For Save
@@ -45,14 +45,14 @@ export const useSavedState = <TValue extends object | string | number | []>({
   /**
    * Local Storage Model
    */
-  const { get: getValue, update: saveValue } = useLocalStorage(key, version);
+  const { getItem: getValue, setItem: saveValue } = useUserStorage(version);
 
   /**
    * Load Initial Value
    */
   useEffect(() => {
     const getSavedValue = async () => {
-      const savedValue = await getValue();
+      const savedValue = await getValue(key);
 
       if (savedValue) {
         if (typeof savedValue === 'object') {
@@ -67,7 +67,7 @@ export const useSavedState = <TValue extends object | string | number | []>({
     if (enabled) {
       getSavedValue();
     }
-  }, [enabled, getValue]);
+  }, [enabled, getValue, key]);
 
   /**
    * Update Value
@@ -78,12 +78,12 @@ export const useSavedState = <TValue extends object | string | number | []>({
         const newValue = typeof updated === 'function' ? updated(value) : updated;
 
         if (enabled) {
-          saveValue(getStateForSaveRef.current(newValue));
+          saveValue(key, getStateForSaveRef.current(newValue));
         }
         return newValue;
       });
     },
-    [enabled, saveValue]
+    [enabled, key, saveValue]
   );
 
   return [value, update, loaded];
