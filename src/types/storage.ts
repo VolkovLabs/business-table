@@ -15,9 +15,9 @@ export interface PluginUserStorage {
 }
 
 /**
- * Column Item
+ * Table Preference Column
  */
-export type ColumnItem = {
+export interface TablePreferenceColumn {
   /**
    * Name
    *
@@ -38,12 +38,12 @@ export type ColumnItem = {
    * @type {unknown}
    */
   filter?: unknown;
-};
+}
 
 /**
  * Saved Table Item
  */
-export type SavedTableItem = {
+export interface SavedTableItem {
   /**
    * Name
    *
@@ -54,17 +54,17 @@ export type SavedTableItem = {
   /**
    * Columns
    *
-   * @type {ColumnItem[]}
+   * @type {TableColumn[]}
    */
-  columns: ColumnItem[];
-};
+  columns: TablePreferenceColumn[];
+}
 
 /**
  * User Preferences
  */
-export type UserPreferences = {
+export interface UserPreferences {
   /**
-   * currentGroup
+   * Current Group
    *
    * @type {string}
    */
@@ -83,4 +83,4 @@ export type UserPreferences = {
    * @type {Record<string, string>}
    */
   options?: Record<string, string>;
-};
+}

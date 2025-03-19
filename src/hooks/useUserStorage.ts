@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import semver from 'semver';
 
-import { ColumnItem, PanelOptions, PluginUserStorage, UserPreferences } from '@/types';
+import { PanelOptions, PluginUserStorage, TablePreferenceColumn, UserPreferences } from '@/types';
 
 import { useSavedState } from './useSavedState';
 
@@ -111,7 +111,7 @@ export const useUserStorage = ({ id, options }: { id: number; options: PanelOpti
    * Save Table preferences
    */
   const updateTablesPreferences = useCallback(
-    (tableName: string, updatedColumns: ColumnItem[]) => {
+    (tableName: string, updatedColumns: TablePreferenceColumn[]) => {
       const updatedTables =
         userPreferences.tables && !!userPreferences.tables.length ? [...userPreferences.tables] : [];
 

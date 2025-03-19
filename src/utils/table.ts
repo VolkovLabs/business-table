@@ -30,9 +30,9 @@ import {
   ColumnFilterMode,
   ColumnFilterType,
   ColumnFilterValue,
-  ColumnItem,
   NumberFilterOperator,
   TableConfig,
+  TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
 
@@ -637,7 +637,7 @@ export const getTableWithPreferences = (currentTable: TableConfig | undefined, u
 };
 
 /**
- * Preferences Column Configs to ColumnItem in Preferences
+ * Preferences Column Configs to TablePreferenceColumn in Preferences
  * @param columnConfigs
  * @param tableName
  * @param userPreferences
@@ -646,7 +646,7 @@ export const prepareColumnConfigsForPreferences = (
   columnConfigs: ColumnConfig[],
   tableName: string,
   userPreferences: UserPreferences
-): ColumnItem[] => {
+): TablePreferenceColumn[] => {
   const table = userPreferences.tables?.find((tableItem) => tableItem.name === tableName);
 
   return columnConfigs.map((columnConfig) => {

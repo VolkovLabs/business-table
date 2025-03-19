@@ -8,8 +8,8 @@ import {
   AdvancedSettings,
   ColumnConfig,
   ColumnFilterValue,
-  ColumnItem,
   ColumnPinDirection,
+  TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
 import { getFieldKey, prepareColumnConfigsForPreferences, reorder } from '@/utils';
@@ -34,7 +34,7 @@ interface Props<TData> {
   /**
    * update Tables Preferences
    */
-  updateTablesPreferences: (tableName: string, updatedColumns: ColumnItem[]) => void;
+  updateTablesPreferences: (tableName: string, updatedColumns: TablePreferenceColumn[]) => void;
 
   /**
    * Table Name

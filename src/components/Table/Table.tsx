@@ -20,7 +20,7 @@ import {
 } from '@tanstack/react-table';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { get } from 'lodash';
-import React, { CSSProperties, MutableRefObject, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { CSSProperties, RefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { ButtonSelect } from '@/components';
 import { PAGE_SIZE_OPTIONS, ROW_HIGHLIGHT_STATE_KEY, TEST_IDS } from '@/constants';
@@ -28,11 +28,11 @@ import {
   AdvancedSettings,
   ColumnConfig,
   ColumnHeaderFontSize,
-  ColumnItem,
   ColumnPinDirection,
   Pagination as PaginationOptions,
   RowHighlightConfig,
   ScrollToRowPosition,
+  TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
 import { getFirstHighlightedRowIndex, getSavedFilters } from '@/utils';
@@ -139,9 +139,9 @@ interface Props<TData> {
   /**
    * Table Instance
    *
-   * @type {MutableRefObject<TableInstance<TData>>}
+   * @type {RefObject<TableInstance<TData>>}
    */
-  tableInstance: MutableRefObject<TableInstance<TData>>;
+  tableInstance: RefObject<TableInstance<TData>>;
 
   /**
    * Expanded By default
@@ -241,7 +241,7 @@ interface Props<TData> {
   /**
    * Update Tables Preferences
    */
-  updateTablesPreferences: (tableName: string, updatedColumns: ColumnItem[]) => void;
+  updateTablesPreferences: (tableName: string, updatedColumns: TablePreferenceColumn[]) => void;
 
   /**
    * Clear Preferences
