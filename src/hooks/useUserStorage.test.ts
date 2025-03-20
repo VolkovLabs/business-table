@@ -33,7 +33,7 @@ describe('useUserStorage', () => {
   });
 
   it('Should return undefined when userStorage is null', async () => {
-    jest.mocked(usePluginUserStorage).mockReturnValue(null);
+    jest.mocked(usePluginUserStorage).mockReturnValue(null as any);
     const { result } = renderHook(() => useUserStorage(version));
 
     await expect(result.current.getItem('testKey')).resolves.toBeUndefined();
