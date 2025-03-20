@@ -3,15 +3,22 @@ import { act, renderHook } from '@testing-library/react';
 
 import { useUserStorage } from './useUserStorage';
 
+/**
+ * Mock usePluginUserStorage
+ */
 jest.mock('@grafana/runtime', () => ({
   usePluginUserStorage: jest.fn(),
 }));
 
 describe('useUserStorage', () => {
+  /**
+   * Default
+   */
+  const key = 'test_key';
   const version = 1;
   const mockStorage = {
-    getItem: jest.fn(() => Promise.resolve('')),
-    setItem: jest.fn(() => Promise.resolve()),
+    getItem: jest.fn(),
+    setItem: jest.fn(),
   };
 
   beforeEach(() => {
@@ -19,41 +26,50 @@ describe('useUserStorage', () => {
     jest.mocked(usePluginUserStorage).mockReturnValue(mockStorage);
   });
 
-  it('Should initialize userPreferences from storage for Grafana >= 11.5.0', async () => {
-    mockStorage.getItem.mockResolvedValueOnce(Promise.resolve(JSON.stringify({ test: 'value' })));
+  it('Should return stored data when version matches', async () => {
+    const storedData = { version, data: { test: 'value' } };
+    mockStorage.getItem.mockResolvedValueOnce(JSON.stringify(storedData));
 
-    const { result } = await act(async () => renderHook(() => useUserStorage(version)));
+    const { result } = renderHook(() => useUserStorage(key, version));
 
-    expect(result.current).toEqual(
-      expect.objectContaining({
-        setItem: expect.any(Function),
-        getItem: expect.any(Function),
+    const data = await result.current.get();
+    expect(data).toEqual({ test: 'value' });
+  });
+
+  it('Should return undefined when version does not match', async () => {
+    const storedData = { version: 2, data: { test: 'value' } };
+    mockStorage.getItem.mockResolvedValueOnce(JSON.stringify(storedData));
+
+    const { result } = renderHook(() => useUserStorage(key, version));
+
+    const data = await result.current.get();
+    expect(data).toBeUndefined();
+  });
+
+  it('Should return undefined when storage is empty', async () => {
+    mockStorage.getItem.mockResolvedValueOnce(null);
+
+    const { result } = renderHook(() => useUserStorage(key, version));
+
+    const data = await result.current.get();
+    expect(data).toBeUndefined();
+  });
+
+  it('Should store data with correct version', async () => {
+    const newData = { test: 'new_value' };
+
+    const { result } = renderHook(() => useUserStorage(key, version));
+
+    await act(async () => {
+      await result.current.update(newData);
+    });
+
+    expect(mockStorage.setItem).toHaveBeenCalledWith(
+      key,
+      JSON.stringify({
+        version,
+        data: newData,
       })
     );
-  });
-
-  it('Should return undefined when userStorage is null', async () => {
-    jest.mocked(usePluginUserStorage).mockReturnValue(null as any);
-    const { result } = renderHook(() => useUserStorage(version));
-
-    await expect(result.current.getItem('testKey')).resolves.toBeUndefined();
-  });
-
-  it('Should store item correctly', async () => {
-    const { result } = renderHook(() => useUserStorage(version));
-    await act(async () => {
-      await result.current.setItem('testKey', { data: 'value' });
-    });
-
-    expect(mockStorage.setItem).toHaveBeenCalledWith('testKey', JSON.stringify({ data: 'value' }));
-  });
-
-  it('Should return parsed data from storage', async () => {
-    mockStorage.getItem.mockResolvedValueOnce(JSON.stringify({ data: 'value' }));
-    const { result } = renderHook(() => useUserStorage(version));
-    await act(async () => {
-      const data = await result.current.getItem('testKey');
-      expect(data).toEqual({ data: 'value' });
-    });
   });
 });

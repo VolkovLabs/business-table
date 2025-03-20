@@ -13,8 +13,8 @@ jest.mock('./useLocalStorage', () => ({
 describe('Use Saved State', () => {
   it('Should get initial value from model', async () => {
     jest.mocked(useLocalStorage).mockImplementation(() => ({
-      getItem: jest.fn(() => Promise.resolve(111)),
-      setItem: jest.fn(),
+      get: jest.fn(() => Promise.resolve(111)),
+      update: jest.fn(),
     }));
 
     const { result } = await act(async () => renderHook(() => useSavedState({ key: 'abc', initialValue: 123 })));
@@ -29,8 +29,8 @@ describe('Use Saved State', () => {
       })
     );
     jest.mocked(useLocalStorage).mockImplementation(() => ({
-      getItem: getValue,
-      setItem: jest.fn(),
+      get: getValue,
+      update: jest.fn(),
     }));
 
     const { result } = await act(async () =>
@@ -56,22 +56,22 @@ describe('Use Saved State', () => {
   it('Should save value in model', async () => {
     const update = jest.fn();
     jest.mocked(useLocalStorage).mockImplementation(() => ({
-      getItem: jest.fn(() => Promise.resolve(111)),
-      setItem: update,
+      get: jest.fn(() => Promise.resolve(111)),
+      update: update,
     }));
 
     const { result } = await act(async () => renderHook(() => useSavedState({ key: 'abc', initialValue: 123 })));
 
     await act(async () => result.current[1](123));
 
-    expect(update).toHaveBeenCalledWith('abc', 123);
+    expect(update).toHaveBeenCalledWith(123);
   });
 
   it('Should save value by function', async () => {
     const update = jest.fn();
     jest.mocked(useLocalStorage).mockImplementation(() => ({
-      getItem: jest.fn(() => Promise.resolve(null)),
-      setItem: update,
+      get: jest.fn(() => Promise.resolve(null)),
+      update: update,
     }));
 
     const { result } = await act(async () =>
@@ -93,7 +93,7 @@ describe('Use Saved State', () => {
       }))
     );
 
-    expect(update).toHaveBeenCalledWith('abc', {
+    expect(update).toHaveBeenCalledWith({
       a: 'hello',
       b: 'bye',
     });

@@ -3,7 +3,7 @@ import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
 import { RecursivePartial } from '@/types';
 
-import { useUserStorage } from './useUserStorage';
+import { useStorage } from './useStorage';
 
 /**
  * Get State For Save
@@ -45,15 +45,14 @@ export const useSavedState = <TValue extends object | string | number | []>({
   /**
    * Local Storage Model
    */
-  const { getItem: getValue, setItem: saveValue } = useUserStorage(version);
+  const { get: getValue, update: saveValue } = useStorage(key, version);
 
   /**
    * Load Initial Value
    */
   useEffect(() => {
     const getSavedValue = async () => {
-      const savedValue = await getValue(key);
-
+      const savedValue = await getValue();
       if (savedValue) {
         if (typeof savedValue === 'object') {
           setValue((value) => merge({ ...(value as object) }, savedValue));
@@ -78,12 +77,12 @@ export const useSavedState = <TValue extends object | string | number | []>({
         const newValue = typeof updated === 'function' ? updated(value) : updated;
 
         if (enabled) {
-          saveValue(key, getStateForSaveRef.current(newValue));
+          saveValue(getStateForSaveRef.current(newValue));
         }
         return newValue;
       });
     },
-    [enabled, key, saveValue]
+    [enabled, saveValue]
   );
 
   return [value, update, loaded];

@@ -1,67 +1,60 @@
 import { usePluginUserStorage } from '@grafana/runtime';
-import { useCallback } from 'react';
-
-import { PluginUserStorage } from '@/types';
-
-import { useLocalStorage } from './useLocalStorage';
+import { useCallback, useMemo } from 'react';
 
 /**
- * User Storage
- * Should be rewrite and simplified or removed for minimal grafana version 11.5.0 for plugin. Use usePluginUserStorage only
+ * User Storage Model
  */
-export const useUserStorage = (version: number) => {
-  const localStorage = useLocalStorage(version);
+export const useUserStorage = (key: string, version: number) => {
+  const storage = usePluginUserStorage();
 
   /**
-   * Define user storage
-   */
-  let userStorage: PluginUserStorage | null = null;
-
-  /**
-   * Define get user storage
+   * Get user storage
    * should be useCallback
-   * to avoid using userStorage.getItem directly
+   * use it in a way similar to useLocalStorage
    * using userStorage.getItem directly in useEffect can cause an infinite call
    */
-  const getUserStorageValue = useCallback(
-    async (key: string) => {
-      if (!userStorage) {
-        return undefined;
-      }
-      const storageValue = await userStorage.getItem(key);
+  const get = useCallback(async () => {
+    const json = await storage.getItem(key);
 
-      if (storageValue) {
-        return JSON.parse(storageValue);
+    if (json) {
+      const parsed = JSON.parse(json);
+
+      if (parsed?.version === version) {
+        return parsed.data;
       }
 
       return undefined;
-    },
-    [userStorage]
-  );
+    }
+
+    return undefined;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, version]);
 
   /**
-   * Avoid plugin crush for grafana versions lt 11.5.0
+   * Update
+   * use it in a way similar to useLocalStorage
    */
-  try {
-    /**
-     * use usePluginUserStorage hook
-     */
-    const storage = usePluginUserStorage();
-    userStorage = storage;
+  const update = useCallback(
+    async <T>(data: T) => {
+      await storage.setItem(
+        key,
+        JSON.stringify({
+          version,
+          data,
+        })
+      );
 
-    /**
-     * override storage.setItem to be like useLocalStorage
-     */
-    const update = async <T>(key: string, data: T) => {
-      await storage.setItem(key, JSON.stringify(data));
       return data;
-    };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [key, version]
+  );
 
-    return {
-      setItem: update,
-      getItem: getUserStorageValue,
-    };
-  } catch {
-    return localStorage;
-  }
+  return useMemo(
+    () => ({
+      get,
+      update,
+    }),
+    [get, update]
+  );
 };
