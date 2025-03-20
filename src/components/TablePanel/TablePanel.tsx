@@ -417,7 +417,6 @@ export const TablePanel: React.FC<Props> = ({
       useCapture={true}
     >
       <tablePanelContext.Provider value={{ replaceVariables, setError }}>
-        {/* <button onClick={() => setStorage({})}>Clear storage</button> */}
         <div
           {...TEST_IDS.panel.root.apply()}
           className={styles.root}
