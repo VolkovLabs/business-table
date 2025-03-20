@@ -10,7 +10,7 @@ import {
   TablePanel,
   TablesEditor,
 } from './components';
-import { TOOLBAR_BUTTONS_ALIGNMENT } from './constants';
+import { DOWNLOAD_FORMAT_OPTIONS, TOOLBAR_BUTTONS_ALIGNMENT } from './constants';
 import { getMigratedOptions } from './migration';
 import { PanelOptions, ToolbarButtonsAlignment } from './types';
 
@@ -22,11 +22,14 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
   .setMigrationHandler(getMigratedOptions)
   .setPanelOptions((builder) => {
     builder
-      .addBooleanSwitch({
-        path: 'toolbar.export',
-        name: 'Exportable',
-        description: 'Allow to download table data.',
-        defaultValue: false,
+      .addMultiSelect({
+        path: 'toolbar.exportFormats',
+        name: 'Table export formats',
+        description: 'The first selected format is used by default for export. Clear it to disallow table exports.',
+        settings: {
+          options: DOWNLOAD_FORMAT_OPTIONS,
+          isClearable: true,
+        },
       })
       .addRadio({
         path: 'toolbar.alignment',

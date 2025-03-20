@@ -684,6 +684,13 @@ export interface ToolbarOptions {
    * @type {string}
    */
   alignment?: 'left' | 'right';
+
+  /**
+   * Toolbar download formats
+   *
+   * @type {ExportFormatType[]}
+   */
+  exportFormats: ExportFormatType[];
 }
 
 /**
