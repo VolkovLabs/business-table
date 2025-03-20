@@ -318,7 +318,7 @@ export const TablePanel: React.FC<Props> = ({
                   </Button>
                   <Dropdown overlay={exportFormatsMenu} {...TEST_IDS.panel.dropdown.apply()}>
                     <Button variant="secondary" size="sm" icon="angle-down" {...TEST_IDS.panel.buttonFormat.apply()}>
-                      {exportFormat}test
+                      {exportFormat}
                     </Button>
                   </Dropdown>
                 </ButtonGroup>
