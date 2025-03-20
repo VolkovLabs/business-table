@@ -14,13 +14,23 @@ export const useUserStorage = (version: number) => {
   try {
     const storage = usePluginUserStorage();
     const update = async <T>(key: string, data: T) => {
-      storage.setItem(key, JSON.stringify(data));
+      await storage.setItem(key, JSON.stringify(data));
       return data;
+    };
+
+    const get = async (key: string) => {
+      const storageValue = await storage.getItem(key);
+
+      if (storageValue) {
+        return JSON.parse(storageValue);
+      }
+
+      return undefined;
     };
 
     return {
       setItem: update,
-      getItem: storage.getItem,
+      getItem: get,
     };
   } catch {
     return localStorage;
