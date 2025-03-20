@@ -291,6 +291,7 @@ export const TEST_IDS = {
     fieldDatetimeMin: createSelector('data-testid column-editor field-datetime-min'),
     fieldDatetimeMax: createSelector('data-testid column-editor field-datetime-max'),
     fieldCustomValues: createSelector('data-testid column-editor field-custom-values'),
+    fieldLocalTime: createSelector('data-testid column-editor field-local-time'),
     fieldFileAcceptTypes: createSelector('data-testid column-editor field-file-accept-types'),
   },
   dateEditor: {
