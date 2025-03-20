@@ -384,7 +384,7 @@ export const TablePanel: React.FC<Props> = ({
           currentTableName={currentTable?.name}
           setDrawerOpen={setDrawerOpen}
           drawerColumns={tableWithPreferences?.items}
-          userPreferences={{}}
+          userPreferences={userPreferences}
           updateTablesPreferences={(tableName: string, updatedColumns: TablePreferenceColumn[]) => {
             setUserPreferences({
               ...userPreferences,
