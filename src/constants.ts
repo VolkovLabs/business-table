@@ -533,9 +533,9 @@ export const GAUGE_DEFAULT_VALUE_SIZE = 14;
 export const DEFAULT_SHOWING_ROWS = 20;
 
 /**
- * Download format options
+ * Export format options
  */
-export const DOWNLOAD_FORMAT_OPTIONS = [
+export const EXPORT_FORMAT_OPTIONS = [
   {
     value: ExportFormatType.XLSX,
     label: 'xlsx',

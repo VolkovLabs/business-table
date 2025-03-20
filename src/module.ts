@@ -10,7 +10,7 @@ import {
   TablePanel,
   TablesEditor,
 } from './components';
-import { DOWNLOAD_FORMAT_OPTIONS, TOOLBAR_BUTTONS_ALIGNMENT } from './constants';
+import { EXPORT_FORMAT_OPTIONS, TOOLBAR_BUTTONS_ALIGNMENT } from './constants';
 import { getMigratedOptions } from './migration';
 import { PanelOptions, ToolbarButtonsAlignment } from './types';
 
@@ -27,7 +27,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         name: 'Table export formats',
         description: 'The first selected format is used by default for export. Clear it to disallow table exports.',
         settings: {
-          options: DOWNLOAD_FORMAT_OPTIONS,
+          options: EXPORT_FORMAT_OPTIONS,
           isClearable: true,
         },
       })
