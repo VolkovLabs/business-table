@@ -7,16 +7,18 @@ import { useUserStorage } from './useUserStorage';
  */
 export const useStorage = (key: string, version: number) => {
   /**
-   * Define local storage
-   */
-  const localStorage = useLocalStorage(key, version);
-
-  /**
    * Avoid plugin crush for grafana versions lt 11.5.0
    */
   try {
+    /**
+     * Return useUserStorage for grafana versions gte 11.5.0
+     */
     return useUserStorage(key, version);
   } catch {
-    return localStorage;
+    /**
+     * Return local storage
+     */
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    return useLocalStorage(key, version);
   }
 };
