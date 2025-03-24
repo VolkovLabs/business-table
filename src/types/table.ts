@@ -12,6 +12,7 @@ export enum CellType {
   RICH_TEXT = 'rich_text',
   NESTED_OBJECTS = 'nested_objects',
   IMAGE = 'image',
+  FILE = 'file',
   BOOLEAN = 'boolean',
   PREFORMATTED = 'preformatted',
   JSON = 'json',

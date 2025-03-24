@@ -20,6 +20,8 @@ import {
   ColumnPinDirection,
   EditorProps,
   FieldSource,
+  FileButtonSize,
+  FileButtonVariant,
   ImageScale,
 } from '@/types';
 import { getFieldKey, reorder } from '@/utils';
@@ -149,6 +151,11 @@ export const ColumnsEditor: React.FC<Props> = ({ value: items, name, onChange, d
             mode: BarGaugeDisplayMode.Basic,
             valueDisplayMode: BarGaugeValueMode.Text,
             valueSize: 14,
+          },
+          fileCell: {
+            text: 'Download',
+            size: FileButtonSize.MD,
+            variant: FileButtonVariant.PRIMARY,
           },
         },
       ]);

@@ -15,6 +15,7 @@ import {
 import {
   createColumnConfig,
   createColumnEditConfig,
+  createFileCellConfig,
   createGaugeConfig,
   createNestedObjectConfig,
   createPanelOptions,
@@ -730,6 +731,32 @@ describe('migration', () => {
         alignment: ColumnAlignment.START,
         fontSize: ColumnHeaderFontSize.SM,
       });
+    });
+  });
+
+  describe('2.5.0', () => {
+    it('Should normalize File cell option for items', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                {
+                  type: CellType.AUTO,
+                  filter: undefined,
+                  fileCell: undefined,
+                } as any,
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0]).toEqual(
+        expect.objectContaining({
+          fileCell: createFileCellConfig({}),
+        })
+      );
     });
   });
 });

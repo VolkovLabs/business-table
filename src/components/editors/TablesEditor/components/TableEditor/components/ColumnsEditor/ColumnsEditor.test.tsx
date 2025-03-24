@@ -13,6 +13,7 @@ import {
   createColumnEditConfig,
   createColumnFilterConfig,
   createColumnSortConfig,
+  createFileCellConfig,
   createGaugeConfig,
 } from '@/utils';
 
@@ -287,10 +288,12 @@ describe('ColumnsEditor', () => {
          * Add check gauge config
          */
         gauge: createGaugeConfig({}),
+        fileCell: createFileCellConfig({}),
       }),
       createColumnConfig({
         field: { name: 'field2', source: 'A' },
         appearance: createColumnAppearanceConfig(DEFAULT_COLUMN_APPEARANCE),
+        fileCell: createFileCellConfig({ text: 'Download' }),
       }),
     ]);
   });

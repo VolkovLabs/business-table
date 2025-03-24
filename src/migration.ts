@@ -18,6 +18,8 @@ import {
   ColumnNewRowEditConfig,
   ColumnPinDirection,
   ColumnSortConfig,
+  FileButtonSize,
+  FileButtonVariant,
   ImageScale,
   NestedObjectConfig,
   PaginationMode,
@@ -351,6 +353,17 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
             mode: BarGaugeDisplayMode.Basic,
             valueDisplayMode: BarGaugeValueMode.Text,
             valueSize: 14,
+          };
+        }
+
+        /**
+         * Normalize file cell options for items
+         */
+        if (!normalized.hasOwnProperty('file')) {
+          normalized.fileCell = {
+            text: '',
+            size: FileButtonSize.MD,
+            variant: FileButtonVariant.PRIMARY,
           };
         }
 

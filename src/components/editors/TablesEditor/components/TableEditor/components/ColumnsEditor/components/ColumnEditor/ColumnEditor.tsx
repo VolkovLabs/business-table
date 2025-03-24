@@ -18,6 +18,8 @@ import {
   ColumnHeaderFontSize,
   ColumnPinDirection,
   EditorProps,
+  FileButtonSize,
+  FileButtonVariant,
   ImageScale,
 } from '@/types';
 import {
@@ -79,6 +81,11 @@ const cellTypeOptions = [
     value: CellType.IMAGE,
     label: 'Image',
     description: 'Base64 encoded data and URL',
+  },
+  {
+    value: CellType.FILE,
+    label: 'File',
+    description: 'Download base64 as a file.',
   },
   {
     value: CellType.GAUGE,
@@ -245,6 +252,50 @@ const imageScaleOptions = [
 ];
 
 /**
+ * File button size Options
+ */
+const fileButtonSizeOptions = [
+  {
+    value: FileButtonSize.XS,
+    label: 'xs',
+  },
+  {
+    value: FileButtonSize.SM,
+    label: 'sm',
+  },
+  {
+    value: FileButtonSize.MD,
+    label: 'md',
+  },
+  {
+    value: FileButtonSize.LG,
+    label: 'lg',
+  },
+];
+
+/**
+ * File button Variant Options
+ */
+const fileButtonVariantOptions = [
+  {
+    value: FileButtonVariant.PRIMARY,
+    label: 'Primary',
+  },
+  {
+    value: FileButtonVariant.SECONDARY,
+    label: 'Secondary',
+  },
+  {
+    value: FileButtonVariant.DESTRUCTIVE,
+    label: 'Destructive',
+  },
+  {
+    value: FileButtonVariant.SUCCESS,
+    label: 'Success',
+  },
+];
+
+/**
  * Column Editor
  */
 export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggregationAvailable, showTableHeader }) => {
@@ -338,6 +389,58 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
               {...TEST_IDS.columnEditor.fieldShowingRows.apply()}
             />
           </InlineField>
+        )}
+        {value.type === CellType.FILE && (
+          <FieldsGroup label="File type settings">
+            <InlineField label="Button Label" tooltip="Keep empty to display icon only" grow={true}>
+              <Input
+                value={value?.fileCell?.text}
+                placeholder="Download"
+                onChange={(event) =>
+                  onChange({
+                    ...value,
+                    fileCell: {
+                      ...value.fileCell,
+                      text: event.currentTarget.value,
+                    },
+                  })
+                }
+                {...TEST_IDS.columnEditor.fieldFileCellText.apply()}
+              />
+            </InlineField>
+            <InlineField label="Button Size" grow={true}>
+              <Select
+                onChange={(event) => {
+                  onChange({
+                    ...value,
+                    fileCell: {
+                      ...value.fileCell,
+                      size: event.value!,
+                    },
+                  });
+                }}
+                value={value?.fileCell?.size}
+                options={fileButtonSizeOptions}
+                {...TEST_IDS.columnEditor.fieldFileButtonSize.apply()}
+              />
+            </InlineField>
+            <InlineField label="Button variant" grow={true}>
+              <Select
+                onChange={(event) => {
+                  onChange({
+                    ...value,
+                    fileCell: {
+                      ...value.fileCell,
+                      variant: event.value!,
+                    },
+                  });
+                }}
+                value={value?.fileCell?.variant}
+                options={fileButtonVariantOptions}
+                {...TEST_IDS.columnEditor.fieldFileButtonVariant.apply()}
+              />
+            </InlineField>
+          </FieldsGroup>
         )}
         {value.type === CellType.COLORED_BACKGROUND && (
           <InlineField label="Apply to Row" grow={true}>
