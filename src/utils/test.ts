@@ -28,6 +28,9 @@ import {
   ColumnNewRowEditConfig,
   ColumnPinDirection,
   ColumnSortConfig,
+  FileButtonSize,
+  FileButtonVariant,
+  FileConfig,
   GaugeConfig,
   ImageScale,
   NestedObjectCardsDisplay,
@@ -131,6 +134,16 @@ export const createGaugeConfig = (item: Partial<GaugeConfig>): GaugeConfig => ({
 });
 
 /**
+ * Create File type cell config
+ */
+export const createFileCellConfig = (item: Partial<FileConfig>): FileConfig => ({
+  text: '',
+  size: FileButtonSize.MD,
+  variant: FileButtonVariant.PRIMARY,
+  ...item,
+});
+
+/**
  * Create Column Config
  */
 export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConfig => ({
@@ -155,6 +168,7 @@ export const createColumnConfig = (item: Partial<ColumnConfig> = {}): ColumnConf
   pin: ColumnPinDirection.NONE,
   objectId: '',
   gauge: createGaugeConfig({}),
+  fileCell: createFileCellConfig({}),
   columnTooltip: '',
   ...item,
 });
@@ -216,6 +230,7 @@ export const createVariable = (
 export const createToolbarOptions = (toolbar: Partial<ToolbarOptions>): ToolbarOptions => ({
   export: false,
   alignment: ToolbarButtonsAlignment.LEFT,
+  exportFormats: [],
   ...toolbar,
 });
 

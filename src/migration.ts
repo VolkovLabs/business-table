@@ -18,6 +18,9 @@ import {
   ColumnNewRowEditConfig,
   ColumnPinDirection,
   ColumnSortConfig,
+  ExportFormatType,
+  FileButtonSize,
+  FileButtonVariant,
   ImageScale,
   NestedObjectConfig,
   PaginationMode,
@@ -146,6 +149,15 @@ interface OutdatedToolbarOptions {
    * @type {string}
    */
   alignment?: 'left' | 'right';
+
+  /**
+   * Toolbar download formats
+   *
+   * Introduced in 2.5.0
+   *
+   * @type {ExportFormatType[]}
+   */
+  exportFormats?: ExportFormatType[];
 }
 
 /**
@@ -207,6 +219,7 @@ const normalizeDatasourceOptions = (ds: DataSourceApi[], name?: string): string 
 export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>): Promise<PanelOptions> => {
   const { ...options } = panel.options;
   const dataSources: DataSourceApi[] = await fetchData();
+
   /**
    * Normalize groups
    */
@@ -351,6 +364,17 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
             mode: BarGaugeDisplayMode.Basic,
             valueDisplayMode: BarGaugeValueMode.Text,
             valueSize: 14,
+          };
+        }
+
+        /**
+         * Normalize file cell options for items
+         */
+        if (!normalized.hasOwnProperty('file')) {
+          normalized.fileCell = {
+            text: '',
+            size: FileButtonSize.MD,
+            variant: FileButtonVariant.PRIMARY,
           };
         }
 
@@ -521,6 +545,20 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
 
   if (options.toolbar.alignment === undefined) {
     options.toolbar.alignment = 'left';
+  }
+
+  /**
+   * Normalize toolbar download formats if undefined
+   */
+  if (options.toolbar.exportFormats === undefined && !options.toolbar.export) {
+    options.toolbar.exportFormats = [];
+  }
+
+  /**
+   * Normalize toolbar download formats if export was enabled
+   */
+  if (options.toolbar.exportFormats === undefined && options.toolbar.export) {
+    options.toolbar.exportFormats = [ExportFormatType.XLSX, ExportFormatType.CSV];
   }
 
   /**

@@ -6,6 +6,7 @@ import React, { useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { useExportData, usePagination, useSavedState, useTable } from '@/hooks';
+import { ExportFormatType } from '@/types';
 import {
   createColumnConfig,
   createPanelOptions,
@@ -244,6 +245,7 @@ describe('TablePanel', () => {
             tables,
             toolbar: createToolbarOptions({
               export: true,
+              exportFormats: [ExportFormatType.CSV, ExportFormatType.XLSX],
             }),
           }),
         })
@@ -266,7 +268,8 @@ describe('TablePanel', () => {
           options: createPanelOptions({
             tables,
             toolbar: createToolbarOptions({
-              export: true,
+              export: false,
+              exportFormats: [ExportFormatType.CSV, ExportFormatType.XLSX],
             }),
           }),
         })

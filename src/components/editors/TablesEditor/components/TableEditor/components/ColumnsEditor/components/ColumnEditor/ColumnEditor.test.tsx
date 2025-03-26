@@ -15,6 +15,8 @@ import {
   ColumnFilterMode,
   ColumnHeaderFontSize,
   ColumnPinDirection,
+  FileButtonSize,
+  FileButtonVariant,
   ImageScale,
 } from '@/types';
 import {
@@ -22,6 +24,7 @@ import {
   createColumnConfig,
   createColumnFilterConfig,
   createColumnSortConfig,
+  createFileCellConfig,
   createGaugeConfig,
   createNestedObjectConfig,
   createVariable,
@@ -1069,6 +1072,77 @@ describe('ColumnEditor', () => {
           gauge: createGaugeConfig({
             mode: BarGaugeDisplayMode.Basic,
             valueDisplayMode: BarGaugeValueMode.Color,
+          }),
+        })
+      );
+    });
+  });
+
+  describe('File type cell', () => {
+    it('Should allow to change text', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.FILE,
+            fileCell: createFileCellConfig({}),
+          }),
+        })
+      );
+
+      expect(selectors.fieldFileCellText()).toBeInTheDocument();
+
+      expect(selectors.fieldFileCellText()).toHaveValue('');
+
+      fireEvent.change(selectors.fieldFileCellText(), { target: { value: 'Download' } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fileCell: expect.objectContaining({
+            text: 'Download',
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change button size', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.FILE,
+            fileCell: createFileCellConfig({}),
+          }),
+        })
+      );
+
+      expect(selectors.fieldFileButtonSize()).toBeInTheDocument();
+      fireEvent.change(selectors.fieldFileButtonSize(), { target: { value: FileButtonSize.SM } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fileCell: expect.objectContaining({
+            size: FileButtonSize.SM,
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change button size', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.FILE,
+            fileCell: createFileCellConfig({}),
+          }),
+        })
+      );
+
+      expect(selectors.fieldFileButtonVariant()).toBeInTheDocument();
+      fireEvent.change(selectors.fieldFileButtonVariant(), { target: { value: FileButtonVariant.SECONDARY } });
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fileCell: expect.objectContaining({
+            variant: FileButtonVariant.SECONDARY,
           }),
         })
       );

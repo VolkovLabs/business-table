@@ -74,6 +74,29 @@ export const TablePanel: React.FC<Props> = ({
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   /**
+   * Is export formats available
+   */
+  const isExportAvailable = useMemo(
+    () => options.toolbar.exportFormats && !!options.toolbar.exportFormats.length,
+    [options.toolbar.exportFormats]
+  );
+
+  /**
+   * Export format
+   * allow to change correct format based on UI select and options change
+   */
+  const exportFormat = useMemo(() => {
+    if (isExportAvailable) {
+      if (!downloadFormat) {
+        return options.toolbar.exportFormats[0];
+      }
+      return downloadFormat as ExportFormatType;
+    }
+
+    return ExportFormatType.XLSX;
+  }, [downloadFormat, isExportAvailable, options.toolbar.exportFormats]);
+
+  /**
    * Current group
    */
   const [currentGroup, setCurrentGroup] = useSavedState<string>({
@@ -200,8 +223,8 @@ export const TablePanel: React.FC<Props> = ({
    * Is Toolbar Visible
    */
   const isToolbarVisible = useMemo(() => {
-    return sortedGroups.length > 1 || options.toolbar.export || options.isColumnMangerAvailable;
-  }, [options.isColumnMangerAvailable, options.toolbar.export, sortedGroups.length]);
+    return sortedGroups.length > 1 || options.toolbar.export || options.isColumnMangerAvailable || isExportAvailable;
+  }, [options.isColumnMangerAvailable, options.toolbar.export, isExportAvailable, sortedGroups.length]);
 
   /**
    * Content Sizes
@@ -241,31 +264,28 @@ export const TablePanel: React.FC<Props> = ({
     columns,
     tableConfig: currentTable,
     panelTitle: title,
-    exportFormat: downloadFormat,
+    exportFormat: exportFormat,
     replaceVariables,
   });
 
-  const menu = useMemo(
-    () => (
+  const exportFormatsMenu = useMemo(() => {
+    return (
       <>
-        <MenuItem
-          label=".csv"
-          onClick={() => setDownloadFormat(ExportFormatType.CSV)}
-          className={styles.menuItem}
-          ariaLabel={'Set csv format'}
-          {...TEST_IDS.panel.buttonSetFormat.apply('csv')}
-        />
-        <MenuItem
-          label=".xlsx"
-          onClick={() => setDownloadFormat(ExportFormatType.XLSX)}
-          className={styles.menuItem}
-          ariaLabel={'Set xlsx format'}
-          {...TEST_IDS.panel.buttonSetFormat.apply('xlsx')}
-        />
+        {options?.toolbar?.exportFormats?.map((exportformat) => {
+          return (
+            <MenuItem
+              key={exportformat}
+              label={exportformat}
+              onClick={() => setDownloadFormat(exportformat)}
+              className={styles.menuItem}
+              ariaLabel={`Set ${exportformat} format`}
+              {...TEST_IDS.panel.buttonSetFormat.apply(exportformat)}
+            />
+          );
+        })}
       </>
-    ),
-    [styles.menuItem]
-  );
+    );
+  }, [options?.toolbar?.exportFormats, styles.menuItem]);
 
   /**
    * On after scroll
@@ -331,7 +351,7 @@ export const TablePanel: React.FC<Props> = ({
                     )}
                   </ToolbarButton>
                 ))}
-              {options.toolbar.export && (
+              {isExportAvailable && (
                 <ButtonGroup className={styles.downloadButtons}>
                   <Button
                     icon="download-alt"
@@ -342,9 +362,9 @@ export const TablePanel: React.FC<Props> = ({
                   >
                     Download
                   </Button>
-                  <Dropdown overlay={menu} {...TEST_IDS.panel.dropdown.apply()}>
+                  <Dropdown overlay={exportFormatsMenu} {...TEST_IDS.panel.dropdown.apply()}>
                     <Button variant="secondary" size="sm" icon="angle-down" {...TEST_IDS.panel.buttonFormat.apply()}>
-                      {downloadFormat}
+                      {exportFormat}
                     </Button>
                   </Dropdown>
                 </ButtonGroup>

@@ -94,6 +94,7 @@ describe('plugin', () => {
           {
             toolbar: {
               export: true,
+              exportFormats: [],
             },
           },
           shownOptionsPaths
@@ -122,7 +123,7 @@ describe('plugin', () => {
 
       plugin['optionsSupplier'](builder);
 
-      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['toolbar.export', 'tabsSorting']));
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['tabsSorting']));
     });
   });
 });

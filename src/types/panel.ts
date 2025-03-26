@@ -226,6 +226,52 @@ export interface GaugeConfig {
 }
 
 /**
+ * File cell button size
+ */
+export enum FileButtonSize {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+}
+
+/**
+ * File cell button varian
+ */
+export enum FileButtonVariant {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  DESTRUCTIVE = 'destructive',
+  SUCCESS = 'success',
+}
+
+/**
+ * File cell type config
+ */
+export interface FileConfig {
+  /**
+   * Button Size
+   *
+   * @type {FileButtonSize}
+   */
+  size: FileButtonSize;
+
+  /**
+   * Variant
+   *
+   * @type {FileButtonVariant}
+   */
+  variant: FileButtonVariant;
+
+  /**
+   * Value text size
+   *
+   * @type {string}
+   */
+  text: string;
+}
+
+/**
  * Column Config
  */
 export interface ColumnConfig {
@@ -355,6 +401,13 @@ export interface ColumnConfig {
    * @type {GaugeConfig}
    */
   gauge: GaugeConfig;
+
+  /**
+   * File cell type config
+   *
+   * @type {FileConfig}
+   */
+  fileCell: FileConfig;
 
   /**
    * Number of rows for JSON cell type
@@ -684,6 +737,13 @@ export interface ToolbarOptions {
    * @type {string}
    */
   alignment?: 'left' | 'right';
+
+  /**
+   * Toolbar download formats
+   *
+   * @type {ExportFormatType[]}
+   */
+  exportFormats: ExportFormatType[];
 }
 
 /**

@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.5.0 (IN PROGRESS)
+
+### Features / Enhancements
+
+- Added export formats option (#290)
+- Added file download type cell (#291)
+
 ## 2.4.0 (2025-03-10)
 
 ### Features / Enhancements

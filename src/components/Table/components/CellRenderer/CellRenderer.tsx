@@ -6,6 +6,7 @@ import { CellType } from '@/types';
 import {
   BooleanCellRenderer,
   DefaultCellRenderer,
+  FileCellRenderer,
   GaugeCellRenderer,
   ImageCellRenderer,
   JsonCellRenderer,
@@ -53,6 +54,9 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
     }
     case CellType.IMAGE: {
       return <ImageCellRenderer value={String(rawValue)} column={column} />;
+    }
+    case CellType.FILE: {
+      return <FileCellRenderer value={rawValue as string} field={field} config={config} bgColor={bgColor} />;
     }
     case CellType.JSON: {
       return <JsonCellRenderer value={rawValue as string} config={config} bgColor={bgColor} />;

@@ -8,6 +8,7 @@ import {
   ColumnEditorType,
   ColumnHeaderFontSize,
   ColumnNewRowEditConfig,
+  ExportFormatType,
   PermissionConfig,
   PermissionMode,
   SupportedBase64ImageType,
@@ -176,6 +177,9 @@ export const TEST_IDS = {
     fieldGaugeValueDisplayOption: createSelector((name: unknown) => `column-editor field-gauge-value-mode-${name}`),
     fieldGaugeValueTextSize: createSelector('data-testid column-editor field-gauge-value'),
     fieldColumnTooltip: createSelector('data-testid column-editor field-column-tooltip'),
+    fieldFileCellText: createSelector('data-testid column-editor field-file-cell-text'),
+    fieldFileButtonSize: createSelector('data-testid column-editor field-file-button-size'),
+    fieldFileButtonVariant: createSelector('data-testid column-editor field-file-button-variant'),
   },
   drawerColumnManager: {
     buttonToggleVisibility: createSelector(
@@ -202,6 +206,9 @@ export const TEST_IDS = {
   },
   imageCellRenderer: {
     root: createSelector('data-testid image-cell-renderer'),
+  },
+  fileCellRenderer: {
+    buttonSave: createSelector('data-testid file-cell-renderer button-save'),
   },
   gaugeCellRenderer: {
     root: createSelector('data-testid gauge-cell-renderer root'),
@@ -548,3 +555,17 @@ export const GAUGE_DEFAULT_VALUE_SIZE = 14;
  * Default showing rows
  */
 export const DEFAULT_SHOWING_ROWS = 20;
+
+/**
+ * Export format options
+ */
+export const EXPORT_FORMAT_OPTIONS = [
+  {
+    value: ExportFormatType.XLSX,
+    label: 'xlsx',
+  },
+  {
+    value: ExportFormatType.CSV,
+    label: 'csv',
+  },
+];

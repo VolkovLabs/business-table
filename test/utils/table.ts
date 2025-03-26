@@ -3,6 +3,7 @@ import { Locator } from '@playwright/test';
 import { DashboardPage, expect, Panel, PanelEditPage } from '@grafana/plugin-e2e';
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '../../src/constants';
 import { getLocatorSelectors, LocatorSelectors } from './selectors';
+import { ExportFormatType } from '../../src/types';
 
 const getTableSelectors = getLocatorSelectors(TEST_IDS.table);
 const getTableEditableCellSelectors = getLocatorSelectors(TEST_IDS.editableCell);
@@ -467,15 +468,20 @@ class PanelEditorHelper {
   }
 
   public async enableDownload(grafanaVersion: string) {
-    const downloadLabel = this.editPage.getByGrafanaSelector(
-      this.editPage.ctx.selectors.components.PanelEditor.OptionsPane.fieldLabel('Business Table Exportable')
-    );
+    /**
+     * Get Options group Business Table
+     */
+    const optionGroup = this.editPage.getCustomOptions('Business Table');
 
-    const switchField = semver.gte(grafanaVersion, '11.4.0')
-      ? downloadLabel.getByRole('switch')
-      : downloadLabel.getByLabel('Toggle switch');
+    /**
+     * Get multiselect element inside group
+     */
+    const multiselect = optionGroup.getMultiSelect('Table export formats');
+    await expect(multiselect.locator()).toBeVisible();
 
-    return switchField.click({ force: true });
+    return await multiselect.selectOptions([ExportFormatType.CSV, ExportFormatType.XLSX], {
+      force: true,
+    });
   }
 }
 
