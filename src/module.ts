@@ -25,7 +25,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addMultiSelect({
         path: 'toolbar.exportFormats',
         name: 'Table export formats',
-        description: 'The first selected format is used by default for export. Clear it to disallow table exports.',
+        description: 'The first selected format is used by default for export. Clear it to hide table exports.',
         settings: {
           options: EXPORT_FORMAT_OPTIONS,
           isClearable: true,
