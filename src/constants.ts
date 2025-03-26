@@ -8,6 +8,7 @@ import {
   ColumnEditorType,
   ColumnHeaderFontSize,
   ColumnNewRowEditConfig,
+  ExportFormatType,
   PermissionConfig,
   PermissionMode,
   SupportedBase64ImageType,
@@ -536,3 +537,17 @@ export const GAUGE_DEFAULT_VALUE_SIZE = 14;
  * Default showing rows
  */
 export const DEFAULT_SHOWING_ROWS = 20;
+
+/**
+ * Export format options
+ */
+export const EXPORT_FORMAT_OPTIONS = [
+  {
+    value: ExportFormatType.XLSX,
+    label: 'xlsx',
+  },
+  {
+    value: ExportFormatType.CSV,
+    label: 'csv',
+  },
+];

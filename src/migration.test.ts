@@ -8,6 +8,7 @@ import {
   ColumnFilterMode,
   ColumnHeaderFontSize,
   ColumnPinDirection,
+  ExportFormatType,
   ImageScale,
   PaginationMode,
   PermissionMode,
@@ -21,6 +22,7 @@ import {
   createPanelOptions,
   createTableConfig,
   createTableRequestConfig,
+  createToolbarOptions,
 } from '@/utils';
 
 import { PAGE_SIZES } from './constants';
@@ -755,6 +757,95 @@ describe('migration', () => {
       expect(normalizedOptions.tables[0].items[0]).toEqual(
         expect.objectContaining({
           fileCell: createFileCellConfig({}),
+        })
+      );
+    });
+
+    it('Should normalize toolbar export formats if export format undefined', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '2.0.0',
+        options: createPanelOptions({
+          toolbar: createToolbarOptions({
+            exportFormats: undefined,
+          }),
+        }),
+      } as any);
+
+      expect(normalizedOptions.toolbar).toEqual(
+        expect.objectContaining({
+          exportFormats: [],
+        })
+      );
+    });
+
+    it('Should normalize toolbar export formats if export format undefined and export is false', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '2.0.0',
+        options: createPanelOptions({
+          toolbar: createToolbarOptions({
+            export: false,
+            exportFormats: undefined,
+          }),
+        }),
+      } as any);
+
+      expect(normalizedOptions.toolbar).toEqual(
+        expect.objectContaining({
+          exportFormats: [],
+        })
+      );
+    });
+
+    it('Should normalize toolbar export formats if export format undefined and export is true', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '2.0.0',
+        options: createPanelOptions({
+          toolbar: createToolbarOptions({
+            exportFormats: undefined,
+            export: true,
+          }),
+        }),
+      } as any);
+
+      expect(normalizedOptions.toolbar).toEqual(
+        expect.objectContaining({
+          exportFormats: [ExportFormatType.XLSX, ExportFormatType.CSV],
+        })
+      );
+    });
+
+    it('Should normalize toolbar export formats correct', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '2.0.0',
+        options: createPanelOptions({
+          toolbar: createToolbarOptions({
+            exportFormats: [ExportFormatType.CSV],
+            export: true,
+          }),
+        }),
+      } as any);
+
+      expect(normalizedOptions.toolbar).toEqual(
+        expect.objectContaining({
+          exportFormats: [ExportFormatType.CSV],
+        })
+      );
+    });
+
+    it('Should normalize toolbar export formats correct with export is false', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        pluginVersion: '2.0.0',
+        options: createPanelOptions({
+          toolbar: createToolbarOptions({
+            exportFormats: [ExportFormatType.CSV],
+            export: false,
+          }),
+        }),
+      } as any);
+
+      expect(normalizedOptions.toolbar).toEqual(
+        expect.objectContaining({
+          exportFormats: [ExportFormatType.CSV],
         })
       );
     });
