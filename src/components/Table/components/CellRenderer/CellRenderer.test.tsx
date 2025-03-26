@@ -9,6 +9,7 @@ import { CellRenderer } from './CellRenderer';
 import {
   BooleanCellRenderer,
   DefaultCellRenderer,
+  FileCellRenderer,
   GaugeCellRenderer,
   ImageCellRenderer,
   JsonCellRenderer,
@@ -29,6 +30,7 @@ jest.mock('./components', () => ({
   LayoutCellRenderer: jest.fn(() => null),
   PreformattedCellRenderer: jest.fn(() => null),
   JsonCellRenderer: jest.fn(() => null),
+  FileCellRenderer: jest.fn(() => null),
 }));
 
 describe('CellRenderer', () => {
@@ -75,6 +77,16 @@ describe('CellRenderer', () => {
     );
 
     expect(DefaultCellRenderer).toHaveBeenCalled();
+  });
+
+  it('Should render File type', () => {
+    render(
+      getComponent({
+        column: createColumnWithMeta({ config: createColumnConfig({ type: CellType.FILE }) }),
+      })
+    );
+
+    expect(FileCellRenderer).toHaveBeenCalled();
   });
 
   it('Should render default cell renderer if colored text type', () => {

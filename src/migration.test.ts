@@ -16,6 +16,7 @@ import {
 import {
   createColumnConfig,
   createColumnEditConfig,
+  createFileCellConfig,
   createGaugeConfig,
   createNestedObjectConfig,
   createPanelOptions,
@@ -736,6 +737,30 @@ describe('migration', () => {
   });
 
   describe('2.5.0', () => {
+    it('Should normalize File cell option for items', async () => {
+      const normalizedOptions = await getMigratedOptions({
+        options: createPanelOptions({
+          tables: [
+            createTableConfig({
+              items: [
+                {
+                  type: CellType.AUTO,
+                  filter: undefined,
+                  fileCell: undefined,
+                } as any,
+              ],
+            }),
+          ],
+        }),
+      } as any);
+
+      expect(normalizedOptions.tables[0].items[0]).toEqual(
+        expect.objectContaining({
+          fileCell: createFileCellConfig({}),
+        })
+      );
+    });
+
     it('Should normalize toolbar export formats if export format undefined', async () => {
       const normalizedOptions = await getMigratedOptions({
         pluginVersion: '2.0.0',
