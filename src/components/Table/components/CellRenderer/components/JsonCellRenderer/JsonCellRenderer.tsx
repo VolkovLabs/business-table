@@ -91,7 +91,7 @@ export const JsonCellRenderer: React.FC<Props> = ({ value, config, bgColor }) =>
               size="sm"
               aria-label="JSON error"
               className={styles.errorIcon}
-              {...TEST_IDS.jsonCellRenderer.error.apply()}
+              {...TEST_IDS.jsonCellRenderer.errorIcon.apply()}
             />
           </Tooltip>
         )}

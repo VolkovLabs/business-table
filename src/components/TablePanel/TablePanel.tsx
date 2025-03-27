@@ -5,7 +5,7 @@ import {
   ButtonGroup,
   ClickOutsideWrapper,
   Dropdown,
-  IconButton,
+  Icon,
   MenuItem,
   ScrollContainer,
   ToolbarButton,
@@ -309,14 +309,12 @@ export const TablePanel: React.FC<Props> = ({
               {options.isColumnMangerAvailable && sortedGroups.length === 1 && (
                 <>
                   {currentTable?.name}
-                  <IconButton
+                  <Icon
                     className={styles.drawerButton}
                     name="table"
                     aria-label="open-drawer"
-                    tooltip="Open table preferences"
                     onClick={() => setDrawerOpen(true)}
-                    variant="secondary"
-                    size="sm"
+                    size="xl"
                     {...TEST_IDS.panel.buttonOpenDrawer.apply(currentTable?.name)}
                   />
                 </>
@@ -338,14 +336,12 @@ export const TablePanel: React.FC<Props> = ({
                   >
                     {group.name}
                     {options.isColumnMangerAvailable && currentGroup === group.name && (
-                      <IconButton
+                      <Icon
                         className={styles.drawerButton}
                         name="table"
                         aria-label="open-drawer"
-                        tooltip="Open table preferences"
                         onClick={() => setDrawerOpen(true)}
-                        variant="secondary"
-                        size="sm"
+                        size="xl"
                         {...TEST_IDS.panel.buttonOpenDrawer.apply(group.name)}
                       />
                     )}

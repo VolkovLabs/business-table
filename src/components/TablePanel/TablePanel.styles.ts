@@ -73,6 +73,13 @@ export const getStyles = (theme: GrafanaTheme2) => {
     `,
     drawerButton: css`
       margin-left: ${theme.spacing(1)};
+      align-self: center;
+      padding: ${theme.spacing(0.5)};
+
+      &:hover {
+        cursor: pointer;
+        background: ${theme.colors.background.secondary};
+      }
     `,
   };
 };

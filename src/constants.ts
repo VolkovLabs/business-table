@@ -219,6 +219,7 @@ export const TEST_IDS = {
     formattedText: createSelector('data-testid json-cell-renderer formatted-text'),
     buttonOpenDrawer: createSelector('data-testid json-cell-renderer button-open-drawer'),
     error: createSelector('data-testid json-cell-renderer error'),
+    errorIcon: createSelector('data-testid json-cell-renderer error-icon'),
     buttonCloseDrawer: createSelector(selectors.components.Drawer.General.close),
     codeEditor: createSelector('json-cell-renderer code-editor'),
   },
