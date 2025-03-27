@@ -58,7 +58,7 @@ Explore the suite:
 
 ### Enterprise Support
 
-Upgrade to [Business Suite Enterprise](https://volkovlabs.io/pricing/) for:
+Subscribe to [Business Suite Enterprise](https://volkovlabs.io/pricing/) for:
 
 - Dedicated support via Zendesk
 - Priority feature requests and bug fixes
