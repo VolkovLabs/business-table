@@ -57,7 +57,7 @@ describe('Use Saved State', () => {
     const update = jest.fn();
     jest.mocked(useLocalStorage).mockImplementation(() => ({
       get: jest.fn(() => Promise.resolve(111)),
-      update,
+      update: update,
     }));
 
     const { result } = await act(async () => renderHook(() => useSavedState({ key: 'abc', initialValue: 123 })));
@@ -71,7 +71,7 @@ describe('Use Saved State', () => {
     const update = jest.fn();
     jest.mocked(useLocalStorage).mockImplementation(() => ({
       get: jest.fn(() => Promise.resolve(null)),
-      update,
+      update: update,
     }));
 
     const { result } = await act(async () =>

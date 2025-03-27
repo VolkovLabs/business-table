@@ -383,6 +383,25 @@ const FileDropzoneMock = ({ onChange, options, onFileRemove, ...props }: any) =>
 
 const FileDropzone = jest.fn(FileDropzoneMock);
 
+/**
+ * Icon Mock
+ *
+ */
+const IconMock = ({ name, onClick, ...restProps }: any) => {
+  return (
+    <div
+      onClick={() => onClick?.()}
+      data-testid={restProps['data-testid']}
+      className={restProps['className']}
+      aria-label={restProps['aria-label']}
+    >
+      {name}
+    </div>
+  );
+};
+
+const Icon = jest.fn(IconMock);
+
 beforeEach(() => {
   Button.mockImplementation(ButtonMock);
   Select.mockImplementation(SelectMock);
@@ -403,6 +422,7 @@ beforeEach(() => {
   Tooltip.mockImplementation(TooltipMock);
   BarGauge.mockImplementation(BarGaugeMock);
   FileDropzone.mockImplementation(FileDropzoneMock);
+  Icon.mockImplementation(IconMock);
 });
 
 module.exports = {
@@ -425,4 +445,5 @@ module.exports = {
   Dropdown,
   Drawer,
   FileDropzone,
+  Icon,
 };

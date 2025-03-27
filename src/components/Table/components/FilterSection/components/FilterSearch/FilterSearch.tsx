@@ -25,12 +25,12 @@ interface Props {
   /**
    * Save
    */
-  onSave: () => void;
+  onSave?: () => void;
 
   /**
    * Cancel
    */
-  onCancel: () => void;
+  onCancel?: () => void;
 
   /**
    * Mode
@@ -38,14 +38,21 @@ interface Props {
    * @type {ColumnFilterMode}
    */
   mode: ColumnFilterMode;
+
+  /**
+   * Auto Focus
+   *
+   * @type {boolean}
+   */
+  autoFocus: boolean;
 }
 
 /**
  * Filter Search
  */
-export const FilterSearch: React.FC<Props> = ({ value, onChange, mode, onCancel, onSave }) => {
+export const FilterSearch: React.FC<Props> = ({ value, onChange, mode, onCancel, onSave, autoFocus }) => {
   return (
-    <InlineField label="Search">
+    <InlineField label="Search" shrink>
       <Input
         placeholder="Search term"
         value={value.value}
@@ -55,15 +62,15 @@ export const FilterSearch: React.FC<Props> = ({ value, onChange, mode, onCancel,
             value: event.currentTarget.value,
           });
         }}
-        autoFocus={true}
+        autoFocus={autoFocus}
         onKeyDown={(event) => {
           if (event.key === 'Enter') {
-            onSave();
+            onSave?.();
             return;
           }
 
           if (event.key === 'Escape') {
-            onCancel();
+            onCancel?.();
             return;
           }
         }}

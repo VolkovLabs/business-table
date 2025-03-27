@@ -71,6 +71,7 @@ describe('PreformattedCellRenderer', () => {
     );
 
     expect(selectors.error()).toBeInTheDocument();
+    expect(selectors.errorIcon()).toBeInTheDocument();
     expect(selectors.formattedText()).toBeInTheDocument();
   });
 

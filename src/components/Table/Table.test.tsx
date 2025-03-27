@@ -33,6 +33,21 @@ describe('Table', () => {
   const selectors = getSelectors(screen);
 
   /**
+   * Drawer Open handler
+   */
+  const setDrawerOpen = jest.fn();
+
+  /**
+   * Clear Preferences handler
+   */
+  const clearPreferences = jest.fn();
+
+  /**
+   * Update Tables Preferences handler
+   */
+  const updateTablesPreferences = jest.fn();
+
+  /**
    * Wrapper with ref
    * @param props
    * @constructor
@@ -78,6 +93,18 @@ describe('Table', () => {
         pagination={pagination}
         onAfterScroll={onAfterScroll}
         shouldScroll={{ current: false }}
+        isDrawerOpen={false}
+        currentTableName={''}
+        setDrawerOpen={setDrawerOpen}
+        drawerColumns={[]}
+        userPreferences={{}}
+        clearPreferences={clearPreferences}
+        updateTablesPreferences={updateTablesPreferences}
+        advancedSettings={{
+          isColumnMangerAvailable: false,
+          showFiltersInColumnManager: false,
+          saveUserPreference: false,
+        }}
         {...(props as any)}
       />
     );
@@ -559,6 +586,101 @@ describe('Table', () => {
       );
 
       expect(onAfterScroll).toHaveBeenCalled();
+    });
+  });
+
+  describe('Drawer', () => {
+    it('Should close drawer', async () => {
+      /**
+       * Drawer Open handler
+       */
+      const setDrawerOpen = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            isDrawerOpen: true,
+            setDrawerOpen,
+            columns: [
+              {
+                id: 'device',
+                accessorFn: createColumnAccessorFn('device'),
+                meta: createColumnMeta({}),
+              },
+            ],
+            data: [
+              {
+                device: 'device1',
+                [ROW_HIGHLIGHT_STATE_KEY]: true,
+              },
+              {
+                device: 'device2',
+                [ROW_HIGHLIGHT_STATE_KEY]: false,
+              },
+            ],
+            rowHighlightConfig: createRowHighlightConfig({
+              enabled: true,
+              backgroundColor: 'red',
+            }),
+          })
+        )
+      );
+
+      expect(selectors.buttonCloseDrawer()).toBeInTheDocument();
+
+      fireEvent.click(selectors.buttonCloseDrawer());
+
+      expect(setDrawerOpen).toHaveBeenCalledWith(false);
+    });
+
+    it('Should close drawer on clear button', async () => {
+      /**
+       * Drawer Open handler
+       */
+      const setDrawerOpen = jest.fn();
+
+      /**
+       * Clear Preferences handler
+       */
+      const clearPreferences = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            isDrawerOpen: true,
+            setDrawerOpen,
+            clearPreferences,
+            columns: [
+              {
+                id: 'device',
+                accessorFn: createColumnAccessorFn('device'),
+                meta: createColumnMeta({}),
+              },
+            ],
+            data: [
+              {
+                device: 'device1',
+                [ROW_HIGHLIGHT_STATE_KEY]: true,
+              },
+              {
+                device: 'device2',
+                [ROW_HIGHLIGHT_STATE_KEY]: false,
+              },
+            ],
+            rowHighlightConfig: createRowHighlightConfig({
+              enabled: true,
+              backgroundColor: 'red',
+            }),
+          })
+        )
+      );
+
+      expect(selectors.buttonClearAllPreferences()).toBeInTheDocument();
+
+      fireEvent.click(selectors.buttonClearAllPreferences());
+
+      expect(setDrawerOpen).toHaveBeenCalledWith(false);
+      expect(clearPreferences).toHaveBeenCalled();
     });
   });
 });

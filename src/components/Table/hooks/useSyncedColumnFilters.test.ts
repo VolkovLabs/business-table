@@ -40,6 +40,7 @@ describe('useSyncedColumnFilters', () => {
         useSyncedColumnFilters({
           columns: columns as any,
           eventBus,
+          userFilterPreference: [],
         })
       )
     );
@@ -66,6 +67,7 @@ describe('useSyncedColumnFilters', () => {
         useSyncedColumnFilters({
           columns: columns as any,
           eventBus,
+          userFilterPreference: [],
         })
       )
     );
@@ -96,6 +98,7 @@ describe('useSyncedColumnFilters', () => {
         useSyncedColumnFilters({
           columns: columns as any,
           eventBus,
+          userFilterPreference: [],
         })
       )
     );
@@ -117,5 +120,35 @@ describe('useSyncedColumnFilters', () => {
     await act(async () => result.current[1]([newFilter]));
 
     expect(result.current[0]).toEqual([newFilter]);
+  });
+
+  it('Should initialize filters from user preferences', async () => {
+    const userFilterPreference = [
+      {
+        id: 'b',
+        value: {
+          type: ColumnFilterType.SEARCH,
+          value: 'test',
+          caseSensitive: false,
+        },
+      },
+    ];
+
+    jest.mocked(getVariableColumnFilters).mockImplementation(() => [] as any);
+    jest.mocked(mergeColumnFilters).mockImplementation((current, updated) => current.concat(updated));
+
+    const columns = [] as any;
+
+    const { result } = await act(async () =>
+      renderHook(() =>
+        useSyncedColumnFilters({
+          columns: columns as any,
+          eventBus,
+          userFilterPreference: userFilterPreference,
+        })
+      )
+    );
+
+    expect(result.current[0]).toEqual(userFilterPreference);
   });
 });

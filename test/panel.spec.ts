@@ -604,7 +604,7 @@ test.describe('Business Table Panel', () => {
        * Get Table panel with enable filtering
        * return dashboardPage
        */
-      const panel = new PanelHelper(dashboardPage, 'Groups');
+      const panel = new PanelHelper(dashboardPage, 'Rows and Editor');
 
       const table = panel.getTable();
       const countryUsaRow = table.getGroupedRow('country', 'USA');

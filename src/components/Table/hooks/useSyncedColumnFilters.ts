@@ -11,14 +11,22 @@ import { getVariableColumnFilters, mergeColumnFilters } from '@/utils';
 export const useSyncedColumnFilters = <TData>({
   columns,
   eventBus,
+  userFilterPreference,
 }: {
   columns: Array<ColumnDef<TData>>;
   eventBus: EventBus;
+  userFilterPreference: ColumnFiltersState;
 }) => {
   /**
    * Filtering
    */
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
+  useEffect(() => {
+    if (userFilterPreference && !!userFilterPreference.length) {
+      setColumnFilters(userFilterPreference);
+    }
+  }, [userFilterPreference]);
 
   /**
    * Set initial filters from variables and update on variable change
