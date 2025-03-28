@@ -37,7 +37,7 @@ describe('useExportData', () => {
   const nameField: Field = {
     name: 'name',
     config: {
-      displayName: 'Name',
+      displayName: 'name',
     },
     type: FieldType.string,
     values: ['device1', 'device2'],
@@ -87,6 +87,7 @@ describe('useExportData', () => {
         meta: createColumnMeta({
           field: nameField,
         }),
+        header: 'name',
       },
       {
         id: 'value',
@@ -94,6 +95,7 @@ describe('useExportData', () => {
         meta: createColumnMeta({
           field: valueField,
         }),
+        header: 'value',
       },
     ];
 
@@ -150,6 +152,7 @@ describe('useExportData', () => {
         meta: createColumnMeta({
           field: nameField,
         }),
+        header: 'name',
       },
       {
         id: 'value',
@@ -157,6 +160,7 @@ describe('useExportData', () => {
         meta: createColumnMeta({
           field: valueField,
         }),
+        header: 'value',
       },
       {
         id: ACTIONS_COLUMN_ID,
