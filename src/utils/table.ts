@@ -430,10 +430,17 @@ export const getFooterCell = ({
 export const convertTableToDataFrame = <TData>(table: TableInstance<TData>): DataFrame => {
   const headerGroup = table.getHeaderGroups()[0];
   const fields = headerGroup.headers.map((header): Field => {
-    const field = header.column.columnDef.meta?.field || { name: header.id, type: FieldType.other, config: {} };
+    const currentName = String(header.column.columnDef.header || header.column.columnDef.id);
+
+    const field = header.column.columnDef.meta?.field || { name: currentName, type: FieldType.other, config: {} };
 
     return {
       ...field,
+      name: currentName,
+      config: {
+        ...field.config,
+        displayName: currentName,
+      },
       values: [],
     };
   });

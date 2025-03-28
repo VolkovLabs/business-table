@@ -1,4 +1,3 @@
-import { ColumnDef } from '@tanstack/react-table';
 import { saveAs } from 'file-saver';
 
 import { applyAcceptedFiles, convertToXlsxFormat, downloadCsv, downloadXlsx } from './file';
@@ -90,58 +89,58 @@ describe('downloadFile', () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
+    it('Should return empty array if fields are empty', () => {
+      expect(convertToXlsxFormat({ fields: [], length: 0 })).toEqual([]);
+    });
 
-    const columns: Array<ColumnDef<unknown>> = [
-      { id: 'id', header: 'ID' },
-      /**
-       * Use id instead header
-       */
-      { id: 'Name-id', header: '' },
-      { id: 'value', header: 'Value' },
-      { id: 'json', header: 'JSON' },
-      { id: 'comment.info.name', header: 'Comment' },
-    ] as any;
+    it('Should correctly convert fields to xlsx format', () => {
+      const dataFrame = {
+        fields: [
+          { name: 'ID', values: [1, 2, 3] },
+          { name: 'Name', values: ['Alice', 'Bob', 'Charlie'] },
+          { name: 'Age', values: [25, 30, null] },
+        ],
+        length: 3,
+      } as any;
 
-    const data = [
-      {
-        id: 1,
-        name: 'DeviceWithVeryLongTitle',
-        value: 10,
-        json: '{ "name": "Device1" }',
-        'comment.info.name': 'Some comment',
-      },
-      {
-        id: 2,
-        name: 'Device 2',
-        value: 15,
-        json: '{ "name": "Device2" }',
-        'comment.info.name': 'Some notes',
-      },
-      {
-        id: 3,
-        name: 'Device 3',
-        value: 20,
-        json: '{ "name": "Device3" }',
-        'comment.info.name': '',
-      },
-    ];
+      expect(convertToXlsxFormat(dataFrame)).toEqual([
+        ['ID', 'Name', 'Age'],
+        [1, 'Alice', 25],
+        [2, 'Bob', 30],
+        [3, 'Charlie', null],
+      ]);
+    });
 
-    it('should format data correctly for xlsx', () => {
-      const result = convertToXlsxFormat(columns, data);
+    it('Should handle missing length by calculating max values length', () => {
+      const dataFrame = {
+        fields: [
+          { name: 'A', values: [1, 2] },
+          { name: 'B', values: ['x', 'y', 'z'] },
+        ],
+      } as any;
 
-      /**
-       * Check that the result has the correct number of rows
-       */
-      expect(result.length).toEqual(4);
+      expect(convertToXlsxFormat(dataFrame)).toEqual([
+        ['A', 'B'],
+        [1, 'x'],
+        [2, 'y'],
+        [null, 'z'],
+      ]);
+    });
 
-      /**
-       * Check table headers
-       */
-      expect(result[0]).toEqual(['ID', 'Name-id', 'Value', 'JSON', 'Comment']);
+    it('Should preserve empty strings and null values', () => {
+      const dataFrame = {
+        fields: [
+          { name: 'Col1', values: ['', null, 'Test'] },
+          { name: 'Col2', values: [null, '', ''] },
+        ],
+      } as any;
 
-      expect(result[1]).toEqual([1, 'DeviceWithVeryLongTitle', 10, '{ "name": "Device1" }', 'Some comment']);
-      expect(result[2]).toEqual([2, 'Device 2', 15, '{ "name": "Device2" }', 'Some notes']);
-      expect(result[3]).toEqual([3, 'Device 3', 20, '{ "name": "Device3" }', null]);
+      expect(convertToXlsxFormat(dataFrame)).toEqual([
+        ['Col1', 'Col2'],
+        ['', null],
+        [null, ''],
+        ['Test', ''],
+      ]);
     });
   });
 

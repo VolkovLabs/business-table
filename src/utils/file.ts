@@ -1,8 +1,6 @@
-import { ColumnDef } from '@tanstack/react-table';
+import { DataFrame } from '@grafana/data';
 import { saveAs } from 'file-saver';
 import { utils, write } from 'xlsx';
-
-import { ACTIONS_COLUMN_ID } from '@/constants';
 
 /**
  * Download CSV
@@ -24,8 +22,12 @@ export const downloadXlsx = (content: unknown[][], fileName = 'download', tableN
 
   /**
    * tableName use for sheet name
+   * substring needs here https://support.microsoft.com/en-us/office/rename-a-worksheet-3f1f7148-ee83-404d-8ef0-9ff99fbad1f9
+   * Worksheet names cannot: Contain more than 31 characters.
    */
-  utils.book_append_sheet(wb, ws, tableName ?? 'Sheet1');
+  const sheetName = (tableName ?? 'Sheet1').substring(0, 31);
+
+  utils.book_append_sheet(wb, ws, sheetName);
 
   const blob = write(wb, { bookType: 'xlsx', type: 'array' });
 
@@ -38,24 +40,19 @@ export const downloadXlsx = (content: unknown[][], fileName = 'download', tableN
 
 /**
  * Convert to XLSX format content
- * @param columns
- * @param data
+ * @param dataFrame
  */
-export const convertToXlsxFormat = <TData>(columns: Array<ColumnDef<TData>>, data: TData[]): unknown[][] => {
-  const currentData: unknown[][] = [];
-  currentData.push(
-    columns.filter((column) => column.id !== ACTIONS_COLUMN_ID).map((column) => column.header || column.id)
-  );
-  data.forEach((field) => {
-    const valuesArray = Object.values(field as object).map((value) => {
-      if (value === '' || value === null || value === undefined) {
-        return null;
-      }
-      return value;
-    });
-    currentData.push(valuesArray);
-  });
-  return currentData;
+export const convertToXlsxFormat = ({ fields, length }: DataFrame): unknown[][] => {
+  if (!fields?.length) {
+    return [];
+  }
+
+  const rowCount = length ?? Math.max(...fields.map(({ values }) => values.length), 0);
+
+  return [
+    fields.map(({ name }) => name),
+    ...Array.from({ length: rowCount }, (item, rowIndex) => fields.map(({ values }) => values[rowIndex] ?? null)),
+  ];
 };
 
 /**
