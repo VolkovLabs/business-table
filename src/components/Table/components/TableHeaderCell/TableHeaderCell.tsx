@@ -101,7 +101,7 @@ export const TableHeaderCell = <TData,>({
 
   const renderFilterIcon = () => {
     if (header.column.columnDef.enableColumnFilter) {
-      if (advancedSettings.isColumnMangerAvailable && advancedSettings.showFiltersInColumnManager) {
+      if (advancedSettings.isColumnManagerAvailable && advancedSettings.showFiltersInColumnManager) {
         return (
           <button
             onClick={() => setDrawerOpen(true)}

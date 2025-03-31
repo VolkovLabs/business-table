@@ -402,7 +402,7 @@ describe('TablePanel', () => {
         getComponent({
           options: createPanelOptions({
             tables,
-            isColumnMangerAvailable: true,
+            isColumnManagerAvailable: true,
           }),
         })
       )
@@ -447,7 +447,7 @@ describe('TablePanel', () => {
         getComponent({
           options: createPanelOptions({
             tables,
-            isColumnMangerAvailable: true,
+            isColumnManagerAvailable: true,
           }),
         })
       )

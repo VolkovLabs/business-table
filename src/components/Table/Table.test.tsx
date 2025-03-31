@@ -101,7 +101,7 @@ describe('Table', () => {
         clearPreferences={clearPreferences}
         updateTablesPreferences={updateTablesPreferences}
         advancedSettings={{
-          isColumnMangerAvailable: false,
+          isColumnManagerAvailable: false,
           showFiltersInColumnManager: false,
           saveUserPreference: false,
         }}

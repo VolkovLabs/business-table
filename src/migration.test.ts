@@ -737,34 +737,34 @@ describe('migration', () => {
   });
 
   describe('2.5.0', () => {
-    it('Should normalize saveUserPreference, showFiltersInColumnManager, isColumnMangerAvailable', async () => {
+    it('Should normalize saveUserPreference, showFiltersInColumnManager, isColumnManagerAvailable', async () => {
       expect(await getMigratedOptions({ options: {} } as any)).toEqual(
         expect.objectContaining({
           saveUserPreference: false,
           showFiltersInColumnManager: false,
-          isColumnMangerAvailable: false,
+          isColumnManagerAvailable: false,
         })
       );
       expect(
         await getMigratedOptions({
-          options: { saveUserPreference: false, showFiltersInColumnManager: false, isColumnMangerAvailable: false },
+          options: { saveUserPreference: false, showFiltersInColumnManager: false, isColumnManagerAvailable: false },
         } as any)
       ).toEqual(
         expect.objectContaining({
           saveUserPreference: false,
           showFiltersInColumnManager: false,
-          isColumnMangerAvailable: false,
+          isColumnManagerAvailable: false,
         })
       );
       expect(
         await getMigratedOptions({
-          options: { saveUserPreference: true, showFiltersInColumnManager: true, isColumnMangerAvailable: true },
+          options: { saveUserPreference: true, showFiltersInColumnManager: true, isColumnManagerAvailable: true },
         } as any)
       ).toEqual(
         expect.objectContaining({
           saveUserPreference: true,
           showFiltersInColumnManager: true,
-          isColumnMangerAvailable: true,
+          isColumnManagerAvailable: true,
         })
       );
     });

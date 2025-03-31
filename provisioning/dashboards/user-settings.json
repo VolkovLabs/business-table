@@ -62,7 +62,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": true,
+        "isColumnManagerAvailable": true,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -1059,7 +1059,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": true,
+        "isColumnManagerAvailable": true,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": true,
@@ -2056,7 +2056,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": true,
+        "isColumnManagerAvailable": true,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -3053,7 +3053,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": true,
+        "isColumnManagerAvailable": true,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -3858,7 +3858,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": true,
+        "isColumnManagerAvailable": true,
         "nestedObjects": [],
         "saveUserPreference": true,
         "showFiltersInColumnManager": true,

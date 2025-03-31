@@ -769,7 +769,7 @@ export interface PanelOptions {
    *
    * @type {boolean}
    */
-  isColumnMangerAvailable: boolean;
+  isColumnManagerAvailable: boolean;
 
   /**
    * Filter UI manager
@@ -924,7 +924,7 @@ export enum ToolbarButtonsAlignment {
 }
 
 export type AdvancedSettings = {
-  isColumnMangerAvailable: boolean;
+  isColumnManagerAvailable: boolean;
   showFiltersInColumnManager: boolean;
   saveUserPreference: boolean;
 };

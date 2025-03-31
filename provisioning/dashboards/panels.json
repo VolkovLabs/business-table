@@ -62,7 +62,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": false,
+        "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -560,7 +560,7 @@
       },
       "id": 10,
       "options": {
-        "isColumnMangerAvailable": true,
+        "isColumnManagerAvailable": true,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -987,7 +987,7 @@
       },
       "id": 23,
       "options": {
-        "isColumnMangerAvailable": false,
+        "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -1603,7 +1603,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": false,
+        "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -2096,7 +2096,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": false,
+        "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -2590,7 +2590,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": false,
+        "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -3182,7 +3182,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": false,
+        "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -3676,7 +3676,7 @@
       "options": {
         "columnMode": "auto",
         "columns": [],
-        "isColumnMangerAvailable": false,
+        "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
