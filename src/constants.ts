@@ -96,6 +96,7 @@ export const TEST_IDS = {
     buttonFormat: createSelector('data-testid panel button-format'),
     dropdown: createSelector('data-testid panel dropdown'),
     buttonSetFormat: createSelector((name: unknown) => `data-testid panel button-set-format-${name}`),
+    buttonOpenDrawer: createSelector((name: unknown) => `data-testid panel button-open-drawer-${name}`),
   },
   tablesEditor: {
     buttonAddNew: createSelector('data-testid tables-editor button-add-new'),
@@ -180,6 +181,14 @@ export const TEST_IDS = {
     fieldFileButtonSize: createSelector('data-testid column-editor field-file-button-size'),
     fieldFileButtonVariant: createSelector('data-testid column-editor field-file-button-variant'),
   },
+  drawerColumnManager: {
+    buttonToggleVisibility: createSelector(
+      (name: unknown) => `data-testid drawer-column-manager button-toggle-visibility-${name}`
+    ),
+    columnItem: createSelector((name: unknown) => `drawer-column-manager column-item-${name}`),
+    columnItemFilter: createSelector((name: unknown) => `drawer-column-manager column-item-${name}-filter`),
+    root: createSelector('data-testid drawer-column-manager'),
+  },
   defaultCellRenderer: {
     root: createSelector('data-testid default-cell-renderer'),
   },
@@ -210,6 +219,7 @@ export const TEST_IDS = {
     formattedText: createSelector('data-testid json-cell-renderer formatted-text'),
     buttonOpenDrawer: createSelector('data-testid json-cell-renderer button-open-drawer'),
     error: createSelector('data-testid json-cell-renderer error'),
+    errorIcon: createSelector('data-testid json-cell-renderer error-icon'),
     buttonCloseDrawer: createSelector(selectors.components.Drawer.General.close),
     codeEditor: createSelector('json-cell-renderer code-editor'),
   },
@@ -226,6 +236,8 @@ export const TEST_IDS = {
     pagination: createSelector('data-testid table pagination'),
     fieldPageNumber: createSelector('data-testid table field-page-number'),
     fieldPageSize: createSelector('data-testid table field-page-size'),
+    buttonCloseDrawer: createSelector(selectors.components.Drawer.General.close),
+    buttonClearAllPreferences: createSelector('data-testid table button-clear-all-preferences'),
   },
   tableHeaderCell: {
     root: createSelector('data-testid table-header-cell'),
@@ -258,10 +270,17 @@ export const TEST_IDS = {
   },
   filterPopup: {
     root: createSelector('data-testid filter-popup'),
-    typeOption: createSelector((name: unknown) => `filter-popup type-option-${name}`),
     buttonClear: createSelector('data-testid filter-popup button-clear'),
     buttonCancel: createSelector('data-testid filter-popup button-cancel'),
     buttonSave: createSelector('data-testid filter-popup button-sae'),
+  },
+  filterDrawer: {
+    root: createSelector('data-testid filter-popup'),
+    buttonClear: createSelector('data-testid filter-popup button-clear'),
+  },
+  filterSection: {
+    root: createSelector('data-testid filter-section'),
+    typeOption: createSelector((name: unknown) => `filter-section type-option-${name}`),
   },
   tableHeaderCellFilter: {
     root: createSelector('data-testid table-header-cell-filter'),

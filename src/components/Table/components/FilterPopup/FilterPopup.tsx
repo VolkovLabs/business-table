@@ -1,13 +1,12 @@
 import { locationService } from '@grafana/runtime';
-import { Button, ClickOutsideWrapper, InlineField, RadioButtonGroup, useStyles2 } from '@grafana/ui';
+import { Button, ClickOutsideWrapper, useStyles2 } from '@grafana/ui';
 import { Header } from '@tanstack/react-table';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue } from '@/types';
-import { getFilterWithNewType } from '@/utils';
 
-import { FilterFacetedList, FilterNumber, FilterSearch, FilterTime } from './components';
+import { FilterSection } from '../FilterSection';
 import { getStyles } from './FilterPopup.styles';
 
 /**
@@ -119,54 +118,6 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
     onClose();
   }, [onSetValue, onClose]);
 
-  /**
-   * Available Type Options
-   */
-  const availableTypeOptions = useMemo(() => {
-    if (header.column.columnDef.meta?.availableFilterTypes) {
-      const types = header.column.columnDef.meta.availableFilterTypes;
-
-      return types.map((type) => {
-        let label = 'Unknown';
-
-        switch (type) {
-          case ColumnFilterType.FACETED: {
-            label = 'Options';
-            break;
-          }
-          case ColumnFilterType.NUMBER: {
-            label = 'Range';
-            break;
-          }
-          case ColumnFilterType.SEARCH: {
-            label = 'Search';
-            break;
-          }
-          case ColumnFilterType.TIMESTAMP: {
-            label = 'Time';
-            break;
-          }
-        }
-
-        return {
-          label,
-          value: type,
-          ariaLabel: TEST_IDS.filterPopup.typeOption.selector(type),
-        };
-      });
-    }
-    return [];
-  }, [header]);
-
-  /**
-   * Preselect first type
-   */
-  useEffect(() => {
-    if (filter.type === 'none' && availableTypeOptions.length > 0) {
-      setFilter(getFilterWithNewType(availableTypeOptions[0].value));
-    }
-  }, [filter.type, availableTypeOptions]);
-
   return (
     <ClickOutsideWrapper onClick={onClose} useCapture={true}>
       <div
@@ -174,28 +125,16 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
         onClick={(event) => event.stopPropagation()}
         {...TEST_IDS.filterPopup.root.apply()}
       >
-        {availableTypeOptions.length > 1 && (
-          <>
-            <InlineField label="Type">
-              <RadioButtonGroup
-                options={availableTypeOptions}
-                value={filter.type}
-                onChange={(event) => {
-                  setFilter(getFilterWithNewType(event));
-                }}
-              />
-            </InlineField>
-            {filter.type !== 'none' && <div className={styles.filterPopupLine} />}
-          </>
-        )}
-        {filter.type === ColumnFilterType.SEARCH && (
-          <FilterSearch value={filter} onChange={setFilter} onSave={onSave} onCancel={onClose} mode={filterMode} />
-        )}
-        {filter.type === ColumnFilterType.FACETED && (
-          <FilterFacetedList value={filter} onChange={setFilter} header={header} />
-        )}
-        {filter.type === ColumnFilterType.NUMBER && <FilterNumber value={filter} onChange={setFilter} />}
-        {filter.type === ColumnFilterType.TIMESTAMP && <FilterTime value={filter} onChange={setFilter} />}
+        <FilterSection
+          onClose={onClose}
+          header={header}
+          autoFocus={true}
+          setFilter={setFilter}
+          filter={filter}
+          onChange={(value) => setFilter(value)}
+          onSave={onSave}
+          filterMode={filterMode}
+        />
         <div className={styles.filterPopupLine} />
         <div className={styles.filterPopupFooter}>
           <Button

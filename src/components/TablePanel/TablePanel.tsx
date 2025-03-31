@@ -5,6 +5,7 @@ import {
   ButtonGroup,
   ClickOutsideWrapper,
   Dropdown,
+  Icon,
   MenuItem,
   ScrollContainer,
   ToolbarButton,
@@ -26,8 +27,8 @@ import {
   useTable,
   useUpdateRow,
 } from '@/hooks';
-import { ExportFormatType, PanelOptions } from '@/types';
-import { checkIfOperationEnabled } from '@/utils';
+import { ExportFormatType, PanelOptions, TablePreferenceColumn, UserPreferences } from '@/types';
+import { checkIfOperationEnabled, getTableWithPreferences, updateUserPreferenceTables } from '@/utils';
 
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
@@ -66,18 +67,19 @@ export const TablePanel: React.FC<Props> = ({
   const shouldScroll = useRef<boolean>(false);
 
   /**
+   * State
+   */
+  const [error, setError] = useState('');
+  const [downloadFormat, setDownloadFormat] = useState(ExportFormatType.CSV);
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+  /**
    * Is export formats available
    */
   const isExportAvailable = useMemo(
     () => options.toolbar.exportFormats && !!options.toolbar.exportFormats.length,
     [options.toolbar.exportFormats]
   );
-
-  /**
-   * State
-   */
-  const [error, setError] = useState('');
-  const [downloadFormat, setDownloadFormat] = useState('');
 
   /**
    * Export format
@@ -103,6 +105,15 @@ export const TablePanel: React.FC<Props> = ({
   });
 
   /**
+   * User Preferences
+   */
+  const [userPreferences, setUserPreferences] = useSavedState<UserPreferences>({
+    key: `volkovlabs.table.panel.${id}.user.preferences`,
+    initialValue: {},
+    enabled: options.isColumnMangerAvailable && options.saveUserPreference,
+  });
+
+  /**
    * Current Table
    */
   const currentTable = useMemo(() => {
@@ -111,6 +122,14 @@ export const TablePanel: React.FC<Props> = ({
     }
     return;
   }, [options.tables, currentGroup]);
+
+  /**
+   * Current table wit user preferences
+   */
+  const tableWithPreferences = useMemo(
+    () => getTableWithPreferences(currentTable, userPreferences),
+    [currentTable, userPreferences]
+  );
 
   /**
    * Is Add Row Enabled
@@ -145,7 +164,7 @@ export const TablePanel: React.FC<Props> = ({
    */
   const { tableData, columns } = useTable({
     data,
-    columns: currentTable?.items,
+    columns: tableWithPreferences?.items,
     actionsColumnConfig: currentTable?.actionsColumnConfig,
     rowHighlightConfig: currentTable?.rowHighlight,
     isAddRowEnabled,
@@ -204,8 +223,8 @@ export const TablePanel: React.FC<Props> = ({
    * Is Toolbar Visible
    */
   const isToolbarVisible = useMemo(() => {
-    return sortedGroups.length > 1 || isExportAvailable;
-  }, [isExportAvailable, sortedGroups.length]);
+    return sortedGroups.length > 1 || options.toolbar.export || options.isColumnMangerAvailable || isExportAvailable;
+  }, [options.isColumnMangerAvailable, options.toolbar.export, isExportAvailable, sortedGroups.length]);
 
   /**
    * Content Sizes
@@ -287,6 +306,19 @@ export const TablePanel: React.FC<Props> = ({
         {isToolbarVisible && (
           <div ref={headerRef} className={styles.header}>
             <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
+              {options.isColumnMangerAvailable && sortedGroups.length === 1 && (
+                <>
+                  {currentTable?.name}
+                  <Icon
+                    className={styles.drawerButton}
+                    name="table"
+                    aria-label="open-drawer"
+                    onClick={() => setDrawerOpen(true)}
+                    size="xl"
+                    {...TEST_IDS.panel.buttonOpenDrawer.apply(currentTable?.name)}
+                  />
+                </>
+              )}
               {sortedGroups.length > 1 &&
                 sortedGroups.map((group, index) => (
                   <ToolbarButton
@@ -303,6 +335,16 @@ export const TablePanel: React.FC<Props> = ({
                     {...TEST_IDS.panel.tab.apply(group.name)}
                   >
                     {group.name}
+                    {options.isColumnMangerAvailable && currentGroup === group.name && (
+                      <Icon
+                        className={styles.drawerButton}
+                        name="table"
+                        aria-label="open-drawer"
+                        onClick={() => setDrawerOpen(true)}
+                        size="xl"
+                        {...TEST_IDS.panel.buttonOpenDrawer.apply(group.name)}
+                      />
+                    )}
                   </ToolbarButton>
                 ))}
               {isExportAvailable && (
@@ -354,6 +396,25 @@ export const TablePanel: React.FC<Props> = ({
           shouldScroll={shouldScroll}
           scrollBehavior={currentTable?.rowHighlight.smooth ? 'smooth' : 'auto'}
           onAfterScroll={onAfterScroll}
+          isDrawerOpen={isDrawerOpen}
+          currentTableName={currentTable?.name}
+          setDrawerOpen={setDrawerOpen}
+          drawerColumns={tableWithPreferences?.items}
+          userPreferences={userPreferences}
+          updateTablesPreferences={(tableName: string, updatedColumns: TablePreferenceColumn[]) => {
+            setUserPreferences({
+              ...userPreferences,
+              tables: updateUserPreferenceTables(tableName, userPreferences, updatedColumns),
+            });
+          }}
+          clearPreferences={() => {
+            setUserPreferences({});
+          }}
+          advancedSettings={{
+            isColumnMangerAvailable: options.isColumnMangerAvailable,
+            showFiltersInColumnManager: options.showFiltersInColumnManager,
+            saveUserPreference: options.saveUserPreference,
+          }}
         />
       </>
     );

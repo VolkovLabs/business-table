@@ -25,7 +25,16 @@ import {
 import { get } from 'lodash';
 
 import { ROW_HIGHLIGHT_STATE_KEY } from '@/constants';
-import { ColumnConfig, ColumnFilterMode, ColumnFilterType, ColumnFilterValue, NumberFilterOperator } from '@/types';
+import {
+  ColumnConfig,
+  ColumnFilterMode,
+  ColumnFilterType,
+  ColumnFilterValue,
+  NumberFilterOperator,
+  TableConfig,
+  TablePreferenceColumn,
+  UserPreferences,
+} from '@/types';
 
 /**
  * Identify Filter
@@ -500,7 +509,7 @@ export const convertStringValueToBoolean = (value: string): boolean => {
     }
     case 'false':
     case 'no':
-    case '1': {
+    case '0': {
       return false;
     }
     default: {
@@ -549,4 +558,193 @@ export const getFirstHighlightedRowIndex = <TData>(rows: Array<Row<TData>>): num
   }
 
   return -1;
+};
+
+/**
+ * Return mix current table from User Preferences
+ * @param currentTable
+ * @param userPreferences
+ */
+export const getTableWithPreferences = (currentTable: TableConfig | undefined, userPreferences: UserPreferences) => {
+  /**
+   * Get saved table
+   */
+  const currentTableName = currentTable?.name || '';
+  const savedTable = userPreferences?.tables?.find((tableItem) => tableItem.name === currentTableName);
+
+  if (savedTable) {
+    /**
+     * Update Items
+     */
+    const updatedItems = currentTable?.items.map((item) => {
+      const currentItem = savedTable.columns?.find((savedColumn) => savedColumn.name === item.field.name);
+
+      if (currentItem) {
+        return {
+          ...item,
+          enabled: currentItem.enabled,
+        };
+      }
+
+      return item;
+    });
+
+    /**
+     * Create a map to store the original index of each item in updatedItems
+     */
+    const updatedItemsMap = new Map(updatedItems?.map((item, index) => [item.field.name, { item, index }]));
+
+    /**
+     * Apply order
+     */
+    const sortedItems = updatedItems?.slice().sort((a, b) => {
+      /**
+       * Find the index of each item in the savedTable.columns
+       */
+      const indexA = savedTable.columns.findIndex((column) => column.name === a.field.name);
+      const indexB = savedTable.columns.findIndex((column) => column.name === b.field.name);
+
+      /**
+       * If both items are not found in savedTable.columns, keep their original order
+       */
+      if (indexA === -1 && indexB === -1) {
+        return updatedItemsMap.get(a.field.name)!.index - updatedItemsMap.get(b.field.name)!.index;
+      }
+
+      /**
+       * If only item A is not found, it stays in its original position
+       */
+      if (indexA === -1) {
+        return 1;
+      }
+
+      /**
+       * If only item B is not found, it stays in its original position
+       */
+      if (indexB === -1) {
+        return -1;
+      }
+
+      /**
+       * Sort items based on their position in savedTable.columns
+       */
+      return indexA - indexB;
+    });
+
+    /**
+     * Update Table According with preferences
+     */
+    return {
+      ...currentTable,
+      items: sortedItems,
+    } as TableConfig;
+  }
+
+  return currentTable;
+};
+
+/**
+ * Preferences Column Configs to TablePreferenceColumn in Preferences
+ * @param columnConfigs
+ * @param tableName
+ * @param userPreferences
+ */
+export const prepareColumnConfigsForPreferences = (
+  columnConfigs: ColumnConfig[],
+  tableName: string,
+  userPreferences: UserPreferences
+): TablePreferenceColumn[] => {
+  const table = userPreferences.tables?.find((tableItem) => tableItem.name === tableName);
+
+  return columnConfigs.map((columnConfig) => {
+    const existingColumn = table?.columns.find((col) => col.name === columnConfig.field.name);
+
+    return {
+      name: columnConfig.field.name,
+      enabled: columnConfig.enabled,
+      filter: existingColumn?.filter ?? null,
+    };
+  });
+};
+
+/**
+ * Save with values for filters
+ * @param filter
+ */
+export const saveWithCorrectFilters = (filter: ColumnFilterValue) => {
+  let filterValueToSave: ColumnFilterValue | undefined = undefined;
+
+  switch (filter.type) {
+    case ColumnFilterType.SEARCH: {
+      if (filter.value) {
+        filterValueToSave = filter;
+      }
+      break;
+    }
+    case ColumnFilterType.FACETED: {
+      if (filter.value.length) {
+        filterValueToSave = filter;
+      }
+      break;
+    }
+    case ColumnFilterType.NUMBER: {
+      filterValueToSave = filter;
+      break;
+    }
+    case ColumnFilterType.TIMESTAMP: {
+      if (filter.value.from.isValid() && filter.value.to.isValid()) {
+        filterValueToSave = filter;
+      }
+      break;
+    }
+  }
+
+  return filterValueToSave;
+};
+
+/**
+ * Get Saved Filters
+ * @param userPreferences
+ * @param tableName
+ */
+export const getSavedFilters = (userPreferences: UserPreferences, tableName: string) => {
+  const currentGroup = userPreferences.tables?.find((table) => table.name === tableName);
+
+  if (!currentGroup) {
+    return [];
+  }
+
+  return currentGroup.columns
+    .filter((groupItem) => !!groupItem.filter)
+    .map((item) => ({
+      id: item.name,
+      value: item.filter,
+    }));
+};
+
+/**
+ * updateUserPreferenceTables
+ * @param tableName
+ * @param userPreferences
+ * @param updatedColumns
+ */
+export const updateUserPreferenceTables = (
+  tableName: string,
+  userPreferences: UserPreferences,
+  updatedColumns: TablePreferenceColumn[]
+) => {
+  const updatedTables = userPreferences.tables && !!userPreferences.tables.length ? [...userPreferences.tables] : [];
+
+  const tableIndex = updatedTables.findIndex((table) => table.name === tableName);
+
+  if (tableIndex === -1) {
+    updatedTables.push({ name: tableName, columns: updatedColumns });
+  } else {
+    updatedTables[tableIndex] = {
+      ...updatedTables[tableIndex],
+      columns: updatedColumns,
+    };
+  }
+
+  return updatedTables;
 };

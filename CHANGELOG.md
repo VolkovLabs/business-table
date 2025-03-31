@@ -8,6 +8,7 @@ All notable changes to the Business Table Panel plugin are documented in this ch
 
 - Added export format options (#290)
 - Introduced file download cell type (#291)
+- Added user preferences and UI manager (#283)
 
 ## 2.4.0 (2025-03-10)
 

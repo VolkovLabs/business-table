@@ -1,10 +1,10 @@
 import { cx } from '@emotion/css';
-import { Icon, IconButton, Tooltip, useStyles2 } from '@grafana/ui';
+import { Icon, IconButton, Tooltip, useStyles2, useTheme2 } from '@grafana/ui';
 import { flexRender, Header } from '@tanstack/react-table';
 import React, { useMemo } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
-import { ColumnHeaderFontSize } from '@/types';
+import { AdvancedSettings, ColumnHeaderFontSize } from '@/types';
 
 import { getStyles } from './TableHeaderCell.styles';
 import { TableHeaderCellFilter } from './TableHeaderCellFilter';
@@ -36,6 +36,16 @@ interface Props<TData> {
    * Add Row
    */
   onAddRow: () => void;
+
+  /**
+   * Open drawer set state
+   */
+  setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
+  /**
+   * Advanced options
+   */
+  advancedSettings: AdvancedSettings;
 }
 
 /**
@@ -46,17 +56,27 @@ export const testIds = TEST_IDS.tableHeaderCell;
 /**
  * Table Header Cell
  */
-export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRow }: Props<TData>) => {
+export const TableHeaderCell = <TData,>({
+  header,
+  size,
+  isAddRowEnabled,
+  onAddRow,
+  advancedSettings,
+  setDrawerOpen,
+}: Props<TData>) => {
   /**
    * Styles
    */
   const styles = useStyles2(getStyles);
+  const theme = useTheme2();
+
   const sort = header.column.getIsSorted();
   const fontColor = header.column.columnDef.meta?.config.appearance.header.fontColor || 'inherit';
   const tooltip = useMemo(
     () => header.column.columnDef.meta?.config.columnTooltip,
     [header.column.columnDef.meta?.config.columnTooltip]
   );
+
   /**
    * Actions Header
    */
@@ -78,6 +98,32 @@ export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRo
       </div>
     );
   }
+
+  const renderFilterIcon = () => {
+    if (header.column.columnDef.enableColumnFilter) {
+      if (advancedSettings.isColumnMangerAvailable && advancedSettings.showFiltersInColumnManager) {
+        return (
+          <button
+            onClick={() => setDrawerOpen(true)}
+            className={styles.filterButton}
+            {...TEST_IDS.tableHeaderCellFilter.root.apply()}
+          >
+            <Icon
+              name="filter"
+              size={size}
+              style={{
+                color: header.column.getIsFiltered() ? theme.colors.primary.text : theme.colors.secondary.text,
+              }}
+            />
+          </button>
+        );
+      }
+
+      return <TableHeaderCellFilter header={header} size={size} />;
+    }
+
+    return null;
+  };
 
   return (
     <>
@@ -105,7 +151,7 @@ export const TableHeaderCell = <TData,>({ header, size, isAddRowEnabled, onAddRo
           />
         )}
       </div>
-      {header.column.columnDef.enableColumnFilter && <TableHeaderCellFilter header={header} size={size} />}
+      {renderFilterIcon()}
     </>
   );
 };

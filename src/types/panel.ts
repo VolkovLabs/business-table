@@ -765,6 +765,27 @@ export interface PanelOptions {
   tabsSorting: boolean;
 
   /**
+   * Column UI manager
+   *
+   * @type {boolean}
+   */
+  isColumnMangerAvailable: boolean;
+
+  /**
+   * Filter UI manager
+   *
+   * @type {boolean}
+   */
+  showFiltersInColumnManager: boolean;
+
+  /**
+   * Save user Preference
+   *
+   * @type {boolean}
+   */
+  saveUserPreference: boolean;
+
+  /**
    * Toolbar
    *
    * @type {ToolbarOptions}
@@ -901,3 +922,9 @@ export enum ToolbarButtonsAlignment {
   LEFT = 'left',
   RIGHT = 'right',
 }
+
+export type AdvancedSettings = {
+  isColumnMangerAvailable: boolean;
+  showFiltersInColumnManager: boolean;
+  saveUserPreference: boolean;
+};
