@@ -15,12 +15,20 @@ import {
   createToolbarOptions,
 } from '@/utils';
 
+import { Table } from '../Table';
 import { TablePanel } from './TablePanel';
 
 /**
  * Props
  */
 type Props = React.ComponentProps<typeof TablePanel>;
+
+/**
+ * Mock Table
+ */
+jest.mock('../Table', () => ({
+  Table: jest.fn(() => null),
+}));
 
 /**
  * Mock hooks
@@ -376,5 +384,95 @@ describe('TablePanel', () => {
         }),
       })
     );
+  });
+  it('Should show open Drawer Button', async () => {
+    const tables = [
+      createTableConfig({
+        name: 'group1',
+        items: [
+          createColumnConfig({
+            field: { name: 'group1Field', source: '' },
+          }),
+        ],
+      }),
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            tables,
+            isColumnMangerAvailable: true,
+          }),
+        })
+      )
+    );
+    expect(selectors.buttonOpenDrawer(false, 'group1')).toBeInTheDocument();
+    await act(async () => fireEvent.click(selectors.buttonOpenDrawer(false, 'group1')));
+
+    expect(useTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        columns: [
+          expect.objectContaining({
+            field: {
+              name: 'group1Field',
+              source: '',
+            },
+          }),
+        ],
+      })
+    );
+
+    expect(Table).toHaveBeenLastCalledWith(expect.objectContaining({ isDrawerOpen: true }), expect.anything());
+  });
+
+  it('Should show open Drawer Button for current group', async () => {
+    const tables = [
+      createTableConfig({
+        name: 'group1',
+        items: [createColumnConfig({ field: { name: 'group1Field', source: '' } })],
+        rowHighlight: createRowHighlightConfig({}),
+      }),
+      createTableConfig({
+        name: 'group2',
+        items: [createColumnConfig({ field: { name: 'group2Field', source: '' } })],
+        rowHighlight: createRowHighlightConfig({
+          enabled: true,
+          smooth: true,
+        }),
+      }),
+    ];
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            tables,
+            isColumnMangerAvailable: true,
+          }),
+        })
+      )
+    );
+
+    /**
+     * Select group2
+     */
+    await act(async () => fireEvent.click(selectors.tab(false, 'group2')));
+
+    /**
+     * Check if group selected
+     */
+    expect(useTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        rowHighlightConfig: expect.objectContaining({
+          smooth: true,
+          enabled: true,
+        }),
+      })
+    );
+
+    expect(selectors.buttonOpenDrawer(false, 'group2')).toBeInTheDocument();
+    await act(async () => fireEvent.click(selectors.buttonOpenDrawer(false, 'group2')));
+
+    expect(Table).toHaveBeenLastCalledWith(expect.objectContaining({ isDrawerOpen: true }), expect.anything());
   });
 });

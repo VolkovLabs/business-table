@@ -8,6 +8,8 @@ import {
   ColumnFilterValue,
   ColumnPinDirection,
   NumberFilterOperator,
+  TablePreferenceColumn,
+  UserPreferences,
 } from '@/types';
 
 import {
@@ -17,10 +19,15 @@ import {
   createColumnAccessorFn,
   getFilterWithNewType,
   getFooterCell,
+  getSavedFilters,
   getSupportedFilterTypesForVariable,
+  getTableWithPreferences,
   getVariableColumnFilters,
   mergeColumnFilters,
   normalizeBooleanCellValue,
+  prepareColumnConfigsForPreferences,
+  saveWithCorrectFilters,
+  updateUserPreferenceTables,
 } from './table';
 import {
   createColumnConfig,
@@ -1270,6 +1277,416 @@ describe('Table utils', () => {
       ['fals', false],
     ])('Should convert value to boolean', (value, expected) => {
       expect(normalizeBooleanCellValue(value)).toEqual(expected);
+    });
+  });
+
+  /**
+   * returnFiltersWithPreferences
+   */
+  describe('returnFiltersWithPreferences', () => {
+    it('Should return empty array', () => {
+      const userPreferences: UserPreferences = {
+        tables: [],
+      };
+
+      const result = getSavedFilters(userPreferences, 'nonexistentTable');
+
+      expect(result).toEqual([]);
+    });
+
+    it('Should return empty if no filters in table', () => {
+      const userPreferences: UserPreferences = {
+        tables: [
+          {
+            name: 'testTable',
+            columns: [
+              { name: 'column1', enabled: true },
+              { name: 'column2', enabled: false },
+            ],
+          },
+        ],
+      };
+
+      const result = getSavedFilters(userPreferences, 'testTable');
+
+      expect(result).toEqual([]);
+    });
+
+    it('Should return filters if available', () => {
+      const userPreferences: UserPreferences = {
+        tables: [
+          {
+            name: 'testTable',
+            columns: [
+              { name: 'column1', filter: 'value1' },
+              { name: 'column2', filter: 'value2' },
+            ],
+          },
+        ],
+      };
+
+      const result = getSavedFilters(userPreferences, 'testTable');
+
+      expect(result).toEqual([
+        { id: 'column1', value: 'value1' },
+        { id: 'column2', value: 'value2' },
+      ]);
+    });
+
+    it('Should ignore columns without filters', () => {
+      const userPreferences: UserPreferences = {
+        tables: [
+          {
+            name: 'testTable',
+            columns: [{ name: 'column1', filter: 'value1' }, { name: 'column2' }],
+          },
+        ],
+      };
+
+      const result = getSavedFilters(userPreferences, 'testTable');
+
+      expect(result).toEqual([{ id: 'column1', value: 'value1' }]);
+    });
+  });
+
+  /**
+   * saveWithCorrectFilters
+   */
+  describe('saveWithCorrectFilters', () => {
+    const date = dateTime('2022-02-02 10:00:00');
+    it('Should return undefined for empty SEARCH filter', () => {
+      const filter: ColumnFilterValue = {
+        type: ColumnFilterType.SEARCH,
+        value: '',
+        caseSensitive: false,
+      };
+
+      expect(saveWithCorrectFilters(filter)).toBeUndefined();
+    });
+
+    it('Should return filter for SEARCH with non-empty value', () => {
+      const filter: ColumnFilterValue = {
+        type: ColumnFilterType.SEARCH,
+        value: 'test',
+        caseSensitive: true,
+      };
+
+      expect(saveWithCorrectFilters(filter)).toEqual(filter);
+    });
+
+    it('Should return undefined for empty FACETED filter', () => {
+      const filter: ColumnFilterValue = {
+        type: ColumnFilterType.FACETED,
+        value: [],
+      };
+
+      expect(saveWithCorrectFilters(filter)).toBeUndefined();
+    });
+
+    it('Should return filter for FACETED with non-empty value', () => {
+      const filter: ColumnFilterValue = {
+        type: ColumnFilterType.FACETED,
+        value: ['option1', 'option2'],
+      };
+
+      expect(saveWithCorrectFilters(filter)).toEqual(filter);
+    });
+
+    it('Should always return NUMBER filter', () => {
+      const filter: ColumnFilterValue = {
+        type: ColumnFilterType.NUMBER,
+        value: [10, 100],
+        operator: NumberFilterOperator.EQUAL,
+      };
+
+      expect(saveWithCorrectFilters(filter)).toEqual(filter);
+    });
+
+    it('Should return TIMESTAMP filter if dates are valid', () => {
+      const filter: ColumnFilterValue = {
+        type: ColumnFilterType.TIMESTAMP,
+        value: {
+          from: dateTime(date).subtract(1, 'day'),
+          to: dateTime(date).add('1', 'day'),
+          raw: {
+            from: date,
+            to: date,
+          },
+        },
+      };
+
+      expect(saveWithCorrectFilters(filter)).toEqual(filter);
+    });
+
+    it("Should return undefined for 'none' type", () => {
+      const filter: ColumnFilterValue = {
+        type: 'none',
+      };
+
+      expect(saveWithCorrectFilters(filter)).toBeUndefined();
+    });
+  });
+
+  /**
+   * transformColumnConfigs
+   */
+  describe('transformColumnConfigs', () => {
+    it('Should return transformed column configs with existing filters', () => {
+      const columnConfigs = [
+        { field: { name: 'column1' }, enabled: true },
+        { field: { name: 'column2' }, enabled: false },
+      ] as any;
+
+      const userPreferences: UserPreferences = {
+        tables: [
+          {
+            name: 'testTable',
+            columns: [
+              { name: 'column1', filter: 'filterValue1' },
+              { name: 'column2', filter: 'filterValue2' },
+            ],
+          },
+        ],
+      };
+
+      expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
+        { name: 'column1', enabled: true, filter: 'filterValue1' },
+        { name: 'column2', enabled: false, filter: 'filterValue2' },
+      ]);
+    });
+
+    it('Should return transformed column configs with null filters if not found in preferences', () => {
+      const columnConfigs = [
+        { field: { name: 'column1' }, enabled: true },
+        { field: { name: 'column3' }, enabled: false },
+      ] as any;
+
+      const userPreferences: UserPreferences = {
+        tables: [
+          {
+            name: 'testTable',
+            columns: [{ name: 'column1', filter: 'filterValue1' }],
+          },
+        ],
+      };
+
+      expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
+        { name: 'column1', enabled: true, filter: 'filterValue1' },
+        { name: 'column3', enabled: false, filter: null },
+      ]);
+    });
+
+    it('Should return transformed column configs with null filters if table is not found', () => {
+      const columnConfigs = [{ field: { name: 'column1' }, enabled: true }] as any;
+
+      const userPreferences: UserPreferences = {
+        tables: [
+          {
+            name: 'otherTable',
+            columns: [{ name: 'column1', filter: 'filterValue1' }],
+          },
+        ],
+      };
+
+      expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
+        { name: 'column1', enabled: true, filter: null },
+      ]);
+    });
+
+    it('Should return transformed column configs with null filters if userPreferences.tables is undefined', () => {
+      const columnConfigs = [{ field: { name: 'column1' }, enabled: true }] as any;
+
+      const userPreferences: UserPreferences = {};
+
+      expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
+        { name: 'column1', enabled: true, filter: null },
+      ]);
+    });
+  });
+
+  /**
+   * returnTableWithPreference
+   */
+  describe('returnTableWithPreference', () => {
+    it('Should return the currentTable when no matching savedTable is found', () => {
+      const currentTable = {
+        name: 'Table1',
+        items: [
+          { field: { name: 'field1' }, enabled: true },
+          { field: { name: 'field2' }, enabled: true },
+        ],
+      } as any;
+
+      const userPreferences = { tables: [] };
+
+      const result = getTableWithPreferences(currentTable, userPreferences);
+
+      expect(result).toEqual(currentTable);
+    });
+
+    it('Should update items based on saved preferences', () => {
+      const currentTable = {
+        name: 'Table1',
+        items: [
+          { field: { name: 'field1' }, enabled: true },
+          { field: { name: 'field2' }, enabled: true },
+        ],
+      } as any;
+
+      const userPreferences = {
+        tables: [
+          {
+            name: 'Table1',
+            columns: [
+              { name: 'field1', enabled: false },
+              { name: 'field2', enabled: true },
+            ],
+          },
+        ],
+      };
+
+      const result = getTableWithPreferences(currentTable, userPreferences);
+
+      expect(result?.items).toEqual([
+        { field: { name: 'field1' }, enabled: false },
+        { field: { name: 'field2' }, enabled: true },
+      ]);
+    });
+
+    it('Should apply the correct order of items from saved preferences', () => {
+      const currentTable = {
+        name: 'Table1',
+        items: [
+          { field: { name: 'field1' }, enabled: true },
+          { field: { name: 'field2' }, enabled: true },
+        ],
+      } as any;
+
+      const userPreferences = {
+        tables: [
+          {
+            name: 'Table1',
+            columns: [
+              { name: 'field2', enabled: true },
+              { name: 'field1', enabled: false },
+            ],
+          },
+        ],
+      };
+
+      const result = getTableWithPreferences(currentTable, userPreferences);
+
+      expect(result?.items).toEqual([
+        { field: { name: 'field2' }, enabled: true },
+        { field: { name: 'field1' }, enabled: false },
+      ]);
+    });
+
+    it('Should handle the case where currentTable or userPreferences is undefined', () => {
+      const result = getTableWithPreferences(undefined, { tables: [] });
+      expect(result).toBeUndefined();
+
+      const result2 = getTableWithPreferences({} as any, undefined as any);
+      expect(result2).toEqual({});
+    });
+
+    it('Should not modify items when no corresponding preference is found', () => {
+      const currentTable = {
+        name: 'Table1',
+        items: [
+          { field: { name: 'field1' }, enabled: true },
+          { field: { name: 'field2' }, enabled: true },
+        ],
+      } as any;
+
+      const userPreferences = {
+        tables: [
+          {
+            name: 'Table1',
+            columns: [{ name: 'field3', enabled: false }],
+          },
+        ],
+      };
+
+      const result = getTableWithPreferences(currentTable, userPreferences);
+
+      expect(result?.items).toEqual([
+        { field: { name: 'field1' }, enabled: true },
+        { field: { name: 'field2' }, enabled: true },
+      ]);
+    });
+
+    it('Should apply order correctly', () => {
+      const currentTable = {
+        name: 'Table1',
+        items: [
+          { field: { name: 'A' }, enabled: true },
+          { field: { name: 'B' }, enabled: true },
+          { field: { name: 'C' }, enabled: true },
+          { field: { name: 'D' }, enabled: true },
+        ],
+      } as any;
+
+      const userPreferences = {
+        tables: [
+          {
+            name: 'Table1',
+            columns: [
+              { name: 'C', enabled: true },
+              { name: 'A', enabled: false },
+            ],
+          },
+        ],
+      };
+
+      const result = getTableWithPreferences(currentTable, userPreferences);
+
+      expect(result?.items).toEqual([
+        { field: { name: 'C' }, enabled: true },
+        { field: { name: 'A' }, enabled: false },
+        { field: { name: 'B' }, enabled: true },
+        { field: { name: 'D' }, enabled: true },
+      ]);
+    });
+  });
+
+  /**
+   * updateUserPreferenceTables
+   */
+  describe('updateUserPreferenceTables', () => {
+    const tableName = 'testTable';
+    const updatedColumns: TablePreferenceColumn[] = [
+      { name: 'column1', enabled: true },
+      { name: 'column2', enabled: false },
+    ];
+
+    it('Should add a new table if not present', () => {
+      const userPreferences: UserPreferences = { tables: [] };
+      const updatedTables = updateUserPreferenceTables(tableName, userPreferences, updatedColumns);
+
+      expect(updatedTables).toHaveLength(1);
+      expect(updatedTables[0].name).toEqual(tableName);
+      expect(updatedTables[0].columns).toEqual(updatedColumns);
+    });
+
+    it('Should update columns of an existing table', () => {
+      const userPreferences: UserPreferences = {
+        tables: [{ name: tableName, columns: [{ name: 'oldColumn', enabled: true }] }],
+      };
+      const updatedTables = updateUserPreferenceTables(tableName, userPreferences, updatedColumns);
+
+      expect(updatedTables).toHaveLength(1);
+      expect(updatedTables[0].name).toEqual(tableName);
+      expect(updatedTables[0].columns).toEqual(updatedColumns);
+    });
+
+    it('Should handle undefined tables gracefully', () => {
+      const userPreferences: UserPreferences = {};
+      const updatedTables = updateUserPreferenceTables(tableName, userPreferences, updatedColumns);
+
+      expect(updatedTables).toHaveLength(1);
+      expect(updatedTables[0].name).toEqual(tableName);
+      expect(updatedTables[0].columns).toEqual(updatedColumns);
     });
   });
 });

@@ -111,5 +111,10 @@ export const getStyles = (theme: GrafanaTheme2) => {
         margin-bottom: 0;
       }
     `,
+    drawerTitle: css`
+      padding: ${theme.spacing(2, 2, 0, 2)};
+      display: flex;
+      gap: ${theme.spacing(2)};
+    `,
   };
 };

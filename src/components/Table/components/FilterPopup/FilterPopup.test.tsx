@@ -8,16 +8,13 @@ import { TEST_IDS } from '@/constants';
 import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue } from '@/types';
 import { getFilterWithNewType } from '@/utils';
 
-import { FilterFacetedList, FilterNumber, FilterSearch, FilterTime } from './components';
+import { FilterSection } from '../FilterSection';
 import { FilterPopup } from './FilterPopup';
 
 type Props = React.ComponentProps<typeof FilterPopup>;
 
 const inTestIds = {
-  filterTime: createSelector('data-testid filter-time'),
-  filterNumber: createSelector('data-testid filter-number'),
-  filterFaceted: createSelector('data-testid filter-faceted'),
-  filterSearch: createSelector('data-testid filter-search'),
+  filterSection: createSelector('data-testid filter-section'),
 };
 
 const createFilterMock =
@@ -35,19 +32,13 @@ const createFilterMock =
     );
   };
 
-const FilterTimeMock = createFilterMock(inTestIds.filterTime.selector());
-const FilterFacetedMock = createFilterMock(inTestIds.filterFaceted.selector());
-const FilterSearchMock = createFilterMock(inTestIds.filterSearch.selector());
-const FilterNumberMock = createFilterMock(inTestIds.filterNumber.selector());
+const FilterSectionMock = createFilterMock(inTestIds.filterSection.selector());
 
 /**
  * Mock filters
  */
-jest.mock('./components', () => ({
-  FilterTime: jest.fn(),
-  FilterSearch: jest.fn(),
-  FilterFacetedList: jest.fn(),
-  FilterNumber: jest.fn(),
+jest.mock('../FilterSection', () => ({
+  FilterSection: jest.fn(),
 }));
 
 describe('FilterPopup', () => {
@@ -92,10 +83,7 @@ describe('FilterPopup', () => {
   };
 
   beforeEach(() => {
-    jest.mocked(FilterNumber).mockImplementation(FilterNumberMock);
-    jest.mocked(FilterSearch).mockImplementation(FilterSearchMock);
-    jest.mocked(FilterFacetedList).mockImplementation(FilterFacetedMock);
-    jest.mocked(FilterTime).mockImplementation(FilterTimeMock);
+    jest.mocked(FilterSection).mockImplementation(FilterSectionMock);
   });
 
   it('Should render', () => {
@@ -113,32 +101,6 @@ describe('FilterPopup', () => {
     );
 
     expect(selectors.root()).toBeInTheDocument();
-  });
-
-  it('Should allow to change filter type if several', () => {
-    render(
-      getComponent({
-        header: {
-          column: {
-            getFilterValue: () => undefined,
-            columnDef: {
-              meta: {
-                filterMode: ColumnFilterMode.CLIENT,
-                availableFilterTypes: [ColumnFilterType.SEARCH, ColumnFilterType.FACETED],
-              },
-            },
-          },
-        } as any,
-      })
-    );
-
-    expect(selectors.filterSearch()).toBeInTheDocument();
-    expect(selectors.filterFaceted(true)).not.toBeInTheDocument();
-
-    fireEvent.click(selectors.typeOption(false, ColumnFilterType.FACETED));
-
-    expect(selectors.filterSearch(true)).not.toBeInTheDocument();
-    expect(selectors.filterFaceted()).toBeInTheDocument();
   });
 
   it('Should allow to reset filter', () => {
@@ -195,10 +157,10 @@ describe('FilterPopup', () => {
 
     expect(selectors.root()).toBeInTheDocument();
 
-    expect(selectors.filterSearch()).toBeInTheDocument();
+    expect(selectors.filterSection()).toBeInTheDocument();
 
     triggerFilterChange(
-      selectors.filterSearch(),
+      selectors.filterSection(),
       createFilterValue({
         type: ColumnFilterType.SEARCH,
         value: 'abc',
@@ -255,82 +217,6 @@ describe('FilterPopup', () => {
     );
   });
 
-  describe('Search', () => {
-    it('Should allow to use client filter', async () => {
-      const setFilterValue = jest.fn();
-
-      render(
-        getComponent({
-          header: {
-            column: {
-              setFilterValue,
-              getFilterValue: () => undefined,
-              columnDef: {
-                meta: {
-                  filterMode: ColumnFilterMode.CLIENT,
-                  availableFilterTypes: [ColumnFilterType.SEARCH],
-                },
-              },
-            },
-          } as any,
-        })
-      );
-
-      expect(selectors.root()).toBeInTheDocument();
-
-      expect(selectors.filterSearch()).toBeInTheDocument();
-
-      const filterValue = createFilterValue({
-        type: ColumnFilterType.SEARCH,
-        value: 'abc',
-      });
-
-      triggerFilterChange(selectors.filterSearch(), filterValue);
-
-      fireEvent.click(selectors.buttonSave());
-
-      expect(setFilterValue).toHaveBeenCalledWith(filterValue);
-      expect(onClose).toHaveBeenCalled();
-    });
-
-    it('Should clear client filter if empty', async () => {
-      const setFilterValue = jest.fn();
-
-      render(
-        getComponent({
-          header: {
-            column: {
-              setFilterValue,
-              getFilterValue: () => undefined,
-              columnDef: {
-                meta: {
-                  filterMode: ColumnFilterMode.CLIENT,
-                  availableFilterTypes: [ColumnFilterType.SEARCH],
-                },
-              },
-            },
-          } as any,
-        })
-      );
-
-      expect(selectors.root()).toBeInTheDocument();
-
-      expect(selectors.filterSearch()).toBeInTheDocument();
-
-      const filterValue = createFilterValue({
-        type: ColumnFilterType.SEARCH,
-        value: '',
-      });
-
-      triggerFilterChange(selectors.filterSearch(), filterValue);
-
-      fireEvent.click(selectors.buttonSave());
-
-      expect(setFilterValue).toHaveBeenCalledWith(undefined);
-      expect(onClose).toHaveBeenCalled();
-    });
-  });
-
   describe('Faceted', () => {
     it('Should allow to use client filter', async () => {
       const setFilterValue = jest.fn();
@@ -354,55 +240,18 @@ describe('FilterPopup', () => {
 
       expect(selectors.root()).toBeInTheDocument();
 
-      expect(selectors.filterFaceted()).toBeInTheDocument();
+      expect(selectors.filterSection()).toBeInTheDocument();
 
       const filterValue = createFilterValue({
         type: ColumnFilterType.FACETED,
         value: ['a', 'b'],
       });
 
-      triggerFilterChange(selectors.filterFaceted(), filterValue);
+      triggerFilterChange(selectors.filterSection(), filterValue);
 
       fireEvent.click(selectors.buttonSave());
 
       expect(setFilterValue).toHaveBeenCalledWith(filterValue);
-      expect(onClose).toHaveBeenCalled();
-    });
-
-    it('Should clear client filter if empty', async () => {
-      const setFilterValue = jest.fn();
-
-      render(
-        getComponent({
-          header: {
-            column: {
-              setFilterValue,
-              getFilterValue: () => undefined,
-              columnDef: {
-                meta: {
-                  filterMode: ColumnFilterMode.CLIENT,
-                  availableFilterTypes: [ColumnFilterType.FACETED],
-                },
-              },
-            },
-          } as any,
-        })
-      );
-
-      expect(selectors.root()).toBeInTheDocument();
-
-      expect(selectors.filterFaceted()).toBeInTheDocument();
-
-      const filterValue = createFilterValue({
-        type: ColumnFilterType.FACETED,
-        value: [],
-      });
-
-      triggerFilterChange(selectors.filterFaceted(), filterValue);
-
-      fireEvent.click(selectors.buttonSave());
-
-      expect(setFilterValue).toHaveBeenCalledWith(undefined);
       expect(onClose).toHaveBeenCalled();
     });
   });
@@ -430,14 +279,14 @@ describe('FilterPopup', () => {
 
       expect(selectors.root()).toBeInTheDocument();
 
-      expect(selectors.filterNumber()).toBeInTheDocument();
+      expect(selectors.filterSection()).toBeInTheDocument();
 
       const filterValue = createFilterValue({
         type: ColumnFilterType.NUMBER,
         value: [0, 10],
       });
 
-      triggerFilterChange(selectors.filterNumber(), filterValue);
+      triggerFilterChange(selectors.filterSection(), filterValue);
 
       fireEvent.click(selectors.buttonSave());
 
@@ -469,7 +318,7 @@ describe('FilterPopup', () => {
 
       expect(selectors.root()).toBeInTheDocument();
 
-      expect(selectors.filterTime()).toBeInTheDocument();
+      expect(selectors.filterSection()).toBeInTheDocument();
 
       const filterValue = createFilterValue({
         type: ColumnFilterType.TIMESTAMP,
@@ -483,50 +332,11 @@ describe('FilterPopup', () => {
         },
       });
 
-      triggerFilterChange(selectors.filterTime(), filterValue);
+      triggerFilterChange(selectors.filterSection(), filterValue);
 
       fireEvent.click(selectors.buttonSave());
 
       expect(setFilterValue).toHaveBeenCalledWith(filterValue);
-      expect(onClose).toHaveBeenCalled();
-    });
-
-    it('Should clear client filter if empty', async () => {
-      const setFilterValue = jest.fn();
-
-      render(
-        getComponent({
-          header: {
-            column: {
-              setFilterValue,
-              getFilterValue: () => undefined,
-              columnDef: {
-                meta: {
-                  filterMode: ColumnFilterMode.CLIENT,
-                  availableFilterTypes: [ColumnFilterType.TIMESTAMP],
-                },
-              },
-            },
-          } as any,
-        })
-      );
-
-      expect(selectors.root()).toBeInTheDocument();
-
-      expect(selectors.filterTime()).toBeInTheDocument();
-
-      /**
-       * By Default invalid value is created
-       */
-      const filterValue = createFilterValue({
-        type: ColumnFilterType.TIMESTAMP,
-      });
-
-      triggerFilterChange(selectors.filterTime(), filterValue);
-
-      fireEvent.click(selectors.buttonSave());
-
-      expect(setFilterValue).toHaveBeenCalledWith(undefined);
       expect(onClose).toHaveBeenCalled();
     });
   });

@@ -737,6 +737,38 @@ describe('migration', () => {
   });
 
   describe('2.5.0', () => {
+    it('Should normalize saveUserPreference, showFiltersInColumnManager, isColumnMangerAvailable', async () => {
+      expect(await getMigratedOptions({ options: {} } as any)).toEqual(
+        expect.objectContaining({
+          saveUserPreference: false,
+          showFiltersInColumnManager: false,
+          isColumnMangerAvailable: false,
+        })
+      );
+      expect(
+        await getMigratedOptions({
+          options: { saveUserPreference: false, showFiltersInColumnManager: false, isColumnMangerAvailable: false },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          saveUserPreference: false,
+          showFiltersInColumnManager: false,
+          isColumnMangerAvailable: false,
+        })
+      );
+      expect(
+        await getMigratedOptions({
+          options: { saveUserPreference: true, showFiltersInColumnManager: true, isColumnMangerAvailable: true },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          saveUserPreference: true,
+          showFiltersInColumnManager: true,
+          isColumnMangerAvailable: true,
+        })
+      );
+    });
+
     it('Should normalize File cell option for items', async () => {
       const normalizedOptions = await getMigratedOptions({
         options: createPanelOptions({
