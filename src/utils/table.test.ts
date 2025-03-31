@@ -906,14 +906,14 @@ describe('Table utils', () => {
     const nameField: Field = {
       name: 'name',
       config: {
-        displayName: 'Name',
+        displayName: 'name',
       },
       type: FieldType.string,
       values: ['device1', 'device2'],
     };
     const valueField = {
       name: 'value',
-      config: {},
+      config: { displayName: 'value' },
       type: FieldType.number,
       values: [10, 20],
     };
@@ -934,6 +934,7 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
+          header: 'name',
         },
         {
           id: 'value',
@@ -941,6 +942,7 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: frame.fields[1],
           }),
+          header: 'value',
         },
       ];
 
@@ -983,6 +985,7 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: null as never,
           }),
+          header: 'name',
         },
         {
           id: 'value',
@@ -990,6 +993,7 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: frame.fields[1],
           }),
+          header: 'value',
         },
       ];
 
@@ -1017,7 +1021,7 @@ describe('Table utils', () => {
       expect(result.fields[0]).toEqual({
         type: FieldType.other,
         name: 'name',
-        config: {},
+        config: { displayName: 'name' },
         values: nameField.values,
       });
       expect(result.fields[1]).toEqual({
@@ -1034,6 +1038,7 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
+          header: 'name',
         },
         {
           id: 'value',
@@ -1044,6 +1049,7 @@ describe('Table utils', () => {
               pin: ColumnPinDirection.LEFT,
             }),
           }),
+          header: 'value',
           enablePinning: true,
         },
       ];
@@ -1071,6 +1077,9 @@ describe('Table utils', () => {
 
       expect(result.fields[0]).toEqual({
         ...valueField,
+        config: {
+          displayName: 'value',
+        },
         values: valueField.values,
       });
       expect(result.fields[1]).toEqual({
@@ -1087,6 +1096,7 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
+          header: 'name',
         },
         {
           id: 'value',
@@ -1096,6 +1106,7 @@ describe('Table utils', () => {
             filterMode: ColumnFilterMode.CLIENT,
             field: frame.fields[1],
           }),
+          header: 'value',
           filterFn: columnFilter,
         },
       ];
@@ -1141,6 +1152,7 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
+          header: 'name',
         },
         {
           id: 'value',
@@ -1148,6 +1160,7 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: frame.fields[1],
           }),
+          header: 'value',
         },
       ];
 
@@ -1191,6 +1204,10 @@ describe('Table utils', () => {
           meta: createColumnMeta({
             field: frame.fields[0],
           }),
+          /**
+           * Should get name from id instead header field
+           */
+          header: '',
         },
         {
           id: 'value',
@@ -1202,6 +1219,7 @@ describe('Table utils', () => {
             field: frame.fields[1],
             footerEnabled: true,
           }),
+          header: 'value',
           enablePinning: true,
         },
       ];
