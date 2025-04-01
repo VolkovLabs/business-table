@@ -110,7 +110,7 @@ export const TablePanel: React.FC<Props> = ({
   const [userPreferences, setUserPreferences] = useSavedState<UserPreferences>({
     key: `volkovlabs.table.panel.${id}.user.preferences`,
     initialValue: {},
-    enabled: options.isColumnMangerAvailable && options.saveUserPreference,
+    enabled: options.isColumnManagerAvailable && options.saveUserPreference,
   });
 
   /**
@@ -223,8 +223,8 @@ export const TablePanel: React.FC<Props> = ({
    * Is Toolbar Visible
    */
   const isToolbarVisible = useMemo(() => {
-    return sortedGroups.length > 1 || options.toolbar.export || options.isColumnMangerAvailable || isExportAvailable;
-  }, [options.isColumnMangerAvailable, options.toolbar.export, isExportAvailable, sortedGroups.length]);
+    return sortedGroups.length > 1 || options.toolbar.export || options.isColumnManagerAvailable || isExportAvailable;
+  }, [options.isColumnManagerAvailable, options.toolbar.export, isExportAvailable, sortedGroups.length]);
 
   /**
    * Content Sizes
@@ -306,7 +306,7 @@ export const TablePanel: React.FC<Props> = ({
         {isToolbarVisible && (
           <div ref={headerRef} className={styles.header}>
             <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
-              {options.isColumnMangerAvailable && sortedGroups.length === 1 && (
+              {options.isColumnManagerAvailable && sortedGroups.length === 1 && (
                 <>
                   {currentTable?.name}
                   <Icon
@@ -335,7 +335,7 @@ export const TablePanel: React.FC<Props> = ({
                     {...TEST_IDS.panel.tab.apply(group.name)}
                   >
                     {group.name}
-                    {options.isColumnMangerAvailable && currentGroup === group.name && (
+                    {options.isColumnManagerAvailable && currentGroup === group.name && (
                       <Icon
                         className={styles.drawerButton}
                         name="table"
@@ -411,7 +411,7 @@ export const TablePanel: React.FC<Props> = ({
             setUserPreferences({});
           }}
           advancedSettings={{
-            isColumnMangerAvailable: options.isColumnMangerAvailable,
+            isColumnManagerAvailable: options.isColumnManagerAvailable,
             showFiltersInColumnManager: options.showFiltersInColumnManager,
             saveUserPreference: options.saveUserPreference,
           }}

@@ -73,7 +73,7 @@ describe('Drawer Columns', () => {
         userPreferences={{}}
         advancedSettings={{
           showFiltersInColumnManager: true,
-          isColumnMangerAvailable: true,
+          isColumnManagerAvailable: true,
           saveUserPreference: true,
         }}
         {...(props as any)}

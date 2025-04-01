@@ -119,7 +119,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
      */
     builder
       .addBooleanSwitch({
-        path: 'isColumnMangerAvailable',
+        path: 'isColumnManagerAvailable',
         name: 'Column Manager',
         description: 'Allowing column display management via a side panel.',
         category: ['Advanced'],
@@ -128,14 +128,14 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         path: 'showFiltersInColumnManager',
         name: 'Show filters',
         description: 'Allowing set filters for columns via a side panel.',
-        showIf: (config) => config.isColumnMangerAvailable,
+        showIf: (config) => config.isColumnManagerAvailable,
         category: ['Advanced'],
       })
       .addBooleanSwitch({
         path: 'saveUserPreference',
         name: 'Save Preferences',
         description: 'Enable to save table settings to User Preferences, overriding current table configuration.',
-        showIf: (config) => config.isColumnMangerAvailable,
+        showIf: (config) => config.isColumnManagerAvailable,
         category: ['Advanced'],
       });
     return builder;

@@ -526,10 +526,10 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
   }
 
   /**
-   * Normalize isColumnMangerAvailable
+   * Normalize isColumnManagerAvailable
    */
-  if (options.isColumnMangerAvailable === undefined) {
-    options.isColumnMangerAvailable = false;
+  if (options.isColumnManagerAvailable === undefined) {
+    options.isColumnManagerAvailable = false;
   }
 
   /**
