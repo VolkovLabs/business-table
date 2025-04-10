@@ -38,5 +38,8 @@ export const getStyles = (theme: GrafanaTheme2) => {
     itemName: css`
       margin: ${theme.spacing(0, 1)};
     `,
+    labelSortable: css`
+      cursor: pointer;
+    `,
   };
 };

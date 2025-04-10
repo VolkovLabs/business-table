@@ -4,7 +4,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 /**
  * Use Sort State
  */
-export const useSortState = <TData>({ columns }: { columns: Array<ColumnDef<TData>> }) => {
+export const useSortState = <TData>({
+  columns,
+  userSortingPreference,
+}: {
+  columns: Array<ColumnDef<TData>>;
+  userSortingPreference: SortingState;
+}) => {
   /**
    * State
    */
@@ -20,7 +26,7 @@ export const useSortState = <TData>({ columns }: { columns: Array<ColumnDef<TDat
      */
     const firstSortableColumn = columns.find((column) => column.enableSorting);
 
-    if (firstSortableColumn) {
+    if (firstSortableColumn && !userSortingPreference.length) {
       /**
        * Change if new column
        */
@@ -45,7 +51,22 @@ export const useSortState = <TData>({ columns }: { columns: Array<ColumnDef<TDat
       setSorting([]);
       setColumnId(undefined);
     }
-  }, [column, columns, sorting]);
+  }, [column, columns, sorting, userSortingPreference.length]);
+
+  /**
+   * Use user Preferences
+   */
+  useEffect(() => {
+    if (userSortingPreference && !!userSortingPreference.length) {
+      setSorting(userSortingPreference);
+
+      /**
+       * Find first sortable column based on preferences
+       */
+      const firstSortableColumn = columns.find((column) => column.id === userSortingPreference[0].id);
+      setColumnId(firstSortableColumn);
+    }
+  }, [columns, userSortingPreference]);
 
   /**
    * Change state via table handler

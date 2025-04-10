@@ -185,262 +185,270 @@ describe('Drawer Columns', () => {
     jest.mocked(FilterDrawer).mockImplementation(FilterDrawerMock);
   });
 
-  it('Should render component', async () => {
-    await act(async () => render(getComponent({})));
+  describe('Render', () => {
+    it('Should render component', async () => {
+      await act(async () => render(getComponent({})));
 
-    expect(selectors.root()).toBeInTheDocument();
-  });
-
-  it('Should render Items', async () => {
-    await act(async () =>
-      render(
-        getComponent({
-          drawerColumns: [nameColumn, valueColumn],
-          headers: defaultHeaders,
-        })
-      )
-    );
-
-    expect(selectors.root()).toBeInTheDocument();
-
-    expect(selectors.columnItem(false, 'name')).toBeInTheDocument();
-    expect(selectors.columnItem(false, 'value')).toBeInTheDocument();
-  });
-
-  it('Should hide item', async () => {
-    const updateTablesPreferences = jest.fn();
-
-    await act(async () =>
-      render(
-        getComponent({
-          currentTableName: 'Test Table',
-          updateTablesPreferences,
-          drawerColumns: [nameColumn, valueColumn],
-          headers: defaultHeaders,
-        })
-      )
-    );
-
-    expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.buttonToggleVisibility(false, 'name')).toBeInTheDocument();
-
-    /**
-     * Hide
-     */
-    await act(() => fireEvent.click(selectors.buttonToggleVisibility(false, 'name')));
-
-    expect(updateTablesPreferences).toHaveBeenCalledWith('Test Table', [
-      { enabled: false, filter: null, name: 'name' },
-      { enabled: true, filter: null, name: 'value' },
-    ]);
-  });
-
-  it('Should show item', async () => {
-    const updateTablesPreferences = jest.fn();
-
-    await act(async () =>
-      render(
-        getComponent({
-          currentTableName: 'Test Table',
-          updateTablesPreferences,
-          drawerColumns: [{ ...nameColumn, enabled: false }, valueColumn],
-          headers: defaultHeaders,
-        })
-      )
-    );
-
-    expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.buttonToggleVisibility(false, 'name')).toBeInTheDocument();
-
-    /**
-     * Hide
-     */
-    await act(() => fireEvent.click(selectors.buttonToggleVisibility(false, 'name')));
-
-    expect(updateTablesPreferences).toHaveBeenCalledWith('Test Table', [
-      { enabled: true, filter: null, name: 'name' },
-      { enabled: true, filter: null, name: 'value' },
-    ]);
-  });
-
-  it('Should show Filter section', async () => {
-    const updateTablesPreferences = jest.fn();
-
-    await act(async () =>
-      render(
-        getComponent({
-          currentTableName: 'Test Table',
-          updateTablesPreferences,
-          drawerColumns: [{ ...nameColumn, enabled: false }, valueColumn],
-          headers: defaultHeaders,
-        })
-      )
-    );
-
-    expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.columnItemFilter(false, 'name')).toBeInTheDocument();
-  });
-
-  it('Should allow to change filters', async () => {
-    const updateTablesPreferences = jest.fn();
-
-    await act(async () =>
-      render(
-        getComponent({
-          currentTableName: 'Test Table',
-          updateTablesPreferences,
-          drawerColumns: [{ ...nameColumn, enabled: true }, valueColumn],
-          headers: defaultHeaders,
-        })
-      )
-    );
-
-    expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.columnItemFilter(false, 'name')).toBeInTheDocument();
-    const drawers = screen.queryAllByTestId('data-testid filter-drawer');
-    expect(drawers[0]).toBeInTheDocument();
-
-    const filterValue = createFilterValue({
-      type: ColumnFilterType.SEARCH,
-      value: 'test',
+      expect(selectors.root()).toBeInTheDocument();
     });
 
-    triggerFilterChange(drawers[0], 'name', filterValue);
+    it('Should render Items', async () => {
+      await act(async () =>
+        render(
+          getComponent({
+            drawerColumns: [nameColumn, valueColumn],
+            headers: defaultHeaders,
+          })
+        )
+      );
 
-    expect(updateTablesPreferences).toHaveBeenCalled();
+      expect(selectors.root()).toBeInTheDocument();
 
-    expect(updateTablesPreferences).toHaveBeenCalledWith('Test Table', [
-      { enabled: true, filter: filterValue, name: 'name' },
-      { enabled: true, filter: null, name: 'value' },
-    ]);
+      expect(selectors.columnItem(false, 'name')).toBeInTheDocument();
+      expect(selectors.columnItem(false, 'value')).toBeInTheDocument();
+    });
   });
 
-  it('Should allow to change filters with preferences and update preferences', async () => {
-    const updateTablesPreferences = jest.fn();
+  describe('Show/hide', () => {
+    it('Should hide item', async () => {
+      const updateTablesPreferences = jest.fn();
 
-    await act(async () =>
-      render(
-        getComponent({
-          currentTableName: 'Table',
-          updateTablesPreferences,
-          drawerColumns: [{ ...nameColumn, enabled: true }],
-          headers: defaultHeaders,
-          userPreferences: {
-            tables: [
-              {
-                name: 'Table',
-                columns: [
-                  {
-                    name: 'name',
-                    enabled: true,
-                    filter: null,
-                  },
-                  {
-                    name: 'value',
-                    enabled: true,
-                    filter: null,
-                  },
-                ],
-              },
-            ],
+      await act(async () =>
+        render(
+          getComponent({
+            currentTableName: 'Test Table',
+            updateTablesPreferences,
+            drawerColumns: [nameColumn, valueColumn],
+            headers: defaultHeaders,
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.buttonToggleVisibility(false, 'name')).toBeInTheDocument();
+
+      /**
+       * Hide
+       */
+      await act(() => fireEvent.click(selectors.buttonToggleVisibility(false, 'name')));
+
+      expect(updateTablesPreferences).toHaveBeenCalledWith('Test Table', [
+        { enabled: false, filter: null, name: 'name', sort: { descFirst: false, enabled: false } },
+        { enabled: true, filter: null, name: 'value', sort: { descFirst: false, enabled: false } },
+      ]);
+    });
+
+    it('Should show item', async () => {
+      const updateTablesPreferences = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            currentTableName: 'Test Table',
+            updateTablesPreferences,
+            drawerColumns: [{ ...nameColumn, enabled: false }, valueColumn],
+            headers: defaultHeaders,
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.buttonToggleVisibility(false, 'name')).toBeInTheDocument();
+
+      /**
+       * Hide
+       */
+      await act(() => fireEvent.click(selectors.buttonToggleVisibility(false, 'name')));
+
+      expect(updateTablesPreferences).toHaveBeenCalledWith('Test Table', [
+        { enabled: true, filter: null, name: 'name', sort: { descFirst: false, enabled: false } },
+        { enabled: true, filter: null, name: 'value', sort: { descFirst: false, enabled: false } },
+      ]);
+    });
+  });
+
+  describe('Filtering ', () => {
+    it('Should show Filter section', async () => {
+      const updateTablesPreferences = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            currentTableName: 'Test Table',
+            updateTablesPreferences,
+            drawerColumns: [{ ...nameColumn, enabled: false }, valueColumn],
+            headers: defaultHeaders,
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.columnItemFilter(false, 'name')).toBeInTheDocument();
+    });
+
+    it('Should allow to change filters', async () => {
+      const updateTablesPreferences = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            currentTableName: 'Test Table',
+            updateTablesPreferences,
+            drawerColumns: [{ ...nameColumn, enabled: true }, valueColumn],
+            headers: defaultHeaders,
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.columnItemFilter(false, 'name')).toBeInTheDocument();
+      const drawers = screen.queryAllByTestId('data-testid filter-drawer');
+      expect(drawers[0]).toBeInTheDocument();
+
+      const filterValue = createFilterValue({
+        type: ColumnFilterType.SEARCH,
+        value: 'test',
+      });
+
+      triggerFilterChange(drawers[0], 'name', filterValue);
+
+      expect(updateTablesPreferences).toHaveBeenCalled();
+
+      expect(updateTablesPreferences).toHaveBeenCalledWith('Test Table', [
+        { enabled: true, filter: filterValue, name: 'name', sort: { descFirst: false, enabled: false } },
+        { enabled: true, filter: null, name: 'value', sort: { descFirst: false, enabled: false } },
+      ]);
+    });
+
+    it('Should allow to change filters with preferences and update preferences', async () => {
+      const updateTablesPreferences = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            currentTableName: 'Table',
+            updateTablesPreferences,
+            drawerColumns: [{ ...nameColumn, enabled: true }],
+            headers: defaultHeaders,
+            userPreferences: {
+              tables: [
+                {
+                  name: 'Table',
+                  columns: [
+                    {
+                      name: 'name',
+                      enabled: true,
+                      filter: null,
+                    },
+                    {
+                      name: 'value',
+                      enabled: true,
+                      filter: null,
+                    },
+                  ],
+                },
+              ],
+            },
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.columnItemFilter(false, 'name')).toBeInTheDocument();
+
+      expect(selectors.filterDrawer()).toBeInTheDocument();
+
+      const filterValue = createFilterValue({
+        type: ColumnFilterType.SEARCH,
+        value: 'test',
+      });
+
+      triggerFilterChange(selectors.filterDrawer(), 'name', filterValue);
+
+      expect(updateTablesPreferences).toHaveBeenCalled();
+
+      expect(updateTablesPreferences).toHaveBeenCalledWith('Table', [
+        { enabled: true, filter: filterValue, name: 'name' },
+        { enabled: true, filter: null, name: 'value' },
+      ]);
+    });
+  });
+
+  describe('Drag and drop', () => {
+    it('Should reorder items', async () => {
+      let onDragEndHandler: (result: DropResult) => void = () => {};
+      jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
+        onDragEndHandler = onDragEnd;
+        return children;
+      });
+      const updateTablesPreferences = jest.fn();
+
+      await act(async () =>
+        render(
+          getComponent({
+            updateTablesPreferences,
+            drawerColumns: [nameColumn, valueColumn],
+            headers: defaultHeaders,
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+
+      /**
+       * Simulate drop field 1 to index 0
+       */
+      act(() =>
+        onDragEndHandler({
+          destination: {
+            index: 0,
           },
-        })
-      )
-    );
+          source: {
+            index: 1,
+          },
+        } as any)
+      );
 
-    expect(selectors.root()).toBeInTheDocument();
-    expect(selectors.columnItemFilter(false, 'name')).toBeInTheDocument();
-
-    expect(selectors.filterDrawer()).toBeInTheDocument();
-
-    const filterValue = createFilterValue({
-      type: ColumnFilterType.SEARCH,
-      value: 'test',
+      expect(updateTablesPreferences).toHaveBeenCalledWith('', [
+        { enabled: true, filter: null, name: 'value', sort: { descFirst: false, enabled: false } },
+        { enabled: true, filter: null, name: 'name', sort: { descFirst: false, enabled: false } },
+      ]);
     });
 
-    triggerFilterChange(selectors.filterDrawer(), 'name', filterValue);
+    it('Should not reorder items if drop outside the list', async () => {
+      let onDragEndHandler: (result: DropResult) => void = () => {};
+      jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
+        onDragEndHandler = onDragEnd;
+        return children;
+      });
+      const updateTablesPreferences = jest.fn();
 
-    expect(updateTablesPreferences).toHaveBeenCalled();
+      await act(async () =>
+        render(
+          getComponent({
+            updateTablesPreferences,
+            drawerColumns: [nameColumn, valueColumn],
+            headers: defaultHeaders,
+          })
+        )
+      );
 
-    expect(updateTablesPreferences).toHaveBeenCalledWith('Table', [
-      { enabled: true, filter: filterValue, name: 'name' },
-      { enabled: true, filter: null, name: 'value' },
-    ]);
-  });
+      expect(selectors.root()).toBeInTheDocument();
 
-  it('Should reorder items', async () => {
-    let onDragEndHandler: (result: DropResult) => void = () => {};
-    jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
-      onDragEndHandler = onDragEnd;
-      return children;
+      /**
+       * Simulate drop field 1 to outside the list
+       */
+      act(() =>
+        onDragEndHandler({
+          destination: null,
+          source: {
+            index: 1,
+          },
+        } as any)
+      );
+
+      expect(updateTablesPreferences).not.toHaveBeenCalled();
     });
-    const updateTablesPreferences = jest.fn();
-
-    await act(async () =>
-      render(
-        getComponent({
-          updateTablesPreferences,
-          drawerColumns: [nameColumn, valueColumn],
-          headers: defaultHeaders,
-        })
-      )
-    );
-
-    expect(selectors.root()).toBeInTheDocument();
-
-    /**
-     * Simulate drop field 1 to index 0
-     */
-    act(() =>
-      onDragEndHandler({
-        destination: {
-          index: 0,
-        },
-        source: {
-          index: 1,
-        },
-      } as any)
-    );
-
-    expect(updateTablesPreferences).toHaveBeenCalledWith('', [
-      { enabled: true, filter: null, name: 'value' },
-      { enabled: true, filter: null, name: 'name' },
-    ]);
-  });
-
-  it('Should not reorder items if drop outside the list', async () => {
-    let onDragEndHandler: (result: DropResult) => void = () => {};
-    jest.mocked(DragDropContext).mockImplementation(({ children, onDragEnd }: any) => {
-      onDragEndHandler = onDragEnd;
-      return children;
-    });
-    const updateTablesPreferences = jest.fn();
-
-    await act(async () =>
-      render(
-        getComponent({
-          updateTablesPreferences,
-          drawerColumns: [nameColumn, valueColumn],
-          headers: defaultHeaders,
-        })
-      )
-    );
-
-    expect(selectors.root()).toBeInTheDocument();
-
-    /**
-     * Simulate drop field 1 to outside the list
-     */
-    act(() =>
-      onDragEndHandler({
-        destination: null,
-        source: {
-          index: 1,
-        },
-      } as any)
-    );
-
-    expect(updateTablesPreferences).not.toHaveBeenCalled();
   });
 
   describe('Tags', () => {
@@ -476,6 +484,185 @@ describe('Drawer Columns', () => {
       expect(selectors.columnItem(false, 'name')).toBeInTheDocument();
       expect(selectors.columnItem(false, 'name')).toHaveTextContent('name [Name]Pinned: Right');
       expect(selectors.columnItem(false, 'value')).toBeInTheDocument();
+    });
+  });
+
+  describe('Sorting', () => {
+    it('Should display asc sot icon', async () => {
+      const headers = [
+        {
+          id: 'firstGroup',
+          headers: [
+            {
+              id: 'name',
+              getContext: () =>
+                ({
+                  label: 'Name',
+                }) as any,
+              column: {
+                id: 'name',
+                getIsSorted: jest.fn(() => 'asc'),
+                getCanSort: jest.fn(),
+                getToggleSortingHandler: jest.fn(),
+                columnDef: {
+                  header: ({ label }: any) => label,
+                },
+              } as any,
+            } as any,
+            {
+              id: 'value',
+              getContext: () =>
+                ({
+                  label: 'Value',
+                }) as any,
+              column: {
+                id: 'value',
+                getIsSorted: jest.fn(),
+                getCanSort: jest.fn(),
+                getToggleSortingHandler: jest.fn(),
+                columnDef: {
+                  header: ({ label }: any) => label,
+                },
+              } as any,
+            } as any,
+          ],
+        },
+      ] as any;
+
+      await act(async () =>
+        render(
+          getComponent({
+            drawerColumns: [{ ...nameColumn, pin: ColumnPinDirection.LEFT }, valueColumn],
+            headers: headers,
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.nameContainer(false, 'name')).toBeInTheDocument();
+      expect(selectors.iconSort(false, 'name-arrow-up')).toBeInTheDocument();
+    });
+
+    it('Should display asc sot icon', async () => {
+      const headers = [
+        {
+          id: 'firstGroup',
+          headers: [
+            {
+              id: 'name',
+              getContext: () =>
+                ({
+                  label: 'Name',
+                }) as any,
+              column: {
+                id: 'name',
+                getIsSorted: jest.fn(() => 'desc'),
+                getCanSort: jest.fn(),
+                getToggleSortingHandler: jest.fn(),
+                columnDef: {
+                  header: ({ label }: any) => label,
+                },
+              } as any,
+            } as any,
+            {
+              id: 'value',
+              getContext: () =>
+                ({
+                  label: 'Value',
+                }) as any,
+              column: {
+                id: 'value',
+                getIsSorted: jest.fn(),
+                getCanSort: jest.fn(),
+                getToggleSortingHandler: jest.fn(),
+                columnDef: {
+                  header: ({ label }: any) => label,
+                },
+              } as any,
+            } as any,
+          ],
+        },
+      ] as any;
+
+      await act(async () =>
+        render(
+          getComponent({
+            drawerColumns: [{ ...nameColumn, pin: ColumnPinDirection.LEFT }, valueColumn],
+            headers: headers,
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.nameContainer(false, 'name')).toBeInTheDocument();
+      expect(selectors.iconSort(false, 'name-arrow-down')).toBeInTheDocument();
+    });
+
+    it('Should allow to use sorting', async () => {
+      const getToggleSortingHandlerMock = jest.fn();
+
+      const headers = [
+        {
+          id: 'firstGroup',
+          headers: [
+            {
+              id: 'name',
+              getContext: () =>
+                ({
+                  label: 'Name',
+                }) as any,
+              column: {
+                id: 'name',
+                getIsSorted: jest.fn(() => 'desc'),
+                getCanSort: jest.fn(),
+                getToggleSortingHandler: jest.fn(() => getToggleSortingHandlerMock),
+                columnDef: {
+                  header: ({ label }: any) => label,
+                },
+              } as any,
+            } as any,
+            {
+              id: 'value',
+              getContext: () =>
+                ({
+                  label: 'Value',
+                }) as any,
+              column: {
+                id: 'value',
+                getIsSorted: jest.fn(),
+                getCanSort: jest.fn(),
+                getToggleSortingHandler: jest.fn(),
+                columnDef: {
+                  header: ({ label }: any) => label,
+                },
+              } as any,
+            } as any,
+          ],
+        },
+      ] as any;
+
+      await act(async () =>
+        render(
+          getComponent({
+            drawerColumns: [{ ...nameColumn, pin: ColumnPinDirection.LEFT }, valueColumn],
+            headers: headers,
+            sorting: [],
+            currentTableName: 'Test Table',
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.nameContainer(false, 'name')).toBeInTheDocument();
+
+      await act(() => fireEvent.click(selectors.nameContainer(false, 'name')));
+
+      expect(getToggleSortingHandlerMock).toHaveBeenCalled();
+
+      expect(updateTablesPreferences).toHaveBeenCalledWith('Test Table', [
+        { enabled: true, filter: null, name: 'name', sort: { descFirst: false, enabled: true } },
+        { enabled: true, filter: null, name: 'value', sort: { descFirst: false, enabled: false } },
+      ]);
     });
   });
 });

@@ -1,6 +1,7 @@
+import { cx } from '@emotion/css';
 import { Icon, IconButton, Tag, useStyles2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
-import { HeaderGroup } from '@tanstack/react-table';
+import { HeaderGroup, SortingState } from '@tanstack/react-table';
 import React, { useCallback } from 'react';
 
 import { TEST_IDS } from '@/constants';
@@ -12,7 +13,7 @@ import {
   TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
-import { getFieldKey, prepareColumnConfigsForPreferences, reorder } from '@/utils';
+import { getFieldKey, prepareColumnConfigsForPreferences, prepareColumnsWithSorting, reorder } from '@/utils';
 
 import { FilterDrawer } from '../FilterDrawer';
 import { getStyles } from './DrawerColumnManager.styles';
@@ -50,6 +51,11 @@ interface Props<TData> {
    * Advanced options
    */
   advancedSettings: AdvancedSettings;
+
+  /**
+   * Sorting state
+   */
+  sorting: SortingState;
 }
 
 /**
@@ -77,6 +83,7 @@ export const DrawerColumnManager = <TData,>({
   currentTableName,
   userPreferences,
   advancedSettings,
+  sorting,
 }: Props<TData>) => {
   /**
    * Styles
@@ -160,6 +167,9 @@ export const DrawerColumnManager = <TData,>({
                     });
                   })
                   ?.headers.find((headerItem) => headerItem.id === item.field.name);
+
+                const sort = header?.column.getIsSorted();
+
                 return (
                   <Draggable key={getFieldKey(item.field)} draggableId={getFieldKey(item.field)} index={index}>
                     {(provided, snapshot) => (
@@ -209,8 +219,57 @@ export const DrawerColumnManager = <TData,>({
                               tooltip={item.enabled ? 'Hide' : 'Show'}
                               {...testIds.buttonToggleVisibility.apply(item.field.name)}
                             />
-                            <div className={styles.itemName}>
+                            <div
+                              onClick={(event) => {
+                                /**
+                                 * Updated column items include sorting
+                                 */
+                                const updatedColumns = prepareColumnsWithSorting(
+                                  drawerColumns,
+                                  item.field.name,
+                                  sorting
+                                );
+
+                                /**
+                                 * Transform columns to preferences columns
+                                 */
+                                const transformedColumns = prepareColumnConfigsForPreferences(
+                                  updatedColumns,
+                                  currentTableName,
+                                  userPreferences
+                                );
+
+                                /**
+                                 * define sortHandler
+                                 */
+
+                                const sortHandler = header?.column.getToggleSortingHandler();
+
+                                if (sortHandler) {
+                                  sortHandler(event);
+                                }
+
+                                /**
+                                 * update Preferences
+                                 */
+                                updateTablesPreferences(currentTableName, transformedColumns);
+                              }}
+                              className={cx({
+                                [styles.labelSortable]: header?.column.getCanSort(),
+                                [styles.itemName]: true,
+                              })}
+                              {...testIds.nameContainer.apply(item.field.name)}
+                            >
                               {item.field.name} {item.label && `[${item.label}]`}
+                              {!!sort && (
+                                <Icon
+                                  name={sort === 'asc' ? 'arrow-up' : 'arrow-down'}
+                                  size="lg"
+                                  {...testIds.iconSort.apply(
+                                    `${item.field.name}-${sort === 'asc' ? 'arrow-up' : 'arrow-down'}`
+                                  )}
+                                />
+                              )}
                             </div>
                             {item.pin === ColumnPinDirection.LEFT && <Tag name="Pinned: Left" />}
                             {item.pin === ColumnPinDirection.RIGHT && <Tag name="Pinned: Right" />}

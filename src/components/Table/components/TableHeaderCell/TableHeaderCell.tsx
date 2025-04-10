@@ -145,6 +145,7 @@ export const TableHeaderCell = <TData,>({
         {flexRender(header.column.columnDef.header, header.getContext())}
         {!!sort && (
           <Icon
+            key={sort}
             name={sort === 'asc' ? 'arrow-up' : 'arrow-down'}
             size={size}
             {...testIds.sortIcon.apply(sort === 'asc' ? 'arrow-up' : 'arrow-down')}

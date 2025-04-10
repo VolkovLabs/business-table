@@ -132,6 +132,13 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         category: ['Advanced'],
       })
       .addBooleanSwitch({
+        path: 'showSortingInColumnManager',
+        name: 'Show sorting',
+        description: 'Allowing use sorting for columns via a side panel.',
+        showIf: (config) => config.isColumnManagerAvailable,
+        category: ['Advanced'],
+      })
+      .addBooleanSwitch({
         path: 'saveUserPreference',
         name: 'Save Preferences',
         description: 'Enable to save table settings to User Preferences, overriding current table configuration.',

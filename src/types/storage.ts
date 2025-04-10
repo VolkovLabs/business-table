@@ -22,6 +22,27 @@ export interface TablePreferenceColumn {
    * @type {unknown}
    */
   filter?: unknown;
+
+  /**
+   * Sort
+   *
+   * @type {unknown}
+   */
+  sort?: {
+    /**
+     * Enabled
+     *
+     * @type {boolean}
+     */
+    enabled: boolean;
+
+    /**
+     * descFirst
+     *
+     * @type {boolean}
+     */
+    descFirst?: boolean;
+  };
 }
 
 /**

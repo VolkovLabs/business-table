@@ -20,6 +20,7 @@ import {
   FilterMeta,
   HeaderContext,
   Row,
+  SortingState,
   Table as TableInstance,
 } from '@tanstack/react-table';
 import { get } from 'lodash';
@@ -663,6 +664,7 @@ export const prepareColumnConfigsForPreferences = (
       name: columnConfig.field.name,
       enabled: columnConfig.enabled,
       filter: existingColumn?.filter ?? null,
+      sort: columnConfig.sort ?? null,
     };
   });
 };
@@ -723,6 +725,42 @@ export const getSavedFilters = (userPreferences: UserPreferences, tableName: str
 };
 
 /**
+ * Get Saved sorting
+ * @param userPreferences
+ * @param tableName
+ */
+export const getSavedSorting = (userPreferences: UserPreferences, tableName: string) => {
+  const currentGroup = userPreferences.tables?.find((table) => table.name === tableName);
+
+  /**
+   * Return if no group
+   */
+  if (!currentGroup) {
+    return [];
+  }
+
+  const firstSortableColumn = currentGroup.columns.find((groupItem) => !!groupItem.sort && groupItem.sort.enabled);
+
+  /**
+   * Return [] if no sort group
+   * descFirst equal undefined means return []
+   */
+  if (!firstSortableColumn || firstSortableColumn.sort?.descFirst === undefined) {
+    return [];
+  }
+
+  /**
+   * Return sorting
+   */
+  return [
+    {
+      id: firstSortableColumn.name,
+      desc: firstSortableColumn.sort?.descFirst,
+    },
+  ];
+};
+
+/**
  * updateUserPreferenceTables
  * @param tableName
  * @param userPreferences
@@ -747,4 +785,91 @@ export const updateUserPreferenceTables = (
   }
 
   return updatedTables;
+};
+
+/**
+ * Prepare column with sorting
+ * @param drawerColumns
+ * @param columnId
+ * @param sorting
+ */
+export const prepareColumnsWithSorting = (
+  drawerColumns: ColumnConfig[],
+  columnId: string,
+  sorting: SortingState
+): ColumnConfig[] => {
+  /**
+   * If prev. sorting state is [] return next state false
+   */
+  if (!sorting.length) {
+    return drawerColumns?.map((column) => {
+      if (column.field.name !== columnId) {
+        return {
+          ...column,
+          sort: {
+            enabled: false,
+            descFirst: false,
+          },
+        };
+      }
+
+      return {
+        ...column,
+        sort: {
+          enabled: true,
+          descFirst: false,
+        },
+      };
+    });
+  }
+
+  /**
+   * Selected column doesn`t equal prev sort state
+   */
+  if (columnId !== sorting[0].id) {
+    return drawerColumns?.map((column) => {
+      if (column.field.name !== columnId) {
+        return {
+          ...column,
+          sort: {
+            enabled: false,
+            descFirst: false,
+          },
+        };
+      }
+
+      return {
+        ...column,
+        sort: {
+          enabled: true,
+          descFirst: false,
+        },
+      };
+    });
+  }
+
+  /**
+   * Set correct next sort state based on prev. sor state
+   */
+  const updatedSort = sorting[0]?.desc ? undefined : true;
+
+  return drawerColumns.map((column) => {
+    if (column.field.name !== sorting[0].id) {
+      return {
+        ...column,
+        sort: {
+          enabled: false,
+          descFirst: false,
+        },
+      };
+    }
+
+    return {
+      ...column,
+      sort: {
+        enabled: true,
+        descFirst: updatedSort,
+      },
+    };
+  }) as ColumnConfig[];
 };

@@ -22,7 +22,7 @@ describe('useSortState', () => {
       },
     ];
 
-    const { result } = renderHook(() => useSortState({ columns }));
+    const { result } = renderHook(() => useSortState({ columns, userSortingPreference: [] }));
 
     expect(result.current.sorting).toEqual([{ id: 'name', desc: false }]);
   });
@@ -36,7 +36,7 @@ describe('useSortState', () => {
       },
     ];
 
-    const { result } = renderHook(() => useSortState({ columns }));
+    const { result } = renderHook(() => useSortState({ columns, userSortingPreference: [] }));
 
     expect(result.current.sorting).toEqual([]);
   });
@@ -50,7 +50,7 @@ describe('useSortState', () => {
       },
     ];
 
-    const { result, rerender } = renderHook(({ columns }) => useSortState({ columns }), {
+    const { result, rerender } = renderHook(({ columns }) => useSortState({ columns, userSortingPreference: [] }), {
       initialProps: { columns: initialColumns },
     });
 
@@ -83,7 +83,7 @@ describe('useSortState', () => {
       },
     ];
 
-    const { result, rerender } = renderHook(({ columns }) => useSortState({ columns }), {
+    const { result, rerender } = renderHook(({ columns }) => useSortState({ columns, userSortingPreference: [] }), {
       initialProps: { columns: initialColumns },
     });
 
@@ -111,7 +111,7 @@ describe('useSortState', () => {
       },
     ];
 
-    const { result, rerender } = renderHook(({ columns }) => useSortState({ columns }), {
+    const { result, rerender } = renderHook(({ columns }) => useSortState({ columns, userSortingPreference: [] }), {
       initialProps: { columns: initialColumns },
     });
 
@@ -128,5 +128,36 @@ describe('useSortState', () => {
     rerender({ columns: newColumns });
 
     expect(result.current.sorting).toEqual([]);
+  });
+
+  it('Should initialize sort from user preferences', async () => {
+    const initialUserPreferences = [
+      {
+        id: 'city',
+        desc: true,
+      },
+    ];
+
+    const initialColumns = [
+      {
+        id: 'name',
+        enableSorting: true,
+        sortDescFirst: false,
+      },
+      {
+        id: 'city',
+        enableSorting: false,
+        sortDescFirst: false,
+      },
+    ];
+
+    const { result } = renderHook(
+      ({ columns }) => useSortState({ columns, userSortingPreference: initialUserPreferences }),
+      {
+        initialProps: { columns: initialColumns },
+      }
+    );
+
+    expect(result.current.sorting).toEqual([{ id: 'city', desc: true }]);
   });
 });
