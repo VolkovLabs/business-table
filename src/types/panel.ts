@@ -269,6 +269,13 @@ export interface FileConfig {
    * @type {string}
    */
   text: string;
+
+  /**
+   * Display preview
+   *
+   * @type {boolean}
+   */
+  displayPreview?: boolean;
 }
 
 /**

@@ -2,6 +2,9 @@ import { DataFrame } from '@grafana/data';
 import { saveAs } from 'file-saver';
 import { utils, write } from 'xlsx';
 
+import { BASE64_MEDIA_HEADER_REGEX, MEDIA_TYPES_SYMBOLS } from '@/constants';
+import { SupportedFileType } from '@/types';
+
 /**
  * Download CSV
  * @param content
@@ -98,3 +101,40 @@ export const toBase64 = (file: File) =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
   });
+
+/**
+ * Handle media data
+ * @param mediaField
+ * @param displayPreview
+ */
+export const handleMediaData = (mediaField: string, displayPreview?: boolean) => {
+  let currentMedia = mediaField;
+  let type = '';
+
+  if (!mediaField || !displayPreview) {
+    return {
+      currentMedia,
+      type,
+    };
+  }
+
+  if (mediaField) {
+    const mediaMatch = mediaField.match(BASE64_MEDIA_HEADER_REGEX);
+
+    if (!mediaMatch?.length) {
+      /**
+       * Set header
+       */
+      type = MEDIA_TYPES_SYMBOLS[mediaField.charAt(0)];
+
+      currentMedia = type ? `data:${type};base64,${currentMedia}` : `data:;base64,${currentMedia}`;
+    } else if (Object.values(SupportedFileType).includes(mediaMatch[1] as SupportedFileType)) {
+      type = mediaMatch[1];
+    }
+  }
+
+  return {
+    currentMedia,
+    type,
+  };
+};
