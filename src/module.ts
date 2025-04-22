@@ -121,20 +121,20 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addBooleanSwitch({
         path: 'isColumnManagerAvailable',
         name: 'Column Manager',
-        description: 'Allowing column display management via a side panel.',
+        description: 'Allowing column display management in a drawer.',
         category: ['Advanced'],
       })
       .addBooleanSwitch({
         path: 'showFiltersInColumnManager',
         name: 'Show filters',
-        description: 'Allowing set filters for columns via a side panel.',
+        description: 'Allowing set filters for columns.',
         showIf: (config) => config.isColumnManagerAvailable,
         category: ['Advanced'],
       })
       .addBooleanSwitch({
         path: 'showSortingInColumnManager',
         name: 'Show sorting',
-        description: 'Allowing use sorting for columns via a side panel.',
+        description: 'Allowing use sorting for columns.',
         showIf: (config) => config.isColumnManagerAvailable,
         category: ['Advanced'],
       })

@@ -242,7 +242,6 @@ export const DrawerColumnManager = <TData,>({
                                 /**
                                  * define sortHandler
                                  */
-
                                 const sortHandler = header?.column.getToggleSortingHandler();
 
                                 if (sortHandler) {
