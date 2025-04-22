@@ -35,7 +35,7 @@ import {
   TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
-import { getFirstHighlightedRowIndex, getSavedFilters } from '@/utils';
+import { getFirstHighlightedRowIndex, getSavedFilters, getSavedSorting } from '@/utils';
 
 import { DrawerColumnManager, TableHeaderCell, TableRow } from './components';
 import { useAddData, useDeleteData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
@@ -379,8 +379,19 @@ export const Table = <TData,>({
    */
   const [expanded, setExpanded] = useState<ExpandedState>(expandedByDefault ? true : {});
 
+  /**
+   * User filtering preferences
+   */
   const userFilterPreference = useMemo(
     () => getSavedFilters(userPreferences, currentTableName),
+    [currentTableName, userPreferences]
+  );
+
+  /**
+   * User sorting preferences
+   */
+  const userSortingPreference = useMemo(
+    () => getSavedSorting(userPreferences, currentTableName),
     [currentTableName, userPreferences]
   );
 
@@ -392,7 +403,7 @@ export const Table = <TData,>({
   /**
    * Sorting
    */
-  const { sorting, onChangeSort } = useSortState({ columns });
+  const { sorting, onChangeSort } = useSortState({ columns, userSortingPreference });
 
   /**
    * React Table
@@ -750,6 +761,7 @@ export const Table = <TData,>({
           onClose={() => setDrawerOpen(false)}
         >
           <DrawerColumnManager
+            sorting={sorting}
             currentTableName={currentTableName}
             drawerColumns={drawerColumns}
             userPreferences={userPreferences}

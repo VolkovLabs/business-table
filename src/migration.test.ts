@@ -882,4 +882,32 @@ describe('migration', () => {
       );
     });
   });
+
+  describe('2.6.0', () => {
+    it('Should  showSortingInColumnManager', async () => {
+      expect(await getMigratedOptions({ options: {} } as any)).toEqual(
+        expect.objectContaining({
+          showSortingInColumnManager: false,
+        })
+      );
+      expect(
+        await getMigratedOptions({
+          options: { showSortingInColumnManager: false },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          showSortingInColumnManager: false,
+        })
+      );
+      expect(
+        await getMigratedOptions({
+          options: { showSortingInColumnManager: true },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          showSortingInColumnManager: true,
+        })
+      );
+    });
+  });
 });

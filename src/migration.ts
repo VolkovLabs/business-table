@@ -533,6 +533,12 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
   }
 
   /**
+   * Normalize showSortingInColumnManager
+   */
+  if (options.showSortingInColumnManager === undefined) {
+    options.showSortingInColumnManager = false;
+  }
+  /**
    * Normalize Toolbar
    */
   if (!options.toolbar) {

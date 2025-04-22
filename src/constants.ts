@@ -188,6 +188,8 @@ export const TEST_IDS = {
       (name: unknown) => `data-testid drawer-column-manager button-toggle-visibility-${name}`
     ),
     columnItem: createSelector((name: unknown) => `drawer-column-manager column-item-${name}`),
+    iconSort: createSelector((name: unknown) => `drawer-column-manager icon-sort-${name}`),
+    nameContainer: createSelector((name: unknown) => `drawer-column-manager name-container-${name}`),
     columnItemFilter: createSelector((name: unknown) => `drawer-column-manager column-item-${name}-filter`),
     root: createSelector('data-testid drawer-column-manager'),
   },
