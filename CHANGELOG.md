@@ -2,11 +2,13 @@
 
 All notable changes to the Business Table Panel plugin are documented in this changelog.
 
-## 2.6.0 (In progress)
+## 2.6.0 (2025-04-22)
 
 ### Features & Enhancements
 
 - Added sorting by user preferences in UI (#302)
+- Added image preview and update downloadable cells (#306)
+- Upgraded to Grafana 11.6 with dependency updates (#307)
 
 ## 2.5.0 (2025-03-30)
 
