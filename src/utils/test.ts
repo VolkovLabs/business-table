@@ -245,6 +245,7 @@ export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOp
   isColumnManagerAvailable: false,
   saveUserPreference: false,
   showFiltersInColumnManager: false,
+  showSortingInColumnManager: false,
   ...options,
 });
 

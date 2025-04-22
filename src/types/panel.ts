@@ -779,6 +779,13 @@ export interface PanelOptions {
   showFiltersInColumnManager: boolean;
 
   /**
+   * Sorting UI manager
+   *
+   * @type {boolean}
+   */
+  showSortingInColumnManager: boolean;
+
+  /**
    * Save user Preference
    *
    * @type {boolean}

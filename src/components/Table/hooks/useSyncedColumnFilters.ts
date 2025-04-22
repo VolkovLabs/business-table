@@ -22,6 +22,9 @@ export const useSyncedColumnFilters = <TData>({
    */
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
+  /**
+   * Use user Preferences
+   */
   useEffect(() => {
     if (userFilterPreference && !!userFilterPreference.length) {
       setColumnFilters(userFilterPreference);

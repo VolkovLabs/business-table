@@ -20,12 +20,14 @@ import {
   getFilterWithNewType,
   getFooterCell,
   getSavedFilters,
+  getSavedSorting,
   getSupportedFilterTypesForVariable,
   getTableWithPreferences,
   getVariableColumnFilters,
   mergeColumnFilters,
   normalizeBooleanCellValue,
   prepareColumnConfigsForPreferences,
+  prepareColumnsWithSorting,
   saveWithCorrectFilters,
   updateUserPreferenceTables,
 } from './table';
@@ -1468,8 +1470,8 @@ describe('Table utils', () => {
       };
 
       expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
-        { name: 'column1', enabled: true, filter: 'filterValue1' },
-        { name: 'column2', enabled: false, filter: 'filterValue2' },
+        { name: 'column1', enabled: true, filter: 'filterValue1', sort: null },
+        { name: 'column2', enabled: false, filter: 'filterValue2', sort: null },
       ]);
     });
 
@@ -1489,8 +1491,8 @@ describe('Table utils', () => {
       };
 
       expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
-        { name: 'column1', enabled: true, filter: 'filterValue1' },
-        { name: 'column3', enabled: false, filter: null },
+        { name: 'column1', enabled: true, filter: 'filterValue1', sort: null },
+        { name: 'column3', enabled: false, filter: null, sort: null },
       ]);
     });
 
@@ -1507,7 +1509,7 @@ describe('Table utils', () => {
       };
 
       expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
-        { name: 'column1', enabled: true, filter: null },
+        { name: 'column1', enabled: true, filter: null, sort: null },
       ]);
     });
 
@@ -1517,7 +1519,7 @@ describe('Table utils', () => {
       const userPreferences: UserPreferences = {};
 
       expect(prepareColumnConfigsForPreferences(columnConfigs, 'testTable', userPreferences)).toEqual([
-        { name: 'column1', enabled: true, filter: null },
+        { name: 'column1', enabled: true, filter: null, sort: null },
       ]);
     });
   });
@@ -1705,6 +1707,131 @@ describe('Table utils', () => {
       expect(updatedTables).toHaveLength(1);
       expect(updatedTables[0].name).toEqual(tableName);
       expect(updatedTables[0].columns).toEqual(updatedColumns);
+    });
+  });
+
+  /**
+   * prepareColumnConfigsForPreferences
+   */
+  describe('prepareColumnConfigsForPreferences', () => {
+    const tableName = 'my-table';
+
+    it('Should return empty array if no tables in userPreferences', () => {
+      const preferences: UserPreferences = {};
+      expect(getSavedSorting(preferences, tableName)).toEqual([]);
+    });
+
+    it('Should return empty array if table is not found', () => {
+      const preferences: UserPreferences = {
+        tables: [{ name: 'other-table', columns: [] }],
+      };
+      expect(getSavedSorting(preferences, tableName)).toEqual([]);
+    });
+
+    it('Should return empty array if no column with sort.enabled = true', () => {
+      const preferences: UserPreferences = {
+        tables: [
+          {
+            name: tableName,
+            columns: [{ name: 'col1', sort: { enabled: false } }, { name: 'col2' }],
+          },
+        ],
+      };
+      expect(getSavedSorting(preferences, tableName)).toEqual([]);
+    });
+
+    it('Should return empty array if sort.enabled = true but descFirst is undefined', () => {
+      const preferences: UserPreferences = {
+        tables: [
+          {
+            name: tableName,
+            columns: [{ name: 'col1', sort: { enabled: true } }],
+          },
+        ],
+      };
+      expect(getSavedSorting(preferences, tableName)).toEqual([]);
+    });
+
+    it('Should return sorting array if valid sort with descFirst = true', () => {
+      const preferences: UserPreferences = {
+        tables: [
+          {
+            name: tableName,
+            columns: [{ name: 'col1', sort: { enabled: true, descFirst: true } }],
+          },
+        ],
+      };
+      expect(getSavedSorting(preferences, tableName)).toEqual([{ id: 'col1', desc: true }]);
+    });
+
+    it('Should return sorting array if valid sort with descFirst = false', () => {
+      const preferences: UserPreferences = {
+        tables: [
+          {
+            name: tableName,
+            columns: [{ name: 'col1', sort: { enabled: true, descFirst: false } }],
+          },
+        ],
+      };
+      expect(getSavedSorting(preferences, tableName)).toEqual([{ id: 'col1', desc: false }]);
+    });
+
+    it('Should return only first sortable column even if there are multiple', () => {
+      const preferences: UserPreferences = {
+        tables: [
+          {
+            name: tableName,
+            columns: [
+              { name: 'col1', sort: { enabled: true, descFirst: true } },
+              { name: 'col2', sort: { enabled: true, descFirst: false } },
+            ],
+          },
+        ],
+      };
+      expect(getSavedSorting(preferences, tableName)).toEqual([{ id: 'col1', desc: true }]);
+    });
+  });
+
+  /**
+   * prepareColumnConfigsForPreferences
+   */
+  describe('prepareColumnsWithSorting', () => {
+    const mockColumns = [
+      { field: { name: 'name' }, sort: { enabled: false, descFirst: false } },
+      { field: { name: 'value' }, sort: { enabled: false, descFirst: false } },
+    ] as any;
+
+    it('Should set sort to true and descFirst false when sorting is empty', () => {
+      const result = prepareColumnsWithSorting(mockColumns, 'name', []);
+      expect(result).toEqual([
+        { field: { name: 'name' }, sort: { enabled: true, descFirst: false } },
+        { field: { name: 'value' }, sort: { enabled: false, descFirst: false } },
+      ]);
+    });
+
+    it('Should set sort to true and descFirst false when sorting is not empty but columnId != sorting[0].id', () => {
+      const result = prepareColumnsWithSorting(mockColumns, 'value', [{ id: 'name', desc: false }]);
+
+      expect(result).toEqual([
+        { field: { name: 'name' }, sort: { enabled: false, descFirst: false } },
+        { field: { name: 'value' }, sort: { enabled: true, descFirst: false } },
+      ]);
+    });
+
+    it('Should toggle descFirst to true if current desc is false', () => {
+      const result = prepareColumnsWithSorting(mockColumns, 'name', [{ id: 'name', desc: false }]);
+      expect(result).toEqual([
+        { field: { name: 'name' }, sort: { enabled: true, descFirst: true } },
+        { field: { name: 'value' }, sort: { enabled: false, descFirst: false } },
+      ]);
+    });
+
+    it('Should toggle descFirst to undefined if current desc is true', () => {
+      const result = prepareColumnsWithSorting(mockColumns, 'name', [{ id: 'name', desc: true }]);
+      expect(result).toEqual([
+        { field: { name: 'name' }, sort: { enabled: true, descFirst: undefined } },
+        { field: { name: 'value' }, sort: { enabled: false, descFirst: false } },
+      ]);
     });
   });
 });
