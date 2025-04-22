@@ -24,10 +24,13 @@ The **Business Table Panel** is a powerful and flexible Grafana plugin designed 
 Choose one of the following methods to install the plugin:
 
 ### Grafana Plugins Catalog
+
 Visit the official plugin page at [grafana.com/plugins/volkovlabs-table-panel](https://grafana.com/grafana/plugins/volkovlabs-table-panel/) and follow the provided instructions.
 
 ### Grafana CLI
+
 Run the following command in your terminal:
+
 ```bash
 grafana cli plugins install volkovlabs-table-panel
 ```
@@ -56,6 +59,7 @@ The Business Table Panel is part of the **Business Suite**, a collection of open
 ### 💼 Enterprise Support
 
 Subscribe to [Business Suite Enterprise](https://volkovlabs.io/pricing/) for premium benefits:
+
 - Dedicated support via Zendesk.
 - Priority handling for feature requests and bug fixes.
 - In-person consultations.
