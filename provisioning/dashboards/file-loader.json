@@ -66,6 +66,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -579,6 +580,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -879,6 +881,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {

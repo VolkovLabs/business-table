@@ -72,10 +72,7 @@ export const FileCellRenderer: React.FC<Props> = ({ value, config }) => {
       );
     }
 
-    if (
-      Object.values(SupportedFileType).includes(mediaData.type as SupportedFileType) &&
-      mediaData.type !== SupportedFileType.PDF
-    ) {
+    if (Object.values(SupportedFileType).includes(mediaData.type as SupportedFileType)) {
       return (
         <img
           src={mediaData.currentMedia}
