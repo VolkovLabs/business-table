@@ -2,6 +2,12 @@
 
 All notable changes to the Business Table Panel plugin are documented in this changelog.
 
+## 2.6.0 (In progress)
+
+### Features & Enhancements
+
+- Added sorting by user preferences in UI (#302)
+
 ## 2.5.0 (2025-03-30)
 
 ### Features & Enhancements
