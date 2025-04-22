@@ -85,7 +85,7 @@ const cellTypeOptions = [
   {
     value: CellType.FILE,
     label: 'File',
-    description: 'Download base64 as a file.',
+    description: 'Downloadable base64 encoded file',
   },
   {
     value: CellType.GAUGE,
