@@ -1,6 +1,8 @@
 import { saveAs } from 'file-saver';
 
-import { applyAcceptedFiles, convertToXlsxFormat, downloadCsv, downloadXlsx } from './file';
+import { SupportedFileType } from '@/types';
+
+import { applyAcceptedFiles, convertToXlsxFormat, downloadCsv, downloadXlsx, handleMediaData } from './file';
 
 /**
  * file-saver mock
@@ -182,6 +184,58 @@ describe('downloadFile', () => {
         csv: ['.csv', '.csv'],
         png: ['.png'],
       });
+    });
+  });
+
+  describe('handleMediaData', () => {
+    it('Should return original media and empty type if mediaField is falsy', () => {
+      expect(handleMediaData('', true)).toEqual({ currentMedia: '', type: '' });
+      expect(handleMediaData(undefined as any, true)).toEqual({ currentMedia: undefined, type: '' });
+    });
+
+    it('Should return original media and empty type if displayPreview is false', () => {
+      expect(handleMediaData('someBase64String', false)).toEqual({
+        currentMedia: 'someBase64String',
+        type: '',
+      });
+    });
+
+    it('Should detect type from header if media has base64 header', () => {
+      const media = `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...`;
+
+      const result = handleMediaData(media, true);
+      expect(result.type).toEqual(SupportedFileType.IMAGE);
+      expect(result.currentMedia).toEqual(media);
+    });
+
+    it('Should add header if media has no base64 prefix and matches symbol map', () => {
+      /**
+       * Starts with "i" -> PNG
+       */
+      const media = 'iVBORw0KGgoAAAANSUhEUgAA...';
+
+      const result = handleMediaData(media, true);
+      expect(result.type).toEqual(SupportedFileType.PNG);
+      expect(result.currentMedia).toEqual(`data:image/png;base64,${media}`);
+    });
+
+    it('Should fallback to generic base64 if no match found in symbol map', () => {
+      /**
+       * Starts with x -> no medai types
+       */
+      const media = 'xABCDEF...';
+
+      const result = handleMediaData(media, true);
+      expect(result.type).toEqual(undefined);
+      expect(result.currentMedia).toEqual(`data:;base64,${media}`);
+    });
+
+    it('Should detect PDF from header', () => {
+      const media = 'data:application/pdf;base64,JVBERi0xLjQKJcTl8uXrp...';
+
+      const result = handleMediaData(media, true);
+      expect(result.type).toEqual(SupportedFileType.PDF);
+      expect(result.currentMedia).toEqual(media);
     });
   });
 });

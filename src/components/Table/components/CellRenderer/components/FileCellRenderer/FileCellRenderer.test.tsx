@@ -58,4 +58,84 @@ describe('FileCellRenderer', () => {
 
     expect(saveAs).toHaveBeenCalled();
   });
+
+  it('Should render error icon and disable button if no value', () => {
+    render(
+      getComponent({
+        config: createColumnConfig({
+          fileCell: {
+            size: undefined,
+            variant: undefined,
+            text: 'test',
+          } as any,
+        }),
+        field: createField({ display: undefined }),
+        value: '',
+      })
+    );
+
+    expect(selectors.buttonSave()).toBeInTheDocument();
+    expect(selectors.error()).toBeInTheDocument();
+    expect(selectors.buttonSave()).toBeDisabled();
+  });
+
+  it('Should not render tooltip preview if option is not specified', () => {
+    render(
+      getComponent({
+        config: createColumnConfig({
+          fileCell: {
+            text: 'test',
+            displayPreview: false,
+          } as any,
+        }),
+        field: createField({ display: undefined }),
+        value:
+          'JVBERi0xLjUKJeLjz9MKOCAwIG9iago8PAovVHlwZSAvRm9udERlc2NyaXB0b3IKL0ZvbnROYW1lIC9BcmlhbAovRmxhZ3MgMzIKL0l0YWxpY',
+      })
+    );
+
+    expect(selectors.buttonSave()).toBeInTheDocument();
+    expect(selectors.previewTooltip(true)).not.toBeInTheDocument();
+  });
+
+  it('Should render tooltip preview for pdf', () => {
+    render(
+      getComponent({
+        config: createColumnConfig({
+          fileCell: {
+            text: 'test',
+            displayPreview: true,
+          } as any,
+        }),
+        field: createField({ display: undefined }),
+        value:
+          'JVBERi0xLjUKJeLjz9MKOCAwIG9iago8PAovVHlwZSAvRm9udERlc2NyaXB0b3IKL0ZvbnROYW1lIC9BcmlhbAovRmxhZ3MgMzIKL0l0YWxpY',
+      })
+    );
+
+    expect(selectors.buttonSave()).toBeInTheDocument();
+    expect(selectors.previewTooltip()).toBeInTheDocument();
+    expect(selectors.previewPdf()).toBeInTheDocument();
+  });
+
+  it('Should render tooltip preview for image', () => {
+    render(
+      getComponent({
+        config: createColumnConfig({
+          fileCell: {
+            text: 'test',
+            displayPreview: true,
+          } as any,
+        }),
+        field: createField({ display: undefined }),
+        value:
+          'iVBORw0KGgoAAAANSUhEUgAAANgAAADqCAYAAADAkotLAAAAAXNSR0IArs4c6QAA AFBlWElmTU0AKgAAAAgAAgESAAMAAAABAAEAAIdpAAQAAAABAAAAJgAAAAAAA6AB ',
+      })
+    );
+
+    expect(selectors.buttonSave()).toBeInTheDocument();
+    expect(selectors.previewTooltip()).toBeInTheDocument();
+    expect(selectors.previewPdf(true)).not.toBeInTheDocument();
+    expect(selectors.previewImage()).toBeInTheDocument();
+  });
 });

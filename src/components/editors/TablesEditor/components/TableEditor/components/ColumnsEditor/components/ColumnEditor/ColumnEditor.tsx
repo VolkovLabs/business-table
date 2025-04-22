@@ -440,6 +440,21 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 {...TEST_IDS.columnEditor.fieldFileButtonVariant.apply()}
               />
             </InlineField>
+            <InlineField label="Display preview for image and pdf" grow={true}>
+              <InlineSwitch
+                value={value?.fileCell?.displayPreview}
+                onChange={(event) => {
+                  onChange({
+                    ...value,
+                    fileCell: {
+                      ...value.fileCell,
+                      displayPreview: event.currentTarget.checked,
+                    },
+                  });
+                }}
+                {...TEST_IDS.columnEditor.fieldFileShowPreview.apply()}
+              />
+            </InlineField>
           </FieldsGroup>
         )}
         {value.type === CellType.COLORED_BACKGROUND && (

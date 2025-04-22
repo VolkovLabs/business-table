@@ -12,6 +12,7 @@ import {
   PermissionConfig,
   PermissionMode,
   SupportedBase64ImageType,
+  SupportedFileType,
   TableRequestConfig,
   ToolbarButtonsAlignment,
 } from '@/types';
@@ -180,6 +181,7 @@ export const TEST_IDS = {
     fieldFileCellText: createSelector('data-testid column-editor field-file-cell-text'),
     fieldFileButtonSize: createSelector('data-testid column-editor field-file-button-size'),
     fieldFileButtonVariant: createSelector('data-testid column-editor field-file-button-variant'),
+    fieldFileShowPreview: createSelector('data-testid column-editor field-file-show-preview'),
   },
   drawerColumnManager: {
     buttonToggleVisibility: createSelector(
@@ -211,6 +213,10 @@ export const TEST_IDS = {
   },
   fileCellRenderer: {
     buttonSave: createSelector('data-testid file-cell-renderer button-save'),
+    error: createSelector('data-testid file-cell-renderer error'),
+    previewTooltip: createSelector('data-testid file-cell-renderer preview-tooltip'),
+    previewPdf: createSelector('data-testid file-cell-renderer preview-pdf'),
+    previewImage: createSelector('data-testid file-cell-renderer preview-image'),
   },
   gaugeCellRenderer: {
     root: createSelector('data-testid gauge-cell-renderer root'),
@@ -572,3 +578,18 @@ export const EXPORT_FORMAT_OPTIONS = [
     label: 'csv',
   },
 ];
+
+/**
+ * Base64 media header regex
+ */
+export const BASE64_MEDIA_HEADER_REGEX = /^data:(image|application\/\w+)/;
+
+/**
+ * Base64 symbols for Image Types
+ */
+export const MEDIA_TYPES_SYMBOLS: { [id: string]: string } = {
+  '/': SupportedFileType.JPEG,
+  R: SupportedFileType.GIF,
+  i: SupportedFileType.PNG,
+  J: SupportedFileType.PDF,
+};

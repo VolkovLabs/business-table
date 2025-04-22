@@ -1147,5 +1147,28 @@ describe('ColumnEditor', () => {
         })
       );
     });
+
+    it('Should allow to change preview option', () => {
+      render(
+        getComponent({
+          value: createColumnConfig({
+            type: CellType.FILE,
+            fileCell: createFileCellConfig({}),
+          }),
+        })
+      );
+
+      expect(selectors.fieldFileShowPreview()).toBeInTheDocument();
+
+      fireEvent.click(selectors.fieldFileShowPreview());
+
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fileCell: expect.objectContaining({
+            displayPreview: true,
+          }),
+        })
+      );
+    });
   });
 });

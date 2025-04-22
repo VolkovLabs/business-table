@@ -176,3 +176,15 @@ export enum ImageScale {
   CRISP_EDGES = 'crisp-edges',
   PIXELATED = 'pixelated',
 }
+
+/**
+ * Supported File Type
+ */
+export enum SupportedFileType {
+  IMAGE = 'image',
+  JPEG = 'image/jpeg',
+  GIF = 'image/gif',
+  PNG = 'image/png',
+  PDF = 'application/pdf',
+  HEIC = 'image/heic',
+}
