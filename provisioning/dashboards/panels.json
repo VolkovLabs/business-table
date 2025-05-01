@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 9,
   "links": [],
   "panels": [
     {
@@ -40,8 +40,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -66,6 +65,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -536,8 +536,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -564,6 +563,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -857,7 +857,7 @@
                 "type": "coloredBackground"
               }
             ],
-            "name": "Country",
+            "name": "$groupName",
             "pagination": {
               "enabled": false,
               "mode": "client"
@@ -963,8 +963,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -991,6 +990,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -1581,8 +1581,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1607,6 +1606,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -2074,8 +2074,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2100,6 +2099,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -2568,8 +2568,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2594,6 +2593,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -3160,8 +3160,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3186,6 +3185,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -3654,8 +3654,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -3680,6 +3679,7 @@
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
+        "showSortingInColumnManager": false,
         "tables": [
           {
             "actionsColumnConfig": {
@@ -7223,7 +7223,7 @@
   ],
   "preload": false,
   "refresh": "",
-  "schemaVersion": 40,
+  "schemaVersion": 41,
   "tags": [],
   "templating": {
     "list": [
@@ -7244,6 +7244,24 @@
         ],
         "query": "Panel Table",
         "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "Group 1",
+          "value": "Group 1"
+        },
+        "description": "Group 1",
+        "label": "groupName",
+        "name": "groupName",
+        "options": [
+          {
+            "selected": true,
+            "text": "Group 1",
+            "value": "Group 1"
+          }
+        ],
+        "query": "Group 1",
+        "type": "textbox"
       }
     ]
   },
@@ -7255,6 +7273,5 @@
   "timezone": "",
   "title": "Panels",
   "uid": "O4tc_E6Gz",
-  "version": 13,
-  "weekStart": ""
+  "version": 1
 }
