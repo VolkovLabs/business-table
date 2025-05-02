@@ -410,6 +410,7 @@ export const TablePanel: React.FC<Props> = ({
           clearPreferences={() => {
             setUserPreferences({});
           }}
+          replaceVariables={replaceVariables}
           advancedSettings={{
             isColumnManagerAvailable: options.isColumnManagerAvailable,
             showFiltersInColumnManager: options.showFiltersInColumnManager,

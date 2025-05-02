@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { EventBus, GrafanaTheme2 } from '@grafana/data';
+import { EventBus, GrafanaTheme2, InterpolateFunction } from '@grafana/data';
 import { Button, ConfirmModal, Drawer, Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
   Column,
@@ -247,6 +247,13 @@ interface Props<TData> {
    * Clear Preferences
    */
   clearPreferences: () => void;
+
+  /**
+   * Replace Variables
+   *
+   * @type {InterpolateFunction}
+   */
+  replaceVariables: InterpolateFunction;
 }
 
 /**
@@ -334,6 +341,7 @@ export const Table = <TData,>({
   clearPreferences,
   updateTablesPreferences,
   advancedSettings,
+  replaceVariables,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -743,7 +751,7 @@ export const Table = <TData,>({
         <Drawer
           title={
             <div className={styles.drawerTitle}>
-              {`${currentTableName} Table`}
+              {`${replaceVariables(currentTableName)} Table`}
               <Button
                 variant="secondary"
                 size="sm"
