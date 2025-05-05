@@ -306,9 +306,9 @@ export const TablePanel: React.FC<Props> = ({
         {isToolbarVisible && (
           <div ref={headerRef} className={styles.header}>
             <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
-              {options.isColumnManagerAvailable && sortedGroups.length === 1 && (
+              {options.isColumnManagerAvailable && currentTable && sortedGroups.length === 1 && (
                 <>
-                  {currentTable?.name}
+                  {replaceVariables(currentTable.name)}
                   <Icon
                     className={styles.drawerButton}
                     name="table"
@@ -334,7 +334,7 @@ export const TablePanel: React.FC<Props> = ({
                     }}
                     {...TEST_IDS.panel.tab.apply(group.name)}
                   >
-                    {group.name}
+                    {replaceVariables(group.name)}
                     {options.isColumnManagerAvailable && currentGroup === group.name && (
                       <Icon
                         className={styles.drawerButton}
@@ -410,6 +410,7 @@ export const TablePanel: React.FC<Props> = ({
           clearPreferences={() => {
             setUserPreferences({});
           }}
+          replaceVariables={replaceVariables}
           advancedSettings={{
             isColumnManagerAvailable: options.isColumnManagerAvailable,
             showFiltersInColumnManager: options.showFiltersInColumnManager,

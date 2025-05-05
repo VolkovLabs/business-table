@@ -48,6 +48,11 @@ describe('Table', () => {
   const updateTablesPreferences = jest.fn();
 
   /**
+   * Replace Variables
+   */
+  const replaceVariables = jest.fn();
+
+  /**
    * Wrapper with ref
    * @param props
    * @constructor
@@ -58,7 +63,12 @@ describe('Table', () => {
 
     return (
       <div ref={ref} style={{ height: 400 }}>
-        <Table scrollableContainerRef={ref} tableInstance={tableInstance} {...(props as any)} />
+        <Table
+          scrollableContainerRef={ref}
+          tableInstance={tableInstance}
+          replaceVariables={replaceVariables}
+          {...(props as any)}
+        />
       </div>
     );
   };
@@ -130,6 +140,7 @@ describe('Table', () => {
     });
 
     jest.mocked(useAddData).mockReturnValue({} as never);
+    replaceVariables.mockImplementation((str: string) => str);
   });
 
   it('Should render', async () => {

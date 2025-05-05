@@ -1,194 +1,260 @@
-# Change Log
+# Changelog
 
-All notable changes to the Business Table Panel plugin are documented in this changelog.
+All notable changes to the **Business Table Panel** plugin for Grafana are documented in this file.
 
-## 2.6.0 (2025-04-22)
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Features & Enhancements
+## [2.7.0] - Unreleased
 
-- Added sorting by user preferences in UI (#302)
-- Added image preview and update downloadable cells (#306)
-- Upgraded to Grafana 11.6 with dependency updates (#307)
+### Added
 
-## 2.5.0 (2025-03-30)
+- Replace variables to Group names (#313)
 
-### Features & Enhancements
+### Changes
 
-- Added export format options (#290)
-- Introduced file download cell type (#291)
-- Added user preferences and UI manager (#283)
-- Updated download data in XLS and CSV (#294)
+- Updated E2E dependencies (#308)
 
-## 2.4.0 (2025-03-10)
+## [2.6.0] - 2025-04-22
 
-### Features & Enhancements
+### Added
 
-- Added file upload editor (#270)
-- Enabled row background color from hidden fields (#273)
-- Introduced date format editor (#275)
+- Sorting by user preferences in the UI ([#302](https://github.com/VolkovLabs/business-table/issues/302))
+- Image preview and downloadable cell updates ([#306](https://github.com/VolkovLabs/business-table/issues/306))
 
-## 2.3.0 (2025-02-26)
+### Changed
 
-### Features & Enhancements
+- Upgraded to Grafana 11.6 with dependency updates ([#307](https://github.com/VolkovLabs/business-table/issues/307))
 
-- Improved highlighted row behavior (#250)
-- Updated alignment icons in panel options (#261)
-- Added column tooltip option (#260)
-- Enhanced cell text contrast for data links (#253)
-- Upgraded to Grafana 11.5 with dependency updates (#262, #265)
-- Updated release workflow to include attestation (#262)
-- Added custom scrollbar from Grafana UI (#251)
+## [2.5.0] - 2025-03-30
 
-## 2.2.0 (2025-02-10)
+### Added
 
-### Features & Enhancements
+- Export format options ([#290](https://github.com/VolkovLabs/business-table/issues/290))
+- File download cell type ([#291](https://github.com/VolkovLabs/business-table/issues/291))
+- User preferences and UI manager ([#283](https://github.com/VolkovLabs/business-table/issues/283))
 
-- Updated gauge values for Grafana 10.3.0 (#241)
-- Fixed unexpected errors in "Data Links" dashboard (#241)
-- Added row highlighting with background and auto-scroll (#243)
+### Changed
 
-## 2.1.0 (2025-02-04)
+- Updated download data support for XLS and CSV formats ([#294](https://github.com/VolkovLabs/business-table/issues/294))
 
-### Features & Enhancements
+## [2.4.0] - 2025-03-10
 
-- Added Excel download settings (#227, #233)
-- Updated data links to prevent dashboard reload (#232)
-- Introduced JSON cell type with inspector (#224)
-- Added action column configuration (#231)
-- Added gauge cell type (#238)
+### Added
 
-## 2.0.0 (2025-01-07)
+- File upload editor ([#270](https://github.com/VolkovLabs/business-table/issues/270))
+- Row background color support from hidden fields ([#273](https://github.com/VolkovLabs/business-table/issues/273))
+- Date format editor ([#275](https://github.com/VolkovLabs/business-table/issues/275))
 
-### Features & Enhancements
+## [2.3.0] - 2025-02-26
 
-- Improved column text word wrapping (#195)
-- Updated code editor packages (#194)
-- Added boolean value normalization (#198)
-- Added row count display within groups (#199)
-- Added error messages for data source requests (#213)
-- Upgraded to Grafana 11.4 with dependency updates (#214)
+### Added
 
-## 1.9.0 (2024-12-01)
+- Column tooltip option ([#260](https://github.com/VolkovLabs/business-table/issues/260))
+- Custom scrollbar from Grafana UI ([#251](https://github.com/VolkovLabs/business-table/issues/251))
 
-### Features & Enhancements
+### Changed
 
-- Added image cell type (#177)
-- Enhanced autosize code editor (#179)
-- Set default pagination size (#181)
-- Introduced preformatted cell type (#180)
-- Improved table cell borders (#183)
-- Added row add/delete functionality (#184)
+- Improved highlighted row behavior ([#250](https://github.com/VolkovLabs/business-table/issues/250))
+- Updated alignment icons in panel options ([#261](https://github.com/VolkovLabs/business-table/issues/261))
+- Enhanced cell text contrast for data links ([#253](https://github.com/VolkovLabs/business-table/issues/253))
+- Upgraded to Grafana 11.5 with dependency updates ([#262](https://github.com/VolkovLabs/business-table/issues/262), [#265](https://github.com/VolkovLabs/business-table/issues/265))
+- Updated release workflow to include attestation ([#262](https://github.com/VolkovLabs/business-table/issues/262))
 
-## 1.8.0 (2024-11-21)
+## [2.2.0] - 2025-02-10
 
-### Features & Enhancements
+### Added
 
-- Updated sort state persistence on dashboard refresh (#163)
-- Added variable support in data sources for editable and nested objects (#167)
-- Improved group expand/collapse behavior (#161)
-- Added custom value support for editable select fields (#165)
-- Fixed group expansion for empty cells (#169)
-- Added type checking for text areas (#172)
-- Fixed text area initial value error during editing (#176)
+- Row highlighting with background and auto-scroll ([#243](https://github.com/VolkovLabs/business-table/issues/243))
 
-## 1.7.0 (2024-11-16)
+### Changed
 
-### Features & Enhancements
+- Updated gauge values for Grafana 10.3.0 ([#241](https://github.com/VolkovLabs/business-table/issues/241))
 
-- Enhanced `useNestedObjects` hook to show request errors and empty values (#158)
-- Added sanitized HTML and Markdown column types (#154)
-- Adjusted row heights on group collapse (#159)
-- Updated filter options for exact matches (#160)
-- Changed data source references to use IDs (#156)
-- Added option to hide table header (#157)
+### Fixed
 
-## 1.6.0 (2024-10-29)
+- Resolved unexpected errors in "Data Links" dashboard ([#241](https://github.com/VolkovLabs/business-table/issues/241))
 
-### Features & Enhancements
+## [2.1.0] - 2025-02-04
 
-- Improved dashboard refresh and runtime variable handling (#129)
-- Added variable replacement in file names (#131) and column headers (#134)
-- Introduced textarea column editor type (#133)
-- Upgraded to Grafana 11.3 with dependency updates (#137)
-- Added colored text and background for aggregated rows (#136)
-- Enhanced data source request error handling (#140)
-- Added column header customization (#141)
-- Improved text wrapping (#143)
+### Added
 
-## 1.5.0 (2024-10-08)
+- Excel download settings ([#227](https://github.com/VolkovLabs/business-table/issues/227), [#233](https://github.com/VolkovLabs/business-table/issues/233))
+- JSON cell type with inspector ([#224](https://github.com/VolkovLabs/business-table/issues/224))
+- Action column configuration ([#231](https://github.com/VolkovLabs/business-table/issues/231))
+- Gauge cell type ([#238](https://github.com/VolkovLabs/business-table/issues/238))
 
-### Features & Enhancements
+### Changed
 
-- Enhanced autosize code editor toolbar (#99)
-- Added HTML content sanitization (#110)
-- Included hidden column data in payload (#112)
+- Updated data links to prevent dashboard reload ([#232](https://github.com/VolkovLabs/business-table/issues/232))
 
-### Bug Fixes
+## [2.0.0] - 2025-01-07
 
-- Fixed newline escaping in content edits (#111)
+### Added
 
-## 1.4.0 (2024-10-02)
+- Boolean value normalization ([#198](https://github.com/VolkovLabs/business-table/issues/198))
+- Row count display within groups ([#199](https://github.com/VolkovLabs/business-table/issues/199))
+- Error messages for data source requests ([#213](https://github.com/VolkovLabs/business-table/issues/213))
 
-### Features & Enhancements
+### Changed
 
-- Added standard options support for aggregated cells (#79)
-- Introduced nested objects cell type (#80)
-- Updated end-to-end tests (#81)
-- Moved pagination options to a separate category (#87)
-- Improved nested object display (first/last object) (#92)
-- Fixed row data handling for accessor keys with dots (#90)
-- Added YouTube tutorial link (#93)
-- Enhanced column show/hide functionality (#94)
-- Fixed query pagination errors with client-side filtering (#95)
-- Updated end-to-end tests for panel editing in dashboard scene (#96)
+- Improved column text word wrapping ([#195](https://github.com/VolkovLabs/business-table/issues/195))
+- Updated code editor packages ([#194](https://github.com/VolkovLabs/business-table/issues/194))
+- Upgraded to Grafana 11.4 with dependency updates ([#214](https://github.com/VolkovLabs/business-table/issues/214))
 
-## 1.3.0 (2024-09-20)
+## [1.9.0] - 2024-12-01
+
+### Added
+
+- Image cell type ([#177](https://github.com/VolkovLabs/business-table/issues/177))
+- Autosize code editor enhancements ([#179](https://github.com/VolkovLabs/business-table/issues/179))
+- Default pagination size ([#181](https://github.com/VolkovLabs/business-table/issues/181))
+- Preformatted cell type ([#180](https://github.com/VolkovLabs/business-table/issues/180))
+- Row add/delete functionality ([#184](https://github.com/VolkovLabs/business-table/issues/184))
+
+### Changed
+
+- Improved table cell borders ([#183](https://github.com/VolkovLabs/business-table/issues/183))
+
+## [1.8.0] - 2024-11-21
+
+### Added
+
+- Variable support in data sources for editable and nested objects ([#167](https://github.com/VolkovLabs/business-table/issues/167))
+- Custom value support for editable select fields ([#165](https://github.com/VolkovLabs/business-table/issues/165))
+- Type checking for text areas ([#172](https://github.com/VolkovLabs/business-table/issues/172))
+
+### Changed
+
+- Updated sort state persistence on dashboard refresh ([#163](https://github.com/VolkovLabs/business-table/issues/163))
+- Improved group expand/collapse behavior ([#161](https://github.com/VolkovLabs/business-table/issues/161))
+
+### Fixed
+
+- Resolved group expansion issues for empty cells ([#169](https://github.com/VolkovLabs/business-table/issues/169))
+- Fixed text area initial value error during editing ([#176](https://github.com/VolkovLabs/business-table/issues/176))
+
+## [1.7.0] - 2024-11-16
+
+### Added
+
+- Sanitized HTML and Markdown column types ([#154](https://github.com/VolkovLabs/business-table/issues/154))
+- Option to hide table header ([#157](https://github.com/VolkovLabs/business-table/issues/157))
+
+### Changed
+
+- Enhanced `useNestedObjects` hook to show request errors and empty values ([#158](https://github.com/VolkovLabs/business-table/issues/158))
+- Adjusted row heights on group collapse ([#159](https://github.com/VolkovLabs/business-table/issues/159))
+- Updated filter options for exact matches ([#160](https://github.com/VolkovLabs/business-table/issues/160))
+- Changed data source references to use IDs ([#156](https://github.com/VolkovLabs/business-table/issues/156))
+
+## [1.6.0] - 2024-10-29
+
+### Added
+
+- Variable replacement in file names ([#131](https://github.com/VolkovLabs/business-table/issues/131)) and column headers ([#134](https://github.com/VolkovLabs/business-table/issues/134))
+- Textarea column editor type ([#133](https://github.com/VolkovLabs/business-table/issues/133))
+- Colored text and background for aggregated rows ([#136](https://github.com/VolkovLabs/business-table/issues/136))
+- Column header customization ([#141](https://github.com/VolkovLabs/business-table/issues/141))
+
+### Changed
+
+- Improved dashboard refresh and runtime variable handling ([#129](https://github.com/VolkovLabs/business-table/issues/129))
+- Upgraded to Grafana 11.3 with dependency updates ([#137](https://github.com/VolkovLabs/business-table/issues/137))
+- Enhanced data source request error handling ([#140](https://github.com/VolkovLabs/business-table/issues/140))
+- Improved text wrapping ([#143](https://github.com/VolkovLabs/business-table/issues/143))
+
+## [1.5.0] - 2024-10-08
+
+### Added
+
+- HTML content sanitization ([#110](https://github.com/VolkovLabs/business-table/issues/110))
+- Hidden column data in payload ([#112](https://github.com/VolkovLabs/business-table/issues/112))
+
+### Changed
+
+- Enhanced autosize code editor toolbar ([#99](https://github.com/VolkovLabs/business-table/issues/99))
+
+### Fixed
+
+- Fixed newline escaping in content edits ([#111](https://github.com/VolkovLabs/business-table/issues/111))
+
+## [1.4.0] - 2024-10-02
+
+### Added
+
+- Standard options support for aggregated cells ([#79](https://github.com/VolkovLabs/business-table/issues/79))
+- Nested objects cell type ([#80](https://github.com/VolkovLabs/business-table/issues/80))
+- YouTube tutorial link ([#93](https://github.com/VolkovLabs/business-table/issues/93))
+- Column show/hide functionality ([#94](https://github.com/VolkovLabs/business-table/issues/94))
+
+### Changed
+
+- Updated end-to-end tests ([#81](https://github.com/VolkovLabs/business-table/issues/81))
+- Moved pagination options to a separate category ([#87](https://github.com/VolkovLabs/business-table/issues/87))
+- Improved nested object display (first/last object) ([#92](https://github.com/VolkovLabs/business-table/issues/92))
+- Updated end-to-end tests for panel editing in dashboard scene ([#96](https://github.com/VolkovLabs/business-table/issues/96))
+
+### Fixed
+
+- Fixed row data handling for accessor keys with dots ([#90](https://github.com/VolkovLabs/business-table/issues/90))
+- Fixed query pagination errors with client-side filtering ([#95](https://github.com/VolkovLabs/business-table/issues/95))
+
+## [1.3.0] - 2024-09-20
 
 ### Breaking Changes
 
 - Requires Grafana 10.3 or Grafana 11
 
-### Features & Enhancements
+### Added
 
-- Added permission-based data editing (#40, #76)
-- Introduced query-based edit permissions (#47)
-- Added client-side and query-based pagination (#50)
-- Enabled column pinning (#53, #65)
-- Added CSV download functionality (#61)
-- Improved page size button layout to prevent overflow (#62)
-- Added table state reset on tab change (#67)
-- Enhanced table editor UI/UX (#66)
-- Improved sorting options (#69)
-- Added data links support (#75)
+- Permission-based data editing ([#40](https://github.com/VolkovLabs/business-table/issues/40), [#76](https://github.com/VolkovLabs/business-table/issues/76))
+- Query-based edit permissions ([#47](https://github.com/VolkovLabs/business-table/issues/47))
+- Client-side and query-based pagination ([#50](https://github.com/VolkovLabs/business-table/issues/50))
+- Column pinning ([#53](https://github.com/VolkovLabs/business-table/issues/53), [#65](https://github.com/VolkovLabs/business-table/issues/65))
+- CSV download functionality ([#61](https://github.com/VolkovLabs/business-table/issues/61))
+- Data links support ([#75](https://github.com/VolkovLabs/business-table/issues/75))
 
-## 1.2.0 (2024-09-05)
+### Changed
 
-### Features & Enhancements
+- Improved page size button layout to prevent overflow ([#62](https://github.com/VolkovLabs/business-table/issues/62))
+- Added table state reset on tab change ([#67](https://github.com/VolkovLabs/business-table/issues/67))
+- Enhanced table editor UI/UX ([#66](https://github.com/VolkovLabs/business-table/issues/66))
+- Improved sorting options ([#69](https://github.com/VolkovLabs/business-table/issues/69))
 
-- Added colored background column type (#33)
-- Introduced column width and text wrap options (#34)
-- Added table footer (#36)
-- Upgraded to Grafana 11.2.0 (#37)
+## [1.2.0] - 2024-09-05
 
-### Bug Fixes
+### Added
 
-- Fixed issue with adding new tables (#39)
+- Colored background column type ([#33](https://github.com/VolkovLabs/business-table/issues/33))
+- Column width and text wrap options ([#34](https://github.com/VolkovLabs/business-table/issues/34))
+- Table footer ([#36](https://github.com/VolkovLabs/business-table/issues/36))
 
-## 1.1.0 (2024-08-22)
+### Changed
 
-### Features & Enhancements
+- Upgraded to Grafana 11.2.0 ([#37](https://github.com/VolkovLabs/business-table/issues/37))
 
-- Signed as a Grafana Community plugin (#23)
-- Added column filtering (#21)
-- Renamed "groups" to "tables" (#27)
-- Updated options to show aggregation when columns are grouped (#28)
-- Added tab sorting option (#29)
-- Upgraded to Grafana 11.1.4 (#31)
+### Fixed
 
-## 1.0.0 (2024-08-04)
+- Fixed issue with adding new tables ([#39](https://github.com/VolkovLabs/business-table/issues/39))
 
-### Features & Enhancements
+## [1.1.0] - 2024-08-22
+
+### Added
+
+- Column filtering ([#21](https://github.com/VolkovLabs/business-table/issues/21))
+- Tab sorting option ([#29](https://github.com/VolkovLabs/business-table/issues/29))
+
+### Changed
+
+- Signed as a Grafana Community plugin ([#23](https://github.com/VolkovLabs/business-table/issues/23))
+- Renamed "groups" to "tables" ([#27](https://github.com/VolkovLabs/business-table/issues/27))
+- Updated options to show aggregation when columns are grouped ([#28](https://github.com/VolkovLabs/business-table/issues/28))
+- Upgraded to Grafana 11.1.4 ([#31](https://github.com/VolkovLabs/business-table/issues/31))
+
+## [1.0.0] - 2024-08-04
+
+### Added
 
 - Initial release based on Grafana 11.1.0
-- Added basic column editor (#1)
-- Introduced groups and tabs (#17)
+- Basic column editor ([#1](https://github.com/VolkovLabs/business-table/issues/1))
+- Groups and tabs functionality ([#17](https://github.com/VolkovLabs/business-table/issues/17))
