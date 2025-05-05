@@ -488,7 +488,7 @@ describe('Drawer Columns', () => {
   });
 
   describe('Sorting', () => {
-    it('Should display asc sot icon', async () => {
+    it('Should display asc sort icon', async () => {
       const headers = [
         {
           id: 'firstGroup',
@@ -543,7 +543,7 @@ describe('Drawer Columns', () => {
       expect(selectors.iconSort(false, 'name-arrow-up')).toBeInTheDocument();
     });
 
-    it('Should display asc sot icon', async () => {
+    it('Should display asc sort icon', async () => {
       const headers = [
         {
           id: 'firstGroup',
@@ -663,6 +663,60 @@ describe('Drawer Columns', () => {
         { enabled: true, filter: null, name: 'name', sort: { descFirst: false, enabled: true } },
         { enabled: true, filter: null, name: 'value', sort: { descFirst: false, enabled: false } },
       ]);
+    });
+
+    it('Should display icon with information if sorting is available for column', async () => {
+      const headers = [
+        {
+          id: 'firstGroup',
+          headers: [
+            {
+              id: 'name',
+              getContext: () =>
+                ({
+                  label: 'Name',
+                }) as any,
+              column: {
+                id: 'name',
+                getIsSorted: jest.fn(() => 'asc'),
+                getCanSort: jest.fn(() => true),
+                getToggleSortingHandler: jest.fn(),
+                columnDef: {
+                  header: ({ label }: any) => label,
+                },
+              } as any,
+            } as any,
+            {
+              id: 'value',
+              getContext: () =>
+                ({
+                  label: 'Value',
+                }) as any,
+              column: {
+                id: 'value',
+                getIsSorted: jest.fn(),
+                getCanSort: jest.fn(() => false),
+                getToggleSortingHandler: jest.fn(),
+                columnDef: {
+                  header: ({ label }: any) => label,
+                },
+              } as any,
+            } as any,
+          ],
+        },
+      ] as any;
+
+      await act(async () =>
+        render(
+          getComponent({
+            drawerColumns: [{ ...nameColumn, pin: ColumnPinDirection.LEFT }, valueColumn],
+            headers: headers,
+          })
+        )
+      );
+
+      expect(selectors.root()).toBeInTheDocument();
+      expect(selectors.iconSortingAvailable(false, 'name')).toBeInTheDocument();
     });
   });
 });

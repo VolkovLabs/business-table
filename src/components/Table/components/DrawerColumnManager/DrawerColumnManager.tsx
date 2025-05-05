@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { Icon, IconButton, Tag, useStyles2 } from '@grafana/ui';
+import { Icon, IconButton, Tag, Tooltip, useStyles2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { HeaderGroup, SortingState } from '@tanstack/react-table';
 import React, { useCallback } from 'react';
@@ -169,7 +169,7 @@ export const DrawerColumnManager = <TData,>({
                   ?.headers.find((headerItem) => headerItem.id === item.field.name);
 
                 const sort = header?.column.getIsSorted();
-
+                const sortIsEnabled = header?.column.getCanSort();
                 return (
                   <Draggable key={getFieldKey(item.field)} draggableId={getFieldKey(item.field)} index={index}>
                     {(provided, snapshot) => (
@@ -219,6 +219,16 @@ export const DrawerColumnManager = <TData,>({
                               tooltip={item.enabled ? 'Hide' : 'Show'}
                               {...testIds.buttonToggleVisibility.apply(item.field.name)}
                             />
+                            {sortIsEnabled && (
+                              <Tooltip
+                                content="Sorting is available"
+                                {...testIds.iconSortingAvailable.apply(item.field.name)}
+                              >
+                                <div className={styles.sortTag}>
+                                  <Icon name="arrows-v" size="sm" />
+                                </div>
+                              </Tooltip>
+                            )}
                             <div
                               onClick={(event) => {
                                 /**
