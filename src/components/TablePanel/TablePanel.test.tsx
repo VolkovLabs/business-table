@@ -85,6 +85,11 @@ describe('TablePanel', () => {
   const eventBus = new EventBusSrv();
 
   /**
+   * Replace Variables
+   */
+  const replaceVariables = jest.fn();
+
+  /**
    * Selectors
    */
   const getSelectors = getJestSelectors(TEST_IDS.panel);
@@ -113,6 +118,7 @@ describe('TablePanel', () => {
         data={data}
         options={defaultOptions}
         eventBus={eventBus}
+        replaceVariables={replaceVariables}
         {...(props as any)}
       />
     );
@@ -131,6 +137,7 @@ describe('TablePanel', () => {
     // jest.mocked(useLocalStorage).mockImplementation(useLocalStorageMock);
     jest.mocked(useSavedState).mockImplementation(jest.requireActual('../../hooks/useSavedState').useSavedState);
     jest.mocked(useExportData).mockImplementation(useExportDataMock);
+    replaceVariables.mockImplementation((str: string) => str);
   });
 
   it('Should find component', async () => {

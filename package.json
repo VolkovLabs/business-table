@@ -2,10 +2,10 @@
   "author": "Volkov Labs",
   "dependencies": {
     "@emotion/css": "^11.13.5",
-    "@floating-ui/react": "^0.27.7",
+    "@floating-ui/react": "^0.27.8",
     "@grafana/data": "^11.6.0",
     "@grafana/runtime": "^11.6.0",
-    "@grafana/scenes": "^6.9.0",
+    "@grafana/scenes": "^6.9.1",
     "@grafana/ui": "^11.6.0",
     "@hello-pangea/dnd": "^18.0.1",
     "@react-aria/focus": "^3.20.2",
@@ -25,9 +25,9 @@
   "description": "Simplify data visualization in table format",
   "devDependencies": {
     "@grafana/eslint-config": "^8.0.0",
-    "@grafana/plugin-e2e": "1.17.1",
+    "@grafana/plugin-e2e": "2.0.0",
     "@grafana/tsconfig": "^2.0.0",
-    "@playwright/test": "1.50.1",
+    "@playwright/test": "^1.52.0",
     "@stylistic/eslint-plugin-ts": "^2.13.0",
     "@swc/core": "^1.11.21",
     "@swc/helpers": "^0.5.17",
@@ -89,5 +89,5 @@
     "test:e2e:docker": "docker compose --profile e2e up --exit-code-from test",
     "upgrade": "npm upgrade --save"
   },
-  "version": "2.6.0"
+  "version": "2.7.0"
 }

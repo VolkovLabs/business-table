@@ -90,7 +90,7 @@ export const useExportData = <TData>({
        * Add Table Name
        */
       if (tableConfig?.name) {
-        prefix += `${tableConfig.name}-`;
+        prefix += `${replaceVariables(tableConfig.name)}-`;
       }
 
       /**
