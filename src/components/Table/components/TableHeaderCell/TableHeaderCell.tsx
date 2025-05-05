@@ -130,7 +130,7 @@ export const TableHeaderCell = <TData,>({
       <div
         onClick={(event) => {
           /**
-           * Open drawer if sorting and UI manger are available
+           * Open drawer if sorting and UI manager are available
            */
           if (advancedSettings.isColumnManagerAvailable && advancedSettings.showSortInColumnManager) {
             setDrawerOpen(true);
@@ -138,7 +138,7 @@ export const TableHeaderCell = <TData,>({
           }
 
           /**
-           * define sortHandler
+           * Define sortHandler
            */
           const sortHandler = header.column.getToggleSortingHandler();
 
