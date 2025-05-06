@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { Icon, IconButton, Tag, useStyles2 } from '@grafana/ui';
+import { Icon, IconButton, Tag, Tooltip, useStyles2 } from '@grafana/ui';
 import { DragDropContext, Draggable, DraggingStyle, Droppable, DropResult, NotDraggingStyle } from '@hello-pangea/dnd';
 import { HeaderGroup, SortingState } from '@tanstack/react-table';
 import React, { useCallback } from 'react';
@@ -169,6 +169,7 @@ export const DrawerColumnManager = <TData,>({
                   ?.headers.find((headerItem) => headerItem.id === item.field.name);
 
                 const sort = header?.column.getIsSorted();
+                const sortIsEnabled = header?.column.getCanSort() && advancedSettings.showSortInColumnManager;
 
                 return (
                   <Draggable key={getFieldKey(item.field)} draggableId={getFieldKey(item.field)} index={index}>
@@ -219,8 +220,21 @@ export const DrawerColumnManager = <TData,>({
                               tooltip={item.enabled ? 'Hide' : 'Show'}
                               {...testIds.buttonToggleVisibility.apply(item.field.name)}
                             />
+                            {sortIsEnabled && (
+                              <Tooltip
+                                content="Sorting is available"
+                                {...testIds.iconSortingAvailable.apply(item.field.name)}
+                              >
+                                <div className={styles.sortTag}>
+                                  <Icon name="arrows-v" size="sm" />
+                                </div>
+                              </Tooltip>
+                            )}
                             <div
                               onClick={(event) => {
+                                if (!sortIsEnabled) {
+                                  return;
+                                }
                                 /**
                                  * Updated column items include sorting
                                  */
@@ -260,7 +274,7 @@ export const DrawerColumnManager = <TData,>({
                               {...testIds.nameContainer.apply(item.field.name)}
                             >
                               {item.field.name} {item.label && `[${item.label}]`}
-                              {!!sort && (
+                              {!!sort && sortIsEnabled && (
                                 <Icon
                                   name={sort === 'asc' ? 'arrow-up' : 'arrow-down'}
                                   size="lg"

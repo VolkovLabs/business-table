@@ -415,6 +415,7 @@ export const TablePanel: React.FC<Props> = ({
             isColumnManagerAvailable: options.isColumnManagerAvailable,
             showFiltersInColumnManager: options.showFiltersInColumnManager,
             saveUserPreference: options.saveUserPreference,
+            showSortInColumnManager: options.showSortingInColumnManager,
           }}
         />
       </>

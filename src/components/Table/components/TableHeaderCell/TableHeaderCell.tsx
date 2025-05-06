@@ -69,7 +69,7 @@ export const TableHeaderCell = <TData,>({
    */
   const styles = useStyles2(getStyles);
   const theme = useTheme2();
-
+  const sortIsEnabled = header.column.getCanSort();
   const sort = header.column.getIsSorted();
   const fontColor = header.column.columnDef.meta?.config.appearance.header.fontColor || 'inherit';
   const tooltip = useMemo(
@@ -128,7 +128,24 @@ export const TableHeaderCell = <TData,>({
   return (
     <>
       <div
-        onClick={header.column.getToggleSortingHandler()}
+        onClick={(event) => {
+          /**
+           * Open drawer if sorting and UI manager are available
+           */
+          if (advancedSettings.isColumnManagerAvailable && advancedSettings.showSortInColumnManager) {
+            setDrawerOpen(true);
+            return;
+          }
+
+          /**
+           * Define sortHandler
+           */
+          const sortHandler = header.column.getToggleSortingHandler();
+
+          if (sortHandler) {
+            sortHandler(event);
+          }
+        }}
         className={cx({
           [styles.labelSortable]: header.column.getCanSort(),
         })}
@@ -139,7 +156,12 @@ export const TableHeaderCell = <TData,>({
       >
         {!!tooltip && (
           <Tooltip content={tooltip} {...testIds.tooltip.apply()}>
-            <Icon name="exclamation-circle" size="xs" aria-label="JSON error" className={styles.tooltip} />
+            <Icon name="exclamation-circle" size="xs" aria-label="Info message" className={styles.tooltip} />
+          </Tooltip>
+        )}
+        {sortIsEnabled && (
+          <Tooltip content="Sorting is available" {...testIds.tooltipIconSortAvailable.apply()}>
+            <Icon name="arrows-v" size="xs" aria-label="Info message" className={styles.sortingAvailable} />
           </Tooltip>
         )}
         {flexRender(header.column.columnDef.header, header.getContext())}
