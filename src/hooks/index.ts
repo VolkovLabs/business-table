@@ -3,6 +3,7 @@ export * from './useContentSizes';
 export * from './useCustomContext';
 export * from './useDatasources';
 export * from './useExportData';
+export * from './useExternalExport';
 export * from './useLocalStorage';
 export * from './usePagination';
 export * from './useSavedState';

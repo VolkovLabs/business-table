@@ -5,10 +5,11 @@ import { getJestSelectors } from '@volkovlabs/jest-selectors';
 import React, { useMemo, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { useExportData, usePagination, useSavedState, useTable } from '@/hooks';
+import { useExportData, useExternalExport, usePagination, useSavedState, useTable } from '@/hooks';
 import { ExportFormatType } from '@/types';
 import {
   createColumnConfig,
+  createExternalExportConfig,
   createPanelOptions,
   createRowHighlightConfig,
   createTableConfig,
@@ -54,6 +55,13 @@ const useExportDataMock = () => onExportMock;
 
 jest.mock('../../hooks/useExportData', () => ({
   useExportData: jest.fn(),
+}));
+
+const onExternalExportMock = jest.fn();
+const useExternalExportMock = () => onExternalExportMock;
+
+jest.mock('../../hooks/useExternalExport', () => ({
+  useExternalExport: jest.fn(),
 }));
 
 const usePaginationMock = () => {
@@ -137,6 +145,7 @@ describe('TablePanel', () => {
     // jest.mocked(useLocalStorage).mockImplementation(useLocalStorageMock);
     jest.mocked(useSavedState).mockImplementation(jest.requireActual('../../hooks/useSavedState').useSavedState);
     jest.mocked(useExportData).mockImplementation(useExportDataMock);
+    jest.mocked(useExternalExport).mockImplementation(useExternalExportMock);
     replaceVariables.mockImplementation((str: string) => str);
   });
 
@@ -264,6 +273,33 @@ describe('TablePanel', () => {
     fireEvent.click(selectors.buttonDownload());
 
     expect(onExportMock).toHaveBeenCalled();
+  });
+
+  it('Should allow to Export data', async () => {
+    const tables = [createTableConfig({})];
+
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            externalExport: createExternalExportConfig({
+              enabled: true,
+            }),
+            tables,
+            toolbar: createToolbarOptions({
+              export: true,
+              exportFormats: [ExportFormatType.CSV, ExportFormatType.XLSX],
+            }),
+          }),
+        })
+      )
+    );
+
+    expect(selectors.buttonExport()).toBeInTheDocument();
+
+    fireEvent.click(selectors.buttonExport());
+
+    expect(onExternalExportMock).toHaveBeenCalled();
   });
 
   it('Should allow to change download format data', async () => {

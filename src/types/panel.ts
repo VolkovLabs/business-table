@@ -728,6 +728,25 @@ export interface TableConfig {
 }
 
 /**
+ * External Export Config
+ */
+export interface ExternalExportConfig {
+  /**
+   * Enabled
+   *
+   * @type {boolean}
+   */
+  enabled: boolean;
+
+  /**
+   * Request
+   *
+   * @type {TableRequestConfig}
+   */
+  request: TableRequestConfig;
+}
+
+/**
  * Toolbar Options
  */
 export interface ToolbarOptions {
@@ -812,6 +831,13 @@ export interface PanelOptions {
    * @type {NestedObjectConfig[]}
    */
   nestedObjects: NestedObjectConfig[];
+
+  /**
+   * external export config
+   *
+   * @type {ExternalExportConfig}
+   */
+  externalExport: ExternalExportConfig;
 }
 
 /**

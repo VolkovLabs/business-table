@@ -22,6 +22,7 @@ import {
   tablePanelContext,
   useContentSizes,
   useExportData,
+  useExternalExport,
   usePagination,
   useSavedState,
   useTable,
@@ -223,8 +224,20 @@ export const TablePanel: React.FC<Props> = ({
    * Is Toolbar Visible
    */
   const isToolbarVisible = useMemo(() => {
-    return sortedGroups.length > 1 || options.toolbar.export || options.isColumnManagerAvailable || isExportAvailable;
-  }, [options.isColumnManagerAvailable, options.toolbar.export, isExportAvailable, sortedGroups.length]);
+    return (
+      sortedGroups.length > 1 ||
+      options.toolbar.export ||
+      options.isColumnManagerAvailable ||
+      isExportAvailable ||
+      options.externalExport?.enabled
+    );
+  }, [
+    sortedGroups.length,
+    options.toolbar.export,
+    options.isColumnManagerAvailable,
+    options.externalExport?.enabled,
+    isExportAvailable,
+  ]);
 
   /**
    * Content Sizes
@@ -266,6 +279,17 @@ export const TablePanel: React.FC<Props> = ({
     panelTitle: title,
     exportFormat: exportFormat,
     replaceVariables,
+  });
+
+  /**
+   * Export
+   */
+  const onExternalExport = useExternalExport({
+    data: tableData,
+    columns,
+    externalExport: options.externalExport,
+    replaceVariables,
+    setError,
   });
 
   const exportFormatsMenu = useMemo(() => {
@@ -364,6 +388,17 @@ export const TablePanel: React.FC<Props> = ({
                     </Button>
                   </Dropdown>
                 </ButtonGroup>
+              )}
+              {options.externalExport?.enabled && (
+                <Button
+                  icon="file-download"
+                  onClick={() => onExternalExport({ table: tableInstance.current as never })}
+                  variant="secondary"
+                  size="sm"
+                  {...TEST_IDS.panel.buttonExport.apply()}
+                >
+                  Export
+                </Button>
               )}
             </ToolbarButtonRow>
           </div>

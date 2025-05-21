@@ -4,6 +4,7 @@ import {
   AddDataEditor,
   DeleteDataEditor,
   EditableDataEditor,
+  ExternalExportEditor,
   HighlightDataEditor,
   NestedObjectsEditor,
   PaginationsEditor,
@@ -143,6 +144,13 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         name: 'Save Preferences',
         description: 'Enable to save table settings to User Preferences, overriding current table configuration.',
         showIf: (config) => config.isColumnManagerAvailable,
+        category: ['Advanced'],
+      })
+      .addCustomEditor({
+        id: 'externalExport',
+        path: 'externalExport',
+        name: '',
+        editor: ExternalExportEditor,
         category: ['Advanced'],
       });
     return builder;

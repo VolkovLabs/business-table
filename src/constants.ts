@@ -95,6 +95,7 @@ export const TEST_IDS = {
     tab: createSelector((name: unknown) => `data-testid panel tab-${name}`),
     buttonDownload: createSelector('data-testid panel button-download'),
     buttonFormat: createSelector('data-testid panel button-format'),
+    buttonExport: createSelector('data-testid panel button-export'),
     dropdown: createSelector('data-testid panel dropdown'),
     buttonSetFormat: createSelector((name: unknown) => `data-testid panel button-set-format-${name}`),
     buttonOpenDrawer: createSelector((name: unknown) => `data-testid panel button-open-drawer-${name}`),
@@ -363,6 +364,11 @@ export const TEST_IDS = {
     ),
     noColumnsMessage: createSelector('data-testid table-add-row-editor no-columns-message'),
     disabledHeaderMessage: createSelector('data-testid table-add-row-editor disabled-header-message'),
+  },
+  externalExportEditor: {
+    fieldEnabled: createSelector('data-testid external-export-editor field-enabled'),
+    requestSectionHeader: createSelector('data-testid external-export-editor update-section-header'),
+    requestSectionContent: createSelector('data-testid external-export-editor update-section-content'),
   },
   buttonSelect: {
     root: createSelector('button-select root'),
