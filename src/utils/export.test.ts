@@ -11,10 +11,10 @@ describe('format', () => {
 
     const result = format(original, variable, data);
 
-    const expected = JSON.stringify(data, null, 4).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
+    const expected = JSON.stringify(data).replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
     expect(result).toEqual(expected);
 
-    expect(result).toEqual('[' + '\\n' + '    ["a", 1],' + '\\n' + '    ["b", 2]' + '\\n' + ']');
+    expect(result).toEqual('[[\\"a\\",1],[\\"b\\",2]]');
   });
 
   it('Should return String(original) when variable.name is not "payload"', () => {

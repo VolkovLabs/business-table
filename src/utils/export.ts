@@ -6,7 +6,7 @@
  */
 export const format = (original: unknown, variable: { name?: string }, data: unknown[][]) => {
   if (variable && variable?.name === 'payload') {
-    const prettyData = JSON.stringify(data, null, 4);
+    const prettyData = JSON.stringify(data);
     const escapedString = prettyData.replace(/\\/g, '\\\\').replace(/"/g, '\\"').replace(/\n/g, '\\n');
     return escapedString;
   }

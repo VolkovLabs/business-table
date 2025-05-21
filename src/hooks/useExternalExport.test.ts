@@ -3,14 +3,7 @@ import { ColumnDef, createTable, getCoreRowModel, getFilteredRowModel } from '@t
 import { renderHook } from '@testing-library/react';
 import { useDatasourceRequest } from '@volkovlabs/components';
 
-import {
-  convertTableToDataFrame,
-  convertToXlsxFormat,
-  createColumnAccessorFn,
-  createColumnMeta,
-  createExternalExportConfig,
-  dataFrameToObjectArray,
-} from '@/utils';
+import { createColumnAccessorFn, createColumnMeta, createExternalExportConfig, dataFrameToObjectArray } from '@/utils';
 
 import { useExternalExport } from './useExternalExport';
 
