@@ -1,4 +1,4 @@
-import { AlertPayload, AppEvents, InterpolateFunction, LoadingState, ScopedVars } from '@grafana/data';
+import { AlertPayload, AppEvents, InterpolateFunction, LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import {
   ColumnDef,
