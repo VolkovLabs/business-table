@@ -38,4 +38,5 @@ datasources:
       global_queries: []
       allowDangerousHTTPMethods: true
     readOnly: true
+    editable: true
     apiVersion: ''
