@@ -538,6 +538,7 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
   if (options.showSortingInColumnManager === undefined) {
     options.showSortingInColumnManager = false;
   }
+
   /**
    * Normalize Toolbar
    */
@@ -572,6 +573,19 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
    */
   if (!options.nestedObjects) {
     options.nestedObjects = [];
+  }
+
+  /**
+   * Normalize External Export
+   */
+  if (options.externalExport === undefined) {
+    options.externalExport = {
+      enabled: false,
+      request: {
+        datasource: '',
+        payload: {},
+      },
+    };
   }
 
   if (panel.pluginVersion && semver.lt(panel.pluginVersion, '1.7.0') && !!options.nestedObjects.length) {

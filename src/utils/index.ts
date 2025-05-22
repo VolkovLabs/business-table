@@ -1,4 +1,5 @@
 export * from './editor';
+export * from './export';
 export * from './file';
 export * from './group';
 export * from './nested-object';

@@ -28,6 +28,7 @@ import {
   ColumnNewRowEditConfig,
   ColumnPinDirection,
   ColumnSortConfig,
+  ExternalExportConfig,
   FileButtonSize,
   FileButtonVariant,
   FileConfig,
@@ -234,6 +235,14 @@ export const createToolbarOptions = (toolbar: Partial<ToolbarOptions>): ToolbarO
   ...toolbar,
 });
 
+export const createExternalExportConfig = (config: Partial<ExternalExportConfig> = {}): ExternalExportConfig => ({
+  enabled: false,
+  request: {
+    datasource: '',
+    payload: {},
+  },
+  ...config,
+});
 /**
  * Create Panel Options
  */
@@ -246,6 +255,7 @@ export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOp
   saveUserPreference: false,
   showFiltersInColumnManager: false,
   showSortingInColumnManager: false,
+  externalExport: createExternalExportConfig(),
   ...options,
 });
 

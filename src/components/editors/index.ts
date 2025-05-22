@@ -5,6 +5,7 @@ export * from './DatasourcePayloadEditor';
 export * from './DeleteDataEditor';
 export * from './EditableColumnEditor';
 export * from './EditableDataEditor';
+export * from './ExternalExportEditor';
 export * from './FieldPicker';
 export * from './HighlightDataEditor';
 export * from './NestedObjectsEditor';

@@ -910,4 +910,68 @@ describe('migration', () => {
       );
     });
   });
+
+  describe('2.7.0', () => {
+    it('Should normalize externalExport', async () => {
+      expect(await getMigratedOptions({ options: {} } as any)).toEqual(
+        expect.objectContaining({
+          externalExport: {
+            enabled: false,
+            request: {
+              datasource: '',
+              payload: {},
+            },
+          },
+        })
+      );
+
+      expect(
+        await getMigratedOptions({
+          options: {
+            externalExport: {
+              enabled: false,
+              request: {
+                datasource: '',
+                payload: {},
+              },
+            },
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          externalExport: {
+            enabled: false,
+            request: {
+              datasource: '',
+              payload: {},
+            },
+          },
+        })
+      );
+
+      expect(
+        await getMigratedOptions({
+          options: {
+            externalExport: {
+              enabled: true,
+              request: {
+                datasource: 'ds',
+                payload: { name: '' },
+              },
+            },
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          externalExport: {
+            enabled: true,
+            request: {
+              datasource: 'ds',
+              payload: { name: '' },
+            },
+          },
+        })
+      );
+    });
+  });
 });
