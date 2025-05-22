@@ -130,21 +130,21 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         name: 'Show filters',
         description: 'Allowing set filters for columns.',
         showIf: (config) => config.isColumnManagerAvailable,
-        category: ['Advanced'],
+        category: ['Column Manager'],
       })
       .addBooleanSwitch({
         path: 'showSortingInColumnManager',
         name: 'Show sorting',
         description: 'Allowing use sorting for columns.',
         showIf: (config) => config.isColumnManagerAvailable,
-        category: ['Advanced'],
+        category: ['Column Manager'],
       })
       .addBooleanSwitch({
         path: 'saveUserPreference',
         name: 'Save Preferences',
         description: 'Enable to save table settings to User Preferences, overriding current table configuration.',
         showIf: (config) => config.isColumnManagerAvailable,
-        category: ['Advanced'],
+        category: ['Column Manager'],
       })
       .addCustomEditor({
         id: 'externalExport',
