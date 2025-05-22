@@ -159,7 +159,7 @@ export const TableHeaderCell = <TData,>({
             <Icon name="exclamation-circle" size="xs" aria-label="Info message" className={styles.tooltip} />
           </Tooltip>
         )}
-        {sortIsEnabled && (
+        {sortIsEnabled && !sort && (
           <Tooltip content="Sorting is available" {...testIds.tooltipIconSortAvailable.apply()}>
             <Icon name="arrows-v" size="xs" aria-label="Info message" className={styles.sortingAvailable} />
           </Tooltip>

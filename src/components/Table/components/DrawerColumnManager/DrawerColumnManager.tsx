@@ -220,7 +220,7 @@ export const DrawerColumnManager = <TData,>({
                               tooltip={item.enabled ? 'Hide' : 'Show'}
                               {...testIds.buttonToggleVisibility.apply(item.field.name)}
                             />
-                            {sortIsEnabled && (
+                            {sortIsEnabled && !sort && (
                               <Tooltip
                                 content="Sorting is available"
                                 {...testIds.iconSortingAvailable.apply(item.field.name)}

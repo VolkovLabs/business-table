@@ -75,7 +75,7 @@ describe('TableHeaderCell', () => {
     expect(selectors.root(true)).not.toBeInTheDocument();
   });
 
-  it('Should show available sorting icon icon', () => {
+  it('Should show available sorting icon', () => {
     render(
       getComponent({
         header: {
@@ -84,7 +84,7 @@ describe('TableHeaderCell', () => {
               label: '123',
             }) as any,
           column: {
-            getIsSorted: jest.fn(() => 'desc'),
+            getIsSorted: jest.fn(() => false),
             getCanSort: jest.fn(() => true),
             getToggleSortingHandler: jest.fn(),
             columnDef: {
@@ -116,7 +116,7 @@ describe('TableHeaderCell', () => {
               label: '123',
             }) as any,
           column: {
-            getIsSorted: jest.fn(() => 'desc'),
+            getIsSorted: jest.fn(() => false),
             getCanSort: jest.fn(() => true),
             getToggleSortingHandler: jest.fn(),
             columnDef: {
@@ -153,7 +153,7 @@ describe('TableHeaderCell', () => {
               label: '123',
             }) as any,
           column: {
-            getIsSorted: jest.fn(() => 'desc'),
+            getIsSorted: jest.fn(() => false),
             getCanSort: jest.fn(() => true),
             getToggleSortingHandler: getToggleSortingHandler,
             columnDef: {

@@ -679,7 +679,7 @@ describe('Drawer Columns', () => {
                 }) as any,
               column: {
                 id: 'name',
-                getIsSorted: jest.fn(() => 'asc'),
+                getIsSorted: jest.fn(() => false),
                 getCanSort: jest.fn(() => true),
                 getToggleSortingHandler: jest.fn(),
                 columnDef: {
