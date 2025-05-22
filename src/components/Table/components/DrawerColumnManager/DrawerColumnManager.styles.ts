@@ -41,5 +41,14 @@ export const getStyles = (theme: GrafanaTheme2) => {
     labelSortable: css`
       cursor: pointer;
     `,
+    sortTag: css`
+      padding: ${theme.spacing(0.25)};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: ${theme.shape.radius.circle};
+      margin-right: ${theme.spacing(0.5)};
+      background: ${theme.colors.border.weak};
+    `,
   };
 };

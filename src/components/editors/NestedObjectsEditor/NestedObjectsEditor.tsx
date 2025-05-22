@@ -247,9 +247,7 @@ export const NestedObjectsEditor: React.FC<Props> = ({ context: { data }, value,
           ))}
         </div>
       ) : (
-        <Alert severity="info" title="No Objects" {...testIds.noItemsMessage.apply()}>
-          Please add at least one object to proceed.
-        </Alert>
+        <Alert severity="info" title="No Objects" {...testIds.noItemsMessage.apply()}></Alert>
       )}
 
       <InlineFieldRow className={styles.newItem} {...testIds.newItem.apply()}>
