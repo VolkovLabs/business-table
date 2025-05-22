@@ -102,7 +102,7 @@ export const useExternalExport = <TData>({
           throw response.errors;
         }
 
-        notifySuccess(['Success', 'Table exported successfully. ']);
+        notifySuccess(['Success', 'Table exported successfully.']);
       } catch (e: unknown) {
         const errorMessage = `Error: ${e instanceof Error && e.message ? e.message : Array.isArray(e) ? e[0] : JSON.stringify(e)}`;
         setError(errorMessage);
