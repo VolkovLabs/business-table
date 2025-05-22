@@ -25,3 +25,17 @@ datasources:
       sslmode: disable
     secureJsonData:
       password: postgres
+  - id: 3
+    uid: 'fdy98ad2ifhfkf'
+    orgId: 1
+    name: 'Infinity'
+    type: 'yesoreyeram-infinity-datasource'
+    url: ''
+    basicAuth: false
+    basicAuthUser: ''
+    isDefault: false
+    jsonData:
+      global_queries: []
+      allowDangerousHTTPMethods: true
+    readOnly: true
+    apiVersion: ''
