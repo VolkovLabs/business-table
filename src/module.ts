@@ -126,6 +126,20 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         category: ['Advanced'],
       })
       .addBooleanSwitch({
+        path: 'externalExport.enabled',
+        name: 'External export',
+        description: 'Allowing external table export',
+        category: ['Advanced'],
+      })
+      .addCustomEditor({
+        id: 'externalExport',
+        path: 'externalExport',
+        name: '',
+        editor: ExternalExportEditor,
+        showIf: (config) => config.externalExport?.enabled,
+        category: ['External Export'],
+      })
+      .addBooleanSwitch({
         path: 'showFiltersInColumnManager',
         name: 'Show filters',
         description: 'Allowing set filters for columns.',
@@ -145,13 +159,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         description: 'Enable to save table settings to User Preferences, overriding current table configuration.',
         showIf: (config) => config.isColumnManagerAvailable,
         category: ['Column Manager'],
-      })
-      .addCustomEditor({
-        id: 'externalExport',
-        path: 'externalExport',
-        name: '',
-        editor: ExternalExportEditor,
-        category: ['Advanced'],
       });
+
     return builder;
   });

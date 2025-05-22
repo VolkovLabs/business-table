@@ -370,9 +370,7 @@ export const TEST_IDS = {
     disabledHeaderMessage: createSelector('data-testid table-add-row-editor disabled-header-message'),
   },
   externalExportEditor: {
-    fieldEnabled: createSelector('data-testid external-export-editor field-enabled'),
-    requestSectionHeader: createSelector('data-testid external-export-editor update-section-header'),
-    requestSectionContent: createSelector('data-testid external-export-editor update-section-content'),
+    root: createSelector('data-testid external-export-editor'),
   },
   buttonSelect: {
     root: createSelector('button-select root'),

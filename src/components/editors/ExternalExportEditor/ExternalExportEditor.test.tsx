@@ -27,7 +27,7 @@ jest.mock('@/components/editors/RequestEditor', () => ({
   ),
 }));
 
-describe('AddDataEditor', () => {
+describe('External Editor', () => {
   /**
    * Defaults
    */
@@ -46,45 +46,14 @@ describe('AddDataEditor', () => {
     return <ExternalExportEditor value={[]} onChange={onChange} context={{ data: [] }} item={{}} {...(props as any)} />;
   };
 
-  it('Should allow to change enable', () => {
-    render(
-      getComponent({
-        value: createExternalExportConfig({}),
-      })
-    );
-
-    expect(selectors.fieldEnabled()).toBeInTheDocument();
-    fireEvent.click(selectors.fieldEnabled());
-
-    expect(onChange).toHaveBeenCalledWith(createExternalExportConfig({ enabled: true }));
-  });
-
-  it('Should allow to change enable if not specified', () => {
-    render(
-      getComponent({
-        value: createExternalExportConfig({ enabled: undefined }),
-      })
-    );
-
-    expect(selectors.fieldEnabled()).toBeInTheDocument();
-    fireEvent.click(selectors.fieldEnabled());
-
-    expect(onChange).toHaveBeenCalledWith(createExternalExportConfig({ enabled: true }));
-  });
-
-  it('Should allow to expand item', () => {
+  it('Should display component', () => {
     render(
       getComponent({
         value: createExternalExportConfig({ enabled: true }),
       })
     );
 
-    expect(selectors.requestSectionHeader()).toBeInTheDocument();
-    expect(selectors.requestSectionContent(true)).not.toBeInTheDocument();
-
-    fireEvent.click(selectors.requestSectionHeader());
-
-    expect(selectors.requestSectionContent()).toBeInTheDocument();
+    expect(selectors.root()).toBeInTheDocument();
   });
 
   it('Should allow to change request', () => {
@@ -94,12 +63,6 @@ describe('AddDataEditor', () => {
       })
     );
 
-    expect(selectors.requestSectionHeader()).toBeInTheDocument();
-    expect(selectors.requestSectionContent(true)).not.toBeInTheDocument();
-
-    fireEvent.click(selectors.requestSectionHeader());
-
-    expect(selectors.requestSectionContent()).toBeInTheDocument();
     expect(selectors.requestEditor()).toBeInTheDocument();
 
     fireEvent.change(selectors.requestEditor(), { target: { value: 'hello' } });
@@ -113,12 +76,6 @@ describe('AddDataEditor', () => {
       })
     );
 
-    expect(selectors.requestSectionHeader()).toBeInTheDocument();
-    expect(selectors.requestSectionContent(true)).not.toBeInTheDocument();
-
-    fireEvent.click(selectors.requestSectionHeader());
-
-    expect(selectors.requestSectionContent()).toBeInTheDocument();
     expect(selectors.requestEditor()).toBeInTheDocument();
 
     fireEvent.change(selectors.requestEditor(), { target: { value: 'hello' } });
