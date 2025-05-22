@@ -1,6 +1,5 @@
 import { StandardEditorProps } from '@grafana/data';
-import { Collapse } from '@volkovlabs/components';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { RequestEditor } from '@/components';
 import { TEST_IDS } from '@/constants';
