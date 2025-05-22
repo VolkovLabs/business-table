@@ -964,7 +964,31 @@ export enum ToolbarButtonsAlignment {
 }
 
 export type AdvancedSettings = {
+  /**
+   * Is column manager available
+   *
+   * @type {boolean}
+   */
   isColumnManagerAvailable: boolean;
+
+  /**
+   * Show columns in UI manager
+   *
+   * @type {boolean}
+   */
   showFiltersInColumnManager: boolean;
+
+  /**
+   * Show sort in UI manager
+   *
+   * @type {boolean}
+   */
+  showSortInColumnManager: boolean;
+
+  /**
+   * Save user preference
+   *
+   * @type {boolean}
+   */
   saveUserPreference: boolean;
 };

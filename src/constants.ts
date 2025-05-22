@@ -192,6 +192,9 @@ export const TEST_IDS = {
     iconSort: createSelector((name: unknown) => `drawer-column-manager icon-sort-${name}`),
     nameContainer: createSelector((name: unknown) => `drawer-column-manager name-container-${name}`),
     columnItemFilter: createSelector((name: unknown) => `drawer-column-manager column-item-${name}-filter`),
+    iconSortingAvailable: createSelector(
+      (name: unknown) => `data-testid drawer-column-manager icon-sorting-available-${name}`
+    ),
     root: createSelector('data-testid drawer-column-manager'),
   },
   defaultCellRenderer: {
@@ -254,6 +257,7 @@ export const TEST_IDS = {
     actionHeaderText: createSelector('data-testid table-header-cell action-header-text'),
     sortIcon: createSelector((iconName: unknown) => String(iconName), 'data-testid'),
     tooltip: createSelector('data-testid table-header-cell tooltip'),
+    tooltipIconSortAvailable: createSelector('data-testid table-header-cell tooltip icon-sort-available'),
   },
   tableCell: {
     tableLink: createSelector((name: unknown) => `table link-${name}`),

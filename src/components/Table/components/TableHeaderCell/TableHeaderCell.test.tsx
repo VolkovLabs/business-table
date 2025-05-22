@@ -75,6 +75,103 @@ describe('TableHeaderCell', () => {
     expect(selectors.root(true)).not.toBeInTheDocument();
   });
 
+  it('Should show available sorting icon icon', () => {
+    render(
+      getComponent({
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => 'desc'),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: jest.fn(),
+            columnDef: {
+              header: ({ label }: any) => label,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.tooltipIconSortAvailable(false)).toBeInTheDocument();
+  });
+
+  it('Should open drawer click on sort icon if UI manager available', () => {
+    const setDrawerOpen = jest.fn();
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        advancedSettings: {
+          isColumnManagerAvailable: true,
+          showFiltersInColumnManager: false,
+          showSortInColumnManager: true,
+          saveUserPreference: true,
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => 'desc'),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: jest.fn(),
+            columnDef: {
+              header: ({ label }: any) => label,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.tooltipIconSortAvailable(false)).toBeInTheDocument();
+
+    fireEvent.click(selectors.root());
+    expect(setDrawerOpen).toHaveBeenCalled();
+  });
+
+  it('Should call handle sort if UI manager is not available', () => {
+    const setDrawerOpen = jest.fn();
+    const getToggleSortingHandler = jest.fn();
+
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        advancedSettings: {
+          isColumnManagerAvailable: false,
+          showFiltersInColumnManager: false,
+          showSortInColumnManager: false,
+          saveUserPreference: true,
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => 'desc'),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: getToggleSortingHandler,
+            columnDef: {
+              header: ({ label }: any) => label,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.tooltipIconSortAvailable(false)).toBeInTheDocument();
+
+    fireEvent.click(selectors.root());
+    expect(setDrawerOpen).not.toHaveBeenCalled();
+    expect(getToggleSortingHandler).toHaveBeenCalled();
+  });
+
   it('Should show asc sort icon', () => {
     render(
       getComponent({
