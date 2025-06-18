@@ -1,10 +1,18 @@
 import { cx } from '@emotion/css';
 import { Icon, IconButton, Tooltip, useStyles2, useTheme2 } from '@grafana/ui';
-import { flexRender, Header } from '@tanstack/react-table';
-import React, { useMemo } from 'react';
+import { flexRender, Header, SortingState } from '@tanstack/react-table';
+import React, { useCallback, useMemo } from 'react';
 
 import { ACTIONS_COLUMN_ID, TEST_IDS } from '@/constants';
-import { AdvancedSettings, ColumnHeaderFontSize } from '@/types';
+import {
+  AdvancedSettings,
+  ColumnConfig,
+  ColumnFilterValue,
+  ColumnHeaderFontSize,
+  TablePreferenceColumn,
+  UserPreferences,
+} from '@/types';
+import { prepareColumnConfigsForPreferences, prepareColumnsWithFilters, prepareColumnsWithSorting } from '@/utils';
 
 import { getStyles } from './TableHeaderCell.styles';
 import { TableHeaderCellFilter } from './TableHeaderCellFilter';
@@ -46,6 +54,31 @@ interface Props<TData> {
    * Advanced options
    */
   advancedSettings: AdvancedSettings;
+
+  /**
+   * update Tables Preferences
+   */
+  updateTablesPreferences: (tableName: string, updatedColumns: TablePreferenceColumn[]) => void;
+
+  /**
+   * Sorting state
+   */
+  sorting: SortingState;
+
+  /**
+   * Mixed Columns for drawer
+   */
+  drawerColumns?: ColumnConfig[];
+
+  /**
+   * Table Name
+   */
+  currentTableName: string;
+
+  /**
+   * User Preferences
+   */
+  userPreferences: UserPreferences;
 }
 
 /**
@@ -63,6 +96,11 @@ export const TableHeaderCell = <TData,>({
   onAddRow,
   advancedSettings,
   setDrawerOpen,
+  updateTablesPreferences,
+  sorting,
+  drawerColumns,
+  currentTableName,
+  userPreferences,
 }: Props<TData>) => {
   /**
    * Styles
@@ -75,6 +113,27 @@ export const TableHeaderCell = <TData,>({
   const tooltip = useMemo(
     () => header.column.columnDef.meta?.config.columnTooltip,
     [header.column.columnDef.meta?.config.columnTooltip]
+  );
+
+  /**
+   * Update Preferences with filters
+   */
+  const updatePreferencesWithFilters = useCallback(
+    (columnName: string, filterValue?: ColumnFilterValue) => {
+      /**
+       * Prepare Preferences with filters
+       */
+      const updatedItems = prepareColumnsWithFilters(
+        userPreferences,
+        currentTableName,
+        drawerColumns,
+        columnName,
+        filterValue
+      );
+
+      updateTablesPreferences(currentTableName, updatedItems);
+    },
+    [currentTableName, drawerColumns, updateTablesPreferences, userPreferences]
   );
 
   /**
@@ -119,7 +178,14 @@ export const TableHeaderCell = <TData,>({
         );
       }
 
-      return <TableHeaderCellFilter header={header} size={size} />;
+      return (
+        <TableHeaderCellFilter
+          header={header}
+          size={size}
+          updatePreferencesWithFilters={(columnName, filter) => updatePreferencesWithFilters(columnName, filter)}
+          saveUserPreference={advancedSettings.saveUserPreference}
+        />
+      );
     }
 
     return null;
@@ -144,6 +210,30 @@ export const TableHeaderCell = <TData,>({
 
           if (sortHandler) {
             sortHandler(event);
+          }
+
+          /**
+           * Add ability to use user preferences without UI manager
+           */
+          if (advancedSettings.saveUserPreference) {
+            /**
+             * Updated column items include sorting
+             */
+            const updatedColumns = prepareColumnsWithSorting(drawerColumns ?? [], header.column.id, sorting);
+
+            /**
+             * Transform columns to preferences columns
+             */
+            const transformedColumns = prepareColumnConfigsForPreferences(
+              updatedColumns,
+              currentTableName,
+              userPreferences
+            );
+
+            /**
+             * update Preferences
+             */
+            updateTablesPreferences(currentTableName, transformedColumns);
           }
         }}
         className={cx({

@@ -177,6 +177,58 @@ describe('FilterPopup', () => {
     );
   });
 
+  it('Should update user preferences on save if specified', () => {
+    const setFilterValue = jest.fn();
+    const updatePreferencesWithFilters = jest.fn();
+    render(
+      getComponent({
+        saveUserPreference: true,
+        updatePreferencesWithFilters,
+        header: {
+          id: 'column',
+          column: {
+            setFilterValue,
+            getFilterValue: () => undefined,
+            columnDef: {
+              meta: {
+                filterMode: ColumnFilterMode.QUERY,
+                availableFilterTypes: [ColumnFilterType.SEARCH],
+                filterVariableName: 'var1',
+              },
+            },
+          },
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+
+    expect(selectors.filterSection()).toBeInTheDocument();
+
+    triggerFilterChange(
+      selectors.filterSection(),
+      createFilterValue({
+        type: ColumnFilterType.SEARCH,
+        value: 'abc',
+      })
+    );
+
+    fireEvent.click(selectors.buttonSave());
+
+    expect(updatePreferencesWithFilters).toHaveBeenCalled();
+    expect(updatePreferencesWithFilters).toHaveBeenCalledWith('column', {
+      caseSensitive: false,
+      type: 'search',
+      value: 'abc',
+    });
+    expect(locationService.partial).toHaveBeenCalledWith(
+      {
+        'var-var1': 'abc',
+      },
+      true
+    );
+  });
+
   it('Should reset variable on filter clear', () => {
     const setFilterValue = jest.fn();
 

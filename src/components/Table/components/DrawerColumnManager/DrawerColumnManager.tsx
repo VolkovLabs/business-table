@@ -13,7 +13,13 @@ import {
   TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
-import { getFieldKey, prepareColumnConfigsForPreferences, prepareColumnsWithSorting, reorder } from '@/utils';
+import {
+  getFieldKey,
+  prepareColumnConfigsForPreferences,
+  prepareColumnsWithFilters,
+  prepareColumnsWithSorting,
+  reorder,
+} from '@/utils';
 
 import { FilterDrawer } from '../FilterDrawer';
 import { getStyles } from './DrawerColumnManager.styles';
@@ -120,33 +126,15 @@ export const DrawerColumnManager = <TData,>({
   const updatePreferencesWithFilters = useCallback(
     (columnName: string, filterValue?: ColumnFilterValue) => {
       /**
-       * Saved Table
+       * Prepare Preferences with filters
        */
-      const preferencesTables = userPreferences.tables?.length ? userPreferences.tables : [];
-      const savedTable = preferencesTables.find((table) => table.name === currentTableName);
-
-      let updatedItems = [];
-      if (!savedTable || (savedTable && !savedTable.columns.length)) {
-        /**
-         * Transform columns to preferences
-         */
-        const transformedColumns = prepareColumnConfigsForPreferences(
-          drawerColumns!,
-          currentTableName,
-          userPreferences
-        );
-
-        /**
-         * Items with filters
-         */
-        updatedItems = transformedColumns.map((column) =>
-          column.name === columnName ? { ...column, filter: filterValue } : column
-        );
-      } else {
-        updatedItems = savedTable.columns.map((column) =>
-          column.name === columnName ? { ...column, filter: filterValue } : column
-        );
-      }
+      const updatedItems = prepareColumnsWithFilters(
+        userPreferences,
+        currentTableName,
+        drawerColumns,
+        columnName,
+        filterValue
+      );
 
       updateTablesPreferences(currentTableName, updatedItems);
     },

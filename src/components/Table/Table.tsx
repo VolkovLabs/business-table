@@ -614,6 +614,11 @@ export const Table = <TData,>({
                         size={fontSize}
                         isAddRowEnabled={isAddRowEnabled}
                         onAddRow={addData.onStart}
+                        updateTablesPreferences={updateTablesPreferences}
+                        userPreferences={userPreferences}
+                        currentTableName={currentTableName}
+                        sorting={sorting}
+                        drawerColumns={drawerColumns}
                       />
                     </th>
                   );
