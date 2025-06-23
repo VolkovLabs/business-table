@@ -21,7 +21,13 @@ describe('useSyncedColumnFilters', () => {
    */
   const eventBus = new EventBusSrv();
 
-  it('Should set initial filter values', async () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.mocked(getVariableColumnFilters).mockReturnValue([]);
+    jest.mocked(mergeColumnFilters).mockImplementation((current, updated) => [...current, ...updated]);
+  });
+
+  it('Should set initial filter values from variables', async () => {
     const filterFromVariable = {
       id: 'a',
       value: {
@@ -30,25 +36,76 @@ describe('useSyncedColumnFilters', () => {
         caseSensitive: false,
       },
     };
-    jest.mocked(getVariableColumnFilters).mockImplementation(() => [filterFromVariable] as any);
-    jest.mocked(mergeColumnFilters).mockImplementation((current, updated) => current.concat(updated));
+
+    jest.mocked(getVariableColumnFilters).mockReturnValue([filterFromVariable] as any);
 
     const columns = [] as any;
 
-    const { result } = await act(async () =>
-      renderHook(() =>
-        useSyncedColumnFilters({
-          columns: columns as any,
-          eventBus,
-          userFilterPreference: [],
-        })
-      )
+    const { result } = renderHook(() =>
+      useSyncedColumnFilters({
+        columns: columns as any,
+        eventBus,
+        userFilterPreference: [],
+      })
     );
 
     expect(result.current[0]).toEqual([filterFromVariable]);
   });
 
-  it('Should refresh filter values', async () => {
+  it('Should set default filters when no user preferences and no variable filters', async () => {
+    const columns = [
+      {
+        id: 'column1',
+        meta: {
+          config: {
+            filter: {
+              defaultClientValue: 'default_value_1',
+            },
+          },
+        },
+      },
+      {
+        id: 'column2',
+        meta: {
+          config: {
+            filter: {
+              defaultClientValue: 'default_value_2',
+            },
+          },
+        },
+      },
+    ] as any;
+
+    jest.mocked(getVariableColumnFilters).mockReturnValue([]);
+
+    const { result } = renderHook(() =>
+      useSyncedColumnFilters({
+        columns,
+        eventBus,
+        userFilterPreference: [],
+      })
+    );
+
+    const expectedDefaultFilters = [
+      { id: 'column1', value: 'default_value_1' },
+      { id: 'column2', value: 'default_value_2' },
+    ];
+
+    expect(result.current[0]).toEqual(expectedDefaultFilters);
+  });
+
+  it('Should prioritize user preferences over default and variable filters', async () => {
+    const userFilterPreference = [
+      {
+        id: 'b',
+        value: {
+          type: ColumnFilterType.SEARCH,
+          value: 'test',
+          caseSensitive: false,
+        },
+      },
+    ];
+
     const filterFromVariable = {
       id: 'a',
       value: {
@@ -57,53 +114,135 @@ describe('useSyncedColumnFilters', () => {
         caseSensitive: false,
       },
     };
-    jest.mocked(getVariableColumnFilters).mockImplementation(() => []);
-    jest.mocked(mergeColumnFilters).mockImplementation((current, updated) => current.concat(updated));
+
+    const columns = [
+      {
+        id: 'column1',
+        meta: {
+          config: {
+            filter: {
+              defaultClientValue: 'default_value_1',
+            },
+          },
+        },
+      },
+    ] as any;
+
+    jest.mocked(getVariableColumnFilters).mockReturnValue([filterFromVariable] as any);
+
+    const { result } = renderHook(() =>
+      useSyncedColumnFilters({
+        columns,
+        eventBus,
+        userFilterPreference,
+      })
+    );
+
+    expect(result.current[0][0]).toEqual({
+      id: 'b',
+      value: {
+        type: ColumnFilterType.SEARCH,
+        value: 'test',
+        caseSensitive: false,
+      },
+    });
+  });
+
+  it('Should combine default and variable filters when no user preferences', async () => {
+    const filterFromVariable = {
+      id: 'a',
+      value: {
+        type: ColumnFilterType.SEARCH,
+        value: '1',
+        caseSensitive: false,
+      },
+    };
+
+    const columns = [
+      {
+        id: 'column1',
+        meta: {
+          config: {
+            filter: {
+              defaultClientValue: 'default_value_1',
+            },
+          },
+        },
+      },
+    ] as any;
+
+    jest.mocked(getVariableColumnFilters).mockReturnValue([filterFromVariable] as any);
+
+    renderHook(() =>
+      useSyncedColumnFilters({
+        columns,
+        eventBus,
+        userFilterPreference: [],
+      })
+    );
+
+    expect(mergeColumnFilters).toHaveBeenCalledWith(
+      [{ id: 'column1', value: 'default_value_1' }],
+      [filterFromVariable]
+    );
+  });
+
+  it('Should refresh filter values on event', async () => {
+    const initialFilter = {
+      id: 'initial',
+      value: 'initial_value',
+    };
+
+    const updatedFilter = {
+      id: 'a',
+      value: {
+        type: ColumnFilterType.SEARCH,
+        value: '1',
+        caseSensitive: false,
+      },
+    };
+
+    jest.mocked(getVariableColumnFilters).mockReturnValue([initialFilter] as any);
 
     const columns = [] as any;
 
-    const { result } = await act(async () =>
-      renderHook(() =>
-        useSyncedColumnFilters({
-          columns: columns as any,
-          eventBus,
-          userFilterPreference: [],
-        })
-      )
+    const { result } = renderHook(() =>
+      useSyncedColumnFilters({
+        columns: columns as any,
+        eventBus,
+        userFilterPreference: [],
+      })
     );
 
-    expect(result.current[0]).toEqual([]);
+    expect(result.current[0]).toEqual([initialFilter]);
 
-    jest.mocked(getVariableColumnFilters).mockImplementation(() => [filterFromVariable] as any);
+    jest.mocked(getVariableColumnFilters).mockReturnValue([updatedFilter] as any);
 
     /**
      * Refresh
      */
-    await act(async () => eventBus.publish(new RefreshEvent()));
+    act(() => {
+      eventBus.publish(new RefreshEvent());
+    });
 
     /**
      * Check filters updated
      */
-    expect(result.current[0]).toEqual([filterFromVariable]);
+    expect(mergeColumnFilters).toHaveBeenCalledWith([initialFilter], [updatedFilter]);
   });
 
-  it('Should allow to set updated filters', async () => {
-    jest.mocked(getVariableColumnFilters).mockImplementation(() => []);
-    jest.mocked(mergeColumnFilters).mockImplementation((current, updated) => current.concat(updated));
+  it('Should allow to set updated filters manually', async () => {
+    jest.mocked(getVariableColumnFilters).mockReturnValue([]);
 
     const columns = [] as any;
 
-    const { result } = await act(async () =>
-      renderHook(() =>
-        useSyncedColumnFilters({
-          columns: columns as any,
-          eventBus,
-          userFilterPreference: [],
-        })
-      )
+    const { result } = renderHook(() =>
+      useSyncedColumnFilters({
+        columns: columns as any,
+        eventBus,
+        userFilterPreference: [],
+      })
     );
-
-    expect(result.current[0]).toEqual([]);
 
     const newFilter = {
       id: 'a',
@@ -117,38 +256,44 @@ describe('useSyncedColumnFilters', () => {
     /**
      * Update
      */
-    await act(async () => result.current[1]([newFilter]));
+    act(() => {
+      result.current[1]([newFilter]);
+    });
 
     expect(result.current[0]).toEqual([newFilter]);
   });
 
-  it('Should initialize filters from user preferences', async () => {
-    const userFilterPreference = [
+  it('Should handle columns without default filters', async () => {
+    const columns = [
       {
-        id: 'b',
-        value: {
-          type: ColumnFilterType.SEARCH,
-          value: 'test',
-          caseSensitive: false,
+        id: 'column1',
+      },
+      {
+        id: 'column2',
+        meta: {
+          config: {},
         },
       },
-    ];
+      {
+        id: 'column3',
+        meta: {
+          config: {
+            filter: {},
+          },
+        },
+      },
+    ] as any;
 
-    jest.mocked(getVariableColumnFilters).mockImplementation(() => [] as any);
-    jest.mocked(mergeColumnFilters).mockImplementation((current, updated) => current.concat(updated));
+    jest.mocked(getVariableColumnFilters).mockReturnValue([]);
 
-    const columns = [] as any;
-
-    const { result } = await act(async () =>
-      renderHook(() =>
-        useSyncedColumnFilters({
-          columns: columns as any,
-          eventBus,
-          userFilterPreference: userFilterPreference,
-        })
-      )
+    const { result } = renderHook(() =>
+      useSyncedColumnFilters({
+        columns,
+        eventBus,
+        userFilterPreference: [],
+      })
     );
 
-    expect(result.current[0]).toEqual(userFilterPreference);
+    expect(result.current[0]).toEqual([]);
   });
 });

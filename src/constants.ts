@@ -184,6 +184,13 @@ export const TEST_IDS = {
     fieldFileButtonVariant: createSelector('data-testid column-editor field-file-button-variant'),
     fieldFileShowPreview: createSelector('data-testid column-editor field-file-show-preview'),
   },
+  filterValueEditor: {
+    root: createSelector('data-testid filter-value-editor'),
+    fieldType: createSelector('data-testid filter-value-editor field-type'),
+    typeOption: createSelector((name: unknown) => `filter-value-editor type-option-${name}`),
+    buttonClear: createSelector('data-testid filter-value-editor button-clear'),
+    buttonSave: createSelector('data-testid filter-value-editor button-save'),
+  },
   drawerColumnManager: {
     buttonToggleVisibility: createSelector(
       (name: unknown) => `data-testid drawer-column-manager button-toggle-visibility-${name}`
@@ -268,6 +275,11 @@ export const TEST_IDS = {
     root: createSelector('data-testid filter-faceted-list'),
     allOption: createSelector('data-testid filter-faceted-list all-option'),
     option: createSelector((name: unknown) => `data-testid filter-faceted-list option-${name}`),
+  },
+  filterDefaultFacetedList: {
+    root: createSelector('data-testid filter-default-faceted-list'),
+    allOption: createSelector('data-testid filter-default-faceted-list all-option'),
+    option: createSelector((name: unknown) => `data-testid filter-default-faceted-list option-${name}`),
   },
   filterSearch: {
     root: createSelector('data-testid filter-search'),

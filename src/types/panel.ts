@@ -11,6 +11,7 @@ import {
   ColumnAlignment,
   ColumnFilterMode,
   ColumnFilterType,
+  ColumnFilterValue,
   ColumnHeaderFontSize,
   ImageScale,
 } from './table';
@@ -39,6 +40,13 @@ export interface ColumnFilterConfig {
    * @type {string}
    */
   variable: string;
+
+  /**
+   * Default client value
+   *
+   * @type {ColumnFilterValue}
+   */
+  defaultClientValue?: ColumnFilterValue;
 }
 
 /**

@@ -31,7 +31,7 @@ import {
 } from '@/utils';
 
 import { ColumnEditor } from './ColumnEditor';
-
+import { FilterValueEditor } from '../FilterValueEditor';
 type Props = React.ComponentProps<typeof ColumnEditor>;
 
 /**
@@ -39,7 +39,26 @@ type Props = React.ComponentProps<typeof ColumnEditor>;
  */
 const inTestIds = {
   footerEditor: createSelector('data-testid footer-editor'),
+  filterValueEditor: createSelector('data-testid filter-value-editor'),
 };
+
+/**
+ * Mock FilterValueEditor
+ */
+const FilterValueEditorMock = ({ value, onChange }: any) => {
+  return (
+    <input
+      {...inTestIds.filterValueEditor.apply()}
+      onChange={() => {
+        onChange(value);
+      }}
+    />
+  );
+};
+
+jest.mock('../FilterValueEditor', () => ({
+  FilterValueEditor: jest.fn(),
+}));
 
 describe('ColumnEditor', () => {
   /**
@@ -99,6 +118,8 @@ describe('ColumnEditor', () => {
             />
           ) as any
       );
+
+    jest.mocked(FilterValueEditor).mockImplementation(FilterValueEditorMock);
   });
 
   it('Should allow to change label', () => {
@@ -450,6 +471,22 @@ describe('ColumnEditor', () => {
       fireEvent.change(selectors.fieldFilterVariable(), { target: { value: 'var1' } });
 
       expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it('Should allow to change call change default filter', () => {
+      render(
+        getComponent({
+          showTableHeader: true,
+          value: createColumnConfig({ filter: { enabled: true, mode: ColumnFilterMode.CLIENT, variable: '' } }),
+        })
+      );
+
+      expect(selectors.fieldFilterMode()).toBeInTheDocument();
+      expect(selectors.fieldFilterMode()).toHaveValue(ColumnFilterMode.CLIENT);
+      expect(selectors.filterValueEditor()).toBeInTheDocument();
+
+      fireEvent.change(selectors.filterValueEditor(), { target: { value: 'var1' } });
+      expect(onChange).toHaveBeenCalled();
     });
   });
 
