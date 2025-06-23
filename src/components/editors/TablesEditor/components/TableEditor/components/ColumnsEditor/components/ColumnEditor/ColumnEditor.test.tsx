@@ -30,8 +30,8 @@ import {
   createVariable,
 } from '@/utils';
 
-import { ColumnEditor } from './ColumnEditor';
 import { FilterValueEditor } from '../FilterValueEditor';
+import { ColumnEditor } from './ColumnEditor';
 type Props = React.ComponentProps<typeof ColumnEditor>;
 
 /**
