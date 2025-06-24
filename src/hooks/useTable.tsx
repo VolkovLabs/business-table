@@ -345,7 +345,7 @@ export const useTable = ({
      * Take all the columns with the property applyToRow
      */
     const fieldsWithBackgroundToRows = columnsData.items.filter(
-      (column) => column.config.appearance.background.applyToRow
+      (column) => column.config.appearance.background.applyToRow && column.config.type === CellType.COLORED_BACKGROUND
     );
 
     /**

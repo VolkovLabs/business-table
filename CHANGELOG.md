@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Allow user preferences to be saved without ui manager ([#340](https://github.com/VolkovLabs/business-table/pull/340))
+- Add fix for background row ([#343](https://github.com/VolkovLabs/business-table/pull/343))
 
 ## [2.7.0] - 2025-05-22
 
