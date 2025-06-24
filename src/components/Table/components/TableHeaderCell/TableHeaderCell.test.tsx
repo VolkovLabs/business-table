@@ -1,22 +1,52 @@
 import { fireEvent, render, screen } from '@testing-library/react';
-import { getJestSelectors } from '@volkovlabs/jest-selectors';
+import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
-import { createColumnConfig, createColumnMeta } from '@/utils';
+import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue } from '@/types';
+import { createColumnConfig, createColumnMeta, getFilterWithNewType } from '@/utils';
 
 import { TableHeaderCell, testIds } from './TableHeaderCell';
+import { TableHeaderCellFilter } from './TableHeaderCellFilter';
 
 /**
  * Props
  */
 type Props = React.ComponentProps<typeof TableHeaderCell>;
 
+const inTestIds = {
+  tableHeaderCellFilter: createSelector('data-testid table-header-cell-filter'),
+};
+
+const createTableHeaderCellFilterMock =
+  (testId: string) =>
+  // eslint-disable-next-line react/display-name
+  ({ updatePreferencesWithFilters }: any) => {
+    return (
+      <button
+        value=""
+        data-testid={testId}
+        onDrop={(event: any) => {
+          updatePreferencesWithFilters(event.dataTransfer.name, event.dataTransfer.value);
+        }}
+      />
+    );
+  };
+
+const TableHeaderCellFilterMock = createTableHeaderCellFilterMock(inTestIds.tableHeaderCellFilter.selector());
+
+/**
+ * Mock filters
+ */
+jest.mock('./TableHeaderCellFilter', () => ({
+  TableHeaderCellFilter: jest.fn(),
+}));
+
 describe('TableHeaderCell', () => {
   /**
    * Selectors
    */
-  const getSelectors = getJestSelectors(testIds, ['sortIcon']);
+  const getSelectors = getJestSelectors({ ...testIds, ...inTestIds }, ['sortIcon']);
   const selectors = getSelectors(screen);
 
   /**
@@ -25,6 +55,32 @@ describe('TableHeaderCell', () => {
   const getComponent = (props: Partial<Props>) => {
     return <TableHeaderCell {...(props as any)} />;
   };
+
+  /**
+   * Create Filter Value
+   * @param params
+   */
+  const createFilterValue = (params: Partial<ColumnFilterValue>): ColumnFilterValue =>
+    ({
+      ...getFilterWithNewType(params?.type || 'none'),
+      ...params,
+    }) as never;
+
+  /**
+   * Trigger Filter Change
+   */
+  const triggerFilterChange = (element: HTMLElement, columnName: string, filterValue: ColumnFilterValue): void => {
+    fireEvent.drop(element, {
+      dataTransfer: {
+        name: columnName,
+        value: filterValue,
+      },
+    });
+  };
+
+  beforeEach(() => {
+    jest.mocked(TableHeaderCellFilter).mockImplementation(TableHeaderCellFilterMock);
+  });
 
   it('Should render', () => {
     render(
@@ -137,15 +193,23 @@ describe('TableHeaderCell', () => {
   it('Should call handle sort if UI manager is not available', () => {
     const setDrawerOpen = jest.fn();
     const getToggleSortingHandler = jest.fn();
+    const updateTablesPreferences = jest.fn();
 
     render(
       getComponent({
         setDrawerOpen: setDrawerOpen,
+        updateTablesPreferences: updateTablesPreferences,
+        sorting: [],
         advancedSettings: {
           isColumnManagerAvailable: false,
           showFiltersInColumnManager: false,
           showSortInColumnManager: false,
           saveUserPreference: true,
+        },
+        userPreferences: {
+          currentGroup: '',
+          tables: [],
+          options: {},
         },
         header: {
           getContext: () =>
@@ -170,6 +234,204 @@ describe('TableHeaderCell', () => {
     fireEvent.click(selectors.root());
     expect(setDrawerOpen).not.toHaveBeenCalled();
     expect(getToggleSortingHandler).toHaveBeenCalled();
+  });
+
+  it('Should update preferences if saveUserPreference is true for sort', () => {
+    const setDrawerOpen = jest.fn();
+    const getToggleSortingHandler = jest.fn();
+    const updateTablesPreferences = jest.fn();
+
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        updateTablesPreferences: updateTablesPreferences,
+        sorting: [],
+        advancedSettings: {
+          isColumnManagerAvailable: false,
+          showFiltersInColumnManager: false,
+          showSortInColumnManager: false,
+          saveUserPreference: true,
+        },
+        currentTableName: 'test',
+        userPreferences: {
+          currentGroup: '',
+          tables: [],
+          options: {},
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => false),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: getToggleSortingHandler,
+            columnDef: {
+              header: ({ label }: any) => label,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.tooltipIconSortAvailable(false)).toBeInTheDocument();
+
+    fireEvent.click(selectors.root());
+
+    expect(updateTablesPreferences).toHaveBeenCalled();
+    expect(updateTablesPreferences).toHaveBeenCalledWith('test', []);
+  });
+
+  it('Should update preferences if saveUserPreference is true for filter', () => {
+    const setDrawerOpen = jest.fn();
+    const getToggleSortingHandler = jest.fn();
+    const updateTablesPreferences = jest.fn();
+
+    /**
+     * Default column A
+     */
+    const nameColumn = createColumnConfig({
+      label: 'Name',
+      field: {
+        source: 'A',
+        name: 'name',
+      },
+      filter: {
+        enabled: true,
+        mode: ColumnFilterMode.CLIENT,
+        variable: '',
+      },
+    });
+
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        updateTablesPreferences: updateTablesPreferences,
+        sorting: [],
+        drawerColumns: [{ ...nameColumn, enabled: true }],
+        advancedSettings: {
+          isColumnManagerAvailable: false,
+          showFiltersInColumnManager: false,
+          showSortInColumnManager: false,
+          saveUserPreference: true,
+        },
+        currentTableName: 'Test',
+        userPreferences: {
+          currentGroup: '',
+          tables: [],
+          options: {},
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => false),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: getToggleSortingHandler,
+            columnDef: {
+              header: ({ label }: any) => label,
+              enableColumnFilter: true,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+
+    expect(selectors.tableHeaderCellFilter()).toBeInTheDocument();
+
+    const filterValue = createFilterValue({
+      type: ColumnFilterType.SEARCH,
+      value: 'test',
+    });
+
+    triggerFilterChange(selectors.tableHeaderCellFilter(), 'name', filterValue);
+
+    expect(updateTablesPreferences).toHaveBeenCalled();
+
+    expect(updateTablesPreferences).toHaveBeenCalledWith('Test', [
+      { enabled: true, filter: filterValue, name: 'name', sort: { enabled: false, descFirst: false } },
+    ]);
+  });
+
+  it('Should update preferences correct if saveUserPreference is true for filter and preferences doesn`t have tables', () => {
+    const setDrawerOpen = jest.fn();
+    const getToggleSortingHandler = jest.fn();
+    const updateTablesPreferences = jest.fn();
+
+    /**
+     * Default column A
+     */
+    const nameColumn = createColumnConfig({
+      label: 'Name',
+      field: {
+        source: 'A',
+        name: 'name',
+      },
+      filter: {
+        enabled: true,
+        mode: ColumnFilterMode.CLIENT,
+        variable: '',
+      },
+    });
+
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        updateTablesPreferences: updateTablesPreferences,
+        sorting: [],
+        drawerColumns: [{ ...nameColumn, enabled: true }],
+        advancedSettings: {
+          isColumnManagerAvailable: false,
+          showFiltersInColumnManager: false,
+          showSortInColumnManager: false,
+          saveUserPreference: true,
+        },
+        currentTableName: 'Test',
+        userPreferences: {
+          currentGroup: '',
+          tables: [],
+          options: {},
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => false),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: getToggleSortingHandler,
+            columnDef: {
+              header: ({ label }: any) => label,
+              enableColumnFilter: true,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+
+    expect(selectors.tableHeaderCellFilter()).toBeInTheDocument();
+
+    const filterValue = createFilterValue({
+      type: ColumnFilterType.SEARCH,
+      value: 'test',
+    });
+
+    triggerFilterChange(selectors.tableHeaderCellFilter(), 'name', filterValue);
+
+    expect(updateTablesPreferences).toHaveBeenCalled();
+
+    expect(updateTablesPreferences).toHaveBeenCalledWith('Test', [
+      { enabled: true, filter: filterValue, name: 'name', sort: { enabled: false, descFirst: false } },
+    ]);
   });
 
   it('Should show asc sort icon', () => {

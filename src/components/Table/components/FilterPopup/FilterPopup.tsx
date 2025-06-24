@@ -5,6 +5,7 @@ import React, { useCallback, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue } from '@/types';
+import { saveWithCorrectFilters } from '@/utils';
 
 import { FilterSection } from '../FilterSection';
 import { getStyles } from './FilterPopup.styles';
@@ -22,12 +23,29 @@ interface Props<TData> {
    * Close
    */
   onClose: () => void;
+
+  /**
+   * Save User Preference
+   *
+   * @type {boolean}
+   */
+  saveUserPreference: boolean;
+
+  /**
+   * Update Preferences
+   */
+  updatePreferencesWithFilters: (columnName: string, filter?: ColumnFilterValue) => void;
 }
 
 /**
  * Filter Popup
  */
-export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
+export const FilterPopup = <TData,>({
+  onClose,
+  header,
+  saveUserPreference,
+  updatePreferencesWithFilters,
+}: Props<TData>) => {
   /**
    * Styles
    */
@@ -107,16 +125,26 @@ export const FilterPopup = <TData,>({ onClose, header }: Props<TData>) => {
     }
 
     onSetValue(filterValueToSave);
+
+    if (saveUserPreference) {
+      updatePreferencesWithFilters(header.id, saveWithCorrectFilters(filter));
+    }
+
     onClose();
-  }, [filter, onSetValue, onClose]);
+  }, [filter, onSetValue, saveUserPreference, onClose, updatePreferencesWithFilters, header.id]);
 
   /**
    * Clear
    */
   const onClear = useCallback(() => {
     onSetValue(undefined);
+
+    if (saveUserPreference) {
+      updatePreferencesWithFilters(header.id, undefined);
+    }
+
     onClose();
-  }, [onSetValue, onClose]);
+  }, [onSetValue, saveUserPreference, onClose, updatePreferencesWithFilters, header.id]);
 
   return (
     <ClickOutsideWrapper onClick={onClose} useCapture={true}>

@@ -111,7 +111,7 @@ export const TablePanel: React.FC<Props> = ({
   const [userPreferences, setUserPreferences] = useSavedState<UserPreferences>({
     key: `volkovlabs.table.panel.${id}.user.preferences`,
     initialValue: {},
-    enabled: options.isColumnManagerAvailable && options.saveUserPreference,
+    enabled: options.saveUserPreference,
   });
 
   /**
