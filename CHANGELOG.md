@@ -4,24 +4,20 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). This changelog is intended to help users understand the evolution of the plugin, including new features, improvements, and fixes. Each version includes a summary of changes categorized as `Added`, `Changed`, `Fixed`, `Removed`, or `Breaking Changes` where applicable.
 
-## [3.0.0] - Unreleased
-
-### Changed
-
-- Allow user preferences to be saved without ui manager ([#340](https://github.com/VolkovLabs/business-table/pull/340))
-- Add fix for background row ([#343](https://github.com/VolkovLabs/business-table/pull/343))
-
-## [2.7.0] - 2025-05-22
+## [2.7.0] - 2025-06-24
 
 ### Added
 
 - Replace variables with group names ([#313](https://github.com/VolkovLabs/business-table/pull/313))
 - Support for exporting data to Google Sheets ([#319](https://github.com/VolkovLabs/business-table/pull/319))
+- Add setting a default filter value in Client mode ([#341](https://github.com/VolkovLabs/business-table/pull/341))
 
 ### Changed
 
 - Updated end-to-end (E2E) testing dependencies ([#308](https://github.com/VolkovLabs/business-table/pull/308))
 - Improved sorting behavior for UI manager and table header cells ([#314](https://github.com/VolkovLabs/business-table/pull/314))
+- Allow user preferences to be saved without ui manager ([#340](https://github.com/VolkovLabs/business-table/pull/340))
+- Add fix for background row ([#343](https://github.com/VolkovLabs/business-table/pull/343))
 
 ## [2.6.0] - 2025-04-22
 
