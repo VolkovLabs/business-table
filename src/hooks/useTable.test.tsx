@@ -1685,6 +1685,7 @@ describe('useTable', () => {
   describe('Background for the row', () => {
     it('Should apply background Field', () => {
       const deviceColumn = createColumnConfig({
+        type: CellType.COLORED_BACKGROUND,
         field: {
           source: refId,
           name: 'device',
@@ -1702,6 +1703,7 @@ describe('useTable', () => {
         }),
       });
       const valueColumn = createColumnConfig({
+        type: CellType.COLORED_BACKGROUND,
         field: {
           source: refId,
           name: 'value',
@@ -1745,8 +1747,9 @@ describe('useTable', () => {
       ]);
     });
 
-    it('Should apply the last field for the background from the available columns', () => {
+    it('Should not apply background Field if apply to row enable for not COLORED_BACKGROUND type', () => {
       const deviceColumn = createColumnConfig({
+        type: CellType.COLORED_TEXT,
         field: {
           source: refId,
           name: 'device',
@@ -1764,6 +1767,69 @@ describe('useTable', () => {
         }),
       });
       const valueColumn = createColumnConfig({
+        type: CellType.COLORED_TEXT,
+        field: {
+          source: refId,
+          name: 'value',
+        },
+        appearance: createColumnAppearanceConfig({
+          width: {
+            auto: false,
+            value: 999,
+          },
+        }),
+      });
+
+      const { result } = renderHook(() =>
+        useTable({
+          data: {
+            series: [frame],
+          } as any,
+          columns: [deviceColumn, valueColumn],
+          objects: [],
+          replaceVariables,
+          actionsColumnConfig: actionsColumnConfigDefault,
+          eventBus,
+        })
+      );
+
+      expect(result.current.columns).toEqual([
+        expect.objectContaining({
+          id: deviceColumn.field.name,
+          minSize: deviceColumn.appearance.width.min,
+          maxSize: deviceColumn.appearance.width.max,
+          meta: expect.objectContaining({
+            backgroundRowField: null,
+          }),
+        }),
+        expect.objectContaining({
+          id: valueColumn.field.name,
+          size: valueColumn.appearance.width.value,
+        }),
+      ]);
+    });
+
+    it('Should apply the last field for the background from the available columns', () => {
+      const deviceColumn = createColumnConfig({
+        type: CellType.COLORED_BACKGROUND,
+        field: {
+          source: refId,
+          name: 'device',
+        },
+        appearance: createColumnAppearanceConfig({
+          background: {
+            applyToRow: true,
+          },
+          width: {
+            auto: true,
+            min: 0,
+            max: 150,
+            value: 0,
+          },
+        }),
+      });
+      const valueColumn = createColumnConfig({
+        type: CellType.COLORED_BACKGROUND,
         field: {
           source: refId,
           name: 'value',
@@ -1817,6 +1883,7 @@ describe('useTable', () => {
 
     it('Should apply the last field for the background from the available columns if field hidden', () => {
       const deviceColumn = createColumnConfig({
+        type: CellType.COLORED_BACKGROUND,
         field: {
           source: refId,
           name: 'device',
@@ -1834,6 +1901,7 @@ describe('useTable', () => {
         }),
       });
       const valueColumn = createColumnConfig({
+        type: CellType.COLORED_BACKGROUND,
         field: {
           source: refId,
           name: 'value',
