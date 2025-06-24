@@ -4,24 +4,20 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). This changelog is intended to help users understand the evolution of the plugin, including new features, improvements, and fixes. Each version includes a summary of changes categorized as `Added`, `Changed`, `Fixed`, `Removed`, or `Breaking Changes` where applicable.
 
-## [3.0.0] - Unreleased
-
-### Changed
-
-- Allow user preferences to be saved without ui manager ([#340](https://github.com/VolkovLabs/business-table/pull/340))
-- Add fix for background row ([#343](https://github.com/VolkovLabs/business-table/pull/343))
-
-## [2.7.0] - 2025-05-22
+## [2.7.0] - 2025-06-24
 
 ### Added
 
-- Replace variables with group names ([#313](https://github.com/VolkovLabs/business-table/pull/313))
-- Support for exporting data to Google Sheets ([#319](https://github.com/VolkovLabs/business-table/pull/319))
+- **Variable Replacement**: Added support for replacing variables with group names. ([#313](https://github.com/VolkovLabs/business-table/pull/313))
+- **Google Sheets Export**: Introduced functionality to export table data directly to Google Sheets. ([#319](https://github.com/VolkovLabs/business-table/pull/319))
+- **Default Filter Value**: Enabled setting a default filter value in Client mode for improved usability. ([#341](https://github.com/VolkovLabs/business-table/pull/341))
 
 ### Changed
 
-- Updated end-to-end (E2E) testing dependencies ([#308](https://github.com/VolkovLabs/business-table/pull/308))
-- Improved sorting behavior for UI manager and table header cells ([#314](https://github.com/VolkovLabs/business-table/pull/314))
+- **Testing Dependencies**: Updated dependencies for end-to-end (E2E) testing to ensure reliability. ([#308](https://github.com/VolkovLabs/business-table/pull/308))
+- **Sorting Behavior**: Enhanced sorting functionality in the UI manager and table header cells for a smoother experience. ([#314](https://github.com/VolkovLabs/business-table/pull/314))
+- **User Preferences**: Allowed saving of user preferences without requiring the UI manager. ([#340](https://github.com/VolkovLabs/business-table/pull/340))
+- **Background Row Fix**: Applied a fix to improve rendering of background rows. ([#343](https://github.com/VolkovLabs/business-table/pull/343))
 
 ## [2.6.0] - 2025-04-22
 

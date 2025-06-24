@@ -29,6 +29,8 @@ import {
   getSupportedFilterTypesForVariable,
 } from '@/utils';
 
+import { FilterValueEditor } from '../FilterValueEditor';
+
 /**
  * Properties
  */
@@ -1005,6 +1007,9 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                   {...TEST_IDS.columnEditor.fieldFilterVariable.apply()}
                 />
               </InlineField>
+            )}
+            {value.filter.mode === ColumnFilterMode.CLIENT && (
+              <FilterValueEditor value={value} data={data} onChange={onChange} />
             )}
           </InlineFieldRow>
         </FieldsGroup>
