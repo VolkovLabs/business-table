@@ -3,7 +3,7 @@ import { Header } from '@tanstack/react-table';
 import React, { useCallback, useRef, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { ColumnHeaderFontSize } from '@/types';
+import { ColumnFilterValue, ColumnHeaderFontSize } from '@/types';
 
 import { FilterPopup } from '../FilterPopup';
 import { getStyles } from './TableHeaderCellFilter.styles';
@@ -23,12 +23,29 @@ interface Props<TData> {
    * @type {ColumnHeaderFontSize}
    */
   size: ColumnHeaderFontSize;
+
+  /**
+   * Save User Preference
+   *
+   * @type {boolean}
+   */
+  saveUserPreference: boolean;
+
+  /**
+   * Update Preferences
+   */
+  updatePreferencesWithFilters: (columnName: string, filter?: ColumnFilterValue) => void;
 }
 
 /**
  * Table Header Cell Filter
  */
-export const TableHeaderCellFilter = <TData,>({ header, size }: Props<TData>) => {
+export const TableHeaderCellFilter = <TData,>({
+  header,
+  size,
+  saveUserPreference,
+  updatePreferencesWithFilters,
+}: Props<TData>) => {
   /**
    * Styles
    */
@@ -76,7 +93,14 @@ export const TableHeaderCellFilter = <TData,>({ header, size }: Props<TData>) =>
         <>
           <Popover
             show={true}
-            content={<FilterPopup header={header} onClose={onClosePopup} />}
+            content={
+              <FilterPopup
+                header={header}
+                onClose={onClosePopup}
+                saveUserPreference={saveUserPreference}
+                updatePreferencesWithFilters={updatePreferencesWithFilters}
+              />
+            }
             referenceElement={ref.current}
             placement="bottom-start"
           />

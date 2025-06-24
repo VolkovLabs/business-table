@@ -120,6 +120,12 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
      */
     builder
       .addBooleanSwitch({
+        path: 'saveUserPreference',
+        name: 'Save Preferences',
+        description: 'Enable to save table settings to User Preferences, overriding current table configuration.',
+        category: ['Advanced'],
+      })
+      .addBooleanSwitch({
         path: 'isColumnManagerAvailable',
         name: 'Column Manager',
         description: 'Allowing column display management in a drawer.',
@@ -150,13 +156,6 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         path: 'showSortingInColumnManager',
         name: 'Show sorting',
         description: 'Allowing use sorting for columns.',
-        showIf: (config) => config.isColumnManagerAvailable,
-        category: ['Column Manager'],
-      })
-      .addBooleanSwitch({
-        path: 'saveUserPreference',
-        name: 'Save Preferences',
-        description: 'Enable to save table settings to User Preferences, overriding current table configuration.',
         showIf: (config) => config.isColumnManagerAvailable,
         category: ['Column Manager'],
       });

@@ -873,3 +873,46 @@ export const prepareColumnsWithSorting = (
     };
   }) as ColumnConfig[];
 };
+
+/**
+ * Prepare column with Filters
+ * @param userPreferences
+ * @param currentTableName
+ * @param drawerColumns
+ * @param columnName
+ * @param filterValue
+ */
+export const prepareColumnsWithFilters = (
+  userPreferences: UserPreferences,
+  currentTableName: string,
+  drawerColumns: ColumnConfig[] | undefined,
+  columnName: string,
+  filterValue?: ColumnFilterValue
+) => {
+  /**
+   * Saved Table
+   */
+  const preferencesTables = userPreferences.tables?.length ? userPreferences.tables : [];
+  const savedTable = preferencesTables.find((table) => table.name === currentTableName);
+
+  let updatedItems = [];
+  if (!savedTable || (savedTable && !savedTable.columns.length)) {
+    /**
+     * Transform columns to preferences
+     */
+    const transformedColumns = prepareColumnConfigsForPreferences(drawerColumns!, currentTableName, userPreferences);
+
+    /**
+     * Items with filters
+     */
+    updatedItems = transformedColumns.map((column) =>
+      column.name === columnName ? { ...column, filter: filterValue } : column
+    );
+  } else {
+    updatedItems = savedTable.columns.map((column) =>
+      column.name === columnName ? { ...column, filter: filterValue } : column
+    );
+  }
+
+  return updatedItems;
+};
