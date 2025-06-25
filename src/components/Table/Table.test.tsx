@@ -1,4 +1,4 @@
-import { EventBusSrv } from '@grafana/data';
+import { createTheme, EventBusSrv } from '@grafana/data';
 import { createRow, Table as TableInstance } from '@tanstack/react-table';
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
@@ -194,6 +194,47 @@ describe('Table', () => {
     expect(selectors.bodyCell(false, '1_device')).toHaveTextContent('device2');
     expect(selectors.bodyCell(false, '1_comment.info.name')).toBeInTheDocument();
     expect(selectors.bodyCell(false, '1_comment.info.name')).toHaveTextContent('comment2');
+  });
+
+  it('Should apply background to striped row', async () => {
+    await act(async () =>
+      render(
+        getComponent({
+          stripedRows: true,
+          columns: [
+            {
+              id: 'device',
+              accessorFn: createColumnAccessorFn('device'),
+              meta: createColumnMeta({}),
+            },
+          ],
+          data: [
+            {
+              device: 'device1',
+              [ROW_HIGHLIGHT_STATE_KEY]: false,
+            },
+            {
+              device: 'device2',
+              [ROW_HIGHLIGHT_STATE_KEY]: false,
+            },
+          ],
+          rowHighlightConfig: createRowHighlightConfig({
+            enabled: false,
+            backgroundColor: 'red',
+          }),
+        })
+      )
+    );
+
+    const theme = createTheme();
+
+    expect(selectors.root());
+    expect(selectors.bodyCell(false, '0_device')).toBeInTheDocument();
+    expect(selectors.bodyCell(false, '1_device')).toBeInTheDocument();
+
+    expect(selectors.bodyRow(false, '1')).toHaveStyle({
+      'background-color': theme.colors.background.secondary,
+    });
   });
 
   it('Should allow to expand grouped cell', async () => {

@@ -54,6 +54,7 @@ describe('TableRow', () => {
     editingRowIndex,
     columnPinning = defaultColumnPinning,
     isNewRow,
+    stripedRow = false,
   }: {
     data: unknown[];
     columns: Array<ColumnDef<any>>;
@@ -63,6 +64,7 @@ describe('TableRow', () => {
     editingRowIndex?: number;
     columnPinning?: ColumnPinningState;
     isNewRow?: boolean;
+    stripedRow?: boolean;
   }) => {
     const table = useReactTable({
       data,
@@ -98,6 +100,7 @@ describe('TableRow', () => {
             isNewRow={isNewRow}
             onDelete={jest.fn()}
             isHighlighted={false}
+            stripedRow={stripedRow}
           />
         </tbody>
       </table>
@@ -116,6 +119,7 @@ describe('TableRow', () => {
     editingRowIndex?: number;
     columnPinning?: ColumnPinningState;
     isNewRow?: boolean;
+    stripedRow?: boolean;
   }) => {
     return <Wrapper {...props} />;
   };
@@ -480,6 +484,67 @@ describe('TableRow', () => {
     expect(selectors.bodyRow(false, 'name:device1')).toBeInTheDocument();
     expect(selectors.bodyCell(false, 'name:device1_value')).toBeInTheDocument();
     expect(selectors.bodyCell(false, 'name:device1_value').style.color).toEqual('');
+  });
+
+  it('Should set row background if striped enabled', async () => {
+    const data = [{ value: 20, name: 'device1' }];
+    const columns = [
+      {
+        id: 'name',
+        accessorFn: createColumnAccessorFn('name'),
+      },
+      {
+        id: 'value',
+        accessorFn: createColumnAccessorFn('value'),
+        meta: createColumnMeta({
+          config: createColumnConfig({
+            type: CellType.COLORED_TEXT,
+            appearance: createColumnAppearanceConfig({
+              background: {
+                applyToRow: false,
+              },
+            }),
+          }),
+          field: createField({
+            name: 'name',
+            values: [20],
+            config: {
+              thresholds: {
+                mode: ThresholdsMode.Absolute,
+                steps: [
+                  {
+                    value: 0,
+                    color: 'blue',
+                  },
+                  {
+                    value: 20,
+                    color: 'gray',
+                  },
+                ],
+              },
+            },
+          }),
+        }),
+      },
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          data,
+          columns,
+          rowIndex: 0,
+          stripedRow: true,
+        })
+      )
+    );
+
+    const theme = createTheme();
+
+    expect(selectors.bodyRow(false, '0')).toBeInTheDocument();
+    expect(selectors.bodyRow(false, '0')).toHaveStyle({
+      'background-color': theme.colors.background.secondary,
+    });
   });
 
   it('Should set row background if enabled', async () => {

@@ -103,6 +103,13 @@ interface Props<TData> {
    * @type {RowHighlightConfig}
    */
   rowHighlightConfig?: RowHighlightConfig;
+
+  /**
+   * Striped Rows
+   *
+   * @type {boolean}
+   */
+  stripedRow?: boolean;
 }
 
 /**
@@ -154,6 +161,7 @@ export const TableRow = <TData,>({
   onDelete,
   rowHighlightConfig,
   isHighlighted,
+  stripedRow,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -200,6 +208,13 @@ export const TableRow = <TData,>({
         if (displayValue.color) {
           cellAppearance.background = displayValue.color;
         }
+      }
+
+      /**
+       * Set background if striped row is enable
+       */
+      if (stripedRow) {
+        acc.background = theme.colors.background.secondary;
       }
 
       /**

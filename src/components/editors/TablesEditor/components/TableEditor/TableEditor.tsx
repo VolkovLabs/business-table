@@ -60,6 +60,22 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
             {...TEST_IDS.tableEditor.fieldExpanded.apply()}
           />
         </InlineField>
+        <InlineField
+          label="Striped rows"
+          tooltip="Striped rows do not override existing row or cell background colors"
+          grow={true}
+        >
+          <InlineSwitch
+            value={value.stripedRows}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                stripedRows: event.currentTarget.checked,
+              })
+            }
+            {...TEST_IDS.tableEditor.fieldStripedRows.apply()}
+          />
+        </InlineField>
       </InlineFieldRow>
       {isTableEditable && (
         <ActionsColumnEditor

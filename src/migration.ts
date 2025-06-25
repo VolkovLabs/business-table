@@ -397,8 +397,18 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
         items: columns,
       } as TableConfig;
 
+      /**
+       * Normalize showHeader config
+       */
       if (!normalizedGroup.hasOwnProperty('showHeader')) {
         normalizedGroup.showHeader = true;
+      }
+
+      /**
+       * Normalize stripedRows config
+       */
+      if (!normalizedGroup.hasOwnProperty('stripedRows')) {
+        normalizedGroup.stripedRows = false;
       }
 
       /**
