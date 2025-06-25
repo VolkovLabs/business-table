@@ -138,7 +138,16 @@ describe('Table', () => {
     Element.prototype.getBoundingClientRect = jest.fn(function () {
       return getDomRect(500, 500) as any;
     });
-
+    /**
+     * transitioned to using offsetHeight and offsetWidth for measuring the scroller's size
+     *  https://github.com/TanStack/virtual/issues/641#issuecomment-2872147546
+     */
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      value: 800,
+    });
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+      value: 800,
+    });
     jest.mocked(useAddData).mockReturnValue({} as never);
     replaceVariables.mockImplementation((str: string) => str);
   });
