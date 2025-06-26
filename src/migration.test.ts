@@ -975,7 +975,7 @@ describe('migration', () => {
     });
   });
 
-  describe('2.8.0', () => {
+  describe('3.0.0', () => {
     it('Should normalize stripedRows', async () => {
       expect(
         await getMigratedOptions({
