@@ -36,7 +36,7 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
   return (
     <>
       <InlineFieldRow>
-        <InlineField label="Show header">
+        <InlineField label="Show header" grow={true}>
           <InlineSwitch
             value={value.showHeader}
             onChange={(event) =>
