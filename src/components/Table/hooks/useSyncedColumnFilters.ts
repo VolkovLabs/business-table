@@ -1,7 +1,7 @@
 import { EventBus } from '@grafana/data';
 import { RefreshEvent } from '@grafana/runtime';
 import { ColumnDef, ColumnFiltersState } from '@tanstack/react-table';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { getVariableColumnFilters, mergeColumnFilters } from '@/utils';
 
@@ -12,76 +12,59 @@ export const useSyncedColumnFilters = <TData>({
   columns,
   eventBus,
   userFilterPreference,
+  defaultFilters,
 }: {
   columns: Array<ColumnDef<TData>>;
   eventBus: EventBus;
   userFilterPreference: ColumnFiltersState;
+  defaultFilters: ColumnFiltersState;
 }) => {
+  const initialFilters = () => {
+    if (userFilterPreference && !!userFilterPreference.length) {
+      return userFilterPreference;
+    }
+
+    if (defaultFilters && defaultFilters.length > 0) {
+      return defaultFilters;
+    }
+
+    return [];
+  };
+
   /**
-   * Default filters
+   * Initial Default filters
    */
-  const defaultFilters = useMemo(() => {
-    return columns
-      .map((column) => {
-        if (column.meta?.config.filter?.defaultClientValue) {
-          return {
-            id: column.id,
-            value: column.meta.config.filter.defaultClientValue,
-          };
-        }
-        return null;
-      })
-      .filter(Boolean) as ColumnFiltersState;
-  }, [columns]);
+  const [initialDefaultFiltersState, setInitialDefaultFiltersState] = useState<ColumnFiltersState>(defaultFilters);
 
   /**
    * Filtering
    */
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(() => {
-    /**
-     * Initialize with variable filters
-     */
-    const variableFilters = getVariableColumnFilters(columns);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(initialFilters);
 
-    /**
-     * If there are custom preferences, use them
-     */
-    if (userFilterPreference && userFilterPreference.length > 0) {
-      return userFilterPreference;
+  /**
+   * Use user Preferences
+   */
+  useEffect(() => {
+    if (userFilterPreference && !!userFilterPreference.length) {
+      setColumnFilters(userFilterPreference);
     }
+  }, [userFilterPreference]);
 
-    /**
-     * If there are variable filters, use them with default filters
-     */
-    if (variableFilters.length > 0) {
-      return mergeColumnFilters(defaultFilters, variableFilters);
+  /**
+   * Use defaultFilters if the default filters are changed
+   */
+  useEffect(() => {
+    if (JSON.stringify(initialDefaultFiltersState) !== JSON.stringify(defaultFilters)) {
+      setInitialDefaultFiltersState(defaultFilters);
+      setColumnFilters(defaultFilters);
     }
-
-    /**
-     * If there are variable filters, use them with default filters
-     */
-    return defaultFilters;
-  });
-
-  const [isInitialized, setIsInitialized] = useState(false);
+  }, [defaultFilters, initialDefaultFiltersState]);
 
   /**
    * Set initial filters from variables and update on variable change
    */
   useEffect(() => {
-    const variableFilters = getVariableColumnFilters(columns);
-
-    if (!isInitialized) {
-      /**
-       * First was in use state
-       */
-      setIsInitialized(true);
-    } else {
-      /**
-       * Update only when variables are changed after initialization
-       */
-      setColumnFilters((current) => mergeColumnFilters(current, variableFilters));
-    }
+    setColumnFilters((current) => mergeColumnFilters(current, getVariableColumnFilters(columns)));
 
     const subscription = eventBus.getStream(RefreshEvent).subscribe(() => {
       setColumnFilters((current) => mergeColumnFilters(current, getVariableColumnFilters(columns)));
@@ -90,32 +73,7 @@ export const useSyncedColumnFilters = <TData>({
     return () => {
       return subscription.unsubscribe();
     };
-  }, [columns, eventBus, isInitialized]);
-
-  /**
-   * Update filters if there are no custom filters, but default filters have changed
-   */
-  useEffect(() => {
-    if (!userFilterPreference?.length && isInitialized) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      setColumnFilters((current) => {
-        const variableFilters = getVariableColumnFilters(columns);
-        /**
-         * Merge defaults with variables, if present
-         */
-        return variableFilters.length > 0 ? mergeColumnFilters(defaultFilters, variableFilters) : defaultFilters;
-      });
-    }
-  }, [columns, defaultFilters, isInitialized, userFilterPreference?.length]);
-
-  /**
-   * Use user Preferences
-   */
-  useEffect(() => {
-    if (userFilterPreference && userFilterPreference.length > 0) {
-      setColumnFilters(userFilterPreference);
-    }
-  }, [userFilterPreference]);
+  }, [columns, eventBus]);
 
   return [columnFilters, setColumnFilters] as [typeof columnFilters, typeof setColumnFilters];
 };

@@ -17,6 +17,7 @@ import {
   convertStringValueToBoolean,
   convertTableToDataFrame,
   createColumnAccessorFn,
+  getDefaultFilters,
   getFilterWithNewType,
   getFooterCell,
   getSavedFilters,
@@ -1832,6 +1833,75 @@ describe('Table utils', () => {
         { field: { name: 'name' }, sort: { enabled: true, descFirst: undefined } },
         { field: { name: 'value' }, sort: { enabled: false, descFirst: false } },
       ]);
+    });
+  });
+
+  describe('getDefaultFilters', () => {
+    it('Should returns empty array when no columns have defaultClientValue', () => {
+      const columns = [
+        { id: 'a', meta: { config: { filter: {} } } },
+        { id: 'b', meta: { config: { filter: null } } },
+        { id: 'c', meta: undefined },
+      ] as any;
+
+      expect(getDefaultFilters(columns)).toEqual([]);
+    });
+
+    it('Should returns one filter when one column has defaultClientValue', () => {
+      const columns = [
+        {
+          id: 'a',
+          meta: {
+            config: {
+              filter: {
+                defaultClientValue: {
+                  type: ColumnFilterType.SEARCH,
+                  value: 'foo',
+                  caseSensitive: false,
+                },
+              },
+            },
+          },
+        },
+      ] as any;
+
+      expect(getDefaultFilters(columns)).toEqual([
+        {
+          id: 'a',
+          value: {
+            type: ColumnFilterType.SEARCH,
+            value: 'foo',
+            caseSensitive: false,
+          },
+        },
+      ]);
+    });
+
+    it('Should ignores columns with null or undefined defaultClientValue', () => {
+      const columns = [
+        {
+          id: 'a',
+          meta: {
+            config: {
+              filter: {
+                defaultClientValue: null,
+              },
+            },
+          },
+        },
+        {
+          id: 'b',
+          meta: {
+            config: {
+              filter: {
+                defaultClientValue: undefined,
+              },
+            },
+          },
+        },
+      ] as any;
+
+      expect(getDefaultFilters(columns)).toEqual([]);
     });
   });
 });

@@ -916,3 +916,21 @@ export const prepareColumnsWithFilters = (
 
   return updatedItems;
 };
+
+/**
+ * Get Default Filters
+ * @param columns
+ */
+export const getDefaultFilters = <TData>(columns: Array<ColumnDef<TData>>) => {
+  return columns
+    .map((column) => {
+      if (column.meta?.config.filter?.defaultClientValue) {
+        return {
+          id: column.id,
+          value: column.meta.config.filter.defaultClientValue,
+        };
+      }
+      return null;
+    })
+    .filter(Boolean) as ColumnFiltersState;
+};
