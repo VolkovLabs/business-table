@@ -35,7 +35,7 @@ import {
   TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
-import { getFirstHighlightedRowIndex, getSavedFilters, getSavedSorting } from '@/utils';
+import { getDefaultFilters, getFirstHighlightedRowIndex, getSavedFilters, getSavedSorting } from '@/utils';
 
 import { DrawerColumnManager, TableHeaderCell, TableRow } from './components';
 import { useAddData, useDeleteData, useEditableData, useSortState, useSyncedColumnFilters } from './hooks';
@@ -404,6 +404,11 @@ export const Table = <TData,>({
   );
 
   /**
+   * Default filters
+   */
+  const defaultFilters = useMemo(() => getDefaultFilters(columns), [columns]);
+
+  /**
    * User sorting preferences
    */
   const userSortingPreference = useMemo(
@@ -414,7 +419,12 @@ export const Table = <TData,>({
   /**
    * Filtering
    */
-  const [columnFilters, setColumnFilters] = useSyncedColumnFilters({ columns, eventBus, userFilterPreference });
+  const [columnFilters, setColumnFilters] = useSyncedColumnFilters({
+    columns,
+    eventBus,
+    userFilterPreference,
+    defaultFilters,
+  });
 
   /**
    * Sorting
