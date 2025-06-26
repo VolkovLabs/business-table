@@ -733,6 +733,13 @@ export interface TableConfig {
    * @type {RowHighlightConfig}
    */
   rowHighlight: RowHighlightConfig;
+
+  /**
+   * Striped rows
+   *
+   * @type {boolean}
+   */
+  stripedRows: boolean;
 }
 
 /**

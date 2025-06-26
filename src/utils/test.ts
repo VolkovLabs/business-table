@@ -371,6 +371,7 @@ export const createRowHighlightConfig = (item: Partial<RowHighlightConfig>): Row
 export const createTableConfig = (table: Partial<TableConfig>): TableConfig => ({
   name: '',
   showHeader: false,
+  stripedRows: false,
   items: [],
   update: createTableRequestConfig({}),
   addRow: createTableOperationConfig({}),

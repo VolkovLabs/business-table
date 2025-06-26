@@ -158,6 +158,13 @@ interface Props<TData> {
   showHeader: boolean;
 
   /**
+   * Striped Rows
+   *
+   * @type {boolean}
+   */
+  stripedRows: boolean;
+
+  /**
    * Add Row
    */
   onAddRow: (row: TData) => Promise<void>;
@@ -342,6 +349,7 @@ export const Table = <TData,>({
   updateTablesPreferences,
   advancedSettings,
   replaceVariables,
+  stripedRows,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -660,10 +668,12 @@ export const Table = <TData,>({
           className={styles.body}
           {...testIds.body.apply()}
         >
-          {virtualRows.map((virtualRow) => {
+          {virtualRows.map((virtualRow, index) => {
             const row = rows[virtualRow.index];
             const isHighlighted =
               rowHighlightConfig?.enabled === true && get(row.original, ROW_HIGHLIGHT_STATE_KEY) === true;
+
+            const stripedRow = stripedRows && index % 2 !== 0;
 
             return (
               <TableRow
@@ -675,6 +685,7 @@ export const Table = <TData,>({
                 onStartEdit={editableData.onStartEdit}
                 onCancelEdit={editableData.onCancelEdit}
                 onChange={editableData.onChange}
+                stripedRow={stripedRow}
                 onSave={editableData.onSave}
                 isSaving={editableData.isSaving}
                 isEditRowEnabled={isEditRowEnabled}

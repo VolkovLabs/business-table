@@ -974,4 +974,76 @@ describe('migration', () => {
       );
     });
   });
+
+  describe('3.0.0', () => {
+    it('Should normalize stripedRows', async () => {
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              stripedRows: false,
+              items: [],
+            }),
+          ],
+        })
+      );
+
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+                stripedRows: true,
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              stripedRows: true,
+              items: [],
+            }),
+          ],
+        })
+      );
+
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+                stripedRows: false,
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              stripedRows: false,
+              items: [],
+            }),
+          ],
+        })
+      );
+    });
+  });
 });

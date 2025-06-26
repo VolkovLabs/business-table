@@ -419,6 +419,7 @@ export const TablePanel: React.FC<Props> = ({
           bottomOffset={tableBottomOffset}
           paginationRef={paginationRef}
           showHeader={currentTable?.showHeader ?? true}
+          stripedRows={currentTable?.stripedRows ?? false}
           width={width}
           pagination={pagination}
           tableInstance={tableInstance as never}

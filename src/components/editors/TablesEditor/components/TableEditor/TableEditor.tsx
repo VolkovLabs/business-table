@@ -36,7 +36,7 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
   return (
     <>
       <InlineFieldRow>
-        <InlineField label="Show header">
+        <InlineField label="Show header" grow={true}>
           <InlineSwitch
             value={value.showHeader}
             onChange={(event) =>
@@ -58,6 +58,22 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
               })
             }
             {...TEST_IDS.tableEditor.fieldExpanded.apply()}
+          />
+        </InlineField>
+        <InlineField
+          label="Striped rows"
+          tooltip="Striped rows do not override existing row or cell background colors"
+          grow={true}
+        >
+          <InlineSwitch
+            value={value.stripedRows}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                stripedRows: event.currentTarget.checked,
+              })
+            }
+            {...TEST_IDS.tableEditor.fieldStripedRows.apply()}
           />
         </InlineField>
       </InlineFieldRow>

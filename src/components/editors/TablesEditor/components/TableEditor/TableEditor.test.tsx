@@ -138,6 +138,27 @@ describe('TableEditor', () => {
     );
   });
 
+  it('Should allow to change striped rows visibility', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          stripedRows: false,
+          items: [createColumnConfig({})],
+        }),
+      })
+    );
+
+    expect(selectors.fieldStripedRows()).toBeInTheDocument();
+    fireEvent.click(selectors.fieldStripedRows());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        stripedRows: true,
+        items: [createColumnConfig({})],
+      })
+    );
+  });
+
   it('Should display actions column editor', () => {
     render(
       getComponent({
