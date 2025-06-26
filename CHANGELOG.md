@@ -10,9 +10,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Requires Grafana 11 or Grafana 12 for compatibility.
 
+### Added
+
+- Add the option to do striped rows ([#347](https://github.com/VolkovLabs/business-table/pull/347))
+
 ### Changed
 
-- Upgraded to Grafana 12.0 with updated dependencies.
+- Upgraded to Grafana 12.0 with updated dependencies. ([#344](https://github.com/VolkovLabs/business-table/pull/344))
+- Fix the cleanup action in the ‘live’ filter. ([#346](https://github.com/VolkovLabs/business-table/pull/346))
 
 ## [2.7.0] - 2025-06-24
 
