@@ -6,7 +6,7 @@ import { NumberInput, Slider } from '@volkovlabs/components';
 import React, { useMemo, useState } from 'react';
 
 import { FieldsGroup } from '@/components';
-import { ColorEditor } from '@/components/editors';
+import { ColorEditor, FieldPicker } from '@/components/editors';
 import { DEFAULT_SHOWING_ROWS, GAUGE_DEFAULT_VALUE_SIZE, TEST_IDS } from '@/constants';
 import { tablesEditorContext } from '@/hooks';
 import {
@@ -26,6 +26,7 @@ import {
   cleanPayloadObject,
   getColumnConfigWithNewType,
   getFieldBySource,
+  getFrameBySource,
   getSupportedFilterTypesForVariable,
 } from '@/utils';
 
@@ -347,6 +348,14 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
     }));
   }, [nestedObjects]);
 
+  const appropriateDataForTable = useMemo(() => {
+    const frame = getFrameBySource(data, value.field);
+    if (frame) {
+      return [frame];
+    }
+    return [];
+  }, [data, value.field]);
+
   return (
     <>
       <FieldsGroup label="Format">
@@ -440,6 +449,27 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
                 value={value?.fileCell?.variant}
                 options={fileButtonVariantOptions}
                 {...TEST_IDS.columnEditor.fieldFileButtonVariant.apply()}
+              />
+            </InlineField>
+            <InlineField
+              label="File Name"
+              grow={true}
+              tooltip="The value will be taken based on the row and the selected field"
+            >
+              <FieldPicker
+                value={value.fileCell.fileName ? value.fileCell.fileName : undefined}
+                onChange={(field) => {
+                  onChange({
+                    ...value,
+                    fileCell: {
+                      ...value.fileCell,
+                      fileName: field,
+                    },
+                  });
+                }}
+                data={appropriateDataForTable}
+                alreadySelectedFields={[]}
+                {...TEST_IDS.columnEditor.fieldFileName.apply()}
               />
             </InlineField>
             <InlineField label="Display preview for image and pdf" grow={true}>

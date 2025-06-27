@@ -407,6 +407,7 @@ export const TablePanel: React.FC<Props> = ({
           key={currentTable?.name}
           expandedByDefault={currentTable?.expanded ?? false}
           data={tableData}
+          panelData={data.series}
           columns={columns}
           tableRef={tableRef}
           tableHeaderRef={tableHeaderRef}

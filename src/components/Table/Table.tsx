@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { EventBus, GrafanaTheme2, InterpolateFunction } from '@grafana/data';
+import { DataFrame, EventBus, GrafanaTheme2, InterpolateFunction } from '@grafana/data';
 import { Button, ConfirmModal, Drawer, Pagination, useStyles2, useTheme2 } from '@grafana/ui';
 import {
   Column,
@@ -261,6 +261,13 @@ interface Props<TData> {
    * @type {InterpolateFunction}
    */
   replaceVariables: InterpolateFunction;
+
+  /**
+   * Panel Data
+   *
+   * @type {DataFrame[]}
+   */
+  panelData: DataFrame[];
 }
 
 /**
@@ -350,6 +357,7 @@ export const Table = <TData,>({
   advancedSettings,
   replaceVariables,
   stripedRows,
+  panelData,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -658,6 +666,7 @@ export const Table = <TData,>({
               isNewRow={true}
               onDelete={deleteData.onStart}
               isHighlighted={false}
+              panelData={panelData}
             />
           </tbody>
         )}
@@ -693,6 +702,7 @@ export const Table = <TData,>({
                 onDelete={deleteData.onStart}
                 rowHighlightConfig={rowHighlightConfig}
                 isHighlighted={editableData.row?.id !== row.id && isHighlighted}
+                panelData={panelData}
               />
             );
           })}

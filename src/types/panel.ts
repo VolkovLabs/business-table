@@ -284,6 +284,13 @@ export interface FileConfig {
    * @type {boolean}
    */
   displayPreview?: boolean;
+
+  /**
+   * File name
+   *
+   * @type {boolean}
+   */
+  fileName?: FieldSource;
 }
 
 /**
