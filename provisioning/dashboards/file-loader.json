@@ -42,8 +42,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -62,6 +61,13 @@
       },
       "id": 23,
       "options": {
+        "externalExport": {
+          "enabled": false,
+          "request": {
+            "datasource": "",
+            "payload": {}
+          }
+        },
         "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
@@ -256,6 +262,7 @@
               "variable": ""
             },
             "showHeader": true,
+            "stripedRows": false,
             "update": {
               "datasource": "timescale",
               "payload": {
@@ -556,8 +563,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -576,6 +582,13 @@
       },
       "id": 25,
       "options": {
+        "externalExport": {
+          "enabled": false,
+          "request": {
+            "datasource": "",
+            "payload": {}
+          }
+        },
         "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
@@ -651,7 +664,10 @@
                   "source": "A"
                 },
                 "fileCell": {
-                  "displayPreview": true,
+                  "fileName": {
+                    "name": "fileName",
+                    "source": "A"
+                  },
                   "size": "md",
                   "text": "",
                   "variant": "primary"
@@ -771,6 +787,7 @@
               "variable": ""
             },
             "showHeader": true,
+            "stripedRows": false,
             "update": {
               "datasource": "timescale",
               "payload": {
@@ -832,6 +849,12 @@
                 "name": "description",
                 "type": "string",
                 "values": ["Image file", "Invalid base64", "audio", "Image", "pdf"]
+              },
+              {
+                "config": {},
+                "name": "fileName",
+                "type": "string",
+                "values": ["File Name 1", "File Name 2", "File Name 3", "File Name 4", ""]
               }
             ],
             "meta": {}
@@ -839,7 +862,7 @@
           "refId": "A"
         }
       ],
-      "title": "File cell type with preview",
+      "title": "File cell type with preview and Name",
       "type": "volkovlabs-table-panel"
     },
     {
@@ -857,8 +880,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -877,6 +899,13 @@
       },
       "id": 24,
       "options": {
+        "externalExport": {
+          "enabled": false,
+          "request": {
+            "datasource": "",
+            "payload": {}
+          }
+        },
         "isColumnManagerAvailable": false,
         "nestedObjects": [],
         "saveUserPreference": false,
@@ -1071,6 +1100,7 @@
               "variable": ""
             },
             "showHeader": true,
+            "stripedRows": false,
             "update": {
               "datasource": "timescale",
               "payload": {
@@ -1143,7 +1173,7 @@
   ],
   "preload": false,
   "refresh": "",
-  "schemaVersion": 40,
+  "schemaVersion": 41,
   "tags": [],
   "templating": {
     "list": [
@@ -1193,6 +1223,5 @@
   "timezone": "",
   "title": "File loader",
   "uid": "aeebzg19rglj4e",
-  "version": 1,
-  "weekStart": ""
+  "version": 1
 }

@@ -1207,5 +1207,114 @@ describe('ColumnEditor', () => {
         })
       );
     });
+
+    it('Should allow to change File Name Option if filename is undefined', () => {
+      /**
+       * Data Frame A
+       */
+      const dataFrameA = toDataFrame({
+        fields: [
+          {
+            name: 'field1',
+          },
+          {
+            name: 'field2',
+          },
+        ],
+        refId: 'A',
+      });
+
+      /**
+       * Data Frame B
+       */
+      const dataFrameB = toDataFrame({
+        fields: [
+          {
+            name: 'fieldB1',
+          },
+          {
+            name: 'fieldB2',
+          },
+        ],
+        refId: 'B',
+      });
+
+      render(
+        getComponent({
+          data: [dataFrameA, dataFrameB],
+          value: createColumnConfig({
+            type: CellType.FILE,
+            fileCell: createFileCellConfig({}),
+            field: { name: 'field1', source: 'A' },
+          }),
+        })
+      );
+
+      expect(selectors.fieldFileName()).toBeInTheDocument();
+
+      fireEvent.change(selectors.fieldFileName(), { target: { value: 'A:field2' } });
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fileCell: expect.objectContaining({
+            fileName: { name: 'field2', source: 'A' },
+          }),
+        })
+      );
+    });
+
+    it('Should allow to change File Name Option', () => {
+      /**
+       * Data Frame A
+       */
+      const dataFrameA = toDataFrame({
+        fields: [
+          {
+            name: 'field1',
+          },
+          {
+            name: 'field2',
+          },
+        ],
+        refId: 'A',
+      });
+
+      /**
+       * Data Frame B
+       */
+      const dataFrameB = toDataFrame({
+        fields: [
+          {
+            name: 'fieldB1',
+          },
+          {
+            name: 'fieldB2',
+          },
+        ],
+        refId: 'B',
+      });
+
+      render(
+        getComponent({
+          data: [dataFrameA, dataFrameB],
+          value: createColumnConfig({
+            type: CellType.FILE,
+            fileCell: createFileCellConfig({
+              fileName: { name: 'field1', source: 'A' },
+            }),
+            field: { name: 'field1', source: 'A' },
+          }),
+        })
+      );
+
+      expect(selectors.fieldFileName()).toBeInTheDocument();
+      fireEvent.change(selectors.fieldFileName(), { target: { value: 'A:field2' } });
+      expect(onChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fileCell: expect.objectContaining({
+            fileName: { name: 'field2', source: 'A' },
+          }),
+        })
+      );
+    });
   });
 });

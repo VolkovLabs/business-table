@@ -1,3 +1,4 @@
+import { DataFrame } from '@grafana/data';
 import { CellContext } from '@tanstack/react-table';
 import React from 'react';
 
@@ -24,12 +25,19 @@ interface Props extends CellContext<unknown, unknown> {
    * @type {string}
    */
   bgColor?: string;
+
+  /**
+   * Panel Data
+   *
+   * @type {DataFrame[]}
+   */
+  panelData?: DataFrame[];
 }
 
 /**
  * Cell Renderer
  */
-export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, row }) => {
+export const CellRenderer: React.FC<Props> = ({ renderValue, column, panelData, bgColor, row }) => {
   /**
    * No meta
    */
@@ -56,7 +64,16 @@ export const CellRenderer: React.FC<Props> = ({ renderValue, column, bgColor, ro
       return <ImageCellRenderer value={String(rawValue)} column={column} />;
     }
     case CellType.FILE: {
-      return <FileCellRenderer value={rawValue as string} field={field} config={config} bgColor={bgColor} />;
+      return (
+        <FileCellRenderer
+          value={rawValue as string}
+          field={field}
+          row={row}
+          panelData={panelData}
+          config={config}
+          bgColor={bgColor}
+        />
+      );
     }
     case CellType.JSON: {
       return <JsonCellRenderer value={rawValue as string} config={config} bgColor={bgColor} />;

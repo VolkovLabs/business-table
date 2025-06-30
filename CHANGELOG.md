@@ -12,7 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
-- Add the option to do striped rows ([#347](https://github.com/VolkovLabs/business-table/pull/347))
+- Added the option to do striped rows ([#347](https://github.com/VolkovLabs/business-table/pull/347))
+- Added support no data message string from standard options ([#348](https://github.com/VolkovLabs/business-table/pull/348))
 
 ### Changed
 

@@ -101,6 +101,7 @@ describe('TableRow', () => {
             onDelete={jest.fn()}
             isHighlighted={false}
             stripedRow={stripedRow}
+            panelData={[]}
           />
         </tbody>
       </table>

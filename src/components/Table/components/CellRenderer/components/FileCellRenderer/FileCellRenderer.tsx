@@ -1,11 +1,12 @@
-import { Field } from '@grafana/data';
+import { DataFrame, Field } from '@grafana/data';
 import { Button, Icon, Tooltip, useTheme2 } from '@grafana/ui';
+import { Row } from '@tanstack/react-table';
 import { saveAs } from 'file-saver';
 import React, { useMemo } from 'react';
 
 import { TEST_IDS } from '@/constants';
 import { ColumnConfig, SupportedFileType } from '@/types';
-import { handleMediaData } from '@/utils';
+import { getFieldBySource, getValueIndex, handleMediaData } from '@/utils';
 
 import { getStyles } from './FileCellRenderer.styles';
 
@@ -40,6 +41,20 @@ interface Props {
    * @type {string}
    */
   bgColor?: string;
+
+  /**
+   * Row
+   *
+   * @type {Row<unknown>}
+   */
+  row: Row<unknown>;
+
+  /**
+   * Panel Data
+   *
+   * @type {DataFrame[]}
+   */
+  panelData?: DataFrame[];
 }
 
 /**
@@ -48,7 +63,7 @@ interface Props {
  * @param renderValue
  * @constructor
  */
-export const FileCellRenderer: React.FC<Props> = ({ value, config }) => {
+export const FileCellRenderer: React.FC<Props> = ({ value, panelData, config }) => {
   /**
    * Theme
    */
@@ -56,6 +71,22 @@ export const FileCellRenderer: React.FC<Props> = ({ value, config }) => {
   const styles = getStyles(theme);
 
   const mediaData = handleMediaData(value, config?.fileCell?.displayPreview);
+
+  const fileName = useMemo(() => {
+    if (config.fileCell.fileName && panelData) {
+      const currentField = getFieldBySource(panelData, config.field);
+      const fileNameField = getFieldBySource(panelData, config.fileCell.fileName);
+
+      if (currentField && fileNameField) {
+        const currentIndex = getValueIndex(currentField, value);
+        const currentFileName = fileNameField.values[currentIndex];
+        return currentFileName || 'download';
+      }
+
+      return 'download';
+    }
+    return 'download';
+  }, [config.field, config.fileCell.fileName, panelData, value]);
 
   const renderPreview = useMemo(() => {
     if (!value) {
@@ -100,7 +131,7 @@ export const FileCellRenderer: React.FC<Props> = ({ value, config }) => {
           variant={config?.fileCell?.variant ?? 'primary'}
           disabled={!value}
           onClick={() => {
-            saveAs(value);
+            saveAs(value, fileName);
           }}
           {...TEST_IDS.fileCellRenderer.buttonSave.apply()}
         >
@@ -120,7 +151,7 @@ export const FileCellRenderer: React.FC<Props> = ({ value, config }) => {
             size={config?.fileCell?.size ?? 'sm'}
             variant={config?.fileCell?.variant ?? 'primary'}
             onClick={() => {
-              saveAs(value);
+              saveAs(value, fileName);
             }}
             {...TEST_IDS.fileCellRenderer.buttonSave.apply()}
             disabled={!value}

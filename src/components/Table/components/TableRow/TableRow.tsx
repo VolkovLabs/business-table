@@ -1,5 +1,5 @@
 import { cx } from '@emotion/css';
-import { GrafanaTheme2 } from '@grafana/data';
+import { DataFrame, GrafanaTheme2 } from '@grafana/data';
 import { useStyles2, useTheme2 } from '@grafana/ui';
 import { Cell, CellContext, Column, Row } from '@tanstack/react-table';
 import { VirtualItem, Virtualizer } from '@tanstack/react-virtual';
@@ -110,6 +110,13 @@ interface Props<TData> {
    * @type {boolean}
    */
   stripedRow?: boolean;
+
+  /**
+   * Panel Data
+   *
+   * @type {DataFrame[]}
+   */
+  panelData: DataFrame[];
 }
 
 /**
@@ -162,6 +169,7 @@ export const TableRow = <TData,>({
   rowHighlightConfig,
   isHighlighted,
   stripedRow,
+  panelData,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -308,6 +316,7 @@ export const TableRow = <TData,>({
           ...cell.getContext(),
           bgColor: bgColor || rowAppearance.background,
           isEditing: !!editingRow,
+          panelData: panelData,
           onStartEdit,
           onCancelEdit,
           onSave,

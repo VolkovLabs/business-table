@@ -184,6 +184,7 @@ export const TEST_IDS = {
     fieldFileButtonSize: createSelector('data-testid column-editor field-file-button-size'),
     fieldFileButtonVariant: createSelector('data-testid column-editor field-file-button-variant'),
     fieldFileShowPreview: createSelector('data-testid column-editor field-file-show-preview'),
+    fieldFileName: createSelector('data-testid column-editor field-file-name'),
   },
   filterValueEditor: {
     root: createSelector('data-testid filter-value-editor'),
