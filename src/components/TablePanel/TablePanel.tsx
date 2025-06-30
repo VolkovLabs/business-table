@@ -51,6 +51,7 @@ export const TablePanel: React.FC<Props> = ({
   eventBus,
   replaceVariables,
   title,
+  fieldConfig,
 }) => {
   /**
    * Styles
@@ -463,6 +464,14 @@ export const TablePanel: React.FC<Props> = ({
       </>
     );
   };
+
+  if (!data.series.length) {
+    return (
+      <div className={styles.noDataMessage} {...TEST_IDS.panel.noDataMessage.apply()}>
+        {fieldConfig.defaults?.noValue || 'No Value. You can change the text using the Standard options'}
+      </div>
+    );
+  }
 
   /**
    * Return

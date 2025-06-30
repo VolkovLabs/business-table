@@ -99,6 +99,7 @@ export const TEST_IDS = {
     dropdown: createSelector('data-testid panel dropdown'),
     buttonSetFormat: createSelector((name: unknown) => `data-testid panel button-set-format-${name}`),
     buttonOpenDrawer: createSelector((name: unknown) => `data-testid panel button-open-drawer-${name}`),
+    noDataMessage: createSelector('data-testid panel no-data-message'),
   },
   tablesEditor: {
     buttonAddNew: createSelector('data-testid tables-editor button-add-new'),

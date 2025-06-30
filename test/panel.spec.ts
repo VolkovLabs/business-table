@@ -283,6 +283,12 @@ test.describe('Business Table Panel', () => {
       await editPage.setVisualization('Business Table');
       await editPage.setPanelTitle('Business Table Test');
 
+      /**
+       * Set data source
+       */
+      await editPage.datasource.set('Grafana');
+      await editPage.refreshPanel();
+
       const panel = new PanelHelper(dashboardPage, 'Business Table Test');
 
       /**
