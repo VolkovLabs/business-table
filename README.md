@@ -12,8 +12,6 @@
 
 The **Business Table Panel** is a powerful and flexible Grafana plugin designed to elevate data visualization in table format. Tailored for business analytics and reporting dashboards, it offers advanced features like tree views, custom cell rendering, data editing, and export capabilities.
 
-### Overview
-
 📺 **Watch our overview video** to get started:
 
 [![Business Table Panel for Grafana | Overview and Tutorial for Beginners](https://raw.githubusercontent.com/volkovlabs/business-table/main/img/overview.png)](https://youtu.be/kOjt9Bl3VQo)
@@ -38,8 +36,6 @@ Run the following command in your terminal:
 ```bash
 grafana cli plugins install volkovlabs-table-panel
 ```
-
-### Guide
 
 📺 **Need help with installation?** Watch our guide:
 
