@@ -52,3 +52,10 @@ export const getFrameBySource = (series: DataFrame[], fieldSource: FieldSource):
 
   return series.find((frame) => frame.refId === fieldSource.source);
 };
+
+/**
+ * Get Value Index
+ */
+export const getValueIndex = (field: Field, value: unknown) => {
+  return field.values.findIndex((currentValue) => currentValue === value);
+};

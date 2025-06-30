@@ -4,21 +4,25 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). This changelog is intended to help users understand the evolution of the plugin, including new features, improvements, and fixes. Each version includes a summary of changes categorized as `Added`, `Changed`, `Fixed`, `Removed`, or `Breaking Changes` where applicable.
 
-## [3.0.0] - Unreleased
+## [3.0.0] - 2025-06-30
 
-### Breaking Changes
+We're excited to announce the upcoming release of version 3.0.0 of the Business Table plugin for Grafana. This release introduces new features, important compatibility updates, and several enhancements to improve your experience. Below are the detailed changes:
 
-- Requires Grafana 11 or Grafana 12 for compatibility.
+### ⚠️ Breaking Changes
 
-### Added
+- **Grafana Compatibility**: This version requires Grafana 11 or Grafana 12. Please ensure your Grafana instance is updated to a compatible version before upgrading.
 
-- Add the option to do striped rows ([#347](https://github.com/VolkovLabs/business-table/pull/347))
+### ✨ Added
 
-### Changed
+- **Striped Rows**: Added the option to enable striped rows for better readability of table data. ([#347](https://github.com/VolkovLabs/business-table/pull/347))
+- **No Data Message**: Introduced support for a customizable "No Data" message using standard options. ([#348](https://github.com/VolkovLabs/business-table/pull/348))
+- **File Name Option**: Added a new option to specify file names for File type cells. ([#349](https://github.com/VolkovLabs/business-table/pull/349))
 
-- Upgraded to Grafana 12.0 with updated dependencies. ([#344](https://github.com/VolkovLabs/business-table/pull/344))
-- Fix the cleanup action in the ‘live’ filter. ([#346](https://github.com/VolkovLabs/business-table/pull/346))
-- Updated userPreferences key to have Panel and Dashboard ID. ([#351](https://github.com/VolkovLabs/business-table/pull/351))
+### 🔄 Changed
+
+- **Grafana 12.0 Support**: Upgraded the plugin to support Grafana 12.0 with updated dependencies for improved performance and compatibility. ([#344](https://github.com/VolkovLabs/business-table/pull/344))
+- **Live Filter Fix**: Resolved an issue with the cleanup action in the 'live' filter for smoother filtering operations. ([#346](https://github.com/VolkovLabs/business-table/pull/346))
+- **User Preferences Update**: Updated the `userPreferences` key to include Panel and Dashboard IDs for more precise user settings management. ([#351](https://github.com/VolkovLabs/business-table/pull/351))
 
 ## [2.7.0] - 2025-06-24
 
