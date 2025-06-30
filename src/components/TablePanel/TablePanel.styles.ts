@@ -81,5 +81,14 @@ export const getStyles = (theme: GrafanaTheme2) => {
         background: ${theme.colors.background.secondary};
       }
     `,
+    noDataMessage: css`
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: ${theme.spacing(2)};
+      color: ${theme.colors.border.strong};
+    `,
   };
 };

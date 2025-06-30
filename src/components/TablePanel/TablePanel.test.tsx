@@ -1,4 +1,4 @@
-import { EventBusSrv } from '@grafana/data';
+import { EventBusSrv, toDataFrame } from '@grafana/data';
 import { config } from '@grafana/runtime';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { getJestSelectors } from '@volkovlabs/jest-selectors';
@@ -103,17 +103,35 @@ describe('TablePanel', () => {
   const getSelectors = getJestSelectors(TEST_IDS.panel);
   const selectors = getSelectors(screen);
 
+  const dataFrameA = toDataFrame({
+    fields: [
+      {
+        name: 'field1',
+      },
+      {
+        name: 'field2',
+      },
+    ],
+    refId: 'A',
+  });
+
   /**
    * Panel Data
    */
   const data = {
-    series: [],
+    series: [dataFrameA],
   };
 
   /**
    * Panel Options
    */
   const defaultOptions = createPanelOptions();
+
+  const defaultFieldConfig = {
+    defaults: {
+      noValue: '',
+    },
+  } as any;
 
   /**
    * Get Tested Component
@@ -126,6 +144,7 @@ describe('TablePanel', () => {
         data={data}
         options={defaultOptions}
         eventBus={eventBus}
+        fieldConfig={defaultFieldConfig}
         replaceVariables={replaceVariables}
         {...(props as any)}
       />
@@ -152,6 +171,51 @@ describe('TablePanel', () => {
   it('Should find component', async () => {
     await act(async () => render(getComponent({})));
     expect(selectors.root()).toBeInTheDocument();
+  });
+
+  it('Should return no data message if series is empty', async () => {
+    const emptyData = {
+      series: [],
+    } as any;
+
+    await act(async () =>
+      render(
+        getComponent({
+          data: emptyData,
+        })
+      )
+    );
+
+    expect(selectors.root(true)).not.toBeInTheDocument();
+    expect(selectors.noDataMessage()).toBeInTheDocument();
+    expect(selectors.noDataMessage()).toHaveTextContent('No Value. You can change the text using the Standard options');
+  });
+
+  it('Should return no data message from standard options if series is empty', async () => {
+    const emptyData = {
+      series: [],
+    } as any;
+
+    const noValueMessage = 'Sorry, no data';
+
+    const fieldConfig = {
+      defaults: {
+        noValue: noValueMessage,
+      },
+    } as any;
+
+    await act(async () =>
+      render(
+        getComponent({
+          data: emptyData,
+          fieldConfig,
+        })
+      )
+    );
+
+    expect(selectors.root(true)).not.toBeInTheDocument();
+    expect(selectors.noDataMessage()).toBeInTheDocument();
+    expect(selectors.noDataMessage()).toHaveTextContent(noValueMessage);
   });
 
   it('Should use first group', async () => {
