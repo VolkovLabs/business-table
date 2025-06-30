@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Upgraded to Grafana 12.0 with updated dependencies. ([#344](https://github.com/VolkovLabs/business-table/pull/344))
 - Fix the cleanup action in the ‘live’ filter. ([#346](https://github.com/VolkovLabs/business-table/pull/346))
+- Updated userPreferences key to have Panel and Dashboard ID. ([#351](https://github.com/VolkovLabs/business-table/pull/351))
 
 ## [2.7.0] - 2025-06-24
 

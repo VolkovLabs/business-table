@@ -83,6 +83,11 @@ export const TablePanel: React.FC<Props> = ({
   );
 
   /**
+   * currentDashboardId
+   */
+  const currentDashboardId = useMemo(() => replaceVariables('${__dashboard.uid}'), [replaceVariables]);
+
+  /**
    * Export format
    * allow to change correct format based on UI select and options change
    */
@@ -101,7 +106,7 @@ export const TablePanel: React.FC<Props> = ({
    * Current group
    */
   const [currentGroup, setCurrentGroup] = useSavedState<string>({
-    key: `volkovlabs.table.panel.${id}`,
+    key: `volkovlabs.table.panel.${id}.${currentDashboardId}`,
     initialValue: options.tables?.[0]?.name || '',
   });
 
@@ -109,7 +114,7 @@ export const TablePanel: React.FC<Props> = ({
    * User Preferences
    */
   const [userPreferences, setUserPreferences] = useSavedState<UserPreferences>({
-    key: `volkovlabs.table.panel.${id}.user.preferences`,
+    key: `volkovlabs.table.panel.${id}.${currentDashboardId}.user.preferences`,
     initialValue: {},
     enabled: options.saveUserPreference,
   });
