@@ -183,10 +183,12 @@ const filterModeOptions = [
   {
     value: ColumnFilterMode.CLIENT,
     label: 'Client',
+    description: 'Filtering is applied directly on the table data on the client side.',
   },
   {
     value: ColumnFilterMode.QUERY,
     label: 'Query',
+    description: 'Filter updates a variable and fetches new data from the query.',
   },
 ];
 
@@ -1005,6 +1007,7 @@ export const ColumnEditor: React.FC<Props> = ({ value, onChange, data, isAggrega
           <InlineFieldRow>
             <InlineField label="Mode">
               <Select
+                width={20}
                 value={value.filter.mode}
                 onChange={(event) => {
                   onChange({
