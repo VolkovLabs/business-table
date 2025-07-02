@@ -4,6 +4,12 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html). This changelog is intended to help users understand the evolution of the plugin, including new features, improvements, and fixes. Each version includes a summary of changes categorized as `Added`, `Changed`, `Fixed`, `Removed`, or `Breaking Changes` where applicable.
 
+## [3.1.0] - Unreleased
+
+### ✨ Added
+
+- Add filter mode options description. ([#353](https://github.com/VolkovLabs/business-table/pull/353))
+
 ## [3.0.0] - 2025-06-30
 
 We're excited to announce the upcoming release of version 3.0.0 of the Business Table plugin for Grafana. This release introduces new features, important compatibility updates, and several enhancements to improve your experience. Below are the detailed changes:
