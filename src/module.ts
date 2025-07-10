@@ -1,4 +1,5 @@
 import { PanelPlugin } from '@grafana/data';
+import { getAvailableIcons } from '@grafana/ui';
 
 import {
   AddDataEditor,
@@ -22,6 +23,19 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
   .useFieldConfig({})
   .setMigrationHandler(getMigratedOptions)
   .setPanelOptions((builder) => {
+    /**
+     * Icon Options
+     */
+    const iconOptions = getAvailableIcons()
+      .sort((a, b) => a.localeCompare(b))
+      .map((icon) => {
+        return {
+          value: icon,
+          label: icon,
+          icon: icon,
+        };
+      });
+
     builder
       .addMultiSelect({
         path: 'toolbar.exportFormats',
@@ -130,6 +144,33 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         name: 'Column Manager',
         description: 'Allowing column display management in a drawer.',
         category: ['Advanced'],
+      })
+      .addBooleanSwitch({
+        path: 'isColumnManagerShowCustomIcon',
+        name: 'Show Custom Icon',
+        description: 'Show custom icon for the column manager button.',
+        category: ['Advanced'],
+        showIf: (config) => config.isColumnManagerAvailable,
+        defaultValue: false,
+      })
+      .addSelect({
+        path: 'columnManagerNativeIcon',
+        name: 'Column Manager Native Icon',
+        description: 'Use native icon for the column manager button.',
+        category: ['Advanced'],
+        showIf: (config) => config.isColumnManagerAvailable && !config.isColumnManagerShowCustomIcon,
+        settings: {
+          options: iconOptions,
+        },
+        defaultValue: 'table',
+      })
+      .addTextInput({
+        path: 'columnManagerCustomIcon',
+        name: 'Column Manager Custom Icon',
+        description: 'Custom icon for the column manager button.',
+        category: ['Advanced'],
+        showIf: (config) => config.isColumnManagerAvailable && config.isColumnManagerShowCustomIcon,
+        defaultValue: '',
       })
       .addBooleanSwitch({
         path: 'externalExport.enabled',

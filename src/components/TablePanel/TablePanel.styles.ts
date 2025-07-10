@@ -81,6 +81,13 @@ export const getStyles = (theme: GrafanaTheme2) => {
         background: ${theme.colors.background.secondary};
       }
     `,
+    customIcon: css`
+      width: 1em;
+      height: 1em;
+      margin-left: ${theme.spacing(1)};
+      vertical-align: middle;
+      cursor: pointer;
+    `,
     noDataMessage: css`
       width: 100%;
       height: 100%;
