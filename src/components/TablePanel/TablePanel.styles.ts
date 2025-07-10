@@ -61,8 +61,9 @@ export const getStyles = (theme: GrafanaTheme2) => {
         text-overflow: ellipsis;
       }
     `,
-    downloadButtons: css`
-      flex-direction: row !important;
+    menu: css`
+      background: ${theme.colors.background.primary};
+      border-radius: 2px;
     `,
     menuItem: css`
       background: ${theme.colors.background.primary};
@@ -70,6 +71,9 @@ export const getStyles = (theme: GrafanaTheme2) => {
         z-index: ${theme.zIndex.dropdown};
         background: ${theme.colors.background.secondary};
       }
+    `,
+    menuItemButtton: css`
+      margin-left: ${theme.spacing(0.5)};
     `,
     drawerButton: css`
       margin-left: ${theme.spacing(1)};

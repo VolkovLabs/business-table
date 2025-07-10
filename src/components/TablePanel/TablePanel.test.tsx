@@ -51,14 +51,14 @@ jest.mock('../../hooks/useSavedState', () => ({
 }));
 
 const onExportMock = jest.fn();
-const useExportDataMock = () => onExportMock;
+const useExportDataMock = () => ({ table }: { table: any }) => onExportMock(table);
 
 jest.mock('../../hooks/useExportData', () => ({
   useExportData: jest.fn(),
 }));
 
 const onExternalExportMock = jest.fn();
-const useExternalExportMock = () => onExternalExportMock;
+const useExternalExportMock = () => ({ table }: { table: any }) => onExternalExportMock(table);
 
 jest.mock('../../hooks/useExternalExport', () => ({
   useExternalExport: jest.fn(),
@@ -332,9 +332,12 @@ describe('TablePanel', () => {
       )
     );
 
-    expect(selectors.buttonDownload()).toBeInTheDocument();
+    expect(selectors.dropdown()).toBeInTheDocument();
 
     fireEvent.click(selectors.buttonDownload());
+
+    expect(selectors.buttonSetFormat(true, 'csv')).toBeInTheDocument();
+    await act(() => fireEvent.click(selectors.buttonSetFormat(false, 'csv')));
 
     expect(onExportMock).toHaveBeenCalled();
   });
@@ -366,7 +369,7 @@ describe('TablePanel', () => {
     expect(onExternalExportMock).toHaveBeenCalled();
   });
 
-  it('Should allow to change download format data', async () => {
+  it('Should allow to select download format from dropdown', async () => {
     const tables = [createTableConfig({})];
 
     await act(async () =>
@@ -384,8 +387,6 @@ describe('TablePanel', () => {
     );
 
     expect(selectors.dropdown()).toBeInTheDocument();
-    expect(selectors.buttonFormat()).toBeInTheDocument();
-    expect(selectors.buttonFormat()).toHaveTextContent('csv');
 
     expect(selectors.buttonSetFormat(true, 'csv')).not.toBeInTheDocument();
     expect(selectors.buttonSetFormat(true, 'xlsx')).not.toBeInTheDocument();
@@ -393,23 +394,25 @@ describe('TablePanel', () => {
     /**
      * Open Dropdown menu
      */
-    fireEvent.click(selectors.dropdown());
+    fireEvent.click(selectors.buttonDownload());
 
     expect(selectors.buttonSetFormat(true, 'csv')).toBeInTheDocument();
     expect(selectors.buttonSetFormat(true, 'xlsx')).toBeInTheDocument();
 
     /**
-     * Change format
+     * Select XLSX format
      */
     await act(() => fireEvent.click(selectors.buttonSetFormat(false, 'xlsx')));
-    expect(selectors.buttonFormat()).toHaveTextContent('xlsx');
+    expect(onExportMock).toHaveBeenCalled();
+
+    onExportMock.mockClear();
 
     /**
-     * Change format
+     * Open dropdown again and select CSV
      */
-    fireEvent.click(selectors.dropdown());
+    fireEvent.click(selectors.buttonDownload());
     await act(() => fireEvent.click(selectors.buttonSetFormat(false, 'csv')));
-    expect(selectors.buttonFormat()).toHaveTextContent('csv');
+    expect(onExportMock).toHaveBeenCalled();
   });
 
   it('Should show ScrollContainer since grafana 11.5.0', async () => {
