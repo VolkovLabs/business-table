@@ -125,5 +125,41 @@ describe('plugin', () => {
 
       expect(shownOptionsPaths).toEqual(expect.arrayContaining(['tabsSorting']));
     });
+
+    it('Should show columnManagerNativeIcon when column manager is available and custom icon is disabled', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addSelect.mockImplementation(
+        addInputImplementation(
+          {
+            isColumnManagerAvailable: true,
+            isColumnManagerShowCustomIcon: false,
+          },
+          shownOptionsPaths
+        )
+      );
+
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['columnManagerNativeIcon']));
+    });
+
+    it('Should show columnManagerCustomIcon when column manager is available and custom icon is enabled', () => {
+      const shownOptionsPaths: string[] = [];
+
+      builder.addTextInput.mockImplementation(
+        addInputImplementation(
+          {
+            isColumnManagerAvailable: true,
+            isColumnManagerShowCustomIcon: true,
+          },
+          shownOptionsPaths
+        )
+      );
+
+      plugin['optionsSupplier'](builder);
+
+      expect(shownOptionsPaths).toEqual(expect.arrayContaining(['columnManagerCustomIcon']));
+    });
   });
 });

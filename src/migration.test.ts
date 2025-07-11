@@ -737,34 +737,43 @@ describe('migration', () => {
   });
 
   describe('2.5.0', () => {
-    it('Should normalize saveUserPreference, showFiltersInColumnManager, isColumnManagerAvailable', async () => {
+    it('Should normalize saveUserPreference, showFiltersInColumnManager, isColumnManagerAvailable, isColumnManagerShowCustomIcon, columnManagerNativeIcon, columnManagerCustomIcon', async () => {
       expect(await getMigratedOptions({ options: {} } as any)).toEqual(
         expect.objectContaining({
           saveUserPreference: false,
           showFiltersInColumnManager: false,
           isColumnManagerAvailable: false,
+          isColumnManagerShowCustomIcon: false,
+          columnManagerNativeIcon: 'table',
+          columnManagerCustomIcon: '',
         })
       );
       expect(
         await getMigratedOptions({
-          options: { saveUserPreference: false, showFiltersInColumnManager: false, isColumnManagerAvailable: false },
+          options: { saveUserPreference: false, showFiltersInColumnManager: false, isColumnManagerAvailable: false, isColumnManagerShowCustomIcon: false, columnManagerNativeIcon: 'table', columnManagerCustomIcon: ''},
         } as any)
       ).toEqual(
         expect.objectContaining({
           saveUserPreference: false,
           showFiltersInColumnManager: false,
           isColumnManagerAvailable: false,
+          isColumnManagerShowCustomIcon: false,
+          columnManagerNativeIcon: 'table',
+          columnManagerCustomIcon: '',
         })
       );
       expect(
         await getMigratedOptions({
-          options: { saveUserPreference: true, showFiltersInColumnManager: true, isColumnManagerAvailable: true },
+          options: { saveUserPreference: true, showFiltersInColumnManager: true, isColumnManagerAvailable: true, isColumnManagerShowCustomIcon: true, columnManagerNativeIcon: 'add-user', columnManagerCustomIcon: 'url'},
         } as any)
       ).toEqual(
         expect.objectContaining({
           saveUserPreference: true,
           showFiltersInColumnManager: true,
           isColumnManagerAvailable: true,
+          isColumnManagerShowCustomIcon: true,
+          columnManagerNativeIcon: 'add-user',
+          columnManagerCustomIcon: 'url',
         })
       );
     });

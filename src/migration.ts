@@ -543,6 +543,28 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
   }
 
   /**
+   * Normalize isColumnManagerShowCustomIcon
+   */
+  if (options.isColumnManagerShowCustomIcon === undefined) {
+    options.isColumnManagerShowCustomIcon = false;
+  }
+
+  /**
+   * Normalize columnManagerNativeIcon
+   */
+  if (options.columnManagerNativeIcon === undefined) {
+    options.columnManagerNativeIcon = 'table';
+  }
+
+  /**
+   * Normalize columnManagerCustomIcon
+   */
+  if (options.columnManagerCustomIcon === undefined) {
+    options.columnManagerCustomIcon = '';
+  }
+
+
+  /**
    * Normalize showSortingInColumnManager
    */
   if (options.showSortingInColumnManager === undefined) {

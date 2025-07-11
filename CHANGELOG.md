@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### ✨ Added
 
-- Add filter mode options description. ([#353](https://github.com/VolkovLabs/business-table/pull/353))
+- Added filter mode options description. ([#353](https://github.com/VolkovLabs/business-table/pull/353))
+- Added the ability to select native/custom icon for the column manager. ([#360](https://github.com/VolkovLabs/business-table/pull/360))
 
 ## [3.0.0] - 2025-06-30
 
