@@ -332,14 +332,28 @@ export const TablePanel: React.FC<Props> = ({
               {options.isColumnManagerAvailable && currentTable && sortedGroups.length === 1 && (
                 <>
                   {replaceVariables(currentTable.name)}
-                  <Icon
-                    className={styles.drawerButton}
-                    name="table"
-                    aria-label="open-drawer"
-                    onClick={() => setDrawerOpen(true)}
-                    size="xl"
-                    {...TEST_IDS.panel.buttonOpenDrawer.apply(currentTable?.name)}
-                  />
+                  {!options.isColumnManagerShowCustomIcon && (
+                    <Icon
+                      className={styles.drawerButton}
+                      name={options.columnManagerNativeIcon}
+                      aria-label="open-drawer"
+                      onClick={() => setDrawerOpen(true)}
+                      size="xl"
+                      {...TEST_IDS.panel.buttonOpenDrawer.apply(currentTable?.name)}
+                    />
+                  )}
+
+                  {options.isColumnManagerShowCustomIcon &&
+                    options.columnManagerCustomIcon &&
+                    !!options.columnManagerCustomIcon.length && (
+                      <img
+                        src={options.columnManagerCustomIcon}
+                        alt={currentTable?.name}
+                        className={styles.customIcon}
+                        onClick={() => setDrawerOpen(true)}
+                        {...TEST_IDS.panel.customIconOpenDrawer.apply(currentTable?.name)}
+                      />
+                    )}
                 </>
               )}
               {sortedGroups.length > 1 &&

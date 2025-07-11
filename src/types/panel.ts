@@ -1,5 +1,6 @@
 import { Field } from '@grafana/data';
 import { BarGaugeDisplayMode, BarGaugeValueMode } from '@grafana/schema';
+import { IconName } from '@grafana/ui';
 
 import { ColumnEditorConfig, ColumnEditorControlOptions } from './column-editor';
 import { FieldSource } from './frame';
@@ -820,6 +821,27 @@ export interface PanelOptions {
   isColumnManagerAvailable: boolean;
 
   /**
+   * Show Custom Icons in Column Manager
+   *
+   * @type {boolean}
+   */
+  isColumnManagerShowCustomIcon: boolean
+
+  /**
+   * Column Manager Native Icon
+   *
+   * @type {IconName}
+   */
+  columnManagerNativeIcon: IconName;
+
+  /**
+   * Column Manager Custom Icon
+   *
+   * @type {string}
+   */
+  columnManagerCustomIcon: string;
+
+  /**
    * Filter UI manager
    *
    * @type {boolean}
@@ -867,10 +889,10 @@ export interface PanelOptions {
  */
 export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends Array<infer U>
-    ? Array<RecursivePartial<U>>
-    : T[P] extends object | undefined
-      ? RecursivePartial<T[P]>
-      : T[P];
+  ? Array<RecursivePartial<U>>
+  : T[P] extends object | undefined
+  ? RecursivePartial<T[P]>
+  : T[P];
 };
 
 /**

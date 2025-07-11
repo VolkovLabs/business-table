@@ -566,6 +566,49 @@ describe('TablePanel', () => {
     expect(Table).toHaveBeenLastCalledWith(expect.objectContaining({ isDrawerOpen: true }), expect.anything());
   });
 
+  it('Should show open Drawer Button with custom icon', async () => {
+    const tables = [
+      createTableConfig({
+        name: 'group1',
+        items: [
+          createColumnConfig({
+            field: { name: 'group1Field', source: '' },
+          }),
+        ],
+      }),
+    ];
+
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            tables,
+            isColumnManagerAvailable: true,
+            isColumnManagerShowCustomIcon: true,
+            columnManagerCustomIcon: 'custom-icon',
+          }),
+        })
+      )
+    );
+    expect(selectors.customIconOpenDrawer(false, 'group1')).toBeInTheDocument();
+    await act(async () => fireEvent.click(selectors.customIconOpenDrawer(false, 'group1')));
+
+    expect(useTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        columns: [
+          expect.objectContaining({
+            field: {
+              name: 'group1Field',
+              source: '',
+            },
+          }),
+        ],
+      })
+    );
+
+    expect(Table).toHaveBeenLastCalledWith(expect.objectContaining({ isDrawerOpen: true }), expect.anything());
+  });
+
   it('Should show open Drawer Button for current group', async () => {
     const tables = [
       createTableConfig({
