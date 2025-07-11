@@ -373,22 +373,38 @@ export const TablePanel: React.FC<Props> = ({
                   >
                     {replaceVariables(group.name)}
                     {options.isColumnManagerAvailable && currentGroup === group.name && (
-                      <Icon
-                        className={styles.drawerButton}
-                        name="table"
-                        aria-label="open-drawer"
-                        onClick={() => setDrawerOpen(true)}
-                        size="xl"
-                        {...TEST_IDS.panel.buttonOpenDrawer.apply(group.name)}
-                      />
+                      <>
+                        {!options.isColumnManagerShowCustomIcon && (
+                          <Icon
+                            className={styles.drawerButton}
+                            name={options.columnManagerNativeIcon}
+                            aria-label="open-drawer"
+                            onClick={() => setDrawerOpen(true)}
+                            size="xl"
+                            {...TEST_IDS.panel.buttonOpenDrawer.apply(currentTable?.name)}
+                          />
+                        )}
+
+                        {options.isColumnManagerShowCustomIcon &&
+                          options.columnManagerCustomIcon &&
+                          !!options.columnManagerCustomIcon.length && (
+                            <img
+                              src={options.columnManagerCustomIcon}
+                              alt={currentTable?.name}
+                              className={styles.customIcon}
+                              onClick={() => setDrawerOpen(true)}
+                              {...TEST_IDS.panel.customIconOpenDrawer.apply(currentTable?.name)}
+                            />
+                          )}
+                      </>
                     )}
                   </ToolbarButton>
                 ))}
               {isExportAvailable && options.toolbar.exportFormats && options.toolbar.exportFormats.length === 1 && (
-                <Button 
-                  icon="download-alt" 
-                  variant="secondary" 
-                  size="sm" 
+                <Button
+                  icon="download-alt"
+                  variant="secondary"
+                  size="sm"
                   onClick={() => handleExport(options.toolbar.exportFormats![0])}
                   {...TEST_IDS.panel.buttonDownload.apply()}
                 >

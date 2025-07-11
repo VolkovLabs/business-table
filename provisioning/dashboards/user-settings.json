@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 12,
   "links": [],
   "panels": [
     {
@@ -59,6 +59,8 @@
       },
       "id": 6,
       "options": {
+        "columnManagerCustomIcon": "",
+        "columnManagerNativeIcon": "cog",
         "columnMode": "auto",
         "columns": [],
         "externalExport": {
@@ -69,6 +71,7 @@
           }
         },
         "isColumnManagerAvailable": true,
+        "isColumnManagerShowCustomIcon": false,
         "nestedObjects": [],
         "saveUserPreference": false,
         "showFiltersInColumnManager": false,
@@ -745,6 +748,7 @@
               "variable": ""
             },
             "showHeader": true,
+            "stripedRows": false,
             "update": {
               "datasource": "",
               "payload": {}
@@ -1007,6 +1011,7 @@
               "variable": ""
             },
             "showHeader": true,
+            "stripedRows": false,
             "update": {
               "datasource": "",
               "payload": {}
@@ -1089,7 +1094,7 @@
           "refId": "A"
         }
       ],
-      "title": "Column Manager with sorting (city, value)",
+      "title": "Column Manager with sorting (city, value) with custom icons",
       "type": "volkovlabs-table-panel"
     },
     {
