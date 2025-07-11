@@ -384,7 +384,18 @@ export const TablePanel: React.FC<Props> = ({
                     )}
                   </ToolbarButton>
                 ))}
-              {isExportAvailable && (
+              {isExportAvailable && options.toolbar.exportFormats && options.toolbar.exportFormats.length === 1 && (
+                <Button 
+                  icon="download-alt" 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={() => handleExport(options.toolbar.exportFormats![0])}
+                  {...TEST_IDS.panel.buttonDownload.apply()}
+                >
+                  Download
+                </Button>
+              )}
+              {isExportAvailable && options.toolbar.exportFormats && options.toolbar.exportFormats.length > 1 && (
                 <Dropdown overlay={exportFormatsMenu} {...TEST_IDS.panel.dropdown.apply()}>
                   <Button icon="download-alt" variant="secondary" size="sm" {...TEST_IDS.panel.buttonDownload.apply()}>
                     Download

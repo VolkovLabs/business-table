@@ -415,6 +415,36 @@ describe('TablePanel', () => {
     expect(onExportMock).toHaveBeenCalled();
   });
 
+  it('Should directly export when only one format is available', async () => {
+    const tables = [createTableConfig({})];
+
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            tables,
+            toolbar: createToolbarOptions({
+              export: false,
+              exportFormats: [ExportFormatType.CSV],
+            }),
+          }),
+        })
+      )
+    );
+
+    /**
+     * Should show direct download button, not dropdown
+     */
+    expect(selectors.buttonDownload()).toBeInTheDocument();
+    expect(selectors.dropdown(true)).not.toBeInTheDocument();
+
+    /**
+     * Click download button should directly export
+     */
+    await act(() => fireEvent.click(selectors.buttonDownload()));
+    expect(onExportMock).toHaveBeenCalled();
+  });
+
   it('Should show ScrollContainer since grafana 11.5.0', async () => {
     /**
      * Set version 11.5.0
