@@ -6,14 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [3.1.0] - Unreleased
 
+This update brings new features and enhancements designed to improve functionality and user experience.
+
 ### ✨ Added
 
-- Added filter mode options description. ([#353](https://github.com/VolkovLabs/business-table/pull/353))
-- Added the ability to select native/custom icon for the column manager. ([#360](https://github.com/VolkovLabs/business-table/pull/360))
+- **Filter Mode Options Description**: Introduced detailed descriptions for filter mode options to help users better understand and utilize filtering capabilities. ([#353](https://github.com/VolkovLabs/business-table/pull/353))
+- **Custom Icon Selection for Column Manager**: Added the ability to choose between native and custom icons in the column manager, providing greater flexibility in table customization. ([#360](https://github.com/VolkovLabs/business-table/pull/360))
+
+### 🔄 Changed
+
+- **Enhanced Export Functionality**: Updated the export feature to streamline the process, making it more intuitive and user-friendly for exporting table data. ([#358](https://github.com/VolkovLabs/business-table/pull/358))
 
 ## [3.0.0] - 2025-06-30
 
-We're excited to announce the upcoming release of version 3.0.0 of the Business Table plugin for Grafana. This release introduces new features, important compatibility updates, and several enhancements to improve your experience. Below are the detailed changes:
+This release introduces new features, important compatibility updates, and several enhancements to improve your experience.
 
 ### ⚠️ Breaking Changes
 
