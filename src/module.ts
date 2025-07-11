@@ -146,46 +146,16 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         category: ['Advanced'],
       })
       .addBooleanSwitch({
-        path: 'isColumnManagerShowCustomIcon',
-        name: 'Show Custom Icon',
-        description: 'Show custom icon for the column manager button.',
-        category: ['Advanced'],
-        showIf: (config) => config.isColumnManagerAvailable,
-        defaultValue: false,
-      })
-      .addSelect({
-        path: 'columnManagerNativeIcon',
-        name: 'Column Manager Native Icon',
-        description: 'Use native icon for the column manager button.',
-        category: ['Advanced'],
-        showIf: (config) => config.isColumnManagerAvailable && !config.isColumnManagerShowCustomIcon,
-        settings: {
-          options: iconOptions,
-        },
-        defaultValue: 'table',
-      })
-      .addTextInput({
-        path: 'columnManagerCustomIcon',
-        name: 'Column Manager Custom Icon',
-        description: 'Custom icon for the column manager button.',
-        category: ['Advanced'],
-        showIf: (config) => config.isColumnManagerAvailable && config.isColumnManagerShowCustomIcon,
-        defaultValue: '',
-      })
-      .addBooleanSwitch({
         path: 'externalExport.enabled',
         name: 'External export',
         description: 'Allowing external table export',
         category: ['Advanced'],
-      })
-      .addCustomEditor({
-        id: 'externalExport',
-        path: 'externalExport',
-        name: '',
-        editor: ExternalExportEditor,
-        showIf: (config) => config.externalExport?.enabled,
-        category: ['External Export'],
-      })
+      });
+
+    /**
+     * Column Manager
+     */
+    builder
       .addBooleanSwitch({
         path: 'showFiltersInColumnManager',
         name: 'Show filters',
@@ -199,7 +169,46 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
         description: 'Allowing use sorting for columns.',
         showIf: (config) => config.isColumnManagerAvailable,
         category: ['Column Manager'],
+      })
+      .addBooleanSwitch({
+        path: 'isColumnManagerShowCustomIcon',
+        name: 'Show Custom Icon',
+        description: 'Show custom icon for the column manager button.',
+        category: ['Column Manager'],
+        showIf: (config) => config.isColumnManagerAvailable,
+        defaultValue: false,
+      })
+      .addSelect({
+        path: 'columnManagerNativeIcon',
+        name: 'Native Icon',
+        description: 'Use native icon for the column manager button.',
+        category: ['Column Manager'],
+        showIf: (config) => config.isColumnManagerAvailable && !config.isColumnManagerShowCustomIcon,
+        settings: {
+          options: iconOptions,
+        },
+        defaultValue: 'table',
+      })
+      .addTextInput({
+        path: 'columnManagerCustomIcon',
+        name: 'Custom Icon URL',
+        description: 'Custom icon for the column manager button.',
+        category: ['Column Manager'],
+        showIf: (config) => config.isColumnManagerAvailable && config.isColumnManagerShowCustomIcon,
+        defaultValue: '',
       });
+
+    /**
+     * External Export
+     */
+    builder.addCustomEditor({
+      id: 'externalExport',
+      path: 'externalExport',
+      name: '',
+      editor: ExternalExportEditor,
+      showIf: (config) => config.externalExport?.enabled,
+      category: ['External Export'],
+    });
 
     return builder;
   });
