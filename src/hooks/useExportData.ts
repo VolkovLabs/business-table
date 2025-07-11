@@ -21,18 +21,16 @@ export const useExportData = <TData>({
   columns,
   tableConfig,
   panelTitle,
-  exportFormat,
   replaceVariables,
 }: {
   data: TData[];
   columns: Array<ColumnDef<TData>>;
   tableConfig?: TableConfig;
   panelTitle: string;
-  exportFormat: ExportFormatType;
   replaceVariables: InterpolateFunction;
 }) => {
   return useCallback(
-    ({ table }: { table: Table<TData> | null }) => {
+    ({ table, exportFormat }: { table: Table<TData> | null, exportFormat: ExportFormatType }) => {
       if (!table) {
         return;
       }
@@ -106,6 +104,6 @@ export const useExportData = <TData>({
        */
       return downloadCsv(content, `${prefix}${dateTimeFormat(new Date())}`);
     },
-    [columns, data, exportFormat, panelTitle, replaceVariables, tableConfig?.name]
+    [columns, data, panelTitle, replaceVariables, tableConfig?.name]
   );
 };

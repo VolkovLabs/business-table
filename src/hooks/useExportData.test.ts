@@ -68,12 +68,11 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
-        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
 
-    result.current({ table: null });
+    result.current({ table: null, exportFormat: ExportFormatType.CSV });
 
     expect(downloadCsv).not.toHaveBeenCalled();
     expect(replaceVariables).not.toHaveBeenCalled();
@@ -107,7 +106,6 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
-        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
@@ -131,7 +129,7 @@ describe('useExportData', () => {
       },
     });
 
-    result.current({ table });
+    result.current({ table, exportFormat: ExportFormatType.CSV });
 
     expect(replaceVariables).toHaveBeenCalled();
     expect(downloadCsv).toHaveBeenCalledWith(
@@ -176,7 +174,6 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
-        exportFormat: ExportFormatType.CSV,
         replaceVariables,
       })
     );
@@ -200,7 +197,7 @@ describe('useExportData', () => {
       },
     });
 
-    result.current({ table });
+    result.current({ table, exportFormat: ExportFormatType.CSV });
 
     expect(downloadCsv).toHaveBeenCalledWith(
       toCSV([
@@ -244,7 +241,6 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
-        exportFormat: ExportFormatType.XLSX,
         replaceVariables,
       })
     );
@@ -268,7 +264,7 @@ describe('useExportData', () => {
       },
     });
 
-    result.current({ table });
+    result.current({ table, exportFormat: ExportFormatType.XLSX });
 
     expect(replaceVariables).toHaveBeenCalled();
     expect(downloadXlsx).toHaveBeenCalledWith(mockedXlsxContent, expect.any(String), 'hello');

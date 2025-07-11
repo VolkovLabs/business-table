@@ -2,10 +2,10 @@ import { PanelProps } from '@grafana/data';
 import { config } from '@grafana/runtime';
 import {
   Button,
-  ButtonGroup,
   ClickOutsideWrapper,
   Dropdown,
   Icon,
+  Menu,
   MenuItem,
   ScrollContainer,
   ToolbarButton,
@@ -72,7 +72,6 @@ export const TablePanel: React.FC<Props> = ({
    * State
    */
   const [error, setError] = useState('');
-  const [downloadFormat, setDownloadFormat] = useState(ExportFormatType.CSV);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   /**
@@ -87,21 +86,6 @@ export const TablePanel: React.FC<Props> = ({
    * currentDashboardId
    */
   const currentDashboardId = useMemo(() => replaceVariables('${__dashboard.uid}'), [replaceVariables]);
-
-  /**
-   * Export format
-   * allow to change correct format based on UI select and options change
-   */
-  const exportFormat = useMemo(() => {
-    if (isExportAvailable) {
-      if (!downloadFormat) {
-        return options.toolbar.exportFormats[0];
-      }
-      return downloadFormat as ExportFormatType;
-    }
-
-    return ExportFormatType.XLSX;
-  }, [downloadFormat, isExportAvailable, options.toolbar.exportFormats]);
 
   /**
    * Current group
@@ -276,16 +260,25 @@ export const TablePanel: React.FC<Props> = ({
   const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete', setError });
 
   /**
-   * Export
+   * Export Data
    */
-  const onExport = useExportData({
+  const exportData = useExportData({
     data: tableData,
     columns,
     tableConfig: currentTable,
     panelTitle: title,
-    exportFormat: exportFormat,
     replaceVariables,
   });
+
+  /**
+   * Export different formats handler
+   */
+  const handleExport = useCallback(
+    (format: ExportFormatType) => {
+      return exportData({ table: tableInstance.current as never, exportFormat: format });
+    },
+    [exportData]
+  );
 
   /**
    * Export
@@ -300,22 +293,22 @@ export const TablePanel: React.FC<Props> = ({
 
   const exportFormatsMenu = useMemo(() => {
     return (
-      <>
-        {options?.toolbar?.exportFormats?.map((exportformat) => {
+      <Menu>
+        {options?.toolbar?.exportFormats?.map((exportFormat) => {
           return (
             <MenuItem
-              key={exportformat}
-              label={exportformat}
-              onClick={() => setDownloadFormat(exportformat)}
+              key={exportFormat}
+              label={exportFormat}
+              onClick={() => handleExport(exportFormat)}
               className={styles.menuItem}
-              ariaLabel={`Set ${exportformat} format`}
-              {...TEST_IDS.panel.buttonSetFormat.apply(exportformat)}
+              ariaLabel={`Download as ${exportFormat}`}
+              {...TEST_IDS.panel.buttonSetFormat.apply(exportFormat)}
             />
           );
         })}
-      </>
+      </Menu>
     );
-  }, [options?.toolbar?.exportFormats, styles.menuItem]);
+  }, [options?.toolbar?.exportFormats, styles.menuItem, handleExport]);
 
   /**
    * On after scroll
@@ -391,23 +384,24 @@ export const TablePanel: React.FC<Props> = ({
                     )}
                   </ToolbarButton>
                 ))}
-              {isExportAvailable && (
-                <ButtonGroup className={styles.downloadButtons}>
-                  <Button
-                    icon="download-alt"
-                    onClick={() => onExport({ table: tableInstance.current as never })}
-                    variant="secondary"
-                    size="sm"
-                    {...TEST_IDS.panel.buttonDownload.apply()}
-                  >
+              {isExportAvailable && options.toolbar.exportFormats && options.toolbar.exportFormats.length === 1 && (
+                <Button 
+                  icon="download-alt" 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={() => handleExport(options.toolbar.exportFormats![0])}
+                  {...TEST_IDS.panel.buttonDownload.apply()}
+                >
+                  Download
+                </Button>
+              )}
+              {isExportAvailable && options.toolbar.exportFormats && options.toolbar.exportFormats.length > 1 && (
+                <Dropdown overlay={exportFormatsMenu} {...TEST_IDS.panel.dropdown.apply()}>
+                  <Button icon="download-alt" variant="secondary" size="sm" {...TEST_IDS.panel.buttonDownload.apply()}>
                     Download
+                    <Icon name="angle-down" className={styles.menuItemButton} />
                   </Button>
-                  <Dropdown overlay={exportFormatsMenu} {...TEST_IDS.panel.dropdown.apply()}>
-                    <Button variant="secondary" size="sm" icon="angle-down" {...TEST_IDS.panel.buttonFormat.apply()}>
-                      {exportFormat}
-                    </Button>
-                  </Dropdown>
-                </ButtonGroup>
+                </Dropdown>
               )}
               {options.externalExport?.enabled && (
                 <Button
