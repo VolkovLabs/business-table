@@ -72,7 +72,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
         background: ${theme.colors.background.secondary};
       }
     `,
-    menuItemButtton: css`
+    menuItemButton: css`
       margin-left: ${theme.spacing(0.5)};
     `,
     drawerButton: css`

@@ -260,26 +260,13 @@ export const TablePanel: React.FC<Props> = ({
   const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete', setError });
 
   /**
-   * Export CSV
+   * Export Data
    */
-  const exportCsv = useExportData({
+  const exportData = useExportData({
     data: tableData,
     columns,
     tableConfig: currentTable,
     panelTitle: title,
-    exportFormat: ExportFormatType.CSV,
-    replaceVariables,
-  });
-
-  /**
-   * Export XLSX
-   */
-  const exportXlsx = useExportData({
-    data: tableData,
-    columns,
-    tableConfig: currentTable,
-    panelTitle: title,
-    exportFormat: ExportFormatType.XLSX,
     replaceVariables,
   });
 
@@ -288,10 +275,9 @@ export const TablePanel: React.FC<Props> = ({
    */
   const handleExport = useCallback(
     (format: ExportFormatType) => {
-      const exportFunction = format === ExportFormatType.CSV ? exportCsv : exportXlsx;
-      return exportFunction({ table: tableInstance.current as never });
+      return exportData({ table: tableInstance.current as never, exportFormat: format });
     },
-    [exportCsv, exportXlsx]
+    [exportData]
   );
 
   /**
@@ -308,15 +294,15 @@ export const TablePanel: React.FC<Props> = ({
   const exportFormatsMenu = useMemo(() => {
     return (
       <Menu>
-        {options?.toolbar?.exportFormats?.map((exportformat) => {
+        {options?.toolbar?.exportFormats?.map((exportFormat) => {
           return (
             <MenuItem
-              key={exportformat}
-              label={exportformat}
-              onClick={() => handleExport(exportformat)}
+              key={exportFormat}
+              label={exportFormat}
+              onClick={() => handleExport(exportFormat)}
               className={styles.menuItem}
-              ariaLabel={`Download as ${exportformat}`}
-              {...TEST_IDS.panel.buttonSetFormat.apply(exportformat)}
+              ariaLabel={`Download as ${exportFormat}`}
+              {...TEST_IDS.panel.buttonSetFormat.apply(exportFormat)}
             />
           );
         })}
@@ -399,7 +385,7 @@ export const TablePanel: React.FC<Props> = ({
                 <Dropdown overlay={exportFormatsMenu} {...TEST_IDS.panel.dropdown.apply()}>
                   <Button icon="download-alt" variant="secondary" size="sm" {...TEST_IDS.panel.buttonDownload.apply()}>
                     Download
-                    <Icon name="angle-down" className={styles.menuItemButtton} />
+                    <Icon name="angle-down" className={styles.menuItemButton} />
                   </Button>
                 </Dropdown>
               )}

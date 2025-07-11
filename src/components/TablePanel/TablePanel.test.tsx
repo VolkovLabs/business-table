@@ -51,7 +51,7 @@ jest.mock('../../hooks/useSavedState', () => ({
 }));
 
 const onExportMock = jest.fn();
-const useExportDataMock = () => ({ table }: { table: any }) => onExportMock(table);
+const useExportDataMock = () => ({ table, exportFormat }: { table: any; exportFormat: any }) => onExportMock(table, exportFormat);
 
 jest.mock('../../hooks/useExportData', () => ({
   useExportData: jest.fn(),
