@@ -287,7 +287,6 @@ const getPinnedHeaderColumnStyle = <TData,>(theme: GrafanaTheme2, column: Column
     right: pinnedPosition === 'right' ? `${column.getAfter('right')}px` : undefined,
     position: 'sticky',
     zIndex: 1,
-    backgroundColor: theme.colors.background.primary,
   };
 };
 
