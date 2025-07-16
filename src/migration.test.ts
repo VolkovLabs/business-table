@@ -750,7 +750,14 @@ describe('migration', () => {
       );
       expect(
         await getMigratedOptions({
-          options: { saveUserPreference: false, showFiltersInColumnManager: false, isColumnManagerAvailable: false, isColumnManagerShowCustomIcon: false, columnManagerNativeIcon: 'table', columnManagerCustomIcon: ''},
+          options: {
+            saveUserPreference: false,
+            showFiltersInColumnManager: false,
+            isColumnManagerAvailable: false,
+            isColumnManagerShowCustomIcon: false,
+            columnManagerNativeIcon: 'table',
+            columnManagerCustomIcon: '',
+          },
         } as any)
       ).toEqual(
         expect.objectContaining({
@@ -764,7 +771,14 @@ describe('migration', () => {
       );
       expect(
         await getMigratedOptions({
-          options: { saveUserPreference: true, showFiltersInColumnManager: true, isColumnManagerAvailable: true, isColumnManagerShowCustomIcon: true, columnManagerNativeIcon: 'add-user', columnManagerCustomIcon: 'url'},
+          options: {
+            saveUserPreference: true,
+            showFiltersInColumnManager: true,
+            isColumnManagerAvailable: true,
+            isColumnManagerShowCustomIcon: true,
+            columnManagerNativeIcon: 'add-user',
+            columnManagerCustomIcon: 'url',
+          },
         } as any)
       ).toEqual(
         expect.objectContaining({
@@ -1048,6 +1062,78 @@ describe('migration', () => {
           tables: [
             expect.objectContaining({
               stripedRows: false,
+              items: [],
+            }),
+          ],
+        })
+      );
+    });
+  });
+
+  describe('3.2.0', () => {
+    it('Should normalize highlightRowsOnHover', async () => {
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              highlightRowsOnHover: false,
+              items: [],
+            }),
+          ],
+        })
+      );
+
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+                highlightRowsOnHover: true,
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              highlightRowsOnHover: true,
+              items: [],
+            }),
+          ],
+        })
+      );
+
+      expect(
+        await getMigratedOptions({
+          options: {
+            tables: [
+              {
+                name: '',
+                items: [],
+                highlightRowsOnHover: false,
+              },
+            ],
+          },
+        } as any)
+      ).toEqual(
+        expect.objectContaining({
+          tables: [
+            expect.objectContaining({
+              highlightRowsOnHover: false,
               items: [],
             }),
           ],

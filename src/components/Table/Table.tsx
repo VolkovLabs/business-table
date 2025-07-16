@@ -268,6 +268,13 @@ interface Props<TData> {
    * @type {DataFrame[]}
    */
   panelData: DataFrame[];
+
+  /**
+   * Highlight Rows On Hover
+   *
+   * @type {boolean}
+   */
+  highlightRowsOnHover?: boolean;
 }
 
 /**
@@ -358,6 +365,7 @@ export const Table = <TData,>({
   replaceVariables,
   stripedRows,
   panelData,
+  highlightRowsOnHover,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -702,6 +710,7 @@ export const Table = <TData,>({
                 onDelete={deleteData.onStart}
                 rowHighlightConfig={rowHighlightConfig}
                 isHighlighted={editableData.row?.id !== row.id && isHighlighted}
+                highlightRowsOnHover={highlightRowsOnHover}
                 panelData={panelData}
               />
             );

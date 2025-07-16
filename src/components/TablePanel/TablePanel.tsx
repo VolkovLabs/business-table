@@ -468,6 +468,7 @@ export const TablePanel: React.FC<Props> = ({
           setDrawerOpen={setDrawerOpen}
           drawerColumns={tableWithPreferences?.items}
           userPreferences={userPreferences}
+          highlightRowsOnHover={currentTable?.highlightRowsOnHover}
           updateTablesPreferences={(tableName: string, updatedColumns: TablePreferenceColumn[]) => {
             setUserPreferences({
               ...userPreferences,

@@ -1,3 +1,4 @@
+import { css, cx } from '@emotion/css';
 import { Field } from '@grafana/data';
 import { FormattedValueDisplay, useTheme2 } from '@grafana/ui';
 import React, { ReactElement } from 'react';
@@ -66,14 +67,16 @@ export const DefaultCellRenderer: React.FC<Props> = ({ field, value, config, bgC
     formattedValue = <FormattedValueDisplay value={displayValue} />;
   }
 
+  const cellTextClass = css`
+    color: ${config.type === CellType.COLORED_TEXT
+      ? color
+      : bgColor
+        ? theme.colors.getContrastText(bgColor)
+        : 'inherit'};
+  `;
+
   return (
-    <span
-      {...TEST_IDS.defaultCellRenderer.root.apply()}
-      style={{
-        color:
-          config.type === CellType.COLORED_TEXT ? color : bgColor ? theme.colors.getContrastText(bgColor) : 'inherit',
-      }}
-    >
+    <span {...TEST_IDS.defaultCellRenderer.root.apply()} className={cx(cellTextClass)}>
       {formattedValue}
     </span>
   );

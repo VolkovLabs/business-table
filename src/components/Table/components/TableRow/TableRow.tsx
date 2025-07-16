@@ -117,6 +117,13 @@ interface Props<TData> {
    * @type {DataFrame[]}
    */
   panelData: DataFrame[];
+
+  /**
+   * Highlight Rows On Hover
+   *
+   * @type {boolean}
+   */
+  highlightRowsOnHover?: boolean;
 }
 
 /**
@@ -170,6 +177,7 @@ export const TableRow = <TData,>({
   isHighlighted,
   stripedRow,
   panelData,
+  highlightRowsOnHover,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -303,7 +311,7 @@ export const TableRow = <TData,>({
     <tr
       data-index={virtualRow?.index}
       key={row.id}
-      className={cx(styles.row, { [styles.newRow]: isNewRow })}
+      className={cx(styles.row, { [styles.newRow]: isNewRow, [styles.highlightRow]: highlightRowsOnHover })}
       ref={rowVirtualizer?.measureElement}
       style={{ transform: `translateY(${virtualRow?.start}px)`, backgroundColor: rowAppearance.background }}
       {...testIds.bodyRow.apply(row.id)}

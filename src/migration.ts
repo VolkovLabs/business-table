@@ -412,6 +412,13 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
       }
 
       /**
+       * Normalize highlight rows on hover config
+       */
+      if (!normalizedGroup.hasOwnProperty('highlightRowsOnHover')) {
+        normalizedGroup.highlightRowsOnHover = false;
+      }
+
+      /**
        * Normalize actions column config
        */
       if (!normalizedGroup.hasOwnProperty('actionsColumnConfig')) {
@@ -562,7 +569,6 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
   if (options.columnManagerCustomIcon === undefined) {
     options.columnManagerCustomIcon = '';
   }
-
 
   /**
    * Normalize showSortingInColumnManager
