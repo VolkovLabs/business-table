@@ -1636,7 +1636,7 @@
         "x": 0,
         "y": 13
       },
-      "id": 28,
+      "id": 6,
       "options": {
         "columnManagerCustomIcon": "",
         "columnManagerNativeIcon": "table",
@@ -1689,7 +1689,7 @@
               }
             },
             "expanded": false,
-            "highlightRowsOnHover": true,
+            "highlightRowsOnHover": false,
             "items": [
               {
                 "appearance": {
@@ -1702,8 +1702,7 @@
                   },
                   "width": {
                     "auto": true,
-                    "max": 150,
-                    "min": 100,
+                    "max": 50,
                     "value": 100
                   },
                   "wrap": true
@@ -1744,7 +1743,7 @@
                   "valueSize": 14
                 },
                 "group": false,
-                "label": "Label Id",
+                "label": "",
                 "newRowEdit": {
                   "editor": {
                     "type": "string"
@@ -1756,7 +1755,7 @@
                   "descFirst": false,
                   "enabled": true
                 },
-                "type": "auto"
+                "type": "coloredBackground"
               },
               {
                 "appearance": {
@@ -1810,7 +1809,7 @@
                   "valueSize": 14
                 },
                 "group": false,
-                "label": "Label Name",
+                "label": "",
                 "newRowEdit": {
                   "editor": {
                     "type": "string"
@@ -1869,7 +1868,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": [],
+                "footer": ["mean"],
                 "gauge": {
                   "mode": "gradient",
                   "valueDisplayMode": "text",
@@ -2094,7 +2093,7 @@
           "refId": "A"
         }
       ],
-      "title": "Highlight Row",
+      "title": "Table",
       "transformations": [
         {
           "id": "organize",
@@ -3158,7 +3157,7 @@
         "x": 0,
         "y": 26
       },
-      "id": 6,
+      "id": 28,
       "options": {
         "columnManagerCustomIcon": "",
         "columnManagerNativeIcon": "table",
@@ -3211,7 +3210,7 @@
               }
             },
             "expanded": false,
-            "highlightRowsOnHover": false,
+            "highlightRowsOnHover": true,
             "items": [
               {
                 "appearance": {
@@ -3224,7 +3223,8 @@
                   },
                   "width": {
                     "auto": true,
-                    "max": 50,
+                    "max": 150,
+                    "min": 100,
                     "value": 100
                   },
                   "wrap": true
@@ -3265,7 +3265,7 @@
                   "valueSize": 14
                 },
                 "group": false,
-                "label": "",
+                "label": "Label Id",
                 "newRowEdit": {
                   "editor": {
                     "type": "string"
@@ -3277,7 +3277,7 @@
                   "descFirst": false,
                   "enabled": true
                 },
-                "type": "coloredBackground"
+                "type": "auto"
               },
               {
                 "appearance": {
@@ -3331,7 +3331,7 @@
                   "valueSize": 14
                 },
                 "group": false,
-                "label": "",
+                "label": "Label Name",
                 "newRowEdit": {
                   "editor": {
                     "type": "string"
@@ -3390,7 +3390,7 @@
                   "mode": "client",
                   "variable": ""
                 },
-                "footer": ["mean"],
+                "footer": [],
                 "gauge": {
                   "mode": "gradient",
                   "valueDisplayMode": "text",
@@ -3615,7 +3615,7 @@
           "refId": "A"
         }
       ],
-      "title": "Table",
+      "title": "Highlight Row",
       "transformations": [
         {
           "id": "organize",
