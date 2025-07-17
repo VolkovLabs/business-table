@@ -8,11 +8,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### ✨ Added
 
-- Add option to highlight the row on hover. ([#365](https://github.com/VolkovLabs/business-table/pull/365))
+- Added option to highlight the row on hover. ([#365](https://github.com/VolkovLabs/business-table/pull/365))
+
+### 🔄 Fixed
+
+- Fixed background color for pinned header ([#363](https://github.com/VolkovLabs/business-table/pull/363))
 
 ## [3.1.0] - 2025-07-11
-
-This update brings new features and enhancements designed to improve functionality and user experience.
 
 ### ✨ Added
 
