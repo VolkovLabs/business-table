@@ -76,6 +76,18 @@ export const TableEditor: React.FC<Props> = ({ value, onChange, data }) => {
             {...TEST_IDS.tableEditor.fieldStripedRows.apply()}
           />
         </InlineField>
+        <InlineField label="Highlight rows on hover" grow={true}>
+          <InlineSwitch
+            value={value.highlightRowsOnHover}
+            onChange={(event) =>
+              onChange({
+                ...value,
+                highlightRowsOnHover: event.currentTarget.checked,
+              })
+            }
+            {...TEST_IDS.tableEditor.fieldHighlightRowsOnHover.apply()}
+          />
+        </InlineField>
       </InlineFieldRow>
       {isTableEditable && (
         <ActionsColumnEditor

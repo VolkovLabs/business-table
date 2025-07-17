@@ -159,6 +159,27 @@ describe('TableEditor', () => {
     );
   });
 
+  it('Should allow to change highlight rows', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          stripedRows: false,
+          items: [createColumnConfig({})],
+        }),
+      })
+    );
+
+    expect(selectors.fieldHighlightRowsOnHover()).toBeInTheDocument();
+    fireEvent.click(selectors.fieldHighlightRowsOnHover());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        highlightRowsOnHover: true,
+        items: [createColumnConfig({})],
+      })
+    );
+  });
+
   it('Should display actions column editor', () => {
     render(
       getComponent({

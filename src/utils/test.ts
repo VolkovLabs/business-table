@@ -383,6 +383,7 @@ export const createTableConfig = (table: Partial<TableConfig>): TableConfig => (
   actionsColumnConfig: createTableActionsColumnConfig({}),
   expanded: false,
   rowHighlight: createRowHighlightConfig({}),
+  highlightRowsOnHover: false,
   ...table,
 });
 

@@ -357,6 +357,7 @@ export const TEST_IDS = {
   tableEditor: {
     fieldShowHeader: createSelector('data-testid table-editor field-show-header'),
     fieldStripedRows: createSelector('data-testid table-editor field-striped-rows'),
+    fieldHighlightRowsOnHover: createSelector('data-testid table-editor field-highlight-rows-on-hover'),
     updateSectionHeader: createSelector('data-testid table-editor update-section-header'),
     updateSectionContent: createSelector('data-testid table-editor update-section-content'),
     fieldExpanded: createSelector('data-testid table-editor field-expanded'),

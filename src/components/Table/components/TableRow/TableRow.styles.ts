@@ -6,6 +6,8 @@ import { GrafanaTheme2 } from '@grafana/data';
  */
 export const getStyles = (theme: GrafanaTheme2) => {
   const borderColor = theme.colors.border.weak;
+  const hoverBackground = theme.colors.background.secondary;
+  const hoverContrastColor = theme.colors.getContrastText(hoverBackground);
 
   return {
     row: css`
@@ -17,6 +19,15 @@ export const getStyles = (theme: GrafanaTheme2) => {
         border-bottom: 1px solid ${borderColor};
       }
     `,
+    highlightRow: css`
+      &:hover td {
+        background-color: ${hoverBackground}!important;
+      }
+      &:hover td span {
+        color: ${hoverContrastColor} !important;
+      }
+    `,
+
     newRow: css`
       position: relative;
       border-bottom: 1px solid ${borderColor};

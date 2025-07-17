@@ -748,6 +748,13 @@ export interface TableConfig {
    * @type {boolean}
    */
   stripedRows: boolean;
+
+  /**
+   * Highlights row on hover
+   *
+   * @type {boolean}
+   */
+  highlightRowsOnHover: boolean;
 }
 
 /**
@@ -825,7 +832,7 @@ export interface PanelOptions {
    *
    * @type {boolean}
    */
-  isColumnManagerShowCustomIcon: boolean
+  isColumnManagerShowCustomIcon: boolean;
 
   /**
    * Column Manager Native Icon
@@ -889,10 +896,10 @@ export interface PanelOptions {
  */
 export type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends Array<infer U>
-  ? Array<RecursivePartial<U>>
-  : T[P] extends object | undefined
-  ? RecursivePartial<T[P]>
-  : T[P];
+    ? Array<RecursivePartial<U>>
+    : T[P] extends object | undefined
+      ? RecursivePartial<T[P]>
+      : T[P];
 };
 
 /**
