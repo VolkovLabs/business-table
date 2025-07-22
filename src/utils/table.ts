@@ -531,6 +531,10 @@ export const normalizeBooleanCellValue = (value: unknown): boolean => {
     return convertStringValueToBoolean(value);
   }
 
+  if (typeof value === 'number') {
+    return value === 1;
+  }
+
   return false;
 };
 
