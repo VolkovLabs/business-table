@@ -68,11 +68,6 @@ Subscribe to [Business Suite Enterprise](https://volkovlabs.io/pricing/) for pre
 - In-person consultations.
 - Access to an advanced Business Intelligence platform.
 
-## 💬 Feedback & Support
-
-- Have questions or suggestions? Open an issue on [GitHub Issues](https://github.com/volkovlabs/business-table/issues).
-- Stay updated with tutorials and news by subscribing to our [YouTube Channel](https://youtube.com/@volkovlabs).
-
 ## 📜 License
 
 This project is licensed under the [Apache License 2.0](https://github.com/volkovlabs/business-table/blob/main/LICENSE).
