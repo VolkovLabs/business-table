@@ -1296,6 +1296,9 @@ describe('Table utils', () => {
       ['random', false],
       [null, false],
       ['fals', false],
+      [1, true],
+      [0, false],
+      [45, false],
     ])('Should convert value to boolean', (value, expected) => {
       expect(normalizeBooleanCellValue(value)).toEqual(expected);
     });
