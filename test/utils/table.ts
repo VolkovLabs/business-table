@@ -430,6 +430,18 @@ class TableEditorHelper {
   }
 
   public async addColumn(fieldKey: string) {
+    /**
+     * Check is current Layout Table editor is open
+     * if not we should open it
+     */
+
+    const editorHeaderButton = this.tablesSelectors.itemHeader(this.name).getByRole('button').first();
+    const ariaLabel = await editorHeaderButton.getAttribute('aria-label');
+
+    if (ariaLabel === 'Expand') {
+      await this.tablesSelectors.itemHeader(this.name).click();
+    }
+
     await this.locator.getByRole('combobox', { name: 'New Column' }).click();
     await this.editPage
       .getByGrafanaSelector(this.editPage.ctx.selectors.components.Select.option)
