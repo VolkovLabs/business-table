@@ -434,7 +434,6 @@ class TableEditorHelper {
      * Check is current Layout Table editor is open
      * if not we should open it
      */
-
     const editorHeaderButton = this.tablesSelectors.itemHeader(this.name).getByRole('button').first();
     const ariaLabel = await editorHeaderButton.getAttribute('aria-label');
 
@@ -451,6 +450,18 @@ class TableEditorHelper {
   }
 
   public async toggleColumnVisibility(fieldKey: string) {
+    /**
+     * Check is current Layout Table editor is open
+     * if not we should open it
+     */
+
+    const editorHeaderButton = this.tablesSelectors.itemHeader(this.name).getByRole('button').first();
+    const ariaLabel = await editorHeaderButton.getAttribute('aria-label');
+
+    if (ariaLabel === 'Expand') {
+      await this.tablesSelectors.itemHeader(this.name).click();
+    }
+
     const columnHeader = this.columnsSelectors.itemHeader(fieldKey);
 
     return getLocatorSelectors(TEST_IDS.columnsEditor)(columnHeader).buttonToggleVisibility().click();
