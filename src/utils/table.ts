@@ -938,3 +938,27 @@ export const getDefaultFilters = <TData>(columns: Array<ColumnDef<TData>>) => {
     })
     .filter(Boolean) as ColumnFiltersState;
 };
+
+/**
+ * Get Default Filters
+ * @param data
+ */
+export const prepareNestedValues = (data: DataFrame) => {
+  const updatedFields = data.fields.map((field) => {
+    const isArrayValues = field.values.some((valueItem) => Array.isArray(valueItem));
+    const currentValues = isArrayValues
+      ? field.values.map((valueItem) =>
+          Array.isArray(valueItem) && valueItem.length > 0 ? JSON.stringify(valueItem) : valueItem
+        )
+      : field.values;
+    return {
+      ...field,
+      values: currentValues,
+    };
+  });
+
+  return {
+    ...data,
+    fields: updatedFields,
+  };
+};
