@@ -115,6 +115,22 @@ export const TableHeaderCell = <TData,>({
     [header.column.columnDef.meta?.config.columnTooltip]
   );
 
+  const isAllSettingsUseInManager = useMemo(() => {
+    return (
+      advancedSettings?.isColumnManagerAvailable &&
+      advancedSettings?.showFiltersInColumnManager &&
+      advancedSettings?.showSortInColumnManager &&
+      header.column.columnDef.enableColumnFilter &&
+      header.column.columnDef.enableSorting
+    );
+  }, [
+    advancedSettings?.isColumnManagerAvailable,
+    advancedSettings?.showFiltersInColumnManager,
+    advancedSettings?.showSortInColumnManager,
+    header.column.columnDef.enableColumnFilter,
+    header.column.columnDef.enableSorting,
+  ]);
+
   /**
    * Update Preferences with filters
    */
@@ -193,8 +209,32 @@ export const TableHeaderCell = <TData,>({
 
   return (
     <>
+      {isAllSettingsUseInManager && (
+        <Tooltip
+          content={'Sorting and filtering are available in the column manager. Click to open it.'}
+          interactive
+          {...testIds.tooltipColumnManager.apply()}
+        >
+          <IconButton
+            name="sliders-v-alt"
+            size="xs"
+            aria-label="Sort and filters"
+            onClick={() => {
+              setDrawerOpen(true);
+            }}
+            {...testIds.buttonOpenColumnManager.apply()}
+          />
+        </Tooltip>
+      )}
       <div
         onClick={(event) => {
+          /**
+           * If sorting is disabled, no actions should be invoked.
+           */
+          if (!header.column.columnDef.enableSorting) {
+            return;
+          }
+
           /**
            * Open drawer if sorting and UI manager are available
            */
@@ -249,13 +289,13 @@ export const TableHeaderCell = <TData,>({
             <Icon name="exclamation-circle" size="xs" aria-label="Info message" className={styles.tooltip} />
           </Tooltip>
         )}
-        {sortIsEnabled && !sort && (
+        {!isAllSettingsUseInManager && sortIsEnabled && !sort && (
           <Tooltip content="Sorting is available" {...testIds.tooltipIconSortAvailable.apply()}>
             <Icon name="arrows-v" size="xs" aria-label="Info message" className={styles.sortingAvailable} />
           </Tooltip>
         )}
         {flexRender(header.column.columnDef.header, header.getContext())}
-        {!!sort && (
+        {!isAllSettingsUseInManager && !!sort && (
           <Icon
             key={sort}
             name={sort === 'asc' ? 'arrow-up' : 'arrow-down'}
@@ -264,7 +304,7 @@ export const TableHeaderCell = <TData,>({
           />
         )}
       </div>
-      {renderFilterIcon()}
+      {!isAllSettingsUseInManager && renderFilterIcon()}
     </>
   );
 };
