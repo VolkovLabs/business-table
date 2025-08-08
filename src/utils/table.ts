@@ -940,7 +940,7 @@ export const getDefaultFilters = <TData>(columns: Array<ColumnDef<TData>>) => {
 };
 
 /**
- * Get Default Filters
+ * Prepare Nested Values
  * @param data
  */
 export const prepareNestedValues = (data: DataFrame) => {
