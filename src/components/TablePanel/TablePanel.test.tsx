@@ -51,14 +51,20 @@ jest.mock('../../hooks/useSavedState', () => ({
 }));
 
 const onExportMock = jest.fn();
-const useExportDataMock = () => ({ table, exportFormat }: { table: any; exportFormat: any }) => onExportMock(table, exportFormat);
+const useExportDataMock =
+  () =>
+  ({ table, exportFormat }: { table: any; exportFormat: any }) =>
+    onExportMock(table, exportFormat);
 
 jest.mock('../../hooks/useExportData', () => ({
   useExportData: jest.fn(),
 }));
 
 const onExternalExportMock = jest.fn();
-const useExternalExportMock = () => ({ table }: { table: any }) => onExternalExportMock(table);
+const useExternalExportMock =
+  () =>
+  ({ table }: { table: any }) =>
+    onExternalExportMock(table);
 
 jest.mock('../../hooks/useExternalExport', () => ({
   useExternalExport: jest.fn(),
@@ -340,6 +346,52 @@ describe('TablePanel', () => {
     await act(() => fireEvent.click(selectors.buttonSetFormat(false, 'csv')));
 
     expect(onExportMock).toHaveBeenCalled();
+  });
+
+  it('Should allow Handle Error and show Alert', async () => {
+    const tables = [createTableConfig({})];
+
+    jest.mocked(useExternalExport).mockImplementation(({ setError }) => {
+      return async () => {
+        setError('Test export error');
+        return Promise.resolve();
+      };
+    });
+
+    await act(async () =>
+      render(
+        getComponent({
+          options: createPanelOptions({
+            externalExport: createExternalExportConfig({
+              enabled: true,
+            }),
+            tables,
+            toolbar: createToolbarOptions({
+              export: true,
+              exportFormats: [ExportFormatType.CSV, ExportFormatType.XLSX],
+            }),
+          }),
+        })
+      )
+    );
+
+    expect(selectors.buttonExport()).toBeInTheDocument();
+
+    fireEvent.click(selectors.buttonExport());
+
+    expect(selectors.errorContainer()).toBeInTheDocument();
+
+    const alert = screen.getByLabelText('Request error');
+    const closeButton = screen.getByLabelText('Close alert');
+
+    expect(alert).toBeInTheDocument();
+    expect(closeButton).toBeInTheDocument();
+
+    /**
+     * Close alert section
+     */
+    fireEvent.click(closeButton);
+    expect(alert).not.toBeInTheDocument();
   });
 
   it('Should allow to Export data', async () => {

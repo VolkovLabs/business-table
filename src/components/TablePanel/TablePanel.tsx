@@ -69,6 +69,11 @@ export const TablePanel: React.FC<Props> = ({
   const shouldScroll = useRef<boolean>(false);
 
   /**
+   * Use to error container
+   */
+  const alertRef = useRef<HTMLDivElement>(null);
+
+  /**
    * State
    */
   const [error, setError] = useState('');
@@ -94,6 +99,19 @@ export const TablePanel: React.FC<Props> = ({
     key: `volkovlabs.table.panel.${id}.${currentDashboardId}`,
     initialValue: options.tables?.[0]?.name || '',
   });
+
+  /**
+   * Set error and scroll to Alert section
+   */
+  const showError = useCallback((message: string) => {
+    setError(message);
+    requestAnimationFrame(() => {
+      alertRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    });
+  }, []);
 
   /**
    * User Preferences
@@ -247,17 +265,17 @@ export const TablePanel: React.FC<Props> = ({
   /**
    * Add Row
    */
-  const onAddRow = useUpdateRow({ replaceVariables, currentTable, operation: 'add', setError });
+  const onAddRow = useUpdateRow({ replaceVariables, currentTable, operation: 'add', setError: showError });
 
   /**
    * Update Row
    */
-  const onUpdateRow = useUpdateRow({ replaceVariables, currentTable, operation: 'update', setError });
+  const onUpdateRow = useUpdateRow({ replaceVariables, currentTable, operation: 'update', setError: showError });
 
   /**
    * Delete Row
    */
-  const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete', setError });
+  const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete', setError: showError });
 
   /**
    * Export Data
@@ -288,7 +306,7 @@ export const TablePanel: React.FC<Props> = ({
     columns,
     externalExport: options.externalExport,
     replaceVariables,
-    setError,
+    setError: showError,
   });
 
   const exportFormatsMenu = useMemo(() => {
@@ -324,7 +342,15 @@ export const TablePanel: React.FC<Props> = ({
     return (
       <>
         {!!error && (
-          <AlertWithDetails details={error} variant="error" title="Request error" onRemove={() => setError('')} />
+          <div ref={alertRef} {...TEST_IDS.panel.errorContainer.apply()}>
+            <AlertWithDetails
+              details={error}
+              variant="error"
+              title="Request error"
+              onRemove={() => setError('')}
+              {...TEST_IDS.panel.errorAlertElement.apply()}
+            />
+          </div>
         )}
         {isToolbarVisible && (
           <div ref={headerRef} className={styles.header}>
