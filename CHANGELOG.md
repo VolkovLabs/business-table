@@ -2,26 +2,21 @@
 
 All notable changes to the **Business Table Panel** plugin for Grafana are documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.2.0] - Unreleased
+## [3.2.0] - 2025-08-07
+
+We're excited to announce the release of version 3.2.0 of the Business Table plugin. This update introduces new features to enhance user experience and functionality, along with important fixes and improvements to existing features.
 
 ### ✨ Added
 
-- Added support for integer 0-1 Boolean cell type. ([#366](https://github.com/VolkovLabs/business-table/pull/366))
-- Added nested objects to table export ([#374](https://github.com/VolkovLabs/business-table/pull/374))
+- **Row Highlight on Hover**: Added an option to highlight table rows when hovering over them for improved visibility. ([#365](https://github.com/VolkovLabs/business-table/pull/365))
+- **Integer Boolean Cell Type**: Introduced support for integer-based Boolean cell values (0-1) to accommodate diverse data formats. ([#366](https://github.com/VolkovLabs/business-table/pull/366))
+- **Nested Objects in Export**: Enhanced table export functionality to include nested objects for more comprehensive data handling. ([#374](https://github.com/VolkovLabs/business-table/pull/374))
 
 ### 🔄 Changed
 
-- Updated ESLint configuration ([#367](https://github.com/VolkovLabs/business-table/pull/367))
-
-## [3.2.0] - Unreleased
-
-### ✨ Added
-
-- Added option to highlight the row on hover. ([#365](https://github.com/VolkovLabs/business-table/pull/365))
-
-### 🔄 Fixed
-
-- Fixed background color for pinned header ([#363](https://github.com/VolkovLabs/business-table/pull/363))
+- **Pinned Header Background**: Corrected the background color issue for pinned headers to ensure consistent styling. ([#363](https://github.com/VolkovLabs/business-table/pull/363))
+- **ESLint Configuration**: Updated ESLint settings to align with the latest coding standards and improve code quality. ([#367](https://github.com/VolkovLabs/business-table/pull/367))
+- **Filter and Sorting Icons**: Combined Filter and Sorting icons into a unified display when the Manager is active for a cleaner UI. ([#375](https://github.com/VolkovLabs/business-table/pull/375))
 
 ## [3.1.0] - 2025-07-11
 

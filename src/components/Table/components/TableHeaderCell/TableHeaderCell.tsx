@@ -211,13 +211,12 @@ export const TableHeaderCell = <TData,>({
     <>
       {isAllSettingsUseInManager && (
         <Tooltip
-          content={'Sorting and filtering are available in the column manager. Click to open it.'}
+          content={'You can access sorting and filtering options through the column manager. Click to open it.'}
           interactive
           {...testIds.tooltipColumnManager.apply()}
         >
           <IconButton
             name="sliders-v-alt"
-            size="xs"
             aria-label="Sort and filters"
             onClick={() => {
               setDrawerOpen(true);
