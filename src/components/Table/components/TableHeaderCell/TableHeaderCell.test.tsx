@@ -177,6 +177,7 @@ describe('TableHeaderCell', () => {
             getToggleSortingHandler: jest.fn(),
             columnDef: {
               header: ({ label }: any) => label,
+              enableSorting: true,
             },
           } as any,
         } as any,
@@ -188,6 +189,42 @@ describe('TableHeaderCell', () => {
 
     fireEvent.click(selectors.root());
     expect(setDrawerOpen).toHaveBeenCalled();
+  });
+
+  it('Should not open drawer click on sort icon if UI manager available but sorting is not specified for column', () => {
+    const setDrawerOpen = jest.fn();
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        advancedSettings: {
+          isColumnManagerAvailable: true,
+          showFiltersInColumnManager: false,
+          showSortInColumnManager: true,
+          saveUserPreference: true,
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => false),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: jest.fn(),
+            columnDef: {
+              header: ({ label }: any) => label,
+              enableSorting: false,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.tooltipIconSortAvailable(false)).toBeInTheDocument();
+
+    fireEvent.click(selectors.root());
+    expect(setDrawerOpen).not.toHaveBeenCalled();
   });
 
   it('Should call handle sort if UI manager is not available', () => {
@@ -222,6 +259,7 @@ describe('TableHeaderCell', () => {
             getToggleSortingHandler: getToggleSortingHandler,
             columnDef: {
               header: ({ label }: any) => label,
+              enableSorting: true,
             },
           } as any,
         } as any,
@@ -236,7 +274,7 @@ describe('TableHeaderCell', () => {
     expect(getToggleSortingHandler).toHaveBeenCalled();
   });
 
-  it('Should update preferences if saveUserPreference is true for sort', () => {
+  it('Should update preferences if saveUserPreference is true for sort and sort is available for column', () => {
     const setDrawerOpen = jest.fn();
     const getToggleSortingHandler = jest.fn();
     const updateTablesPreferences = jest.fn();
@@ -269,6 +307,7 @@ describe('TableHeaderCell', () => {
             getToggleSortingHandler: getToggleSortingHandler,
             columnDef: {
               header: ({ label }: any) => label,
+              enableSorting: true,
             },
           } as any,
         } as any,
@@ -282,6 +321,101 @@ describe('TableHeaderCell', () => {
 
     expect(updateTablesPreferences).toHaveBeenCalled();
     expect(updateTablesPreferences).toHaveBeenCalledWith('test', []);
+  });
+
+  it('Should not update preferences if saveUserPreference is true for sort and sort is not specified for column', () => {
+    const setDrawerOpen = jest.fn();
+    const getToggleSortingHandler = jest.fn();
+    const updateTablesPreferences = jest.fn();
+
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        updateTablesPreferences: updateTablesPreferences,
+        sorting: [],
+        advancedSettings: {
+          isColumnManagerAvailable: false,
+          showFiltersInColumnManager: false,
+          showSortInColumnManager: false,
+          saveUserPreference: true,
+        },
+        currentTableName: 'test',
+        userPreferences: {
+          currentGroup: '',
+          tables: [],
+          options: {},
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => false),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: getToggleSortingHandler,
+            columnDef: {
+              header: ({ label }: any) => label,
+              enableSorting: false,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+    expect(selectors.tooltipIconSortAvailable(false)).toBeInTheDocument();
+
+    fireEvent.click(selectors.root());
+
+    expect(updateTablesPreferences).not.toHaveBeenCalled();
+  });
+
+  it('Should display open settings in drawer if all filter and sorting are specified', () => {
+    const setDrawerOpen = jest.fn();
+    const getToggleSortingHandler = jest.fn();
+    const updateTablesPreferences = jest.fn();
+
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        updateTablesPreferences: updateTablesPreferences,
+        sorting: [],
+        advancedSettings: {
+          isColumnManagerAvailable: true,
+          showFiltersInColumnManager: true,
+          showSortInColumnManager: true,
+          saveUserPreference: true,
+        },
+        userPreferences: {
+          currentGroup: '',
+          tables: [],
+          options: {},
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => false),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: getToggleSortingHandler,
+            columnDef: {
+              header: ({ label }: any) => label,
+              enableSorting: true,
+              enableColumnFilter: true,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.buttonOpenColumnManager()).toBeInTheDocument();
+    expect(selectors.tooltipColumnManager()).toBeInTheDocument();
+
+    fireEvent.click(selectors.buttonOpenColumnManager());
+    expect(setDrawerOpen).toHaveBeenCalled();
   });
 
   it('Should update preferences if saveUserPreference is true for filter', () => {
@@ -357,6 +491,72 @@ describe('TableHeaderCell', () => {
     expect(updateTablesPreferences).toHaveBeenCalledWith('Test', [
       { enabled: true, filter: filterValue, name: 'name', sort: { enabled: false, descFirst: false } },
     ]);
+  });
+
+  it('Should open drawer if showFiltersInColumnManager is true for filter', () => {
+    const setDrawerOpen = jest.fn();
+    const getToggleSortingHandler = jest.fn();
+    const updateTablesPreferences = jest.fn();
+
+    /**
+     * Default column A
+     */
+    const nameColumn = createColumnConfig({
+      label: 'Name',
+      field: {
+        source: 'A',
+        name: 'name',
+      },
+      filter: {
+        enabled: true,
+        mode: ColumnFilterMode.CLIENT,
+        variable: '',
+      },
+    });
+
+    render(
+      getComponent({
+        setDrawerOpen: setDrawerOpen,
+        updateTablesPreferences: updateTablesPreferences,
+        sorting: [],
+        drawerColumns: [{ ...nameColumn, enabled: true }],
+        advancedSettings: {
+          isColumnManagerAvailable: true,
+          showFiltersInColumnManager: true,
+          showSortInColumnManager: false,
+          saveUserPreference: true,
+        },
+        currentTableName: 'Test',
+        userPreferences: {
+          currentGroup: '',
+          tables: [],
+          options: {},
+        },
+        header: {
+          getContext: () =>
+            ({
+              label: '123',
+            }) as any,
+          column: {
+            getIsSorted: jest.fn(() => false),
+            getCanSort: jest.fn(() => true),
+            getToggleSortingHandler: getToggleSortingHandler,
+            getIsFiltered: jest.fn(() => true),
+            columnDef: {
+              header: ({ label }: any) => label,
+              enableColumnFilter: true,
+            },
+          } as any,
+        } as any,
+      })
+    );
+
+    expect(selectors.root()).toBeInTheDocument();
+
+    expect(selectors.tableHeaderCellFilter()).toBeInTheDocument();
+
+    fireEvent.click(selectors.tableHeaderCellFilter());
+    expect(setDrawerOpen).toHaveBeenCalled();
   });
 
   it('Should update preferences correct if saveUserPreference is true for filter and preferences doesn`t have tables', () => {
