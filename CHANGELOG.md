@@ -7,6 +7,7 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 ### ✨ Added
 
 - Added support for integer 0-1 Boolean cell type. ([#366](https://github.com/VolkovLabs/business-table/pull/366))
+- Added nested objects to table export ([#374](https://github.com/VolkovLabs/business-table/pull/374))
 
 ### 🔄 Changed
 
