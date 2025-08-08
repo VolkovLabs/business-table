@@ -11,6 +11,7 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 ### 🔄 Changed
 
 - Updated ESLint configuration ([#367](https://github.com/VolkovLabs/business-table/pull/367))
+- Updated nested objects for import Table ([#374](https://github.com/VolkovLabs/business-table/pull/374))
 
 ## [3.2.0] - Unreleased
 
