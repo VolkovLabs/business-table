@@ -11,7 +11,7 @@ import { useCallback } from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
 import { ExportFormatType, TableConfig } from '@/types';
-import { convertTableToDataFrame, convertToXlsxFormat, downloadCsv, downloadXlsx } from '@/utils';
+import { convertTableToDataFrame, convertToXlsxFormat, downloadCsv, downloadXlsx, prepareNestedValues } from '@/utils';
 
 /**
  * Use Export Data
@@ -30,7 +30,7 @@ export const useExportData = <TData>({
   replaceVariables: InterpolateFunction;
 }) => {
   return useCallback(
-    ({ table, exportFormat }: { table: Table<TData> | null, exportFormat: ExportFormatType }) => {
+    ({ table, exportFormat }: { table: Table<TData> | null; exportFormat: ExportFormatType }) => {
       if (!table) {
         return;
       }
@@ -63,7 +63,7 @@ export const useExportData = <TData>({
       /**
        * Data Frame For Export
        */
-      const dataFrame = convertTableToDataFrame(tableForExport);
+      const dataFrame = prepareNestedValues(convertTableToDataFrame(tableForExport));
 
       /**
        * CSV text

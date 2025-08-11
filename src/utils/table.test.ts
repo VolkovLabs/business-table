@@ -29,6 +29,7 @@ import {
   normalizeBooleanCellValue,
   prepareColumnConfigsForPreferences,
   prepareColumnsWithSorting,
+  prepareNestedValues,
   saveWithCorrectFilters,
   updateUserPreferenceTables,
 } from './table';
@@ -1905,6 +1906,122 @@ describe('Table utils', () => {
       ] as any;
 
       expect(getDefaultFilters(columns)).toEqual([]);
+    });
+  });
+
+  describe('prepareNestedValues', () => {
+    describe('Basic functionality', () => {
+      it('Should handle DataFrame with no nested arrays', () => {
+        const frame = toDataFrame({
+          fields: [
+            {
+              name: 'id',
+              type: FieldType.number,
+              config: {},
+              values: [1, 2, 3, 4],
+            },
+            {
+              name: 'name',
+              type: FieldType.string,
+              config: {},
+              values: ['John', 'Jane', 'Bob', 'Alice'],
+            },
+          ],
+        });
+
+        const result = prepareNestedValues(frame);
+
+        expect(result.fields).toHaveLength(2);
+        expect(result.fields[0].values).toEqual([1, 2, 3, 4]);
+        expect(result.fields[1].values).toEqual(['John', 'Jane', 'Bob', 'Alice']);
+        expect(result.length).toEqual(4);
+      });
+
+      it('Should convert non-empty arrays to JSON strings', () => {
+        const nestedObjects = [
+          [
+            { id: 1, title: 'Comment 1' },
+            { id: 2, title: 'Comment 2' },
+          ],
+          [{ id: 3, title: 'Comment 3' }],
+          [
+            { id: 4, title: 'Comment 4' },
+            { id: 5, title: 'Comment 5' },
+            { id: 6, title: 'Comment 6' },
+          ],
+        ];
+
+        const frame = toDataFrame({
+          fields: [
+            {
+              name: 'id',
+              type: FieldType.number,
+              config: {},
+              values: [1, 2, 3],
+            },
+            {
+              name: 'comments',
+              type: FieldType.other,
+              config: {},
+              values: nestedObjects,
+            },
+          ],
+        });
+
+        const result = prepareNestedValues(frame);
+
+        expect(result.fields[0].values).toEqual([1, 2, 3]);
+        expect(result.fields[1].values).toHaveLength(3);
+        expect(result.fields[1].values[0]).toEqual(JSON.stringify(nestedObjects[0]));
+        expect(result.fields[1].values[1]).toEqual(JSON.stringify(nestedObjects[1]));
+        expect(result.fields[1].values[2]).toEqual(JSON.stringify(nestedObjects[2]));
+      });
+
+      it('Should preserve empty arrays as is', () => {
+        const frame = toDataFrame({
+          fields: [
+            {
+              name: 'id',
+              type: FieldType.number,
+              config: {},
+              values: [1, 2, 3],
+            },
+            {
+              name: 'comments',
+              type: FieldType.other,
+              config: {},
+              values: [[{ id: 1, title: 'Comment 1' }], [], [{ id: 2, title: 'Comment 2' }]],
+            },
+          ],
+        });
+
+        const result = prepareNestedValues(frame);
+
+        expect(result.fields[1].values[0]).toEqual(JSON.stringify([{ id: 1, title: 'Comment 1' }]));
+        expect(result.fields[1].values[1]).toEqual([]);
+        expect(result.fields[1].values[2]).toEqual(JSON.stringify([{ id: 2, title: 'Comment 2' }]));
+      });
+
+      it('Should preserve null and undefined values in array fields', () => {
+        const frame = toDataFrame({
+          fields: [
+            {
+              name: 'comments',
+              type: FieldType.other,
+              config: {},
+              values: [[{ id: 1, title: 'Comment 1' }], null, undefined, [{ id: 2, title: 'Comment 2' }]],
+            },
+          ],
+        });
+
+        const result = prepareNestedValues(frame);
+
+        // Assert
+        expect(result.fields[0].values[0]).toEqual(JSON.stringify([{ id: 1, title: 'Comment 1' }]));
+        expect(result.fields[0].values[1]).toBeNull();
+        expect(result.fields[0].values[2]).toBeUndefined();
+        expect(result.fields[0].values[3]).toEqual(JSON.stringify([{ id: 2, title: 'Comment 2' }]));
+      });
     });
   });
 });

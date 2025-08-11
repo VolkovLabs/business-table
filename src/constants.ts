@@ -269,6 +269,8 @@ export const TEST_IDS = {
     actionHeaderText: createSelector('data-testid table-header-cell action-header-text'),
     sortIcon: createSelector((iconName: unknown) => String(iconName), 'data-testid'),
     tooltip: createSelector('data-testid table-header-cell tooltip'),
+    tooltipColumnManager: createSelector('data-testid table-header-cell tooltip-column-manager'),
+    buttonOpenColumnManager: createSelector('data-testid table-header-cell button-open-column-manager'),
     tooltipIconSortAvailable: createSelector('data-testid table-header-cell tooltip icon-sort-available'),
   },
   tableCell: {
