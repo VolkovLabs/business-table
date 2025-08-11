@@ -28,7 +28,7 @@ export const useExternalExport = <TData>({
   data: TData[];
   columns: Array<ColumnDef<TData>>;
   replaceVariables: InterpolateFunction;
-  setError: React.Dispatch<React.SetStateAction<string>>;
+  setError: (message: string) => void;
   externalExport: ExternalExportConfig;
 }) => {
   /**

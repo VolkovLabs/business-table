@@ -101,6 +101,8 @@ export const TEST_IDS = {
     buttonOpenDrawer: createSelector((name: unknown) => `data-testid panel button-open-drawer-${name}`),
     noDataMessage: createSelector('data-testid panel no-data-message'),
     customIconOpenDrawer: createSelector((name: unknown) => `data-testid panel custom-icon-open-drawer-${name}`),
+    errorContainer: createSelector('data-testid panel error-container'),
+    errorAlertElement: createSelector('data-testid panel error-alert-element'),
   },
   tablesEditor: {
     buttonAddNew: createSelector('data-testid tables-editor button-add-new'),

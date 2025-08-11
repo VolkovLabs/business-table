@@ -187,6 +187,12 @@ const config = async (env): Promise<Configuration> => {
       new ESLintPlugin({
         extensions: ['.ts', '.tsx'],
         lintDirtyModulesOnly: Boolean(env.development), // don't lint on start, only lint changed files
+        /**
+         * Disable failing for lint errors in dev mode
+         * Please revert after upgrade
+         * @override
+         */
+        failOnError: !Boolean(env.development),
       }),
       ...(env.development ? [new LiveReloadPlugin()] : []),
     ],

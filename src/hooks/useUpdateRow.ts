@@ -14,7 +14,7 @@ export const useUpdateRow = ({
   replaceVariables: InterpolateFunction;
   currentTable?: TableConfig;
   operation: 'add' | 'update' | 'delete';
-  setError: React.Dispatch<React.SetStateAction<string>>;
+  setError: (message: string) => void;
 }) => {
   /**
    * App Events
