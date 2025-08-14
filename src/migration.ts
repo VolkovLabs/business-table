@@ -23,6 +23,7 @@ import {
   FileButtonVariant,
   ImageScale,
   NestedObjectConfig,
+  OpenColumnManagerMode,
   PaginationMode,
   PanelOptions,
   RowHighlightConfig,
@@ -547,6 +548,13 @@ export const getMigratedOptions = async (panel: PanelModel<OutdatedPanelOptions>
    */
   if (options.isColumnManagerAvailable === undefined) {
     options.isColumnManagerAvailable = false;
+  }
+
+  /**
+   * Normalize openColumnManagerMode
+   */
+  if (options.openColumnManagerMode === undefined) {
+    options.openColumnManagerMode = OpenColumnManagerMode.GROUP;
   }
 
   /**

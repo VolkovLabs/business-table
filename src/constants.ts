@@ -9,6 +9,7 @@ import {
   ColumnHeaderFontSize,
   ColumnNewRowEditConfig,
   ExportFormatType,
+  OpenColumnManagerMode,
   PermissionConfig,
   PermissionMode,
   SupportedBase64ImageType,
@@ -622,3 +623,22 @@ export const MEDIA_TYPES_SYMBOLS: { [id: string]: string } = {
   i: SupportedFileType.PNG,
   J: SupportedFileType.PDF,
 };
+
+/**
+ * Buttons Alignment options
+ */
+export const OPEN_COLUMN_MANGER_OPTIONS = [
+  {
+    value: OpenColumnManagerMode.GROUP,
+    label: 'Group',
+  },
+  {
+    value: OpenColumnManagerMode.COLUMN,
+    label: 'Column',
+  },
+  {
+    value: OpenColumnManagerMode.ALL,
+    label: 'Both',
+    description: 'Open manager from Column and Group',
+  },
+];

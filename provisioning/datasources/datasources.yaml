@@ -21,22 +21,23 @@ datasources:
     url: timescale:5432
     user: postgres
     jsonData:
+      database: postgres
       postgresVersion: 1200
       sslmode: disable
     secureJsonData:
       password: postgres
   - id: 3
-    uid: "fdy98ad2ifhfkf"
+    uid: 'fdy98ad2ifhfkf'
     orgId: 1
-    name: "Infinity"
-    type: "yesoreyeram-infinity-datasource"
-    url: ""
+    name: 'Infinity'
+    type: 'yesoreyeram-infinity-datasource'
+    url: ''
     basicAuth: false
-    basicAuthUser: ""
+    basicAuthUser: ''
     isDefault: false
     jsonData:
       global_queries: []
       allowDangerousHTTPMethods: true
     readOnly: false
     editable: true
-    apiVersion: ""
+    apiVersion: ''

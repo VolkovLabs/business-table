@@ -12,9 +12,9 @@ import {
   TablePanel,
   TablesEditor,
 } from './components';
-import { EXPORT_FORMAT_OPTIONS, TOOLBAR_BUTTONS_ALIGNMENT } from './constants';
+import { EXPORT_FORMAT_OPTIONS, OPEN_COLUMN_MANGER_OPTIONS, TOOLBAR_BUTTONS_ALIGNMENT } from './constants';
 import { getMigratedOptions } from './migration';
-import { PanelOptions, ToolbarButtonsAlignment } from './types';
+import { OpenColumnManagerMode, PanelOptions, ToolbarButtonsAlignment } from './types';
 
 /**
  * Panel Plugin
@@ -156,6 +156,17 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
      * Column Manager
      */
     builder
+      .addRadio({
+        path: 'openColumnManagerMode',
+        name: 'Open manager mode',
+        description: 'Select your preferred mode for opening the column manager',
+        settings: {
+          options: OPEN_COLUMN_MANGER_OPTIONS,
+        },
+        showIf: (config) => config.isColumnManagerAvailable,
+        defaultValue: OpenColumnManagerMode.GROUP,
+        category: ['Column Manager'],
+      })
       .addBooleanSwitch({
         path: 'showFiltersInColumnManager',
         name: 'Show filters',

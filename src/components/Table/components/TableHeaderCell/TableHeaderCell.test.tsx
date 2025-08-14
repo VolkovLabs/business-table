@@ -3,7 +3,7 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
-import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue } from '@/types';
+import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, OpenColumnManagerMode } from '@/types';
 import { createColumnConfig, createColumnMeta, getFilterWithNewType } from '@/utils';
 
 import { TableHeaderCell, testIds } from './TableHeaderCell';
@@ -165,6 +165,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: false,
           showSortInColumnManager: true,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         header: {
           getContext: () =>
@@ -201,6 +202,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: false,
           showSortInColumnManager: true,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         header: {
           getContext: () =>
@@ -242,6 +244,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: false,
           showSortInColumnManager: false,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         userPreferences: {
           currentGroup: '',
@@ -289,6 +292,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: false,
           showSortInColumnManager: false,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         currentTableName: 'test',
         userPreferences: {
@@ -338,6 +342,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: false,
           showSortInColumnManager: false,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         currentTableName: 'test',
         userPreferences: {
@@ -386,6 +391,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: true,
           showSortInColumnManager: true,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         userPreferences: {
           currentGroup: '',
@@ -450,6 +456,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: false,
           showSortInColumnManager: false,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         currentTableName: 'Test',
         userPreferences: {
@@ -525,6 +532,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: true,
           showSortInColumnManager: false,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         currentTableName: 'Test',
         userPreferences: {
@@ -591,6 +599,7 @@ describe('TableHeaderCell', () => {
           showFiltersInColumnManager: false,
           showSortInColumnManager: false,
           saveUserPreference: true,
+          openColumnManagerMode: OpenColumnManagerMode.ALL,
         },
         currentTableName: 'Test',
         userPreferences: {
