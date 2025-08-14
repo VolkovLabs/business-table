@@ -9,6 +9,7 @@ import {
   ColumnConfig,
   ColumnFilterValue,
   ColumnHeaderFontSize,
+  OpenColumnManagerMode,
   TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
@@ -115,20 +116,34 @@ export const TableHeaderCell = <TData,>({
     [header.column.columnDef.meta?.config.columnTooltip]
   );
 
-  const isAllSettingsUseInManager = useMemo(() => {
+  /**
+   * Is Manager available from table header cell
+   */
+  const isColumnManagerAvailableFromHeader = useMemo(() => {
     return (
       advancedSettings?.isColumnManagerAvailable &&
+      (advancedSettings?.openColumnManagerMode === OpenColumnManagerMode.COLUMN ||
+        advancedSettings?.openColumnManagerMode === OpenColumnManagerMode.ALL)
+    );
+  }, [advancedSettings?.isColumnManagerAvailable, advancedSettings?.openColumnManagerMode]);
+
+  /**
+   * Is all advanced setting apply to header cell
+   */
+  const isAllSettingsUseInManager = useMemo(() => {
+    return (
+      isColumnManagerAvailableFromHeader &&
       advancedSettings?.showFiltersInColumnManager &&
       advancedSettings?.showSortInColumnManager &&
       header.column.columnDef.enableColumnFilter &&
       header.column.columnDef.enableSorting
     );
   }, [
-    advancedSettings?.isColumnManagerAvailable,
     advancedSettings?.showFiltersInColumnManager,
     advancedSettings?.showSortInColumnManager,
     header.column.columnDef.enableColumnFilter,
     header.column.columnDef.enableSorting,
+    isColumnManagerAvailableFromHeader,
   ]);
 
   /**
@@ -176,7 +191,7 @@ export const TableHeaderCell = <TData,>({
 
   const renderFilterIcon = () => {
     if (header.column.columnDef.enableColumnFilter) {
-      if (advancedSettings.isColumnManagerAvailable && advancedSettings.showFiltersInColumnManager) {
+      if (isColumnManagerAvailableFromHeader && advancedSettings.showFiltersInColumnManager) {
         return (
           <button
             onClick={() => setDrawerOpen(true)}
@@ -237,7 +252,7 @@ export const TableHeaderCell = <TData,>({
           /**
            * Open drawer if sorting and UI manager are available
            */
-          if (advancedSettings.isColumnManagerAvailable && advancedSettings.showSortInColumnManager) {
+          if (isColumnManagerAvailableFromHeader && advancedSettings.showSortInColumnManager) {
             setDrawerOpen(true);
             return;
           }

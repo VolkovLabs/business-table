@@ -188,3 +188,9 @@ export enum SupportedFileType {
   PDF = 'application/pdf',
   HEIC = 'image/heic',
 }
+
+export enum OpenColumnManagerMode {
+  GROUP = 'group',
+  COLUMN = 'column',
+  ALL = 'all',
+}

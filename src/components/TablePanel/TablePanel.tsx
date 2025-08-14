@@ -28,7 +28,7 @@ import {
   useTable,
   useUpdateRow,
 } from '@/hooks';
-import { ExportFormatType, PanelOptions, TablePreferenceColumn, UserPreferences } from '@/types';
+import { ExportFormatType, OpenColumnManagerMode, PanelOptions, TablePreferenceColumn, UserPreferences } from '@/types';
 import { checkIfOperationEnabled, getTableWithPreferences, updateUserPreferenceTables } from '@/utils';
 
 import { Table } from '../Table';
@@ -53,6 +53,7 @@ export const TablePanel: React.FC<Props> = ({
   title,
   fieldConfig,
 }) => {
+  console.log('options -> ', options);
   /**
    * Styles
    */
@@ -248,6 +249,17 @@ export const TablePanel: React.FC<Props> = ({
   ]);
 
   /**
+   * Check how to open column manager
+   */
+  const isOpenColumnManagerFromGroup = useMemo(() => {
+    return (
+      options.isColumnManagerAvailable &&
+      (options.openColumnManagerMode === OpenColumnManagerMode.ALL ||
+        options.openColumnManagerMode === OpenColumnManagerMode.GROUP)
+    );
+  }, [options.isColumnManagerAvailable, options.openColumnManagerMode]);
+
+  /**
    * Content Sizes
    */
   const {
@@ -355,7 +367,7 @@ export const TablePanel: React.FC<Props> = ({
         {isToolbarVisible && (
           <div ref={headerRef} className={styles.header}>
             <ToolbarButtonRow alignment={options.toolbar.alignment} key={currentGroup} className={styles.tabs}>
-              {options.isColumnManagerAvailable && currentTable && sortedGroups.length === 1 && (
+              {isOpenColumnManagerFromGroup && currentTable && sortedGroups.length === 1 && (
                 <>
                   {replaceVariables(currentTable.name)}
                   {!options.isColumnManagerShowCustomIcon && (
@@ -398,7 +410,7 @@ export const TablePanel: React.FC<Props> = ({
                     {...TEST_IDS.panel.tab.apply(group.name)}
                   >
                     {replaceVariables(group.name)}
-                    {options.isColumnManagerAvailable && currentGroup === group.name && (
+                    {isOpenColumnManagerFromGroup && currentGroup === group.name && (
                       <>
                         {!options.isColumnManagerShowCustomIcon && (
                           <Icon
@@ -510,6 +522,7 @@ export const TablePanel: React.FC<Props> = ({
             showFiltersInColumnManager: options.showFiltersInColumnManager,
             saveUserPreference: options.saveUserPreference,
             showSortInColumnManager: options.showSortingInColumnManager,
+            openColumnManagerMode: options.openColumnManagerMode,
           }}
         />
       </>
