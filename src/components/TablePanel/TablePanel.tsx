@@ -53,7 +53,6 @@ export const TablePanel: React.FC<Props> = ({
   title,
   fieldConfig,
 }) => {
-  console.log('options -> ', options);
   /**
    * Styles
    */
