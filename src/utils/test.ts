@@ -40,6 +40,7 @@ import {
   NestedObjectEditorConfig,
   NestedObjectOperationConfig,
   NestedObjectType,
+  OpenColumnManagerMode,
   PaginationMode,
   PanelOptions,
   PermissionConfig,
@@ -259,6 +260,7 @@ export const createPanelOptions = (options: Partial<PanelOptions> = {}): PanelOp
   showFiltersInColumnManager: false,
   showSortingInColumnManager: false,
   externalExport: createExternalExportConfig(),
+  openColumnManagerMode: OpenColumnManagerMode.GROUP,
   ...options,
 });
 

@@ -5,7 +5,13 @@ import { createSelector, getJestSelectors } from '@volkovlabs/jest-selectors';
 import React from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { ColumnFilterMode, ColumnFilterType, ColumnFilterValue, ColumnPinDirection } from '@/types';
+import {
+  ColumnFilterMode,
+  ColumnFilterType,
+  ColumnFilterValue,
+  ColumnPinDirection,
+  OpenColumnManagerMode,
+} from '@/types';
 import { createColumnConfig, getFilterWithNewType } from '@/utils';
 
 import { FilterDrawer } from '../FilterDrawer';
@@ -771,6 +777,7 @@ describe('Drawer Columns', () => {
               isColumnManagerAvailable: true,
               saveUserPreference: true,
               showSortInColumnManager: false,
+              openColumnManagerMode: OpenColumnManagerMode.GROUP,
             },
             drawerColumns: [{ ...nameColumn, pin: ColumnPinDirection.LEFT }, valueColumn],
             headers: headers,

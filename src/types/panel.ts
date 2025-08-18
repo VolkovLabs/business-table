@@ -15,6 +15,7 @@ import {
   ColumnFilterValue,
   ColumnHeaderFontSize,
   ImageScale,
+  OpenColumnManagerMode,
 } from './table';
 
 /**
@@ -870,6 +871,13 @@ export interface PanelOptions {
   saveUserPreference: boolean;
 
   /**
+   * Column Manager Mode
+   *
+   * @type {OpenColumnManagerMode}
+   */
+  openColumnManagerMode: OpenColumnManagerMode;
+
+  /**
    * Toolbar
    *
    * @type {ToolbarOptions}
@@ -1042,4 +1050,11 @@ export type AdvancedSettings = {
    * @type {boolean}
    */
   saveUserPreference: boolean;
+
+  /**
+   * Column Manager Mode
+   *
+   * @type {OpenColumnManagerMode}
+   */
+  openColumnManagerMode: OpenColumnManagerMode;
 };
