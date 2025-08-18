@@ -871,7 +871,7 @@ export interface PanelOptions {
   saveUserPreference: boolean;
 
   /**
-   * Save user Preference
+   * Column Manager Mode
    *
    * @type {OpenColumnManagerMode}
    */
@@ -1052,7 +1052,7 @@ export type AdvancedSettings = {
   saveUserPreference: boolean;
 
   /**
-   * Save user Preference
+   * Column Manager Mode
    *
    * @type {OpenColumnManagerMode}
    */
