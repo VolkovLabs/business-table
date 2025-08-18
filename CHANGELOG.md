@@ -7,6 +7,7 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 ### ✨ Added
 
 - Improve error handling for Update requests. ([#376](https://github.com/VolkovLabs/business-table/pull/376))
+- Added an option to switch Manager UI between table in group and columns. ([#379](https://github.com/VolkovLabs/business-table/pull/379))
 
 ## [3.2.0] - 2025-08-07
 
