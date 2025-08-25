@@ -10,7 +10,7 @@ import {
 import { useCallback } from 'react';
 
 import { ACTIONS_COLUMN_ID } from '@/constants';
-import { ExportFormatType, TableConfig } from '@/types';
+import { ExportFormatType, NestedObjectConfig, TableConfig } from '@/types';
 import { convertTableToDataFrame, convertToXlsxFormat, downloadCsv, downloadXlsx, prepareNestedValues } from '@/utils';
 
 /**
@@ -22,12 +22,14 @@ export const useExportData = <TData>({
   tableConfig,
   panelTitle,
   replaceVariables,
+  nestedObjects,
 }: {
   data: TData[];
   columns: Array<ColumnDef<TData>>;
   tableConfig?: TableConfig;
   panelTitle: string;
   replaceVariables: InterpolateFunction;
+  nestedObjects: NestedObjectConfig[];
 }) => {
   return useCallback(
     ({ table, exportFormat }: { table: Table<TData> | null; exportFormat: ExportFormatType }) => {
@@ -63,7 +65,7 @@ export const useExportData = <TData>({
       /**
        * Data Frame For Export
        */
-      const dataFrame = prepareNestedValues(convertTableToDataFrame(tableForExport));
+      const dataFrame = prepareNestedValues(convertTableToDataFrame(tableForExport), nestedObjects);
 
       /**
        * CSV text
@@ -104,6 +106,6 @@ export const useExportData = <TData>({
        */
       return downloadCsv(content, `${prefix}${dateTimeFormat(new Date())}`);
     },
-    [columns, data, panelTitle, replaceVariables, tableConfig?.name]
+    [columns, data, nestedObjects, panelTitle, replaceVariables, tableConfig?.name]
   );
 };

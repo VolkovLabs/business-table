@@ -78,6 +78,7 @@ export const NestedObjectsEditor: React.FC<Props> = ({ context: { data }, value,
             payload: {},
           },
           editor: getNestedObjectEditorConfig(NestedObjectType.CARDS),
+          transformHelper: '',
         },
       ])
     );

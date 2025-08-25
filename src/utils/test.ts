@@ -455,6 +455,7 @@ export const createNestedObjectConfig = (item: Partial<NestedObjectConfig>): Nes
   editor: createNestedObjectEditorConfig({}),
   name: '',
   get: createTableRequestConfig({}),
+  transformHelper: '',
   ...item,
 });
 

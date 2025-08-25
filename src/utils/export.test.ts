@@ -1,4 +1,4 @@
-import { format } from './export';
+import { format, transformNestedData } from './export';
 
 describe('format', () => {
   it('Should format data as JSON with escaped characters when variable.name is "payload"', () => {
@@ -55,5 +55,54 @@ describe('format', () => {
     expect(format(null, variable, data)).toEqual(null);
     expect(format(undefined, variable, data)).toEqual(undefined);
     expect(format('', variable, data)).toEqual('');
+  });
+});
+
+describe('transformNestedData', () => {
+  it('Should return empty array when data is empty', () => {
+    const result = transformNestedData('{{this}}', []);
+    expect(result).toEqual([]);
+  });
+
+  it('Should return formatted string using simple template', () => {
+    const data = [{ id: 1, title: 'Test' }];
+    const tpl = 'Hello {{this.[0].title}}';
+
+    const result = transformNestedData(tpl, data);
+
+    expect(result).toEqual('Hello Test');
+  });
+
+  it('Should return string with multiple items using each', () => {
+    const data = [
+      { id: 1, title: 'One' },
+      { id: 2, title: 'Two' },
+    ];
+    const tpl = '{{#each this}}{{title}} {{/each}}';
+
+    const result = transformNestedData(tpl, data);
+
+    expect(result).toEqual('One Two ');
+  });
+
+  it('Should handle template that produces JSON', () => {
+    const data = [
+      { id: 1, title: 'A' },
+      { id: 2, title: 'B' },
+    ];
+    const tpl = `
+      [
+        {{#each this}}
+          { "id": {{id}}, "title": "{{title}}" }{{#unless @last}},{{/unless}}
+        {{/each}}
+      ]
+    `;
+
+    const result = transformNestedData(tpl, data);
+    const parsed = JSON.parse(result as string);
+
+    expect(Array.isArray(parsed)).toBe(true);
+    expect(parsed[0]).toEqual({ id: 1, title: 'A' });
+    expect(parsed[1]).toEqual({ id: 2, title: 'B' });
   });
 });

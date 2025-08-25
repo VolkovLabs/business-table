@@ -102,6 +102,51 @@ describe('NestedObjectEditor', () => {
     );
   });
 
+  it('Should allow to change transformHelper', () => {
+    const onChange = jest.fn();
+    render(
+      getComponent({
+        value: createNestedObjectConfig({
+          type: '' as never,
+        }),
+        onChange: onChange,
+      })
+    );
+
+    expect(selectors.fieldTransformHelper()).toBeInTheDocument();
+
+    fireEvent.change(selectors.fieldTransformHelper(), { target: { value: 'some content' } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        transformHelper: 'some content',
+      })
+    );
+  });
+
+  it('Should allow to change transformHelper if helper value is undefined', () => {
+    const onChange = jest.fn();
+    render(
+      getComponent({
+        value: createNestedObjectConfig({
+          type: '' as never,
+          transformHelper: undefined,
+        }),
+        onChange: onChange,
+      })
+    );
+
+    expect(selectors.fieldTransformHelper()).toBeInTheDocument();
+
+    fireEvent.change(selectors.fieldTransformHelper(), { target: { value: 'some content' } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        transformHelper: 'some content',
+      })
+    );
+  });
+
   it('Should allow to change get request', () => {
     render(
       getComponent({

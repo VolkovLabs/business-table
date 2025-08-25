@@ -1929,7 +1929,7 @@ describe('Table utils', () => {
           ],
         });
 
-        const result = prepareNestedValues(frame);
+        const result = prepareNestedValues(frame, []);
 
         expect(result.fields).toHaveLength(2);
         expect(result.fields[0].values).toEqual([1, 2, 3, 4]);
@@ -1968,7 +1968,7 @@ describe('Table utils', () => {
           ],
         });
 
-        const result = prepareNestedValues(frame);
+        const result = prepareNestedValues(frame, []);
 
         expect(result.fields[0].values).toEqual([1, 2, 3]);
         expect(result.fields[1].values).toHaveLength(3);
@@ -1995,7 +1995,7 @@ describe('Table utils', () => {
           ],
         });
 
-        const result = prepareNestedValues(frame);
+        const result = prepareNestedValues(frame, []);
 
         expect(result.fields[1].values[0]).toEqual(JSON.stringify([{ id: 1, title: 'Comment 1' }]));
         expect(result.fields[1].values[1]).toEqual([]);
@@ -2014,13 +2014,38 @@ describe('Table utils', () => {
           ],
         });
 
-        const result = prepareNestedValues(frame);
+        const result = prepareNestedValues(frame, []);
 
         // Assert
         expect(result.fields[0].values[0]).toEqual(JSON.stringify([{ id: 1, title: 'Comment 1' }]));
         expect(result.fields[0].values[1]).toBeNull();
         expect(result.fields[0].values[2]).toBeUndefined();
         expect(result.fields[0].values[3]).toEqual(JSON.stringify([{ id: 2, title: 'Comment 2' }]));
+      });
+
+      it('Should apply transformNestedData when nestedObject has transformHelper', () => {
+        const frame = toDataFrame({
+          fields: [
+            {
+              name: 'comments',
+              type: FieldType.other,
+              config: {},
+              values: [[{ id: 1, title: 'Comment 1' }], [{ id: 2, title: 'Comment 2' }]],
+            },
+          ],
+        });
+
+        const nestedObjects = [
+          {
+            name: 'comments',
+            transformHelper: '[{{#each this}}{{id}}{{/each}}]',
+          },
+        ] as any;
+
+        const result = prepareNestedValues(frame, nestedObjects);
+
+        expect(result.fields[0].values[0]).toEqual(JSON.stringify([1]));
+        expect(result.fields[0].values[1]).toEqual(JSON.stringify([2]));
       });
     });
   });
