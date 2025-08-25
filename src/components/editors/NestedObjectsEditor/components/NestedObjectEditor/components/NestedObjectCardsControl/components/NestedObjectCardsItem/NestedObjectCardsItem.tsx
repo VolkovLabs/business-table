@@ -4,7 +4,7 @@ import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { useCallback, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { NestedObjectItemPayload } from '@/types';
+import { CodeLanguage, NestedObjectItemPayload } from '@/types';
 
 import { NestedObjectCardContent } from '../NestedObjectCardContent';
 
@@ -165,7 +165,7 @@ export const NestedObjectCardsItem: React.FC<Props> = ({
                         body: body,
                       }));
                     }}
-                    language="markdown"
+                    language={CodeLanguage.MARKDOWN}
                     {...testIds.fieldBody.apply()}
                   />
                 </Field>

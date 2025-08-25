@@ -9,6 +9,7 @@ const AutosizeCodeEditorMock = ({ value, onChange, ...restProps }: any) => {
   return (
     <input
       aria-label={restProps['aria-label']}
+      data-testid={restProps['data-testid']}
       value={value}
       onChange={(event) => {
         onChange(event.currentTarget.value);

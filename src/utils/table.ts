@@ -31,11 +31,14 @@ import {
   ColumnFilterMode,
   ColumnFilterType,
   ColumnFilterValue,
+  NestedObjectConfig,
   NumberFilterOperator,
   TableConfig,
   TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
+
+import { transformNestedData } from './export';
 
 /**
  * Identify Filter
@@ -943,14 +946,25 @@ export const getDefaultFilters = <TData>(columns: Array<ColumnDef<TData>>) => {
  * Prepare Nested Values
  * @param data
  */
-export const prepareNestedValues = (data: DataFrame) => {
+export const prepareNestedValues = (data: DataFrame, nestedObjects: NestedObjectConfig[]) => {
   const updatedFields = data.fields.map((field) => {
-    const isArrayValues = field.values.some((valueItem) => Array.isArray(valueItem));
+    let nestedValues = field.values;
+
+    const nestedObject = nestedObjects?.find((nestedItem) => nestedItem.name === field.name);
+    const isArrayValues = nestedValues.some((valueItem) => Array.isArray(valueItem));
+
+    if (nestedObject && nestedObject.transformHelper && isArrayValues) {
+      nestedValues = nestedValues.map((nestedItem) => {
+        return transformNestedData(nestedObject.transformHelper, nestedItem);
+      });
+    }
+
     const currentValues = isArrayValues
-      ? field.values.map((valueItem) =>
+      ? nestedValues.map((valueItem) =>
           Array.isArray(valueItem) && valueItem.length > 0 ? JSON.stringify(valueItem) : valueItem
         )
-      : field.values;
+      : nestedValues;
+
     return {
       ...field,
       values: currentValues,

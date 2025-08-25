@@ -68,6 +68,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        nestedObjects: [],
         replaceVariables,
       })
     );
@@ -106,6 +107,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        nestedObjects: [],
         replaceVariables,
       })
     );
@@ -174,6 +176,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        nestedObjects: [],
         replaceVariables,
       })
     );
@@ -241,6 +244,7 @@ describe('useExportData', () => {
         tableConfig: createTableConfig({
           name: 'hello',
         }),
+        nestedObjects: [],
         replaceVariables,
       })
     );

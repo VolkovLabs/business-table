@@ -4,7 +4,7 @@ import { AutosizeCodeEditor } from '@volkovlabs/components';
 import React, { useEffect, useState } from 'react';
 
 import { TEST_IDS } from '@/constants';
-import { ColumnConfig } from '@/types';
+import { CodeLanguage, ColumnConfig } from '@/types';
 
 import { getStyles } from './JsonCellRenderer.styles';
 
@@ -126,7 +126,7 @@ export const JsonCellRenderer: React.FC<Props> = ({ value, config, bgColor }) =>
             <AutosizeCodeEditor
               showMiniMap={true}
               value={text}
-              language="json"
+              language={CodeLanguage.JSON}
               isEscaping={true}
               readOnly={true}
               {...TEST_IDS.jsonCellRenderer.codeEditor.apply()}
