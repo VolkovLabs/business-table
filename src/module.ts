@@ -69,7 +69,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addCustomEditor({
         id: 'tables',
         path: 'tables',
-        name: '',
+        name: ' ',
         editor: TablesEditor,
         category: ['Layout'],
         defaultValue: [],
@@ -78,7 +78,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addCustomEditor({
         id: 'addData',
         path: 'tables',
-        name: '',
+        name: ' ',
         editor: AddDataEditor,
         category: ['Add Data'],
         defaultValue: [],
@@ -87,7 +87,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addCustomEditor({
         id: 'editableData',
         path: 'tables',
-        name: '',
+        name: ' ',
         editor: EditableDataEditor,
         category: ['Editable Data'],
         defaultValue: [],
@@ -96,7 +96,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addCustomEditor({
         id: 'deleteData',
         path: 'tables',
-        name: '',
+        name: ' ',
         editor: DeleteDataEditor,
         category: ['Delete Data'],
         defaultValue: [],
@@ -105,7 +105,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addCustomEditor({
         id: 'highlightData',
         path: 'tables',
-        name: '',
+        name: ' ',
         editor: HighlightDataEditor,
         category: ['Highlight Row'],
         defaultValue: [],
@@ -114,7 +114,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addCustomEditor({
         id: 'pagination',
         path: 'tables',
-        name: '',
+        name: ' ',
         editor: PaginationsEditor,
         category: ['Pagination'],
         defaultValue: [],
@@ -123,7 +123,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
       .addCustomEditor({
         id: 'nestedObjects',
         path: 'nestedObjects',
-        name: '',
+        name: ' ',
         editor: NestedObjectsEditor,
         defaultValue: [],
         category: ['Nested Objects'],
@@ -215,7 +215,7 @@ export const plugin = new PanelPlugin<PanelOptions>(TablePanel)
     builder.addCustomEditor({
       id: 'externalExport',
       path: 'externalExport',
-      name: '',
+      name: ' ',
       editor: ExternalExportEditor,
       showIf: (config) => config.externalExport?.enabled,
       category: ['External Export'],
