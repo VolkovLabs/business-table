@@ -56,7 +56,6 @@ grafana cli plugins install volkovlabs-table-panel
 
 The Business Table Panel is part of the **Business Suite**, a collection of open-source plugins by [Volkov Labs](https://volkovlabs.io/). These plugins address common business needs with user-friendly interfaces, comprehensive documentation, and supporting video tutorials.
 
-🔍 **Explore the full suite**:  
 [![Business Suite for Grafana](https://raw.githubusercontent.com/VolkovLabs/.github/main/business.png)](https://volkovlabs.io/plugins/)
 
 ## 📜 License
