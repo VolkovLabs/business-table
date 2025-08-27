@@ -1,3 +1,5 @@
+import handlebars from 'handlebars';
+
 /**
  * Format for replaceVariables
  * @param original
@@ -12,4 +14,21 @@ export const format = (original: unknown, variable: { name?: string }, data: unk
   }
 
   return original;
+};
+
+/**
+ * Format transformNestedData
+ * @param transformHelper
+ * @param data
+ */
+export const transformNestedData = (transformHelper: string, data: unknown[]) => {
+  /**
+   * Handlebars
+   */
+  if (data.length < 1) {
+    return data;
+  }
+
+  const template = handlebars.compile(transformHelper);
+  return template(data);
 };

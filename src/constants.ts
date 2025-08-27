@@ -420,6 +420,7 @@ export const TEST_IDS = {
   },
   nestedObjectEditor: {
     fieldType: createSelector('data-testid nested-object-editor field-type'),
+    fieldTransformHelper: createSelector('data-testid nested-object-editor field-transform-helper'),
     getRequestSectionHeader: createSelector('data-testid nested-object-editor get-request-section-header'),
     getRequestSectionContent: createSelector('data-testid nested-object-editor get-request-section-content'),
     operationSectionHeader: createSelector(

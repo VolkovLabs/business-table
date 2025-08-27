@@ -1,10 +1,11 @@
-import { InlineField, InlineSwitch, Select, useStyles2 } from '@grafana/ui';
-import { Collapse } from '@volkovlabs/components';
+import { Field, InlineField, InlineSwitch, Select, useStyles2 } from '@grafana/ui';
+import { AutosizeCodeEditor, Collapse } from '@volkovlabs/components';
 import React, { useState } from 'react';
 
 import { CollapseTitle, FieldsGroup, RequestEditor } from '@/components';
 import { TEST_IDS } from '@/constants';
 import {
+  CodeLanguage,
   EditorProps,
   NestedObjectConfig,
   NestedObjectOperationConfig,
@@ -199,6 +200,25 @@ export const NestedObjectEditor: React.FC<Props> = ({ value, onChange }) => {
           );
         })}
       </FieldsGroup>
+      <Field
+        label="Format nested objects for export using Handlebars"
+        description="Use `this` in template: {{#each this}} Id:{{id}} {{/each}}"
+      >
+        <AutosizeCodeEditor
+          language={CodeLanguage.HANDLEBARS}
+          showLineNumbers={true}
+          showMiniMap={true}
+          value={value.transformHelper ?? ''}
+          onChange={(code) => {
+            onChange({
+              ...value,
+              transformHelper: code,
+            });
+          }}
+          monacoOptions={{ formatOnPaste: true, formatOnType: true }}
+          {...testIds.fieldTransformHelper.apply()}
+        />
+      </Field>
     </>
   );
 };

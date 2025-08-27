@@ -249,6 +249,13 @@ export interface NestedObjectConfig {
    * @type {NestedObjectEditorConfig}
    */
   editor: NestedObjectEditorConfig;
+
+  /**
+   * Transform nested objects before imports
+   *
+   * @type {string}
+   */
+  transformHelper: string;
 }
 
 /**

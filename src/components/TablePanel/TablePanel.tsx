@@ -295,6 +295,7 @@ export const TablePanel: React.FC<Props> = ({
     data: tableData,
     columns,
     tableConfig: currentTable,
+    nestedObjects: options.nestedObjects,
     panelTitle: title,
     replaceVariables,
   });

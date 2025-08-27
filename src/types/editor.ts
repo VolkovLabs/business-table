@@ -12,3 +12,12 @@ export interface EditorProps<TValue> {
    */
   onChange: (value: TValue) => void;
 }
+
+/**
+ * Supported Languages
+ */
+export const enum CodeLanguage {
+  HANDLEBARS = 'handlebars',
+  MARKDOWN = 'markdown',
+  JSON = 'json',
+}

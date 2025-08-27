@@ -422,7 +422,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Get Table panel
        */
-      const panel = new PanelHelper(dashboardPage, 'Devices');
+      const panel = new PanelHelper(dashboardPage, 'Devices with download');
 
       const table = panel.getTable();
       const headerRow = table.getHeaderRow();
@@ -488,7 +488,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Get Table panel
        */
-      const panel = new PanelHelper(dashboardPage, 'Devices');
+      const panel = new PanelHelper(dashboardPage, 'Devices with download');
 
       const table = panel.getTable();
       const firstRow = table.getRow(0);
@@ -553,7 +553,7 @@ test.describe('Business Table Panel', () => {
       /**
        * Get Table panel
        */
-      const panel = new PanelHelper(dashboardPage, 'Devices');
+      const panel = new PanelHelper(dashboardPage, 'Devices with download');
 
       const table = panel.getTable();
       const firstRow = table.getRow(0);

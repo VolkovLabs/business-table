@@ -410,6 +410,7 @@ describe('migration', () => {
       expect(nestedResultFirst).toEqual({
         id: '',
         name: 'nested1',
+        transformHelper: '',
         type: 'cards',
         add: expect.objectContaining({
           request: expect.objectContaining({
@@ -431,6 +432,7 @@ describe('migration', () => {
 
       expect(nestedResultSecond).toEqual({
         id: '',
+        transformHelper: '',
         name: 'nested2',
         type: 'cards',
         add: expect.objectContaining({
