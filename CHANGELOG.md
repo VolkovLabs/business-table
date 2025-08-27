@@ -6,7 +6,7 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 
 ### ✨ Added
 
-- Added handlebars for nested objects. ([#382](https://github.com/VolkovLabs/business-table/pull/382))
+- Added handlebars for nested objects export. ([#382](https://github.com/VolkovLabs/business-table/pull/382))
 
 ## [3.3.0] - 2025-08-18
 

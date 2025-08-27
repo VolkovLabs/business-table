@@ -200,7 +200,10 @@ export const NestedObjectEditor: React.FC<Props> = ({ value, onChange }) => {
           );
         })}
       </FieldsGroup>
-      <Field label="Format nested objects during import" description="Data is a cell containing nested objects.">
+      <Field
+        label="Format nested objects for export using Handlebars"
+        description="Use `this` in template: {{#each this}} Id:{{id}} {{/each}}"
+      >
         <AutosizeCodeEditor
           language={CodeLanguage.HANDLEBARS}
           showLineNumbers={true}
