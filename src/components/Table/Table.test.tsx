@@ -603,9 +603,7 @@ describe('Table', () => {
       expect(selectors.root());
       expect(selectors.bodyCell(false, '0_device')).toBeInTheDocument();
       expect(selectors.bodyCell(false, '0_device')).toHaveTextContent('device1');
-      expect(selectors.bodyRow(false, '0')).toHaveStyle({
-        backgroundColor: 'red',
-      });
+      expect(getComputedStyle(selectors.bodyRow(false, '0')).backgroundColor).toEqual('rgb(255, 0, 0)');
 
       expect(selectors.bodyCell(false, '1_device')).toBeInTheDocument();
       expect(selectors.bodyCell(false, '1_device')).toHaveTextContent('device2');
