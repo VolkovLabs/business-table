@@ -2,11 +2,15 @@
 
 All notable changes to the **Business Table Panel** plugin for Grafana are documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.4.0] - Unreleased
+## [3.4.0] - 2025-08-28
 
 ### ✨ Added
 
-- Added handlebars for nested objects export. ([#382](https://github.com/VolkovLabs/business-table/pull/382))
+- **Handlebars Support**: Introduced Handlebars templating for exporting nested objects, enhancing data rendering capabilities. ([#382](https://github.com/VolkovLabs/business-table/pull/382))
+
+### 🔄 Changed
+
+- **Grafana 12.1 Compatibility**: Updated the plugin to fully support Grafana 12.1 with modernized dependencies for better performance and compatibility. ([#384](https://github.com/VolkovLabs/business-table/pull/384))
 
 ## [3.3.0] - 2025-08-18
 

@@ -118,7 +118,7 @@ describe('AggregatedCellRenderer', () => {
 
     expect(selectors.root()).toBeInTheDocument();
     expect(selectors.root()).toHaveTextContent('123%');
-    expect(selectors.root().style.color).toEqual('');
+    expect(getComputedStyle(selectors.root()).color).toEqual('inherit');
   });
 
   it('Should add text color if config specified', async () => {
