@@ -8,16 +8,16 @@ All notable changes to the **Business Table Panel** plugin for Grafana are docum
 
 - Added handlebars for nested objects export. ([#382](https://github.com/VolkovLabs/business-table/pull/382))
 
+### 🔄 Changed
+
+- **Grafana 12.1 Support**: Upgraded the plugin to support Grafana 12.1 with updated dependencies for improved performance and compatibility.
+
 ## [3.3.0] - 2025-08-18
 
 ### ✨ Added
 
 - Improve error handling for Update requests. ([#376](https://github.com/VolkovLabs/business-table/pull/376))
 - Added an option to switch Manager UI between table in group and columns. ([#379](https://github.com/VolkovLabs/business-table/pull/379))
-
-### 🔄 Changed
-
-- **Grafana 12.1 Support**: Upgraded the plugin to support Grafana 12.1 with updated dependencies for improved performance and compatibility.
 
 ## [3.2.0] - 2025-08-07
 
