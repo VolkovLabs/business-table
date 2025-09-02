@@ -13,7 +13,7 @@ export const getStyles = (theme: GrafanaTheme2) => {
       position: relative;
       text-decoration: none;
       transition: color 0.3s ease;
-      color: ${theme.colors.text.link};
+      color: ${theme.colors.text.link} !important;
 
       &::after {
         content: '';
@@ -33,6 +33,10 @@ export const getStyles = (theme: GrafanaTheme2) => {
         &::after {
           transform: scaleX(1);
         }
+      }
+
+      & span {
+        color: ${theme.colors.text.link} !important;
       }
     `,
     subRowsTotal: css`
