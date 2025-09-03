@@ -57,7 +57,9 @@ export const useUpdateRow = ({
         }
         case 'delete': {
           request = currentTable?.deleteRow.request;
-          successMessage = 'Row deleted successfully.';
+          successMessage = currentTable?.deleteRow.messages?.notifyMessage
+            ? replaceVariables(currentTable?.deleteRow.messages?.notifyMessage)
+            : 'Row deleted successfully.';
           break;
         }
       }
@@ -95,6 +97,7 @@ export const useUpdateRow = ({
     },
     [
       currentTable?.addRow.request,
+      currentTable?.deleteRow.messages?.notifyMessage,
       currentTable?.deleteRow.request,
       currentTable?.update,
       datasourceRequest,

@@ -25,6 +25,7 @@ type Props = React.ComponentProps<typeof TableDeleteRowEditor>;
 const inTestIds = {
   requestEditor: createSelector('data-testid request-editor'),
   permissionEditor: createSelector('data-testid permission-editor'),
+  customMessagesEditor: createSelector('data-testid custom-messages-editor'),
 };
 
 /**
@@ -42,6 +43,15 @@ jest.mock('@/components/editors/RequestEditor', () => ({
 jest.mock('@/components/editors/PermissionEditor', () => ({
   PermissionEditor: ({ onChange, value }: any) => (
     <input {...inTestIds.permissionEditor.apply()} onChange={() => onChange(value)} />
+  ),
+}));
+
+/**
+ * Mock CustomMessagesEditor
+ */
+jest.mock('@/components/editors/CustomMessagesEditor', () => ({
+  CustomMessagesEditor: ({ onChange, value }: any) => (
+    <input {...inTestIds.customMessagesEditor.apply()} onChange={() => onChange(value)} />
   ),
 }));
 
@@ -125,6 +135,36 @@ describe('TableDeleteRowEditor', () => {
     expect(selectors.permissionEditor()).toBeInTheDocument();
 
     fireEvent.change(selectors.permissionEditor(), { target: { value: 'hello' } });
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        deleteRow: expect.objectContaining({
+          permission: createPermissionConfig({
+            mode: PermissionMode.QUERY,
+          }),
+        }),
+      })
+    );
+  });
+
+  it('Should allow to update messages', () => {
+    render(
+      getComponent({
+        value: createTableConfig({
+          deleteRow: createTableOperationConfig({
+            enabled: true,
+            permission: createPermissionConfig({
+              mode: PermissionMode.QUERY,
+            }),
+          }),
+          items: [],
+        }),
+      })
+    );
+
+    expect(selectors.customMessagesEditor()).toBeInTheDocument();
+
+    fireEvent.change(selectors.customMessagesEditor(), { target: { value: 'hello' } });
 
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({

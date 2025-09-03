@@ -32,6 +32,7 @@ import {
   Pagination as PaginationOptions,
   RowHighlightConfig,
   ScrollToRowPosition,
+  TableConfig,
   TablePreferenceColumn,
   UserPreferences,
 } from '@/types';
@@ -275,6 +276,13 @@ interface Props<TData> {
    * @type {boolean}
    */
   highlightRowsOnHover?: boolean;
+
+  /**
+   * Current Table
+   *
+   * @type { TableConfig | undefined}
+   */
+  currentTable: TableConfig | undefined;
 }
 
 /**
@@ -365,6 +373,7 @@ export const Table = <TData,>({
   stripedRows,
   panelData,
   highlightRowsOnHover,
+  currentTable,
 }: Props<TData>) => {
   /**
    * Styles and Theme
@@ -783,8 +792,16 @@ export const Table = <TData,>({
       {!!deleteData.row && (
         <ConfirmModal
           isOpen={true}
-          title="Delete Row"
-          body="Please confirm to delete row"
+          title={
+            currentTable?.deleteRow.messages?.confirmationTitle
+              ? replaceVariables(currentTable?.deleteRow.messages?.confirmationTitle)
+              : 'Delete Row'
+          }
+          body={
+            currentTable?.deleteRow.messages?.confirmationMessage
+              ? replaceVariables(currentTable?.deleteRow.messages?.confirmationMessage)
+              : 'Please confirm to delete row'
+          }
           confirmText="Confirm"
           onConfirm={deleteData.onSave}
           onDismiss={deleteData.onCancel}
