@@ -1,5 +1,5 @@
 import { PanelProps } from '@grafana/data';
-import { config } from '@grafana/runtime';
+import { config, locationService, RefreshEvent } from '@grafana/runtime';
 import {
   Button,
   ClickOutsideWrapper,

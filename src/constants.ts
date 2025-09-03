@@ -525,6 +525,7 @@ export const TEST_IDS = {
     fieldBackgroundColor: createSelector('data-testid row-highlight-editor field-background-color'),
     fieldScrollTo: createSelector('data-testid row-highlight-editor field-scroll-to'),
     fieldSmoothScroll: createSelector('data-testid row-highlight-editor field-smooth-scroll'),
+    fieldResetVariable: createSelector('data-testid row-highlight-editor field-reset-variable'),
   },
 };
 

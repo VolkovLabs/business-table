@@ -1,3 +1,4 @@
+export * from './actions';
 export * from './editor';
 export * from './export';
 export * from './file';

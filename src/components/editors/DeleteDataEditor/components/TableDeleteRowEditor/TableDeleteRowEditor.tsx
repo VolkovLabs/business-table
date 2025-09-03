@@ -66,6 +66,20 @@ export const TableDeleteRowEditor: React.FC<Props> = ({ value, onChange, data })
           }}
         />
       </FieldsGroup>
+      <FieldsGroup label="Messages">
+        <CustomMessagesEditor
+          value={value.deleteRow.messages}
+          onChange={(messages) => {
+            onChange({
+              ...value,
+              deleteRow: {
+                ...value.deleteRow,
+                messages,
+              },
+            });
+          }}
+        />
+      </FieldsGroup>
       <Collapse
         title="Delete Request"
         isOpen={expanded.request}
@@ -92,20 +106,6 @@ export const TableDeleteRowEditor: React.FC<Props> = ({ value, onChange, data })
           queryEditorDescription="Row to delete is placed in variable `${payload}`"
         />
       </Collapse>
-      <FieldsGroup label="Messages">
-        <CustomMessagesEditor
-          value={value.deleteRow.messages}
-          onChange={(messages) => {
-            onChange({
-              ...value,
-              deleteRow: {
-                ...value.deleteRow,
-                messages,
-              },
-            });
-          }}
-        />
-      </FieldsGroup>
     </>
   );
 };

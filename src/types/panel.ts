@@ -700,6 +700,13 @@ export interface RowHighlightConfig {
    * @type {boolean}
    */
   smooth: boolean;
+
+  /**
+   * Smooth scroll
+   *
+   * @type {boolean}
+   */
+  resetVariable: boolean;
 }
 
 /**

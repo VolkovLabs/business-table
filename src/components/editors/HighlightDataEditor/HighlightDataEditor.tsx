@@ -108,6 +108,7 @@ export const HighlightDataEditor: React.FC<Props> = ({ onChange, value }) => {
                 });
               }}
               columns={item.items}
+              isDeleteEnable={item.deleteRow?.enabled}
             />
           </Collapse>
         </div>
