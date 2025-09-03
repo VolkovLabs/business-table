@@ -23,7 +23,7 @@ export const CustomMessagesEditor: React.FC<Props> = ({ value, onChange }) => {
       <InlineField
         label="Confirm modal Title"
         grow={true}
-        labelWidth={20}
+        labelWidth={25}
         tooltip="Leave empty to use the default message."
       >
         <Input
@@ -40,7 +40,7 @@ export const CustomMessagesEditor: React.FC<Props> = ({ value, onChange }) => {
       <InlineField
         label="Confirm modal message"
         grow={true}
-        labelWidth={20}
+        labelWidth={25}
         tooltip="Leave empty to use the default message."
       >
         <Input
@@ -54,7 +54,7 @@ export const CustomMessagesEditor: React.FC<Props> = ({ value, onChange }) => {
           {...testIds.fieldMessage.apply()}
         />
       </InlineField>
-      <InlineField label="Notify message" grow={true} labelWidth={20} tooltip="Leave empty to use the default message.">
+      <InlineField label="Notify message" grow={true} labelWidth={25} tooltip="Leave empty to use the default message.">
         <Input
           value={value?.notifyMessage}
           onChange={(event) =>
