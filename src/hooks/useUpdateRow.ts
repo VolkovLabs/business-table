@@ -1,5 +1,5 @@
 import { AlertPayload, AppEvents, InterpolateFunction, LoadingState } from '@grafana/data';
-import { getAppEvents, locationService } from '@grafana/runtime';
+import { getAppEvents } from '@grafana/runtime';
 import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
 import { useCallback } from 'react';
 
