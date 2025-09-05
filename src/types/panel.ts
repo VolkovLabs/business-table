@@ -472,7 +472,7 @@ export interface TableRequestMessagesConfig {
   confirmationTitle?: string;
 
   /**
-   * Confirmation title
+   * Confirmation message
    *
    * @type {string}
    */
