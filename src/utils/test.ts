@@ -51,6 +51,7 @@ import {
   TableOperationConfig,
   TablePaginationConfig,
   TableRequestConfig,
+  TableRequestMessagesConfig,
   ToolbarButtonsAlignment,
   ToolbarOptions,
 } from '@/types';
@@ -81,6 +82,18 @@ export const createPermissionConfig = (permission: Partial<PermissionConfig>): P
   mode: PermissionMode.ALLOWED,
   userRole: [],
   ...permission,
+});
+
+/**
+ * Create Custom messages Config
+ */
+export const createCustomMessagesConfig = (
+  messages: Partial<TableRequestMessagesConfig>
+): TableRequestMessagesConfig => ({
+  confirmationTitle: '',
+  confirmationMessage: '',
+  notifyMessage: '',
+  ...messages,
 });
 
 /**
@@ -367,6 +380,7 @@ export const createRowHighlightConfig = (item: Partial<RowHighlightConfig>): Row
   backgroundColor: 'transparent',
   scrollTo: ScrollToRowPosition.NONE,
   smooth: false,
+  resetVariable: false,
   ...item,
 });
 

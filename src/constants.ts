@@ -489,6 +489,11 @@ export const TEST_IDS = {
     fieldOrgRole: createSelector('data-testid permission-editor field-org-role'),
     fieldPicker: createSelector('data-testid permission-editor field-picker'),
   },
+  customMessagesEditor: {
+    fieldTitle: createSelector('data-testid custom-messages-editor field-title'),
+    fieldNotify: createSelector('data-testid custom-messages-editor field-notify'),
+    fieldMessage: createSelector('data-testid custom-messages-editor field-message'),
+  },
   paginationsEditor: {
     itemHeader: createSelector((name: unknown) => `data-testid editable-data-editor item-header-${name}`),
     itemContent: createSelector((name: unknown) => `data-testid editable-data-editor item-content-${name}`),
@@ -520,6 +525,7 @@ export const TEST_IDS = {
     fieldBackgroundColor: createSelector('data-testid row-highlight-editor field-background-color'),
     fieldScrollTo: createSelector('data-testid row-highlight-editor field-scroll-to'),
     fieldSmoothScroll: createSelector('data-testid row-highlight-editor field-smooth-scroll'),
+    fieldResetVariable: createSelector('data-testid row-highlight-editor field-reset-variable'),
   },
 };
 

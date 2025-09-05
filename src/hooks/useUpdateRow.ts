@@ -4,6 +4,7 @@ import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/component
 import { useCallback } from 'react';
 
 import { TableConfig } from '@/types';
+import { onRequestSuccess } from '@/utils';
 
 export const useUpdateRow = ({
   replaceVariables,
@@ -57,7 +58,9 @@ export const useUpdateRow = ({
         }
         case 'delete': {
           request = currentTable?.deleteRow.request;
-          successMessage = 'Row deleted successfully.';
+          successMessage = currentTable?.deleteRow.messages?.notifyMessage
+            ? replaceVariables(currentTable?.deleteRow.messages?.notifyMessage)
+            : 'Row deleted successfully.';
           break;
         }
       }
@@ -84,8 +87,13 @@ export const useUpdateRow = ({
           throw response.errors;
         }
 
-        notifySuccess(['Success', successMessage]);
-        refreshDashboard();
+        onRequestSuccess(
+          () => notifySuccess(['Success', successMessage]),
+          () => refreshDashboard(),
+          currentTable,
+          operation,
+          row as Record<string, unknown>
+        );
       } catch (e: unknown) {
         const errorMessage = `${operation} Error: ${e instanceof Error && e.message ? e.message : Array.isArray(e) ? e[0] : JSON.stringify(e)}`;
         setError(errorMessage);
@@ -93,16 +101,6 @@ export const useUpdateRow = ({
         throw e;
       }
     },
-    [
-      currentTable?.addRow.request,
-      currentTable?.deleteRow.request,
-      currentTable?.update,
-      datasourceRequest,
-      notifySuccess,
-      operation,
-      refreshDashboard,
-      replaceVariables,
-      setError,
-    ]
+    [currentTable, datasourceRequest, notifySuccess, operation, refreshDashboard, replaceVariables, setError]
   );
 };

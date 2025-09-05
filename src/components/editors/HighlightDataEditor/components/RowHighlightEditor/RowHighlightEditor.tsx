@@ -19,6 +19,13 @@ interface Props extends EditorProps<RowHighlightConfig> {
    * @type {ColumnConfig}
    */
   columns: ColumnConfig[];
+
+  /**
+   * Delete for current Table is Enable
+   *
+   * @type {boolean}
+   */
+  isDeleteEnable: boolean;
 }
 
 /**
@@ -51,7 +58,7 @@ const scrollToOptions: Array<SelectableValue<ScrollToRowPosition>> = [
 /**
  * Row Highlight Editor
  */
-export const RowHighlightEditor: React.FC<Props> = ({ value, onChange, columns }) => {
+export const RowHighlightEditor: React.FC<Props> = ({ value, onChange, columns, isDeleteEnable }) => {
   /**
    * Column Options
    */
@@ -103,6 +110,19 @@ export const RowHighlightEditor: React.FC<Props> = ({ value, onChange, columns }
               options={variableOptions}
               isClearable={true}
               {...testIds.fieldVariable.apply()}
+            />
+          </InlineField>
+          <InlineField label="Reset variable on delete" disabled={!isDeleteEnable}>
+            <InlineSwitch
+              disabled={!isDeleteEnable}
+              value={value.resetVariable}
+              onChange={(event) =>
+                onChange({
+                  ...value,
+                  resetVariable: event.currentTarget.checked,
+                })
+              }
+              {...testIds.fieldResetVariable.apply()}
             />
           </InlineField>
         </InlineFieldRow>

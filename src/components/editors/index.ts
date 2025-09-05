@@ -1,5 +1,6 @@
 export * from './AddDataEditor';
 export * from './ColorEditor';
+export * from './CustomMessagesEditor';
 export * from './DatasourceEditor';
 export * from './DatasourcePayloadEditor';
 export * from './DeleteDataEditor';

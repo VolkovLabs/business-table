@@ -29,7 +29,15 @@ describe('RowHighlightEditor', () => {
    * Get Component
    */
   const getComponent = (props: Partial<Props>) => {
-    return <RowHighlightEditor onChange={onChange} columns={[]} value={createRowHighlightConfig({})} {...props} />;
+    return (
+      <RowHighlightEditor
+        onChange={onChange}
+        columns={[]}
+        value={createRowHighlightConfig({})}
+        isDeleteEnable={false}
+        {...props}
+      />
+    );
   };
 
   beforeEach(() => {
@@ -105,6 +113,26 @@ describe('RowHighlightEditor', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({
         variable: 'device',
+      })
+    );
+  });
+
+  it('Should allow to change reset variable behavior', () => {
+    jest.mocked(getTemplateSrv().getVariables).mockReturnValue([
+      createVariable({
+        name: 'device',
+      }),
+    ]);
+
+    render(getComponent({ isDeleteEnable: true }));
+
+    expect(selectors.fieldResetVariable()).toBeInTheDocument();
+
+    fireEvent.click(selectors.fieldResetVariable());
+
+    expect(onChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        resetVariable: true,
       })
     );
   });

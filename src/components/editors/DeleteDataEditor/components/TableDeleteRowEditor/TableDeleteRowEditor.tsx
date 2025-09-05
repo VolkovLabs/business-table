@@ -2,7 +2,7 @@ import { DataFrame } from '@grafana/data';
 import { Collapse } from '@volkovlabs/components';
 import React, { useState } from 'react';
 
-import { FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
+import { CustomMessagesEditor, FieldsGroup, PermissionEditor, RequestEditor } from '@/components';
 import { TEST_IDS } from '@/constants';
 import { TableConfig } from '@/types';
 
@@ -61,6 +61,20 @@ export const TableDeleteRowEditor: React.FC<Props> = ({ value, onChange, data })
               deleteRow: {
                 ...value.deleteRow,
                 permission,
+              },
+            });
+          }}
+        />
+      </FieldsGroup>
+      <FieldsGroup label="Messages">
+        <CustomMessagesEditor
+          value={value.deleteRow.messages}
+          onChange={(messages) => {
+            onChange({
+              ...value,
+              deleteRow: {
+                ...value.deleteRow,
+                messages,
               },
             });
           }}

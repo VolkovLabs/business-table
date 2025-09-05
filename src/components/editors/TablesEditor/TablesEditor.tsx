@@ -138,6 +138,7 @@ export const TablesEditor: React.FC<Props> = ({ context: { options, data }, onCh
             backgroundColor: 'transparent',
             scrollTo: ScrollToRowPosition.NONE,
             smooth: false,
+            resetVariable: false,
           },
         },
       ])

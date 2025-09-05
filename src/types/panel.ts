@@ -461,6 +461,32 @@ export interface TableRequestConfig {
 }
 
 /**
+ * Table Request messages Config
+ */
+export interface TableRequestMessagesConfig {
+  /**
+   * Confirmation title
+   *
+   * @type {string}
+   */
+  confirmationTitle?: string;
+
+  /**
+   * Confirmation message
+   *
+   * @type {string}
+   */
+  confirmationMessage?: string;
+
+  /**
+   * Notify message
+   *
+   * @type {string}
+   */
+  notifyMessage?: string;
+}
+
+/**
  * Pagination Mode
  */
 export enum PaginationMode {
@@ -551,6 +577,13 @@ export interface TableOperationConfig {
    * @type {PermissionConfig}
    */
   permission: PermissionConfig;
+
+  /**
+   * Custom messages
+   *
+   * @type {TableRequestMessagesConfig}
+   */
+  messages?: TableRequestMessagesConfig;
 }
 
 /**
@@ -667,6 +700,13 @@ export interface RowHighlightConfig {
    * @type {boolean}
    */
   smooth: boolean;
+
+  /**
+   * Smooth scroll
+   *
+   * @type {boolean}
+   */
+  resetVariable: boolean;
 }
 
 /**

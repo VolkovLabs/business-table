@@ -160,6 +160,48 @@ describe('useUpdateRow', () => {
     expect(refresh).toHaveBeenCalledTimes(1);
   });
 
+  it('Should run datasource delete request with custom message and call replace variables', async () => {
+    const replaceVariables = jest.fn((str: string) => str);
+    const currentTable = createTableConfig({
+      deleteRow: createTableOperationConfig({
+        enabled: true,
+        request: createTableRequestConfig({
+          datasource: 'postgres',
+          payload: { name: 'hello' },
+        }),
+        messages: {
+          notifyMessage: 'Custom notify message',
+        },
+      }),
+    });
+
+    datasourceRequest.mockResolvedValue({
+      state: LoadingState.Done,
+    });
+
+    const { result } = renderHook(() =>
+      useUpdateRow({
+        replaceVariables,
+        currentTable,
+        setError,
+        operation: 'delete',
+      })
+    );
+
+    const row = { id: 1 };
+
+    await result.current(row);
+
+    expect(datasourceRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        payload: row,
+        query: currentTable.deleteRow.request.payload,
+        datasource: currentTable.deleteRow.request.datasource,
+      })
+    );
+    expect(replaceVariables).toHaveBeenCalledWith('Custom notify message');
+  });
+
   it('Should show datasource request error message', async () => {
     const currentTable = createTableConfig({
       update: {
