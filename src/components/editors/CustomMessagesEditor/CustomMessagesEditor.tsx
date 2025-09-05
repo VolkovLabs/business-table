@@ -20,14 +20,10 @@ const testIds = TEST_IDS.customMessagesEditor;
 export const CustomMessagesEditor: React.FC<Props> = ({ value, onChange }) => {
   return (
     <>
-      <InlineField
-        label="Confirm modal Title"
-        grow={true}
-        labelWidth={25}
-        tooltip="Leave empty to use the default message."
-      >
+      <InlineField label="Confirm Modal Title" grow={true} labelWidth={25}>
         <Input
           value={value?.confirmationTitle}
+          placeholder="Delete Row"
           onChange={(event) =>
             onChange({
               ...value,
@@ -37,14 +33,10 @@ export const CustomMessagesEditor: React.FC<Props> = ({ value, onChange }) => {
           {...testIds.fieldTitle.apply()}
         />
       </InlineField>
-      <InlineField
-        label="Confirm modal message"
-        grow={true}
-        labelWidth={25}
-        tooltip="Leave empty to use the default message."
-      >
+      <InlineField label="Confirm Modal Message" grow={true} labelWidth={25}>
         <Input
           value={value?.confirmationMessage}
+          placeholder="Please confirm to delete row"
           onChange={(event) =>
             onChange({
               ...value,
@@ -54,9 +46,10 @@ export const CustomMessagesEditor: React.FC<Props> = ({ value, onChange }) => {
           {...testIds.fieldMessage.apply()}
         />
       </InlineField>
-      <InlineField label="Notify message" grow={true} labelWidth={25} tooltip="Leave empty to use the default message.">
+      <InlineField label="Notify Message" grow={true} labelWidth={25}>
         <Input
           value={value?.notifyMessage}
+          placeholder="Row deleted successfully."
           onChange={(event) =>
             onChange({
               ...value,
