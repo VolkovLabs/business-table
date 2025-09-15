@@ -11,7 +11,7 @@ import {
   DefaultCellRenderer,
   FileCellRenderer,
   GaugeCellRenderer,
-  ImageCellRenderer,
+  MediaCellRenderer,
   JsonCellRenderer,
   LayoutCellRenderer,
   PreformattedCellRenderer,
@@ -25,7 +25,7 @@ type Props = React.ComponentProps<typeof CellRenderer>;
 jest.mock('./components', () => ({
   DefaultCellRenderer: jest.fn(() => null),
   BooleanCellRenderer: jest.fn(() => null),
-  ImageCellRenderer: jest.fn(() => null),
+  MediaCellRenderer: jest.fn(() => null),
   GaugeCellRenderer: jest.fn(() => null),
   LayoutCellRenderer: jest.fn(() => null),
   PreformattedCellRenderer: jest.fn(() => null),
@@ -120,7 +120,7 @@ describe('CellRenderer', () => {
       })
     );
 
-    expect(ImageCellRenderer).toHaveBeenCalled();
+    expect(MediaCellRenderer).toHaveBeenCalled();
   });
 
   it('Should render default cell renderer by default', () => {

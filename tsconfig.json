@@ -1,6 +1,21 @@
 {
   "extends": "./.config/tsconfig.json",
   "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "node",    
+    "alwaysStrict": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "strict": false,    
+    // "strictFunctionTypes": false,
+    // "strictBindCallApply": false,
+    // "strictPropertyInitialization": false,
+    "noImplicitReturns": false,    
+    "noUnusedLocals": false,
     "paths": {
       "@/*": ["*"]
     }

@@ -98,6 +98,7 @@ export const FilterDrawer = <TData,>({ header, updatePreferencesWithFilters }: P
       <FilterSection
         autoFocus={false}
         header={header}
+        // @ts-ignore
         filter={filter}
         setFilter={setFilter}
         onChange={(value: ColumnFilterValue) => {

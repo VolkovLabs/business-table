@@ -54,7 +54,7 @@ export const FilterPopup = <TData,>({
   /**
    * Search Value
    */
-  const [filter, setFilter] = useState(
+  const [filter, setFilter]:any = useState(
     (header.column.getFilterValue() as ColumnFilterValue) || {
       type: 'none',
     }

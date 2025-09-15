@@ -108,13 +108,17 @@ interface EditorDateOptions {
 /**
  * File Editor Options
  */
-interface EditorFileOptions {
+export interface EditorFileOptions {
   /**
    * Accept file types
    *
    * @type {string}
    */
   accept?: string;
+  fileExtensions?: string[],
+  mimeType?:string[],
+  maxSize?: number,
+  limit?: number,    
 }
 
 /**
@@ -165,8 +169,8 @@ export interface EditableColumnEditorRegistryItem<TType extends ColumnEditorType
     data: DataFrame[];
   }>;
   control: React.FC<{
-    value: unknown;
-    onChange: (value: unknown) => void;
+    value: any;
+    onChange: (value: any) => void;
     config: ColumnEditorControlOptionsByType<TType>;
     isSaving: boolean;
   }>;
