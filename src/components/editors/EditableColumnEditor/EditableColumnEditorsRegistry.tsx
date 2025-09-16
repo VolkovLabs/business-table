@@ -482,7 +482,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
             }}
             fileListRenderer={(file, removeFile) => {
               return <FileListItem
-                // showFileIcon={false}
+                showFileIcon={false}
                 name="File"
                 fileNameWrapperStyle={{
                   display: 'flex',

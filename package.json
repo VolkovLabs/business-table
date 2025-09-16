@@ -12,6 +12,7 @@
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/react-virtual": "^3.13.12",
     "@volkovlabs/components": "^4.6.0",
+    "axios": "^1.12.2",
     "file-saver": "^2.0.5",
     "handlebars": "^4.7.8",
     "js-base64": "^3.7.8",

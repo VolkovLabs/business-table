@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import mime from 'mime';
 import { BASE64_IMAGE_HEADER_REGEX, IMAGE_TYPES_SYMBOLS, TEST_IDS } from '@/constants';
 import { Modal, Button } from '@grafana/ui';
+import { AppEvents } from '@grafana/data';
+import { getAppEvents } from '@grafana/runtime';
 
 interface Props {
   value: string;
@@ -15,7 +17,7 @@ interface Props {
 
 const CACHE_PREFIX = 'img_cache_';
 
-
+const appEvents = getAppEvents();
 export const MediaCellRenderer: React.FC<Props> = ({
   value,
   column,
@@ -75,6 +77,29 @@ export const MediaCellRenderer: React.FC<Props> = ({
   const openPreview = (props)=>{
     setPreviewIsPresent(!previewIsPresent)
   }
+
+  async function downloadMedia() {
+    try {
+      const response = await fetch(src);
+      const blob = await response.blob();
+      const fileName = decodeURIComponent(new URL(src).pathname.split('/').pop())
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
+      link.click();      
+    } catch (error) {
+
+      appEvents.publish({
+        type: AppEvents.alertError.name,
+        payload: [`File could not be download. Save the file from the new tab it was opened in`]
+      });      
+      setTimeout(() => {
+        window.open(src,"_blank")
+      }, 3000);
+    }
+
+  }
+
 
   useEffect(() => {
     setSrc(fallbackSrc)
@@ -139,7 +164,7 @@ export const MediaCellRenderer: React.FC<Props> = ({
   const previewMediaStyle: any ={
 
     maxWidth:"100%",
-    maxHeight:"515px"
+    height:"475px"
   }
 
   if (error) {
@@ -202,9 +227,9 @@ export const MediaCellRenderer: React.FC<Props> = ({
             )
           }      
       </div>
-<Modal.ButtonRow>
-  <Button>Download</Button>
-</Modal.ButtonRow>
+      <Modal.ButtonRow>
+        <Button onClick={downloadMedia}>Download</Button>
+      </Modal.ButtonRow>
     </Modal>    
     {
       mediaInfo.type === 'video' ? (
