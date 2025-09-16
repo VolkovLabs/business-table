@@ -79,11 +79,12 @@ export const useUpdateRow = ({
           replaceVariables,
           payload: row,
         });
+        console.log(response)
 
         /**
          * Query Error
          */
-        if (response.state === LoadingState.Error) {
+        if (![200,201].includes(response?.error?.status)) {
           throw response.errors;
         }
 
@@ -96,8 +97,15 @@ export const useUpdateRow = ({
         );
       } catch (e: unknown) {
         const errorMessage = `${operation} Error: ${e instanceof Error && e.message ? e.message : Array.isArray(e) ? e[0] : JSON.stringify(e)}`;
-        setError(errorMessage);
+        // setError(errorMessage);
+        console.log(errorMessage)
+        appEvents.publish({
+          type: AppEvents.alertError.name,
+          payload:[
+            errorMessage
+          ]
 
+        })
         throw e;
       }
     },
