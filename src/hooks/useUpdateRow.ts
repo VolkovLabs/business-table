@@ -100,7 +100,6 @@ export const useUpdateRow = ({
         );
       } catch (e: any) {
 
-
         let errorMessage = ""
         let notifyType : "panel" | "toast" = "toast"
         const capitalizedOperation = new WMLStringObject({orig:operation}).capitalize(false)
