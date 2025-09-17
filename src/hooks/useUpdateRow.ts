@@ -1,10 +1,11 @@
 import { AlertPayload, AppEvents, InterpolateFunction, LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
-import { useDashboardRefresh, useDatasourceRequest } from '@volkovlabs/components';
+import { useDashboardRefresh } from '@volkovlabs/components';
 import { useCallback } from 'react';
-
 import { TableConfig } from '@/types';
 import { onRequestSuccess } from '@/utils';
+import {  useDatasourceRequest } from '@/dev_additions/VolkovlabsComponents/src/hooks/useDatasourceRequest';
+import { WMLStringObject } from '@windmillcode/wml-components-base';
 
 export const useUpdateRow = ({
   replaceVariables,
@@ -79,14 +80,14 @@ export const useUpdateRow = ({
           replaceVariables,
           payload: row,
         });
-        console.log(response)
 
         /**
          * Query Error
          */
-        if (![200,201].includes(response?.error?.status)) {
+        if (response.state === LoadingState.Error) {
           throw response.errors;
-        }
+        }        
+
 
         onRequestSuccess(
           () => notifySuccess(['Success', successMessage]),
@@ -95,20 +96,42 @@ export const useUpdateRow = ({
           operation,
           row as Record<string, unknown>
         );
-      } catch (e: unknown) {
-        const errorMessage = `${operation} Error: ${e instanceof Error && e.message ? e.message : Array.isArray(e) ? e[0] : JSON.stringify(e)}`;
-        // setError(errorMessage);
-        console.log(errorMessage)
-        appEvents.publish({
-          type: AppEvents.alertError.name,
-          payload:[
-            errorMessage
-          ]
+      } catch (e: any) {
 
-        })
+
+        let errorMessage = ""
+        let notifyType : "panel" | "toast" = "toast"
+        const capitalizedOperation = new WMLStringObject({orig:operation}).capitalize(false)
+        if(e.error){
+          errorMessage = Array.isArray(e.error) ? e.error.reduce((acc,x)=> acc +"\n"+x) : e.error
+          errorMessage = `${capitalizedOperation} Error: ${errorMessage}`
+        }
+        else {
+          if (e instanceof Error && e.message) {
+            errorMessage = `${capitalizedOperation} Error: ${e.message}`;
+          } else if (Array.isArray(e)) {
+            errorMessage = `${capitalizedOperation} Error: ${e[0]}`;
+          } else {
+            errorMessage = `${capitalizedOperation} Error: ${JSON.stringify(e)}`;
+            notifyType = "panel";
+          }
+        }
+        if(notifyType ==="toast"){
+          appEvents.publish({
+            type: AppEvents.alertError.name,
+            payload:[
+              errorMessage
+            ]
+          })          
+        }
+        else{
+          setError(errorMessage);
+        }
+     
+        
         throw e;
       }
     },
-    [currentTable, datasourceRequest, notifySuccess, operation, refreshDashboard, replaceVariables, setError]
+    [currentTable, datasourceRequest, notifySuccess, operation, refreshDashboard, replaceVariables, setError,appEvents]
   );
 };

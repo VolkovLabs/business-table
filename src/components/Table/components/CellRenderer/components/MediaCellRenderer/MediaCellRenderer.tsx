@@ -79,6 +79,7 @@ export const MediaCellRenderer: React.FC<Props> = ({
   }
 
   async function downloadMedia() {
+    
     try {
       const response = await fetch(src);
       const blob = await response.blob();
@@ -88,7 +89,7 @@ export const MediaCellRenderer: React.FC<Props> = ({
       link.download = fileName;
       link.click();      
     } catch (error) {
-
+      console.error(error)
       appEvents.publish({
         type: AppEvents.alertError.name,
         payload: [`File could not be download. Save the file from the new tab it was opened in`]
