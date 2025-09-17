@@ -197,14 +197,16 @@ export const MediaCellRenderer: React.FC<Props> = ({
         inset:0,
         width:"100%",
         height:"100%",
-        background:"rgba(0,0,0,0.5)",
+        background:"rgba(0,0,0,0.7)",
         display:"flex",
         justifyContent:"center",
         alignItems:"center",
         
       }}
     >
-      <p>Preview</p>
+      <p style={{
+        textAlign:"center"
+      }}>Click to Preview</p>
     </div>}
     <Modal 
     title="Preview" 
