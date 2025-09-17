@@ -29,6 +29,7 @@ export const MediaCellRenderer: React.FC<Props> = ({
   const [error, setError] = useState(false);
   const [mediaInfo, setMediaInfo] = useState<{ type: 'image' | 'video' | null; mimeType?: string }>({ type: null });
   const [previewIsPresent,setPreviewIsPresent] = useState(false)
+  const [previewOverlayIsPresent,setPreviewOverlayIsPresent] = useState(false)
 
   const getMediaInfo = (value: string): { type: 'image' | 'video' | null; mimeType?: string } => {
     // @ts-ignore
@@ -75,6 +76,7 @@ export const MediaCellRenderer: React.FC<Props> = ({
   };
 
   const openPreview = (props)=>{
+    setPreviewOverlayIsPresent(false)
     setPreviewIsPresent(!previewIsPresent)
   }
 
@@ -178,14 +180,33 @@ export const MediaCellRenderer: React.FC<Props> = ({
       />
     );
   }
+
+  
   return <div
     style={{
-      cursor:"pointer"
+      cursor:"pointer",
+      position:"relative"
     }}
    onClick={openPreview}
-  >
+   onPointerEnter={()=>setPreviewOverlayIsPresent(true)}
+   onPointerLeave={()=>setPreviewOverlayIsPresent(false)}
+  > 
+    {previewOverlayIsPresent &&<div
+      style={{
+        position:"absolute",
+        inset:0,
+        width:"100%",
+        height:"100%",
+        background:"rgba(0,0,0,0.5)",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        
+      }}
+    >
+      <p>Preview</p>
+    </div>}
     <Modal 
-    
     title="Preview" 
     isOpen={previewIsPresent }>
       <div
@@ -195,6 +216,7 @@ export const MediaCellRenderer: React.FC<Props> = ({
 
         }}
       >
+
           {
             mediaInfo.type === 'video' ? (
               <video
