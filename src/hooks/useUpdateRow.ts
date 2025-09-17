@@ -11,12 +11,12 @@ export const useUpdateRow = ({
   replaceVariables,
   currentTable,
   operation,
-  setError,
+  setError
 }: {
   replaceVariables: InterpolateFunction;
   currentTable?: TableConfig;
   operation: 'add' | 'update' | 'delete';
-  setError: (message: string) => void;
+  setError: (message: string) => void
 }) => {
   /**
    * App Events
@@ -36,6 +36,8 @@ export const useUpdateRow = ({
    * Data Source Request
    */
   const datasourceRequest = useDatasourceRequest();
+
+  
 
   /**
    * Update Row
@@ -127,6 +129,7 @@ export const useUpdateRow = ({
         else{
           setError(errorMessage);
         }
+
      
         
         throw e;

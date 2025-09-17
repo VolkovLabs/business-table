@@ -30,7 +30,6 @@ import {
 } from '@/hooks';
 import { ExportFormatType, OpenColumnManagerMode, PanelOptions, TablePreferenceColumn, UserPreferences } from '@/types';
 import { checkIfOperationEnabled, getTableWithPreferences, updateUserPreferenceTables } from '@/utils';
-
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
 
@@ -285,7 +284,7 @@ export const TablePanel: React.FC<Props> = ({
 
   /**
    * Delete Row
-   */
+   */ 
   const onDeleteRow = useUpdateRow({ replaceVariables, currentTable, operation: 'delete', setError: showError });
 
   /**
