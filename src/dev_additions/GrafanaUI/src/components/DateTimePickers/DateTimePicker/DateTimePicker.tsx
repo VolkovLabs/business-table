@@ -8,7 +8,7 @@ import { FormEvent, ReactNode, useCallback, useEffect, useRef, useState } from '
 import * as React from 'react';
 import Calendar from 'react-calendar';
 import { useMedia } from 'react-use';
-import { getAppEvents } from '@grafana/runtime';
+// import { getAppEvents } from '@grafana/runtime';
 
 import {
   dateTimeFormat,
@@ -36,7 +36,7 @@ import { TimeOfDayPicker, POPUP_CLASS_NAME } from '../TimeOfDayPicker';
 import { getBodyStyles } from '../TimeRangePicker/CalendarBody';
 import { isValid } from '../utils';
 import { adjustDateForReactCalendar } from '../utils/adjustDateForReactCalendar';
-import { Icon, InlineField, useStyles2, useTheme2,Input,Stack,Portal } from '@grafana/ui';
+import { Icon,  useStyles2, useTheme2,Input,Stack,Portal, InlineField } from '@grafana/ui';
 import { PickerProps } from 'rc-picker';
 
 export interface Props {
@@ -151,8 +151,9 @@ export const DateTimePicker = ({
     [setOpen]
   );
 
+  // TODO decide if you simply want to open the calendar picker or let the user know the warning
+  // const appEvents = getAppEvents();
   const handleManualInputDisabled =()=>{
-    // TODO decide if you simply want to open the calendar picker or let the user know the warning
     setOpen(true)          
     // appEvents.publish({
     //   type: AppEvents.alertWarning.name,
@@ -160,11 +161,11 @@ export const DateTimePicker = ({
     // });
   }
 
-  const appEvents = getAppEvents();
+  
   return (
     <div
       data-testid="date-time-picker"
-      style={{ position: 'relative' }}
+      style={{ position: 'relative',width:"100%" }}
       onKeyDown={(e) => {
         if (
           !manualInputIsEnabled &&
@@ -280,8 +281,6 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, InputProps>(
       };
     });
 
-
-
     useEffect(() => {
       if (date) {
         const formattedDate = dateTimeFormat(date, { format, timeZone });
@@ -315,28 +314,27 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, InputProps>(
       onChange();
     }, [onChange]);
 
-    const icon = (
-      <Button
-        // aria-label={t('grafana-ui.date-time-picker.calendar-icon-label', 'Time picker')}
-        aria-label='Time picker'
-        icon="calendar-alt"
-        variant="secondary"
-        onClick={onOpen}
-      />
-    );
-
-    // console.group({
-    //   value:internalDate.value,
-    //   invalid:internalDate.invalid,
-    //   internalDate
-    // })
-    // console.groupEnd()   
+    // NOTICE: leaving here for future use
+    // const icon = (
+    //   <Button
+    //     // aria-label={t('grafana-ui.date-time-picker.calendar-icon-label', 'Time picker')}
+    //     aria-label='Time picker'
+    //     icon="calendar-alt"
+    //     variant="secondary"
+    //     onClick={onOpen}
+    //   />
+    // );
 
     return (
-      <InlineField label={label} invalid={!!(internalDate.value && internalDate.invalid)} className={styles.field}>
+      <InlineField
+      grow={true}
+      style={{width:"100%"}}
+      label={label} invalid={!!(internalDate.value && internalDate.invalid)} className={styles.field}>
         <Input
+        
+          style={{width:"100%"}}
           onChange={onChangeDate}
-          addonAfter={icon}
+          // addonAfter={icon}
           value={internalDate.value}
           onBlur={onBlur}
           data-testid={Components.DateTimePicker.input}

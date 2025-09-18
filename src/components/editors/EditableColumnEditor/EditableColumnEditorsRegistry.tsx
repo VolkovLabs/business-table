@@ -22,8 +22,7 @@ import {
   cleanPayloadObject,
   createEditableColumnEditorRegistryItem,
   createEditableColumnEditorsRegistry,
-  formatNumberValue,
-  toBase64,
+  formatNumberValue
 } from '@/utils';
 
 import { DateEditor, QueryOptionsEditor } from './components';
