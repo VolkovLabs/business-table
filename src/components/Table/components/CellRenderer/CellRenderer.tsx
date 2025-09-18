@@ -9,9 +9,9 @@ import {
   DefaultCellRenderer,
   FileCellRenderer,
   GaugeCellRenderer,
-  MediaCellRenderer,
   JsonCellRenderer,
   LayoutCellRenderer,
+  MediaCellRenderer,
   PreformattedCellRenderer  
 } from './components';
 

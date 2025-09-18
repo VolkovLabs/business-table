@@ -1,11 +1,12 @@
 import { AlertPayload, AppEvents, InterpolateFunction, LoadingState } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import { useDashboardRefresh } from '@volkovlabs/components';
+import { WMLStringObject } from '@windmillcode/wml-components-base';
 import { useCallback } from 'react';
+
+import {  useDatasourceRequest } from '@/dev_additions/VolkovlabsComponents/src/hooks/useDatasourceRequest';
 import { TableConfig } from '@/types';
 import { onRequestSuccess } from '@/utils';
-import {  useDatasourceRequest } from '@/dev_additions/VolkovlabsComponents/src/hooks/useDatasourceRequest';
-import { WMLStringObject } from '@windmillcode/wml-components-base';
 
 export const useUpdateRow = ({
   replaceVariables,

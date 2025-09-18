@@ -1,10 +1,9 @@
 import { css, cx } from '@emotion/css';
+import { formattedValueToString, getValueFormat, GrafanaTheme2 } from '@grafana/data';
+import { Alert,Icon,useTheme2 } from '@grafana/ui';
 import { isString, uniqueId } from 'lodash';
 import { ReactNode, useCallback, useState } from 'react';
-import { Accept, DropEvent, DropzoneOptions, FileError, FileRejection, useDropzone, ErrorCode } from 'react-dropzone';
-
-import { formattedValueToString, getValueFormat, GrafanaTheme2 } from '@grafana/data';
-import { useTheme2,Alert,Icon } from '@grafana/ui';
+import { Accept, DropEvent, DropzoneOptions, ErrorCode,FileError, FileRejection, useDropzone } from 'react-dropzone';
 
 import { t, Trans } from '../../utils/i18n';
 import { FileListItem } from './FileListItem';
@@ -78,7 +77,7 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
 
   const onDrop = useCallback(
     (acceptedFiles: File[], rejectedFiles: FileRejection[], event: DropEvent) => {
-      let customFiles = acceptedFiles.map(mapToCustomFile);
+      const customFiles = acceptedFiles.map(mapToCustomFile);
       if (options?.multiple === false) {
         setFiles(customFiles);
       } else {
@@ -166,7 +165,7 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
   });
 
   const setErrors = (rejectedFiles: FileRejection[]) => {
-    let errors: FileError[] = [];
+    const errors: FileError[] = [];
     rejectedFiles.map((rejectedFile) => {
       rejectedFile.errors.map((newError) => {
         if (

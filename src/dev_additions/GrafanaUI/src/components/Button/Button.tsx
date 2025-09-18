@@ -1,15 +1,15 @@
 import { css, cx } from '@emotion/css';
+import { Placement } from '@floating-ui/react';
+import { GrafanaTheme2, ThemeRichColor } from '@grafana/data';
+import { ComponentSize, Icon,IconName,IconSize, IconType,PopoverContent, Tooltip,useTheme2} from '@grafana/ui';
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from 'react';
 import * as React from 'react';
 
-import { GrafanaTheme2, ThemeRichColor } from '@grafana/data';
-import { useTheme2,ComponentSize, IconSize, IconType,IconName,Icon,PopoverContent, Tooltip} from '@grafana/ui';
 // import { useTheme2 } from '../../themes';
 import { getFocusStyles, getMouseFocusStyles } from '../../themes/mixins';
 // import { ComponentSize, IconSize, IconType } from '../../types';
 // import { IconName } from '../../types/icon';
 import { getPropertiesForButtonSize } from '../Forms/commonStyles';
-import { Placement } from '@floating-ui/react';
 // import { Icon } from '../Icon/Icon';
 // import { PopoverContent, Tooltip, TooltipPlacement } from '../Tooltip';
 

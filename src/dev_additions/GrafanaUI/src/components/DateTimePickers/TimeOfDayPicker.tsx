@@ -1,21 +1,21 @@
 
 ;
-import * as React from 'react';
+// import { FormInputSize } from '../Forms/types';
+// import { Icon } from '../Icon/Icon';
+import 'rc-picker/assets/index.css';
+
 import { css, cx } from '@emotion/css';
+import { DateTime, dateTime, dateTimeAsMoment, GrafanaTheme2, isDateTimeInput } from '@grafana/data';
+import { FormInputSize, Icon, useStyles2 } from '@grafana/ui';
 import { Moment } from 'moment';
 import RcPicker, { PickerProps } from 'rc-picker';
 import generateConfig from 'rc-picker/lib/generate/moment';
 import locale from 'rc-picker/lib/locale/en_US';
-
-import { dateTime, DateTime, dateTimeAsMoment, GrafanaTheme2, isDateTimeInput } from '@grafana/data';
+import * as React from 'react';
 
 // import { useStyles2 } from '../../themes/ThemeContext';
 import { getFocusStyles } from '../../themes/mixins';
 import { inputSizes } from '../Forms/commonStyles';
-// import { FormInputSize } from '../Forms/types';
-// import { Icon } from '../Icon/Icon';
-import 'rc-picker/assets/index.css';
-import { FormInputSize, Icon, useStyles2 } from '@grafana/ui';
 
 interface BaseProps {
   onChange: (value: DateTime) => void | ((value?: DateTime) => void);

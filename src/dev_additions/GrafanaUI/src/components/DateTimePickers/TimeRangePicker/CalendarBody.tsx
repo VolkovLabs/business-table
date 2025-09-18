@@ -1,17 +1,16 @@
 
-import * as React from 'react';
 import { css } from '@emotion/css';
+import { DateTime, dateTimeParse, GrafanaTheme2, TimeZone } from '@grafana/data';
+import { getWeekStart, Icon,useStyles2, WeekStart } from '@grafana/ui';
+import * as React from 'react';
 import { FormEvent, useCallback } from 'react';
 import Calendar, { CalendarType } from 'react-calendar';
-
-import { GrafanaTheme2, dateTimeParse, DateTime, TimeZone } from '@grafana/data';
 
 // import { useStyles2 } from '../../../themes';
 import { t } from '../../../utils/i18n';
 // import { Icon } from '../../Icon/Icon';
 // import { getWeekStart, WeekStart } from '../WeekStartPicker';
 import { adjustDateForReactCalendar } from '../utils/adjustDateForReactCalendar';
-import { WeekStart, useStyles2, getWeekStart, Icon } from '@grafana/ui';
 
 // import { TimePickerCalendarProps } from './TimePickerCalendar';
 

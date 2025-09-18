@@ -1,15 +1,13 @@
 import { css, cx } from '@emotion/css';
+import { GrafanaTheme2 } from '@grafana/data';
+import { selectors } from '@grafana/e2e-selectors';
+import { ComponentSize,Icon,useStyles2} from '@grafana/ui';
 import { FormEvent, useCallback, useState } from 'react';
 import * as React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { GrafanaTheme2 } from '@grafana/data';
-import { selectors } from '@grafana/e2e-selectors';
-
-import { useStyles2,ComponentSize,Icon} from '@grafana/ui';
 import { getFocusStyles } from '../../themes/mixins';
 import { trimFileName } from '../../utils/file';
-
 import { t } from '../../utils/i18n';
 import { getButtonStyles } from '../Button';
 

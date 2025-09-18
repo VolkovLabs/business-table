@@ -137,9 +137,8 @@
 // }
 
 import { css } from '@emotion/css';
-
 import { formattedValueToString, getValueFormat, GrafanaTheme2 } from '@grafana/data';
-import { DropzoneFile, useStyles2, IconButton, Button, Icon } from '@grafana/ui';
+import { Button, DropzoneFile, Icon,IconButton, useStyles2 } from '@grafana/ui';
 import React from 'react';
 
 // import { useStyles2 } from '../../themes';

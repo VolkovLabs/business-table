@@ -1,8 +1,7 @@
 import { css, cx } from '@emotion/css';
-
 import { GrafanaTheme2 } from '@grafana/data';
-
 import { ComponentSize} from '@grafana/ui';
+
 import { getFocusStyles } from '../../themes/mixins';
 // import { ComponentSize } from '../../types/size';
 

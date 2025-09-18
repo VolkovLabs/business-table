@@ -1,8 +1,7 @@
 import { css, cx } from '@emotion/css';
-import { forwardRef, HTMLAttributes } from 'react';
-
 import { GrafanaTheme2 } from '@grafana/data';
 import { useStyles2 } from '@grafana/ui';
+import { forwardRef, HTMLAttributes } from 'react';
 // import { useStyles2 } from '../../themes';
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {

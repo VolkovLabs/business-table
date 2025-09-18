@@ -11,12 +11,13 @@ import {
   Select,
   TextArea,
 } from '@grafana/ui';
-import { FileRejection } from 'react-dropzone/.';
-
 import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
+import { FileRejection } from 'react-dropzone/.';
 
 import { COMMON_FILE_EXTENSIONS, TEST_IDS } from '@/constants';
+import { DateTimePicker } from '@/dev_additions/GrafanaUI/src/components/DateTimePickers/DateTimePicker/DateTimePicker';
+import { FileListItem } from '@/dev_additions/GrafanaUI/src/components/FileDropzone/FileListItem';
 import { ColumnEditorType, EditorFileOptions } from '@/types';
 import {
   cleanPayloadObject,
@@ -26,8 +27,6 @@ import {
 } from '@/utils';
 
 import { DateEditor, QueryOptionsEditor } from './components';
-import { FileListItem } from '@/dev_additions/GrafanaUI/src/components/FileDropzone/FileListItem';
-import { DateTimePicker } from '@/dev_additions/GrafanaUI/src/components/DateTimePickers/DateTimePicker/DateTimePicker';
 
 /**
  * Editable Column Editors Registry
@@ -412,7 +411,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
       const handleDrop = (acceptedFiles: File[], rejectedFiles: FileRejection[], event, removeFile) => {
         setError(null);
 
-        let files = [...acceptedFiles]
+        const files = [...acceptedFiles]
 
         // Check file count first
         if (config.limit && acceptedFiles.length > config.limit) {

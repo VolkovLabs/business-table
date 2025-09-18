@@ -1,7 +1,6 @@
 import { css, cx } from '@emotion/css';
-import * as React from 'react';
-
 import { useStyles2} from '@grafana/ui';
+import * as React from 'react';
 // import { useStyles2 } from '../../themes';
 
 export interface Props {

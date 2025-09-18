@@ -1,5 +1,4 @@
 import { css } from '@emotion/css';
-
 import { GrafanaTheme2 } from '@grafana/data';
 
 export const getModalStyles = (theme: GrafanaTheme2) => {

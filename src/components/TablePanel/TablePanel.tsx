@@ -30,6 +30,7 @@ import {
 } from '@/hooks';
 import { ExportFormatType, OpenColumnManagerMode, PanelOptions, TablePreferenceColumn, UserPreferences } from '@/types';
 import { checkIfOperationEnabled, getTableWithPreferences, updateUserPreferenceTables } from '@/utils';
+
 import { Table } from '../Table';
 import { getStyles } from './TablePanel.styles';
 

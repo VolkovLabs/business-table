@@ -1,11 +1,12 @@
-import { Column } from '@tanstack/react-table';
-import { Base64 } from 'js-base64';
-import React, { useEffect,useState } from 'react';
-import mime from 'mime';
-import { BASE64_IMAGE_HEADER_REGEX, IMAGE_TYPES_SYMBOLS, TEST_IDS } from '@/constants';
-import { Button,Modal } from '@grafana/ui';
 import { AppEvents } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
+import { Button,Modal } from '@grafana/ui';
+import { Column } from '@tanstack/react-table';
+import { Base64 } from 'js-base64';
+import mime from 'mime';
+import React, { useEffect,useState } from 'react';
+
+import { BASE64_IMAGE_HEADER_REGEX, IMAGE_TYPES_SYMBOLS, TEST_IDS } from '@/constants';
 
 interface Props {
   value: string;
@@ -125,7 +126,6 @@ export const MediaCellRenderer: React.FC<Props> = ({
           const cacheData = cached ? JSON.parse(cached) : null;
 
           if (cacheData && Date.now() - cacheData.timestamp < cacheExpiry) {
-            console.log("a")
             setSrc(cacheData.value);
             return;
           }
@@ -141,7 +141,7 @@ export const MediaCellRenderer: React.FC<Props> = ({
           }));
         }
       } catch (error) {
-        console.error('Media processing error:', error);
+        // console.error('Media processing error:', error);
         setError(true);
       }
     };

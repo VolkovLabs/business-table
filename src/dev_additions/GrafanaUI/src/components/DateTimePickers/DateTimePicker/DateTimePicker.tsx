@@ -1,27 +1,27 @@
 
 import { css, cx } from '@emotion/css';
 import { autoUpdate, flip, shift, useFloating } from '@floating-ui/react';
+// import { getAppEvents } from '@grafana/runtime';
+import {
+  DateTime,
+  dateTime,
+  dateTimeFormat,
+  dateTimeForTimeZone,
+  getTimeZone,
+  GrafanaTheme2,
+  isDateTime,
+  TimeZone,
+} from '@grafana/data';
+import { Components } from '@grafana/e2e-selectors';
+import { Icon,  InlineField,Input,Portal, Stack,useStyles2, useTheme2 } from '@grafana/ui';
 import { useDialog } from '@react-aria/dialog';
 import { FocusScope } from '@react-aria/focus';
 import { useOverlay } from '@react-aria/overlays';
+import { PickerProps } from 'rc-picker';
 import { FormEvent, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import * as React from 'react';
 import Calendar from 'react-calendar';
 import { useMedia } from 'react-use';
-// import { getAppEvents } from '@grafana/runtime';
-
-import {
-  dateTimeFormat,
-  DateTime,
-  dateTime,
-  GrafanaTheme2,
-  isDateTime,
-  dateTimeForTimeZone,
-  getTimeZone,
-  TimeZone,
-  AppEvents,
-} from '@grafana/data';
-import { Components } from '@grafana/e2e-selectors';
 
 // import { useStyles2, useTheme2 } from '../../../themes';
 // import { t, Trans } from '../../../utils/i18n';
@@ -32,12 +32,10 @@ import { Button } from '../../Button/Button';
 // import { Stack } from '../../Layout/Stack/Stack';
 import { getModalStyles } from '../../Modal/getModalStyles';
 // import { Portal } from '../../Portal/Portal';
-import { TimeOfDayPicker, POPUP_CLASS_NAME } from '../TimeOfDayPicker';
+import { POPUP_CLASS_NAME,TimeOfDayPicker } from '../TimeOfDayPicker';
 import { getBodyStyles } from '../TimeRangePicker/CalendarBody';
 import { isValid } from '../utils';
 import { adjustDateForReactCalendar } from '../utils/adjustDateForReactCalendar';
-import { Icon,  useStyles2, useTheme2,Input,Stack,Portal, InlineField } from '@grafana/ui';
-import { PickerProps } from 'rc-picker';
 
 export interface Props {
   /** Input date for the component */
