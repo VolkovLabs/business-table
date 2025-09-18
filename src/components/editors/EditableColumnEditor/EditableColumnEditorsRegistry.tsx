@@ -1,7 +1,6 @@
 import { AppEvents, DateTime, dateTime, dateTimeFormat } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import {
-  DateTimePicker,
   FileDropzone,
   InlineField,
   InlineFieldRow,
@@ -30,6 +29,7 @@ import {
 
 import { DateEditor, QueryOptionsEditor } from './components';
 import { FileListItem } from '@/dev_additions/GrafanaUI/src/components/FileDropzone/FileListItem';
+import { DateTimePicker } from '@/dev_additions/GrafanaUI/src/components/DateTimePickers/DateTimePicker/DateTimePicker';
 
 /**
  * Editable Column Editors Registry
