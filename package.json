@@ -1,5 +1,5 @@
 {
-  "author": "Volkov Labs",
+  "author": "Windmillcode",
   "dependencies": {
     "@emotion/css": "^11.13.5",
     "@floating-ui/react": "^0.27.16",
@@ -78,7 +78,7 @@
     "node": ">=20"
   },
   "license": "Apache-2.0",
-  "name": "business-table",
+  "name": "windmillcode-business-table",
   "scripts": {
     "build": "webpack -c ./webpack.config.ts --env production",
     "dev": "webpack -w -c ./webpack.config.ts --env development",
