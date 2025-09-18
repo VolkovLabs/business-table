@@ -78,7 +78,9 @@ export const useTable = ({
   /**
    * Columns Data
    */
+  
   const columnsData = useMemo((): { frame: DataFrame | null; items: Array<{ config: ColumnConfig; field: Field }> } => {
+
     if (!columnsConfig?.[0]?.field) {
       return {
         frame: null,
@@ -98,12 +100,27 @@ export const useTable = ({
       };
     }
 
-    const items = columnsConfig
-      .map((config) => ({
-        config,
-        field: frame.fields.find((field) => filterFieldBySource(frame, field, config.field)),
-      }))
-      .filter((item) => !!item.field) as Array<{ config: ColumnConfig; field: Field }>;
+
+
+  const items = columnsConfig
+    .map((config) => {
+      const field = frame.fields.find((field) => filterFieldBySource(frame, field, config.field));
+      // If no field found, create a dummy field to maintain column structure
+
+      if (!field) {
+        const fieldName = typeof config.field === 'string' ? config.field : config.field.name;
+        return {
+          config,
+          field: {
+            name: fieldName,
+            type: FieldType.string,
+            config: {},
+            values: [],
+          } as Field
+        };
+      }
+      return { config, field };
+    });    
 
     return {
       frame,
@@ -310,6 +327,7 @@ export const useTable = ({
    */
   const columns = useMemo(() => {
     const frame = columnsData.frame;
+
 
     if (!frame) {
       return [];
@@ -551,7 +569,7 @@ export const useTable = ({
     actionsColumnConfig?.width.value,
     actionsColumnConfig?.label,
     actionsColumnConfig?.fontSize,
-    actionsColumnConfig?.alignment,
+    actionsColumnConfig?.alignment
   ]);
 
   return useMemo(

@@ -52,6 +52,7 @@ export const TablePanel: React.FC<Props> = ({
   title,
   fieldConfig,
 }) => {
+
   /**
    * Styles
    */
@@ -170,6 +171,7 @@ export const TablePanel: React.FC<Props> = ({
   /**
    * Table
    */
+
   const { tableData, columns } = useTable({
     data,
     columns: tableWithPreferences?.items,

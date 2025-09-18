@@ -375,6 +375,7 @@ export const Table = <TData,>({
   highlightRowsOnHover,
   currentTable,
 }: Props<TData>) => {
+
   /**
    * Styles and Theme
    */
@@ -530,7 +531,7 @@ export const Table = <TData,>({
    */
   const rowVirtualizer = useVirtualizer({
     getScrollElement: useCallback(() => scrollableContainerRef.current, [scrollableContainerRef]),
-    count: rows.length,
+    count: rows.length ,
     getItemKey: useCallback((index: number) => rows[index].id, [rows]),
     estimateSize: useCallback(() => 37, []),
     measureElement: useCallback((el: HTMLElement | HTMLTableRowElement) => el.offsetHeight, []),
@@ -610,6 +611,12 @@ export const Table = <TData,>({
     onAfterScroll,
     scrollBehavior,
   ]);
+
+  // console.log({
+  //   showHeader,
+  //   virtualRows,
+  //   columns
+  // })
 
   return (
     <>
@@ -692,8 +699,9 @@ export const Table = <TData,>({
           }}
           className={styles.body}
           {...testIds.body.apply()}
-        >
-          {virtualRows.map((virtualRow, index) => {
+        >      
+             
+          {(virtualRows).map((virtualRow, index) => {
             const row = rows[virtualRow.index];
             const isHighlighted =
               rowHighlightConfig?.enabled === true && get(row.original, ROW_HIGHLIGHT_STATE_KEY) === true;
