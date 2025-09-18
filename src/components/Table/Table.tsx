@@ -612,12 +612,6 @@ export const Table = <TData,>({
     scrollBehavior,
   ]);
 
-  // console.log({
-  //   showHeader,
-  //   virtualRows,
-  //   columns
-  // })
-
   return (
     <>
       <table
