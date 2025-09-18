@@ -267,7 +267,8 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, InputProps>(
   ({ date, label, onChange, onOpen, timeZone, showSeconds = true, clearable = false,inputFormat }, ref) => {
     const styles = useStyles2(getStyles);
 
-    const format = inputFormat ?? (showSeconds ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD HH:mm');
+    const format = inputFormat ?? (showSeconds ? 'ddd MMMM DD, YYYY hh:mmA' : 'ddd MMMM DD, YYYY hh:mmA');
+
     const [internalDate, setInternalDate] = useState<InputState>(() => {
       return {
         value: date ? dateTimeFormat(date, { format,timeZone }) : !clearable ? dateTimeFormat(dateTime(), { format,timeZone }) : '',
