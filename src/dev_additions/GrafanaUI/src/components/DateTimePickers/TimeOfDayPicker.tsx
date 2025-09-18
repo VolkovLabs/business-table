@@ -1,5 +1,3 @@
-
-;
 // import { FormInputSize } from '../Forms/types';
 // import { Icon } from '../Icon/Icon';
 import 'rc-picker/assets/index.css';

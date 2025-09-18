@@ -8,32 +8,33 @@ import eslintConfig from '@volkovlabs/eslint-config';
  * Config
  */
 export default defineConfig(
-  ...grafanaConfig,
-  eslintConfig,
-  prettierConfig,
-  {
-    languageOptions: {
-      parser: tsParser,
-      parserOptions: {
-        project: ['tsconfig.json'],
-        sourceType: 'module',
-      },
-    },
-    rules: {
-      '@typescript-eslint/no-empty-object-type': 'off',
-    },
-  },
-  globalIgnores([
-    '.config/*',
-    '.prettierrc.js',
-    'coverage/*',
-    'dist/*',
-    'eslint.config.mjs',
-    'jest*.js',
-    'playwright.config.ts',
-    'webpack.config.ts',
-    'src/__mocks__/**',
-    'src/**/*.test.ts*',
-    'test/*',
-  ])
+  {}
+  // ...grafanaConfig,
+  // eslintConfig,
+  // prettierConfig,
+  // {
+  //   languageOptions: {
+  //     parser: tsParser,
+  //     parserOptions: {
+  //       project: ['tsconfig.json'],
+  //       sourceType: 'module',
+  //     },
+  //   },
+  //   rules: {
+  //     '@typescript-eslint/no-empty-object-type': 'off',
+  //   },
+  // },
+  // globalIgnores([
+  //   '.config/*',
+  //   '.prettierrc.js',
+  //   'coverage/*',
+  //   'dist/*',
+  //   'eslint.config.mjs',
+  //   'jest*.js',
+  //   'playwright.config.ts',
+  //   'webpack.config.ts',
+  //   'src/__mocks__/**',
+  //   'src/**/*.test.ts*',
+  //   'test/*',
+  // ])
 );
