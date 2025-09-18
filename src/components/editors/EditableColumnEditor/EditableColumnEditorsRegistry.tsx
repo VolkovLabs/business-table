@@ -19,7 +19,6 @@ import React, { ChangeEvent } from 'react';
 import { COMMON_FILE_EXTENSIONS, TEST_IDS } from '@/constants';
 import { ColumnEditorType, EditorFileOptions } from '@/types';
 import {
-  applyAcceptedFiles,
   cleanPayloadObject,
   createEditableColumnEditorRegistryItem,
   createEditableColumnEditorsRegistry,
@@ -179,30 +178,8 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         updatedDate = dateTime(value ? (value as string) : undefined)
       }
       return (
-        <div
-          onKeyDown={(e) => {
-            if (!config.manualInputIsEnabled && !['Tab', 'Shift', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-              e.preventDefault();
-              // code to show the toast
-              appEvents.publish({
-                type: AppEvents.alertWarning.name,
-                payload: ['Please click the calendar icon to use the date picker to modify the date']
-              });
-            }
-          }}
-          onClick={(e) => {
-            // If the user clicks on the input while typing is disabled, open the picker
-            // @ts-expect-error TODO what type  is this
-            if (!config.manualInputIsEnabled && e.target.tagName.toLowerCase() === 'input') {
-              // code to show the toast
-              appEvents.publish({
-                type: AppEvents.alertWarning.name,
-                payload: ['Please click the calendar icon to use the date picker to modify the date']
-              });
-            }
-          }}
-        >
           <DateTimePicker
+            manualInputIsEnabled={config.manualInputIsEnabled}
             date={updatedDate}
             onChange={(date) => {
               const newValue = date?.toISOString();
@@ -230,7 +207,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
             }}
             {...TEST_IDS.editableCell.fieldDatetime.apply()}
           />
-        </div>
+
       )
     },
     getControlOptions: ({ config }) => ({
