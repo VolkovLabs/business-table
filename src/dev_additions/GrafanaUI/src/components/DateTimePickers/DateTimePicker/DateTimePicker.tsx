@@ -282,6 +282,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, InputProps>(
     });
 
     useEffect(() => {
+
       if (date) {
         const formattedDate = dateTimeFormat(date, { format, timeZone });
         const normalizedDate = dateTimeFormat(date, {  timeZone });
@@ -293,8 +294,8 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, InputProps>(
     }, [date, format, timeZone]);
 
     const onChangeDate = useCallback((event: FormEvent<HTMLInputElement>) => {
+
       const normalizedDate = dateTimeFormat(event.currentTarget.value, { timeZone })
-      console.log(normalizedDate)
       const isInvalid = !isValid(normalizedDate);
       setInternalDate({
         value: event.currentTarget.value,
@@ -303,11 +304,12 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, InputProps>(
     }, []);
 
     const onBlur = useCallback(() => {
+
       if (!internalDate.invalid && internalDate.value) {
-        const date = dateTimeForTimeZone(getTimeZone({ timeZone }), internalDate.value);
+        const date = dateTimeForTimeZone(getTimeZone({ timeZone }), internalDate.value, format);
         onChange(date);
       }
-    }, [internalDate, onChange, timeZone]);
+    }, [internalDate, onChange, timeZone,format]);
 
     const clearInternalDate = useCallback(() => {
       setInternalDate({ value: '', invalid: false });
@@ -324,7 +326,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, InputProps>(
     //     onClick={onOpen}
     //   />
     // );
-
+    // console.log(internalDate.value)
     return (
       <InlineField
       grow={true}
