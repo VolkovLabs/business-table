@@ -68,8 +68,10 @@ export interface Props {
   /** Step size for minutes */
   minuteStep?: PickerProps['minuteStep'];
 
+  /** Whether clicking on the date control causes the calendar to appear or allow the user to modify the date */
   manualInputIsEnabled?: boolean;
 
+  /** Decide the format of datetime input when the user wants to modify the datetime */  
   inputFormat?:string
 }
 
@@ -149,6 +151,15 @@ export const DateTimePicker = ({
     [setOpen]
   );
 
+  const handleManualInputDisabled =()=>{
+    // TODO decide if you simply want to open the calendar picker or let the user know the warning
+    setOpen(true)          
+    // appEvents.publish({
+    //   type: AppEvents.alertWarning.name,
+    //   payload: ['Please click the calendar icon to use the date picker to modify the date'],
+    // });
+  }
+
   const appEvents = getAppEvents();
   return (
     <div
@@ -160,20 +171,13 @@ export const DateTimePicker = ({
           !['Tab', 'Shift', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)
         ) {
           e.preventDefault();
-          appEvents.publish({
-            type: AppEvents.alertWarning.name,
-            payload: ['Please click the calendar icon to use the date picker to modify the date'],
-          });
+          handleManualInputDisabled()
         }
       }}
       onClick={(e) => {
-        // If the user clicks on the input while typing is disabled, open the picker
         // @ts-ignore tagName exist on event target
         if (!manualInputIsEnabled && e.target.tagName.toLowerCase() === 'input') {
-          appEvents.publish({
-            type: AppEvents.alertWarning.name,
-            payload: ['Please click the calendar icon to use the date picker to modify the date'],
-          });
+          handleManualInputDisabled()
         }
       }}
     >
