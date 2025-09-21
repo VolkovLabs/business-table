@@ -32,6 +32,13 @@ export const COMMON_FILE_EXTENSIONS = [
   // Add more as needed...
 ];
 
+export const FILE_SIZE_UNITS =['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+.map((unit)=>{
+  return {
+    value:unit,
+    label:unit
+  }
+})
 /**
  * Default Column Appearance
  */

@@ -1,6 +1,7 @@
 import { AppEvents, DateTime, dateTime, dateTimeFormat } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import {
+  Combobox,
   FileDropzone,
   InlineField,
   InlineFieldRow,
@@ -15,7 +16,7 @@ import { NumberInput } from '@volkovlabs/components';
 import React, { ChangeEvent } from 'react';
 import { FileRejection } from 'react-dropzone/.';
 
-import { COMMON_FILE_EXTENSIONS, TEST_IDS } from '@/constants';
+import { COMMON_FILE_EXTENSIONS, FILE_SIZE_UNITS, TEST_IDS } from '@/constants';
 import { DateTimePicker } from '@/dev_additions/GrafanaUI/src/components/DateTimePickers/DateTimePicker/DateTimePicker';
 import { FileListItem } from '@/dev_additions/GrafanaUI/src/components/FileDropzone/FileListItem';
 import { ColumnEditorType, EditorFileOptions } from '@/types';
@@ -358,16 +359,31 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
           />
 
         </InlineField>
-        <InlineField label="Max File Size (MB)">
-          <Input
-            type="number"
-            value={(value as EditorFileOptions)?.maxSize || ''}
-            onChange={(event) => {
-              const maxSize = Number(event.currentTarget.value);
-              onChange(cleanPayloadObject({ ...value, maxSize }));
-            }}
-            placeholder="Maximum size in megabytes"
-          />
+        <InlineField label="Max File Size">
+          <div
+          style={{
+            display: 'flex',
+          }}
+          >
+            <Input
+              type="number"
+              value={(value as EditorFileOptions)?.maxSizeValue ?? ''}
+              onChange={(event) => {
+                const maxSize = Number(event.currentTarget.value);
+                onChange(cleanPayloadObject({ ...value, maxSize }));
+              }}
+              placeholder="Number value"
+            />
+            <Combobox 
+              options={FILE_SIZE_UNITS}
+              value={FILE_SIZE_UNITS.find(item => item.value === (value as EditorFileOptions)?.maxSizeUnit)}
+              onChange={(event) => {
+                const maxSizeUnit = event.value;
+                onChange(cleanPayloadObject({ ...value, maxSizeUnit }));
+              }}
+              placeholder="Unit"
+            />    
+          </div>
         </InlineField>
         <InlineField label="Max Files">
           <Input
@@ -444,11 +460,11 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
             }
           }
 
-          if (config.maxSize && file.size > config.maxSize * 1024 * 1024) {
+          if (config.maxSizeValue && file.size > config.maxSizeValue * 1024 * 1024) {
 
             appEvents.publish({
               type: AppEvents.alertError.name,
-              payload: [`File too large: ${file.name} (max ${config.maxSize}MB)`]
+              payload: [`File too large: ${file.name} (max ${config.maxSizeValue}MB)`]
             });
             removeFile(file)
             return;
@@ -530,7 +546,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
               multiple: !!config.limit && config.limit > 1,
               // @ts-ignore
               onDrop: handleDrop,
-              maxSize: config.maxSize * 1000000
+              maxSize: config.maxSizeValue * 1000000
             }}
             fileListRenderer={(file, removeFile) => {
               return <FileListItem
@@ -563,7 +579,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
       type: ColumnEditorType.FILE,
       fileExtensions: config.fileExtensions ?? [],
       mimeType: config.mimeType ?? [],
-      maxSize: config.maxSize ?? 100, // default to 100 MB
+      maxSizeValue: config.maxSizeValue ?? 100, // default to 100 MB
       limit: config.limit ?? 1,
     }),
   })  

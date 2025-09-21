@@ -126,7 +126,8 @@ export interface EditorFileOptions {
   accept?: string;
   fileExtensions?: string[],
   mimeType?:string[],
-  maxSize?: number,
+  maxSizeValue?: number,
+  maxSizeUnit?: string,
   limit?: number,    
 }
 
