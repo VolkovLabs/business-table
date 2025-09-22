@@ -226,7 +226,10 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
     setErrorMessages([]);
   };
 
-  console.log(fileErrors)
+  console.log({
+    fileErrors,
+    formattedSize
+  })
 
   return (
     <div className={styles.container}>
