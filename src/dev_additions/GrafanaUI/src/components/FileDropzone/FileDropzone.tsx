@@ -5,12 +5,14 @@ import { isString, uniqueId } from 'lodash';
 import { ReactNode, useCallback, useState } from 'react';
 import { Accept, DropEvent, DropzoneOptions, ErrorCode,FileError, FileRejection, useDropzone } from 'react-dropzone';
 
-import { t, Trans } from '../../utils/i18n';
 import { FileListItem } from './FileListItem';
+import React from 'react';
 
-type BackwardsCompatibleDropzoneOptions = Omit<DropzoneOptions, 'accept'> & {
+type BackwardsCompatibleDropzoneOptions = Omit<DropzoneOptions, 'accept'|'maxSize'> & {
   // For backward compatibility we are still allowing the old `string | string[]` format for adding accepted file types (format changed in v13.0.0)
   accept?: string | string[] | Accept;
+  maxSizeValue?: number;
+  maxSizeUnit?: string;
 };
 
 export interface FileDropzoneProps {
@@ -58,7 +60,8 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
   const [files, setFiles] = useState<DropzoneFile[]>([]);
   const [fileErrors, setErrorMessages] = useState<FileError[]>([]);
 
-  const formattedSize = getValueFormat('decbytes')(options?.maxSize ? options?.maxSize : 0);
+  const formattedSize = getValueFormat(options?.maxSizeUnit ??'B')(options?.maxSizeValue ?? 0);
+  console.log(formattedSize)
 
   const setFileProperty = useCallback(
     (customFile: DropzoneFile, action: (customFileToModify: DropzoneFile) => void) => {
@@ -186,7 +189,7 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
     return (
       <div className={styles.errorAlert}>
         <Alert
-          title={t('grafana-ui.file-dropzone.error-title', 'Upload failed')}
+          title={'Upload failed'}
           severity="error"
           onRemove={clearAlert}
         >
@@ -195,7 +198,7 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
               case ErrorCode.FileTooLarge:
                 return (
                   <div key={error.message + error.code}>
-                    <Trans i18nKey="grafana-ui.file-dropzone.file-too-large">File is larger than {{ size }}</Trans>
+                    <p >File is larger than {{ size }}</p>
                   </div>
                 );
               default:
@@ -219,10 +222,15 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
       </div>
       {fileErrors.length > 0 && renderErrorMessages(fileErrors)}
       <small className={cx(styles.small, styles.acceptContainer)}>
-        {options?.maxSize && `Max file size: ${formattedValueToString(formattedSize)}`}
-        {options?.maxSize && options?.accept && <span className={styles.acceptSeparator}>{'|'}</span>}
-        {options?.accept && getAcceptedFileTypeText(options.accept)}
+        {options?.maxSizeValue && `Max file size: ${formattedValueToString(formattedSize)}`}
+        {/* {options?.maxSizeValue && options?.accept && <span className={styles.acceptSeparator}>{'|'}</span>} */}
+        {/* {options?.accept && getAcceptedFileTypeText(options.accept)} */}
       </small>
+      <small className={cx(styles.small, styles.acceptContainer)}>
+        {/* {options?.maxSizeValue && `Max file size: ${formattedValueToString(formattedSize)}`} */}
+        {/* {options?.maxSizeValue && options?.accept && <span className={styles.acceptSeparator}>{'|'}</span>} */}
+        {options?.accept && getAcceptedFileTypeText(options.accept)}
+      </small>      
       {fileList}
     </div>
   );

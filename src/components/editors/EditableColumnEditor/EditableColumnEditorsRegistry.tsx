@@ -2,7 +2,7 @@ import { AppEvents, DateTime, dateTime, dateTimeFormat } from '@grafana/data';
 import { getAppEvents } from '@grafana/runtime';
 import {
   Combobox,
-  FileDropzone,
+  
   InlineField,
   InlineFieldRow,
   InlineSwitch,
@@ -28,6 +28,7 @@ import {
 } from '@/utils';
 
 import { DateEditor, QueryOptionsEditor } from './components';
+import { FileDropzone } from '@/dev_additions/GrafanaUI/src/components/FileDropzone/FileDropzone';
 
 /**
  * Editable Column Editors Registry
@@ -550,7 +551,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
       return (
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           {/*
-            InlineField only allows one direct child.
+            NOTICE: InlineField only allows one direct child.
             So we wrap the FileDropzone in InlineField, then show the error outside.
           */}
           {/* <InlineField label="File Upload" disabled={isSaving} grow> */}
@@ -561,7 +562,8 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
               multiple: !!config.limit && config.limit > 1,
               // @ts-ignore
               onDrop: handleDrop,
-              maxSize: config.maxSizeValue * 1000000
+              maxSizeValue: config.maxSizeValue,
+              maxSizeUnit: config.maxSizeUnit
             }}
             fileListRenderer={(file, removeFile) => {
               return <FileListItem
