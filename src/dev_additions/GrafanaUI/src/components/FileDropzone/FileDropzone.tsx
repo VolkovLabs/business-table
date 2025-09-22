@@ -226,11 +226,6 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
     setErrorMessages([]);
   };
 
-  console.log({
-    fileErrors,
-    formattedSize
-  })
-
   return (
     <div className={styles.container}>
       <div data-testid="dropzone" {...getRootProps({ className: styles.dropzone })}>
@@ -238,7 +233,7 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
         {children ?? <FileDropzoneDefaultChildren primaryText={getPrimaryText(files, options)} />}
       </div>
       {fileErrors.length > 0 && renderErrorMessages(fileErrors)}
-      {(options?.maxSizeValue && formattedSize?.text != "0") && <small className={cx(styles.small, styles.acceptContainer)}>
+      {Boolean(options?.maxSizeValue && formattedSize?.text != "0") && <small className={cx(styles.small, styles.acceptContainer)}>
         {`Max file size: ${formattedValueToString(formattedSize)}`}
       </small>}
       {/* {options?.accept &&<small className={cx(styles.small, styles.acceptContainer)}>
