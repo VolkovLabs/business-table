@@ -350,7 +350,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
               <MultiCombobox
                 minWidth={50}
                 value={((value as EditorFileOptions)?.fileExtensions || []).map(item => {
-                  const knownType = COMMON_FILE_EXTENSIONS.find(opt => opt.value === item);
+                  const knownType = COMMON_FILE_EXTENSIONS.find(opt => opt.label === item);
                   return knownType || { value: item, label: item };
                 })}
                 onChange={(options) => {
@@ -376,9 +376,9 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
               >
                 <Input
                   type="number"
-                  value={(value as EditorFileOptions)?.maxSizeValue ?? ''}
+                  value={(value as EditorFileOptions)?.maxSizeValue || ''}
                   onChange={(event) => {
-                    const maxSizeValue = Number(event.currentTarget.value);
+                    const maxSizeValue = Number(event.currentTarget.value);                   
                     onChange(cleanPayloadObject({ ...value, maxSizeValue }));
                   }}
                   placeholder="Number value"
@@ -457,7 +457,7 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         // Validate file type & size
         for (const file of files) {
           if (config.fileExtensions?.length) {
-            console.log(file)
+
             const allowedTypes = config.fileExtensions;
             const fileExtension = file.name.split('.').pop()?.toLowerCase() || '';
 
@@ -476,15 +476,25 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
             }
           }
 
-          if (config.maxSizeValue && file.size > config.maxSizeValue * 1024 * 1024) {
-
-            appEvents.publish({
-              type: AppEvents.alertError.name,
-              payload: [`File too large: ${file.name} (max ${config.maxSizeValue}MB)`]
-            });
-            removeFile(file)
-            return;
+          let { maxSizeValue, maxSizeUnit } = config;
+          // Set default to MB if maxSizeUnit is not provided or is invalid
+          if (!maxSizeUnit || !FILE_SIZE_UNITS.find(u => u.value === maxSizeUnit)) {
+            maxSizeUnit = "MB";
           }
+
+          if (maxSizeValue && maxSizeUnit) {
+            const unit = FILE_SIZE_UNITS.find(u => u.value === maxSizeUnit);
+            if (unit && file.size > maxSizeValue * unit.size) {
+              appEvents.publish({
+                type: AppEvents.alertError.name,
+                payload: [`File too large: ${file.name} (max ${maxSizeValue} ${maxSizeUnit})`]
+              });
+              removeFile(file);
+              return;
+            }
+          }         
+
+
         }
 
         // Convert each file to base64 asynchronously
@@ -547,7 +557,6 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
           setError(`Error removing file(s): ${err}`);
         }
       };
-
       return (
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
           {/*

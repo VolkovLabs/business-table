@@ -2,15 +2,17 @@ import { css, cx } from '@emotion/css';
 import { formattedValueToString, getValueFormat, GrafanaTheme2 } from '@grafana/data';
 import { Alert,Icon,useTheme2 } from '@grafana/ui';
 import { isString, uniqueId } from 'lodash';
-import { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useMemo, useState } from 'react';
 import { Accept, DropEvent, DropzoneOptions, ErrorCode,FileError, FileRejection, useDropzone } from 'react-dropzone';
 
 import { FileListItem } from './FileListItem';
 import React from 'react';
+import { FILE_SIZE_UNITS } from '@/constants';
 
 type BackwardsCompatibleDropzoneOptions = Omit<DropzoneOptions, 'accept'|'maxSize'> & {
   // For backward compatibility we are still allowing the old `string | string[]` format for adding accepted file types (format changed in v13.0.0)
   accept?: string | string[] | Accept;
+  acceptString?: string;
   maxSizeValue?: number;
   maxSizeUnit?: string;
 };
@@ -61,7 +63,16 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
   const [fileErrors, setErrorMessages] = useState<FileError[]>([]);
 
   const formattedSize = getValueFormat(options?.maxSizeUnit ??'B')(options?.maxSizeValue ?? 0);
-  console.log(formattedSize)
+
+  const maxSizeInBytes = useMemo(() => {
+    if (!options?.maxSizeValue || !options?.maxSizeUnit) return Infinity;
+    
+    const unit = FILE_SIZE_UNITS.find(u => u.value === options.maxSizeUnit);
+    if (!unit) return Infinity;
+    
+    return options.maxSizeValue * unit.size;
+  }, [options?.maxSizeValue, options?.maxSizeUnit]); 
+
 
   const setFileProperty = useCallback(
     (customFile: DropzoneFile, action: (customFileToModify: DropzoneFile) => void) => {
@@ -150,10 +161,11 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
     const newFiles = files.filter((f) => file.id !== f.id);
     setFiles(newFiles);
     onFileRemove?.(file);
-  };
+  };  
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     ...options,
+    maxSize: maxSizeInBytes,
     useFsAccessApi: false,
     onDrop,
     accept: transformAcceptToNewFormat(options?.accept),
@@ -198,7 +210,7 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
               case ErrorCode.FileTooLarge:
                 return (
                   <div key={error.message + error.code}>
-                    <p >File is larger than {{ size }}</p>
+                    <p >File is larger than { size }</p>
                   </div>
                 );
               default:
@@ -214,6 +226,8 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
     setErrorMessages([]);
   };
 
+  console.log(fileErrors)
+
   return (
     <div className={styles.container}>
       <div data-testid="dropzone" {...getRootProps({ className: styles.dropzone })}>
@@ -221,16 +235,15 @@ export function FileDropzone({ options, children, readAs, onLoad, fileListRender
         {children ?? <FileDropzoneDefaultChildren primaryText={getPrimaryText(files, options)} />}
       </div>
       {fileErrors.length > 0 && renderErrorMessages(fileErrors)}
-      <small className={cx(styles.small, styles.acceptContainer)}>
-        {options?.maxSizeValue && `Max file size: ${formattedValueToString(formattedSize)}`}
-        {/* {options?.maxSizeValue && options?.accept && <span className={styles.acceptSeparator}>{'|'}</span>} */}
-        {/* {options?.accept && getAcceptedFileTypeText(options.accept)} */}
-      </small>
-      <small className={cx(styles.small, styles.acceptContainer)}>
-        {/* {options?.maxSizeValue && `Max file size: ${formattedValueToString(formattedSize)}`} */}
-        {/* {options?.maxSizeValue && options?.accept && <span className={styles.acceptSeparator}>{'|'}</span>} */}
-        {options?.accept && getAcceptedFileTypeText(options.accept)}
-      </small>      
+      {options?.maxSizeValue && <small className={cx(styles.small, styles.acceptContainer)}>
+        {`Max file size: ${formattedValueToString(formattedSize)}`}
+      </small>}
+      {/* {options?.accept &&<small className={cx(styles.small, styles.acceptContainer)}>
+        { getAcceptedFileTypeText(options.accept)}
+      </small>}      */}
+      {options?.acceptString &&<small className={cx(styles.small, styles.acceptContainer)}>
+        { options?.acceptString}
+      </small>}            
       {fileList}
     </div>
   );
