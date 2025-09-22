@@ -337,67 +337,82 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
   }),
   createEditableColumnEditorRegistryItem({
     id: ColumnEditorType.FILE,
-    editor: ({ value, onChange }) => (
-      <InlineFieldRow>
-        <InlineField label="Allowed File Extensions" tooltip="Comma-separated list of allowed file extensions and MIME types">
-          <MultiCombobox
-            minWidth={50}
-            value={((value as EditorFileOptions)?.fileExtensions || []).map(item => {
-              const knownType = COMMON_FILE_EXTENSIONS.find(opt => opt.value === item);
-              return knownType || { value: item, label: item };
-            })}
-            onChange={(options) => {
-              const fileExtensions = options.map(option => option.label);
-              const mimeType: string[] = options.map(option => option.value) as any;
-              onChange(cleanPayloadObject({ ...value, fileExtensions, mimeType }));
-            }}
-            options={COMMON_FILE_EXTENSIONS}
-            createCustomValue={true}
-            enableAllOption={true}
-            placeholder="e.g., jpg, pdf"
-            width="auto"
-          />
+    editor: ({ value, onChange }) => { 
 
-        </InlineField>
-        <InlineField label="Max File Size">
-          <div
-          style={{
-            display: 'flex',
-          }}
-          >
-            <Input
-              type="number"
-              value={(value as EditorFileOptions)?.maxSizeValue ?? ''}
-              onChange={(event) => {
-                const maxSize = Number(event.currentTarget.value);
-                onChange(cleanPayloadObject({ ...value, maxSize }));
+      return (
+        <>
+          <InlineFieldRow>
+            <InlineField 
+            grow={true}
+            label="Allowed File Extensions" 
+            tooltip="Comma-separated list of allowed file extensions and MIME types">
+              <MultiCombobox
+                minWidth={50}
+                value={((value as EditorFileOptions)?.fileExtensions || []).map(item => {
+                  const knownType = COMMON_FILE_EXTENSIONS.find(opt => opt.value === item);
+                  return knownType || { value: item, label: item };
+                })}
+                onChange={(options) => {
+                  const fileExtensions = options.map(option => option.label);
+                  const mimeType: string[] = options.map(option => option.value) as any;
+                  onChange(cleanPayloadObject({ ...value, fileExtensions, mimeType }));
+                }}
+                options={COMMON_FILE_EXTENSIONS}
+                createCustomValue={true}
+                enableAllOption={true}
+                placeholder="e.g., jpg, pdf"
+                width="auto"
+              />
+
+            </InlineField>
+          </InlineFieldRow>    
+          <InlineFieldRow>              
+            <InlineField label="Max File Size">
+              <div
+              style={{
+                display: 'flex',
               }}
-              placeholder="Number value"
-            />
-            <Combobox 
-              options={FILE_SIZE_UNITS}
-              value={FILE_SIZE_UNITS.find(item => item.value === (value as EditorFileOptions)?.maxSizeUnit)}
-              onChange={(event) => {
-                const maxSizeUnit = event.value;
-                onChange(cleanPayloadObject({ ...value, maxSizeUnit }));
-              }}
-              placeholder="Unit"
-            />    
-          </div>
-        </InlineField>
-        <InlineField label="Max Files">
-          <Input
-            type="number"
-            value={(value as EditorFileOptions)?.limit || ''}
-            onChange={(event) => {
-              const limit = Number(event.currentTarget.value);
-              onChange(cleanPayloadObject({ ...value, limit }));
-            }}
-            placeholder="Maximum number of files"
-          />
-        </InlineField>
-      </InlineFieldRow>
-    ),
+              >
+                <Input
+                  type="number"
+                  value={(value as EditorFileOptions)?.maxSizeValue ?? ''}
+                  onChange={(event) => {
+                    const maxSizeValue = Number(event.currentTarget.value);
+                    onChange(cleanPayloadObject({ ...value, maxSizeValue }));
+                  }}
+                  placeholder="Number value"
+                />
+                <div style={{width: '20px'}}></div>
+                <Combobox 
+                
+                  options={FILE_SIZE_UNITS}
+                  value={FILE_SIZE_UNITS.find(item => item.value === (value as EditorFileOptions)?.maxSizeUnit)}
+                  onChange={(event) => {
+                    const maxSizeUnit = event.value;
+                    onChange(cleanPayloadObject({ ...value, maxSizeUnit }));
+                  }}
+                  placeholder="Unit"
+                />    
+              </div>
+            </InlineField>
+          </InlineFieldRow>        
+          <InlineFieldRow>            
+            <InlineField label="Max Files">
+              <Input
+                type="number"
+                value={(value as EditorFileOptions)?.limit || ''}
+                onChange={(event) => {
+                  const limit = Number(event.currentTarget.value);
+                  onChange(cleanPayloadObject({ ...value, limit }));
+                }}
+                placeholder="Maximum number of files"
+              />
+            </InlineField>
+          </InlineFieldRow>          
+
+        </>
+      )
+    },
     // Use a proper component name so we can call React hooks inside without lint errors
     control: function FileControl({ value, onChange, config }) {
       const [error, setError] = React.useState<string | null>(null);
@@ -575,57 +590,17 @@ export const editableColumnEditorsRegistry = createEditableColumnEditorsRegistry
         </div>
       );
     },
-    getControlOptions: ({ config }) => ({
-      type: ColumnEditorType.FILE,
-      fileExtensions: config.fileExtensions ?? [],
-      mimeType: config.mimeType ?? [],
-      maxSizeValue: config.maxSizeValue ?? 100, // default to 100 MB
-      limit: config.limit ?? 1,
-    }),
+    getControlOptions: ({ config }) => {
+
+      return {
+        type: ColumnEditorType.FILE,
+        fileExtensions: config.fileExtensions ?? [],
+        mimeType: config.mimeType ?? [],
+        maxSizeValue: config.maxSizeValue ?? 100, 
+        maxSizeUnit: config.maxSizeUnit ?? 'MB',
+        limit: config.limit ?? 1,
+      }
+    },
   })  
-  // createEditableColumnEditorRegistryItem({
-  //   id: ColumnEditorType.FILE,
-  //   editor: ({ value, onChange }) => (
-  //     <InlineFieldRow>
-  //       <InlineField
-  //         label="Accept"
-  //         tooltip="Specify comma-separated file extensions or keep blank to allow any file"
-  //         grow={true}
-  //       >
-  //         <Input
-  //           value={value?.accept}
-  //           onChange={(event) => {
-  //             const accept = event.currentTarget.value;
-  //             onChange(cleanPayloadObject({ ...value, accept }));
-  //           }}
-  //           placeholder="e.g., image/jpeg, application/pdf"
-  //           {...TEST_IDS.editableColumnEditor.fieldFileAcceptTypes.apply()}
-  //         />
-  //       </InlineField>
-  //     </InlineFieldRow>
-  //   ),
-  //   control: ({ onChange, config, isSaving }) => (
-  //     <InlineField label="File Upload" disabled={isSaving} grow={true}>
-  //       <FileDropzone
-  //         options={{
-  //           accept: applyAcceptedFiles(config.accept),
-  //           multiple: false,
-  //           onDrop: (files: File[]) => {
-  //             /**
-  //              * base64 result return
-  //              */
-  //             toBase64(files[0]).then((result) => {
-  //               onChange(result);
-  //             });
-  //           },
-  //         }}
-  //         {...TEST_IDS.editableCell.fieldFile.apply()}
-  //       />
-  //     </InlineField>
-  //   ),
-  //   getControlOptions: ({ config }) => ({
-  //     type: ColumnEditorType.FILE,
-  //     accept: config.accept ?? '',
-  //   }),
-  // }),
+
 ]);
