@@ -531,7 +531,7 @@ export const Table = <TData,>({
    */
   const rowVirtualizer = useVirtualizer({
     getScrollElement: useCallback(() => scrollableContainerRef.current, [scrollableContainerRef]),
-    count: rows.length ,
+    count: rows.length,
     getItemKey: useCallback((index: number) => rows[index].id, [rows]),
     estimateSize: useCallback(() => 37, []),
     measureElement: useCallback((el: HTMLElement | HTMLTableRowElement) => el.offsetHeight, []),
@@ -696,6 +696,7 @@ export const Table = <TData,>({
         >      
              
           {(virtualRows).map((virtualRow, index) => {
+            
             const row = rows[virtualRow.index];
             const isHighlighted =
               rowHighlightConfig?.enabled === true && get(row.original, ROW_HIGHLIGHT_STATE_KEY) === true;

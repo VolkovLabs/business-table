@@ -42,7 +42,6 @@ export const useDeleteData = <TData>({ onDeleteRow }: { onDeleteRow: (row: TData
 
     setIsSaving(true);
     
-
     try {
       onCancel();      
       await onDeleteRow(row.original);
