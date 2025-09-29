@@ -2,12 +2,12 @@
 
 All notable changes to the **Business Table Panel** plugin for Grafana are documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.5.0] - Unreleased
+## [3.5.0] - 2025-09-29
 
 ### ✨ Added
 
-- Added Delete customization options ([#388](https://github.com/VolkovLabs/business-table/pull/388))
-- Added removing highlight variable when delete ([#388](https://github.com/VolkovLabs/business-table/pull/388))
+- Introduced delete customization options ([#388](https://github.com/VolkovLabs/business-table/pull/388))
+- Added functionality to remove highlight variable on delete ([#388](https://github.com/VolkovLabs/business-table/pull/388))
 
 ## [3.4.0] - 2025-08-28
 
